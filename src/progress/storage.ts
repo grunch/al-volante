@@ -147,7 +147,8 @@ class IndexedDbStore implements ProgressStore {
         // Written by another tab or version after this tab loaded: set aside before replacing it.
         if (value !== undefined && !previous)
           track(tx.objectStore('quarantine').add({ store: 'concepts', key: unitId, value }));
-        return update(unitId, previous);
+        // Never write what a later load would have to quarantine: an invalid result aborts the whole write.
+        return ConceptProgressSchema.parse(update(unitId, previous));
       });
       track(tx.objectStore('attempts').put(attempt));
       for (const concept of updates) track(conceptStore.put(concept));

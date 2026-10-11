@@ -65,6 +65,7 @@ function Logbook({ content }: { content: Content }) {
       />
       <ConceptProgressSection groups={progressByGroup(content.units, content.activities, concepts, current)} />
       <BackupPanel
+        rules={content.rules}
         attemptCount={attempts.length}
         exportSnapshot={exportSnapshot}
         contentVersion={contentState.version}

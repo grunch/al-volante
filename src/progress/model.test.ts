@@ -59,6 +59,18 @@ describe('updateConcept (Leitner)', () => {
     expect(masteryOf(progress)).toBe('mastered');
   });
 
+  it('never moves the last answer back in time when the clock goes back, so the state stays valid', () => {
+    // Arrange: progress imported from a device one hour ahead (within the backup clock tolerance).
+    const ahead = updateConcept(undefined, 'u', true, at(1 / 24));
+
+    // Act: answered again on this device, whose clock reads one hour earlier, before the review is due.
+    const progress = updateConcept(ahead, 'u', true, T0);
+
+    // Assert
+    expect(progress).toMatchObject({ box: 1, attempts: 2, lastAttemptAt: ahead.lastAttemptAt, dueAt: ahead.dueAt });
+    expect(ConceptProgressSchema.safeParse(progress).success).toBe(true);
+  });
+
   it('caps at the last box and its 30-day interval', () => {
     const top: ConceptProgress = {
       unitId: 'u',

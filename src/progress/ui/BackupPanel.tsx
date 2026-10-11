@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { RuleCatalog } from '../../content/schemas.ts';
 import type { ChangeEvent } from 'react';
 import { createBackup, parseBackup } from '../backup.ts';
 import type { BackupParseResult } from '../backup.ts';
@@ -13,6 +14,8 @@ type ParsedBackup = Extract<BackupParseResult, { ok: true }>;
 type ImportError = keyof typeof LOGBOOK_COPY.importErrors;
 
 interface BackupPanelProps {
+  /** Exam rules, to check the faults of imported attempts. */
+  rules: RuleCatalog;
   /** Attempts shown in this tab, for the replacement warning. */
   attemptCount: number;
   /** Reads everything stored when the backup is made, so another tab's progress is never left out. */
@@ -23,7 +26,14 @@ interface BackupPanelProps {
 }
 
 /** Export, and import with an explicit confirmation; a rejected or failed import never touches current progress. */
-export function BackupPanel({ attemptCount, exportSnapshot, contentVersion, now, replaceAll }: BackupPanelProps) {
+export function BackupPanel({
+  rules,
+  attemptCount,
+  exportSnapshot,
+  contentVersion,
+  now,
+  replaceAll,
+}: BackupPanelProps) {
   const [pending, setPending] = useState<ParsedBackup | null>(null);
   const [message, setMessage] = useState<{ kind: 'error' | 'success'; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
@@ -59,7 +69,7 @@ export function BackupPanel({ attemptCount, exportSnapshot, contentVersion, now,
       console.error('Could not read the backup file', error);
       return reject('unreadable');
     }
-    const parsed = parseBackup(text, now());
+    const parsed = parseBackup(text, { now: now(), rules });
     if (!parsed.ok) return reject(parsed.error);
     setPending(parsed);
   };

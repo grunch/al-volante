@@ -109,6 +109,19 @@ describe('IndexedDB progress store', () => {
     raw.close();
   });
 
+  it('refuses to store a concept the schema rejects, leaving everything as it was', async () => {
+    const store = await openProgressStore();
+    await practise(store, 'a1');
+    const broken: ConceptUpdate = (unitId, previous) => ({ ...updateConcept(previous, unitId, true, T0), correct: 99 });
+
+    await expect(store.record(sampleAttempt('a2'), ['manual.ch3.a'], broken)).rejects.toThrow();
+    const { snapshot, quarantined } = await store.load();
+
+    expect(snapshot.attempts.map((item) => item.id)).toEqual(['a1']);
+    expect(snapshot.concepts[0]).toMatchObject({ attempts: 1 });
+    expect(quarantined).toBe(0);
+  });
+
   it('replaces everything atomically and leaves old data intact when the replacement fails', async () => {
     const store = await openProgressStore();
     await practise(store, 'a1');

@@ -61,20 +61,23 @@ export function updateConcept(
   correct: boolean,
   at: string,
 ): ConceptProgress {
+  // Clocks can go back (progress imported from a device that ran ahead, a corrected clock): the last answer time
+  // never moves backwards, so the next review keeps its distance from it.
+  const time = previous && Date.parse(at) < Date.parse(previous.lastAttemptAt) ? previous.lastAttemptAt : at;
   const restart = !correct || !previous || !previous.lastCorrect;
-  const due = previous !== undefined && Date.parse(at) >= Date.parse(previous.dueAt);
+  const due = previous !== undefined && Date.parse(time) >= Date.parse(previous.dueAt);
   let box = 1;
-  let dueAt = addDays(at, LEITNER_INTERVALS_DAYS[0]);
+  let dueAt = addDays(time, LEITNER_INTERVALS_DAYS[0]);
   if (!restart && previous) {
     box = due ? Math.min(previous.box + 1, MAX_BOX) : previous.box;
-    dueAt = due ? addDays(at, LEITNER_INTERVALS_DAYS[box - 1] as number) : previous.dueAt;
+    dueAt = due ? addDays(time, LEITNER_INTERVALS_DAYS[box - 1] as number) : previous.dueAt;
   }
   return {
     unitId,
     box,
     attempts: (previous?.attempts ?? 0) + 1,
     correct: (previous?.correct ?? 0) + (correct ? 1 : 0),
-    lastAttemptAt: at,
+    lastAttemptAt: time,
     lastCorrect: correct,
     dueAt,
   };

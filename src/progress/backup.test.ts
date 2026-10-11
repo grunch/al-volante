@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { BACKUP_FORMAT, CURRENT_BACKUP_VERSION, createBackup, migrateBackup, parseBackup } from './backup.ts';
+import { rule, ruleCatalog } from '../content/testing/fixtures.ts';
 import { createAttempt, updateConcept } from './model.ts';
 
 const AT = '2026-10-11T12:00:00.000Z';
@@ -21,7 +22,8 @@ const snapshot = { attempts: [attempt], concepts: updates };
 const HOUR = 60 * 60 * 1000;
 const later = (ms: number) => new Date(Date.parse(AT) + ms).toISOString();
 /** Imports on the device that exported, right at export time. */
-const parse = (text: string) => parseBackup(text, new Date(AT));
+const rules = ruleCatalog([rule({ id: 'rule.minor.a-item', severity: 'minor', annexItem: 'a', points: 1 })]);
+const parse = (text: string) => parseBackup(text, { now: new Date(AT), rules });
 
 describe('backup', () => {
   it('round-trips progress through a versioned, self-describing file', () => {
@@ -94,6 +96,24 @@ describe('backup consistency', () => {
   });
 });
 
+describe('backup attempts against the exam rules', () => {
+  it('rejects faults of unknown rules or with the wrong points', () => {
+    const unknown = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
+    unknown.attempts[0] = {
+      ...unknown.attempts[0],
+      kind: 'driving',
+      faults: [{ ruleId: 'rule.minor.z-ghost', at: AT, points: 1 }],
+      result: { correct: null, score: null, points: 1 },
+    };
+
+    expect(parse(JSON.stringify(unknown))).toMatchObject({
+      ok: false,
+      error: 'invalid-data',
+      details: expect.stringContaining('unknown rule rule.minor.z-ghost'),
+    });
+  });
+});
+
 describe('backup dates', () => {
   it('rejects progress dated after the export, even when its intervals are consistent', () => {
     // Arrange: last answer and next review moved together ten years ahead.
@@ -106,7 +126,13 @@ describe('backup dates', () => {
     const lateAttempt = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
     lateAttempt.attempts[0].events[0].at = '2036-10-11T12:00:00.000Z';
     const lateFault = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
-    lateFault.attempts[0].faults = [{ ruleId: 'rule.minor.a-item', at: '2036-10-11T12:00:00.000Z', points: 1 }];
+    // A coherent driving attempt whose only problem is the fault's date.
+    lateFault.attempts[0] = {
+      ...lateFault.attempts[0],
+      kind: 'driving',
+      faults: [{ ruleId: 'rule.minor.a-item', at: '2036-10-11T12:00:00.000Z', points: 1 }],
+      result: { correct: null, score: null, points: 1 },
+    };
 
     // Act / Assert
     expect(parse(JSON.stringify(shifted))).toMatchObject({
@@ -130,7 +156,9 @@ describe('backup dates', () => {
     const skewed = { attempts: [], concepts: [updateConcept(undefined, 'manual.ch3.a', true, later(HOUR))] };
 
     expect(parse(createBackup(skewed, 'deadbeef', AT))).toMatchObject({ ok: true });
-    expect(parseBackup(createBackup(snapshot, 'deadbeef', later(HOUR)), new Date(AT))).toMatchObject({ ok: true });
+    expect(parseBackup(createBackup(snapshot, 'deadbeef', later(HOUR)), { now: new Date(AT), rules })).toMatchObject({
+      ok: true,
+    });
   });
 
   it('rejects a backup exported after the current time of this device', () => {
