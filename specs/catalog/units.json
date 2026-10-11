@@ -8829,7 +8829,7 @@
       "Distancia: Bueno > Aceptable > Regular > Malo cuanto más lejos de la nuca.",
       "La altura se regula con el botón de desbloqueo."
     ],
-    "figureBased": false,
+    "figureBased": true,
     "status": "transcrita",
     "notes": "La escala de altura/distancia y el botón de desbloqueo están solo en la figura; no hay medidas numéricas."
   },
@@ -9090,7 +9090,7 @@
       "Biberón lleno 405 g → 15,5 kg.",
       "Las personas sin sujeción también siguen hacia adelante por inercia."
     ],
-    "figureBased": false,
+    "figureBased": true,
     "status": "transcrita",
     "notes": "Los ejemplos de objetos solo figuran en la infografía."
   },

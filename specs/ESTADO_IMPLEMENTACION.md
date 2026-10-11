@@ -53,7 +53,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 ### F01-T02 — Auditoría del manual y la guía (`COBERTURA.md` y catálogo)
 
 - Alcance: clasificar cada página del manual (200) y de la guía de siniestros (24), y catalogar unidades, señales y observaciones con su página. Entregables: `specs/COBERTURA.md`, `specs/catalog/{pages,units,signs,issues}.json` y el validador `scripts/check-catalog.mjs` con su prueba.
-- Resultado: 224 páginas, 705 unidades, 355 señales y 206 observaciones. Validador OK; 7/7 pruebas.
+- Resultado: 224 páginas, 705 unidades, 355 señales y 206 observaciones. Validador OK. Última ejecución en esta rama, tras las correcciones de review: `node --test 'scripts/*.test.mjs'` → 11/11.
 - Método: nueve subagentes de extracción por tramos de páginas (texto + imagen), con integración y muestreo del autor contra `fuentes/pdf/manual.pdf` (PDF 61, 72, 91 y 185, sin diferencias). Estado del contenido: `transcrita`.
 - Autorrevisión: estructura validada; sin rutas locales en el catálogo; conteos de COBERTURA recalculados desde los datos; corregido un issue duplicado y dos imprecisiones del borrador.
 - CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
