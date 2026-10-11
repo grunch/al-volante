@@ -48,7 +48,7 @@ El usuario inició la fase 1 el 2026-10-11. El problema anterior de `.git` qued�
 
 1. F01-T01: repositorio, documentación versionada, plantilla de PR, registro de ejecución y flujo de revisión (CodeRabbit App + `@codex review`).
 2. F01-T02 (PR #2): `specs/COBERTURA.md` y `specs/catalog/` con 224 páginas, 705 unidades, 355 señales y 206 observaciones, todas en estado `transcrita`. Antes de crear contenido en F05 hay que resolver las discrepancias listadas en COBERTURA (alcohol, cordón amarillo, 107/911, balizas, SRI, etc.).
-3. F01-T03: `specs/REGLAS.md` con la ficha y el anexo completos, políticas de repetición e interrupción, parámetros del teórico y discrepancias.
+3. F01-T03 (PR #3): `specs/REGLAS.md` y `specs/catalog/rules.json`, con 69 reglas conciliadas con la ficha. Discrepancias X1–X5 (cinturón 1 o 2 puntos; carril de giro 3 u 8), vacíos V1–V7 (50 cm exactos, tolerancia de 30 cm) y decisiones D1–D4. Teórico: 40/34, 45 min configurable.
 4. F01-T04: `specs/RECORRIDO.md` y datos cartográficos con geometría, fuentes, sentidos, cruces, evidencias y resolución de Cuba–Quesada–Cuba. Usar cartografía abierta con atribución; no inferir la señalización actual del mapa esquemático.
 5. Cerrar la fase 1 con evidencia y esperar la indicación manual para la fase 2.
 

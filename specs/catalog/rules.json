@@ -1,0 +1,2820 @@
+{
+  "source": {
+    "id": "protocolo",
+    "edition": "2023-09-14",
+    "sha256": "65f1dd9f62775c70f7275098300d769ca264986f8f98a4b18cedee937fcc9198"
+  },
+  "scoring": {
+    "pointsBySeverity": {
+      "minor": 1,
+      "low": 2,
+      "high": 3,
+      "eliminatory": 8
+    },
+    "passMaxPoints": 7,
+    "failMinPoints": 8,
+    "requiresAllStagesCompleted": true,
+    "cumulativeAcrossStages": true,
+    "maxPointsBeforeCirculation": 7,
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 10
+      },
+      {
+        "source": "protocolo",
+        "page": 14
+      }
+    ]
+  },
+  "parkingBands": [
+    {
+      "band": "too-close",
+      "lt": 15,
+      "rule": "rule.minor.t-parking-too-close-to-curb"
+    },
+    {
+      "band": "correct",
+      "gte": 15,
+      "lte": 25,
+      "rule": null
+    },
+    {
+      "band": "second-line",
+      "gt": 25,
+      "lte": 50,
+      "rule": "rule.minor.u-parking-on-second-band",
+      "decision": "V1"
+    },
+    {
+      "band": "outside",
+      "gt": 50,
+      "rule": "rule.eliminatory.r-parking-outside-second-band"
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule.minor.a-lights-recognition",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "a",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Reconocimiento del vehículo",
+          "text": "No reconoce el sistema de iluminación (luces de posición, bajas, altas, direccionales y balizas)",
+          "page": 15
+        }
+      ],
+      "condition": "Con motor apagado y llave en contacto, acciona luces incorrectas o desconoce cómo accionar luces de posición, bajas, altas, direccionales y balizas, pedidas en orden aleatorio. Luego debe activar las luces bajas para el examen.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Antes del examen el/la examinador/a indica la ubicación de cada comando (familiarización sin falla)."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 9
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 22
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Una (1) falla independientemente de la cantidad de errores (PDF 22)."
+    },
+    {
+      "id": "rule.minor.b-instruments-recognition",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "b",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Reconocimiento del vehículo",
+          "text": "No reconoce el instrumental (desempañadores, limpiaparabrisas, bocina, luneta térmica, AC/CA)",
+          "page": 15
+        }
+      ],
+      "condition": "Con motor apagado y llave en contacto, acciona instrumental incorrecto o desconoce cómo accionar desempañadores, limpiaparabrisas, bocina, luneta térmica y AC/CA, pedidos en orden aleatorio.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Familiarización previa sin falla."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 9
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 22
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Una (1) falla independientemente de la cantidad de errores (PDF 22)."
+    },
+    {
+      "id": "rule.minor.c-seat-adjustment",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "c",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Posición de manejo",
+          "text": "No regula el asiento en caso de ser necesario",
+          "page": 15
+        }
+      ],
+      "condition": "No regula el asiento, si hace falta, para alcanzar y mover libremente volante, instrumental, caja y pedalera. Comprobación: pisar a fondo embrague (manual) o freno (automática) con la rodilla semiflexionada.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Puede preguntar dónde están las palancas sin falla.",
+        "La recomendación de corrección del examinador no es falla."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 9
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 22
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Una (1) falla por no cumplir alguna o varias condiciones (PDF 22)."
+    },
+    {
+      "id": "rule.minor.d-headrest-adjustment",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "d",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Posición de manejo",
+          "text": "No regula apoyacabezas en caso de ser necesario",
+          "page": 15
+        }
+      ],
+      "condition": "No regula el apoyacabezas, si hace falta: la parte más elevada debe quedar a la altura de la parte superior de la cabeza y la parte central, a la altura de la línea de los ojos.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Puede preguntar por el botón regulador sin falla.",
+        "La recomendación de corrección no es falla."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 9
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 22
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.e-neutral-check-before-start",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "e",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Desbloqueo del vehículo",
+          "text": "No verifica que la caja de cambios esté sin cambio (punto neutro/parking)",
+          "page": 15
+        }
+      ],
+      "condition": "Da arranque sin verificar la caja: manual, mano derecha en la palanca moviéndola para confirmar punto neutro; automática, selector en P o N.",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 10
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 22
+        },
+        {
+          "source": "protocolo",
+          "page": 23
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.f-handbrake-on-start",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "f",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Desbloqueo del vehículo",
+          "text": "Inicia la marcha con el freno de mano colocado",
+          "page": 15
+        }
+      ],
+      "condition": "Mueve el vehículo sin haber liberado el freno de mano.",
+      "repetition": "per-episode",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Si no advierte el error, el/la examinador/a hace una observación sin considerarla nueva falla.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 10
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 23
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.g-start-time-exceeded",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "g",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "Arranque excedido en tiempo",
+          "page": 15
+        },
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Arranque excedido en tiempo",
+          "page": 16
+        }
+      ],
+      "condition": "Sigue accionando la llave cuando el motor ya arrancó y hace sonar el motor de arranque.",
+      "repetition": "per-episode",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Observación sin nueva falla si no advierte el error.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 23
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.h-start-while-running",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "h",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "Intenta poner en marcha el motor cuando está encendido",
+          "page": 15
+        },
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Intenta poner en marcha el motor cuando está encendido",
+          "page": 16
+        }
+      ],
+      "condition": "Acciona la llave de encendido con el motor en marcha.",
+      "repetition": "per-episode",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Observación sin nueva falla si no advierte el error.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 23
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.i-curb-scrape",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "i",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "Roza el cordón con la rueda",
+          "page": 15
+        },
+        {
+          "stage": "III",
+          "group": "Roces",
+          "text": "Roza el cordón con la rueda",
+          "page": 17
+        }
+      ],
+      "condition": "En la prueba de maniobrabilidad, la salida del cajón o el estacionamiento, roza el cordón con la banda de rodamiento o el talón de un neumático.",
+      "repetition": "per-occurrence",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 23
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Una (1) falla cada vez que roza (PDF 23). Subirse al cordón es la eliminatoria d."
+    },
+    {
+      "id": "rule.minor.j-no-signal-leaving-box",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "j",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "No utiliza la luz direccional correspondiente antes de salir",
+          "page": 15
+        }
+      ],
+      "condition": "No activa, sin que se lo indiquen, la luz direccional del lado de incorporación antes de iniciar la salida del cajón.",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 11
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 23
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.k-unnecessary-stop",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "k",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Detención innecesaria",
+          "page": 16
+        }
+      ],
+      "condition": "Se detiene sin causa presunta y no puede justificarlo cuando el/la examinador/a le pregunta el motivo.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Detenerse para maniobrar, por señalización, para ceder el paso o por el tránsito no es falla."
+      ],
+      "examinerAction": "Pregunta el motivo antes de consignar y comunica la corrección.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 23
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.l-below-minimum-speed",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "l",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Circula por debajo de la velocidad mínima sin necesidad o demanda del tránsito",
+          "page": 16
+        }
+      ],
+      "condition": "Circula por debajo de la velocidad mínima de la vía sin motivo, necesidad o demanda del tránsito, y no lo justifica ante la consulta.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Está permitido si lo justifica la situación (vehículo lento adelante, calles colapsadas)."
+      ],
+      "examinerAction": "Observa el velocímetro y el tránsito, pregunta antes de consignar.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 23
+        },
+        {
+          "source": "protocolo",
+          "page": 24
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.m-horn-misuse",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "m",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Toca la bocina innecesariamente o no lo hace cuando fuese necesario",
+          "page": 16
+        }
+      ],
+      "condition": "Usa la bocina sin justificación o no la usa cuando debía advertir un peligro potencial y no había otra señal posible.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Pregunta el motivo antes de consignar.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 24
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.n-speed-bump-imprudent",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "n",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Pasa la loma de burro, el reductor de velocidad o la cuneta, de manera imprudente, dando saltos o rozando la carrocería",
+          "page": 16
+        }
+      ],
+      "condition": "Al pasar lomos de burro, badenes, cunetas, tachas u otros reductores, el vehículo salta o roza la carrocería. Debe reducir la velocidad gradualmente y pasar con las dos ruedas de cada eje a la vez.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 24
+        }
+      ],
+      "status": "transcrita",
+      "notes": "El texto dice «cualquier salto ... o roce ... será considerado como falla» (PDF 24); no aclara si cada salto suma."
+    },
+    {
+      "id": "rule.minor.o-precautionary-speed",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "o",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "No mantiene la velocidad precautoria",
+          "page": 16
+        }
+      ],
+      "condition": "Velocidad no adaptada a la densidad del tránsito, al tipo de vía, al clima o a la visibilidad: debe tener el dominio total del vehículo sin entorpecer la circulación.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Computa la falla y después hace la observación.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 24
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.p-lane-keeping",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "p",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "No circula correctamente por el carril correspondiente",
+          "page": 16
+        }
+      ],
+      "condition": "No circula por el carril derecho libre, no va por el centro, invade otro carril, zigzaguea o hace maniobras intempestivas.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Computa la falla y hace una observación.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 24
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.q-turn-lane-late",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "q",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Giros",
+          "text": "Se ubica en el carril de giro y señaliza la maniobra pero a menos de 30 mts de la bocacalle",
+          "page": 17
+        }
+      ],
+      "condition": "Se ubica en el carril de giro y señaliza a menos de 30 metros de la bocacalle.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "turnPreparationDistanceM": 30
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 24
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.r-parking-over-three-maneuvers",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "r",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Maniobra de estacionamiento",
+          "text": "Estaciona en más de 3 maniobras (1-alinearse; 2-girar y retroceder; 3-posicionamiento)",
+          "page": 17
+        }
+      ],
+      "condition": "Usa más de las tres maniobras contempladas: 1) alinearse en doble fila; 2) retroceder girando a la derecha y luego a la izquierda para ingresar; 3) posicionarse avanzando lo necesario.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "maxParkingManeuvers": 3
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 24
+        },
+        {
+          "source": "protocolo",
+          "page": 25
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Distinta de la eliminatoria q (más de dos intentos). Una corrección de volante dentro de una maniobra no es una maniobra nueva (interpretación de la secuencia de PDF 24-25)."
+    },
+    {
+      "id": "rule.minor.s-parking-off-center-or-tilted",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "s",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Ubicación",
+          "text": "Posición final del vehículo descentrada y/o inclinada dentro del cajón",
+          "page": 17
+        }
+      ],
+      "condition": "La posición final no queda centrada entre las vallas, o queda inclinada: los dos ejes difieren entre sí en más de 30 cm respecto del cordón, medido con la demarcación del cajón.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "maxAxleOffsetDifferenceCm": 30
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 25
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Uno o ambos errores cuentan como una sola falla (PDF 25). El protocolo no da una tolerancia numérica para «descentrada»."
+    },
+    {
+      "id": "rule.minor.t-parking-too-close-to-curb",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "t",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Ubicación",
+          "text": "Finaliza la maniobra entre el cordón y la primera delimitación",
+          "page": 17
+        }
+      ],
+      "condition": "Una o las dos ruedas derechas quedan a menos de 15 cm del cordón.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "curbDistanceCm": {
+          "lt": 15
+        }
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 21
+        },
+        {
+          "source": "protocolo",
+          "page": 25
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.u-parking-on-second-band",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "u",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Ubicación",
+          "text": "Finaliza la maniobra sobre la segunda delimitación",
+          "page": 17
+        }
+      ],
+      "condition": "Una o las dos ruedas derechas quedan a más de 25 cm del cordón y hasta 50 cm inclusive.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "curbDistanceCm": {
+          "gt": 25,
+          "lte": 50
+        }
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 21
+        },
+        {
+          "source": "protocolo",
+          "page": 25
+        }
+      ],
+      "status": "transcrita",
+      "notes": "El protocolo dice «menos de 50 cm» (PDF 25) y la eliminatoria r, «más de 50 cm» (PDF 33): 50 cm exactos no está definido. Decisión del proyecto V1 (REGLAS.md §7): se incluye en esta franja, la menos severa compatible con ambos textos."
+    },
+    {
+      "id": "rule.minor.v-low-beams-not-off",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "v",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Finalización y descenso",
+          "text": "No apaga las luces bajas del vehículo",
+          "page": 17
+        }
+      ],
+      "condition": "Al terminar, cuando el/la examinador/a lo pide, deja las luces bajas encendidas o no sabe desactivarlas.",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 25
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.w-not-neutral-or-park-at-end",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "w",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Finalización y descenso",
+          "text": "No coloca en punto neutro (manual) o en posición de estacionamiento \"P\" (automático)",
+          "page": 17
+        }
+      ],
+      "condition": "Al finalizar el estacionamiento y antes de apagar, no deja la caja en punto neutro (manual) o en P (automática).",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Consigna la falla y la comunica para que la corrija antes de dejar el vehículo.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 25
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.x-handbrake-not-applied-at-end",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "x",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Finalización y descenso",
+          "text": "No acciona el freno de mano",
+          "page": 17
+        }
+      ],
+      "condition": "Al finalizar el estacionamiento y antes de apagar, no acciona el freno de mano.",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Consigna y comunica para su corrección.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 25
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.minor.y-engine-key-steering-lock",
+      "severity": "minor",
+      "points": 1,
+      "annexItem": "y",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Finalización y descenso",
+          "text": "No apaga el motor, no quita la llave y no bloquea la dirección",
+          "page": 17
+        }
+      ],
+      "condition": "Cuando se lo piden, no apaga el motor, no quita la llave o no bloquea la dirección (o no sabe hacerlo).",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 25
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Alguna o varias omisiones cuentan como una sola falla (PDF 25)."
+    },
+    {
+      "id": "rule.low.a-seatbelt-incorrect",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "a",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Cinturón de seguridad",
+          "text": "Hace uso incorrecto del cinturón de seguridad",
+          "page": 15
+        }
+      ],
+      "condition": "No coloca el cinturón tenso y sin dobleces, con la banda superior por la clavícula y el centro del pecho y la inferior sobre los huesos de la cadera, debajo del abdomen.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Puede preguntar por el regulador de altura sin falla.",
+        "La recomendación de corrección no es falla."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 10
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 26
+        }
+      ],
+      "status": "transcrita",
+      "notes": "DISCREPANCIA: la ficha (PDF 15) y el encabezado del anexo (PDF 26) la ubican como deficiente baja (2 puntos), pero el cuerpo del ítem dice «Se considera una (1) falla leve» (PDF 26). Se adopta deficiente baja; ver REGLAS.md."
+    },
+    {
+      "id": "rule.low.b-jerky-start",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "b",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "Arranque brusco o a saltos",
+          "page": 15
+        },
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Arranque brusco o a saltos",
+          "page": 16
+        }
+      ],
+      "condition": "Al iniciar la marcha el vehículo tironea, salta o se sacude: en manual, por soltar el embrague bruscamente o acelerar poco; en automática, por falta de control del acelerador.",
+      "repetition": "per-occurrence",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 26
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.low.c-idle-revving",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "c",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "Aceleración en vacío",
+          "page": 15
+        },
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Aceleración en vacío",
+          "page": 16
+        }
+      ],
+      "condition": "Acelera sin marcha colocada o con el embrague pisado (manual), o acelera en P o en D pisando freno y acelerador a la vez (automática).",
+      "repetition": "per-occurrence",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 26
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.low.d-engine-stall",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "d",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "Apagado del motor",
+          "page": 15
+        },
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Apagado del motor",
+          "page": 16
+        }
+      ],
+      "condition": "Se le detiene el motor por soltar bruscamente el embrague sin acelerar o acelerando poco, o por frenar a cero sin llevar la palanca a punto neutro (manual).",
+      "repetition": "per-occurrence",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 26
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.low.e-unnecessary-braking",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "e",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Frenada innecesaria",
+          "page": 16
+        }
+      ],
+      "condition": "Frena sin motivo y no lo justifica cuando se lo preguntan.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Pregunta el motivo, consigna y comunica para su corrección.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 26
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.low.f-hands-off-wheel",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "f",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "No conduce con ambas manos sobre el volante, salvo al accionar algún comando o necesidad",
+          "page": 16
+        }
+      ],
+      "condition": "Circula sin ambas manos en el volante (preferentemente a las 9:15) o con una sola sin causa. Solo puede soltar una mano a la vez para usar un comando o la caja.",
+      "repetition": "per-occurrence",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Consigna cada vez y hace una observación.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 26
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.low.g-no-turn-signal",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "g",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Giros",
+          "text": "No acciona las luces direccionales correspondientes",
+          "page": 17
+        }
+      ],
+      "condition": "En un giro, no usa la luz direccional del lado correspondiente o usa la incorrecta. Debe encenderla sin indicación, 30 metros antes de la bocacalle.",
+      "repetition": "per-occurrence",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "turnSignalDistanceM": 30
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 26
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.low.h-no-lane-change-signal",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "h",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cambio de carril y sobrepaso",
+          "text": "No utiliza las luces direccionales o utiliza las incorrectas",
+          "page": 17
+        }
+      ],
+      "condition": "En un cambio de carril, adelantamiento o sobrepaso, no señaliza con el direccional correcto al menos 3 segundos antes de iniciar la maniobra: izquierdo para salir a la izquierda, derecho para volver o pasar a la derecha.",
+      "repetition": "per-occurrence",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Olvidar apagar el direccional no es falla; el/la examinador/a lo señala para su corrección."
+      ],
+      "examinerAction": null,
+      "parameters": {
+        "laneChangeSignalMinS": 3
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 27
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.low.i-no-hazards-before-parking",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "i",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Maniobra de estacionamiento",
+          "text": "No advierte con anticipación la maniobra utilizando balizas",
+          "page": 17
+        }
+      ],
+      "condition": "Antes de detenerse en doble fila para estacionar, no usa las balizas o las enciende menos de 3 segundos antes de la detención.",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "hazardsBeforeStopMinS": 3
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 27
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.low.j-no-traffic-check-before-exit",
+      "severity": "low",
+      "points": 2,
+      "annexItem": "j",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Finalización y descenso",
+          "text": "No mira el tránsito antes de descender del vehículo",
+          "page": 17
+        }
+      ],
+      "condition": "Antes de abrir la puerta no mira por el espejo retrovisor lateral izquierdo para verificar que no se acerquen vehículos o ciclistas. Girar la cabeza no reemplaza al espejo.",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Si empieza a abrir con un vehículo o ciclista acercándose, el/la examinador/a advierte y consigna igual la falla.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 27
+        }
+      ],
+      "status": "transcrita",
+      "notes": "PDF 13 («mirando por el espejo retrovisor antes de abrir la puerta») y PDF 27 («deberá mirar por el espejo retrovisor lateral izquierdo») exigen el espejo; la frase de PDF 27 «no observa a través del espejo retrovisor y/o gira la cabeza» es ambigua. Lectura adoptada, X7 en REGLAS.md §7: no mirar el espejo siempre es falla; el giro de cabeza es un complemento."
+    },
+    {
+      "id": "rule.high.a-mirrors-not-checked",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "a",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Posición de manejo",
+          "text": "No controla la posición de los espejos retrovisores",
+          "page": 15
+        }
+      ],
+      "condition": "Inicia la marcha sin controlar y ajustar los espejos laterales e interno: debe ver todos los puntos laterales y traseros moviendo solo los ojos, sin despegar la espalda del respaldo.",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "El/la examinador/a puede indicar dónde están los reguladores, pero los acciona el/la aspirante."
+      ],
+      "examinerAction": "Consigna la falla e indica que haga el control.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 10
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 27
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Gráfico 3 (PDF 20): el lado interno del espejo lateral debe mostrar el comienzo del vehículo, reflejando solo el 10% de su parte trasera."
+    },
+    {
+      "id": "rule.high.b-reverse-30cm-fail",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "b",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "No logra retroceder 30 cm.",
+          "page": 15
+        }
+      ],
+      "condition": "En el cajón, retrocede sin mover el volante una distancia final mayor o menor a 30 cm. En manual, solo con el embrague, sin acelerador ni freno (puede frenar al final para inmovilizar); en automática, regulando solo con el freno, sin acelerador. También es falla tocar el freno durante la maniobra (manual).",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "targetDisplacementCm": 30
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 11
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 27
+        }
+      ],
+      "status": "transcrita",
+      "notes": "El protocolo no fija tolerancia para «mayor o menor a 30 cm»: el juego necesita un parámetro explícito marcado como aproximación (ver REGLAS.md)."
+    },
+    {
+      "id": "rule.high.c-forward-30cm-fail",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "c",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "No logra avanzar 30 cm.",
+          "page": 15
+        }
+      ],
+      "condition": "Desde esa posición, en primera (manual) o D (automática), sin girar el volante y en una sola maniobra, no logra avanzar 30 cm, o toca el freno durante la maniobra (manual).",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "targetDisplacementCm": 30
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 11
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 27
+        },
+        {
+          "source": "protocolo",
+          "page": 28
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Sin tolerancia numérica en el protocolo (igual que b)."
+    },
+    {
+      "id": "rule.high.d-box-marker-touch",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "d",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "Roza los elementos de demarcación del cajón",
+          "page": 15
+        },
+        {
+          "stage": "III",
+          "group": "Roces",
+          "text": "Roza los elementos de demarcación del cajón",
+          "page": 17
+        }
+      ],
+      "condition": "Toca con cualquier parte del vehículo un elemento de demarcación del cajón sin moverlo de su ubicación.",
+      "repetition": "per-occurrence",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 28
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Si lo desplaza (golpe) o lo tira (derribo), es la eliminatoria d."
+    },
+    {
+      "id": "rule.high.e-no-mirror-check-leaving-box",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "e",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "No chequea los espejos o no gira la cabeza para verificar una salida segura",
+          "page": 15
+        }
+      ],
+      "condition": "Antes de salir del cajón no chequea los espejos retrovisores (obligatorio), o no gira la cabeza cuando la situación lo requiere, para verificar que no entorpecerá la circulación.",
+      "repetition": "single-check",
+      "interrupts": false,
+      "escalation": {
+        "condition": "El/la examinador/a debe accionar la pedalera auxiliar para evitar una colisión o un atropello.",
+        "severity": "eliminatory",
+        "points": 8,
+        "interrupts": true
+      },
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 11
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 28
+        }
+      ],
+      "status": "transcrita",
+      "notes": "La ficha (PDF 15) y el anexo (PDF 28) dicen «no chequea los espejos o no gira la cabeza»; el desarrollo (PDF 11, 28) exige los espejos y presenta girar la cabeza como acción eventual («en caso de necesitarlo»). Lectura adoptada, X6 en REGLAS.md §7: no chequear los espejos siempre es falla; no girar la cabeza solo lo es cuando la situación lo requiere."
+    },
+    {
+      "id": "rule.high.f-exam-speed-exceeded",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "f",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Supera la velocidad de examen",
+          "page": 16
+        }
+      ],
+      "condition": "Supera la velocidad máxima de examen: 30 km/h en calles y 45 km/h en avenidas, o el límite más restrictivo que fijen la señalización o la normativa en el tramo.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Controla con el velocímetro, consigna y comunica para su corrección.",
+      "parameters": {
+        "examMaxStreetKmh": 30,
+        "examMaxAvenueKmh": 45,
+        "useStricterPostedLimit": true
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 8
+        },
+        {
+          "source": "protocolo",
+          "page": 10
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 28
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Distinta de la eliminatoria l (superar la máxima de la vía)."
+    },
+    {
+      "id": "rule.high.g-following-distance",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "g",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "No mantiene la distancia mínima de seguridad",
+          "page": 16
+        }
+      ],
+      "condition": "No mantiene una distancia mínima de 2 segundos con el vehículo de adelante, medida con un punto de referencia fijo.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Consigna y comunica para su corrección.",
+      "parameters": {
+        "minFollowingGapS": 2
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 28
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.high.h-stop-over-line-or-crosswalk",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "h",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cruce en intersecciones",
+          "text": "Se detiene invadiendo la senda peatonal o traspasando la línea de detención",
+          "page": 16
+        }
+      ],
+      "condition": "Se detiene pasando la línea de detención, o invadiendo u obstruyendo la senda peatonal en forma total o parcial. Sin demarcación, la senda es la prolongación de la acera.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Puede corregir solo si avisa, espera autorización y es seguro (sin peatones cruzando ni vehículos detrás); la falla se consigna igual."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 28
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.high.i-block-intersection",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "i",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cruce en intersecciones",
+          "text": "Bloquea, parcial o totalmente, la encrucijada.",
+          "page": 16
+        }
+      ],
+      "condition": "Inicia el cruce sin espacio para completarlo (incluida la senda de la cuadra siguiente) y bloquea parcial o totalmente la intersección.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 28
+        },
+        {
+          "source": "protocolo",
+          "page": 29
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Es falla sin importar cuánto tiempo dure el bloqueo (PDF 29)."
+    },
+    {
+      "id": "rule.high.j-stop-or-yield-sign",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "j",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cruce en intersecciones",
+          "text": "No respeta las señales de Pare y/o Ceda el paso",
+          "page": 16
+        }
+      ],
+      "condition": "Ante PARE o CEDA EL PASO no cede el paso al vehículo de la otra vía. Ante PARE, además, es falla no detenerse por completo.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 29
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.high.k-unsignalized-priority",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "k",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cruce en intersecciones",
+          "text": "No respeta la prioridad de paso en esquinas no semaforizadas",
+          "page": 16
+        }
+      ],
+      "condition": "No respeta la prioridad de paso de otros vehículos en intersecciones sin semáforo, según la normativa vigente.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 29
+        }
+      ],
+      "status": "transcrita",
+      "notes": "Las reglas de prioridad están en el manual, cap. 3 (catálogo F01-T02)."
+    },
+    {
+      "id": "rule.high.l-yield-to-pedestrians-cyclists",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "l",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cruce en intersecciones",
+          "text": "No cede el paso a peatones y a ciclistas que se encuentren cruzando",
+          "page": 16
+        },
+        {
+          "stage": "II",
+          "group": "Giros",
+          "text": "No cede el paso a peatones y/o ciclistas al girar",
+          "page": 17
+        }
+      ],
+      "condition": "Al cruzar una bocacalle o al girar, no cede el paso (deteniéndose si hace falta) a peatones o ciclistas que están cruzando.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": {
+        "condition": "Hay peligro de atropello y el/la examinador/a interviene con la pedalera auxiliar.",
+        "severity": "eliminatory",
+        "points": 8,
+        "interrupts": true
+      },
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 29
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.high.m-no-slowdown-before-maneuver",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "m",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cruce en intersecciones",
+          "text": "No reduce la velocidad para efectuar el cruce con seguridad en esquinas no semaforizadas",
+          "page": 16
+        },
+        {
+          "stage": "II",
+          "group": "Giros",
+          "text": "No reduce la velocidad para efectuar la maniobra con seguridad",
+          "page": 17
+        }
+      ],
+      "condition": "No reduce gradualmente la velocidad antes de girar o de llegar a una intersección sin semáforo.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Recomienda la corrección; la falla queda consignada.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 29
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.high.n-turn-from-wrong-lane",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "n",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Giros",
+          "text": "No se ubica en el carril más próximo al sector donde se pretenda girar",
+          "page": 17
+        }
+      ],
+      "condition": "Gira sin ubicarse en el carril más próximo disponible hacia el lado del giro (el contiguo al cordón, o el siguiente si hay autos estacionados) ni en el carril de giro.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": {
+        "condition": "La maniobra implica riesgo de colisión o atropello y el/la examinador/a interviene con la pedalera auxiliar.",
+        "severity": "eliminatory",
+        "points": 8,
+        "interrupts": true
+      },
+      "exceptions": [],
+      "examinerAction": "Puede advertirlo para evitar la maniobra; la falla se consigna igual.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 29
+        }
+      ],
+      "status": "transcrita",
+      "notes": "DISCREPANCIA: la ficha (PDF 17) y el encabezado (PDF 27) la ubican como deficiente alta (3 puntos), pero el cuerpo dice «Se considerará falla eliminatoria si no se realiza desde los carriles mencionados» (PDF 29). Se adopta deficiente alta; ver REGLAS.md."
+    },
+    {
+      "id": "rule.high.o-no-mirror-check-lane-change",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "o",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cambio de carril y sobrepaso",
+          "text": "No verifica mediante el uso de espejos la aproximación de otro vehículo al realizar la maniobra",
+          "page": 17
+        }
+      ],
+      "condition": "Inicia un adelantamiento o cambio de carril sin verificar con los espejos que el carril está libre o que el vehículo de atrás está a distancia segura, o interfiere la marcha de otro vehículo al cambiar de carril.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": {
+        "condition": "El/la examinador/a debe accionar la pedalera auxiliar para evitar una colisión o un atropello.",
+        "severity": "eliminatory",
+        "points": 8,
+        "interrupts": true
+      },
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 29
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.high.p-no-mirror-check-parking",
+      "severity": "high",
+      "points": 3,
+      "annexItem": "p",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Maniobra de estacionamiento",
+          "text": "No chequea los espejos retrovisores y/o no gira la cabeza",
+          "page": 17
+        }
+      ],
+      "condition": "No chequea los espejos interior y laterales en alguno de estos momentos: al detenerse en paralelo al cajón, antes de la marcha atrás o durante la marcha atrás.",
+      "repetition": "unspecified",
+      "interrupts": false,
+      "escalation": {
+        "condition": "El/la examinador/a debe accionar la pedalera auxiliar para evitar una colisión o un atropello.",
+        "severity": "eliminatory",
+        "points": 8,
+        "interrupts": true
+      },
+      "exceptions": [
+        "Girar la cabeza hacia atrás al retroceder está permitido."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 29
+        },
+        {
+          "source": "protocolo",
+          "page": 30
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.a-pedals-not-recognized",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "a",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Reconocimiento del vehículo",
+          "text": "No reconoce pedalera (embrague, freno y acelerador)",
+          "page": 15
+        }
+      ],
+      "condition": "Con motor apagado, no identifica o no ubica alguno de los pedales: embrague, freno y acelerador (manual), o freno y acelerador (automática). Puede señalarlos mientras los nombra; no se le pregunta su función.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 9
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 30
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.b-gearbox-not-handled",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "b",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Reconocimiento del vehículo",
+          "text": "No sabe reconocer o manipular la caja de cambios",
+          "page": 15
+        }
+      ],
+      "condition": "Después de familiarizarse sin falla y con el motor apagado, no sabe manipular o reconocer las marchas. Manual: pisar el embrague y pasar N-1-2-3-4-5, después R, diciendo cada marcha en voz alta y terminando en N. Automática: pisar el freno y recorrer P-R-N-D-L en voz alta, terminando en P.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 9
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 30
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.c-no-seatbelt",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "c",
+      "fichaRows": [
+        {
+          "stage": "I",
+          "group": "Cinturón de seguridad",
+          "text": "No se coloca el cinturón de seguridad o se lo quita durante el examen",
+          "page": 15
+        }
+      ],
+      "condition": "No lleva el cinturón al iniciar la marcha (cuando el vehículo empieza a moverse) o se lo quita durante el examen sin aviso ni motivo.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [
+        "Puede quitárselo después de apagar el motor y entregar la llave.",
+        "Si necesita sacárselo, avisa y espera indicaciones detenido en un lugar seguro."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 10
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 30
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.d-curb-mount-or-marker-hit",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "d",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Pruebas de maniobrabilidad, arranque y salida del cajón",
+          "text": "Se sube al cordón; golpea o derriba los elementos de delimitación del cajón de estacionamiento",
+          "page": 15
+        },
+        {
+          "stage": "III",
+          "group": "Roces",
+          "text": "Se sube al cordón; golpea o derriba los elementos de delimitación del cajón de estacionamiento",
+          "page": 17
+        }
+      ],
+      "condition": "Una o más bandas de rodamiento o talones invaden la vereda, o desplaza (golpea) o hace caer (derriba) vallas, conos u otros elementos de delimitación.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 15
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 30
+        },
+        {
+          "source": "protocolo",
+          "page": 31
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.e-traffic-authority-disobeyed",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "e",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "No obedece órdenes e indicaciones de la autoridad de control de tránsito",
+          "page": 16
+        }
+      ],
+      "condition": "No sigue las indicaciones de la autoridad de control (agentes de tránsito, Policía de la Ciudad, personal de obra o ferroviario autorizado), que prevalecen sobre cualquier norma o señal.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [
+        "Si no entiende la indicación, puede consultar al examinador/a sin falla."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 8
+        },
+        {
+          "source": "protocolo",
+          "page": 11
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 31
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.f-examiner-safety-instruction-ignored",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "f",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "No sigue indicaciones de seguridad del evaluador",
+          "page": 16
+        }
+      ],
+      "condition": "No sigue las indicaciones del examinador/a durante el examen.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [
+        "Si no entiende, puede consultar y recibir la indicación de nuevo sin falla."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 8
+        },
+        {
+          "source": "protocolo",
+          "page": 11
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 31
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.g-first-block-instruction",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "g",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "No respeta la indicación de marcha durante la primer cuadra",
+          "page": 16
+        }
+      ],
+      "condition": "En los primeros 100 m supera 30 km/h, o no circula en segunda (manual) o en D (automática).",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Debe avisar cuándo empieza y cuándo termina esta prueba.",
+      "parameters": {
+        "firstSegmentM": 100,
+        "firstSegmentMaxKmh": 30,
+        "manualGear": 2,
+        "automaticSelector": "D"
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 11
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 31
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.h-loss-of-control",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "h",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "No mantiene el control del vehículo",
+          "page": 16
+        }
+      ],
+      "condition": "No sabe cómo reaccionar o pierde el control del vehículo y genera riesgo, por imprudencia, velocidad inadecuada, falta de concentración, impericia o negligencia.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Toma el control con la pedalera auxiliar o indica la detención inmediata en un lugar seguro.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 31
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.i-reckless-maneuver",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "i",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Realiza maniobras temerarias que generan riesgo o incidentes de tránsito",
+          "page": 16
+        }
+      ],
+      "condition": "Hace maniobras peligrosas por negligencia, imprudencia o impericia, o cualquier acción que genere riesgo vial o incidentes.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Toma el control con la pedalera auxiliar o indica la detención inmediata en un lugar seguro.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 14
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 31
+        },
+        {
+          "source": "protocolo",
+          "page": 32
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.j-forbidden-road-lane-direction",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "j",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Circula por vías, carriles o sentidos no permitidos",
+          "page": 16
+        }
+      ],
+      "condition": "Circula a contramano, no respeta los sentidos de circulación o usa carriles exclusivos de ciclistas o de transporte público.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 32
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.k-red-light",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "k",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Cruza con el semáforo en rojo",
+          "page": 16
+        },
+        {
+          "stage": "II",
+          "group": "Cruce en intersecciones",
+          "text": "Cruza con el semáforo en rojo",
+          "page": 16
+        }
+      ],
+      "condition": "Con la luz roja encendida al llegar, traspone la línea de detención, la senda peatonal o, si no las hay, la encrucijada.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [
+        "Si el semáforo pasa de verde a rojo con el cruce ya iniciado, debe terminarlo con precaución y no es falla."
+      ],
+      "examinerAction": null,
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 32
+        }
+      ],
+      "status": "transcrita",
+      "notes": "La ficha la repite en «Durante la circulación» y en «Cruce en intersecciones»: es una sola regla."
+    },
+    {
+      "id": "rule.eliminatory.l-road-speed-limit-exceeded",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "l",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Supera la velocidad máxima",
+          "page": 16
+        }
+      ],
+      "condition": "Supera la velocidad máxima de la vía por la que circula.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Consigna y comunica para su corrección; la descalificación se informa al terminar el recorrido.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 32
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.m-distracting-device",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "m",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "Utiliza celular, auriculares y/o reproductores de video durante la conducción",
+          "page": 16
+        }
+      ],
+      "condition": "Conduce usando celular, tablet, auriculares, reproductores de video u otro dispositivo.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Consigna y comunica; la descalificación se informa al terminar el recorrido.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 8
+        },
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 32
+        }
+      ],
+      "status": "transcrita",
+      "notes": "PDF 8 también prohíbe usarlos con el vehículo detenido."
+    },
+    {
+      "id": "rule.eliminatory.n-emergency-vehicle-not-yielded",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "n",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Durante la circulación",
+          "text": "No cede el paso a vehículos de emergencia",
+          "page": 16
+        }
+      ],
+      "condition": "No advierte o no maniobra para ceder el paso a un vehículo de emergencia en servicio (balizas del barral, sirena o bocina) que se acerca por detrás.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "Consigna y comunica; la descalificación se informa al terminar el recorrido.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 16
+        },
+        {
+          "source": "protocolo",
+          "page": 32
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.o-solid-line-crossed",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "o",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cambio de carril y sobrepaso",
+          "text": "No respeta la demarcación horizontal que prohíbe la maniobra (línea continua)",
+          "page": 17
+        }
+      ],
+      "condition": "Sobrepasa o cambia de carril donde la demarcación lo prohíbe (líneas continuas blancas; PDF 12 menciona también la doble línea amarilla).",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "La descalificación se informa al terminar el recorrido.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 32
+        },
+        {
+          "source": "protocolo",
+          "page": 33
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.p-illegal-overtaking",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "p",
+      "fichaRows": [
+        {
+          "stage": "II",
+          "group": "Cambio de carril y sobrepaso",
+          "text": "Sobrepasa por la derecha o en zonas prohibidas",
+          "page": 17
+        }
+      ],
+      "condition": "Sobrepasa por la derecha fuera de las excepciones, o en una intersección, curva, puente, túnel, paso a nivel o lugar peligroso señalizado.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [
+        "Por la derecha está permitido si el de adelante señaliza que gira o se detiene a la izquierda.",
+        "También si hay embotellamiento y la fila izquierda no avanza o va más lenta que la derecha."
+      ],
+      "examinerAction": "La descalificación se informa al terminar el recorrido.",
+      "parameters": {},
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 12
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 33
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    },
+    {
+      "id": "rule.eliminatory.q-parking-over-two-attempts",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "q",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Maniobra de estacionamiento",
+          "text": "Estaciona en más de 2 intentos",
+          "page": 17
+        }
+      ],
+      "condition": "No logra estacionar después de dos intentos. Es un intento cada vez que saca el vehículo del lugar reservado para volver a alinearlo.",
+      "repetition": "once",
+      "interrupts": true,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": null,
+      "parameters": {
+        "maxParkingAttempts": 2
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 13
+        },
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 33
+        }
+      ],
+      "status": "transcrita",
+      "notes": "No confundir con la leve r (más de 3 maniobras). Una corrección de volante no es un intento."
+    },
+    {
+      "id": "rule.eliminatory.r-parking-outside-second-band",
+      "severity": "eliminatory",
+      "points": 8,
+      "annexItem": "r",
+      "fichaRows": [
+        {
+          "stage": "III",
+          "group": "Ubicación",
+          "text": "Finaliza la maniobra por fuera de la segunda delimitación",
+          "page": 17
+        }
+      ],
+      "condition": "Una o las dos ruedas derechas quedan a más de 50 cm del cordón. El/la examinador/a baja del vehículo para verificarlo.",
+      "repetition": "once",
+      "interrupts": false,
+      "escalation": null,
+      "exceptions": [],
+      "examinerAction": "La desaprobación se informa al terminar.",
+      "parameters": {
+        "curbDistanceCm": {
+          "gt": 50
+        }
+      },
+      "refs": [
+        {
+          "source": "protocolo",
+          "page": 17
+        },
+        {
+          "source": "protocolo",
+          "page": 21
+        },
+        {
+          "source": "protocolo",
+          "page": 33
+        }
+      ],
+      "status": "transcrita",
+      "notes": ""
+    }
+  ]
+}
