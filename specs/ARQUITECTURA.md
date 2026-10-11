@@ -162,9 +162,50 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 - **Rapier, evaluado y no adoptado por ahora:** el problema de esta tarea es un auto en un plano contra obstáculos fijos, y una solución propia, pequeña, determinista y con pruebas lo resuelve. `@dimforge/rapier3d-compat` 0.21.0 (2026-09-25) suma un WASM incluido de varios MB (unos 14 MB desempaquetado) y una inicialización asíncrona. Se reevalúa cuando haya actores dinámicos con contactos físicos (tránsito y peatones, F03-T05 y F04).
 - **Pista de prueba** (`#/pista`):
   - un predio de 30 × 50 m con un cajón de 6 m entre postes, un cordón, paredes, una grilla de 1 m y las líneas del cajón;
-  - teclado provisional con rampas para pedales y volante (`src/practice/controls.ts`), que solo se lee con la vista enfocada, y todas las teclas se sueltan si la vista o la ventana pierden el foco, o si la pestaña se oculta;
-  - control simple de tracción (`simpleDrive.ts`) hasta la caja de cambios de F03-T02;
+  - teclado provisional con rampas para pedales, embrague y volante, y teclas de comando para llave, freno de mano y cambios (`src/practice/controls.ts`); solo se lee con la vista enfocada, y todas las teclas se sueltan si la vista o la ventana pierden el foco, o si la pestaña se oculta;
+  - en F03-T01 la tracción salía de un control simple; F03-T02 lo reemplazó por el tren motriz;
   - en móvil no se puede manejar todavía: los controles táctiles y configurables llegan con el habitáculo (F03-T03).
+
+## Tren motriz (F03-T02)
+
+- **Motor** (`src/sim/powertrain/engine.ts`):
+  - curva de par a fondo (95 Nm a 1000 rpm, 130 Nm a 3500 rpm), interpolada;
+  - regulador de ralentí que sostiene 850 rpm y agrega hasta 45 Nm cuando el motor baja;
+  - fricción interna (freno motor) e inercia;
+  - corte de inyección a 6200 rpm;
+  - se cala si las ruedas lo arrastran por debajo de 450 rpm.
+- **Embrague:** el recorrido del pedal se traduce en enganche. No transmite nada desde el piso hasta 0,75, muerde justo debajo de 0,75 y agarra del todo desde 0,3.
+  - Si la diferencia de velocidad entre motor y caja es mínima y el par entra en la capacidad, queda trabado. Si no, patina y pasa su capacidad.
+  - Cuando motor y caja giran juntos, el sentido del patinamiento sale del par del motor, no del ruido de la diferencia.
+- **Caja manual:** R, N y 1 a 5. Un cambio solo entra con el embrague pisado (al menos 0,85), y la R no entra yendo hacia adelante.
+- **Caja automática:** P, R, N y D.
+  - Convertidor de par con torque = k · ωe · (ωe − ωg): arrastra en ralentí y retiene cuando las ruedas van más rápido que el motor.
+  - En D cambia de 1.ª a 4.ª según la velocidad, con histéresis.
+  - Para salir de P hay que pisar el freno, y ni P ni R entran en movimiento.
+- **Llave:** afuera, apagada o en contacto, más el arranque. En la pista, K recorre el ciclo completo: contacto, arranque, apagado y sacar la llave.
+  - La manual arranca en N o con el embrague pisado; la automática, en P o en N.
+  - La llave solo sale con el motor apagado, y en la automática, en P.
+- **Retenciones:**
+  - freno de mano de 2 m/s², que sostiene el auto en una pendiente del 20 % y permite salir con él puesto por error;
+  - traba de estacionamiento en P;
+  - motor apagado con una marcha puesta y el embrague suelto.
+  - Todas actúan por los neumáticos y juntas no superan la adherencia.
+- **Eventos para la evaluación** (F03-T04): arranque, apagado, calado, arranque rechazado, cambio rechazado, marcha engranada, freno de mano, salida con el freno de mano puesto (una vez por episodio: detenerse y volver a salir sin soltarlo es el mismo episodio; soltarlo o volver a ponerlo abre uno nuevo) y llave. La simulación no los juzga.
+- **Integración** (`src/sim/car.ts`): `stepCar` convierte los pedales en fuerzas y el mundo mueve el auto. `command` aplica llave, palanca y freno de mano según los pedales del último paso (el embrague decide si entra un cambio).
+- **Procedimientos del protocolo reproducidos con pruebas** en las dos cajas (`procedures.test.ts`):
+  - etapa I: motor apagado, llave en contacto y freno de mano puesto;
+  - arranque permitido y rechazado;
+  - retroceder 30 cm solo con el embrague, o en automática regulando con el freno;
+  - avanzar 30 cm en primera o D;
+  - primeros 100 m en segunda o D a no más de 30 km/h;
+  - calado al soltar el embrague sin acelerar;
+  - salida con el freno de mano puesto;
+  - cambios rechazados;
+  - final con N o P, freno de mano, motor apagado y llave afuera.
+- **Calibración:** valores de un auto compacto con motor 1.6 a nafta, como aproximación del juego.
+  - Relaciones de la manual: R −3,5; 1.ª 3,6; 2.ª 2,1; 3.ª 1,4; 4.ª 1,03; 5.ª 0,82; diferencial 4,1. La automática: 2,9, 1,6, 1 y 0,75, con diferencial 4.
+  - Ruedas de 0,3 m, rendimiento del 92 % y embrague de 220 Nm.
+  - Resultado: en primera el ralentí lleva el auto a unos 6,5 km/h, y en segunda 30 km/h son unas 2300 rpm.
 
 ## Convenciones
 

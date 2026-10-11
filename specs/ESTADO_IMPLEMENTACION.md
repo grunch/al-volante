@@ -192,7 +192,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | Tarea | Rama | Base | Depende de | PR | Estado |
 |---|---|---|---|---|---|
 | F03-T01 | `f03-t01-simulation` | `main` | F02 (fusionada, con #15) | #16 | en revisión (etapa B) |
-| F03-T02 | — | `f03-t01-simulation` (#16) | T01 | — | pendiente |
+| F03-T02 | `f03-t02-transmission` | `f03-t01-simulation` (#16) | T01 (#16) | #17 | en revisión (etapa B) |
 | F03-T03 | — | — | T02 | — | autor asignado: GPT-6 Astra; fuera de esta sesión |
 | F03-T04 | — | — | T03 | — | pendiente |
 | F03-T05 | — | — | T04 | — | pendiente |
@@ -223,6 +223,30 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - La limpieza de la escena solo liberaba mallas, así que la grilla (`GridHelper`, que es un `LineSegments`) quedaba sin liberar al salir de la pista. Ahora también se liberan líneas y puntos.
 - Rebasado sobre `main` después de que el usuario fusionó #15.
 
+### F03-T02 — Caja manual y automática, embrague, punto de acople, calado, reversa, llave y freno de mano
+
+- Alcance:
+  - tren motriz en `src/sim/powertrain/`: motor con ralentí, freno motor y calado; embrague con punto de acople; caja manual de cinco marchas y R; automática P, R, N y D con convertidor y cambios por velocidad; llave y freno de mano;
+  - integración `stepCar` y `command` (`src/sim/car.ts`);
+  - eventos para la evaluación;
+  - en la pista de prueba: elección de caja, teclas de embrague, cambios, llave y freno de mano, y un panel con rpm, marcha, motor, freno de mano, llave y avisos.
+- Aceptación, **procedimientos y restricciones del protocolo reproducibles en ambas transmisiones**. Cada uno tiene prueba (`procedures.test.ts`):
+  - etapa I (PDF 9–10);
+  - desplazamientos de 30 cm, solo con el embrague en manual y regulando con el freno en automática (PDF 11);
+  - primeros 100 m en segunda o D a no más de 30 km/h (PDF 11, 31);
+  - calado, salida con el freno de mano y cambios rechazados;
+  - final con N o P, freno de mano, motor apagado y llave afuera (PDF 13, 25).
+- Errores encontrados por las pruebas y corregidos: cerca de la traba, el sentido del patinamiento del embrague salía del ruido de la diferencia de velocidades y el embrague frenaba en lugar de empujar. Dos procedimientos de prueba eran irreales (salir con el embrague a 0,55 y poco acelerador cala, como en un auto real) y se corrigieron.
+- Verificación local:
+  - `npm run check` con 252 pruebas;
+  - `npm run test:e2e` con 30 pruebas: automática hasta D con arrastre, manual con salida con embrague y acelerador, y vista sin foco.
+- Revisiones: se piden después de revisar los findings de T01 y T02 (indicación del usuario).
+- Findings de la revisión automática de Codex al abrir #17 (5485441891), aplicados con pruebas:
+  - Desde la pista no se podía sacar la llave, así que el procedimiento final no se podía completar: K ahora recorre el ciclo completo (contacto, arranque, apagado y sacar la llave). La E2E manual termina con el freno de mano, N, el motor apagado y la llave afuera.
+  - La salida con el freno de mano se volvía a informar al detenerse y arrancar otra vez sin soltarlo. REGLAS la define por episodio: ahora la marca solo se reinicia al soltar o volver a poner el freno de mano.
+  - Comentario y nombres de prueba con expresiones en español: pasan a inglés y citan los ids de regla (`rule.minor.f-handbrake-on-start`, `rule.low.d-engine-stall`).
+- Después del rebase sobre los findings de T01, la vista usa la misma función de cuadro (`driveFrame`) con el auto completo: rampas por paso fijo, comandos antes de los pasos y teclas liberadas al perder el foco la ventana.
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). Queda F02-T02-FIX03 (#15), desde `main`.
@@ -233,7 +257,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Fase 2: revisar los findings de #15 (F02-T02-FIX03) y fusionarlo; con eso se cierra. Fase 3: abrir F03-T02 apilado sobre #16, después revisar los findings de T01 y T02 y recién entonces pedir las revisiones de Codex.
+Fase 2: revisar los findings de #15 (F02-T02-FIX03) y fusionarlo; con eso se cierra. Fase 3: revisar los findings de T01 (#16) y de T02 (#17), corregirlos y recién entonces pedir las revisiones de Codex.
 
 ## Decisiones que no deben reinterpretarse
 

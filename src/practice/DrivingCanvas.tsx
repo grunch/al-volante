@@ -3,11 +3,17 @@ import type { KeyboardEvent } from 'react';
 import * as THREE from 'three';
 import { KEY_BINDINGS } from './controls.ts';
 import { driveFrame, startDriving } from './drivingLoop.ts';
+import { gearLabel } from './telemetry.ts';
+import type { Telemetry } from './telemetry.ts';
 import { createTrackScene } from '../scene/trackScene.ts';
 import type { RendererFactory, SceneRenderer } from '../scene/SceneCanvas.tsx';
+import { EXAM_SPECS } from '../sim/car.ts';
+import type { CarEvent } from '../sim/car.ts';
+import { radSToRpm } from '../sim/powertrain/engine.ts';
+import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { interpolateVehicle } from '../sim/vehicle.ts';
-import type { VehicleSpec, VehicleState } from '../sim/vehicle.ts';
-import type { Contact, World } from '../sim/world.ts';
+import type { VehicleState } from '../sim/vehicle.ts';
+import type { World } from '../sim/world.ts';
 import { usePrefersReducedMotion } from '../ui/usePrefersReducedMotion.ts';
 
 /** How often the page gets telemetry for its readouts; the canvas itself updates every frame. */
@@ -16,40 +22,41 @@ const TELEMETRY_INTERVAL_S = 0.1;
 const MAX_FRAME_S = 0.25;
 const MAX_PIXEL_RATIO = 2;
 const BOUND_KEYS: ReadonlySet<string> = new Set(Object.values(KEY_BINDINGS).flat());
-
-export interface Telemetry {
-  speedKmh: number;
-  odometerM: number;
-  reverse: boolean;
-  /** Latest contact with an obstacle, if any. */
-  contact: Contact | null;
-}
+const COMMAND_KEYS: ReadonlySet<string> = new Set([
+  ...KEY_BINDINGS.key,
+  ...KEY_BINDINGS.handbrake,
+  ...KEY_BINDINGS.gearUp,
+  ...KEY_BINDINGS.gearDown,
+]);
 
 export type DrivingState = 'loading' | 'ready' | 'unavailable';
 
 interface DrivingCanvasProps {
   world: World;
-  spec: VehicleSpec;
   start: VehicleState;
+  transmission: TransmissionKind;
   label: string;
   loadingText: string;
   unavailableText: string;
   createRenderer?: RendererFactory;
   onTelemetry?: (telemetry: Telemetry) => void;
-  /** Incrementing it puts the car back at the start. */
+  /** Incrementing it puts the car back at the start, engine off and key out. */
   resetCount?: number;
 }
 
 const defaultRendererFactory: RendererFactory = () => new THREE.WebGLRenderer({ antialias: true });
 
+/** Gear changes are routine: the driver hears about everything else. */
+const isNotable = (event: CarEvent) => event.type !== 'gear-engaged' && event.type !== 'key-inserted';
+
 /**
- * Drives the simulation in a 3D view. Keys are read only while the view has focus, so the rest of the page keeps its
+ * Drives the car in a 3D view. Keys are read only while the view has focus, so the rest of the page keeps its
  * keyboard. The simulation advances in fixed steps (FPS-independent) and the view interpolates between them.
  */
 export function DrivingCanvas({
   world,
-  spec,
   start,
+  transmission,
   label,
   loadingText,
   unavailableText,
@@ -59,7 +66,7 @@ export function DrivingCanvas({
 }: DrivingCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const keysRef = useRef(new Set<string>());
-  const reverseRef = useRef(false);
+  const pendingRef = useRef<string[]>([]);
   const resetRef = useRef(resetCount);
   const telemetryRef = useRef(onTelemetry);
   const [state, setState] = useState<DrivingState>('loading');
@@ -81,7 +88,7 @@ export function DrivingCanvas({
       const pending = requestAnimationFrame(() => setState('unavailable'));
       return () => cancelAnimationFrame(pending);
     }
-    const track = createTrackScene(world, spec, { reducedMotion });
+    const track = createTrackScene(world, EXAM_SPECS.vehicle, { reducedMotion });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO));
     renderer.domElement.setAttribute('aria-hidden', 'true');
     container.appendChild(renderer.domElement);
@@ -98,11 +105,11 @@ export function DrivingCanvas({
     window.addEventListener('blur', releaseKeys);
     document.addEventListener('visibilitychange', releaseKeys);
 
-    let driving = startDriving(start);
+    let driving = startDriving(start, transmission);
     let appliedReset = resetRef.current;
     let lastTime: number | null = null;
     let sinceTelemetryS = TELEMETRY_INTERVAL_S;
-    let contact: Contact | null = null;
+    let lastEvent: CarEvent | null = null;
     let frame = 0;
     let first = true;
 
@@ -111,28 +118,32 @@ export function DrivingCanvas({
       lastTime = now;
       if (appliedReset !== resetRef.current) {
         appliedReset = resetRef.current;
-        driving = startDriving(start);
-        reverseRef.current = false;
-        contact = null;
+        driving = startDriving(start, transmission);
+        lastEvent = null;
       }
-      driving = driveFrame(spec, world, driving, keysRef.current, reverseRef.current, frameS);
-      const { stepper, controls } = driving;
-      const vehicle = stepper.state.vehicle;
-      track.update(interpolateVehicle(stepper.previous.vehicle, vehicle, driving.alpha));
+      driving = driveFrame(world, driving, keysRef.current, pendingRef.current.splice(0), frameS);
+      const { stepper, events } = driving;
+      const car = stepper.state;
+      track.update(interpolateVehicle(stepper.previous.world.vehicle, car.world.vehicle, driving.alpha));
       renderer.render(track.scene, track.camera);
-      container.dataset.speedKmh = (vehicle.speedMps * 3.6).toFixed(1);
-      container.dataset.odometerM = vehicle.odometerM.toFixed(2);
-      container.dataset.timeS = stepper.state.timeS.toFixed(4);
-      container.dataset.reverse = String(controls.reverse);
-      if (driving.contact) contact = driving.contact;
+      const rpm = radSToRpm(car.powertrain.engineRadS);
+      container.dataset.speedKmh = (car.world.vehicle.speedMps * 3.6).toFixed(1);
+      container.dataset.odometerM = car.world.vehicle.odometerM.toFixed(2);
+      container.dataset.timeS = car.world.timeS.toFixed(4);
+      container.dataset.rpm = rpm.toFixed(0);
+      container.dataset.gear = gearLabel(car.powertrain);
+      container.dataset.engine = car.powertrain.engineRunning ? 'running' : 'off';
+      const notable = events.filter(isNotable).at(-1);
+      if (notable) lastEvent = notable;
       sinceTelemetryS += frameS;
-      if (driving.contact || sinceTelemetryS >= TELEMETRY_INTERVAL_S) {
+      if (notable || sinceTelemetryS >= TELEMETRY_INTERVAL_S) {
         sinceTelemetryS = 0;
         telemetryRef.current?.({
-          speedKmh: vehicle.speedMps * 3.6,
-          odometerM: vehicle.odometerM,
-          reverse: controls.reverse,
-          contact,
+          speedKmh: car.world.vehicle.speedMps * 3.6,
+          odometerM: car.world.vehicle.odometerM,
+          rpm,
+          powertrain: car.powertrain,
+          lastEvent,
         });
       }
       if (first) {
@@ -152,20 +163,16 @@ export function DrivingCanvas({
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [createRenderer, world, spec, start, reducedMotion]);
+  }, [createRenderer, world, start, transmission, reducedMotion]);
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (!BOUND_KEYS.has(event.code)) return;
     event.preventDefault();
-    if ((KEY_BINDINGS.reverse as readonly string[]).includes(event.code)) {
-      if (!event.repeat) reverseRef.current = !reverseRef.current;
+    if (COMMAND_KEYS.has(event.code)) {
+      if (!event.repeat) pendingRef.current.push(event.code);
       return;
     }
     keysRef.current.add(event.code);
-  };
-
-  const onKeyUp = (event: KeyboardEvent<HTMLDivElement>) => {
-    keysRef.current.delete(event.code);
   };
 
   return (
@@ -176,7 +183,7 @@ export function DrivingCanvas({
       data-testid="driving-canvas"
       tabIndex={0}
       onKeyDown={onKeyDown}
-      onKeyUp={onKeyUp}
+      onKeyUp={(event) => keysRef.current.delete(event.code)}
       // Letting go of the view releases every key, so the car never keeps accelerating unattended.
       onBlur={() => keysRef.current.clear()}
       {...(state === 'unavailable' ? {} : { role: 'application', 'aria-label': label })}

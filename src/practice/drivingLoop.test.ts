@@ -1,45 +1,58 @@
 import { describe, expect, it } from 'vitest';
-import { startDriving, driveFrame } from './drivingLoop.ts';
+import { driveFrame, startDriving } from './drivingLoop.ts';
+import type { DrivingFrame } from './drivingLoop.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../sim/tracks/practiceYard.ts';
-import { EXAM_CAR } from '../sim/vehicle.ts';
+
+/** Automatic, engine running, in D with the handbrake off: K K, then E E E with the brake held, then Space. */
+function readyInD(start = PRACTICE_YARD_START): DrivingFrame {
+  let frame = startDriving(start, 'automatic');
+  frame = driveFrame(PRACTICE_YARD, frame, new Set(), ['KeyK', 'KeyK'], 0);
+  // Frames advance at most 0.1 s each, so the brake is held over real 60 Hz frames.
+  for (let i = 0; i < 30; i += 1) frame = driveFrame(PRACTICE_YARD, frame, new Set(['ArrowDown']), [], 1 / 60);
+  frame = driveFrame(PRACTICE_YARD, frame, new Set(['ArrowDown']), ['KeyE', 'KeyE', 'KeyE', 'Space'], 0);
+  return frame;
+}
 
 function drive(hz: number, seconds: number) {
-  let frame = startDriving(PRACTICE_YARD_START);
+  let frame = readyInD();
   const keys = new Set(['ArrowUp', 'ArrowLeft']);
-  for (let i = 0; i < Math.round(seconds * hz); i += 1)
-    frame = driveFrame(EXAM_CAR, PRACTICE_YARD, frame, keys, false, 1 / hz);
+  for (let i = 0; i < Math.round(seconds * hz); i += 1) frame = driveFrame(PRACTICE_YARD, frame, keys, [], 1 / hz);
   return frame;
 }
 
 describe('driving frame loop', () => {
+  it('applies command keys before the steps of the frame', () => {
+    const frame = readyInD();
+
+    expect(frame.stepper.state.powertrain).toMatchObject({ engineRunning: true, lever: 'D', handbrake: false });
+    expect(frame.events.map((event) => event.type)).toEqual([
+      'gear-engaged',
+      'gear-engaged',
+      'gear-engaged',
+      'handbrake',
+    ]);
+  });
+
   it('gives exactly the same car at 30 and 120 frames per second, pedal and wheel ramps included', () => {
     // Both rates run the same number of fixed steps, so any frame-rate dependence would show as a difference.
     const at30 = drive(30, 2);
     const at120 = drive(120, 2);
 
-    expect(at30.stepper.state.timeS).toBeCloseTo(at120.stepper.state.timeS, 9);
-    expect(at30.stepper.state.vehicle).toEqual(at120.stepper.state.vehicle);
+    expect(at30.stepper.state.world.timeS).toBeCloseTo(at120.stepper.state.world.timeS, 9);
+    expect(at30.stepper.state.world.vehicle).toEqual(at120.stepper.state.world.vehicle);
+    expect(at30.stepper.state.powertrain).toEqual(at120.stepper.state.powertrain);
     expect(at30.controls).toEqual(at120.controls);
-    expect(at30.stepper.state.vehicle.odometerM).toBeGreaterThan(1);
+    expect(at30.stepper.state.world.vehicle.odometerM).toBeGreaterThan(1);
   });
 
-  it('reports the first contact of the frame and drives backwards in reverse', () => {
-    let frame = startDriving({ ...PRACTICE_YARD_START, z: 34 });
-    let contact = null;
-    for (let i = 0; i < 300 && !contact; i += 1) {
-      frame = driveFrame(EXAM_CAR, PRACTICE_YARD, frame, new Set(['ArrowUp']), false, 1 / 60);
-      contact = frame.contact;
+  it('reports contacts among the events of the frame', () => {
+    let frame = readyInD({ ...PRACTICE_YARD_START, z: 34 });
+    const contacts: string[] = [];
+    for (let i = 0; i < 400 && contacts.length === 0; i += 1) {
+      frame = driveFrame(PRACTICE_YARD, frame, new Set(['ArrowUp']), [], 1 / 60);
+      contacts.push(...frame.events.flatMap((event) => (event.type === 'contact' ? [event.obstacleId] : [])));
     }
-    const reversing = driveFrame(
-      EXAM_CAR,
-      PRACTICE_YARD,
-      startDriving(PRACTICE_YARD_START),
-      new Set(['ArrowUp']),
-      true,
-      0.5,
-    );
 
-    expect(contact?.obstacleId).toBe('wall-north');
-    expect(reversing.stepper.state.vehicle.speedMps).toBeLessThan(0);
+    expect(contacts).toContain('wall-north');
   });
 });

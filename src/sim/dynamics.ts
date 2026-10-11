@@ -20,6 +20,8 @@ export interface DriveInput {
   brake: number;
   /** Steering wheel, -1 (full right) to 1 (full left). */
   steer: number;
+  /** Extra force holding the car (handbrake, parking pawl, a stopped engine in gear), in newtons. */
+  holdN?: number;
 }
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
@@ -35,7 +37,11 @@ function nextSpeed(spec: VehicleSpec, state: VehicleState, input: DriveInput, dt
   const massKg = spec.massKg;
   const gripN = surface.grip * massKg * G_MPS2;
   const tractionN = clamp(input.tractionN, -gripN, gripN);
-  const brakeN = clamp(input.brake, 0, 1) * spec.maxBrakeDecelMps2 * surface.grip * massKg;
+  // Brakes and holds act through the tyres, so together they cannot exceed the grip.
+  const brakeN = Math.min(
+    gripN,
+    clamp(input.brake, 0, 1) * spec.maxBrakeDecelMps2 * surface.grip * massKg + Math.max(0, input.holdN ?? 0),
+  );
   const rollingN = spec.rollingResistance * massKg * G_MPS2;
   const speed = state.speedMps;
   if (speed === 0) {
