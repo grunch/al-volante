@@ -6,7 +6,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 ## Fase activa
 
-- **Fase 2 — Base web, datos y aprendizaje inicial: en curso, etapa B (findings y fusión).** El usuario fusionó #7–#10 en `main` el 2026-10-11 (21:18–21:21 UTC). Quedan abiertos #11 (T05) y los correctivos F02-T01-FIX01 y F02-T02-FIX01, con los findings que Codex dejó sobre los merges.
+- **Fase 2 — Base web, datos y aprendizaje inicial: en curso, etapa B (findings y fusión).** El usuario fusionó #7–#10 en `main` el 2026-10-11 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`, 22:12) y #12 en `main` (`493e5f7`, 22:12). Queda abierto #13, que lleva a `main` F02-T02-FIX01 y T05.
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - Fases 3–7: no iniciadas. Cada una requiere indicación manual del usuario.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
@@ -38,9 +38,9 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F02-T02 | `f02-t02-schemas` | `f02-t01-base` (#7) | T01 (#7) | #8 | fusionada (`ac570c3`) |
 | F02-T03 | `f02-t03-navigation` | `f02-t02-schemas` (#8) | T02 (#8) | #9 | fusionada (`8a74a53`) |
 | F02-T04 | `f02-t04-activities` | `f02-t03-navigation` (#9) | T03 (#9) | #10 | fusionada (`79f8baa`) |
-| F02-T01-FIX01 | `f02-t01-fix01` | `main` | T01–T04 (fusionadas) | #12 | en revisión (etapa B) |
-| F02-T02-FIX01 | `f02-t02-fix01` | `f02-t01-fix01` (#12) | FIX01 de T01 (#12) | #13 | en revisión (etapa B) |
-| F02-T05 | `f02-t05-progress` | `f02-t02-fix01` (#13) | T04 y los correctivos | #11 | en revisión (etapa B) |
+| F02-T01-FIX01 | `f02-t01-fix01` | `main` | T01–T04 (fusionadas) | #12 | fusionada (`493e5f7`) |
+| F02-T02-FIX01 | `f02-t02-fix01` | `main` (antes `f02-t01-fix01`) | FIX01 de T01 (#12) | #13 | en revisión (etapa B); incluye T05 |
+| F02-T05 | `f02-t05-progress` | `f02-t02-fix01` (#13) | T04 y los correctivos | #11 | fusionada en `f02-t02-fix01` (`5dfdd10`); llega a `main` con #13 |
 
 ### F02-T01 — Base web: TypeScript, Vite, React, Three.js y CI
 
@@ -176,7 +176,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B: revisar los findings de #12 (F02-T01-FIX01), #13 (F02-T02-FIX01) y #11 (T05) y fusionar en orden #12 → #13 → #11.
+Etapa B: revisar los findings que lleguen sobre #13 (F02-T02-FIX01 con T05) y fusionarlo en `main`. Con eso se cierra la fase 2.
 
 ## Decisiones que no deben reinterpretarse
 
