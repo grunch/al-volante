@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { ActivityResultContext } from '../activities/ActivityResultContext.ts';
-import type { ActivityResult } from '../activities/ActivityResultContext.ts';
+import type { ActivityResult, SaveOutcome } from '../activities/ActivityResultContext.ts';
 import type { Attempt } from '../content/schemas.ts';
 import { useContentState } from '../content/ContentProvider.tsx';
 import { createAttempt, updateConcept } from './model.ts';
@@ -24,8 +24,6 @@ export type ProgressState =
       persistent: boolean;
       /** Unreadable stored records set aside in quarantine; they are kept untouched. */
       quarantined: number;
-      /** The latest attempt could not be saved. */
-      saveFailed: boolean;
     };
 
 interface ProgressContextValue {
@@ -36,6 +34,9 @@ interface ProgressContextValue {
   replaceAll: (snapshot: ProgressSnapshot) => Promise<void>;
   /** Everything stored right now, other tabs' writes included; what a backup must contain. */
   exportSnapshot: () => Promise<ProgressSnapshot>;
+  /** Attempts lost on failed writes since the person last acknowledged it; a later success does not reset it. */
+  unsaved: number;
+  acknowledgeUnsaved: () => void;
 }
 
 const ProgressContext = createContext<ProgressContextValue | null>(null);
@@ -69,6 +70,18 @@ function withAttempt(data: ProgressData, attempt: Attempt, updates: readonly Con
   };
 }
 
+/**
+ * The time to record an answer at: now, but never before the latest known attempt, so the newest answer stays last
+ * even when this clock is behind progress imported from a device that ran ahead.
+ */
+function monotonicTime(now: Date, data: ProgressData | null): string {
+  const latest = Math.max(
+    -Infinity,
+    ...(data?.attempts ?? []).map((attempt) => Date.parse(attempt.finishedAt ?? attempt.startedAt)),
+  );
+  return new Date(Math.max(now.getTime(), latest + 1)).toISOString();
+}
+
 /** Tabs of the app announce stored changes on this channel so the others reload. */
 export const PROGRESS_CHANNEL = 'al-volante-progress';
 
@@ -89,6 +102,7 @@ export function ProgressProvider({
   const [open] = useState(() => openStore);
   const [state, setState] = useState<ProgressState>({ status: 'loading' });
   const [loadCount, setLoadCount] = useState(0);
+  const [unsaved, setUnsaved] = useState(0);
   const storeRef = useRef<ProgressStore | null>(null);
   /** Shown data; null until loaded, so refreshes never replace an error state. */
   const dataRef = useRef<ProgressData | null>(null);
@@ -136,7 +150,7 @@ export function ProgressProvider({
         if (cancelled) return;
         const data = toData(snapshot);
         dataRef.current = data;
-        setState({ status: 'ready', data, persistent: opened.persistent, quarantined, saveFailed: false });
+        setState({ status: 'ready', data, persistent: opened.persistent, quarantined });
       } catch (error) {
         if (cancelled) return;
         console.error('Could not load progress', error);
@@ -174,14 +188,14 @@ export function ProgressProvider({
 
   const contentVersion = content.status === 'ready' ? content.version : null;
   const record = useCallback(
-    (result: ActivityResult) => {
-      notifyParent(result);
-      if (contentVersion === null) return;
-      void enqueue(async () => {
+    (result: ActivityResult): Promise<SaveOutcome> => {
+      void notifyParent(result);
+      if (contentVersion === null) return Promise.resolve('not-recorded');
+      return enqueue(async (): Promise<SaveOutcome> => {
         const store = storeRef.current;
         // No store means it could not be opened; the logbook shows that error.
-        if (!store) return;
-        const at = now().toISOString();
+        if (!store) return 'not-recorded';
+        const at = monotonicTime(now(), dataRef.current);
         const { correct } = result.evaluation;
         const attempt = createAttempt(
           {
@@ -203,22 +217,23 @@ export function ProgressProvider({
           );
         } catch (error) {
           console.error('Could not save the attempt', error);
-          setState((previous) => (previous.status === 'ready' ? { ...previous, saveFailed: true } : previous));
-          return;
+          setUnsaved((count) => count + 1);
+          return 'failed';
         }
         announce(store);
-        setState((previous) => (previous.status === 'ready' ? { ...previous, saveFailed: false } : previous));
         try {
           await refresh(store);
         } catch (error) {
           // Saved, but reading back failed: at least show this tab's own answer.
           console.error('Could not refresh progress', error);
           const data = dataRef.current;
-          if (storeRef.current !== store || !data) return;
-          const next = withAttempt(data, attempt, updates);
-          dataRef.current = next;
-          setState((previous) => (previous.status === 'ready' ? { ...previous, data: next } : previous));
+          if (storeRef.current === store && data) {
+            const next = withAttempt(data, attempt, updates);
+            dataRef.current = next;
+            setState((previous) => (previous.status === 'ready' ? { ...previous, data: next } : previous));
+          }
         }
+        return 'saved';
       });
     },
     [notifyParent, contentVersion, createId, now, enqueue, announce, refresh],
@@ -233,9 +248,7 @@ export function ProgressProvider({
         announce(store);
         const next = toData(snapshot);
         dataRef.current = next;
-        setState((previous) =>
-          previous.status === 'ready' ? { ...previous, data: next, saveFailed: false } : previous,
-        );
+        setState((previous) => (previous.status === 'ready' ? { ...previous, data: next } : previous));
       }),
     [enqueue, announce],
   );
@@ -250,9 +263,11 @@ export function ProgressProvider({
     [enqueue],
   );
 
+  const acknowledgeUnsaved = useCallback(() => setUnsaved(0), []);
+
   const value = useMemo(
-    () => ({ state, now, retry, replaceAll, exportSnapshot }),
-    [state, now, retry, replaceAll, exportSnapshot],
+    () => ({ state, now, retry, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved }),
+    [state, now, retry, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved],
   );
   return (
     <ProgressContext.Provider value={value}>

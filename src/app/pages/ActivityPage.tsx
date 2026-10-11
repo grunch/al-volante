@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
 import { ActivityResultContext } from '../../activities/ActivityResultContext.ts';
+import type { SaveOutcome } from '../../activities/ActivityResultContext.ts';
 import {
   SEED_LIMIT,
   decisionStep,
@@ -82,11 +83,13 @@ function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityP
   const record = useContext(ActivityResultContext);
   const [presentation] = useState(() => presentActivity(activity, seed));
   const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
+  const [saveOutcome, setSaveOutcome] = useState<SaveOutcome | null>(null);
 
   const answer = (response: ActivityResponse) => {
     const result = evaluateResponse(activity, presentation.variantId, response);
     setEvaluation(result);
-    record({ activity, presentation, response, evaluation: result });
+    // Say so where it happened if this attempt could not be stored.
+    void record({ activity, presentation, response, evaluation: result }).then(setSaveOutcome);
   };
 
   const sign =
@@ -128,6 +131,11 @@ function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityP
         />
       )}
       <div aria-live="polite">{evaluation && <FeedbackPanel evaluation={evaluation} />}</div>
+      {saveOutcome === 'failed' && (
+        <p className="status-message status-message--error" role="alert">
+          {ACTIVITY_COPY.notSaved}
+        </p>
+      )}
       <p className="card__actions">
         {evaluation && (
           <button type="button" className="button" onClick={onAnotherVariant}>

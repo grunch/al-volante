@@ -22,7 +22,7 @@ export function LogbookPage() {
 
 function Logbook({ content }: { content: Content }) {
   const contentState = useContentState();
-  const { state, now, retry, replaceAll, exportSnapshot } = useProgress();
+  const { state, now, retry, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved } = useProgress();
 
   // ContentGate only renders this once content is ready; the check narrows the type.
   if (contentState.status !== 'ready') return null;
@@ -53,10 +53,13 @@ function Logbook({ content }: { content: Content }) {
           {LOGBOOK_COPY.quarantined(state.quarantined)}
         </p>
       )}
-      {state.saveFailed && (
-        <p className="status-message status-message--error" role="alert">
-          {LOGBOOK_COPY.saveFailed}
-        </p>
+      {unsaved > 0 && (
+        <div className="status-message status-message--error" role="alert">
+          <p>{LOGBOOK_COPY.unsaved(unsaved)}</p>
+          <button type="button" className="button button--secondary" onClick={acknowledgeUnsaved}>
+            {LOGBOOK_COPY.acknowledge}
+          </button>
+        </div>
       )}
       <ReviewSection
         suggestions={recommendedReview(content.activities, attempts, concepts, current)}

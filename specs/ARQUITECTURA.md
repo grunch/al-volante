@@ -114,6 +114,8 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 - **Persistencia** (`src/progress/storage.ts`): IndexedDB, base `al-volante` (versión 2), almacenes `attempts`, `concepts` y `quarantine`.
   - Cada respuesta se escribe en una sola transacción, que lee el valor guardado de cada concepto y calcula el nuevo dentro de ella. Así, una pestaña nunca pisa el progreso más nuevo que escribió otra. Si algo falla, la transacción se aborta y no queda nada a medias.
   - Las migraciones de la base van en `upgrade`, una rama por versión (`DB_VERSION`). La versión 2 agregó `quarantine`.
+  - La hora de un intento nuevo nunca es anterior a la del último intento conocido, así que el más reciente sigue siendo el último aunque el reloj vaya atrasado. El esquema del intento exige que termine después de empezar y que sus eventos y faltas caigan dentro de ese intervalo.
+  - Cada respuesta informa si se guardó (`SaveOutcome`): si falló, la actividad lo avisa en el momento y la bitácora cuenta los resultados sin guardar hasta que la persona lo reconoce.
   - Antes de escribir, cada concepto calculado se valida con Zod; si no cumple el esquema, la escritura se aborta. Si el reloj retrocede, la hora de la última respuesta no retrocede.
   - Al cargar, cada registro se valida con Zod. Los ilegibles se mueven a `quarantine` exactamente como estaban (almacén, clave y valor), en la misma transacción, y la bitácora avisa cuántos hay. Nunca se borran, y una práctica posterior del mismo concepto tampoco los pisa: si otra pestaña dejó un registro ilegible, también se aparta antes de escribir.
   - Si IndexedDB no está disponible (algunos modos privados), se usa memoria y la bitácora avisa que el progreso no va a durar.

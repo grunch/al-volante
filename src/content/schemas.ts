@@ -354,20 +354,35 @@ export const ScenarioSchema = z.strictObject({
 export type Scenario = z.infer<typeof ScenarioSchema>;
 
 export const ATTEMPT_MODES = ['learn', 'practice', 'review', 'run', 'exam'] as const;
-export const AttemptSchema = z.strictObject({
-  id: nonEmpty,
-  kind: z.enum(['activity', 'driving']),
-  subjectId: nonEmpty,
-  contentVersion: z.string().regex(/^[0-9a-f]{8,}$/),
-  mode: z.enum(ATTEMPT_MODES),
-  startedAt: z.iso.datetime(),
-  finishedAt: z.iso.datetime().nullable(),
-  events: z.array(z.strictObject({ at: z.iso.datetime(), type: nonEmpty, payload: z.record(z.string(), z.unknown()) })),
-  faults: z.array(z.strictObject({ ruleId: nonEmpty, at: z.iso.datetime(), points: z.int().nonnegative() })),
-  result: z.strictObject({
-    correct: z.boolean().nullable(),
-    score: z.number().min(0).max(1).nullable(),
-    points: z.int().nonnegative().nullable(),
-  }),
-});
+export const AttemptSchema = z
+  .strictObject({
+    id: nonEmpty,
+    kind: z.enum(['activity', 'driving']),
+    subjectId: nonEmpty,
+    contentVersion: z.string().regex(/^[0-9a-f]{8,}$/),
+    mode: z.enum(ATTEMPT_MODES),
+    startedAt: z.iso.datetime(),
+    finishedAt: z.iso.datetime().nullable(),
+    events: z.array(
+      z.strictObject({ at: z.iso.datetime(), type: nonEmpty, payload: z.record(z.string(), z.unknown()) }),
+    ),
+    faults: z.array(z.strictObject({ ruleId: nonEmpty, at: z.iso.datetime(), points: z.int().nonnegative() })),
+    result: z.strictObject({
+      correct: z.boolean().nullable(),
+      score: z.number().min(0).max(1).nullable(),
+      points: z.int().nonnegative().nullable(),
+    }),
+  })
+  .check((ctx) => {
+    // An attempt ends after it starts, and everything it records happens in between.
+    const { startedAt, finishedAt, events, faults } = ctx.value;
+    const start = Date.parse(startedAt);
+    const end = finishedAt === null ? Infinity : Date.parse(finishedAt);
+    const fail = (message: string) => ctx.issues.push({ code: 'custom', message, input: ctx.value });
+    if (end < start) fail('an attempt cannot finish before it starts');
+    for (const { at } of [...events, ...faults]) {
+      const time = Date.parse(at);
+      if (time < start || time > end) fail(`${at} falls outside the attempt`);
+    }
+  });
 export type Attempt = z.infer<typeof AttemptSchema>;

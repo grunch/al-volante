@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { rule, ruleCatalog } from './testing/fixtures.ts';
+import { AttemptSchema } from './schemas.ts';
 import type { Attempt } from './schemas.ts';
 import { attemptErrors } from './validateAttempt.ts';
 
@@ -100,5 +101,37 @@ describe('attemptErrors', () => {
     });
 
     expect(attemptErrors(activity, rules)).toEqual(['d1: activity attempts cannot have driving faults']);
+  });
+});
+
+describe('AttemptSchema chronology', () => {
+  const later = (minutes: number) => new Date(Date.parse(AT) + minutes * 60_000).toISOString();
+
+  it('accepts events and faults inside the attempt, and an unfinished attempt', () => {
+    const inside = driving({
+      finishedAt: later(10),
+      events: [{ at: later(5), type: 'turn', payload: {} }],
+      faults: [],
+      result: { correct: null, score: null, points: 0 },
+    });
+
+    expect(AttemptSchema.safeParse(inside).success).toBe(true);
+    expect(AttemptSchema.safeParse({ ...inside, finishedAt: null }).success).toBe(true);
+  });
+
+  it('rejects an attempt that ends before it starts, or with events or faults outside it', () => {
+    const cases: Record<string, Partial<Attempt>> = {
+      'finished before it started': { finishedAt: later(-1) },
+      'an event before the start': { events: [{ at: later(-1), type: 'turn', payload: {} }] },
+      'a fault after the end': {
+        finishedAt: later(10),
+        faults: [{ ruleId: 'rule.minor.a-item', at: later(11), points: 1 }],
+        result: { correct: null, score: null, points: 1 },
+      },
+    };
+
+    for (const [name, patch] of Object.entries(cases)) {
+      expect(AttemptSchema.safeParse(driving(patch)).success, name).toBe(false);
+    }
   });
 });

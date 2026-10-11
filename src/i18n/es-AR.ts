@@ -192,6 +192,8 @@ export const ACTIVITY_COPY = {
   scoreLabel: 'Puntaje',
   notFound: 'No encontramos esa actividad.',
   signToIdentify: 'Señal a identificar',
+  notSaved:
+    'No pudimos guardar este resultado en tu bitácora. Podés seguir practicando; el resto de tu progreso está intacto.',
 } as const;
 
 export const ACTIVITY_TYPE_LABELS: Record<string, string> = {
@@ -221,7 +223,9 @@ export const LOGBOOK_COPY = {
     'Este navegador no permite guardar datos (por ejemplo, en modo privado): tu progreso se pierde al cerrar la pestaña. Descargá un respaldo para conservarlo.',
   quarantined: (count: number) =>
     `${count === 1 ? 'Un registro guardado estaba dañado y lo' : `${count} registros guardados estaban dañados y los`} apartamos sin modificarlos. No afectan el resto de tu progreso.`,
-  saveFailed: 'No pudimos guardar tu último resultado. Probá de nuevo; tu progreso anterior está intacto.',
+  unsaved: (count: number) =>
+    `${count === 1 ? 'Un resultado no se pudo guardar' : `${count} resultados no se pudieron guardar`} en este navegador. El resto de tu progreso está intacto.`,
+  acknowledge: 'Entendido',
   reviewHeading: 'Repaso recomendado',
   reviewEmpty: 'No tenés repasos pendientes por ahora.',
   reviewTryNew: 'Probá una actividad',

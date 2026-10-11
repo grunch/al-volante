@@ -96,6 +96,19 @@ describe('backup consistency', () => {
   });
 });
 
+describe('backup attempt chronology', () => {
+  it('rejects an attempt that finishes before it starts', () => {
+    const reversed = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
+    reversed.attempts[0].startedAt = later(HOUR);
+
+    expect(parse(JSON.stringify(reversed))).toMatchObject({
+      ok: false,
+      error: 'invalid-data',
+      details: expect.stringContaining('finish before it starts'),
+    });
+  });
+});
+
 describe('backup attempts against the exam rules', () => {
   it('rejects faults of unknown rules or with the wrong points', () => {
     const unknown = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
@@ -124,11 +137,14 @@ describe('backup dates', () => {
       dueAt: '2036-10-12T12:00:00.000Z',
     };
     const lateAttempt = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
+    // Internally consistent (the attempt ends when its event happens), but after the export.
     lateAttempt.attempts[0].events[0].at = '2036-10-11T12:00:00.000Z';
+    lateAttempt.attempts[0].finishedAt = '2036-10-11T12:00:00.000Z';
     const lateFault = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
     // A coherent driving attempt whose only problem is the fault's date.
     lateFault.attempts[0] = {
       ...lateFault.attempts[0],
+      finishedAt: '2036-10-11T12:00:00.000Z',
       kind: 'driving',
       faults: [{ ruleId: 'rule.minor.a-item', at: '2036-10-11T12:00:00.000Z', points: 1 }],
       result: { correct: null, score: null, points: 1 },

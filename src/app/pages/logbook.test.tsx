@@ -8,13 +8,13 @@ import { App } from '../App.tsx';
 import { routes } from '../routes.tsx';
 import { loadContent } from '../../content/catalog.ts';
 import { createBackup } from '../../progress/backup.ts';
-import { ConceptProgressSchema, MASTERY_BOX } from '../../progress/model.ts';
+import { ConceptProgressSchema, MASTERY_BOX, createAttempt } from '../../progress/model.ts';
 import type { ConceptProgress } from '../../progress/model.ts';
 import { createMemoryStore } from '../../progress/storage.ts';
 import type { ProgressSnapshot, ProgressStore } from '../../progress/storage.ts';
 import { MAX_BACKUP_BYTES } from '../../progress/ui/BackupPanel.tsx';
 import { createFakeRenderer } from '../../test/fakeRenderer.ts';
-import { LOGBOOK_COPY, esAR } from '../../i18n/es-AR.ts';
+import { ACTIVITY_COPY, LOGBOOK_COPY, esAR } from '../../i18n/es-AR.ts';
 
 const NOW = new Date('2026-10-20T12:00:00.000Z');
 const DAY = 24 * 60 * 60 * 1000;
@@ -191,17 +191,66 @@ describe('logbook contents', () => {
     expect(await within(campaignB()).findByText('Ceder el paso a peatones al girar con luz verde')).toBeInTheDocument();
   });
 
-  it('tells the user when an attempt could not be saved, keeping the previous progress', async () => {
+  it('warns on the activity when a result is not saved, and keeps the logbook notice until it is acknowledged', async () => {
+    // Arrange: the first save fails, the next one works.
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const memory = createMemoryStore();
     const store: ProgressStore = {
-      ...createMemoryStore(),
-      record: () => Promise.reject(new Error('QuotaExceededError')),
+      ...memory,
+      record: vi
+        .fn<ProgressStore['record']>()
+        .mockRejectedValueOnce(new Error('QuotaExceededError'))
+        .mockImplementation((...args) => memory.record(...args)),
     };
+    const user = userEvent.setup();
     renderAt('/actividad/act.turn-with-pedestrian?semilla=0', withStore(store));
+
+    // Act: a failed save, then a successful one on another variant.
+    await user.click(await screen.findByRole('button', { name: /30 m antes enciendo la luz de giro/ }));
+    await user.click(screen.getByRole('button', { name: 'Freno y le cedo el paso, aunque tenga verde' }));
+    expect(await screen.findByText(ACTIVITY_COPY.notSaved)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: ACTIVITY_COPY.anotherVariant }));
+    await user.click(await screen.findByRole('button', { name: /30 m antes enciendo la luz de giro/ }));
+    await user.click(screen.getByRole('button', { name: 'Freno y le cedo el paso, aunque tenga verde' }));
+    await screen.findByRole('heading', { name: '¡Correcto!' });
+    await user.click(
+      within(screen.getByRole('navigation', { name: esAR.mainNavigation })).getByRole('link', {
+        name: esAR.navLogbook,
+      }),
+    );
+
+    // Assert
+    expect(screen.queryByText(ACTIVITY_COPY.notSaved)).not.toBeInTheDocument();
+    expect(await screen.findByText(LOGBOOK_COPY.unsaved(1))).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: LOGBOOK_COPY.acknowledge }));
+    expect(screen.queryByText(LOGBOOK_COPY.unsaved(1))).not.toBeInTheDocument();
+  });
+
+  it('keeps the newest answer last when the clock is behind an imported attempt', async () => {
+    // Arrange: a failed attempt imported from a device one hour ahead.
+    const ahead = createAttempt(
+      {
+        activityId: 'act.turn-with-pedestrian',
+        unitIds: [],
+        variantId: 'green-right-turn',
+        seed: 0,
+        response: { kind: 'decision', choiceIds: [] },
+        correct: false,
+        score: 0,
+        mode: 'practice',
+      },
+      { id: 'imported', at: new Date(NOW.getTime() + 60 * 60 * 1000).toISOString(), contentVersion: 'deadbeef' },
+    );
+    renderAt(
+      '/actividad/act.turn-with-pedestrian?semilla=0',
+      withStore(createMemoryStore({ attempts: [ahead], concepts: [] })),
+    );
+
+    // Act: answered correctly now, with this device's earlier clock.
     await playTurnWithPedestrian(true);
 
-    expect(await screen.findByText(LOGBOOK_COPY.saveFailed)).toBeInTheDocument();
-    expect(within(campaignB()).getByText(LOGBOOK_COPY.groupEmpty)).toBeInTheDocument();
+    // Assert
+    expect(await screen.findByText(LOGBOOK_COPY.errorsEmpty)).toBeInTheDocument();
   });
 });
 
