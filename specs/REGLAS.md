@@ -312,8 +312,8 @@ El protocolo evalúa conductas físicas que el juego solo puede representar: la 
 ## 10. Cómo validar
 
 ```bash
-node scripts/check-rules.mjs        # estructura y coherencia de catalog/rules.json
-node --test 'scripts/*.test.mjs'    # pruebas de los validadores
+npm run validate:content   # estructura y coherencia de catalog/rules.json (y del resto de los catálogos)
+npm test                   # pruebas de los validadores (src/content/validateRules.test.ts)
 ```
 
 El validador comprueba:

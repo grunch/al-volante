@@ -5,7 +5,7 @@
 | `comuna13-a.json` | Recorrido A de Comuna 13: tramos, geometría (lat/lon y coordenadas locales en metros), giros, límites de examen, controles de tránsito y estado de verificación de cada elemento. |
 | `comuna13-a.geojson` | Los mismos tramos y controles en GeoJSON. GitHub lo muestra como mapa. |
 
-Validar con `node scripts/check-route.mjs`. La documentación está en [`../RECORRIDO.md`](../RECORRIDO.md).
+Validar con `npm run validate:content` (todos los catálogos, incluido este recorrido). La documentación está en [`../RECORRIDO.md`](../RECORRIDO.md).
 
 ## Licencias y atribución
 

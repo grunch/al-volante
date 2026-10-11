@@ -12,7 +12,7 @@ Define qué hay que enseñar: cada página del manual teórico (200 páginas) y 
 | `catalog/units.json` | 705 unidades de conocimiento: id estable, páginas, título, categoría, tipo, resumen fiel con cifras exactas y datos atómicos (`keyFacts`). |
 | `catalog/signs.json` | 355 señales individuales: página, grupo, rótulo, significado si la fuente lo da, descripción visual y código impreso. |
 | `catalog/issues.json` | 206 observaciones: discrepancias, datos posiblemente desactualizados, ambigüedades, erratas, fallas de extracción e ilegibles. |
-| `../scripts/check-catalog.mjs` | Validador sin dependencias (ver «Cómo validar»). |
+| `../src/content/` | Esquemas y validadores en TypeScript (ver «Cómo validar»); desde F02-T02 reemplazan al script original de la fase 1. |
 
 Las claves y los ids están en inglés; títulos, resúmenes y descripciones, en español, fieles a la fuente. Las referencias de página son siempre **páginas físicas del PDF** (en el manual, la página impresa suele ser PDF − 1).
 
@@ -125,8 +125,8 @@ La propia guía tiene diferencias entre su índice y sus títulos (siniestros PD
 ## Cómo validar
 
 ```bash
-node scripts/check-catalog.mjs          # estructura y cobertura del catálogo
-node --test 'scripts/*.test.mjs'        # pruebas del validador
+npm run validate:content   # estructura (Zod) y referencias cruzadas de todos los catálogos, con resumen de cobertura
+npm test                   # pruebas de los validadores (src/content/*.test.ts)
 ```
 
 El validador falla si alguna página de las fuentes auditadas no está clasificada o lo está dos veces, si hay ids duplicados o mal formados, si hay referencias huérfanas en cualquier sentido entre páginas y unidades, si una página instructiva no tiene unidades ni señales, o si algún valor está fuera de su enumeración.

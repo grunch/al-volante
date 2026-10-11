@@ -1,34 +1,62 @@
 [
   {
     "id": "manual",
+    "title": "Manual teórico de conducción de vehículos urbanos de cuatro ruedas",
+    "edition": "2023 (archivo publicado en 2024-11)",
     "path": "pdf/manual.pdf",
     "originalFilename": "MANUAL_Vehiculo_4Ruedas_2023 SA.pdf",
     "pages": 200,
     "sha256": "69c6e1c582db4f96337fc13db09fffab26f9ce6364279c6beb2abc21d9ad3e8e",
-    "extractedText": "manual.txt"
+    "extractedText": "manual.txt",
+    "provenance": {
+      "url": "https://static.buenosaires.gob.ar/sites/default/files/2024-11/MANUAL_Vehiculo_4Ruedas_2023%20SA.pdf",
+      "retrievedAt": "2026-10-11",
+      "sha256Verified": true
+    }
   },
   {
     "id": "protocolo",
+    "title": "Protocolo de examen práctico de idoneidad conductiva, clase B.1",
+    "edition": "2023-09-14",
     "path": "pdf/protocolo.pdf",
     "originalFilename": "protocolo.pdf",
     "pages": 42,
     "sha256": "65f1dd9f62775c70f7275098300d769ca264986f8f98a4b18cedee937fcc9198",
-    "extractedText": "protocolo.txt"
+    "extractedText": "protocolo.txt",
+    "provenance": {
+      "url": "https://static.buenosaires.gob.ar/sites/default/files/2023-09/Protocolo%20de%20Examen%20practico%20de%20idoneidad%20conductiva_14092023%20%281%29%20%281%29%20%281%29.pdf",
+      "retrievedAt": "2026-10-11",
+      "sha256Verified": true
+    }
   },
   {
     "id": "recorridos",
+    "title": "Áreas urbanas para el examen práctico: circuitos por comuna",
+    "edition": "2026-03",
     "path": "pdf/recorridos.pdf",
     "originalFilename": "recorridosl.pdf",
     "pages": 19,
     "sha256": "a4d730e34347781b022028ddfcba81ecfd2dec0f815c5dc3592fc0147387ef80",
-    "extractedText": "recorridos.txt"
+    "extractedText": "recorridos.txt",
+    "provenance": {
+      "url": "https://static.buenosaires.gob.ar/sites/default/files/2026-03/final%20manual.pdf",
+      "retrievedAt": "2026-10-11",
+      "sha256Verified": true
+    }
   },
   {
     "id": "siniestros",
+    "title": "¿Qué hacer ante la ocurrencia de un siniestro vial? Guía práctica",
+    "edition": "2022-11",
     "path": "pdf/siniestros.pdf",
     "originalFilename": "Guía práctica siniestros viales_0.pdf",
     "pages": 24,
     "sha256": "e48edf120ac7c84321338ef074f6fda7facdd6af5a881b9b05beb7206f3317b5",
-    "extractedText": "siniestros.txt"
+    "extractedText": "siniestros.txt",
+    "provenance": {
+      "url": "https://static.buenosaires.gob.ar/sites/default/files/2023-05/Gu%C3%ADa%20pr%C3%A1ctica%20siniestros%20viales_0.pdf",
+      "retrievedAt": "2026-10-11",
+      "sha256Verified": true
+    }
   }
 ]

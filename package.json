@@ -19,13 +19,14 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "validate:catalog": "node scripts/check-catalog.mjs && node scripts/check-rules.mjs && node scripts/check-route.mjs && node --test 'scripts/*.test.mjs'",
-    "check": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run validate:catalog && npm run build"
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run validate:content && npm run build",
+    "validate:content": "node scripts/validate-content.ts"
   },
   "dependencies": {
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "three": "0.186.1"
+    "three": "0.186.1",
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
