@@ -6,7 +6,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 ## Fase activa
 
-- **Fase 2 — Base web, datos y aprendizaje inicial: en curso, etapa B (findings y fusión).** El usuario fusionó #7–#10 en `main` el 2026-10-11 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`, 22:12) y #12 en `main` (`493e5f7`, 22:12). Queda abierto #13, que lleva a `main` F02-T02-FIX01 y T05.
+- **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`) y #13 (`1a842bf`, 22:24) el 2026-10-11. Queda el correctivo F02-T02-FIX02 (#14), con los findings de la última revisión de Codex sobre #13, que llegó cuando ya estaba fusionado.
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - Fases 3–7: no iniciadas. Cada una requiere indicación manual del usuario.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
@@ -39,8 +39,9 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F02-T03 | `f02-t03-navigation` | `f02-t02-schemas` (#8) | T02 (#8) | #9 | fusionada (`8a74a53`) |
 | F02-T04 | `f02-t04-activities` | `f02-t03-navigation` (#9) | T03 (#9) | #10 | fusionada (`79f8baa`) |
 | F02-T01-FIX01 | `f02-t01-fix01` | `main` | T01–T04 (fusionadas) | #12 | fusionada (`493e5f7`) |
-| F02-T02-FIX01 | `f02-t02-fix01` | `main` (antes `f02-t01-fix01`) | FIX01 de T01 (#12) | #13 | en revisión (etapa B); incluye T05 |
-| F02-T05 | `f02-t05-progress` | `f02-t02-fix01` (#13) | T04 y los correctivos | #11 | fusionada en `f02-t02-fix01` (`5dfdd10`); llega a `main` con #13 |
+| F02-T02-FIX01 | `f02-t02-fix01` | `main` (antes `f02-t01-fix01`) | FIX01 de T01 (#12) | #13 | fusionada (`1a842bf`), con T05 |
+| F02-T05 | `f02-t05-progress` | `f02-t02-fix01` (#13) | T04 y los correctivos | #11 | fusionada en `f02-t02-fix01` (`5dfdd10`) y en `main` con #13 |
+| F02-T02-FIX02 | `f02-t02-fix02` | `main` | #13 (fusionado) | #14 | en revisión (etapa B) |
 
 ### F02-T01 — Base web: TypeScript, Vite, React, Three.js y CI
 
@@ -170,10 +171,19 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Cronologías imposibles: el esquema del intento exige que termine después de empezar y que sus eventos y faltas caigan dentro de ese intervalo; un respaldo que no lo cumple se rechaza.
   - Aviso de guardado: si una respuesta no se guarda, la actividad lo dice en el momento, y la bitácora cuenta los resultados sin guardar hasta que la persona lo reconoce («Entendido»). Un guardado exitoso posterior ya no borra el aviso.
 - Revisión de Codex sobre #13 en `5dfdd10` (5485247029), «Separá F02-T05 de este correctivo»: no aplica tal como está planteado, porque el usuario fusionó #11 en `f02-t02-fix01` y T05 llega a `main` con #13; no queda nada duplicado. Sí aplicaba que la presentación del PR lo dejara claro: el título y la descripción de #13 lo explican y ESTADO lo registra (`4bdf9dd`).
+- Revisión de Codex sobre #13 en `502f1e5` (5485297286; llegó con #13 ya fusionado y se corrige en F02-T02-FIX02, #14), con pruebas:
+  - La hora monotónica salía de la copia en memoria: con dos pestañas sin `BroadcastChannel`, una podía fechar su respuesta antes que la otra. Ahora el almacén lee la última hora guardada dentro de la transacción de escritura (base versión 3, con índices) y se la pasa a quien arma el intento. Lo cubre una prueba con dos pestañas y relojes distintos, que falla sin la corrección.
+  - Intentos de actividad incompletos en un respaldo: `attemptErrors` exige que estén terminados, con una sola respuesta, corrección y puntaje coherentes y sin puntos de examen.
+  - CONTINUIDAD y la pila de ESTADO todavía decían que #11 seguía abierto: actualizados. #13 ya se fusionó; el único PR pendiente de la fase 2 es #14 (F02-T02-FIX02).
+- Revisión de Codex sobre #14 en `2c20de4` (5485330256), con pruebas:
+  - IndexedDB ordena como texto los índices de hora de los intentos, y un respaldo con fechas en otra precisión ISO (por ejemplo, sin milisegundos) desordenaba ese texto. Ahora la importación reescribe todas las fechas en el formato canónico que usa la app (`toISOString`).
+  - Una línea de ESTADO decía «solo queda #13»: corregida.
+- Revisión de Codex sobre #14 en `9d861f1` (5485344650), con prueba:
+  - La migración a la versión 3 creaba los índices sobre las fechas que ya estaban guardadas en v2, sin normalizarlas. Ahora la rama de migración reescribe en formato canónico las fechas de los intentos guardados (inicio, fin, eventos y faltas) dentro de la misma transacción de actualización; si falla, la actualización se cancela.
 
 ## Pila y orden de fusión
 
-`main ← F02-T01 ← F02-T02 ← F02-T03 ← F02-T04 ← F02-T05` (se crean en la etapa A; se fusionan en ese orden en la etapa B). T01–T04 ya están en `main`. Los findings que Codex dejó sobre esos merges van en correctivos desde `main`: `main ← F02-T01-FIX01 (#12) ← F02-T02-FIX01 (#13) ← F02-T05 (#11)`.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12) y F02-T02-FIX01 con T05 (#13, que incluye #11). Queda F02-T02-FIX02 (#14), desde `main`.
 
 ## Bloqueos
 
@@ -181,7 +191,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B: revisar los findings que lleguen sobre #13 (F02-T02-FIX01 con T05) y fusionarlo en `main`. Con eso se cierra la fase 2.
+Etapa B: revisar los findings de #14 (F02-T02-FIX02) y fusionarlo. Con eso se cierra la fase 2.
 
 ## Decisiones que no deben reinterpretarse
 

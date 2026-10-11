@@ -100,7 +100,7 @@ describe('attemptErrors', () => {
       result: { correct: true, score: 1, points: null },
     });
 
-    expect(attemptErrors(activity, rules)).toEqual(['d1: activity attempts cannot have driving faults']);
+    expect(attemptErrors(activity, rules)).toContain('d1: activity attempts cannot have driving faults');
   });
 });
 
@@ -132,6 +132,52 @@ describe('AttemptSchema chronology', () => {
 
     for (const [name, patch] of Object.entries(cases)) {
       expect(AttemptSchema.safeParse(driving(patch)).success, name).toBe(false);
+    }
+  });
+});
+
+describe('activity attempt invariants', () => {
+  /** What createAttempt stores for one answer. */
+  function activity(overrides: Partial<Attempt> = {}): Attempt {
+    return {
+      id: 'a1',
+      kind: 'activity',
+      subjectId: 'act.x',
+      contentVersion: 'deadbeef',
+      mode: 'practice',
+      startedAt: AT,
+      finishedAt: AT,
+      events: [{ at: AT, type: 'answer', payload: {} }],
+      faults: [],
+      result: { correct: false, score: 0.5, points: null },
+      ...overrides,
+    };
+  }
+
+  it('accepts a finished answer with a coherent result', () => {
+    expect(attemptErrors(activity(), rules)).toEqual([]);
+    expect(attemptErrors(activity({ result: { correct: true, score: 1, points: null } }), rules)).toEqual([]);
+  });
+
+  it('rejects unfinished or answerless attempts and incoherent results', () => {
+    const cases: Record<string, Partial<Attempt>> = {
+      unfinished: { finishedAt: null },
+      'no answer event': { events: [] },
+      'two answer events': {
+        events: [
+          { at: AT, type: 'answer', payload: {} },
+          { at: AT, type: 'answer', payload: {} },
+        ],
+      },
+      'no correctness': { result: { correct: null, score: 0, points: null } },
+      'no score': { result: { correct: false, score: null, points: null } },
+      'exam points': { result: { correct: false, score: 0, points: 0 } },
+      'correct without full score': { result: { correct: true, score: 0.5, points: null } },
+      'full score marked wrong': { result: { correct: false, score: 1, points: null } },
+    };
+
+    for (const [name, patch] of Object.entries(cases)) {
+      expect(attemptErrors(activity(patch), rules).length, name).toBeGreaterThan(0);
     }
   });
 });

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { canonicalIso } from './dates.ts';
 import type { RuleCatalog } from '../content/schemas.ts';
 import { attemptErrors } from '../content/validateAttempt.ts';
 import { AttemptSchema } from '../content/schemas.ts';
@@ -62,6 +63,27 @@ export function migrateBackup(
     current = { ...migrate(current), formatVersion: version + 1 };
   }
   return current;
+}
+
+/**
+ * Rewrites every date in the format the app itself writes (toISOString: milliseconds and Z). IndexedDB orders the
+ * attempt-time indexes as text, which matches time order only when all dates share one format.
+ */
+function canonicalDates(snapshot: ProgressSnapshot): ProgressSnapshot {
+  return {
+    attempts: snapshot.attempts.map((attempt) => ({
+      ...attempt,
+      startedAt: canonicalIso(attempt.startedAt),
+      finishedAt: attempt.finishedAt === null ? null : canonicalIso(attempt.finishedAt),
+      events: attempt.events.map((event) => ({ ...event, at: canonicalIso(event.at) })),
+      faults: attempt.faults.map((fault) => ({ ...fault, at: canonicalIso(fault.at) })),
+    })),
+    concepts: snapshot.concepts.map((concept) => ({
+      ...concept,
+      lastAttemptAt: canonicalIso(concept.lastAttemptAt),
+      dueAt: canonicalIso(concept.dueAt),
+    })),
+  };
 }
 
 /** Allowed clock difference between the device that answered, the one that exported and the one that imports. */
@@ -129,5 +151,5 @@ export function parseBackup(
   if (problem) return { ok: false, error: 'invalid-data', details: problem };
   const attemptProblem = attempts.flatMap((attempt) => attemptErrors(attempt, rules))[0];
   if (attemptProblem) return { ok: false, error: 'invalid-data', details: attemptProblem };
-  return { ok: true, snapshot: { attempts, concepts }, contentVersion, exportedAt, fromVersion };
+  return { ok: true, snapshot: canonicalDates({ attempts, concepts }), contentVersion, exportedAt, fromVersion };
 }

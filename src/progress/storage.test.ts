@@ -27,12 +27,14 @@ function sampleAttempt(id: string, correct = true, when = T0) {
 }
 
 const answer =
-  (correct: boolean, when: string): ConceptUpdate =>
-  (unitId, previous) =>
-    updateConcept(previous, unitId, correct, when);
+  (correct: boolean): ConceptUpdate =>
+  (unitId, previous, at) =>
+    updateConcept(previous, unitId, correct, at);
 
+/** Records one answer and returns the updated concepts. */
 async function practise(store: ProgressStore, id: string, correct = true, when = T0) {
-  return store.record(sampleAttempt(id, correct, when), ['manual.ch3.a'], answer(correct, when));
+  const { updates } = await store.record(() => sampleAttempt(id, correct, when), ['manual.ch3.a'], answer(correct));
+  return updates;
 }
 
 describe('IndexedDB progress store', () => {
@@ -95,6 +97,36 @@ describe('IndexedDB progress store', () => {
     raw.close();
   });
 
+  it('hands the attempt factory the latest stored attempt time, whichever connection wrote it', async () => {
+    // Arrange: one tab stores an attempt an hour ahead; the other has never read it.
+    const tabA = await openProgressStore();
+    const tabB = await openProgressStore();
+    await practise(tabA, 'a1', true, at(1 / 24));
+    let seen: string | undefined = 'not called';
+
+    // Act
+    await tabB.record(
+      (latest) => {
+        seen = latest;
+        return sampleAttempt('b1', true, at(1 / 24 + 0.001));
+      },
+      ['manual.ch3.a'],
+      answer(true),
+    );
+
+    // Assert
+    expect(seen).toBe(at(1 / 24));
+  });
+
+  it('gives the first attempt no previous time', async () => {
+    const store = await openProgressStore();
+    let seen: string | undefined = 'not called';
+
+    await store.record((latest) => ((seen = latest), sampleAttempt('a1')), ['manual.ch3.a'], answer(true));
+
+    expect(seen).toBeUndefined();
+  });
+
   it('quarantines an unreadable concept before practising it again instead of overwriting it', async () => {
     const store = await openProgressStore();
     const raw = await openDB(DB_NAME);
@@ -112,9 +144,12 @@ describe('IndexedDB progress store', () => {
   it('refuses to store a concept the schema rejects, leaving everything as it was', async () => {
     const store = await openProgressStore();
     await practise(store, 'a1');
-    const broken: ConceptUpdate = (unitId, previous) => ({ ...updateConcept(previous, unitId, true, T0), correct: 99 });
+    const broken: ConceptUpdate = (unitId, previous, at) => ({
+      ...updateConcept(previous, unitId, true, at),
+      correct: 99,
+    });
 
-    await expect(store.record(sampleAttempt('a2'), ['manual.ch3.a'], broken)).rejects.toThrow();
+    await expect(store.record(() => sampleAttempt('a2'), ['manual.ch3.a'], broken)).rejects.toThrow();
     const { snapshot, quarantined } = await store.load();
 
     expect(snapshot.attempts.map((item) => item.id)).toEqual(['a1']);
@@ -145,6 +180,46 @@ describe('IndexedDB progress store', () => {
     expect(afterSuccess.snapshot.concepts[0]?.lastCorrect).toBe(false);
   });
 
+  it('rewrites version 2 dates canonically while upgrading, so the new indexes order them by time', async () => {
+    // Arrange: a version 2 database holding an older attempt without milliseconds and a newer one with them.
+    const v2 = await openDB(DB_NAME, 2, {
+      upgrade(database) {
+        database.createObjectStore('attempts', { keyPath: 'id' });
+        database.createObjectStore('concepts', { keyPath: 'unitId' });
+        database.createObjectStore('quarantine', { autoIncrement: true });
+      },
+    });
+    const older = {
+      ...sampleAttempt('older'),
+      startedAt: '2026-10-11T12:00:00Z',
+      finishedAt: '2026-10-11T12:00:00Z',
+      events: [],
+    };
+    const newer = {
+      ...sampleAttempt('newer'),
+      startedAt: '2026-10-11T12:00:00.500Z',
+      finishedAt: '2026-10-11T12:00:00.500Z',
+      events: [],
+    };
+    await v2.put('attempts', older);
+    await v2.put('attempts', newer);
+    v2.close();
+
+    // Act
+    const store = await openProgressStore();
+    let seen: string | undefined;
+    await store.record(
+      (latest) => ((seen = latest), sampleAttempt('next', true, at(1))),
+      ['manual.ch3.a'],
+      answer(true),
+    );
+    const { snapshot } = await store.load();
+
+    // Assert: as text, '12:00:00Z' sorts after '12:00:00.500Z'; once rewritten, the newer attempt is the latest.
+    expect(seen).toBe('2026-10-11T12:00:00.500Z');
+    expect(snapshot.attempts.find((attempt) => attempt.id === 'older')?.startedAt).toBe('2026-10-11T12:00:00.000Z');
+  });
+
   it('upgrades a version 1 database without losing its progress', async () => {
     // Arrange: the version 1 layout had no quarantine store.
     const v1 = await openDB(DB_NAME, 1, {
@@ -161,7 +236,7 @@ describe('IndexedDB progress store', () => {
     const { snapshot, quarantined } = await store.load();
 
     // Assert
-    expect(DB_VERSION).toBe(2);
+    expect(DB_VERSION).toBe(3);
     expect(snapshot.attempts.map((item) => item.id)).toEqual(['old']);
     expect(quarantined).toBe(0);
   });
@@ -199,12 +274,15 @@ describe('fallback without IndexedDB', () => {
 
     await practise(store, 'a1', true, at(0));
     const [second] = await practise(store, 'a2', true, at(1));
+    let seen: string | undefined;
+    await store.record((latest) => ((seen = latest), sampleAttempt('a3', true, at(2))), ['manual.ch3.a'], answer(true));
     const loaded = await store.load();
     await store.replaceAll({ attempts: [sampleAttempt('b1')], concepts: [] });
     const replaced = await store.load();
 
     expect(second).toMatchObject({ box: 2, attempts: 2 });
-    expect(loaded.snapshot.attempts).toHaveLength(2);
+    expect(seen).toBe(at(1));
+    expect(loaded.snapshot.attempts).toHaveLength(3);
     expect(replaced.snapshot.attempts.map((item) => item.id)).toEqual(['b1']);
     expect(replaced.snapshot.concepts).toEqual([]);
   });

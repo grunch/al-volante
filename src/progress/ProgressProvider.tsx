@@ -7,7 +7,7 @@ import { useContentState } from '../content/ContentProvider.tsx';
 import { createAttempt, updateConcept } from './model.ts';
 import type { ConceptProgress } from './model.ts';
 import { openProgressStore } from './storage.ts';
-import type { ProgressSnapshot, ProgressStore } from './storage.ts';
+import type { ProgressSnapshot, ProgressStore, RecordResult } from './storage.ts';
 
 export interface ProgressData {
   attempts: readonly Attempt[];
@@ -71,14 +71,11 @@ function withAttempt(data: ProgressData, attempt: Attempt, updates: readonly Con
 }
 
 /**
- * The time to record an answer at: now, but never before the latest known attempt, so the newest answer stays last
- * even when this clock is behind progress imported from a device that ran ahead.
+ * The time to record an answer at: now, but never before the latest stored attempt, so the newest answer stays last
+ * even when this clock is behind progress written by another tab or imported from a device that ran ahead.
  */
-function monotonicTime(now: Date, data: ProgressData | null): string {
-  const latest = Math.max(
-    -Infinity,
-    ...(data?.attempts ?? []).map((attempt) => Date.parse(attempt.finishedAt ?? attempt.startedAt)),
-  );
+function monotonicTime(now: Date, latestAttemptAt: string | undefined): string {
+  const latest = latestAttemptAt === undefined ? -Infinity : Date.parse(latestAttemptAt);
   return new Date(Math.max(now.getTime(), latest + 1)).toISOString();
 }
 
@@ -195,25 +192,27 @@ export function ProgressProvider({
         const store = storeRef.current;
         // No store means it could not be opened; the logbook shows that error.
         if (!store) return 'not-recorded';
-        const at = monotonicTime(now(), dataRef.current);
         const { correct } = result.evaluation;
-        const attempt = createAttempt(
-          {
-            activityId: result.activity.id,
-            unitIds: result.activity.unitIds,
-            variantId: result.evaluation.variantId,
-            seed: result.presentation.seed,
-            response: result.response,
-            correct,
-            score: result.evaluation.score,
-            mode: 'practice',
-          },
-          { id: createId(), at, contentVersion },
-        );
-        let updates: ConceptProgress[];
+        let saved: RecordResult;
         try {
-          updates = await store.record(attempt, result.activity.unitIds, (unitId, previous) =>
-            updateConcept(previous, unitId, correct, at),
+          // The store hands over the latest stored attempt time inside its write transaction.
+          saved = await store.record(
+            (latestAttemptAt) =>
+              createAttempt(
+                {
+                  activityId: result.activity.id,
+                  unitIds: result.activity.unitIds,
+                  variantId: result.evaluation.variantId,
+                  seed: result.presentation.seed,
+                  response: result.response,
+                  correct,
+                  score: result.evaluation.score,
+                  mode: 'practice',
+                },
+                { id: createId(), at: monotonicTime(now(), latestAttemptAt), contentVersion },
+              ),
+            result.activity.unitIds,
+            (unitId, previous, at) => updateConcept(previous, unitId, correct, at),
           );
         } catch (error) {
           console.error('Could not save the attempt', error);
@@ -228,7 +227,7 @@ export function ProgressProvider({
           console.error('Could not refresh progress', error);
           const data = dataRef.current;
           if (storeRef.current === store && data) {
-            const next = withAttempt(data, attempt, updates);
+            const next = withAttempt(data, saved.attempt, saved.updates);
             dataRef.current = next;
             setState((previous) => (previous.status === 'ready' ? { ...previous, data: next } : previous));
           }
