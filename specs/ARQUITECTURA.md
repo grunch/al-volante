@@ -36,7 +36,9 @@ src/
   app/                     App, tabla de rutas, layout, orden de estudio (learningPath) y pantallas (pages/).
   i18n/es-AR.ts            Textos de la interfaz en español rioplatense, con claves en inglés.
   activities/              Motor de actividades (puro y determinista), PRNG con semilla, componentes de pregunta y señales SVG.
+  sim/                     Simulación de manejo: TypeScript puro, paso fijo, vehículo, colisiones y pistas (F03).
   content/                 Esquemas (Zod), validación referencial, versión, cobertura y carga de catálogos.
+  practice/                Pista de prueba: vista de manejo (bucle, teclado, telemetría) y controles provisionales.
   progress/                Progreso por concepto (Leitner), bitácora, IndexedDB, respaldo versionado y sus pantallas.
   scene/                   Mundo 3D: escena pura de Three.js y su componente de montaje.
   ui/                      Estilos (tokens de diseño), compuerta de contenido, título de página y hooks compartidos.
@@ -79,6 +81,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 | `#/mapa/:fuente/:sección` | Unidades de una sección, con datos clave y enlaces a sus páginas. |
 | `#/actividades` | «La ciudad te pregunta»: muestra de actividades (F02-T04). |
 | `#/actividad/:id?semilla=n` | Una actividad; la semilla en la URL reproduce la misma variante y el mismo orden. |
+| `#/pista` | Pista de prueba de la simulación (F03-T01): predio cerrado con cajón, cordón y paredes; teclado, velocidad, recorrido y contactos. Provisional hasta el habitáculo (F03-T03). |
 | `#/bitacora` | «Mi bitácora»: repaso recomendado, errores recientes, progreso por concepto (campaña B separada del complemento) y respaldo (F02-T05). |
 | `#/biblioteca` | Las cuatro fuentes oficiales, con edición, cantidad de páginas y PDF oficial. |
 | `#/biblioteca/:fuente/:página` | Una página física: clasificación, resumen, unidades, figuras, señales, observaciones, reglas del examen que la citan (protocolo), texto extraído y enlace al PDF oficial en esa página. |
@@ -126,6 +129,42 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
   - Al importar, primero se valida todo, incluidas las migraciones de formato una versión por vez, los ids duplicados las faltas de cada intento contra las reglas del examen y las invariantes de los intentos de actividad: terminados, una sola respuesta, puntaje y corrección coherentes (`attemptErrors`) y la coherencia de cada concepto: no más aciertos que intentos, una caja que no supere los aciertos y un próximo repaso dentro del intervalo de la caja (exactamente un día después de un error). Ninguna fecha de progreso (último intento, inicio, fin, eventos y faltas) puede ser posterior a la exportación, ni la exportación posterior a la hora del dispositivo que importa, con una tolerancia de un día para desajustes de reloj. Al importar, todas las fechas se reescriben en el formato canónico de la app (`toISOString`), porque los índices de hora ordenan como texto.
   - Después se pide confirmación, y recién entonces se reemplaza el progreso en una sola transacción.
   - Un archivo inválido, demasiado grande (más de 20 MB) o ilegible, o una escritura que falla, dejan el progreso actual intacto.
+
+## Simulación de manejo (F03-T01)
+
+- **Paso fijo** (`src/sim/fixedStep.ts`): 120 pasos por segundo con acumulador.
+  - La simulación nunca ve los FPS: los mismos controles durante el mismo tiempo dan los mismos estados a 30 o a 144 Hz. La diferencia máxima es el paso que queda en el acumulador, y hay prueba.
+  - Cada cuadro avanza como máximo 0,1 s; el exceso (por ejemplo, una pestaña en segundo plano) se descarta.
+  - La vista interpola entre los dos últimos estados.
+  - También las rampas de pedales y volante avanzan dentro de cada paso fijo (`src/practice/drivingLoop.ts`), no por cuadro. A 30 y a 120 Hz, con la misma cantidad de pasos, el auto queda **exactamente** igual (prueba).
+- **Vehículo** (`vehicle.ts`, `dynamics.ts`): modelo bicicleta cinemático, adecuado a las velocidades bajas del examen.
+  - El eje trasero sigue el rumbo y el auto gira a velocidad · tan(dirección) / distancia entre ejes.
+  - La dirección gira a velocidad limitada.
+  - El giro se limita por la adherencia: a velocidad, el auto subvira en lugar de girar más de lo físicamente posible.
+  - Longitudinal: tracción contra freno, rodadura y aire. Las resistencias detienen el auto pero nunca lo hacen retroceder.
+  - Convenciones: posición = centro del eje trasero en el plano (x, z); rumbo 0 = mirando a +z; positivo = girar a la izquierda (+x), como una rotación de Three.js sobre +y.
+- **Calibración** (aproximación del juego, salvo el frenado):
+
+  | Dato | Valor | Origen |
+  |---|---|---|
+  | Largo × ancho, distancia entre ejes | 4,30 × 1,75 m; 2,60 m | Auto compacto típico (aproximación) |
+  | Dirección máxima, velocidad de giro | 33°, 1 rad/s | Diámetro de giro de unos 10,8 m (aproximación) |
+  | Frenado máximo en seco | 9,7 m/s² | Tabla del manual (PDF 70): 10 m desde 50 km/h, 32 m desde 90 y 57 m desde 120 |
+  | Adherencia en mojado | 0,5 de la seca | El manual duplica las distancias de frenado en mojado (PDF 70) |
+  | Masa, rodadura, Cd·A | 1150 kg; 0,012; 0,67 m² | Valores típicos (aproximación) |
+
+  Las pruebas comprueban el frenado contra la tabla del manual (50 km/h: 10 ± 0,5 m; 90 km/h: 32 ± 1 m; mojado: 20 ± 1 m), el radio de giro, la velocidad de la dirección y el límite de adherencia.
+- **Colisiones** (`collision.ts`, `world.ts`): cajas orientadas con prueba de ejes separados (SAT).
+  - Si un paso llevaría la carrocería dentro de un obstáculo, una bisección (12 rondas, menos de un milímetro) encuentra el punto de contacto. El auto queda ahí, con velocidad cero, y se informa el contacto con su velocidad de impacto, interpolada en el instante del contacto.
+  - Tocar sin penetrar (menos de 0,1 mm) no cuenta.
+  - `nearestObstacle` mide la distancia de la carrocería al obstáculo más cercano, para reglas como los 20 cm del cordón.
+  - Las marcas pintadas (`markings`) se dibujan pero no chocan.
+- **Rapier, evaluado y no adoptado por ahora:** el problema de esta tarea es un auto en un plano contra obstáculos fijos, y una solución propia, pequeña, determinista y con pruebas lo resuelve. `@dimforge/rapier3d-compat` 0.21.0 (2026-09-25) suma un WASM incluido de varios MB (unos 14 MB desempaquetado) y una inicialización asíncrona. Se reevalúa cuando haya actores dinámicos con contactos físicos (tránsito y peatones, F03-T05 y F04).
+- **Pista de prueba** (`#/pista`):
+  - un predio de 30 × 50 m con un cajón de 6 m entre postes, un cordón, paredes, una grilla de 1 m y las líneas del cajón;
+  - teclado provisional con rampas para pedales y volante (`src/practice/controls.ts`), que solo se lee con la vista enfocada, y todas las teclas se sueltan si la vista o la ventana pierden el foco, o si la pestaña se oculta;
+  - control simple de tracción (`simpleDrive.ts`) hasta la caja de cambios de F03-T02;
+  - en móvil no se puede manejar todavía: los controles táctiles y configurables llegan con el habitáculo (F03-T03).
 
 ## Convenciones
 
