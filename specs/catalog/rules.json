@@ -89,7 +89,7 @@
           "page": 22
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Una (1) falla independientemente de la cantidad de errores (PDF 22)."
     },
     {
@@ -128,7 +128,7 @@
           "page": 22
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Una (1) falla independientemente de la cantidad de errores (PDF 22)."
     },
     {
@@ -168,7 +168,7 @@
           "page": 22
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Una (1) falla por no cumplir alguna o varias condiciones (PDF 22)."
     },
     {
@@ -208,7 +208,7 @@
           "page": 22
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -249,7 +249,7 @@
           "page": 23
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -286,7 +286,7 @@
           "page": 23
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -329,7 +329,7 @@
           "page": 23
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -372,7 +372,7 @@
           "page": 23
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -415,7 +415,7 @@
           "page": 23
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Una (1) falla cada vez que roza (PDF 23). Subirse al cordón es la eliminatoria d."
     },
     {
@@ -452,7 +452,7 @@
           "page": 23
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -487,7 +487,7 @@
           "page": 23
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -526,7 +526,7 @@
           "page": 24
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -559,7 +559,7 @@
           "page": 24
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -592,7 +592,7 @@
           "page": 24
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "El texto dice «cualquier salto ... o roce ... será considerado como falla» (PDF 24); no aclara si cada salto suma."
     },
     {
@@ -625,7 +625,7 @@
           "page": 24
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -662,7 +662,7 @@
           "page": 24
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -701,7 +701,7 @@
           "page": 24
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -744,7 +744,7 @@
           "page": 25
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Distinta de la eliminatoria q (más de dos intentos). Una corrección de volante dentro de una maniobra no es una maniobra nueva (interpretación de la secuencia de PDF 24-25)."
     },
     {
@@ -783,7 +783,7 @@
           "page": 25
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Uno o ambos errores cuentan como una sola falla (PDF 25). El protocolo no da una tolerancia numérica para «descentrada»."
     },
     {
@@ -828,7 +828,7 @@
           "page": 25
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -874,7 +874,7 @@
           "page": 25
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "El protocolo dice «menos de 50 cm» (PDF 25) y la eliminatoria r, «más de 50 cm» (PDF 33): 50 cm exactos no está definido. Decisión del proyecto V1 (REGLAS.md §7): se incluye en esta franja, la menos severa compatible con ambos textos."
     },
     {
@@ -907,7 +907,7 @@
           "page": 25
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -944,7 +944,7 @@
           "page": 25
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -981,7 +981,7 @@
           "page": 25
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1018,7 +1018,7 @@
           "page": 25
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Alguna o varias omisiones cuentan como una sola falla (PDF 25)."
     },
     {
@@ -1058,7 +1058,7 @@
           "page": 26
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "DISCREPANCIA: la ficha (PDF 15) y el encabezado del anexo (PDF 26) la ubican como deficiente baja (2 puntos), pero el cuerpo del ítem dice «Se considera una (1) falla leve» (PDF 26). Se adopta deficiente baja; ver REGLAS.md."
     },
     {
@@ -1101,7 +1101,7 @@
           "page": 26
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1144,7 +1144,7 @@
           "page": 26
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1187,7 +1187,7 @@
           "page": 26
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1220,7 +1220,7 @@
           "page": 26
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1257,7 +1257,7 @@
           "page": 26
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1296,7 +1296,7 @@
           "page": 26
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1337,7 +1337,7 @@
           "page": 27
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1376,7 +1376,7 @@
           "page": 27
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1413,7 +1413,7 @@
           "page": 27
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "PDF 13 («mirando por el espejo retrovisor antes de abrir la puerta») y PDF 27 («deberá mirar por el espejo retrovisor lateral izquierdo») exigen el espejo; la frase de PDF 27 «no observa a través del espejo retrovisor y/o gira la cabeza» es ambigua. Lectura adoptada, X7 en REGLAS.md §7: no mirar el espejo siempre es falla; el giro de cabeza es un complemento."
     },
     {
@@ -1452,7 +1452,7 @@
           "page": 27
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Gráfico 3 (PDF 20): el lado interno del espejo lateral debe mostrar el comienzo del vehículo, reflejando solo el 10% de su parte trasera."
     },
     {
@@ -1491,7 +1491,7 @@
           "page": 27
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "El protocolo no fija tolerancia para «mayor o menor a 30 cm»: el juego necesita un parámetro explícito marcado como aproximación (ver REGLAS.md)."
     },
     {
@@ -1534,7 +1534,7 @@
           "page": 28
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Sin tolerancia numérica en el protocolo (igual que b)."
     },
     {
@@ -1577,7 +1577,7 @@
           "page": 28
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Si lo desplaza (golpe) o lo tira (derribo), es la eliminatoria d."
     },
     {
@@ -1619,7 +1619,7 @@
           "page": 28
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "La ficha (PDF 15) y el anexo (PDF 28) dicen «no chequea los espejos o no gira la cabeza»; el desarrollo (PDF 11, 28) exige los espejos y presenta girar la cabeza como acción eventual («en caso de necesitarlo»). Lectura adoptada, X6 en REGLAS.md §7: no chequear los espejos siempre es falla; no girar la cabeza solo lo es cuando la situación lo requiere."
     },
     {
@@ -1664,7 +1664,7 @@
           "page": 28
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Distinta de la eliminatoria l (superar la máxima de la vía)."
     },
     {
@@ -1703,7 +1703,7 @@
           "page": 28
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1742,7 +1742,7 @@
           "page": 28
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1783,7 +1783,7 @@
           "page": 29
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Es falla sin importar cuánto tiempo dure el bloqueo (PDF 29)."
     },
     {
@@ -1820,7 +1820,7 @@
           "page": 29
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1857,7 +1857,7 @@
           "page": 29
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "Las reglas de prioridad están en el manual, cap. 3 (catálogo F01-T02)."
     },
     {
@@ -1909,7 +1909,7 @@
           "page": 29
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1956,7 +1956,7 @@
           "page": 29
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -1998,7 +1998,7 @@
           "page": 29
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "DISCREPANCIA: la ficha (PDF 17) y el encabezado (PDF 27) la ubican como deficiente alta (3 puntos), pero el cuerpo dice «Se considerará falla eliminatoria si no se realiza desde los carriles mencionados» (PDF 29). Se adopta deficiente alta; ver REGLAS.md."
     },
     {
@@ -2040,7 +2040,7 @@
           "page": 29
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2088,7 +2088,7 @@
           "page": 30
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2125,7 +2125,7 @@
           "page": 30
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2162,7 +2162,7 @@
           "page": 30
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2202,7 +2202,7 @@
           "page": 30
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2253,7 +2253,7 @@
           "page": 31
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2296,7 +2296,7 @@
           "page": 31
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2339,7 +2339,7 @@
           "page": 31
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2381,7 +2381,7 @@
           "page": 31
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2414,7 +2414,7 @@
           "page": 31
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2455,7 +2455,7 @@
           "page": 32
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2492,7 +2492,7 @@
           "page": 32
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2537,7 +2537,7 @@
           "page": 32
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "La ficha la repite en «Durante la circulación» y en «Cruce en intersecciones»: es una sola regla."
     },
     {
@@ -2574,7 +2574,7 @@
           "page": 32
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2615,7 +2615,7 @@
           "page": 32
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "PDF 8 también prohíbe usarlos con el vehículo detenido."
     },
     {
@@ -2652,7 +2652,7 @@
           "page": 32
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2693,7 +2693,7 @@
           "page": 33
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2733,7 +2733,7 @@
           "page": 33
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     },
     {
@@ -2772,7 +2772,7 @@
           "page": 33
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": "No confundir con la leve r (más de 3 maniobras). Una corrección de volante no es un intento."
     },
     {
@@ -2813,7 +2813,7 @@
           "page": 33
         }
       ],
-      "status": "transcrita",
+      "status": "transcribed",
       "notes": ""
     }
   ]

@@ -11,7 +11,7 @@ export type SourceId = z.infer<typeof SourceIdSchema>;
 const nonEmpty = z.string().trim().min(1);
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'expected YYYY-MM-DD');
 const positiveInt = z.int().positive();
-export const ContentStatusSchema = z.enum(['pendiente', 'transcrita', 'revisada', 'implementada', 'probada']);
+export const ContentStatusSchema = z.enum(['pending', 'transcribed', 'reviewed', 'implemented', 'tested']);
 
 /** A citation of a physical PDF page. */
 export const SourceRefSchema = z.strictObject({ source: SourceIdSchema, page: positiveInt });
@@ -169,9 +169,11 @@ export const RuleCatalogSchema = z.strictObject({
     }),
     passMaxPoints: z.literal(7),
     failMinPoints: z.literal(8),
-    requiresAllStagesCompleted: z.boolean(),
-    cumulativeAcrossStages: z.boolean(),
-    maxPointsBeforeCirculation: z.int().nonnegative(),
+    // Fixed by the protocol: all three stages must be completed and points add up across them (PDF 14); reaching
+    // circulation with 8 points or more interrupts the exam (PDF 10).
+    requiresAllStagesCompleted: z.literal(true),
+    cumulativeAcrossStages: z.literal(true),
+    maxPointsBeforeCirculation: z.literal(7),
     refs: z.array(ProtocolRefSchema).min(1),
   }),
   parkingBands: z.array(ParkingBandSchema).min(1),
@@ -182,11 +184,11 @@ export type RuleCatalog = z.infer<typeof RuleCatalogSchema>;
 // --- Route (RECORRIDO.md) — the RoadSegment contract ----------------------------------------
 
 export const VERIFICATION_STATUSES = [
-  'verificado-fuentes',
-  'fuente-unica',
-  'discrepancia',
-  'aproximacion',
-  'relevado',
+  'sources-verified',
+  'single-source',
+  'discrepancy',
+  'approximation',
+  'surveyed',
 ] as const;
 const VerificationStatusSchema = z.enum(VERIFICATION_STATUSES);
 const finite = z.number().finite();
@@ -205,7 +207,7 @@ export const RouteLegSchema = z.strictObject({
   lengthM: finite.positive(),
   osmWays: z.array(z.int()).min(1),
   oneWay: z.boolean(),
-  roadType: z.enum(['calle', 'avenida']),
+  roadType: z.enum(['street', 'avenue']),
   postedMaxKmhOsm: z.array(positiveInt),
   examMaxKmh: positiveInt,
   lanesOsm: z.array(z.string()),
@@ -276,7 +278,7 @@ const ActivityBaseSchema = z.strictObject({
   unitIds: z.array(z.string().regex(UNIT_ID_PATTERN)).min(1),
   refs: z.array(SourceRefSchema).min(1),
   explanation: nonEmpty,
-  status: z.enum(['borrador', 'revisada']),
+  status: z.enum(['draft', 'reviewed']),
 });
 
 const ChoiceOptionSchema = z.strictObject({ id: nonEmpty, text: nonEmpty, correct: z.boolean(), feedback: nonEmpty });
@@ -352,20 +354,35 @@ export const ScenarioSchema = z.strictObject({
 export type Scenario = z.infer<typeof ScenarioSchema>;
 
 export const ATTEMPT_MODES = ['learn', 'practice', 'review', 'run', 'exam'] as const;
-export const AttemptSchema = z.strictObject({
-  id: nonEmpty,
-  kind: z.enum(['activity', 'driving']),
-  subjectId: nonEmpty,
-  contentVersion: z.string().regex(/^[0-9a-f]{8,}$/),
-  mode: z.enum(ATTEMPT_MODES),
-  startedAt: z.iso.datetime(),
-  finishedAt: z.iso.datetime().nullable(),
-  events: z.array(z.strictObject({ at: z.iso.datetime(), type: nonEmpty, payload: z.record(z.string(), z.unknown()) })),
-  faults: z.array(z.strictObject({ ruleId: nonEmpty, at: z.iso.datetime(), points: z.int().nonnegative() })),
-  result: z.strictObject({
-    correct: z.boolean().nullable(),
-    score: z.number().min(0).max(1).nullable(),
-    points: z.int().nonnegative().nullable(),
-  }),
-});
+export const AttemptSchema = z
+  .strictObject({
+    id: nonEmpty,
+    kind: z.enum(['activity', 'driving']),
+    subjectId: nonEmpty,
+    contentVersion: z.string().regex(/^[0-9a-f]{8,}$/),
+    mode: z.enum(ATTEMPT_MODES),
+    startedAt: z.iso.datetime(),
+    finishedAt: z.iso.datetime().nullable(),
+    events: z.array(
+      z.strictObject({ at: z.iso.datetime(), type: nonEmpty, payload: z.record(z.string(), z.unknown()) }),
+    ),
+    faults: z.array(z.strictObject({ ruleId: nonEmpty, at: z.iso.datetime(), points: z.int().nonnegative() })),
+    result: z.strictObject({
+      correct: z.boolean().nullable(),
+      score: z.number().min(0).max(1).nullable(),
+      points: z.int().nonnegative().nullable(),
+    }),
+  })
+  .check((ctx) => {
+    // An attempt ends after it starts, and everything it records happens in between.
+    const { startedAt, finishedAt, events, faults } = ctx.value;
+    const start = Date.parse(startedAt);
+    const end = finishedAt === null ? Infinity : Date.parse(finishedAt);
+    const fail = (message: string) => ctx.issues.push({ code: 'custom', message, input: ctx.value });
+    if (end < start) fail('an attempt cannot finish before it starts');
+    for (const { at } of [...events, ...faults]) {
+      const time = Date.parse(at);
+      if (time < start || time > end) fail(`${at} falls outside the attempt`);
+    }
+  });
 export type Attempt = z.infer<typeof AttemptSchema>;

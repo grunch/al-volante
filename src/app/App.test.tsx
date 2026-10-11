@@ -32,8 +32,9 @@ describe('layout and home', () => {
       'Sala de examen',
       'Mi bitácora',
     ]);
-    expect(within(spaces).getAllByText(esAR.comingSoon)).toHaveLength(5);
+    expect(within(spaces).getAllByText(esAR.comingSoon)).toHaveLength(4);
     expect(within(spaces).getByRole('link', { name: 'La ciudad te pregunta' })).toHaveAttribute('href', '/actividades');
+    expect(within(spaces).getByRole('link', { name: 'Mi bitácora' })).toHaveAttribute('href', '/bitacora');
     expect(within(screen.getByRole('main')).getByRole('link', { name: esAR.navLibrary })).toHaveAttribute(
       'href',
       '/biblioteca',

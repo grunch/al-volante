@@ -11,7 +11,7 @@
     "lengthM": 126.7,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
-    "status": "fuente-unica",
+    "status": "single-source",
     "stroke": "#0f766e",
     "stroke-width": 4
    },
@@ -41,7 +41,7 @@
     "lengthM": 240.5,
     "examMaxKmh": 45,
     "turnIntoNext": "right",
-    "status": "fuente-unica",
+    "status": "single-source",
     "stroke": "#0f766e",
     "stroke-width": 4
    },
@@ -83,7 +83,7 @@
     "lengthM": 189.7,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
-    "status": "fuente-unica",
+    "status": "single-source",
     "stroke": "#0f766e",
     "stroke-width": 4
    },
@@ -117,7 +117,7 @@
     "lengthM": 235.3,
     "examMaxKmh": 30,
     "turnIntoNext": "left",
-    "status": "fuente-unica",
+    "status": "single-source",
     "stroke": "#0f766e",
     "stroke-width": 4
    },
@@ -147,7 +147,7 @@
     "lengthM": 66.2,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
-    "status": "fuente-unica",
+    "status": "single-source",
     "stroke": "#0f766e",
     "stroke-width": 4
    },
@@ -177,7 +177,7 @@
     "lengthM": 273.1,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
-    "status": "fuente-unica",
+    "status": "single-source",
     "stroke": "#0f766e",
     "stroke-width": 4
    },
@@ -211,7 +211,7 @@
     "lengthM": 102.3,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
-    "status": "fuente-unica",
+    "status": "single-source",
     "stroke": "#0f766e",
     "stroke-width": 4
    },
@@ -241,7 +241,7 @@
     "lengthM": 272.9,
     "examMaxKmh": 30,
     "turnIntoNext": "left",
-    "status": "fuente-unica",
+    "status": "single-source",
     "stroke": "#0f766e",
     "stroke-width": 4
    },
@@ -272,7 +272,7 @@
    "properties": {
     "type": "traffic_signals",
     "legs": "1, 2",
-    "status": "verificado-fuentes",
+    "status": "sources-verified",
     "sources": "osm, gcba-cruces-semaforizados",
     "marker-color": "#dc2626",
     "marker-size": "small"
@@ -290,7 +290,7 @@
    "properties": {
     "type": "crossing-traffic_signals",
     "legs": "2",
-    "status": "fuente-unica",
+    "status": "single-source",
     "sources": "osm",
     "marker-color": "#6b7280",
     "marker-size": "small"
@@ -308,7 +308,7 @@
    "properties": {
     "type": "crossing-traffic_signals",
     "legs": "2",
-    "status": "fuente-unica",
+    "status": "single-source",
     "sources": "osm",
     "marker-color": "#6b7280",
     "marker-size": "small"
@@ -326,7 +326,7 @@
    "properties": {
     "type": "traffic_signals",
     "legs": "2",
-    "status": "verificado-fuentes",
+    "status": "sources-verified",
     "sources": "osm, gcba-cruces-semaforizados",
     "marker-color": "#dc2626",
     "marker-size": "small"
@@ -344,7 +344,7 @@
    "properties": {
     "type": "crossing-traffic_signals",
     "legs": "2",
-    "status": "fuente-unica",
+    "status": "single-source",
     "sources": "osm",
     "marker-color": "#6b7280",
     "marker-size": "small"
@@ -362,7 +362,7 @@
    "properties": {
     "type": "stop",
     "legs": "3",
-    "status": "fuente-unica",
+    "status": "single-source",
     "sources": "osm",
     "marker-color": "#b91c1c",
     "marker-size": "small"
@@ -380,7 +380,7 @@
    "properties": {
     "type": "stop",
     "legs": "4",
-    "status": "fuente-unica",
+    "status": "single-source",
     "sources": "osm",
     "marker-color": "#b91c1c",
     "marker-size": "small"
@@ -398,7 +398,7 @@
    "properties": {
     "type": "stop",
     "legs": "5",
-    "status": "fuente-unica",
+    "status": "single-source",
     "sources": "osm",
     "marker-color": "#b91c1c",
     "marker-size": "small"
@@ -416,7 +416,7 @@
    "properties": {
     "type": "traffic_signals",
     "legs": "6",
-    "status": "verificado-fuentes",
+    "status": "sources-verified",
     "sources": "osm, gcba-cruces-semaforizados",
     "marker-color": "#dc2626",
     "marker-size": "small"
@@ -434,7 +434,7 @@
    "properties": {
     "type": "traffic-calming-hump",
     "legs": "6",
-    "status": "fuente-unica",
+    "status": "single-source",
     "sources": "osm",
     "marker-color": "#6b7280",
     "marker-size": "small"
@@ -452,7 +452,7 @@
    "properties": {
     "type": "stop",
     "legs": "7",
-    "status": "fuente-unica",
+    "status": "single-source",
     "sources": "osm",
     "marker-color": "#b91c1c",
     "marker-size": "small"
@@ -470,7 +470,7 @@
    "properties": {
     "type": "traffic_signals",
     "legs": "8",
-    "status": "verificado-fuentes",
+    "status": "sources-verified",
     "sources": "osm, gcba-cruces-semaforizados",
     "marker-color": "#dc2626",
     "marker-size": "small"
@@ -488,7 +488,7 @@
    "properties": {
     "type": "stop",
     "legs": "8",
-    "status": "fuente-unica",
+    "status": "single-source",
     "sources": "osm",
     "marker-color": "#b91c1c",
     "marker-size": "small"
@@ -506,7 +506,7 @@
    "properties": {
     "type": "traffic_signals",
     "legs": "2, 3",
-    "status": "discrepancia",
+    "status": "discrepancy",
     "sources": "gcba-cruces-semaforizados",
     "marker-color": "#dc2626",
     "marker-size": "small"

@@ -4,14 +4,7 @@ import type { SectionCoverage } from '../../content/coverage.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
 import { CATEGORY_LABELS, sectionLabel, t } from '../../i18n/es-AR.ts';
-import { LEARNING_PATH } from '../learningPath.ts';
-import type { PathGroup } from '../learningPath.ts';
-
-const GROUP_TITLES: Record<PathGroup['id'], string> = {
-  'campaign-b': t('mapCampaignB'),
-  reference: t('mapReference'),
-  complementary: t('mapComplementary'),
-};
+import { GROUP_TITLES, LEARNING_PATH } from '../learningPath.ts';
 
 export function LearningMapPage() {
   return (

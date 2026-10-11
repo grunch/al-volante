@@ -6,7 +6,7 @@ import activitiesJson from '../../../specs/catalog/activities.json';
 import { App } from '../App.tsx';
 import { routes } from '../routes.tsx';
 import { ActivityResultContext } from '../../activities/ActivityResultContext.ts';
-import type { ActivityResult } from '../../activities/ActivityResultContext.ts';
+import type { ActivityResult, SaveOutcome } from '../../activities/ActivityResultContext.ts';
 import { presentActivity } from '../../activities/engine.ts';
 import { SignGraphic, hasSignDrawing } from '../../activities/ui/SignGraphic.tsx';
 import { loadContent } from '../../content/catalog.ts';
@@ -18,7 +18,10 @@ import { ACTIVITY_COPY } from '../../i18n/es-AR.ts';
 const activities = ActivityCatalogSchema.parse(activitiesJson);
 const find = (id: string) => activities.find((activity) => activity.id === id) as Activity;
 
-function renderWithRealContent(path: string, record: (result: ActivityResult) => void = () => undefined) {
+function renderWithRealContent(
+  path: string,
+  record: (result: ActivityResult) => Promise<SaveOutcome> = async () => 'not-recorded',
+) {
   const router = createMemoryRouter(routes, { initialEntries: [path] });
   render(
     <ActivityResultContext.Provider value={record}>
@@ -45,7 +48,7 @@ describe('playing an activity', () => {
   it('answers a choice correctly, shows sources and reports the result', async () => {
     // Arrange
     const user = userEvent.setup();
-    const record = vi.fn();
+    const record = vi.fn(async (): Promise<SaveOutcome> => 'saved');
     const activity = find('act.max-speed-light-vehicles');
     const presentation = presentActivity(activity, 3);
     const variant = (activity as Extract<Activity, { type: 'single-choice' }>).variants.find(

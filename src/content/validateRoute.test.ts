@@ -84,8 +84,8 @@ describe('validateRoute', () => {
 
     const errors = validateRoute(data, PAGES);
 
-    expect(errors).toContain('leg 1: examMaxKmh must be in (0, 30] for calle');
-    expect(errors).toContain('leg 2: examMaxKmh must be in (0, 45] for avenida');
+    expect(errors).toContain('leg 1: examMaxKmh must be in (0, 30] for street');
+    expect(errors).toContain('leg 2: examMaxKmh must be in (0, 45] for avenue');
   });
 
   it('rejects declared turns that contradict the geometry and a wrong loop length', () => {

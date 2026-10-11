@@ -6,7 +6,7 @@ const POSITION_TOLERANCE_M = 0.5;
 const LENGTH_TOLERANCE_M = 1;
 const TURN_ANGLE_TOLERANCE_DEG = 5;
 /** Exam speed caps per road type (protocolo PDF 8, 10). */
-const EXAM_MAX_KMH = { calle: 30, avenida: 45 } as const;
+const EXAM_MAX_KMH = { street: 30, avenue: 45 } as const;
 
 type Projection = Route['projection'];
 interface Point {
@@ -120,7 +120,7 @@ export function validateRoute(route: Route, pages: PageCounts): string[] {
     const previous = seenControls.get(key);
     if (previous !== undefined) errors.push(`${label}: duplicates control ${previous}`);
     else seenControls.set(key, index);
-    if (control.status === 'verificado-fuentes' && control.sources.length < 2)
+    if (control.status === 'sources-verified' && control.sources.length < 2)
       errors.push(`${label}: verified controls need two sources`);
     const expected = project(route.projection, control.lat, control.lon);
     if (Math.hypot(expected.x - control.x, expected.y - control.y) > POSITION_TOLERANCE_M) {
