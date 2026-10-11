@@ -1,0 +1,143 @@
+/* Design tokens (PROPUESTA §7): night blue, ivory and turquoise; yellow is reserved for road information and alerts. */
+:root {
+  --color-night: #13233a;
+  --color-night-soft: #1f3552;
+  --color-ivory: #f7f2e8;
+  --color-ivory-strong: #ece4d3;
+  --color-ink: #13233a;
+  --color-turquoise: #1fa79b;
+  /* Darker turquoise for text and focus on ivory, meeting WCAG AA contrast. */
+  --color-turquoise-text: #0b6e66;
+  --color-road-yellow: #f2c230;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --radius: 0.75rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --focus-ring: 3px solid var(--color-turquoise-text);
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 100%;
+  line-height: 1.5;
+  color: var(--color-ink);
+  background: var(--color-ivory);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: -3rem;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  border-radius: var(--radius);
+  z-index: 10;
+}
+
+.skip-link:focus {
+  top: var(--space-3);
+}
+
+.app-header {
+  background: var(--color-night);
+  color: var(--color-ivory);
+  padding: var(--space-4) var(--space-3);
+}
+
+.app-header__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.app-header__tagline {
+  margin: var(--space-2) 0 0;
+  max-width: 60ch;
+}
+
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-3);
+}
+
+.app-main:focus {
+  outline: none;
+}
+
+.scene-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 14rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--color-night);
+}
+
+.scene-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scene-canvas__status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: var(--space-3);
+  color: var(--color-ivory);
+  text-align: center;
+}
+
+.app-footer {
+  padding: var(--space-3);
+  background: var(--color-ivory-strong);
+  font-size: 0.875rem;
+}
+
+.app-footer p {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -10,7 +10,15 @@ function buildCatalog() {
   ];
   const pages = [
     { source: 'manual', page: 1, section: 'front', category: 'common', kind: 'cover', summary: 'Tapa', units: [] },
-    { source: 'manual', page: 2, section: 'ch3', category: 'B', kind: 'instructional', summary: 'Rotonda', units: ['manual.ch3.roundabout-priority'] },
+    {
+      source: 'manual',
+      page: 2,
+      section: 'ch3',
+      category: 'B',
+      kind: 'instructional',
+      summary: 'Rotonda',
+      units: ['manual.ch3.roundabout-priority'],
+    },
     { source: 'siniestros', page: 1, section: 'front', category: 'guide', kind: 'cover', summary: 'Tapa', units: [] },
   ];
   const units = [
@@ -78,7 +86,14 @@ test('accepts an instructional page covered only by signs', () => {
   catalog.pages[1].units = [];
   catalog.units = [];
   catalog.signs = [
-    { id: 'sign.regulatory.no-entry', page: 2, group: 'Reglamentarias', name: 'Contramano', visual: 'Círculo rojo', status: 'transcrita' },
+    {
+      id: 'sign.regulatory.no-entry',
+      page: 2,
+      group: 'Reglamentarias',
+      name: 'Contramano',
+      visual: 'Círculo rojo',
+      status: 'transcrita',
+    },
   ];
 
   const errors = validateCatalog(catalog);

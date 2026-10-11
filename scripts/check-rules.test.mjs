@@ -75,12 +75,21 @@ test('rejects interruption on non-eliminatory faults and malformed escalations',
   const errors = validateRules(catalog, PROTOCOL_PAGES, { requireFullAnnex: false });
 
   assert.ok(errors.includes('rule.minor.i-curb-scrape: only eliminatory faults can interrupt the exam'));
-  assert.ok(errors.includes('rule.high.e-no-mirror-check-leaving-box: escalation must be an interrupting eliminatory fault with a condition'));
+  assert.ok(
+    errors.includes(
+      'rule.high.e-no-mirror-check-leaving-box: escalation must be an interrupting eliminatory fault with a condition',
+    ),
+  );
 });
 
 test('rejects duplicate annex items, unknown repetition policies and out-of-range pages', () => {
   const catalog = buildCatalog();
-  catalog.rules.push({ ...catalog.rules[0], id: 'rule.minor.i-curb-scrape-copy', repetition: 'sometimes', refs: [{ source: 'protocolo', page: 43 }] });
+  catalog.rules.push({
+    ...catalog.rules[0],
+    id: 'rule.minor.i-curb-scrape-copy',
+    repetition: 'sometimes',
+    refs: [{ source: 'protocolo', page: 43 }],
+  });
 
   const errors = validateRules(catalog, PROTOCOL_PAGES, { requireFullAnnex: false });
 
@@ -102,11 +111,20 @@ test('rejects rules without scoring sheet rows or with an id that does not match
 
 test('requires every annex II item when the catalog claims to be complete', () => {
   // Arrange: a full catalog with one rule removed.
-  const rules = Object.entries(EXPECTED_ANNEX_ITEMS).flatMap(([severity, letters]) => [...letters].map((letter) => ({
-    id: `rule.${severity}.${letter}-item`, severity, points: { minor: 1, low: 2, high: 3, eliminatory: 8 }[severity], annexItem: letter,
-    fichaRows: [{ stage: 'II', group: 'G', text: 'T', page: 16 }], condition: 'C', repetition: 'once', interrupts: false, escalation: null,
-    refs: [{ source: 'protocolo', page: 22 }],
-  })));
+  const rules = Object.entries(EXPECTED_ANNEX_ITEMS).flatMap(([severity, letters]) =>
+    [...letters].map((letter) => ({
+      id: `rule.${severity}.${letter}-item`,
+      severity,
+      points: { minor: 1, low: 2, high: 3, eliminatory: 8 }[severity],
+      annexItem: letter,
+      fichaRows: [{ stage: 'II', group: 'G', text: 'T', page: 16 }],
+      condition: 'C',
+      repetition: 'once',
+      interrupts: false,
+      escalation: null,
+      refs: [{ source: 'protocolo', page: 22 }],
+    })),
+  );
   const catalog = { ...buildCatalog(), rules: rules.filter((rule) => rule.id !== 'rule.minor.y-item') };
 
   // Act
@@ -127,7 +145,15 @@ test('rejects an empty rule catalog that claims to be complete', () => {
 });
 
 test('classifies curb distances at every boundary, including exactly 50 cm', () => {
-  const cases = [[14.9, 'too-close'], [15, 'correct'], [25, 'correct'], [25.1, 'second-line'], [50, 'second-line'], [50.1, 'outside'], [0, 'too-close']];
+  const cases = [
+    [14.9, 'too-close'],
+    [15, 'correct'],
+    [25, 'correct'],
+    [25.1, 'second-line'],
+    [50, 'second-line'],
+    [50.1, 'outside'],
+    [0, 'too-close'],
+  ];
 
   for (const [cm, expected] of cases) {
     assert.equal(classifyCurbDistance(BANDS, cm).band, expected, `${cm} cm`);
@@ -140,7 +166,9 @@ test('reports gaps and overlaps between curb distance bands', () => {
   const overlap = BANDS.map((band) => (band.band === 'correct' ? { ...band, lte: 26 } : band));
 
   assert.deepEqual(validateParkingBands(gap), ['parking bands leave a gap or overlap between second-line and outside']);
-  assert.deepEqual(validateParkingBands(overlap), ['parking bands leave a gap or overlap between correct and second-line']);
+  assert.deepEqual(validateParkingBands(overlap), [
+    'parking bands leave a gap or overlap between correct and second-line',
+  ]);
 });
 
 test('rejects annex items outside the protocol set', () => {

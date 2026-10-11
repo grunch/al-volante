@@ -7,8 +7,27 @@ import { fileURLToPath } from 'node:url';
 
 export const AUDITED_SOURCES = ['manual', 'siniestros'];
 export const CATEGORIES = ['B', 'common', 'D', 'C-E', 'guide'];
-export const PAGE_KINDS = ['instructional', 'chapter-cover', 'closing-quote', 'toc', 'cover', 'credits', 'blank', 'other'];
-export const UNIT_TYPES = ['definition', 'rule', 'procedure', 'fact', 'recommendation', 'concept', 'table', 'contact', 'sign-group'];
+export const PAGE_KINDS = [
+  'instructional',
+  'chapter-cover',
+  'closing-quote',
+  'toc',
+  'cover',
+  'credits',
+  'blank',
+  'other',
+];
+export const UNIT_TYPES = [
+  'definition',
+  'rule',
+  'procedure',
+  'fact',
+  'recommendation',
+  'concept',
+  'table',
+  'contact',
+  'sign-group',
+];
 export const STATUSES = ['pendiente', 'transcrita', 'revisada', 'implementada', 'probada'];
 export const ISSUE_TYPES = ['discrepancy', 'illegible', 'typo', 'outdated', 'ambiguous', 'extraction'];
 const UNIT_ID = /^(manual|siniestros)\.[a-z0-9]+\.[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -32,7 +51,8 @@ export function validateCatalog({ manifest, pages, units, signs, issues = [] }) 
     const key = `${page.source}:${page.page}`;
     const total = pageCounts.get(page.source);
     if (!AUDITED_SOURCES.includes(page.source)) errors.push(`${key}: unknown source`);
-    else if (!Number.isInteger(page.page) || page.page < 1 || page.page > total) errors.push(`${key}: page out of range 1..${total}`);
+    else if (!Number.isInteger(page.page) || page.page < 1 || page.page > total)
+      errors.push(`${key}: page out of range 1..${total}`);
     if (pageIndex.has(key)) errors.push(`${key}: page classified more than once`);
     pageIndex.set(key, page);
     if (!CATEGORIES.includes(page.category)) errors.push(`${key}: invalid category "${page.category}"`);
@@ -83,8 +103,10 @@ export function validateCatalog({ manifest, pages, units, signs, issues = [] }) 
       }
       if (!page.units?.includes(id)) errors.push(`${id}: page ${unit.source}:${n} does not list this unit`);
       // Keeps the B/complementary split honest: a unit inherits section and category from its pages.
-      if (page.section !== unit.section) errors.push(`${id}: section "${unit.section}" differs from page ${unit.source}:${n} ("${page.section}")`);
-      if (page.category !== unit.category) errors.push(`${id}: category "${unit.category}" differs from page ${unit.source}:${n} ("${page.category}")`);
+      if (page.section !== unit.section)
+        errors.push(`${id}: section "${unit.section}" differs from page ${unit.source}:${n} ("${page.section}")`);
+      if (page.category !== unit.category)
+        errors.push(`${id}: category "${unit.category}" differs from page ${unit.source}:${n} ("${page.category}")`);
     }
   }
 
@@ -94,16 +116,19 @@ export function validateCatalog({ manifest, pages, units, signs, issues = [] }) 
     for (const id of page.units) {
       const unit = unitById.get(id);
       if (!unitIds.has(id)) errors.push(`${key}: lists unknown unit ${id}`);
-      else if (unit.source !== page.source || !unit.pages?.includes(page.page)) errors.push(`${key}: lists unit ${id}, which does not reference this page`);
+      else if (unit.source !== page.source || !unit.pages?.includes(page.page))
+        errors.push(`${key}: lists unit ${id}, which does not reference this page`);
     }
   }
 
   issues.forEach((issue, index) => {
     const label = `issue ${index}`;
     if (!AUDITED_SOURCES.includes(issue.source)) errors.push(`${label}: unknown source "${issue.source}"`);
-    else if (issue.page !== null && issue.page !== undefined && !pageIndex.has(`${issue.source}:${issue.page}`)) errors.push(`${label}: page ${issue.source}:${issue.page} is not classified`);
+    else if (issue.page !== null && issue.page !== undefined && !pageIndex.has(`${issue.source}:${issue.page}`))
+      errors.push(`${label}: page ${issue.source}:${issue.page} is not classified`);
     if (!ISSUE_TYPES.includes(issue.type)) errors.push(`${label}: invalid type "${issue.type}"`);
-    if (typeof issue.description !== 'string' || issue.description.trim() === '') errors.push(`${label}: missing description`);
+    if (typeof issue.description !== 'string' || issue.description.trim() === '')
+      errors.push(`${label}: missing description`);
   });
 
   const signIds = new Set();
@@ -142,7 +167,9 @@ function main() {
     for (const error of errors) console.error(`- ${error}`);
     process.exit(1);
   }
-  console.log(`Catalog OK: ${catalog.pages.length} pages, ${catalog.units.length} units, ${catalog.signs.length} signs, ${catalog.issues.length} issues.`);
+  console.log(
+    `Catalog OK: ${catalog.pages.length} pages, ${catalog.units.length} units, ${catalog.signs.length} signs, ${catalog.issues.length} issues.`,
+  );
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
