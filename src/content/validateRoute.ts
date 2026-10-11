@@ -1,4 +1,6 @@
 import type { Route, RouteLeg } from './schemas.ts';
+import { refErrors } from './refs.ts';
+import type { PageCounts } from './refs.ts';
 
 const POSITION_TOLERANCE_M = 0.5;
 const LENGTH_TOLERANCE_M = 1;
@@ -89,8 +91,8 @@ function legErrors(route: Route, leg: RouteLeg, next: RouteLeg): { errors: strin
 }
 
 /** Cross-record checks for a driving route (RECORRIDO.md): official sequence, continuity, projection and controls. */
-export function validateRoute(route: Route): string[] {
-  const errors: string[] = [];
+export function validateRoute(route: Route, pages: PageCounts): string[] {
+  const errors: string[] = [...refErrors('sources.route', route.sources.route, pages)];
   const coveredSteps = route.legs.flatMap((leg) => leg.officialSteps).sort((a, b) => a - b);
   const expectedSteps = route.officialSequence.map((_, index) => index + 1);
   if (coveredSteps.join(',') !== expectedSteps.join(','))

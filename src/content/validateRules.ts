@@ -31,9 +31,14 @@ export function classifyCurbDistance(bands: readonly ParkingBand[], cm: number):
 /** Checks that the bands cover [0, ∞) exactly once: each boundary closed on one side and open on the other. */
 export function validateParkingBands(bands: readonly ParkingBand[]): string[] {
   const errors: string[] = [];
+  // Two limits on one side would make the boundary check below compare only one of them.
+  for (const band of bands) {
+    if (band.gt !== undefined && band.gte !== undefined) errors.push(`parking band ${band.band} has both gt and gte`);
+    if (band.lt !== undefined && band.lte !== undefined) errors.push(`parking band ${band.band} has both lt and lte`);
+  }
   const sorted = [...bands].sort((a, b) => lowerBound(a) - lowerBound(b));
   const first = sorted[0];
-  if (!first) return ['parking bands are missing'];
+  if (!first) return [...errors, 'parking bands are missing'];
   if (lowerBound(first) !== 0 || first.gt !== undefined) errors.push('parking bands must start at 0 cm inclusive');
   for (let i = 1; i < sorted.length; i += 1) {
     const previous = sorted[i - 1] as ParkingBand;
@@ -84,6 +89,11 @@ export function validateRules(
       if (ref.page > protocolPages)
         errors.push(`${id}: page ${ref.page} is outside the protocol (1..${protocolPages})`);
     }
+  }
+
+  for (const ref of catalog.scoring.refs) {
+    if (ref.page > protocolPages)
+      errors.push(`scoring: page ${ref.page} is outside the protocol (1..${protocolPages})`);
   }
 
   if (requireFullAnnex) {

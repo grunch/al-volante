@@ -86,6 +86,14 @@ describe('validateActivities', () => {
     expect(errors).toContain('act.speed-street: duplicate variant v1');
   });
 
+  it('rejects citations of sources missing from the manifest', () => {
+    const activity = choiceActivity({ refs: [{ source: 'protocolo', page: 8 }] });
+
+    expect(validateActivities([activity], context)).toEqual([
+      'act.speed-street: cites protocolo, which is not in the manifest',
+    ]);
+  });
+
   it('requires exactly one correct option, unique options and known signs', () => {
     const noCorrect = choiceActivity();
     noCorrect.variants[0]!.options = noCorrect.variants[0]!.options.map((option) => ({
@@ -160,9 +168,26 @@ describe('validateActivities', () => {
     expect(errors).toContain('act.turn-cyclist#v1: node "n1" choice "c2" needs exactly one of next or outcome');
     expect(errors).toContain('act.turn-cyclist#v1: node "n2" choice "c4" points to missing node "ghost"');
     expect(errors).toContain('act.turn-cyclist#v1: node "orphan" choice "c5" points to missing outcome "missing"');
-    expect(errors).toContain('act.turn-cyclist#v1: no correct outcome');
+    expect(errors).toContain('act.turn-cyclist#v1: no correct outcome is reachable from the start');
     expect(errors).toContain('act.turn-cyclist#v1: cycle through node "n1"');
     expect(errors).toContain('act.turn-cyclist#v1: node "orphan" is unreachable');
+  });
+
+  it('requires a correct outcome reachable from the start and flags outcomes no choice reaches', () => {
+    // Arrange: the correct outcome exists but no path leads to it.
+    const unwinnable = decision(
+      { n1: { text: 'Inicio', choices: [{ id: 'c1', text: 'Mal', outcome: 'bad' }] } },
+      { bad: { correct: false, feedback: 'No' }, good: { correct: true, feedback: 'Sí' } },
+    );
+
+    // Act
+    const errors = validateActivities([unwinnable], context);
+
+    // Assert
+    expect(errors).toEqual([
+      'act.turn-cyclist#v1: no correct outcome is reachable from the start',
+      'act.turn-cyclist#v1: outcome "good" is never reached',
+    ]);
   });
 
   it('reports a missing start node', () => {

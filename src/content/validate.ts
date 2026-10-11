@@ -1,4 +1,5 @@
 import type { z } from 'zod';
+import { pageCountsOf } from './refs.ts';
 import {
   ActivityCatalogSchema,
   IssueSchema,
@@ -89,11 +90,12 @@ export function validateContent(raw: RawContent): ContentResult {
   if (!manifest || !pages || !units || !signs || !issues || !rules || !route || !activities)
     return { ok: false, errors };
 
-  const protocolPages = manifest.find((source) => source.id === 'protocolo')?.pages ?? 0;
+  const pageCounts = pageCountsOf(manifest);
+  const protocolPages = pageCounts.get('protocolo') ?? 0;
   errors.push(
     ...validateCatalog({ manifest, pages, units, signs, issues }).map((error) => `catalog: ${error}`),
     ...validateRules(rules, protocolPages).map((error) => `rules: ${error}`),
-    ...validateRoute(route).map((error) => `route: ${error}`),
+    ...validateRoute(route, pageCounts).map((error) => `route: ${error}`),
     ...validateActivities(activities, {
       manifest,
       unitIds: new Set(units.map((unit) => unit.id)),

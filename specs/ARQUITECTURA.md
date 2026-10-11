@@ -51,9 +51,10 @@ Los catálogos viven en `specs/` (fuentes, páginas, unidades, señales, observa
 1. **Estructura** (`schemas.ts`, Zod): un esquema estricto por contrato de PROPUESTA §8 (Source, KnowledgeUnit, Activity, Rule, recorrido/RoadSegment, Scenario y Attempt), más páginas, señales y observaciones. Los errores indican archivo y ruta JSON, por ejemplo `specs/catalog/units.json[0].id: …`.
 2. **Referencias cruzadas**:
    - `validateCatalog`: páginas ↔ unidades en ambos sentidos, herencia de sección y categoría, ids únicos y páginas de observaciones;
-   - `validateRules`: los 69 ítems exactos del anexo II, puntos por severidad y partición de franjas de estacionamiento;
-   - `validateRoute`: secuencia oficial, continuidad, proyección, longitudes, giros y controles;
-   - `validateActivities`: conceptos y citas existentes, una sola opción correcta, señales conocidas y grafos de decisión sin ciclos ni nodos huérfanos.
+   - `validateRules`: los 69 ítems exactos del anexo II, puntos por severidad, citas dentro del protocolo (incluidas las del puntaje) y partición de franjas de estacionamiento, sin dos límites del mismo lado en una franja;
+   - `validateRoute`: secuencia oficial, continuidad, proyección, longitudes, giros, controles y citas de la fuente del recorrido;
+   - `validateActivities`: conceptos y citas existentes, una sola opción correcta, señales conocidas y grafos de decisión sin ciclos ni nodos o desenlaces inalcanzables, con al menos un desenlace correcto alcanzable.
+   - Toda cita (`refs.ts`) debe nombrar una fuente del manifiesto y una página dentro de su rango.
 
 Además:
 

@@ -2,13 +2,34 @@ import { describe, expect, it } from 'vitest';
 import { project, turnAngleDeg, validateRoute } from './validateRoute.ts';
 import { route, routePoint } from './testing/fixtures.ts';
 
+const PAGES = new Map([['recorridos', 19]]);
+
 describe('validateRoute', () => {
+  it('validates the route citations against the manifest', () => {
+    const data = route();
+    const cited = {
+      ...data,
+      sources: {
+        ...data.sources,
+        route: [
+          { source: 'recorridos' as const, page: 99 },
+          { source: 'manual' as const, page: 1 },
+        ],
+      },
+    };
+
+    expect(validateRoute(cited, PAGES)).toEqual([
+      'sources.route: reference recorridos:99 is outside 1..19',
+      'sources.route: cites manual, which is not in the manifest',
+    ]);
+  });
+
   it('accepts a closed, consistent route', () => {
     // Arrange
     const data = route();
 
     // Act
-    const errors = validateRoute(data);
+    const errors = validateRoute(data, PAGES);
 
     // Assert
     expect(errors).toEqual([]);
@@ -38,7 +59,7 @@ describe('validateRoute', () => {
     data.legs[0]!.lengthM = 150;
     data.legs[0]!.path[1]!.x += 5;
 
-    const errors = validateRoute(data);
+    const errors = validateRoute(data, PAGES);
 
     expect(errors).toContain('leg 2: does not connect to leg 1');
     expect(errors.some((error) => error.startsWith('leg 1: lengthM 150 differs'))).toBe(true);
@@ -50,7 +71,7 @@ describe('validateRoute', () => {
     data.legs[1]!.street = 'Tres';
     data.legs[0]!.officialSteps = [1];
 
-    const errors = validateRoute(data);
+    const errors = validateRoute(data, PAGES);
 
     expect(errors).toContain('leg 2: street "Tres" does not match official step 2');
     expect(errors).toContain('legs must cover official steps 1,2,3 exactly once');
@@ -61,7 +82,7 @@ describe('validateRoute', () => {
     data.legs[0]!.examMaxKmh = 40;
     data.legs[1]!.examMaxKmh = 60;
 
-    const errors = validateRoute(data);
+    const errors = validateRoute(data, PAGES);
 
     expect(errors).toContain('leg 1: examMaxKmh must be in (0, 30] for calle');
     expect(errors).toContain('leg 2: examMaxKmh must be in (0, 45] for avenida');
@@ -72,7 +93,7 @@ describe('validateRoute', () => {
     data.legs[0]!.turnIntoNext = { direction: 'right', angleDeg: -90, nextStreet: 'Avenida Dos' };
     data.loopLengthM = 380;
 
-    const errors = validateRoute(data);
+    const errors = validateRoute(data, PAGES);
 
     expect(errors).toContain('leg 1: declared turn right (-90°) does not match geometry left (90°)');
     expect(errors.some((error) => error.startsWith('loopLengthM 380 differs'))).toBe(true);
@@ -85,7 +106,7 @@ describe('validateRoute', () => {
     ];
     data.legs[1]!.cycleTrack = 'full';
 
-    const errors = validateRoute(data);
+    const errors = validateRoute(data, PAGES);
 
     expect(errors).toContain('leg 1: segments must cover the path contiguously from point 0 to 2');
     expect(errors).toContain('leg 2: cycleTrack "full" does not match its segments ("none")');
@@ -98,7 +119,7 @@ describe('validateRoute', () => {
     data.controls[2]!.x += 3;
     data.start.leg = 5;
 
-    const errors = validateRoute(data);
+    const errors = validateRoute(data, PAGES);
 
     expect(errors).toContain('control 1 (traffic_signals): duplicates control 0');
     expect(errors).toContain('control 2 (traffic_signals): unknown leg 7');

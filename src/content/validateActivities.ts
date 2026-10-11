@@ -1,3 +1,4 @@
+import { pageCountsOf, refErrors } from './refs.ts';
 import type { Activity, Source } from './schemas.ts';
 
 type DecisionVariant = Extract<Activity, { type: 'decision' }>['variants'][number];
@@ -13,7 +14,7 @@ function duplicates(values: readonly string[]): string[] {
   return values.filter((value) => (seen.has(value) ? true : (seen.add(value), false)));
 }
 
-/** A decision graph must start at an existing node, reach every node, never loop and offer a correct outcome. */
+/** A decision graph must start at an existing node, reach every node and outcome, never loop and be winnable. */
 function decisionErrors(label: string, variant: DecisionVariant): string[] {
   const errors: string[] = [];
   const nodeIds = Object.keys(variant.nodes);
@@ -29,8 +30,6 @@ function decisionErrors(label: string, variant: DecisionVariant): string[] {
         errors.push(`${where} points to missing outcome "${choice.outcome}"`);
     }
   }
-  if (!Object.values(variant.outcomes).some((outcome) => outcome.correct)) errors.push(`${label}: no correct outcome`);
-
   // Depth-first walk: detects cycles (the activity must always end) and unreachable nodes.
   const state = new Map<string, 'visiting' | 'done'>();
   const visit = (nodeId: string): void => {
@@ -46,6 +45,17 @@ function decisionErrors(label: string, variant: DecisionVariant): string[] {
   };
   if (variant.nodes[variant.start]) visit(variant.start);
   for (const nodeId of nodeIds) if (!state.has(nodeId)) errors.push(`${label}: node "${nodeId}" is unreachable`);
+
+  // Only outcomes that some playable path reaches count: a correct outcome nobody can reach makes the scene unwinnable.
+  const reached = new Set(
+    [...state.keys()].flatMap((nodeId) =>
+      (variant.nodes[nodeId]?.choices ?? []).flatMap((choice) => choice.outcome ?? []),
+    ),
+  );
+  if (![...reached].some((outcomeId) => variant.outcomes[outcomeId]?.correct))
+    errors.push(`${label}: no correct outcome is reachable from the start`);
+  for (const outcomeId of Object.keys(variant.outcomes))
+    if (!reached.has(outcomeId)) errors.push(`${label}: outcome "${outcomeId}" is never reached`);
   return errors;
 }
 
@@ -55,16 +65,13 @@ export function validateActivities(
   { manifest, unitIds, signIds }: ActivityContext,
 ): string[] {
   const errors: string[] = [];
-  const pageCounts = new Map(manifest.map((source) => [source.id, source.pages]));
+  const pageCounts = pageCountsOf(manifest);
   for (const id of duplicates(activities.map((activity) => activity.id))) errors.push(`${id}: duplicate activity id`);
 
   for (const activity of activities) {
     const { id } = activity;
     for (const unitId of activity.unitIds) if (!unitIds.has(unitId)) errors.push(`${id}: unknown unit ${unitId}`);
-    for (const ref of activity.refs) {
-      const total = pageCounts.get(ref.source) ?? 0;
-      if (ref.page > total) errors.push(`${id}: reference ${ref.source}:${ref.page} is outside 1..${total}`);
-    }
+    errors.push(...refErrors(id, activity.refs, pageCounts));
     for (const variantId of duplicates(activity.variants.map((variant) => variant.id)))
       errors.push(`${id}: duplicate variant ${variantId}`);
 

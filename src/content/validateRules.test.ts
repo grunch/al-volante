@@ -69,6 +69,15 @@ describe('validateRules', () => {
     expect(errors).toContain('rule.minor.i-curb: page 43 is outside the protocol (1..42)');
   });
 
+  it('rejects scoring citations outside the protocol', () => {
+    const base = ruleCatalog([]);
+    const catalog = { ...base, scoring: { ...base.scoring, refs: [{ source: 'protocolo' as const, page: 99 }] } };
+
+    expect(validateRules(catalog, PROTOCOL_PAGES, { requireFullAnnex: false })).toEqual([
+      'scoring: page 99 is outside the protocol (1..42)',
+    ]);
+  });
+
   it('rejects parking bands pointing to unknown rules', () => {
     const catalog = ruleCatalog([]);
     catalog.parkingBands[0] = { ...catalog.parkingBands[0]!, rule: 'rule.minor.t-ghost' };
@@ -95,6 +104,19 @@ describe('parking bands', () => {
 
     for (const [cm, expected] of cases) expect(classifyCurbDistance(bands, cm)?.band, `${cm} cm`).toBe(expected);
     expect(validateParkingBands(bands)).toEqual([]);
+  });
+
+  it('rejects a band with two alternative limits on the same side', () => {
+    const replace = (name: string, patch: Partial<ParkingBand>) =>
+      bands.map((band) => (band.band === name ? { ...band, ...patch } : band));
+
+    // With lt 25 and lte 20, 20–25 cm would fall in no band while the boundary check sees only one limit.
+    expect(validateParkingBands(replace('correct', { lt: 25, lte: 20 }))).toContain(
+      'parking band correct has both lt and lte',
+    );
+    expect(validateParkingBands(replace('second-line', { gte: 25 }))).toContain(
+      'parking band second-line has both gt and gte',
+    );
   });
 
   it('reports gaps, overlaps, a bad start, an open end and missing bands', () => {

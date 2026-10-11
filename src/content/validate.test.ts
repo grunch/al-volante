@@ -3,11 +3,18 @@ import { computeContentVersion, validateContent } from './validate.ts';
 import type { RawContent } from './validate.ts';
 import { loadContent } from './catalog.ts';
 import { computeCoverage } from './coverage.ts';
-import { catalog, choiceActivity, route, ruleCatalog } from './testing/fixtures.ts';
+import { catalog, choiceActivity, route, ruleCatalog, source } from './testing/fixtures.ts';
 
 function rawFixture(): RawContent {
   const data = catalog();
-  return { ...data, rules: ruleCatalog([]), route: route(), activities: [choiceActivity()] };
+  // The route cites recorridos PDF 16, so the manifest needs that source too.
+  return {
+    ...data,
+    manifest: [...data.manifest, source('recorridos', 19)],
+    rules: ruleCatalog([]),
+    route: route(),
+    activities: [choiceActivity()],
+  };
 }
 
 describe('validateContent', () => {
@@ -34,6 +41,16 @@ describe('validateContent', () => {
     expect(result.ok).toBe(false);
     if (result.ok) return;
     expect(result.errors.every((error) => error.startsWith('rules: missing annex item'))).toBe(true);
+  });
+
+  it('rejects route citations of sources missing from the manifest', () => {
+    const raw = { ...rawFixture(), manifest: catalog().manifest };
+
+    const result = validateContent(raw);
+
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.errors).toContain('route: sources.route: cites recorridos, which is not in the manifest');
   });
 
   it('computes a deterministic content version that changes with the content', () => {
