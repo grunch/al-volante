@@ -98,6 +98,41 @@ describe('SceneCanvas', () => {
     vi.restoreAllMocks();
   });
 
+  it('renders a single frame with reduced motion, and again only when the size changes', () => {
+    // Arrange
+    vi.stubGlobal('matchMedia', (query: string) => ({
+      matches: query === '(prefers-reduced-motion: reduce)',
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+    }));
+    const renderer = createFakeRenderer();
+    let notify: (() => void) | undefined;
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: () => void) {
+          notify = callback;
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(300);
+    vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(200);
+
+    // Act
+    render(<SceneCanvas {...props} createRenderer={() => renderer} />);
+    runNextFrame();
+    const framesAfterFirst = frameCallbacks.length;
+    act(() => notify?.());
+
+    // Assert
+    expect(screen.getByTestId('garage-scene')).toHaveAttribute('data-state', 'ready');
+    expect(framesAfterFirst).toBe(0);
+    expect(renderer.render).toHaveBeenCalledTimes(2);
+    vi.restoreAllMocks();
+  });
+
   it('stops the loop and releases the renderer on unmount', () => {
     const renderer = createFakeRenderer();
     const { unmount } = render(<SceneCanvas {...props} createRenderer={() => renderer} />);

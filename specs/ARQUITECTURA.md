@@ -8,18 +8,20 @@ Concreta la arquitectura de `PROPUESTA.md` §8 para el código. Este documento d
 
 Todas las dependencias están fijadas con versión exacta en `package.json` y `package-lock.json`. Criterio de elección (F02-T01): la versión más reciente de su línea con **al menos dos semanas publicada** y compatible con el resto.
 
-| Paquete | Versión | Uso |
-|---|---|---|
-| Node.js | ≥ 24.9 (`.nvmrc`: 24) | Desarrollo, pruebas y CI. |
-| TypeScript | 6.0.3 | Tipado estricto. **No se usa TypeScript 7**: `typescript-eslint` 8.x exige TypeScript `< 6.1`. |
-| Vite / `@vitejs/plugin-react` | 8.3.1 / 6.1.1 | Servidor de desarrollo y build. |
-| React / React DOM | 19.3.0 | Interfaz. |
-| Three.js | 0.186.1 | Mundo 3D. Se usa directamente, sin `@react-three/fiber`: la simulación de fases futuras necesita un bucle de paso fijo controlado fuera de React. |
-| Vitest / `@vitest/coverage-v8` / jsdom | 5.0.2 / 5.0.2 / 30.1.1 | Pruebas unitarias y de componentes, cobertura. |
-| Testing Library (react, dom, user-event, jest-dom) | 16.3.3 / 10.4.2 / 14.6.7 / 6.10.0 | Pruebas de componentes centradas en el comportamiento. |
-| Playwright | 1.63.0 | Pruebas E2E en Chromium (escritorio y móvil). |
-| ESLint / typescript-eslint / react-hooks | 10.11.0 / 8.70.1 / 7.1.1 | Lint estricto. |
-| Prettier | 3.9.9 | Formato del código (no de los `.md` ni de los catálogos). |
+Las fechas de publicación salen del registro de npm (`npm view <paquete> time`) y, para Node.js, de `https://nodejs.org/dist/index.json`. Se verificaron el 2026-10-11, así que el límite era el 2026-09-27.
+
+| Paquete | Versión | Publicada | Uso |
+|---|---|---|---|
+| Node.js | 24.9.0 (`.nvmrc`; `engines` ≥ 24.9.0) | 2025-09-25 | Desarrollo, pruebas y CI. |
+| TypeScript | 6.0.3 | 2026-04-16 | Tipado estricto. **No se usa TypeScript 7**: `typescript-eslint` 8.70.1 declara `peerDependencies.typescript` `>=4.8.4 <6.1.0`. |
+| Vite / `@vitejs/plugin-react` | 8.3.1 / 6.1.1 | 2026-09-24 / 2026-08-28 | Servidor de desarrollo y build. |
+| React / React DOM | 19.3.0 | 2026-09-09 | Interfaz. |
+| Three.js | 0.186.1 | 2026-09-24 | Mundo 3D. Se usa directamente, sin `@react-three/fiber`: la simulación de fases futuras necesita un bucle de paso fijo controlado fuera de React. |
+| Vitest / `@vitest/coverage-v8` / jsdom | 5.0.2 / 5.0.2 / 30.1.1 | 2026-09-25 / 2026-09-25 / 2026-09-22 | Pruebas unitarias y de componentes, cobertura. |
+| Testing Library (react, dom, user-event, jest-dom) | 16.3.3 / 10.4.2 / 14.6.7 / 6.10.0 | 2026-08-27 / 2026-09-13 / 2026-09-02 / 2026-07-20 | Pruebas de componentes centradas en el comportamiento. |
+| Playwright | 1.63.0 | 2026-09-04 | Pruebas E2E en Chromium (escritorio y móvil). |
+| ESLint / typescript-eslint / react-hooks | 10.11.0 / 8.70.1 / 7.1.1 | 2026-09-18 / 2026-09-21 / 2026-04-17 | Lint estricto. |
+| Prettier | 3.9.9 | 2026-09-23 | Formato del código (no de los `.md` ni de los catálogos). |
 
 ## Estructura
 

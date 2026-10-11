@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { createGarageScene } from './garageScene.ts';
+import { APPROXIMATE_PARKING_BOX_WIDTH_M, PARKING_BOX_LENGTH_M, createGarageScene } from './garageScene.ts';
 
 describe('createGarageScene', () => {
   it('builds the floor, parking box, lights and placeholder car', () => {
@@ -15,12 +15,14 @@ describe('createGarageScene', () => {
     expect(car?.children.filter((child) => child.name === 'wheel')).toHaveLength(4);
   });
 
-  it('draws a 6 m parking box, matching protocol graphic 4', () => {
+  it('draws a parking box 6 m long outside its painted lines, matching protocol graphic 4', () => {
     const garage = createGarageScene({ reducedMotion: false });
     const box = garage.scene.getObjectByName('parking-box');
     const bounds = new THREE.Box3().setFromObject(box as THREE.Object3D);
 
-    expect(bounds.max.x - bounds.min.x).toBeCloseTo(6.1, 5);
+    expect(bounds.max.x - bounds.min.x).toBeCloseTo(PARKING_BOX_LENGTH_M, 5);
+    expect(PARKING_BOX_LENGTH_M).toBe(6);
+    expect(bounds.max.z - bounds.min.z).toBeCloseTo(APPROXIMATE_PARKING_BOX_WIDTH_M, 5);
   });
 
   it('orbits the camera over time when motion is allowed', () => {

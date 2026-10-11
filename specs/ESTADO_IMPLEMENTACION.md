@@ -34,7 +34,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | Depende de | PR | Estado |
 |---|---|---|---|---|---|
-| F02-T01 | `f02-t01-base` | `main` | F01 (fusionada) | pendiente | en curso (etapa A) |
+| F02-T01 | `f02-t01-base` | `main` | F01 (fusionada) | [#7](https://github.com/grunch/al-volante/pull/7) | en revisión (etapa A) |
 | F02-T02 | — | — | T01 | — | pendiente |
 | F02-T03 | — | — | T02 | — | pendiente |
 | F02-T04 | — | — | T03 | — | pendiente |
@@ -45,7 +45,17 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Alcance: inicializar la aplicación con versiones fijadas, estructura, escena Three.js visible, pruebas (unitarias y E2E) y CI. Arquitectura y comandos en [ARQUITECTURA.md](ARQUITECTURA.md); arranque en el README.
 - Resultado: shell accesible (salto al contenido, `lang="es-AR"`), escena del garaje con auto de práctica y cajón de 6 m, carga diferida de Three.js, estado de error sin WebGL y respeto de `prefers-reduced-motion`.
 - Verificación local: `npm run check` (lint, formato, tipos, 16 pruebas unitarias con cobertura 99 % de sentencias y 89 % de ramas, validadores de catálogo y build) y `npm run test:e2e` (6 pruebas: escritorio y móvil). Capturas revisadas en 1280×800 y Pixel 7.
-- CodeRabbit y Codex: se solicitan al abrir el PR.
+- CodeRabbit y Codex: solicitadas al abrir el PR (#7). Ambas completadas sobre `2440f85`.
+- Findings resueltos (etapa B):
+  - Codex, ancho del cajón: el ancho (2,4 m) queda como `APPROXIMATE_PARKING_BOX_WIDTH_M`, separado del largo verificado (`PARKING_BOX_LENGTH_M`, 6 m; protocolo PDF 21). La fuente no da el ancho (REGLAS V5).
+  - Codex, CONTINUIDAD con el estado de la fase 1 obsoleto: corregido; la fase 1 figura como cerrada.
+  - CodeRabbit, el cajón medía 6,1 m: las líneas pintadas quedan dentro de los 6 m exteriores, con prueba.
+  - CodeRabbit, render continuo con movimiento reducido: se dibuja un solo cuadro y se redibuja al cambiar el tamaño, con prueba.
+  - CodeRabbit, `persist-credentials: false` en los dos `checkout` de la CI: aplicado.
+  - CodeRabbit, `.nvmrc`: fija 24.9.0, que cumple `engines`.
+  - CodeRabbit, README: documenta `--with-deps` para Linux.
+  - CodeRabbit, ARQUITECTURA: fecha de publicación de cada versión, y la limitación de TypeScript acotada a `typescript-eslint` 8.70.1 con su rango de `peerDependencies`.
+  - CodeRabbit, fila de F02-T01 en este registro: actualizada.
 
 ## Pila y orden de fusión
 
@@ -57,7 +67,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa A: abrir el PR de F02-T01 y seguir con F02-T02 apilado sobre `f02-t01-base`, sin esperar revisiones.
+Etapa A: #7 (F02-T01) abierto. Sigue F02-T02 apilado sobre `f02-t01-base`, sin esperar revisiones.
 
 ## Decisiones que no deben reinterpretarse
 

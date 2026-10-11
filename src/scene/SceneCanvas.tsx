@@ -58,20 +58,22 @@ export function SceneCanvas({
     renderer.domElement.setAttribute('aria-hidden', 'true');
     container.appendChild(renderer.domElement);
 
+    let frame = 0;
+    let firstFrame = true;
     const resize = () => {
       const width = container.clientWidth;
       const height = container.clientHeight;
       if (width === 0 || height === 0) return;
       renderer.setSize(width, height, false);
       garage.resize(width, height);
+      // Without the animation loop, a resized canvas needs an explicit redraw.
+      if (reducedMotion && !firstFrame) renderer.render(garage.scene, garage.camera);
     };
     resize();
     const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(resize) : null;
     observer?.observe(container);
     if (!observer) window.addEventListener('resize', resize);
 
-    let frame = 0;
-    let firstFrame = true;
     const start = performance.now();
     const loop = (now: number) => {
       garage.update((now - start) / 1000);
@@ -80,7 +82,8 @@ export function SceneCanvas({
         firstFrame = false;
         setState('ready');
       }
-      frame = requestAnimationFrame(loop);
+      // A still scene needs a single frame; keeping the loop would only spend GPU and battery.
+      if (!reducedMotion) frame = requestAnimationFrame(loop);
     };
     frame = requestAnimationFrame(loop);
 

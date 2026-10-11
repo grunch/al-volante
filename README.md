@@ -6,13 +6,13 @@ Estado: **en construcción.** Fase 1 (fuentes, cobertura y recorrido verificado)
 
 ## Arranque
 
-Requisitos: Node.js 24.9 o superior (`.nvmrc`).
+Requisitos: Node.js 24.9 o superior (`.nvmrc` fija 24.9.0, la versión usada en la CI).
 
 ```bash
 npm ci                 # instala las dependencias fijadas
 npm run dev            # servidor de desarrollo (http://localhost:5173)
 npm run check          # lint, formato, tipos, pruebas con cobertura, validadores y build
-npx playwright install chromium   # una sola vez, para las pruebas E2E
+npx playwright install --with-deps chromium   # una sola vez, para las pruebas E2E (en Linux instala también las bibliotecas del sistema; requiere sudo)
 npm run test:e2e       # pruebas de punta a punta en Chromium (escritorio y móvil)
 ```
 

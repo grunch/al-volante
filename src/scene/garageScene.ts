@@ -92,19 +92,30 @@ function createFloor(): THREE.Mesh {
   return floor;
 }
 
-/** Yellow painted outline of a 6 m parking box, echoing protocol graphic 4 (protocolo PDF 21). */
+/** Parking box length from protocol graphic 4 (protocolo PDF 21), measured outside the painted lines. */
+export const PARKING_BOX_LENGTH_M = 6;
+/**
+ * Not in the sources: graphic 4 gives the length but not the width (REGLAS.md, V5). A visual approximation only;
+ * never use it to evaluate a manoeuvre.
+ */
+export const APPROXIMATE_PARKING_BOX_WIDTH_M = 2.4;
+/** Painted line thickness; also a visual choice, not a sourced value. */
+const PAINTED_LINE_M = 0.1;
+
+/** Yellow painted outline of the parking box; its outer edges match the box size. */
 function createParkingBox(): THREE.Group {
   const box = new THREE.Group();
   box.name = 'parking-box';
   const material = new THREE.MeshStandardMaterial({ color: SCENE_COLORS.roadYellow });
-  const lengthM = 6;
-  const widthM = 2.4;
-  const lineM = 0.1;
+  const lengthM = PARKING_BOX_LENGTH_M;
+  const widthM = APPROXIMATE_PARKING_BOX_WIDTH_M;
+  const lineM = PAINTED_LINE_M;
+  // Lines are centred half a line inside the outline so the outer edges measure exactly length × width.
   const sides: Array<[number, number, number, number]> = [
-    [lengthM, lineM, 0, -widthM / 2],
-    [lengthM, lineM, 0, widthM / 2],
-    [lineM, widthM, -lengthM / 2, 0],
-    [lineM, widthM, lengthM / 2, 0],
+    [lengthM, lineM, 0, -(widthM - lineM) / 2],
+    [lengthM, lineM, 0, (widthM - lineM) / 2],
+    [lineM, widthM, -(lengthM - lineM) / 2, 0],
+    [lineM, widthM, (lengthM - lineM) / 2, 0],
   ];
   for (const [sx, sz, x, z] of sides) {
     const line = new THREE.Mesh(new THREE.PlaneGeometry(sx, sz), material);
