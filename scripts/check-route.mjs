@@ -9,6 +9,35 @@ export const STATUSES = ['verificado-fuentes', 'fuente-unica', 'discrepancia', '
 const POSITION_TOLERANCE_M = 0.5;
 const LENGTH_TOLERANCE_M = 1;
 const EXAM_MAX_KMH = { calle: 30, avenida: 45 };
+const TURN_DIRECTIONS = ['left', 'right'];
+const TURN_ANGLE_TOLERANCE_DEG = 5;
+
+function isFiniteNumber(value) {
+  return typeof value === 'number' && Number.isFinite(value);
+}
+
+function hasFiniteCoordinates(item) {
+  return ['lat', 'lon', 'x', 'y'].every((key) => isFiniteNumber(item?.[key]));
+}
+
+/** Signed turn angle in degrees between the last segment of `path` and the first segment of `nextPath` (left > 0). */
+export function turnAngleDeg(path, nextPath) {
+  const [a, b] = path.slice(-2);
+  const [c, d] = nextPath.slice(0, 2);
+  const delta = Math.atan2(d.y - c.y, d.x - c.x) - Math.atan2(b.y - a.y, b.x - a.x);
+  return (((delta * 180) / Math.PI + 540) % 360) - 180;
+}
+
+function segmentErrors(leg, label) {
+  const segments = [...(leg.segments ?? [])].sort((a, b) => a.fromIndex - b.fromIndex);
+  const lastIndex = leg.path.length - 1;
+  const contiguous = segments.length > 0 && segments[0].fromIndex === 0 && segments.at(-1).toIndex === lastIndex
+    && segments.every((segment, i) => segment.toIndex > segment.fromIndex && (i === 0 || segment.fromIndex === segments[i - 1].toIndex));
+  if (!contiguous) return [`${label}: segments must cover the path contiguously from point 0 to ${lastIndex}`];
+  const withTrack = segments.filter((segment) => segment.cycleTrackLeft === true).length;
+  const summary = withTrack === 0 ? 'none' : withTrack === segments.length ? 'full' : 'partial';
+  return leg.cycleTrack === summary ? [] : [`${label}: cycleTrack "${leg.cycleTrack}" does not match its segments ("${summary}")`];
+}
 
 /** Projects WGS84 coordinates to the route's local metric frame (x east, y north). */
 export function project(projection, lat, lon) {
@@ -37,6 +66,7 @@ export function validateRoute(route) {
   if (coveredSteps.join(',') !== expectedSteps.join(',')) errors.push(`legs must cover official steps ${expectedSteps.join(',')} exactly once`);
 
   let total = 0;
+  const geometryOk = legs.map((leg) => Array.isArray(leg.path) && leg.path.length >= 2 && leg.path.every(hasFiniteCoordinates));
   legs.forEach((leg, index) => {
     const label = `leg ${leg.leg}`;
     for (const step of leg.officialSteps ?? []) {
@@ -47,6 +77,10 @@ export function validateRoute(route) {
       errors.push(`${label}: path needs at least two points`);
       return;
     }
+    const badPoints = leg.path.map((point, pointIndex) => (hasFiniteCoordinates(point) ? null : pointIndex)).filter((i) => i !== null);
+    for (const pointIndex of badPoints) errors.push(`${label}: point ${pointIndex} has missing or non-finite coordinates`);
+    if (badPoints.length > 0) return;
+    errors.push(...segmentErrors(leg, label));
     let length = 0;
     leg.path.forEach((point, pointIndex) => {
       const expected = project(projection, point.lat, point.lon);
@@ -64,7 +98,15 @@ export function validateRoute(route) {
     if (cap === undefined) errors.push(`${label}: invalid roadType "${leg.roadType}"`);
     else if (!(leg.examMaxKmh > 0 && leg.examMaxKmh <= cap)) errors.push(`${label}: examMaxKmh must be in (0, ${cap}] for ${leg.roadType}`);
     const turn = leg.turnIntoNext;
-    if (!turn || (turn.direction === 'left') !== (turn.angleDeg > 0)) errors.push(`${label}: turn direction does not match its angle`);
+    if (!TURN_DIRECTIONS.includes(turn?.direction)) {
+      errors.push(`${label}: invalid turn direction "${turn?.direction}"`);
+    } else if (geometryOk[(index + 1) % legs.length]) {
+      const actual = turnAngleDeg(leg.path, next.path);
+      const actualDirection = actual > 0 ? 'left' : 'right';
+      if (turn.direction !== actualDirection || Math.abs(turn.angleDeg - actual) > TURN_ANGLE_TOLERANCE_DEG) {
+        errors.push(`${label}: declared turn ${turn.direction} (${Math.round(turn.angleDeg)}°) does not match geometry ${actualDirection} (${Math.round(actual)}°)`);
+      }
+    }
   });
   if (Math.abs(total - route.loopLengthM) > LENGTH_TOLERANCE_M) errors.push(`loopLengthM ${route.loopLengthM} differs from legs total ${total.toFixed(1)}`);
 
@@ -74,6 +116,10 @@ export function validateRoute(route) {
     if (!legNumbers.has(control.leg)) errors.push(`${label}: unknown leg ${control.leg}`);
     if (!STATUSES.includes(control.status)) errors.push(`${label}: invalid status "${control.status}"`);
     if (control.status === 'verificado-fuentes' && (control.sources ?? []).length < 2) errors.push(`${label}: verified controls need two sources`);
+    if (!hasFiniteCoordinates(control)) {
+      errors.push(`${label}: missing or non-finite coordinates`);
+      return;
+    }
     const expected = project(projection, control.lat, control.lon);
     if (Math.hypot(expected.x - control.x, expected.y - control.y) > POSITION_TOLERANCE_M) errors.push(`${label}: local coordinates do not match its lat/lon`);
   });

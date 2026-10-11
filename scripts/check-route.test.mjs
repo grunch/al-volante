@@ -18,9 +18,11 @@ function buildRoute() {
     start: { status: 'aproximacion' },
     legs: [
       { leg: 1, street: 'Uno', officialSteps: [3, 1], status: 'fuente-unica', roadType: 'calle', examMaxKmh: 30, lengthM: 200,
-        turnIntoNext: { direction: 'left', angleDeg: 90 }, path: [point(1, 0, 0), point(2, 100, 0), point(3, 100, 100)] },
+        turnIntoNext: { direction: 'left', angleDeg: 90 }, path: [point(1, 0, 0), point(2, 100, 0), point(3, 100, 100)],
+        cycleTrack: 'partial', segments: [{ osmWay: 10, fromIndex: 0, toIndex: 1, cycleTrackLeft: true }, { osmWay: 11, fromIndex: 1, toIndex: 2, cycleTrackLeft: false }] },
       { leg: 2, street: 'Avenida Dos', officialSteps: [2], status: 'fuente-unica', roadType: 'avenida', examMaxKmh: 45, lengthM: 200,
-        turnIntoNext: { direction: 'left', angleDeg: 90 }, path: [point(3, 100, 100), point(4, 0, 100), point(1, 0, 0)] },
+        turnIntoNext: { direction: 'left', angleDeg: 90 }, path: [point(3, 100, 100), point(4, 0, 100), point(1, 0, 0)],
+        cycleTrack: 'none', segments: [{ osmWay: 20, fromIndex: 0, toIndex: 2, cycleTrackLeft: false }] },
     ],
     controls: [{ leg: 2, type: 'traffic_signals', status: 'verificado-fuentes', sources: ['osm', 'gcba'], ...point(4, 0, 100) }],
   };
@@ -90,11 +92,35 @@ test('requires two sources for verified controls and valid statuses', () => {
   assert.ok(errors.includes('leg 1: invalid status "seguro"'));
 });
 
-test('rejects turn directions that contradict the computed angle', () => {
+test('rejects declared turns that contradict the geometry of adjacent legs', () => {
   const route = buildRoute();
-  route.legs[0].turnIntoNext = { direction: 'right', angleDeg: 90 };
+  route.legs[0].turnIntoNext = { direction: 'right', angleDeg: -90 };
+  route.legs[1].turnIntoNext = { direction: 'straight', angleDeg: 90 };
 
   const errors = validateRoute(route);
 
-  assert.ok(errors.includes('leg 1: turn direction does not match its angle'));
+  assert.ok(errors.includes('leg 1: declared turn right (-90°) does not match geometry left (90°)'));
+  assert.ok(errors.includes('leg 2: invalid turn direction "straight"'));
+});
+
+test('rejects missing or non-finite coordinates in points and controls', () => {
+  const route = buildRoute();
+  delete route.legs[0].path[1].lat;
+  route.controls[0].x = Number.NaN;
+
+  const errors = validateRoute(route);
+
+  assert.ok(errors.includes('leg 1: point 1 has missing or non-finite coordinates'));
+  assert.ok(errors.includes('control 0 (traffic_signals): missing or non-finite coordinates'));
+});
+
+test('requires segments that cover each leg and a matching cycle track summary', () => {
+  const route = buildRoute();
+  route.legs[0].segments = [{ osmWay: 10, fromIndex: 0, toIndex: 1, cycleTrackLeft: true }];
+  route.legs[1].cycleTrack = 'full';
+
+  const errors = validateRoute(route);
+
+  assert.ok(errors.includes('leg 1: segments must cover the path contiguously from point 0 to 2'));
+  assert.ok(errors.includes('leg 2: cycleTrack "full" does not match its segments ("none")'));
 });

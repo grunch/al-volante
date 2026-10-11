@@ -89,7 +89,13 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B: revisar con el usuario los findings de Codex y CodeRabbit en #2, #3 y #4, en ese orden; corregir en cada rama, actualizar los descendientes y fusionar #2 → #3 → #4. La fase 1 se cierra solo con todos fusionados y sin ambigüedades críticas abiertas. Después, esperar el inicio manual de la fase 2. Luego, etapa B con el usuario: findings de #1 (re-revisión de CodeRabbit pendiente), T02, T03 y T04, y fusión en orden.
+Etapa B en curso, iniciada por el usuario el 2026-10-11 («revisa los findings en los PRs abiertos, comienza por el #2, luego sigue #3 y #4»):
+
+- Findings de Codex corregidos y respondidos: #2 (1), #3 (3) y #4 (4).
+- Las ramas #3 y #4 se rebasaron sobre sus padres actualizados.
+- Falta: las revisiones de CodeRabbit (cupo de 1 por hora) y la re-revisión de Codex sobre los commits corregidos. Después, resolver lo nuevo y fusionar #2 → #3 → #4.
+
+La fase 1 se cierra solo con todo fusionado y sin ambigüedades críticas abiertas; después, esperar el inicio manual de la fase 2.
 
 ## Decisiones que no deben reinterpretarse
 

@@ -70,7 +70,17 @@
       ],
       "examMaxKmh": 30,
       "lanesOsm": [],
-      "twoWayCycleTrackOnLeft": false,
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 61756681,
+          "fromIndex": 0,
+          "toIndex": 2,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": null
+        }
+      ],
       "turnIntoNext": {
         "direction": "right",
         "angleDeg": -77,
@@ -122,7 +132,25 @@
       "lanesOsm": [
         "2"
       ],
-      "twoWayCycleTrackOnLeft": false,
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 63033510,
+          "fromIndex": 0,
+          "toIndex": 3,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 60,
+          "lanesOsm": 2
+        },
+        {
+          "osmWay": 63514246,
+          "fromIndex": 3,
+          "toIndex": 5,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 60,
+          "lanesOsm": 2
+        }
+      ],
       "turnIntoNext": {
         "direction": "right",
         "angleDeg": -93,
@@ -193,7 +221,25 @@
       ],
       "examMaxKmh": 30,
       "lanesOsm": [],
-      "twoWayCycleTrackOnLeft": false,
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 346315238,
+          "fromIndex": 0,
+          "toIndex": 1,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": null
+        },
+        {
+          "osmWay": 63514340,
+          "fromIndex": 1,
+          "toIndex": 3,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": null
+        }
+      ],
       "turnIntoNext": {
         "direction": "right",
         "angleDeg": -88,
@@ -249,7 +295,17 @@
       ],
       "examMaxKmh": 30,
       "lanesOsm": [],
-      "twoWayCycleTrackOnLeft": true,
+      "cycleTrack": "full",
+      "segments": [
+        {
+          "osmWay": 86576244,
+          "fromIndex": 0,
+          "toIndex": 2,
+          "cycleTrackLeft": true,
+          "maxspeedOsm": 30,
+          "lanesOsm": null
+        }
+      ],
       "turnIntoNext": {
         "direction": "left",
         "angleDeg": 91,
@@ -298,7 +354,17 @@
       ],
       "examMaxKmh": 30,
       "lanesOsm": [],
-      "twoWayCycleTrackOnLeft": true,
+      "cycleTrack": "full",
+      "segments": [
+        {
+          "osmWay": 43340296,
+          "fromIndex": 0,
+          "toIndex": 2,
+          "cycleTrackLeft": true,
+          "maxspeedOsm": 30,
+          "lanesOsm": null
+        }
+      ],
       "turnIntoNext": {
         "direction": "right",
         "angleDeg": -87,
@@ -351,7 +417,25 @@
       "lanesOsm": [
         "1"
       ],
-      "twoWayCycleTrackOnLeft": true,
+      "cycleTrack": "partial",
+      "segments": [
+        {
+          "osmWay": 519835126,
+          "fromIndex": 0,
+          "toIndex": 1,
+          "cycleTrackLeft": true,
+          "maxspeedOsm": 30,
+          "lanesOsm": 1
+        },
+        {
+          "osmWay": 10596246,
+          "fromIndex": 1,
+          "toIndex": 3,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": 1
+        }
+      ],
       "turnIntoNext": {
         "direction": "right",
         "angleDeg": -93,
@@ -409,7 +493,17 @@
       "lanesOsm": [
         "2"
       ],
-      "twoWayCycleTrackOnLeft": false,
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 693752605,
+          "fromIndex": 0,
+          "toIndex": 2,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": 2
+        }
+      ],
       "turnIntoNext": {
         "direction": "right",
         "angleDeg": -85,
@@ -460,7 +554,17 @@
       "lanesOsm": [
         "1"
       ],
-      "twoWayCycleTrackOnLeft": false,
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 447800896,
+          "fromIndex": 0,
+          "toIndex": 3,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": 1
+        }
+      ],
       "turnIntoNext": {
         "direction": "left",
         "angleDeg": 87,
