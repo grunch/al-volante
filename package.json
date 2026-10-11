@@ -5,7 +5,7 @@
   "description": "Juego web para preparar el examen de licencia B/B.1 en CABA (Comuna 13, Núñez).",
   "type": "module",
   "engines": {
-    "node": ">=24.9.0"
+    "node": "^24.15.0 || >=26.0.0"
   },
   "scripts": {
     "dev": "vite",

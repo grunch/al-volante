@@ -6,7 +6,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 ## Fase activa
 
-- **Fase 2 — Base web, datos y aprendizaje inicial: en curso, etapa A (creación de PRs).**
+- **Fase 2 — Base web, datos y aprendizaje inicial: en curso, etapa B (findings y fusión).** El usuario fusionó #7–#10 en `main` el 2026-10-11 (21:18–21:21 UTC). Quedan abiertos #11 (T05) y los correctivos F02-T01-FIX01 y F02-T02-FIX01, con los findings que Codex dejó sobre los merges.
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - Fases 3–7: no iniciadas. Cada una requiere indicación manual del usuario.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
@@ -34,11 +34,13 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | Depende de | PR | Estado |
 |---|---|---|---|---|---|
-| F02-T01 | `f02-t01-base` | `main` | F01 (fusionada) | [#7](https://github.com/grunch/al-volante/pull/7) | en revisión (etapa A) |
-| F02-T02 | `f02-t02-schemas` | `f02-t01-base` (#7) | T01 (#7) | #8 | en revisión (etapa A) |
-| F02-T03 | `f02-t03-navigation` | `f02-t02-schemas` (#8) | T02 (#8) | #9 | en revisión (etapa A) |
-| F02-T04 | `f02-t04-activities` | `f02-t03-navigation` (#9) | T03 (#9) | #10 | en revisión (etapa A) |
-| F02-T05 | — | — | T04 | — | pendiente |
+| F02-T01 | `f02-t01-base` | `main` | F01 (fusionada) | [#7](https://github.com/grunch/al-volante/pull/7) | fusionada (`666cb08`) |
+| F02-T02 | `f02-t02-schemas` | `f02-t01-base` (#7) | T01 (#7) | #8 | fusionada (`ac570c3`) |
+| F02-T03 | `f02-t03-navigation` | `f02-t02-schemas` (#8) | T02 (#8) | #9 | fusionada (`8a74a53`) |
+| F02-T04 | `f02-t04-activities` | `f02-t03-navigation` (#9) | T03 (#9) | #10 | fusionada (`79f8baa`) |
+| F02-T01-FIX01 | `f02-t01-fix01` | `main` | T01–T04 (fusionadas) | #12 | en revisión (etapa B) |
+| F02-T02-FIX01 | `f02-t02-fix01` | `f02-t01-fix01` (#12) | FIX01 de T01 (#12) | #13 | en revisión (etapa B) |
+| F02-T05 | `f02-t05-progress` | `f02-t02-fix01` (#13) | T04 y los correctivos | #11 | en revisión (etapa B) |
 
 ### F02-T01 — Base web: TypeScript, Vite, React, Three.js y CI
 
@@ -52,10 +54,15 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - CodeRabbit, el cajón medía 6,1 m: las líneas pintadas quedan dentro de los 6 m exteriores, con prueba.
   - CodeRabbit, render continuo con movimiento reducido: se dibuja un solo cuadro y se redibuja al cambiar el tamaño, con prueba.
   - CodeRabbit, `persist-credentials: false` en los dos `checkout` de la CI: aplicado.
-  - CodeRabbit, `.nvmrc`: fija 24.9.0, que cumple `engines`.
+  - CodeRabbit, `.nvmrc`: fija una versión exacta que cumple `engines` (24.9.0, y después 24.21.0 por el finding de Codex sobre jsdom).
   - CodeRabbit, README: documenta `--with-deps` para Linux.
   - CodeRabbit, ARQUITECTURA: fecha de publicación de cada versión, y la limitación de TypeScript acotada a `typescript-eslint` 8.70.1 con su rango de `peerDependencies`.
   - CodeRabbit, fila de F02-T01 en este registro: actualizada.
+- Segunda revisión de Codex (sobre el merge de #7 en `main`, `666cb08`, revisión 5485013908; corregido en F02-T01-FIX01):
+  - Node 24.9.0 quedaba fuera del rango de jsdom 30.1.1 (`^24.15.0`): `.nvmrc` pasa a 24.21.0 (2026-09-07, más de dos semanas) y `engines` a `^24.15.0 || >=26.0.0`, que excluye Node 25 igual que jsdom (finding de Codex en #12).
+  - Sin WebGL, el aviso quedaba dentro de un `role="img"`, cuyos descendientes los lectores de pantalla tratan como decorativos: en ese estado el contenedor deja de ser una imagen, con prueba.
+  - «Registrá que F02-T01 ya fue fusionada»: aplica. `666cb08` es el merge real de #7 en `main`; las fusiones de #7–#10 quedan registradas en la tabla y en la fase activa.
+  - Codex en #8 señaló dos líneas de CONTINUIDAD que todavía decían que no había aplicación ni pruebas: corregidas aquí.
 
 ### F02-T02 — Esquemas, validadores y carga de catálogos
 
@@ -107,7 +114,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ## Pila y orden de fusión
 
-`main ← F02-T01 ← F02-T02 ← F02-T03 ← F02-T04 ← F02-T05` (se crean en la etapa A; se fusionan en ese orden en la etapa B).
+`main ← F02-T01 ← F02-T02 ← F02-T03 ← F02-T04 ← F02-T05` (se crean en la etapa A; se fusionan en ese orden en la etapa B). T01–T04 ya están en `main`. Los findings que Codex dejó sobre esos merges van en correctivos desde `main`: `main ← F02-T01-FIX01 (#12) ← F02-T02-FIX01 (#13) ← F02-T05 (#11)`.
 
 ## Bloqueos
 
@@ -115,7 +122,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa A: #7 (T01), #8 (T02), #9 (T03) y #10 (T04) creados. Sigue F02-T05 apilado sobre `f02-t04-activities`, sin esperar revisiones.
+Etapa B: revisar los findings de #12 (F02-T01-FIX01), #13 (F02-T02-FIX01) y #11 (T05) y fusionar en orden #12 → #13 → #11.
 
 ## Decisiones que no deben reinterpretarse
 

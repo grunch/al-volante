@@ -12,7 +12,7 @@ Las fechas de publicación salen del registro de npm (`npm view <paquete> time`)
 
 | Paquete | Versión | Publicada | Uso |
 |---|---|---|---|
-| Node.js | 24.9.0 (`.nvmrc`; `engines` ≥ 24.9.0) | 2025-09-25 | Desarrollo, pruebas y CI. |
+| Node.js | 24.21.0 (`.nvmrc`; `engines` `^24.15.0 \|\| >=26.0.0`) | 2026-09-07 | Desarrollo, pruebas y CI. El mínimo sale de jsdom 30.1.1 y tres dependencias suyas (`^22.22.2 \|\| ^24.15.0 \|\| >=26.0.0`). |
 | TypeScript | 6.0.3 | 2026-04-16 | Tipado estricto. **No se usa TypeScript 7**: `typescript-eslint` 8.70.1 declara `peerDependencies.typescript` `>=4.8.4 <6.1.0`. |
 | Vite / `@vitejs/plugin-react` | 8.3.1 / 6.1.1 | 2026-09-24 / 2026-08-28 | Servidor de desarrollo y build. |
 | React / React DOM | 19.3.0 | 2026-09-09 | Interfaz. |
