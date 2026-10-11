@@ -119,7 +119,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
   - `ProgressProvider` encola las respuestas detrás de la carga: una respuesta dada mientras carga se guarda cuando la carga termina, y si la carga falla, se guarda igual y aparece al reintentar.
   - Otra pestaña ve las respuestas nuevas al recargar; las escrituras no pierden datos, pero la vista no se sincroniza en vivo.
 - **Respaldo** (`src/progress/backup.ts`): JSON autodescriptivo con `format`, `formatVersion`, `exportedAt` y `contentVersion`.
-  - Al importar, primero se valida todo, incluidas las migraciones de formato una versión por vez, los ids duplicados y la coherencia de cada concepto: no más aciertos que intentos, una caja que no supere los aciertos y un próximo repaso dentro del intervalo de la caja (exactamente un día después de un error).
+  - Al importar, primero se valida todo, incluidas las migraciones de formato una versión por vez, los ids duplicados y la coherencia de cada concepto: no más aciertos que intentos, una caja que no supere los aciertos y un próximo repaso dentro del intervalo de la caja (exactamente un día después de un error). Ninguna fecha de progreso puede ser posterior a la exportación, ni la exportación posterior a la hora del dispositivo que importa, con una tolerancia de un día para desajustes de reloj.
   - Después se pide confirmación, y recién entonces se reemplaza el progreso en una sola transacción.
   - Un archivo inválido, demasiado grande (más de 20 MB) o ilegible, o una escritura que falla, dejan el progreso actual intacto.
 

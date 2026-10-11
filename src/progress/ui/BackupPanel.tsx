@@ -49,7 +49,7 @@ export function BackupPanel({ snapshot, contentVersion, now, replaceAll }: Backu
       console.error('Could not read the backup file', error);
       return reject('unreadable');
     }
-    const parsed = parseBackup(text);
+    const parsed = parseBackup(text, now());
     if (!parsed.ok) return reject(parsed.error);
     setPending(parsed);
   };

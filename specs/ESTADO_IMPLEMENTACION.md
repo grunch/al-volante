@@ -152,6 +152,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - La corrección de los seis espacios del inicio, que estaba en este PR, pasó a #9, donde correspondía.
 - Segunda revisión de Codex (sobre `3b92467`, revisión 5485016205), con prueba:
   - Un respaldo con un repaso a décadas de distancia se aceptaba: ahora el próximo repaso tiene que caer dentro del intervalo de su caja y, después de un error, exactamente un día más tarde, como lo programa `updateConcept`.
+- Tercera revisión de Codex (sobre `f1e15f0`, revisión 5485052739), con prueba:
+  - Un respaldo con la última respuesta y el repaso corridos juntos al futuro se aceptaba: ahora ninguna fecha de progreso puede ser posterior a la exportación, y la exportación no puede ser posterior a la hora del dispositivo que importa. Ambas comparaciones tienen una tolerancia de un día (`CLOCK_TOLERANCE_MS`) para desajustes de reloj.
 
 ## Pila y orden de fusión
 

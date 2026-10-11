@@ -208,7 +208,7 @@ describe('logbook contents', () => {
 describe('backup', () => {
   const stored: ProgressSnapshot = { attempts: [], concepts: [concept('manual.ch3.stop-vs-yield')] };
   const backupFile = (snapshot: ProgressSnapshot) =>
-    new File([createBackup(snapshot, 'deadbeef', daysFromNow(-3))], 'respaldo.json', { type: 'application/json' });
+    new File([createBackup(snapshot, 'deadbeef', daysFromNow(-1))], 'respaldo.json', { type: 'application/json' });
 
   afterEach(() => {
     Reflect.deleteProperty(URL, 'createObjectURL');

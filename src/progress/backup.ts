@@ -62,8 +62,33 @@ export function migrateBackup(
   return current;
 }
 
-/** Parses, migrates and validates a backup without touching stored progress; callers replace data only on success. */
-export function parseBackup(text: string, migrations = MIGRATIONS): BackupParseResult {
+/** Allowed clock difference between the device that answered, the one that exported and the one that imports. */
+export const CLOCK_TOLERANCE_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Nothing in a backup can happen after its export, and the export cannot be in this device's future: otherwise
+ * shifted dates would hide concepts from review for years. Returns the problem, or undefined when dates are sound.
+ */
+function dateProblem(snapshot: ProgressSnapshot, exportedAt: string, now: Date): string | undefined {
+  const exported = Date.parse(exportedAt);
+  if (exported > now.getTime() + CLOCK_TOLERANCE_MS) return `exported after the current time (${exportedAt})`;
+  const answeredAt = [
+    ...snapshot.concepts.map((concept) => concept.lastAttemptAt),
+    ...snapshot.attempts.flatMap((attempt) => [
+      attempt.startedAt,
+      ...(attempt.finishedAt ? [attempt.finishedAt] : []),
+      ...attempt.events.map((event) => event.at),
+    ]),
+  ];
+  const late = answeredAt.find((iso) => Date.parse(iso) > exported + CLOCK_TOLERANCE_MS);
+  return late ? `progress dated after the export (${late})` : undefined;
+}
+
+/**
+ * Parses, migrates and validates a backup without touching stored progress; callers replace data only on success.
+ * `now` is the importing device's time.
+ */
+export function parseBackup(text: string, now: Date, migrations = MIGRATIONS): BackupParseResult {
   let data: unknown;
   try {
     data = JSON.parse(text);
@@ -93,5 +118,7 @@ export function parseBackup(text: string, migrations = MIGRATIONS): BackupParseR
     return { ok: false, error: 'invalid-data', details: 'duplicate attempt id' };
   if (new Set(concepts.map((concept) => concept.unitId)).size !== concepts.length)
     return { ok: false, error: 'invalid-data', details: 'duplicate concept' };
+  const problem = dateProblem({ attempts, concepts }, exportedAt, now);
+  if (problem) return { ok: false, error: 'invalid-data', details: problem };
   return { ok: true, snapshot: { attempts, concepts }, contentVersion, exportedAt, fromVersion };
 }
