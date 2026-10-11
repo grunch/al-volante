@@ -328,3 +328,122 @@ a {
   background: transparent;
   color: var(--color-ink);
 }
+
+/* Activities (F02-T04) */
+.question {
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  border: 0;
+}
+
+.question__prompt {
+  margin-bottom: var(--space-3);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.option {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  margin-bottom: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-ivory-strong);
+  border-radius: var(--radius);
+  background: #fffdf8;
+  cursor: pointer;
+}
+
+.option input {
+  margin-top: 0.3rem;
+}
+
+.option:has(input:checked) {
+  border-color: var(--color-turquoise-text);
+  box-shadow: inset 0 0 0 1px var(--color-turquoise-text);
+}
+
+.sign-figure {
+  margin: 0 0 var(--space-3);
+}
+
+.sign-graphic {
+  width: min(10rem, 40vw);
+  height: auto;
+}
+
+.sign-fallback {
+  max-width: 30rem;
+  padding: var(--space-3);
+  border: 2px dashed var(--color-night-soft);
+}
+
+.ordering {
+  padding-left: var(--space-4);
+}
+
+.ordering__item {
+  margin-bottom: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--color-ivory-strong);
+  border-radius: var(--radius);
+  background: #fffdf8;
+}
+
+.ordering__item > span:first-child {
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.ordering__controls {
+  display: inline-flex;
+  gap: var(--space-2);
+}
+
+.decision__history {
+  color: #44516a;
+}
+
+.decision__choices {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.button--choice {
+  text-align: left;
+  background: #fffdf8;
+  color: var(--color-ink);
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.feedback {
+  margin: var(--space-4) 0;
+  padding: var(--space-3) var(--space-4);
+  border-left: 6px solid;
+  border-radius: var(--radius);
+  background: #fffdf8;
+}
+
+.feedback--correct {
+  border-left-color: var(--color-turquoise-text);
+}
+
+.feedback--incorrect {
+  border-left-color: #a12d2d;
+}
+
+.feedback__verdict {
+  margin-top: 0;
+}
+
+.inline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  padding: 0;
+  list-style: none;
+}

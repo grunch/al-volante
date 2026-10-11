@@ -1,1 +1,736 @@
-[]
+[
+  {
+    "id": "act.max-speed-light-vehicles",
+    "type": "single-choice",
+    "title": "Velocidades máximas en CABA",
+    "unitIds": [
+      "manual.ch3.max-speeds-light-vehicles",
+      "manual.ch3.speed-limits-general-principle"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 72
+      },
+      {
+        "source": "protocolo",
+        "page": 8
+      }
+    ],
+    "explanation": "El manual fija las velocidades máximas en CABA para vehículos de hasta 3500 kg: pasajes 20 km/h, calles y colectoras 40 km/h, avenidas 60 km/h y autopistas 100 km/h. Las calles de convivencia y peatonales no entran en esta actividad: el material oficial les asigna valores distintos (manual PDF 26 y 72) y todavía no está resuelto cuál rige. La autoridad puede modificarlas en algunos tramos y lo indica con señales; durante el examen práctico, además, el límite es 30 km/h en calles y 45 km/h en avenidas.",
+    "status": "revisada",
+    "variants": [
+      {
+        "id": "street",
+        "prompt": "Manejás un auto (menos de 3500 kg) por una calle de la Ciudad sin otra señalización. ¿Cuál es la velocidad máxima?",
+        "options": [
+          {
+            "id": "20",
+            "text": "20 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "40",
+            "text": "40 km/h",
+            "correct": true,
+            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "60",
+            "text": "60 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "100",
+            "text": "100 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          }
+        ]
+      },
+      {
+        "id": "avenue",
+        "prompt": "Manejás un auto (menos de 3500 kg) por una avenida de la Ciudad sin otra señalización. ¿Cuál es la velocidad máxima?",
+        "options": [
+          {
+            "id": "20",
+            "text": "20 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "40",
+            "text": "40 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "60",
+            "text": "60 km/h",
+            "correct": true,
+            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "100",
+            "text": "100 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          }
+        ]
+      },
+      {
+        "id": "passage",
+        "prompt": "Manejás un auto (menos de 3500 kg) por un pasaje de la Ciudad sin otra señalización. ¿Cuál es la velocidad máxima?",
+        "options": [
+          {
+            "id": "20",
+            "text": "20 km/h",
+            "correct": true,
+            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "40",
+            "text": "40 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "60",
+            "text": "60 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "100",
+            "text": "100 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          }
+        ]
+      },
+      {
+        "id": "highway",
+        "prompt": "Manejás un auto (menos de 3500 kg) por una autopista de la Ciudad sin otra señalización. ¿Cuál es la velocidad máxima?",
+        "options": [
+          {
+            "id": "20",
+            "text": "20 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "40",
+            "text": "40 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "60",
+            "text": "60 km/h",
+            "correct": false,
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          },
+          {
+            "id": "100",
+            "text": "100 km/h",
+            "correct": true,
+            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.turn-signal-distance",
+    "type": "single-choice",
+    "title": "Anticipar un giro",
+    "unitIds": [
+      "manual.ch3.turn-general-steps",
+      "manual.ch3.turn-lane-positioning"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 75
+      },
+      {
+        "source": "protocolo",
+        "page": 12
+      }
+    ],
+    "explanation": "En todos los giros hay que anticipar la maniobra 30 metros antes con la luz de giro, circular como mínimo esos 30 metros por el carril más cercano al lado del giro, reducir la velocidad paulatinamente y girar a marcha moderada. En el examen práctico, señalizar o ubicarse a menos de 30 m de la bocacalle es una falla.",
+    "status": "revisada",
+    "variants": [
+      {
+        "id": "signal",
+        "prompt": "¿Con cuánta anticipación hay que encender la luz de giro antes de doblar?",
+        "options": [
+          {
+            "id": "a",
+            "text": "30 metros antes",
+            "correct": true,
+            "feedback": "¡Correcto! El manual pide anticipar la maniobra 30 m antes con la luz de giro."
+          },
+          {
+            "id": "b",
+            "text": "Recién al llegar a la esquina",
+            "correct": false,
+            "feedback": "Tarde: quienes te rodean necesitan saberlo antes. Son 30 m."
+          },
+          {
+            "id": "c",
+            "text": "5 metros antes",
+            "correct": false,
+            "feedback": "No alcanza: el manual indica 30 m."
+          },
+          {
+            "id": "d",
+            "text": "No hace falta si no viene nadie",
+            "correct": false,
+            "feedback": "Siempre se señaliza, haya o no otros vehículos a la vista."
+          }
+        ]
+      },
+      {
+        "id": "lane",
+        "prompt": "Vas a girar a la derecha en una calle de mano única. ¿Desde dónde tenés que circular?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Por el carril más cercano al lado del giro, como mínimo 30 metros antes",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo indica el manual (PDF 75)."
+          },
+          {
+            "id": "b",
+            "text": "Por cualquier carril, y cambiar en la esquina",
+            "correct": false,
+            "feedback": "Cambiar de carril en la esquina es peligroso; hay que ubicarse antes."
+          },
+          {
+            "id": "c",
+            "text": "Por el carril izquierdo, para tener más radio de giro",
+            "correct": false,
+            "feedback": "No: se dobla desde el carril más cercano al lado del giro."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.traffic-light-meaning",
+    "type": "single-choice",
+    "title": "Qué indica el semáforo",
+    "unitIds": [
+      "manual.ch3.traffic-light-colors"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 64
+      },
+      {
+        "source": "protocolo",
+        "page": 29
+      }
+    ],
+    "explanation": "Verde: avanzar, pero sin iniciar el cruce si no hay lugar del otro lado y dejando terminar a quien ya cruzaba. Amarillo: detenerse si aún no se inició el cruce. Amarillo intermitente: cruzar con precaución. Rojo: detenerse antes de la senda peatonal o de la línea de detención. Rojo intermitente: detenerse antes de la encrucijada y reiniciar solo con la certeza de que no hay riesgo.",
+    "status": "revisada",
+    "variants": [
+      {
+        "id": "yellow",
+        "prompt": "Te acercás a la esquina y el semáforo cambia a amarillo; todavía no empezaste a cruzar. ¿Qué hacés?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Me detengo, porque aún no inicié el cruce",
+            "correct": true,
+            "feedback": "¡Correcto! Amarillo: detenerse si aún no se inició el cruce."
+          },
+          {
+            "id": "b",
+            "text": "Acelero para pasar antes del rojo",
+            "correct": false,
+            "feedback": "No: el amarillo pide detenerse si todavía no empezaste a cruzar."
+          },
+          {
+            "id": "c",
+            "text": "Cruzo con precaución",
+            "correct": false,
+            "feedback": "Eso corresponde al amarillo intermitente, no al fijo."
+          }
+        ]
+      },
+      {
+        "id": "red-flashing",
+        "prompt": "El semáforo muestra rojo intermitente. ¿Qué indica?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Detenerme antes de la encrucijada y reiniciar solo cuando sea seguro",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo define el manual (PDF 64)."
+          },
+          {
+            "id": "b",
+            "text": "Que el semáforo no funciona y tengo prioridad",
+            "correct": false,
+            "feedback": "No: el rojo intermitente obliga a detenerse."
+          },
+          {
+            "id": "c",
+            "text": "Cruzar con precaución sin detenerme",
+            "correct": false,
+            "feedback": "Eso es el amarillo intermitente."
+          }
+        ]
+      },
+      {
+        "id": "green-blocked",
+        "prompt": "Tenés luz verde, pero del otro lado de la bocacalle no hay lugar para tu auto. ¿Qué hacés?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No inicio el cruce hasta que haya espacio",
+            "correct": true,
+            "feedback": "¡Correcto! Con verde no se debe iniciar el cruce si vas a obstruir la circulación transversal."
+          },
+          {
+            "id": "b",
+            "text": "Avanzo igual porque tengo verde",
+            "correct": false,
+            "feedback": "Bloquearías la encrucijada; en el examen además es una falla deficiente alta."
+          },
+          {
+            "id": "c",
+            "text": "Toco bocina para que se muevan",
+            "correct": false,
+            "feedback": "La bocina no resuelve la falta de espacio; esperá antes de la senda."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.regulatory-signs",
+    "type": "sign-identification",
+    "title": "Señales reglamentarias",
+    "unitIds": [
+      "manual.annex4.regulatory-priority",
+      "manual.annex4.regulatory-prohibition",
+      "manual.ch3.stop-vs-yield"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 185
+      },
+      {
+        "source": "manual",
+        "page": 186
+      },
+      {
+        "source": "manual",
+        "page": 64
+      }
+    ],
+    "explanation": "Las señales reglamentarias transmiten órdenes de cumplimiento obligatorio. PARE y CEDA EL PASO indican que se pierde la prioridad en la bocacalle: ante PARE hay que frenar a cero antes de la senda peatonal; ante CEDA EL PASO la detención total solo es obligatoria si hace falta para dejar pasar. CONTRAMANO prohíbe circular en ese sentido, y NO ESTACIONAR prohíbe estacionar (detenerse sí está permitido, a diferencia de NO ESTACIONAR NI DETENERSE).",
+    "status": "revisada",
+    "variants": [
+      {
+        "id": "stop",
+        "signId": "sign.regulatory.priority.stop",
+        "prompt": "¿Qué significa esta señal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Pare: detenerse por completo y ceder el paso",
+            "correct": true,
+            "feedback": "¡Correcto! Ante PARE hay que frenar a cero antes de la senda peatonal."
+          },
+          {
+            "id": "b",
+            "text": "Ceda el paso: detenerse solo si hace falta",
+            "correct": false,
+            "feedback": "Esa es CEDA EL PASO (triángulo invertido)."
+          },
+          {
+            "id": "c",
+            "text": "Prohibido estacionar",
+            "correct": false,
+            "feedback": "No: el octógono rojo es PARE."
+          }
+        ]
+      },
+      {
+        "id": "yield",
+        "signId": "sign.regulatory.priority.yield",
+        "prompt": "¿Qué significa esta señal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Ceda el paso: detenerse solo si hace falta",
+            "correct": true,
+            "feedback": "¡Correcto! Se pierde la prioridad, pero la detención total no siempre es obligatoria."
+          },
+          {
+            "id": "b",
+            "text": "Pare: detenerse por completo y ceder el paso",
+            "correct": false,
+            "feedback": "Esa es PARE (octógono rojo)."
+          },
+          {
+            "id": "c",
+            "text": "Peligro: cruce de peatones",
+            "correct": false,
+            "feedback": "No: el triángulo invertido blanco con borde rojo es CEDA EL PASO."
+          }
+        ]
+      },
+      {
+        "id": "wrong-way",
+        "signId": "sign.regulatory.prohibition.wrong-way",
+        "prompt": "¿Qué significa esta señal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Contramano: no se puede circular en ese sentido",
+            "correct": true,
+            "feedback": "¡Correcto! Círculo rojo con barra blanca horizontal: contramano."
+          },
+          {
+            "id": "b",
+            "text": "Prohibido estacionar",
+            "correct": false,
+            "feedback": "No: prohibido estacionar es un círculo blanco con borde rojo, barra diagonal y una E."
+          },
+          {
+            "id": "c",
+            "text": "Calle sin salida",
+            "correct": false,
+            "feedback": "No: esa es una señal informativa rectangular."
+          }
+        ]
+      },
+      {
+        "id": "no-parking",
+        "signId": "sign.regulatory.prohibition.no-parking",
+        "prompt": "¿Qué significa esta señal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Prohibido estacionar",
+            "correct": true,
+            "feedback": "¡Correcto! La E tachada prohíbe estacionar; detenerse sí está permitido."
+          },
+          {
+            "id": "b",
+            "text": "Prohibido estacionar y detenerse",
+            "correct": false,
+            "feedback": "Casi: esa variante no lleva la E, sino una figura rectangular tachada."
+          },
+          {
+            "id": "c",
+            "text": "Estacionamiento exclusivo",
+            "correct": false,
+            "feedback": "No: la barra diagonal roja indica prohibición."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.normative-priority-order",
+    "type": "ordering",
+    "title": "Qué norma manda primero",
+    "unitIds": [
+      "manual.ch3.normative-priority-order",
+      "manual.ch3.traffic-authority-orders"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 58
+      }
+    ],
+    "explanation": "La Ley 2148 fija un orden de prioridad normativa para cuando las indicaciones se contradicen: 1° señales u órdenes de la autoridad de control, 2° señales transitorias, 3° semáforos, 4° señal vertical y demarcación horizontal, 5° normas legales de carácter general.",
+    "status": "revisada",
+    "variants": [
+      {
+        "id": "full",
+        "prompt": "Ordená de mayor a menor prioridad, según la Ley 2148:",
+        "items": [
+          {
+            "id": "agent",
+            "text": "Señales u órdenes de la autoridad de control",
+            "reason": "están por encima de cualquier norma o señalización"
+          },
+          {
+            "id": "temporary",
+            "text": "Señales transitorias",
+            "reason": "por obras o situaciones temporarias, están por encima del semáforo"
+          },
+          {
+            "id": "lights",
+            "text": "Semáforos",
+            "reason": "prevalecen sobre la señal vertical y la demarcación"
+          },
+          {
+            "id": "signs",
+            "text": "Señal vertical y demarcación horizontal",
+            "reason": "tienen el mismo nivel entre sí"
+          },
+          {
+            "id": "law",
+            "text": "Normas legales de carácter general",
+            "reason": "rigen cuando no hay señalización específica"
+          }
+        ]
+      },
+      {
+        "id": "conflict",
+        "prompt": "Un agente de tránsito, un semáforo y un cartel de PARE indican cosas distintas. Ordená de mayor a menor prioridad:",
+        "items": [
+          {
+            "id": "agent",
+            "text": "El agente de tránsito",
+            "reason": "la autoridad de control está primera (1°)"
+          },
+          {
+            "id": "lights",
+            "text": "El semáforo",
+            "reason": "los semáforos son el 3° nivel"
+          },
+          {
+            "id": "signs",
+            "text": "El cartel de PARE",
+            "reason": "la señal vertical es el 4° nivel"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.turn-steps-order",
+    "type": "ordering",
+    "title": "Los pasos de un giro",
+    "unitIds": [
+      "manual.ch3.turn-general-steps",
+      "manual.ch3.turn-lane-positioning"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 75
+      }
+    ],
+    "explanation": "En todos los casos: ubicarse por el carril del lado del giro y anticipar la maniobra 30 metros antes con la luz de giro, reducir la velocidad paulatinamente antes de la bocacalle y efectuar el giro a marcha moderada.",
+    "status": "revisada",
+    "variants": [
+      {
+        "id": "right-turn",
+        "prompt": "Vas a doblar a la derecha. Ordená los pasos:",
+        "items": [
+          {
+            "id": "position",
+            "text": "Ubicarme en el carril derecho y encender la luz de giro, 30 m antes",
+            "reason": "anticipa la maniobra a quienes te rodean"
+          },
+          {
+            "id": "slow",
+            "text": "Reducir la velocidad paulatinamente",
+            "reason": "se hace antes de llegar a la bocacalle"
+          },
+          {
+            "id": "turn",
+            "text": "Girar a marcha moderada",
+            "reason": "el giro se efectúa en la bocacalle, sin brusquedad"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.turn-with-pedestrian",
+    "type": "decision",
+    "title": "Doblar con gente cruzando",
+    "unitIds": [
+      "manual.ch1.turning-yield-to-pedestrians",
+      "manual.ch3.turn-general-steps"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 26
+      },
+      {
+        "source": "manual",
+        "page": 75
+      },
+      {
+        "source": "protocolo",
+        "page": 29
+      }
+    ],
+    "explanation": "Aunque tengas luz verde, si al girar hay peatones cruzando la calle a la que entrás, tenés que frenar y cederles el paso. El giro se prepara 30 m antes: carril del lado del giro, luz de giro y reducción de velocidad. En el examen práctico, no ceder el paso a peatones o ciclistas que cruzan es una falla deficiente alta.",
+    "status": "revisada",
+    "variants": [
+      {
+        "id": "green-right-turn",
+        "start": "approach",
+        "nodes": {
+          "approach": {
+            "text": "Circulás por una calle de mano única y querés doblar a la derecha en la próxima esquina. El semáforo está en verde.",
+            "choices": [
+              {
+                "id": "prepare",
+                "text": "30 m antes enciendo la luz de giro, me ubico en el carril derecho y reduzco",
+                "next": "crossing"
+              },
+              {
+                "id": "late",
+                "text": "Enciendo la luz de giro recién al llegar a la esquina",
+                "outcome": "late-signal"
+              },
+              {
+                "id": "left-lane",
+                "text": "Sigo por el carril izquierdo y doblo desde ahí",
+                "outcome": "wrong-lane"
+              }
+            ]
+          },
+          "crossing": {
+            "text": "Al empezar a doblar, una persona comienza a cruzar por la senda de la calle a la que entrás.",
+            "choices": [
+              {
+                "id": "yield",
+                "text": "Freno y le cedo el paso, aunque tenga verde",
+                "outcome": "good"
+              },
+              {
+                "id": "go",
+                "text": "Paso primero: tengo verde",
+                "outcome": "no-yield"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Preparaste el giro a tiempo y cediste el paso a quien cruzaba (manual PDF 26 y 75)."
+          },
+          "no-yield": {
+            "correct": false,
+            "feedback": "Con luz verde también hay que ceder el paso a los peatones que cruzan al girar (manual PDF 26)."
+          },
+          "late-signal": {
+            "correct": false,
+            "feedback": "La luz de giro se enciende 30 m antes, no en la esquina (manual PDF 75)."
+          },
+          "wrong-lane": {
+            "correct": false,
+            "feedback": "Para girar hay que circular como mínimo 30 m antes por el carril más cercano al lado del giro (manual PDF 75)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.emergency-vehicle",
+    "type": "decision",
+    "title": "Llega una ambulancia",
+    "unitIds": [
+      "manual.ch3.emergency-vehicle-priority",
+      "manual.ch3.emergency-vehicle-beacons-only",
+      "manual.ch3.yielding-to-emergency-vehicles-by-lanes"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 62
+      },
+      {
+        "source": "manual",
+        "page": 63
+      }
+    ],
+    "explanation": "Un vehículo de emergencia con señales lumínicas y sonoras encendidas está en cumplimiento de sus funciones: hay que facilitarle el paso, despejar el carril preferencial y, si hace falta, detenerse. En vías de dos carriles por sentido, quien va por el derecho se aparta hacia la derecha y quien va por el izquierdo, hacia la izquierda. No hay que ubicarse delante ni inmediatamente detrás. Si solo lleva balizas, está en servicio pero no en emergencia.",
+    "status": "revisada",
+    "variants": [
+      {
+        "id": "two-lanes-left",
+        "start": "siren",
+        "nodes": {
+          "siren": {
+            "text": "Vas por el carril izquierdo de una avenida con dos carriles por sentido. Por detrás se acerca una ambulancia con sirena y balizas encendidas.",
+            "choices": [
+              {
+                "id": "left",
+                "text": "Me aparto hacia la izquierda y le dejo el paso",
+                "outcome": "good"
+              },
+              {
+                "id": "right",
+                "text": "Me cruzo al carril derecho",
+                "outcome": "wrong-side"
+              },
+              {
+                "id": "follow",
+                "text": "La dejo pasar y me pego detrás para avanzar más rápido",
+                "outcome": "tailgate"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! En dos carriles por sentido, quien va por el izquierdo se aparta hacia la izquierda (manual PDF 63)."
+          },
+          "wrong-side": {
+            "correct": false,
+            "feedback": "Cruzarte puede cerrarle el paso: el carril izquierdo se aparta hacia la izquierda (manual PDF 63)."
+          },
+          "tailgate": {
+            "correct": false,
+            "feedback": "No hay que ubicarse ni delante ni inmediatamente detrás de un vehículo en emergencia (manual PDF 63)."
+          }
+        }
+      },
+      {
+        "id": "beacons-only",
+        "start": "beacons",
+        "nodes": {
+          "beacons": {
+            "text": "Una ambulancia circula delante tuyo con las balizas encendidas, pero sin sirena.",
+            "choices": [
+              {
+                "id": "normal",
+                "text": "Circulo normalmente: está en servicio, pero no en emergencia",
+                "outcome": "good"
+              },
+              {
+                "id": "stop",
+                "text": "Me detengo en el acto para cederle el paso",
+                "outcome": "not-emergency"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Con solo balizas está en servicio, no en emergencia, y no tiene prioridad de paso (manual PDF 62). Atención: por razones médicas a veces activa la sirena solo cuando necesita su prioridad."
+          },
+          "not-emergency": {
+            "correct": false,
+            "feedback": "Con solo balizas no está en emergencia ni tiene prioridad de paso (manual PDF 62); frenar de golpe puede generar un riesgo."
+          }
+        }
+      }
+    ]
+  }
+]
