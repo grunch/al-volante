@@ -1,6 +1,6 @@
 # Cobertura del manual y de la guía de siniestros
 
-Entregable de F01-T02. Fecha: 2026-10-11. Estado: **inventario completo, contenido en estado `transcrita`.**
+Entregable de F01-T02. Fecha: 2026-10-11. Estado: **inventario completo, contenido en estado `transcribed` (transcrito).**
 
 Define qué hay que enseñar: cada página del manual teórico (200 páginas) y de la guía práctica de siniestros viales (24 páginas) está clasificada, y cada contenido instructivo está registrado como unidad de conocimiento o como señal, con su página. El protocolo de examen y el documento de recorridos se tratan en F01-T03 (`REGLAS.md`) y F01-T04 (`RECORRIDO.md`).
 
@@ -36,7 +36,7 @@ Las claves y los ids están en inglés; títulos, resúmenes y descripciones, en
 
 **Tipo de página:** `instructional`, `chapter-cover`, `closing-quote`, `toc`, `cover`, `credits` y `other`.
 
-**Estado de cada unidad o señal** (escala común del proyecto): `pendiente` → `transcrita` → `revisada` → `implementada` → `probada`. Todo el catálogo está en `transcrita`: el contenido está extraído y citado, pero no fue revisado contra la fuente unidad por unidad. Pasa a `revisada` cuando F05 lo revise antes de convertirlo en actividad; las cuatro páginas verificadas por muestreo no cambian ese estado global.
+**Estado de cada unidad o señal** (escala común del proyecto; los valores de `status` en los catálogos están en inglés, como el resto del código): `pending` (pendiente) → `transcribed` (transcrito) → `reviewed` (revisado) → `implemented` (implementado) → `tested` (probado). Todo el catálogo está en `transcribed`: el contenido está extraído y citado, pero no fue revisado contra la fuente unidad por unidad. Pasa a `reviewed` cuando F05 lo revise antes de convertirlo en actividad; las cuatro páginas verificadas por muestreo no cambian ese estado global.
 
 ## Cobertura por sección
 
@@ -118,7 +118,7 @@ La propia guía tiene diferencias entre su índice y sus títulos (siniestros PD
 
 ## Limitaciones
 
-- La transcripción la hicieron subagentes; el autor verificó por muestreo cuatro páginas críticas y la integridad estructural completa. Por eso el estado global es `transcrita` y no `revisada`.
+- La transcripción la hicieron subagentes; el autor verificó por muestreo cuatro páginas críticas y la integridad estructural completa. Por eso el estado global es `transcribed` y no `reviewed`.
 - Hay 5 observaciones `illegible`: rótulos menores del mapa de PDF 28, un pictograma de PDF 29, una etiqueta duplicada del mapa de hospitales (PDF 150), los teléfonos de las placas de acarreo (PDF 185) y la señal «Barreras ferroviarias» (PDF 186), que está incompleta en el propio PDF.
 - La vigencia normativa no se verificó: es tarea de F05 y F07-T04, según la propuesta (§9).
 
@@ -134,5 +134,5 @@ El validador falla si alguna página de las fuentes auditadas no está clasifica
 ## Uso en fases siguientes
 
 - F02-T02 carga estos catálogos con esquemas formales; los ids son estables.
-- F05 convierte las unidades en actividades, resuelve las discrepancias señaladas y lleva cada unidad a `revisada`, `implementada` y `probada`.
+- F05 convierte las unidades en actividades, resuelve las discrepancias señaladas y lleva cada unidad a `reviewed`, `implemented` y `tested`.
 - El catálogo visual del anexo IV (`signs.json`) es la referencia para dibujar las señales del juego y para las actividades de reconocimiento.

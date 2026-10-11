@@ -40,7 +40,7 @@ export function unit(overrides: Partial<KnowledgeUnit> & Pick<KnowledgeUnit, 'id
     summary: 'Prioridad en rotonda.',
     keyFacts: [],
     figureBased: false,
-    status: 'transcrita',
+    status: 'transcribed',
     notes: '',
     ...overrides,
   };
@@ -54,7 +54,7 @@ export function sign(overrides: Partial<Sign> & Pick<Sign, 'id'>): Sign {
     meaning: '',
     visual: 'Círculo rojo',
     printedCode: null,
-    status: 'transcrita',
+    status: 'transcribed',
     notes: '',
     ...overrides,
   };
@@ -94,7 +94,7 @@ export function rule(overrides: Partial<Rule> & Pick<Rule, 'id' | 'severity' | '
     examinerAction: null,
     parameters: {},
     refs: [{ source: 'protocolo', page: 23 }],
-    status: 'transcrita',
+    status: 'transcribed',
     notes: '',
     ...overrides,
   };
@@ -102,7 +102,7 @@ export function rule(overrides: Partial<Rule> & Pick<Rule, 'id' | 'severity' | '
 
 export function ruleCatalog(rules: Rule[]): RuleCatalog {
   return {
-    source: { id: 'protocolo', edition: '2023-09-14', sha256: 'b'.repeat(64) },
+    source: { id: 'protocolo', edition: '2023', sha256: 'a'.repeat(64) },
     scoring: {
       pointsBySeverity: { minor: 1, low: 2, high: 3, eliminatory: 8 },
       passMaxPoints: 7,
@@ -148,7 +148,7 @@ function leg(overrides: Partial<RouteLeg> & Pick<RouteLeg, 'leg' | 'street' | 'o
     lengthM: 200,
     osmWays: [10],
     oneWay: true,
-    roadType: 'calle',
+    roadType: 'street',
     postedMaxKmhOsm: [40],
     examMaxKmh: 30,
     lanesOsm: [],
@@ -164,7 +164,7 @@ function leg(overrides: Partial<RouteLeg> & Pick<RouteLeg, 'leg' | 'street' | 'o
       },
     ],
     turnIntoNext: { direction: 'left', angleDeg: 90, nextStreet: 'X' },
-    status: 'fuente-unica',
+    status: 'single-source',
     evidence: 'OSM',
     ...overrides,
   };
@@ -188,7 +188,7 @@ export function route(): Route {
     },
     projection: PROJECTION,
     loopLengthM: 400,
-    start: { label: 'Inicio', leg: 1, status: 'aproximacion', notes: '' },
+    start: { label: 'Inicio', leg: 1, status: 'approximation', notes: '' },
     legs: [
       leg({
         leg: 1,
@@ -200,7 +200,7 @@ export function route(): Route {
         leg: 2,
         street: 'Avenida Dos',
         officialSteps: [2],
-        roadType: 'avenida',
+        roadType: 'avenue',
         examMaxKmh: 45,
         path: [routePoint(3, 100, 100), routePoint(4, 0, 100), routePoint(1, 0, 0)],
       }),
@@ -209,7 +209,7 @@ export function route(): Route {
       {
         legs: [2],
         type: 'traffic_signals',
-        status: 'verificado-fuentes',
+        status: 'sources-verified',
         sources: ['osm', 'gcba'],
         ...routePoint(4, 0, 100),
       },
@@ -228,7 +228,7 @@ export function choiceActivity(
     unitIds: ['manual.ch3.roundabout-priority'],
     refs: [{ source: 'manual', page: 2 }],
     explanation: 'Explicación.',
-    status: 'revisada',
+    status: 'reviewed',
     variants: [
       {
         id: 'v1',

@@ -53,6 +53,41 @@ describe('validateContent', () => {
     expect(result.errors).toContain('route: sources.route: cites recorridos, which is not in the manifest');
   });
 
+  it('fixes the protocol scoring invariants (protocolo PDF 10 and 14)', () => {
+    const variants = [
+      { requiresAllStagesCompleted: false },
+      { cumulativeAcrossStages: false },
+      { maxPointsBeforeCirculation: 8 },
+    ];
+
+    for (const patch of variants) {
+      const raw = rawFixture();
+      const rules = raw.rules as ReturnType<typeof ruleCatalog>;
+      raw.rules = { ...rules, scoring: { ...rules.scoring, ...patch } };
+      const result = validateContent(raw);
+      const field = Object.keys(patch)[0] as string;
+      expect(result.ok, field).toBe(false);
+      if (result.ok) continue;
+      expect(
+        result.errors.some((error) => error.includes(`scoring.${field}`)),
+        field,
+      ).toBe(true);
+    }
+  });
+
+  it('rejects a rule catalog built from another edition of the protocol than the manifest', () => {
+    const raw = rawFixture();
+    const rules = raw.rules as ReturnType<typeof ruleCatalog>;
+    raw.rules = { ...rules, source: { ...rules.source, edition: '2020-01-01', sha256: 'c'.repeat(64) } };
+
+    const result = validateContent(raw);
+
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.errors).toContain('rules: source edition 2020-01-01 does not match the manifest (2023)');
+    expect(result.errors).toContain('rules: source sha256 does not match the manifest');
+  });
+
   it('computes a deterministic content version that changes with the content', () => {
     const raw = rawFixture();
     const same = rawFixture();

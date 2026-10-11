@@ -49,7 +49,7 @@
   "start": {
     "label": "Inicio de examen: Quesada al 2381 (cajón en Quesada al 2300, entre Vuelta de Obligado y Av. Cabildo)",
     "leg": 1,
-    "status": "aproximacion",
+    "status": "approximation",
     "notes": "La posición exacta del cajón dentro de la cuadra no surge de las fuentes; se fija en F04-T01 con relevamiento y se marca como aproximación hasta entonces."
   },
   "legs": [
@@ -65,7 +65,7 @@
         61756681
       ],
       "oneWay": true,
-      "roadType": "calle",
+      "roadType": "street",
       "postedMaxKmhOsm": [
         40
       ],
@@ -110,7 +110,7 @@
           "y": -0.0
         }
       ],
-      "status": "fuente-unica",
+      "status": "single-source",
       "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
     },
     {
@@ -125,7 +125,7 @@
         63514246
       ],
       "oneWay": true,
-      "roadType": "avenida",
+      "roadType": "avenue",
       "postedMaxKmhOsm": [
         60
       ],
@@ -201,7 +201,7 @@
           "y": 189.8
         }
       ],
-      "status": "fuente-unica",
+      "status": "single-source",
       "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
     },
     {
@@ -216,7 +216,7 @@
         346315238
       ],
       "oneWay": true,
-      "roadType": "calle",
+      "roadType": "street",
       "postedMaxKmhOsm": [
         40
       ],
@@ -276,7 +276,7 @@
           "y": 288.1
         }
       ],
-      "status": "fuente-unica",
+      "status": "single-source",
       "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
     },
     {
@@ -290,7 +290,7 @@
         86576244
       ],
       "oneWay": true,
-      "roadType": "calle",
+      "roadType": "street",
       "postedMaxKmhOsm": [
         30
       ],
@@ -335,7 +335,7 @@
           "y": 87.3
         }
       ],
-      "status": "fuente-unica",
+      "status": "single-source",
       "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
     },
     {
@@ -349,7 +349,7 @@
         43340296
       ],
       "oneWay": true,
-      "roadType": "calle",
+      "roadType": "street",
       "postedMaxKmhOsm": [
         30
       ],
@@ -394,7 +394,7 @@
           "y": 122.7
         }
       ],
-      "status": "fuente-unica",
+      "status": "single-source",
       "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
     },
     {
@@ -409,7 +409,7 @@
         519835126
       ],
       "oneWay": true,
-      "roadType": "calle",
+      "roadType": "street",
       "postedMaxKmhOsm": [
         30,
         40
@@ -472,7 +472,7 @@
           "y": -99.8
         }
       ],
-      "status": "fuente-unica",
+      "status": "single-source",
       "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
     },
     {
@@ -486,7 +486,7 @@
         693752605
       ],
       "oneWay": true,
-      "roadType": "calle",
+      "roadType": "street",
       "postedMaxKmhOsm": [
         40
       ],
@@ -533,7 +533,7 @@
           "y": -154.3
         }
       ],
-      "status": "fuente-unica",
+      "status": "single-source",
       "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
     },
     {
@@ -547,7 +547,7 @@
         447800896
       ],
       "oneWay": true,
-      "roadType": "calle",
+      "roadType": "street",
       "postedMaxKmhOsm": [
         40
       ],
@@ -601,7 +601,7 @@
           "y": 67.8
         }
       ],
-      "status": "fuente-unica",
+      "status": "single-source",
       "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
     }
   ],
@@ -623,7 +623,7 @@
       ],
       "gcbaId": "B-CR-03655",
       "gcbaAddress": "Cabildo Av. y Quesada, CABA",
-      "status": "verificado-fuentes"
+      "status": "sources-verified"
     },
     {
       "legs": [
@@ -638,7 +638,7 @@
       "sources": [
         "osm"
       ],
-      "status": "fuente-unica"
+      "status": "single-source"
     },
     {
       "legs": [
@@ -653,7 +653,7 @@
       "sources": [
         "osm"
       ],
-      "status": "fuente-unica"
+      "status": "single-source"
     },
     {
       "legs": [
@@ -671,7 +671,7 @@
       ],
       "gcbaId": "B-CR-03629",
       "gcbaAddress": "Cabildo Av. y Iberá, CABA",
-      "status": "verificado-fuentes"
+      "status": "sources-verified"
     },
     {
       "legs": [
@@ -686,7 +686,7 @@
       "sources": [
         "osm"
       ],
-      "status": "fuente-unica"
+      "status": "single-source"
     },
     {
       "legs": [
@@ -701,7 +701,7 @@
       "sources": [
         "osm"
       ],
-      "status": "fuente-unica"
+      "status": "single-source"
     },
     {
       "legs": [
@@ -716,7 +716,7 @@
       "sources": [
         "osm"
       ],
-      "status": "fuente-unica"
+      "status": "single-source"
     },
     {
       "legs": [
@@ -731,7 +731,7 @@
       "sources": [
         "osm"
       ],
-      "status": "fuente-unica"
+      "status": "single-source"
     },
     {
       "legs": [
@@ -749,7 +749,7 @@
       ],
       "gcbaId": "B-CR-03662",
       "gcbaAddress": "Congreso Av. y Cuba, CABA",
-      "status": "verificado-fuentes"
+      "status": "sources-verified"
     },
     {
       "legs": [
@@ -764,7 +764,7 @@
       "sources": [
         "osm"
       ],
-      "status": "fuente-unica"
+      "status": "single-source"
     },
     {
       "legs": [
@@ -779,7 +779,7 @@
       "sources": [
         "osm"
       ],
-      "status": "fuente-unica"
+      "status": "single-source"
     },
     {
       "legs": [
@@ -797,7 +797,7 @@
       ],
       "gcbaId": "B-CR-03661",
       "gcbaAddress": "Congreso Av. y Vuelta de Obligado, CABA",
-      "status": "verificado-fuentes"
+      "status": "sources-verified"
     },
     {
       "legs": [
@@ -812,7 +812,7 @@
       "sources": [
         "osm"
       ],
-      "status": "fuente-unica"
+      "status": "single-source"
     },
     {
       "legs": [
@@ -830,7 +830,7 @@
       ],
       "gcbaId": "B-CR-00064",
       "gcbaAddress": "CABILDO AV. y GUAYRA",
-      "status": "discrepancia",
+      "status": "discrepancy",
       "notes": "El dataset oficial lista un cruce semaforizado en Cabildo y Guayra; OSM no tiene el nodo de semáforo. Se adopta el dato oficial, a verificar en terreno."
     }
   ],
@@ -838,19 +838,19 @@
     {
       "type": "metrobus",
       "street": "Av. Cabildo",
-      "status": "fuente-unica",
+      "status": "single-source",
       "notes": "Metrobús Norte por el centro de Av. Cabildo (ways OSM bus=designated). Invadir carriles exclusivos es la eliminatoria j (REGLAS.md)."
     },
     {
       "type": "cycle-track",
       "street": "Cuba / Quesada",
-      "status": "fuente-unica",
+      "status": "single-source",
       "notes": "Ciclovía bidireccional protegida sobre el lado izquierdo de Cuba (Guayra–Congreso) y del empalme por Quesada (OSM cycleway:left=track). También cruzan ciclovías Iberá y Congreso."
     },
     {
       "type": "avenue-crossing",
       "street": "Av. Congreso",
-      "status": "verificado-fuentes",
+      "status": "sources-verified",
       "notes": "Cuba y Vuelta de Obligado cruzan la Av. Congreso con semáforo (OSM y GCBA B-CR-03662, B-CR-03661)."
     }
   ]

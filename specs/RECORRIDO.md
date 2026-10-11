@@ -49,19 +49,21 @@ El inicio (E) está dentro del tramo 1, por eso ese tramo cubre los pasos oficia
 
 ## 5. Controles y señalización
 
+La columna «Estado» usa los valores de `status` del catálogo: `sources-verified` (coinciden dos fuentes), `single-source` (una sola fuente), `discrepancy` (las fuentes no coinciden), `approximation` (aproximación) y `surveyed` (relevado en terreno).
+
 | Intersección | Control | Fuentes | Estado |
 |---|---|---|---|
-| Quesada y Av. Cabildo | Semáforo | OSM + GCBA B-CR-03655 | verificado-fuentes |
-| Av. Cabildo e Iberá | Semáforo; sendas semaforizadas | OSM + GCBA B-CR-03629 | verificado-fuentes |
-| Av. Cabildo y Guayra | Semáforo | GCBA B-CR-00064; OSM no lo tiene | **discrepancia**: se adopta el dato oficial, a verificar en terreno |
-| Guayra y Cuba | PARE en Guayra | OSM | fuente-unica |
-| Cuba e Iberá | PARE en Cuba | OSM | fuente-unica |
-| Quesada y Cuba sur | PARE en Quesada | OSM | fuente-unica |
-| Cuba y Av. Congreso | Semáforo | OSM + GCBA B-CR-03662 | verificado-fuentes |
-| Cuba antes de Manuel Ugarte | Reductor (lomo de burro) | OSM | fuente-unica |
-| Manuel Ugarte y Vuelta de Obligado | PARE en Manuel Ugarte | OSM | fuente-unica |
-| Vuelta de Obligado y Av. Congreso | Semáforo | OSM + GCBA B-CR-03661 | verificado-fuentes |
-| Vuelta de Obligado y Quesada | PARE en Vuelta de Obligado | OSM | fuente-unica |
+| Quesada y Av. Cabildo | Semáforo | OSM + GCBA B-CR-03655 | `sources-verified` |
+| Av. Cabildo e Iberá | Semáforo; sendas semaforizadas | OSM + GCBA B-CR-03629 | `sources-verified` |
+| Av. Cabildo y Guayra | Semáforo | GCBA B-CR-00064; OSM no lo tiene | `discrepancy`: se adopta el dato oficial, a verificar en terreno |
+| Guayra y Cuba | PARE en Guayra | OSM | `single-source` |
+| Cuba e Iberá | PARE en Cuba | OSM | `single-source` |
+| Quesada y Cuba sur | PARE en Quesada | OSM | `single-source` |
+| Cuba y Av. Congreso | Semáforo | OSM + GCBA B-CR-03662 | `sources-verified` |
+| Cuba antes de Manuel Ugarte | Reductor (lomo de burro) | OSM | `single-source` |
+| Manuel Ugarte y Vuelta de Obligado | PARE en Manuel Ugarte | OSM | `single-source` |
+| Vuelta de Obligado y Av. Congreso | Semáforo | OSM + GCBA B-CR-03661 | `sources-verified` |
+| Vuelta de Obligado y Quesada | PARE en Vuelta de Obligado | OSM | `single-source` |
 
 Las intersecciones internas sin semáforo en OSM (Guayra–Vuelta de Obligado, Cuba–Quesada y las de Manuel Ugarte) tampoco figuran en el dataset del GCBA: las dos fuentes coinciden en que no tienen semáforo. Donde no hay PARE ni semáforo rigen las prioridades generales (manual, cap. 3).
 

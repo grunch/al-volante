@@ -57,6 +57,8 @@ Los catálogos viven en `specs/` (fuentes, páginas, unidades, señales, observa
    - `validateRoute`: secuencia oficial, continuidad, proyección, longitudes, giros, controles y citas de la fuente del recorrido;
    - `validateActivities`: conceptos y citas existentes, una sola opción correcta, señales conocidas y grafos de decisión sin ciclos ni nodos o desenlaces inalcanzables, con al menos un desenlace correcto alcanzable.
    - Toda cita (`refs.ts`) debe nombrar una fuente del manifiesto y una página dentro de su rango.
+   - El catálogo de reglas declara la edición y el `sha256` del protocolo del que salió; ambos tienen que coincidir con el manifiesto.
+   - `attemptErrors` (`validateAttempt.ts`) valida un intento contra las reglas: faltas de reglas conocidas con sus puntos, total coherente y ninguna falta en intentos de actividades.
 
 Además:
 
@@ -98,7 +100,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 
 ## Convenciones
 
-- **Idiomas** (`AGENTS.md`): código, nombres y comentarios en inglés; documentación en español; textos para quien juega en español rioplatense, siempre desde `src/i18n/es-AR.ts`.
+- **Idiomas** (`AGENTS.md`): código, nombres y comentarios en inglés; documentación en español; textos para quien juega en español rioplatense, siempre desde `src/i18n/es-AR.ts`. Los valores técnicos de los catálogos (estados, tipos de vía) también van en inglés; los ids de fuente conservan el nombre del documento oficial.
 - **Separación de capas**: el mundo 3D (`createGarageScene`) es un módulo puro de Three.js que no conoce React ni el renderer. `SceneCanvas` lo monta, recibe la fábrica del renderer por inyección (para probar sin WebGL) e informa su estado en `data-state` (`loading`, `ready`, `unavailable`).
 - **Carga diferida**: Three.js se carga en un chunk separado (`React.lazy`), así la parte teórica no espera el bundle 3D. El shell inicial pesa unos 70 kB comprimidos.
 - **Accesibilidad**: salto al contenido, foco visible, `prefers-reduced-motion` (la cámara del garaje deja de moverse), descripción textual de la escena y mensaje alternativo sin WebGL. Contraste verificado: texto noche sobre marfil 14,2:1; turquesa de texto sobre marfil 5,5:1.

@@ -102,6 +102,11 @@ export function validateContent(raw: RawContent): ContentResult {
       signIds: new Set(signs.map((sign) => sign.id)),
     }).map((error) => `activities: ${error}`),
   );
+  const protocol = manifest.find((source) => source.id === 'protocolo');
+  if (protocol && rules.source.edition !== protocol.edition)
+    errors.push(`rules: source edition ${rules.source.edition} does not match the manifest (${protocol.edition})`);
+  if (protocol && rules.source.sha256 !== protocol.sha256)
+    errors.push('rules: source sha256 does not match the manifest');
   if (errors.length > 0) return { ok: false, errors };
   return {
     ok: true,
