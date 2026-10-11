@@ -142,3 +142,12 @@ test('reports gaps and overlaps between curb distance bands', () => {
   assert.deepEqual(validateParkingBands(gap), ['parking bands leave a gap or overlap between second-line and outside']);
   assert.deepEqual(validateParkingBands(overlap), ['parking bands leave a gap or overlap between correct and second-line']);
 });
+
+test('rejects annex items outside the protocol set', () => {
+  const catalog = buildCatalog();
+  catalog.rules.push({ ...catalog.rules[0], id: 'rule.minor.z-extra', annexItem: 'z' });
+
+  const errors = validateRules(catalog, PROTOCOL_PAGES, { requireFullAnnex: false });
+
+  assert.ok(errors.includes('rule.minor.z-extra: unexpected annex item minor.z'));
+});

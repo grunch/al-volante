@@ -72,6 +72,9 @@ export function validateRules({ source, scoring, rules, parkingBands }, protocol
     const itemKey = `${rule.severity}.${rule.annexItem}`;
     if (annexItems.has(itemKey)) errors.push(`${id}: duplicate annex item ${itemKey}`);
     annexItems.add(itemKey);
+    if (EXPECTED_ANNEX_ITEMS[rule.severity] !== undefined && !(typeof rule.annexItem === 'string' && rule.annexItem.length === 1 && EXPECTED_ANNEX_ITEMS[rule.severity].includes(rule.annexItem))) {
+      errors.push(`${id}: unexpected annex item ${itemKey}`);
+    }
     if (!id.startsWith(`rule.${rule.severity}.${rule.annexItem}-`)) errors.push(`${id}: id does not match severity/annex item`);
     if (SEVERITY_POINTS[rule.severity] === undefined) errors.push(`${id}: invalid severity "${rule.severity}"`);
     else if (rule.points !== SEVERITY_POINTS[rule.severity]) errors.push(`${id}: points must be ${SEVERITY_POINTS[rule.severity]}`);

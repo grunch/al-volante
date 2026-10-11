@@ -1392,7 +1392,7 @@
           "page": 17
         }
       ],
-      "condition": "Antes de abrir la puerta no mira por el espejo lateral izquierdo ni gira la cabeza para verificar que no se acerquen vehículos o ciclistas.",
+      "condition": "Antes de abrir la puerta no mira por el espejo retrovisor lateral izquierdo para verificar que no se acerquen vehículos o ciclistas. Girar la cabeza no reemplaza al espejo.",
       "repetition": "single-check",
       "interrupts": false,
       "escalation": null,
@@ -1414,7 +1414,7 @@
         }
       ],
       "status": "transcrita",
-      "notes": ""
+      "notes": "PDF 13 («mirando por el espejo retrovisor antes de abrir la puerta») y PDF 27 («deberá mirar por el espejo retrovisor lateral izquierdo») exigen el espejo; la frase de PDF 27 «no observa a través del espejo retrovisor y/o gira la cabeza» es ambigua. Lectura adoptada, X7 en REGLAS.md §7: no mirar el espejo siempre es falla; el giro de cabeza es un complemento."
     },
     {
       "id": "rule.high.a-mirrors-not-checked",
@@ -1879,7 +1879,7 @@
           "page": 17
         }
       ],
-      "condition": "Al cruzar una bocacalle o al girar, no se detiene ni cede el paso a peatones o ciclistas que están cruzando.",
+      "condition": "Al cruzar una bocacalle o al girar, no cede el paso (deteniéndose si hace falta) a peatones o ciclistas que están cruzando.",
       "repetition": "unspecified",
       "interrupts": false,
       "escalation": {
@@ -2056,7 +2056,7 @@
           "page": 17
         }
       ],
-      "condition": "No chequea los espejos interior y laterales al detenerse en paralelo al cajón ni antes y durante la marcha atrás.",
+      "condition": "No chequea los espejos interior y laterales en alguno de estos momentos: al detenerse en paralelo al cajón, antes de la marcha atrás o durante la marcha atrás.",
       "repetition": "unspecified",
       "interrupts": false,
       "escalation": {
@@ -2104,7 +2104,7 @@
           "page": 15
         }
       ],
-      "condition": "Con motor apagado, no identifica ni ubica embrague, freno y acelerador (manual) o freno y acelerador (automática). Puede señalarlos mientras los nombra; no se le pregunta su función.",
+      "condition": "Con motor apagado, no identifica o no ubica alguno de los pedales: embrague, freno y acelerador (manual), o freno y acelerador (automática). Puede señalarlos mientras los nombra; no se le pregunta su función.",
       "repetition": "once",
       "interrupts": true,
       "escalation": null,
