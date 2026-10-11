@@ -220,6 +220,30 @@ describe('IndexedDB progress store', () => {
     expect(snapshot.attempts.find((attempt) => attempt.id === 'older')?.startedAt).toBe('2026-10-11T12:00:00.000Z');
   });
 
+  it('upgrades without touching unreadable attempts, so quarantine keeps them exactly as they were', async () => {
+    // Arrange: a version 2 database with an unreadable attempt that still has a valid ISO date.
+    const v2 = await openDB(DB_NAME, 2, {
+      upgrade(database) {
+        database.createObjectStore('attempts', { keyPath: 'id' });
+        database.createObjectStore('concepts', { keyPath: 'unitId' });
+        database.createObjectStore('quarantine', { autoIncrement: true });
+      },
+    });
+    const broken = { id: 'broken', kind: 'activity', startedAt: '2026-10-11T12:00:00Z' };
+    await v2.put('attempts', broken);
+    v2.close();
+
+    // Act
+    const store = await openProgressStore();
+    const { quarantined } = await store.load();
+
+    // Assert
+    expect(quarantined).toBe(1);
+    const raw = await openDB(DB_NAME);
+    expect(await raw.getAll('quarantine')).toEqual([{ store: 'attempts', key: 'broken', value: broken }]);
+    raw.close();
+  });
+
   it('upgrades a version 1 database without losing its progress', async () => {
     // Arrange: the version 1 layout had no quarantine store.
     const v1 = await openDB(DB_NAME, 1, {
