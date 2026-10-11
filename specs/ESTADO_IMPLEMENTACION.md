@@ -150,6 +150,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Codex, un respaldo con contadores imposibles (por ejemplo, 100 aciertos en 0 intentos) se aceptaba: el esquema del concepto exige las invariantes de `updateConcept`, con una prueba que confirma que los estados de secuencias reales siguen siendo válidos.
   - Codex, con dos pestañas una sobrescribía el dominio más nuevo de la otra: cada escritura lee el concepto guardado y calcula el nuevo dentro de la misma transacción.
   - La corrección de los seis espacios del inicio, que estaba en este PR, pasó a #9, donde correspondía.
+- Segunda revisión de Codex (sobre `3b92467`, revisión 5485016205), con prueba:
+  - Un respaldo con un repaso a décadas de distancia se aceptaba: ahora el próximo repaso tiene que caer dentro del intervalo de su caja y, después de un error, exactamente un día más tarde, como lo programa `updateConcept`.
 
 ## Pila y orden de fusión
 

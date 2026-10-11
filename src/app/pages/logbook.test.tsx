@@ -8,7 +8,7 @@ import { App } from '../App.tsx';
 import { routes } from '../routes.tsx';
 import { loadContent } from '../../content/catalog.ts';
 import { createBackup } from '../../progress/backup.ts';
-import { MASTERY_BOX } from '../../progress/model.ts';
+import { ConceptProgressSchema, MASTERY_BOX } from '../../progress/model.ts';
 import type { ConceptProgress } from '../../progress/model.ts';
 import { createMemoryStore } from '../../progress/storage.ts';
 import type { ProgressSnapshot, ProgressStore } from '../../progress/storage.ts';
@@ -33,6 +33,13 @@ function concept(unitId: string, overrides: Partial<ConceptProgress> = {}): Conc
     ...overrides,
   };
 }
+
+it('builds only concept states the schema accepts', () => {
+  const mastered = concept('u', { box: MASTERY_BOX, attempts: 4, correct: 3, dueAt: daysFromNow(5) });
+
+  expect(ConceptProgressSchema.safeParse(concept('u')).success).toBe(true);
+  expect(ConceptProgressSchema.safeParse(mastered).success).toBe(true);
+});
 
 function renderAt(path: string, openProgressStore?: () => Promise<ProgressStore>) {
   const router = createMemoryRouter(routes, { initialEntries: [path] });
@@ -127,7 +134,7 @@ describe('logbook contents', () => {
           box: MASTERY_BOX,
           attempts: 4,
           correct: 3,
-          dueAt: daysFromNow(10),
+          dueAt: daysFromNow(5),
         }),
         concept('manual.ch3.stop-vs-yield'),
       ],

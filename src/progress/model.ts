@@ -28,7 +28,12 @@ export const ConceptProgressSchema = z
     if (lastCorrect && correct < 1) fail('a correct last answer needs a correct answer');
     if (!lastCorrect && (box !== 1 || correct > attempts - 1)) fail('after a wrong answer the concept is in box 1');
     if (box > 1 && correct < box) fail('box n needs at least n correct answers');
-    if (Date.parse(dueAt) <= Date.parse(lastAttemptAt)) fail('the next review comes after the last answer');
+    // A review is never further away than the box interval, and exactly one day after a mistake.
+    const gapMs = Date.parse(dueAt) - Date.parse(lastAttemptAt);
+    const intervalMs = (LEITNER_INTERVALS_DAYS[box - 1] ?? 0) * DAY_MS;
+    if (gapMs <= 0 || gapMs > intervalMs) fail('the next review falls within the box interval after the last answer');
+    if (!lastCorrect && gapMs !== LEITNER_INTERVALS_DAYS[0] * DAY_MS)
+      fail('after a wrong answer the review is due one day later');
   });
 
 export type ConceptProgress = z.infer<typeof ConceptProgressSchema>;

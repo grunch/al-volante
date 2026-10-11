@@ -93,6 +93,15 @@ describe('masteryOf', () => {
 });
 
 describe('ConceptProgressSchema', () => {
+  it('accepts states reached by answering again before the review is due', () => {
+    let progress = updateConcept(undefined, 'u', true, T0);
+    progress = updateConcept(progress, 'u', true, at(1));
+    progress = updateConcept(progress, 'u', true, at(2));
+
+    expect(progress).toMatchObject({ box: 2, dueAt: at(4) });
+    expect(ConceptProgressSchema.safeParse(progress).success).toBe(true);
+  });
+
   it('accepts every state updateConcept produces', () => {
     let progress: ConceptProgress | undefined;
     [true, true, false, true, true, true, true, true, true, true].forEach((correct, step) => {
@@ -111,6 +120,8 @@ describe('ConceptProgressSchema', () => {
       'a wrong last answer outside box 1': { box: 2, attempts: 3, correct: 2, lastCorrect: false },
       'a correct last answer without correct answers': { correct: 0 },
       'a review due before the last answer': { dueAt: T0 },
+      'a review further away than the box interval': { dueAt: at(5) },
+      'a wrong answer reviewed years later': { box: 1, attempts: 2, correct: 1, lastCorrect: false, dueAt: at(3650) },
     };
 
     // Act / Assert
