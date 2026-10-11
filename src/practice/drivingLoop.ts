@@ -1,44 +1,58 @@
-import { NEUTRAL_CONTROLS, stepControls } from './controls.ts';
+import { NEUTRAL_CONTROLS, commandsForKey, stepControls } from './controls.ts';
+import { EXAM_SPECS, command, initialCarState, stepCar } from '../sim/car.ts';
+import type { CarControls, CarEvent, CarSpecs, CarState } from '../sim/car.ts';
 import { advance, createStepper, SIM_STEP_S } from '../sim/fixedStep.ts';
 import type { Stepper } from '../sim/fixedStep.ts';
-import { simpleDriveInput } from '../sim/simpleDrive.ts';
-import type { SimpleControls } from '../sim/simpleDrive.ts';
-import type { VehicleSpec, VehicleState } from '../sim/vehicle.ts';
-import { initialWorldState, stepWorld } from '../sim/world.ts';
-import type { Contact, World, WorldState } from '../sim/world.ts';
+import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
+import type { VehicleState } from '../sim/vehicle.ts';
+import type { World } from '../sim/world.ts';
 
 export interface DrivingFrame {
-  stepper: Stepper<WorldState>;
-  controls: SimpleControls;
-  /** First contact during the frame, if any. */
-  contact: Contact | null;
+  stepper: Stepper<CarState>;
+  controls: CarControls;
+  /** Everything that happened during the frame: command results and simulation events. */
+  events: CarEvent[];
   /** Fraction of the next step elapsed, to interpolate the view. */
   alpha: number;
 }
 
-export function startDriving(start: VehicleState): DrivingFrame {
-  return { stepper: createStepper(initialWorldState(start)), controls: NEUTRAL_CONTROLS, contact: null, alpha: 0 };
+export function startDriving(start: VehicleState, transmission: TransmissionKind): DrivingFrame {
+  return {
+    stepper: createStepper(initialCarState(start, transmission)),
+    controls: NEUTRAL_CONTROLS,
+    events: [],
+    alpha: 0,
+  };
 }
 
 /**
- * Advances one rendered frame. Pedal and wheel ramps move inside each fixed step (by SIM_STEP_S, not by the frame
- * time), so holding a key for the same time does exactly the same at any frame rate.
+ * Advances one rendered frame. Command keys pressed since the last frame act first, on the current state (the
+ * clutch decides whether a gear goes in). Then pedal and wheel ramps move inside each fixed step (by SIM_STEP_S, not
+ * by the frame time), so holding a key for the same time does exactly the same at any frame rate.
  */
 export function driveFrame(
-  spec: VehicleSpec,
   world: World,
   frame: DrivingFrame,
   keys: ReadonlySet<string>,
-  reverse: boolean,
+  pressed: readonly string[],
   frameS: number,
+  specs: CarSpecs = EXAM_SPECS,
 ): DrivingFrame {
-  let controls: SimpleControls = { ...frame.controls, reverse };
-  let contact: Contact | null = null;
-  const result = advance(frame.stepper, frameS, (current) => {
+  const events: CarEvent[] = [];
+  let stepper = frame.stepper;
+  for (const code of pressed) {
+    for (const next of commandsForKey(code, stepper.state.powertrain)) {
+      const result = command(stepper.state, next, specs);
+      stepper = { ...stepper, state: result.state };
+      events.push(...result.events);
+    }
+  }
+  let controls = frame.controls;
+  const result = advance(stepper, frameS, (current) => {
     controls = stepControls(controls, keys, SIM_STEP_S);
-    const next = stepWorld(spec, world, current, simpleDriveInput(controls), SIM_STEP_S);
-    contact = contact ?? next.contacts[0] ?? null;
-    return next;
+    const next = stepCar(world, current, controls, SIM_STEP_S, specs);
+    events.push(...next.events);
+    return next.state;
   });
-  return { stepper: result.stepper, controls, contact, alpha: result.alpha };
+  return { stepper: result.stepper, controls, events, alpha: result.alpha };
 }

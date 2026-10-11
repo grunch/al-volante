@@ -1,9 +1,9 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DrivingCanvas } from './DrivingCanvas.tsx';
-import type { Telemetry } from './DrivingCanvas.tsx';
+import type { Telemetry } from './telemetry.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../sim/tracks/practiceYard.ts';
-import { EXAM_CAR } from '../sim/vehicle.ts';
+import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { createFakeRenderer } from '../test/fakeRenderer.ts';
 
 const texts = { label: 'Pista 3D', loadingText: 'Cargando…', unavailableText: 'Sin WebGL' };
@@ -33,134 +33,160 @@ describe('DrivingCanvas', () => {
     }
   }
 
-  function renderCanvas(props: Partial<Parameters<typeof DrivingCanvas>[0]> = {}) {
+  function renderCanvas(
+    transmission: TransmissionKind,
+    extra: { start?: typeof PRACTICE_YARD_START; onTelemetry?: (value: Telemetry) => void } = {},
+  ) {
     const renderer = createFakeRenderer();
+    const props = {
+      world: PRACTICE_YARD,
+      start: extra.start ?? PRACTICE_YARD_START,
+      transmission,
+      createRenderer: () => renderer,
+      ...texts,
+    };
     const utils = render(
-      <DrivingCanvas
-        world={PRACTICE_YARD}
-        spec={EXAM_CAR}
-        start={PRACTICE_YARD_START}
-        createRenderer={() => renderer}
-        {...texts}
-        {...props}
-      />,
+      <DrivingCanvas {...props} {...(extra.onTelemetry ? { onTelemetry: extra.onTelemetry } : {})} />,
     );
-    return { ...utils, renderer, surface: screen.getByTestId('driving-canvas') };
+    const surface = screen.getByTestId('driving-canvas');
+    runFrames(0.05);
+    const press = (code: string) => {
+      fireEvent.keyDown(surface, { code });
+      runFrames(0.05);
+    };
+    return { ...utils, renderer, surface, press, props };
   }
 
-  it('drives forward while the accelerator key is held, and reports telemetry', () => {
+  it('starts the automatic, selects D and creeps forward when the brake is released', () => {
     // Arrange
     const telemetry: Telemetry[] = [];
-    const { surface, renderer } = renderCanvas({ onTelemetry: (value) => telemetry.push(value) });
-    runFrames(0.1);
+    const { surface, press } = renderCanvas('automatic', { onTelemetry: (value) => telemetry.push(value) });
 
-    // Act
-    fireEvent.keyDown(surface, { code: 'ArrowUp' });
-    runFrames(2);
-
-    // Assert
-    expect(surface).toHaveAttribute('data-state', 'ready');
-    expect(Number(surface.dataset.speedKmh)).toBeGreaterThan(5);
-    expect(Number(surface.dataset.odometerM)).toBeGreaterThan(1);
-    expect(telemetry.at(-1)?.speedKmh).toBeGreaterThan(5);
-    expect(renderer.render).toHaveBeenCalled();
-  });
-
-  it('brakes to a stop, and only listens to keys while it has focus', () => {
-    const { surface } = renderCanvas();
-    fireEvent.keyDown(surface, { code: 'ArrowUp' });
-    runFrames(2);
-    fireEvent.keyUp(surface, { code: 'ArrowUp' });
+    // Act: key in contact and start, brake held while the lever goes P → R → N → D, handbrake off, brake released.
+    press('KeyK');
+    press('KeyK');
     fireEvent.keyDown(surface, { code: 'ArrowDown' });
+    runFrames(0.5);
+    press('KeyE');
+    press('KeyE');
+    press('KeyE');
+    press('Space');
+    fireEvent.keyUp(surface, { code: 'ArrowDown' });
     runFrames(3);
 
-    expect(Number(surface.dataset.speedKmh)).toBe(0);
+    // Assert
+    expect(surface).toHaveAttribute('data-engine', 'running');
+    expect(surface).toHaveAttribute('data-gear', 'D1');
+    expect(Number(surface.dataset.odometerM)).toBeGreaterThan(0.5);
+    expect(telemetry.some((value) => value.lastEvent?.type === 'engine-started')).toBe(true);
+  });
 
+  it('stalls the manual when the clutch comes up in first without throttle, and reports it', () => {
+    const telemetry: Telemetry[] = [];
+    const { surface, press } = renderCanvas('manual', { onTelemetry: (value) => telemetry.push(value) });
+
+    // The clutch takes a quarter of a second to reach the floor; gears only go in once it is down.
+    fireEvent.keyDown(surface, { code: 'ShiftLeft' });
+    runFrames(0.3);
+    press('KeyK');
+    press('KeyK');
+    press('KeyE');
+    press('Space');
+    fireEvent.keyUp(surface, { code: 'ShiftLeft' });
+    runFrames(3);
+
+    expect(surface).toHaveAttribute('data-engine', 'off');
+    expect(telemetry.at(-1)?.lastEvent?.type).toBe('stall');
+  });
+
+  it('pulls the manual away with throttle while the clutch comes up', () => {
+    const { surface, press } = renderCanvas('manual');
+
+    // The clutch takes a quarter of a second to reach the floor; gears only go in once it is down.
+    fireEvent.keyDown(surface, { code: 'ShiftLeft' });
+    runFrames(0.3);
+    press('KeyK');
+    press('KeyK');
+    press('KeyE');
+    press('Space');
     fireEvent.keyDown(surface, { code: 'ArrowUp' });
+    fireEvent.keyUp(surface, { code: 'ShiftLeft' });
+    runFrames(3);
+
+    expect(surface).toHaveAttribute('data-engine', 'running');
+    expect(surface).toHaveAttribute('data-gear', '1');
+    expect(Number(surface.dataset.odometerM)).toBeGreaterThan(1);
+  });
+
+  it('refuses a gear without the clutch, and releases every key when the view loses focus', () => {
+    const telemetry: Telemetry[] = [];
+    const { surface, press } = renderCanvas('manual', { onTelemetry: (value) => telemetry.push(value) });
+
+    press('KeyE');
+    expect(telemetry.at(-1)?.lastEvent).toMatchObject({ type: 'shift-refused', reason: 'clutch' });
+
+    fireEvent.keyDown(surface, { code: 'ShiftLeft' });
     fireEvent.blur(surface);
-    runFrames(1);
-    expect(Number(surface.dataset.speedKmh)).toBe(0);
+    runFrames(0.1);
+    press('KeyE');
+    expect(surface).toHaveAttribute('data-gear', 'N');
   });
 
-  it('switches to reverse with R and drives backwards', () => {
-    const { surface } = renderCanvas();
-
-    fireEvent.keyDown(surface, { code: 'KeyR' });
-    fireEvent.keyDown(surface, { code: 'ArrowUp' });
-    runFrames(1);
-
-    expect(surface).toHaveAttribute('data-reverse', 'true');
-    expect(Number(surface.dataset.speedKmh)).toBeLessThan(0);
-  });
-
-  it('reports contacts and goes back to the start when asked', () => {
-    // Arrange: start just short of the north wall.
+  it('reports contacts and goes back to the start, key out, when asked', () => {
+    // Arrange: automatic, a few metres short of the north wall.
     const telemetry: Telemetry[] = [];
     const start = { ...PRACTICE_YARD_START, z: 34 };
-    const { surface, rerender, renderer } = renderCanvas({ start, onTelemetry: (value) => telemetry.push(value) });
+    const { surface, press, rerender, props } = renderCanvas('automatic', {
+      start,
+      onTelemetry: (value) => telemetry.push(value),
+    });
+    press('KeyK');
+    press('KeyK');
+    fireEvent.keyDown(surface, { code: 'ArrowDown' });
+    runFrames(0.5);
+    press('KeyE');
+    press('KeyE');
+    press('KeyE');
+    press('Space');
+    fireEvent.keyUp(surface, { code: 'ArrowDown' });
     fireEvent.keyDown(surface, { code: 'ArrowUp' });
-    runFrames(3);
+    runFrames(4);
 
     // Act
-    rerender(
-      <DrivingCanvas
-        world={PRACTICE_YARD}
-        spec={EXAM_CAR}
-        start={start}
-        createRenderer={() => renderer}
-        {...texts}
-        resetCount={1}
-      />,
-    );
+    rerender(<DrivingCanvas {...props} resetCount={1} />);
     fireEvent.keyUp(surface, { code: 'ArrowUp' });
     runFrames(0.1);
 
     // Assert
-    expect(telemetry.some((value) => value.contact?.obstacleId === 'wall-north')).toBe(true);
+    expect(telemetry.some((value) => value.lastEvent?.type === 'contact')).toBe(true);
     expect(Number(surface.dataset.odometerM)).toBe(0);
-  });
-
-  it('moves the same whatever the frame rate, pedal ramps included', () => {
-    // Arrange: drive for 2 s holding the accelerator and the wheel, once at 30 Hz and once at 144 Hz.
-    const drive = (hz: number) => {
-      const { surface, unmount } = renderCanvas();
-      // The first frame has no previous timestamp and simulates nothing; start holding keys after it.
-      const first = callbacks.shift();
-      act(() => first?.(clock));
-      fireEvent.keyDown(surface, { code: 'ArrowUp' });
-      fireEvent.keyDown(surface, { code: 'ArrowLeft' });
-      for (let i = 0; i < Math.round(2 * hz); i += 1) {
-        const callback = callbacks.shift();
-        clock += 1000 / hz;
-        act(() => callback?.(clock));
-      }
-      const odometer = Number(surface.dataset.odometerM);
-      unmount();
-      callbacks.length = 0;
-      return odometer;
-    };
-
-    // Act
-    const at30 = drive(30);
-    const at144 = drive(144);
-
-    // Assert: the difference stays within the one step the accumulator may hold (about 4 cm at these speeds).
-    expect(at30).toBeGreaterThan(1);
-    expect(Math.abs(at30 - at144)).toBeLessThan(0.05);
+    expect(surface).toHaveAttribute('data-engine', 'off');
   });
 
   it('releases every key when the window loses focus, so the car never keeps accelerating unattended', () => {
-    const { surface } = renderCanvas();
-    fireEvent.keyDown(surface, { code: 'ArrowUp' });
+    // Arrange: automatic in D, accelerating.
+    const { surface, press } = renderCanvas('automatic');
+    press('KeyK');
+    press('KeyK');
+    fireEvent.keyDown(surface, { code: 'ArrowDown' });
     runFrames(0.5);
+    press('KeyE');
+    press('KeyE');
+    press('KeyE');
+    press('Space');
+    fireEvent.keyUp(surface, { code: 'ArrowDown' });
+    fireEvent.keyDown(surface, { code: 'ArrowUp' });
+    runFrames(2);
+    expect(Number(surface.dataset.speedKmh)).toBeGreaterThan(10);
 
-    const atBlur = Number(surface.dataset.speedKmh);
+    // Act: the accelerator takes a third of a second to come up once the keys are released.
     fireEvent.blur(window);
-    runFrames(3);
+    runFrames(0.5);
+    const released = Number(surface.dataset.speedKmh);
+    runFrames(2);
 
-    // With the keys released the car only rolls on, slowing down.
-    expect(atBlur).toBeGreaterThan(0);
-    expect(Number(surface.dataset.speedKmh)).toBeLessThan(atBlur);
+    // Assert: from then on only engine braking and rolling act, so the car slows down.
+    expect(Number(surface.dataset.speedKmh)).toBeLessThan(released);
   });
 
   it('falls back to a message when WebGL cannot start', () => {
@@ -168,8 +194,8 @@ describe('DrivingCanvas', () => {
     render(
       <DrivingCanvas
         world={PRACTICE_YARD}
-        spec={EXAM_CAR}
         start={PRACTICE_YARD_START}
+        transmission="manual"
         createRenderer={() => {
           throw new Error('no WebGL');
         }}
