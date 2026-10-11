@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "es-AR"
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  # Los PRs apilados apuntan a la rama del PR anterior, no a main.
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - ".*"
+  # Textos extraídos automáticamente de los PDF: se citan, no se revisan línea por línea.
+  path_filters:
+    - "!specs/fuentes/*.txt"
+  path_instructions:
+    - path: "specs/**/*.md"
+      instructions: >-
+        Verificar que cada regla, cifra o dato cartográfico cite archivo y página PDF
+        y coincida con specs/fuentes. Señalar ambigüedades presentadas como resueltas.
+chat:
+  auto_reply: true

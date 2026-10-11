@@ -1,0 +1,34 @@
+[
+  {
+    "id": "manual",
+    "path": "pdf/manual.pdf",
+    "originalFilename": "MANUAL_Vehiculo_4Ruedas_2023 SA.pdf",
+    "pages": 200,
+    "sha256": "69c6e1c582db4f96337fc13db09fffab26f9ce6364279c6beb2abc21d9ad3e8e",
+    "extractedText": "manual.txt"
+  },
+  {
+    "id": "protocolo",
+    "path": "pdf/protocolo.pdf",
+    "originalFilename": "protocolo.pdf",
+    "pages": 42,
+    "sha256": "65f1dd9f62775c70f7275098300d769ca264986f8f98a4b18cedee937fcc9198",
+    "extractedText": "protocolo.txt"
+  },
+  {
+    "id": "recorridos",
+    "path": "pdf/recorridos.pdf",
+    "originalFilename": "recorridosl.pdf",
+    "pages": 19,
+    "sha256": "a4d730e34347781b022028ddfcba81ecfd2dec0f815c5dc3592fc0147387ef80",
+    "extractedText": "recorridos.txt"
+  },
+  {
+    "id": "siniestros",
+    "path": "pdf/siniestros.pdf",
+    "originalFilename": "Guía práctica siniestros viales_0.pdf",
+    "pages": 24,
+    "sha256": "e48edf120ac7c84321338ef074f6fda7facdd6af5a881b9b05beb7206f3317b5",
+    "extractedText": "siniestros.txt"
+  }
+]

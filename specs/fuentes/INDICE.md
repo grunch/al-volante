@@ -1,0 +1,301 @@
+# Índice de extracción por página PDF
+
+Numeración física desde 1. Texto extraído automáticamente: revisar imágenes, tablas y orden de lectura contra el PDF. No equivale a contenido pedagógico validado.
+
+## manual
+
+- PDF 1: [Sin texto extraíble]
+- PDF 2: Presentación / Este manual fue diseñado con una perspectiva facilitadora del proceso formativo para la ciudadanía
+- PDF 3: Material a estudiar / Organizado según categorías de licencias:
+- PDF 4: Categoría F / Vehículos adaptados / Introducción
+- PDF 5: Glosario / A
+- PDF 6: Bicisenda: / Sector señalizado y especialmente acondicionado en aceras y espacios verdes para la circulación
+- PDF 7: Ciclocarril: / Sector señalizado especialmente en la calzada para la circulación con carácter preferente de
+- PDF 8: Dispositivo de movilidad personal: / Vehículos de una o más ruedas dotados de una única plaza y propulsados exclusivamente por
+- PDF 9: M / Mano:
+- PDF 10: R / Reductor de velocidad:
+- PDF 11: Tránsito: / Movimiento de cosas o personas de un lugar a otro.
+- PDF 12: Índice / INTRODUCCIÓN ....................................................................................................Pág. 13
+- PDF 13: CAPÍTULO 5: ACTITUD AL CONDUCIR .............................................................Pág. 97 / Tipos de actitudes
+- PDF 14: Introducción - Manual teórico de conducción de vehículos urbanos de cuatro ruedas / INTRODUCCIÓN
+- PDF 15: Pandemia vial / El tránsito es uno de los sistemas más complejos que las personas construyen de manera cotidiana.
+- PDF 16: Enfoque ético - ciudadano en la cultura / vial
+- PDF 17: ¿Accidente o incidente de tránsito? / La Ley 3072 de la Ciudad Autónoma de Buenos Aires define al incidente de tránsito o incidente
+- PDF 18: Consecuencias de los / Incidentes de
+- PDF 19: Objetivos / En el mediano y largo plazo, esta política integral, busca reducir todo lo posible los índices
+- PDF 20: El tránsito es un sistema que se / construye entre toda la
+- PDF 21: Capítulo 1 - Manual teórico de conducción de vehículos urbanos de cuatro ruedas / HACIA UNA MOVILIDAD
+- PDF 22: Ciudades para las personas / Por la Ciudad circulan peatones, ciclistas y conductores/as (de motovehículos, de distintos
+- PDF 23: Contexto / Ciudad de
+- PDF 24: Prioridad peatonal / Es una de las prioridades del Gobierno de la Ciudad en materia de tránsito y transporte. Todas
+- PDF 25: Convivencia vial / El cuerpo humano es frágil frente al impacto de un vehículo. Por eso, es tan importante cumplir
+- PDF 26: Al conducir: / •    Si un vehículo tiene luz verde y va a girar para ingresar a otra vía, quien conduce tiene la
+- PDF 27: Direccionadores peatonales / Características: es un sistema de señalética
+- PDF 28: Intervenciones peatonales / Características: son calles demarcadas con
+- PDF 29: Infraestructura: se realizaron mejoras como la nivelación de calzadas, recuperación de veredas, / mejoras en la iluminación de las calles, instalación de estacionamientos para bici
+- PDF 30: Bicicleta / Las modificaciones en la infraestructura de la Ciudad de Buenos Aires se realizaron para dar
+- PDF 31: Protección y vestimenta / Al no tener carrocería la bici es un vehículo vulnerable, por eso el uso del casco es de vital
+- PDF 32: Normas de tránsito / Al igual que cualquier persona que hace uso de la vía pública, quien conduce una bicicleta
+- PDF 33: Postura corporal / Convivencia vial
+- PDF 34: Distancia de seguridad / Está prohibido circular agarrados a otros vehículos o enfilados inmediatamente tras otros
+- PDF 35: Giros y off-tracking / Recomendaciones
+- PDF 36: Infraestructura vial / Red de bicisendas y ciclovías protegidas
+- PDF 37: Estacionamiento de bicicletas / Se puede estacionar sobre las veredas, siempre y
+- PDF 38: Monopatín eléctrico / Es un nuevo modelo de vehículo que brinda
+- PDF 39: Sistema de transporte público / Al elegir el transporte público como alternativa de movilidad, no sólo se contribuye a disminuir las
+- PDF 40: Carriles exclusivos / Bandas longitudinales demarcadas en la calzada
+- PDF 41: Viaje compartido / La relación entre el espacio que ocupa un auto y la cantidad de personas que trasladan, hace
+- PDF 42: Priorizar una movilidad / sustentable es cuidar de las
+- PDF 43: Capítulo 2 - Manual teórico de conducción de vehículos urbanos de cuatro ruedas / CONDUCIR ES UN ACTO
+- PDF 44: La posibilidad de movilizarse por la Ciudad es un derecho que, como cualquier otro, conlleva / responsabilidades. Se participa del tránsito de una manera u otra, y la manera en que
+- PDF 45: Responsabilidad contravencional / Se trata de una conducta antijurídica que es
+- PDF 46: Documentación obligatoria                                                                                                            21 / Documento Nacional de Identidad
+- PDF 47: Conductor/a principiante / Función: toda persona que obtiene su licencia por primera vez,
+- PDF 48: Vigencia: 1 año, aunque no tiene vencimiento para la persona titular ni para los taxis, remises / y vehículos de carga o de pasajeros/as debidamente autorizados (cuando la cédula e
+- PDF 49: Primer VTV: los automóviles y motovehículos de uso particular radicados en CABA realizan / obligatoriamente su primera revisión a partir del cuarto año de antigüedad cumplido
+- PDF 50: Posibles resultados de la VTV: / Apto: significa que el vehículo no cuenta con desperfectos graves ni leves (a lo sumo obser-
+- PDF 51: Obligaciones en caso de incidentes viales / Toda persona que se encuentre involucrada en un siniestro vial, independientemente de
+- PDF 52: 2° Alertar / En el caso de que haya personas heridas, llamar inmediatamente al servicio de Emergencias
+- PDF 53: 3° Socorrerr / Mientras se espera al servicio de emergencias, evaluar si se puede brindar ayuda a las personas
+- PDF 54: Recomendaciones / •    Si no fuera posible recabar información en el momento, la misma puede ser obtenida
+- PDF 55: Organismos No Gubernamentales / •     Asociación Civil Trabajar contra la Inseguridad Vial y la Violencia con Acciones Sustentables
+- PDF 56: Respetar las normas de / tránsito implica
+- PDF 57: Capítulo 3- Manual teórico de conducción de vehículos urbanos de cuatro ruedas / NORMAS BÁSICAS
+- PDF 58: Prioridad normativa / Para ejercer la conducción, de forma adecuada y segura, se debe respetar y prestar atención
+- PDF 59: Señales transitorias: / •   Indican la ejecución de trabajos de construcción y mantenimiento en la vía, o en zonas
+- PDF 60: Marcas transversales: son las que se ubican en forma perpendicular al eje de la calzada. Se emplean / fundamentalmente para indicar sectores de reducción de velocidad ante un punto
+- PDF 61: Señalización vertical / Son las señales de regulación del tránsito colocadas al costado de la vía o elevadas sobre la
+- PDF 62: Normas legales de carácter general / Frente a una situación vial donde no existe ninguna señalización específica, rigen las normas
+- PDF 63: Cómo darle prioridad de paso a un vehículo en emergencia / 62
+- PDF 64: En intersecciones semaforizadas / La luz del semáforo ubicado al frente, indicará la conducta a seguir:
+- PDF 65: Cómo circular por una / Rotonda
+- PDF 66: En otras situaciones de prioridad de paso / Vehículo estacionado o detenido
+- PDF 67: Uso de luces / Las luces de un vehículo no sólo tienen como finalidad la de iluminar, sino también, la de
+- PDF 68: Luces traseras / Si bien estas luces no están presentes en los motovehículos, es importante que sus conduc-
+- PDF 69: Velocidad / Es una relación distancia/tiempo: es el espacio que se recorre en un determinado tiempo y
+- PDF 70: Velocidad y distancias / Distancia de
+- PDF 71: Distancia de reacción: distancia que recorre un vehículo durante el tiempo de reacción. Por / lo tanto, esta distancia va a variar de acuerdo al estado psicofísico de quien conduce
+- PDF 72: Velocidades máximas / Los excesos de velocidad son responsables de la mayoría de los incidentes fatales, por ello
+- PDF 73: Velocidades máximas fuera de CABA / 42
+- PDF 74: Velocidad precautoria / •   Es la velocidad adecuada a las circunstancias, que permite mantener el total dominio del vehículo,
+- PDF 75: Giros en intersecciones / En todos los casos:
+- PDF 76: Adelantamiento y sobrepaso / Sobrepaso seguro:
+- PDF 77: La ley 2449, en su articulo 42, agrega: / Más allá de la señalización realizada por el vehículo que precede,
+- PDF 78: Conducción en autopistas y otras vías / rápidas
+- PDF 79: Conducción en situaciones adversas / Las condiciones climáticas varían y por ello se debe tener la preparación suficiente para enfrentar
+- PDF 80: Lluvia / 79
+- PDF 81: Viento / 80
+- PDF 82: Nieve / Si bien no es una condición climatológica que se presente en CABA, es importante conocer
+- PDF 83: Detención y estacionamiento                                                    43 / Detención
+- PDF 84: Estacionamiento / Permanencia sin movimiento de un vehículo en la vía pública con o sin la persona que conduce
+- PDF 85: Prohibiciones especiales / Estas prohibiciones de estacionamiento rigen por normativa y, por lo tanto, deben respetarse
+- PDF 86: Formas incorrectas de estacionar / •   Nunca puede estacionarse un vehículo sobre la vereda, independientemente de que sea o no
+- PDF 87: Franquicia para personas con discapacidad / A traves del Símbolo Internacional de Acceso se identifica a cualquier vehículo en el que se tras-
+- PDF 88: Mejorar la formación teórica y / práctica de quienes conducen
+- PDF 89: Capítulo 4 - Manual teórico de conducción de vehículos urbanos de cuatro ruedas / CAPACIDAD NATURAL
+- PDF 90: La salud influye en la conducción. Ciertas enfermedades, crónicas o de corta duración, y algunos estados / anímicos pueden dejar a la persona en una situación desfavorable para con
+- PDF 91: Consumo de alcohol / El alcohol es una droga depresora del sistema nervioso central cuyo consumo produce:
+- PDF 92: Procedimiento en caso de / Alcoholemia positiva
+- PDF 93: Esto lleva a la resaca o según el término médico, la veisalgia. Conducir en este estado es peligroso / porque también tiene efectos en el organismo, entre ellos, alteraciones en la
+- PDF 94: Síntomas físicos de la fatiga: / •       Bostezos.
+- PDF 95: Recomendaciones / •   Prestar atención al contexto y dejar de lado las preocupaciones y discusiones al momento
+- PDF 96: Usar el GPS / El GPS es una herramienta útil pero puede ser de riesgo si se lo utiliza incorrectamente. No debe ser
+- PDF 97: Conducir, requiere del 100% / de atención y coordinación.
+- PDF 98: Capítulo 5 - Manual teórico de conducción de vehículos urbanos de cuatro ruedas / ACTITUD AL CONDUCIR
+- PDF 99: Tipos de actitudes / Una buena conducción no sólo depende de la aptitud de la persona. Es decir, no alcanza con poseer
+- PDF 100: Contexto de / Ciudad de Buenos Aires
+- PDF 101: ¿Cómo funciona la línea telefónica de reporte y / contención?
+- PDF 102: Disminuir la resistencia aerodinámica: distribuir de manera uniforme el peso transportado en / el vehículo y evitar sobrecargarlo llevando peso innecesario.
+- PDF 103: El tránsito, al igual que otras / construcciones sociales, es
+- PDF 104: Anexo I / AUTOMÓVILES
+- PDF 105: Tener conocimiento sobre la conducción práctica de un vehículo no es suficiente para conducir / de forma segura, también es necesario tener conocimiento del estado del mismo. Es po
+- PDF 106: Controles y revisiones antes de conducir: cada vez que se deba hacer uso de un vehículo, / debe verificarse el normal funcionamiento de sus componentes, más aún cuando se trate de 
+- PDF 107: Sistema de frenos / El sistema de seguridad activa más importante del automóvil. Su función es la de detener o disminuir
+- PDF 108: Fecha de                                             Vida útil de los / Fabricación                                          Neumáticos
+- PDF 109: Pinchaduras / Espejos retrovisores
+- PDF 110: ¿Cómo reducir los puntos ciegos en el vehículo? / 1.   Acomodar correctamente los espejos retrovisores, justo antes de poner el vehículo en
+- PDF 111: Elementos de seguridad pasiva / Minimizan las consecuencias de un siniestro una vez que éste ya ocurrió.
+- PDF 112: Uso / Correcto
+- PDF 113: Apoyacabeza / Elemento de apoyo para la cabeza que, regulado correctamente, disminuye el “efecto látigo”, es decir,
+- PDF 114: Airbag / Bolsa de gas que se infla automáticamente, sobre las personas, en caso de colisión.
+- PDF 115: ¿Por qué usar Sistema de Retención Infantil (SRI)? / •   Instalados de manera correcta reducen la tasa de mortalidad en un 80% en niños/as y en un
+- PDF 116: Uso correcto / de SRI
+- PDF 117: Seguridad del habitáculo / El habitáculo es el espacio en el que viaja quien conduce y las personas acompañantes.
+- PDF 118: Traslado seguro / de mascotas
+- PDF 119: Equipaje / Cada vehículo se diseña con un valor máximo de carga para transportar, que se encuentra
+- PDF 120: Matafuegos / Al abrir la válvula, su contenido es liberado a presión, generalmente
+- PDF 121: Elementos de seguridad recomendables / Botiquín
+- PDF 122: La seguridad, no sólo depende del / desempeño y responsabilidad al
+- PDF 123: Anexo II / TRANSPORTE DE
+- PDF 124: En este anexo se desarrollarán las particularidades relacionadas al transporte de pasajeros/as. / Serán abordadas tanto cuestiones normativas implicadas en la conducción de los dif
+- PDF 125: Tipo de / Servicio
+- PDF 126: Elementos de seguridad activa / Contribuyen a evitar que ocurra un siniestro, mejorando la eficacia y estabilidad, y garantizando
+- PDF 127: Sistema de dirección / Garantiza la correcta maniobra del vehículo, orientando sus ruedas según se desee. A altas
+- PDF 128: Estado del neumático y profundidad del dibujo / •       Para garantizar su buen funcionamiento, los neumáticos llevan grabado, en los laterales,
+- PDF 129: Espejos retrovisores / Su uso es fundamental para transitar viendo al resto de los vehículos y peatones. Su correcta
+- PDF 130: 2.   Antes de realizar una maniobra (giro, cambio de carril, adelantamiento, etc.) se debe / disminuir la velocidad de circulación, colocar la luz de giro y mirar por los espejos r
+- PDF 131: Cinturón de seguridad / Arnés diseñado para sujetar a las personas que abordan un vehículo.
+- PDF 132: Embarazadas / •   Modificar los ajustes del volante y del asiento tantas veces como sea necesario durante
+- PDF 133: Airbag / Es una bolsa de gas que se infla automáticamente frente a quien conduce o sus pasajeros/as
+- PDF 134: Lo recomendable es tener aquellos elementos personales que se puedan llegar a necesitar, / a lo largo de la jornada laboral, en lugares seguros y próximos. Nunca deben llevarse sue
+- PDF 135: Matafuegos / Al abrir la válvula, su contenido es liberado a presión generalmente
+- PDF 136: Elementos de seguridad recomendables / Botiquín
+- PDF 137: Factores involucrados en la conducción / Las personas que realizan reiteradamente el mismo recorrido todos los días, por desarrollar
+- PDF 138: De este modo, al resolver estas tareas en un momento específico, se evita estar pensando en / ellas mientras se está conduciendo, reduciendo así estados de ansiedad que pudieran ge
+- PDF 139: Postura corporal / Realizar cualquier actividad en una misma posición durante largo tiempo puede traer aparejado
+- PDF 140: Sedentarismo, mala alimentación y poco descanso / Consecuencias para la salud que afectan a la conducción de forma negativa:
+- PDF 141: Para velar por el cuidado de pasajeros/as, no sólo en su traslado sino también cuando suben o / bajan del vehículo, se deben tener en cuenta los siguientes factores, según el tipo 
+- PDF 142: Colectivos / Al tratar con mayor cantidad de pasajeros/as, las demandas se multiplican y también las probabilidades
+- PDF 143: Transporte de escolares10 / Acompañante: dada la complejidad del traslado de personas menores, una de las medidas
+- PDF 144: Conducción segura / Las personas que conducen transporte de pasajeros/as se ven expuestas a diversas situaciones que
+- PDF 145: Pendientes y curvas / En las mismas se crean situaciones peligrosas porque:
+- PDF 146: Usuarios/as vulnerables / Conducir por la Ciudad implica interactuar y convivir con otras figuras del tránsito. Para mejorar
+- PDF 147: Esta misma situación de riesgo está presente con motociclistas, por ello es recomendable / circular a una distancia prudencial, teniendo en cuenta el propio radio de giro, las corr
+- PDF 148: Estacionamiento y detenciones / Hacerlo en lugares prohibidos o no habilitados para tal fin (aún cuando se realicen por breves
+- PDF 149: Autopistas y Hospitales / Paseo del Bajo
+- PDF 150: Mapa de Hospitales / Generales de Agudos
+- PDF 151: El transporte público es de gran / importancia para el funcionamiento,
+- PDF 152: Anexo III / TRANSPORTE DE CARGA
+- PDF 153: En este anexo se desarrollarán las particularidades relacionadas con el transporte de cargas y / mercaderías, como así también aspectos que hacen a la conducción de vehículos de gr
+- PDF 154: Definiciones de camión y acoplado2 / Camión rígido: vehículo automotor de la categoría N1, N2 o N3, diseñado y fabricado para el
+- PDF 155: Una responsabilidad social / El transporte de cargas y mercaderías es fundamental para el funcionamiento de una sociedad
+- PDF 156: El exceso de confianza expone las habilidades de quien conduce al / límite y promueve la realización de maniobras temerarias que no son
+- PDF 157: Manipulación de la carga / Existen riesgos, por exigencia biomecánica, que pueden ocurrir durante verificaciones de la
+- PDF 158: Ubicación y sujeción de la carga / •   Debe estar distribuida correctamente.
+- PDF 159: Recomendaciones / •     Hacerlo siempre tomado de los pasamanos de las escaleras.
+- PDF 160: Por otro lado, realizar ejercicios de elongación previene la aparición de dolores musculares y / mejora la irrigación sanguínea, comprometida sobre todo en los miembros inferiores.
+- PDF 161: Postura corporal / Realizar cualquier actividad en una misma posición durante largo tiempo puede traer aparejado
+- PDF 162: Conducción segura / Las personas que conducen de manera profesional se ven expuestas a diversas situaciones que
+- PDF 163: Cuando se conduce en una pendiente o una curva pronunciada, debe hacerse lo suficientemente / lento para poder detenerse, ya que no se puede prever qué hay del otro lado.
+- PDF 164: Usuarios/as vulnerables / Conducir por la Ciudad implica interactuar y convivir con otras figuras del tránsito. Para mejorar
+- PDF 165: Esta misma situación de riesgo está presente con motociclistas, por ello es recomendable / circular a una distancia prudencial teniendo en cuenta el propio radio de giro, las corri
+- PDF 166: Estacionamiento y detenciones / Hacerlo en lugares prohibidos o no habilitados para tal fin (aún cuando se realicen por breves
+- PDF 167: En efecto, es importante siempre pensar con calma y recordar que la vida está por encima / de todo. Asimismo, como fue mencionado, para lograr un tránsito más seguro, es necesario
+- PDF 168: Red de tránsito pesado / Consiste en la red de avenidas y calles por las
+- PDF 169: 8. Los vehículos de Tránsito Pesado conformado por camiones y acoplados cuyo peso en / forma individual sea igual o mayor a 12 toneladas que deban llegar a un destino comprendido
+- PDF 170: Elementos de seguridad activa / Contribuyen a evitar que ocurra un siniestro, mejorando la eficacia y estabilidad, y garantizando
+- PDF 171: Sistema de dirección / Garantiza la correcta maniobra del vehículo, orientando sus ruedas según se desee. A altas
+- PDF 172: Recomendaciones / •     La presión adecuada está indicada en el manual del vehículo.
+- PDF 173: Espejos retrovisores / Su uso es fundamental para transitar viendo al resto de los vehículos y peatones.
+- PDF 174: ¿Cómo reducir los puntos ciegos en el vehículo? / 1.   Acomodar correctamente los espejos retrovisores antes de iniciar la marcha. Para ello,
+- PDF 175: Elementos de seguridad pasiva / Minimizan las consecuencias de un siniestro una vez que este ya ocurrió. Reducen al mínimo
+- PDF 176: Uso / Correcto
+- PDF 177: Apoyacabeza / Elemento de apoyo para la cabeza que, regulado correctamente, disminuye el “efecto látigo”, es
+- PDF 178: Airbag / Es una bolsa de gas que se infla automáticamente frente a quien conduce o sus pasajeros/as
+- PDF 179: Seguridad del habitáculo / Es el espacio en el que viaja la persona que conduce y la que acompaña. Mientras que las zonas
+- PDF 180: Otros elementos de seguridad obligatorios9 / Balizas
+- PDF 181: Elementos de seguridad recomendables / Botiquín
+- PDF 182: Autopistas / 181
+- PDF 183: La profesionalización del / transporte de cargas y mercaderías,
+- PDF 184: Anexo IV / SEÑALES VIALES
+- PDF 185: Reglamentarias / De prohibición
+- PDF 186: De restricción / De prioridad
+- PDF 187: Preventivas / Advertencias sobre características de la vía
+- PDF 188: Posibilidad de riesgo eventual / Advertencias de máximo peligro
+- PDF 189: Informativas / Características de la vía
+- PDF 190: Nomenclatura vial y urbana / 189
+- PDF 191: Información turística y de servicios / Educativas y anuncios especiales
+- PDF 192: Una señal de Estrella Amarilla significa que, en el lugar en donde está instalada, hubo una víctima / fatal por un incidente de tránsito y tiene como objetivo recordar a la víctima
+- PDF 193: Transitorias / Viales
+- PDF 194: Peatonales / De ciclovías
+- PDF 195: Horizontales / Marcas longitudinales
+- PDF 196: Marcas especiales / 195
+- PDF 197: Señalamiento luminoso / Significado de las luces
+- PDF 198: Las señales de tránsito, a través / de su color, tamaño y posición,
+- PDF 199: 198
+- PDF 200: 199
+
+## protocolo
+
+- PDF 1: NS / ITO
+- PDF 2: VI / LID
+- PDF 3: TR / Á
+- PDF 4: ÍNDICE / PRESENTACIÓN .................................................................................................... Pág.- 3
+- PDF 5: TR / Á
+- PDF 6: OBJETIVO DEL EXAMEN PRÁCTICO / EN VÍA PÚBLICA
+- PDF 7: CONSIDERACIONES GENERALES / Para la realización de la evaluación práctica en vía      fallas en los elementos de seguridad del vehículo.
+- PDF 8: REGLAS DE CUMPLIMIENTO / OBLIGATORIAS PARA ASPIRANTES
+- PDF 9: ETAPAS DEL EXAMEN PRÁCTICO / EN VÍA PÚBLICA
+- PDF 10: • Controlar y regular los espejos retrovisores laterales e interno antes de iniciar la marcha, verificando / que se encuentren ajustados de tal forma que le permitan ver con clarid
+- PDF 11: CRITERIOS DE EVALUACIÓN DE LA ETAPA II: PRUEBAS DE MANIOBRABILIDAD / Esta etapa contemplará una serie de ejercicios en el arranque y antes de la salida a realizarse dentro
+- PDF 12: • Circula por vías, carriles o sentidos permitidos (no invade carriles exclusivos, ciclovías o circula / a contramano).
+- PDF 13: ETAPA III: ESTACIONAMIENTO PARALELO / Esta es la etapa final y se desarrollará en el mismo lugar donde se inició la evaluación. El sector se
+- PDF 14: FORMA DE EVALUACIÓN / La evaluación del/la aspirante se realizará de        El examen se considerará aprobado una vez
+- PDF 15: FICHA DE EVALUACIÓN / Para su sistematización, se utilizará una ficha de evaluación de examen práctico en vía pública que
+- PDF 16: No obedece órdenes e indicaciones de / Eliminatoria     8
+- PDF 17: No se ubica en el carril más próximo / Deficiente Alta   3
+- PDF 18: ANEXO I / GRÁFICO 1
+- PDF 19: GRÁFICO 1 / · EJEMPLO DE DISTRIBUCIÓN DEL INSTRUMENTAL DEL VEHÍCULO
+- PDF 20: ! / GRÁFICO 3
+- PDF 21: GRÁFICO 4 / • DIMENSIONES DEL CAJÓN DE ESTACIONAMIENTO
+- PDF 22: ANEXO II / A continuación, se describen los cuatro tipos de          piernas, brazos y manos de forma tal que le
+- PDF 23: para asegurarse de que esté en punto neutro.               encendido: El/la aspirante no deberá accionar / Si la caja está en alguna posición de marcha,              la llave para 
+- PDF 24: una falla si el/la aspirante circula por debajo       densidad del tránsito, tipo de vía, inclemencias / de la velocidad mínima sin motivo, necesidad          climáticas, visibilid
+- PDF 25: acomodará el vehículo avanzando lo que                  encendidas o manifiesta no conocer cómo / considere necesario hasta dejarlo centrado              desactivarlas se considera
+- PDF 26: FALLAS DEFICIENTES BAJAS (2 puntos)                       a la vez, freno y acelerador (automática). El/ / la examinador/a considerará una (1) falla por
+- PDF 27: h) No      accionar      las   luces   direccionales        advertirle, pero igualmente consignará la falla. / correspondientes al cambiar de carril o
+- PDF 28: podrá pisar el freno al finalizar el desplazamiento      comunicará para su corrección. / para asegurar la inmovilización del vehículo. En      g) No mantener la distancia mínima d
+- PDF 29: la vía, ya que de no ser así, podría derivar            estará consignada. / en el bloqueo de la intersección. En este            n) No ubicarse en el carril más próximo al sector
+- PDF 30: sin riesgo. Será considerado falla si el/la              es el reconocimiento y manipulación de la / aspirante no chequea los espejos retrovisores,           caja de cambios para q
+- PDF 31: vez que realiza las maniobras, utilizando los       aspirante no sigue sus indicaciones. / espejos laterales y calculando las distancias    g) No respetar la indicación de marcha d
+- PDF 32: maniobras peligrosas ya sea por negligencia            vías no está permitido. El/la examinador/a / donde se omiten las exigencias y normas de             observará que el/la aspir
+- PDF 33: la maniobra sólo cuando esté permitido                 el estacionamiento, el/la examinador/a / hacerlo.     Queda        prohibido    cualquier       descenderá del vehículo y obs
+- PDF 34: ANEXO III / CIRCUITOS DE EXAMEN
+- PDF 35: 33
+- PDF 36: 34
+- PDF 37: 35
+- PDF 38: 36
+- PDF 39: 37
+- PDF 40: 38
+- PDF 41: D / SU
+- PDF 42: NS / ITO
+
+## recorridos
+
+- PDF 1: ÁREAS URBANAS / PARA EL EXÁMEN PRÁCTICO
+- PDF 2: Autoridades / ◦ Jefe de Gobierno
+- PDF 3: 2. / Indice 2. CIRCUITOS DE EXAMEN
+- PDF 4: 1. / Presentación
+- PDF 5: 2. / Circuitos de Exámen
+- PDF 6: Comuna 2 / Recorrido en vía pública
+- PDF 7: Comuna 3 / Recorrido en vía pública
+- PDF 8: Comuna 4 / Recorrido en vía pública
+- PDF 9: Comuna 5 / Recorrido en vía pública
+- PDF 10: Comuna 6 / Recorrido en vía pública
+- PDF 11: Comuna 7 / Recorrido en vía pública
+- PDF 12: Comuna 9 / Recorrido en vía pública
+- PDF 13: Comuna 10 / Recorrido en vía pública
+- PDF 14: Comuna 11 / Recorrido en vía pública
+- PDF 15: Comuna 12 / Recorrido en vía pública
+- PDF 16: Comuna 13 / Recorrido en vía pública
+- PDF 17: Comuna 14 / Recorrido en vía pública
+- PDF 18: Comuna 15 / Recorrido en vía Pública
+- PDF 19: ACA Libertador / Recorrido en vía pública
+
+## siniestros
+
+- PDF 1: Secretaría de Transporte/ / ¿Qué hacer ante
+- PDF 2: II / Índice
+- PDF 3: III / Autoridades
+- PDF 4: Introducción
+- PDF 5: Introducción                                                                V / 00
+- PDF 6: ¿Qué hacer ante / un siniestro vial?
+- PDF 7: ¿Qué hacer ante un siniestro vial?                                                 VII / 01
+- PDF 8: VIII / 01 - a
+- PDF 9: IX / AUSA *287 / AUSOL 140
+- PDF 10: X / movimiento. Comunicale que ya se avisó al servicio de emergencia
+- PDF 11: XI / 01 - c
+- PDF 12: XII / En los casos que no fuera posible recabar información en el
+- PDF 13: El reclamo / administrativo
+- PDF 14: El reclamo administrativo ante la compañía de seguros                            XIV / 02
+- PDF 15: XV / En casos de lesiones, es recomendable acompañar al reclamo las
+- PDF 16: XVI / ¿Cuáles son los
+- PDF 17: ¿Cuáles son los pasos posteriores al siniestro?                         XVII / 03 - a
+- PDF 18: XVIII / Etapa de mediación
+- PDF 19: XIX / ¿Quién puede iniciar la demanda?
+- PDF 20: XX / Buenos Aires (consultar sedes en: https://mpfciudad.gob.ar/). Luego,
+- PDF 21: XXI / víctima o un familiar directo en caso que se trate de un fallecido,
+- PDF 22: XXII / 03 - c
+- PDF 23: XXIII / • Oficina de asistencia a víctimas y familiares de víctimas de
+- PDF 24: [Sin texto extraíble]
+
