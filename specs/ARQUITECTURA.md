@@ -59,7 +59,7 @@ Los catálogos viven en `specs/` (fuentes, páginas, unidades, señales, observa
    - `validateActivities`: conceptos y citas existentes, una sola opción correcta, señales conocidas y grafos de decisión sin ciclos ni nodos o desenlaces inalcanzables, con al menos un desenlace correcto alcanzable.
    - Toda cita (`refs.ts`) debe nombrar una fuente del manifiesto y una página dentro de su rango.
    - El catálogo de reglas declara la edición y el `sha256` del protocolo del que salió; ambos tienen que coincidir con el manifiesto.
-   - `attemptErrors` (`validateAttempt.ts`) valida un intento contra las reglas: faltas de reglas conocidas con sus puntos, total coherente y ninguna falta en intentos de actividades.
+   - `attemptErrors` (`validateAttempt.ts`) valida un intento contra las reglas: faltas de reglas conocidas con sus puntos (o los de su escalada eliminatoria), sin repetir reglas que cuentan una sola vez, total coherente y ninguna falta en intentos de actividades.
 
 Además:
 

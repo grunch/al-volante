@@ -5,8 +5,16 @@ import { attemptErrors } from './validateAttempt.ts';
 
 const AT = '2026-10-11T12:00:00.000Z';
 const rules = ruleCatalog([
-  rule({ id: 'rule.minor.a-item', severity: 'minor', annexItem: 'a', points: 1 }),
-  rule({ id: 'rule.high.l-item', severity: 'high', annexItem: 'l', points: 3 }),
+  rule({ id: 'rule.minor.a-item', severity: 'minor', annexItem: 'a', points: 1, repetition: 'per-occurrence' }),
+  rule({
+    id: 'rule.high.l-item',
+    severity: 'high',
+    annexItem: 'l',
+    points: 3,
+    repetition: 'once',
+    escalation: { condition: 'El examinador interviene', severity: 'eliminatory', points: 8, interrupts: true },
+  }),
+  rule({ id: 'rule.low.b-item', severity: 'low', annexItem: 'b', points: 2, repetition: 'single-check' }),
 ]);
 
 function driving(overrides: Partial<Attempt> = {}): Attempt {
@@ -38,7 +46,7 @@ describe('attemptErrors', () => {
     const attempt = driving({
       faults: [
         { ruleId: 'rule.minor.z-ghost', at: AT, points: 1 },
-        { ruleId: 'rule.high.l-item', at: AT, points: 8 },
+        { ruleId: 'rule.high.l-item', at: AT, points: 5 },
       ],
       result: { correct: null, score: null, points: 3 },
     });
@@ -49,8 +57,38 @@ describe('attemptErrors', () => {
     // Assert
     expect(errors).toEqual([
       'd1: fault 0 cites unknown rule rule.minor.z-ghost',
-      'd1: fault 1 gives 8 points, but rule.high.l-item is worth 3',
-      'd1: result points 3 do not match the faults (9)',
+      'd1: fault 1 gives 5 points, but rule.high.l-item is worth 3 or 8',
+      'd1: result points 3 do not match the faults (6)',
+    ]);
+  });
+
+  it('accepts the 8 points of an escalated fault (protocolo PDF 7)', () => {
+    const escalated = driving({
+      faults: [{ ruleId: 'rule.high.l-item', at: AT, points: 8 }],
+      result: { correct: null, score: null, points: 8 },
+    });
+
+    expect(attemptErrors(escalated, rules)).toEqual([]);
+  });
+
+  it('rejects repeated faults of rules counted once or checked once, but allows per-occurrence repeats', () => {
+    // Arrange
+    const repeated = driving({
+      faults: [
+        { ruleId: 'rule.minor.a-item', at: AT, points: 1 },
+        { ruleId: 'rule.minor.a-item', at: AT, points: 1 },
+        { ruleId: 'rule.high.l-item', at: AT, points: 3 },
+        { ruleId: 'rule.high.l-item', at: AT, points: 3 },
+        { ruleId: 'rule.low.b-item', at: AT, points: 2 },
+        { ruleId: 'rule.low.b-item', at: AT, points: 2 },
+      ],
+      result: { correct: null, score: null, points: 12 },
+    });
+
+    // Act / Assert
+    expect(attemptErrors(repeated, rules)).toEqual([
+      'd1: fault 3 repeats rule.high.l-item, which counts once',
+      'd1: fault 5 repeats rule.low.b-item, which counts once',
     ]);
   });
 

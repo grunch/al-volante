@@ -1,4 +1,7 @@
-import type { Attempt, RuleCatalog } from './schemas.ts';
+import type { Attempt, Rule, RuleCatalog } from './schemas.ts';
+
+/** Repetition policies under which a rule can appear only once in an attempt (REGLAS.md). */
+const COUNTED_ONCE: ReadonlySet<Rule['repetition']> = new Set(['once', 'single-check']);
 
 /**
  * Checks an attempt against the exam rules: every fault cites a known rule with that rule's points, a scored result
@@ -9,11 +12,22 @@ export function attemptErrors(attempt: Attempt, rules: RuleCatalog): string[] {
   const byId = new Map(rules.rules.map((rule) => [rule.id, rule]));
   if (attempt.kind === 'activity' && attempt.faults.length > 0)
     errors.push(`${attempt.id}: activity attempts cannot have driving faults`);
+  const seen = new Set<string>();
   attempt.faults.forEach((fault, index) => {
     const rule = byId.get(fault.ruleId);
-    if (!rule) errors.push(`${attempt.id}: fault ${index} cites unknown rule ${fault.ruleId}`);
-    else if (fault.points !== rule.points)
-      errors.push(`${attempt.id}: fault ${index} gives ${fault.points} points, but ${rule.id} is worth ${rule.points}`);
+    if (!rule) {
+      errors.push(`${attempt.id}: fault ${index} cites unknown rule ${fault.ruleId}`);
+      return;
+    }
+    // A high fault escalates to an eliminatory one when the examiner has to intervene (protocolo PDF 7).
+    const allowed = [rule.points, ...(rule.escalation ? [rule.escalation.points] : [])];
+    if (!allowed.includes(fault.points))
+      errors.push(
+        `${attempt.id}: fault ${index} gives ${fault.points} points, but ${rule.id} is worth ${allowed.join(' or ')}`,
+      );
+    if (seen.has(rule.id) && COUNTED_ONCE.has(rule.repetition))
+      errors.push(`${attempt.id}: fault ${index} repeats ${rule.id}, which counts once`);
+    seen.add(rule.id);
   });
   const total = attempt.faults.reduce((sum, fault) => sum + fault.points, 0);
   if (attempt.result.points !== null && attempt.result.points !== total)

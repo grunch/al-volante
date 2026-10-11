@@ -81,6 +81,10 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Invariantes del puntaje: `requiresAllStagesCompleted` y `cumulativeAcrossStages` son `true` fijos (protocolo PDF 14), y `maxPointsBeforeCirculation` es 7 fijo (PDF 10).
   - Faltas de un intento sin validar: `attemptErrors` (`src/content/validateAttempt.ts`) exige regla conocida, los puntos de esa regla, un total coherente y ninguna falta en intentos de actividades. La importación de respaldos lo usa desde F02-T05.
   - Procedencia del catálogo de reglas: `edition` y `sha256` se comparan con la entrada `protocolo` del manifiesto.
+- Revisión de Codex sobre #13 (`64bf79d`, revisión 5485212704), con pruebas:
+  - Una falta alta que escala a eliminatoria vale 8 puntos (protocolo PDF 7): `attemptErrors` acepta los puntos de la escalada.
+  - Una regla `once` o `single-check` no puede aparecer dos veces en un intento.
+  - `comuna13-a.geojson` conservaba los estados viejos: migrado (17 `single-source`, 4 `sources-verified`, 1 `discrepancy`). Una prueba controla que use el vocabulario del catálogo.
 
 ### F02-T03 — Navegación, inicio/garaje, biblioteca y mapa de aprendizaje
 

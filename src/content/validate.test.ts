@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import routeGeoJson from '../../specs/route/comuna13-a.geojson?raw';
+import { VERIFICATION_STATUSES } from './schemas.ts';
 import { computeContentVersion, validateContent } from './validate.ts';
 import type { RawContent } from './validate.ts';
 import { loadContent } from './catalog.ts';
@@ -86,6 +88,14 @@ describe('validateContent', () => {
     if (result.ok) return;
     expect(result.errors).toContain('rules: source edition 2020-01-01 does not match the manifest (2023)');
     expect(result.errors).toContain('rules: source sha256 does not match the manifest');
+  });
+
+  it('keeps the route GeoJSON in the same status vocabulary as the catalog', () => {
+    const features = (JSON.parse(routeGeoJson) as { features: Array<{ properties?: { status?: string } }> }).features;
+    const statuses = features.flatMap((feature) => feature.properties?.status ?? []);
+
+    expect(statuses.length).toBeGreaterThan(0);
+    for (const status of statuses) expect(VERIFICATION_STATUSES).toContain(status);
   });
 
   it('computes a deterministic content version that changes with the content', () => {
