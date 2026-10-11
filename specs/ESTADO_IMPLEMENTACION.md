@@ -191,7 +191,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | Depende de | PR | Estado |
 |---|---|---|---|---|---|
-| F03-T01 | `f03-t01-simulation` | `f02-t02-fix03` (#15) | F02 (con #15) | #16 | en revisión (etapa A) |
+| F03-T01 | `f03-t01-simulation` | `main` | F02 (fusionada, con #15) | #16 | en revisión (etapa B) |
 | F03-T02 | — | `f03-t01-simulation` (#16) | T01 | — | pendiente |
 | F03-T03 | — | — | T02 | — | autor asignado: GPT-6 Astra; fuera de esta sesión |
 | F03-T04 | — | — | T03 | — | pendiente |
@@ -219,6 +219,9 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Las rampas de pedales y volante avanzaban una vez por cuadro y su valor se aplicaba a todos los pasos del cuadro, así que dependían de los FPS. Ahora avanzan dentro de cada paso fijo. Una prueba exige estados idénticos a 30 y a 120 Hz, y falla sin la corrección; la primera prueba del componente no lo detectaba, porque comparaba con redondeo al centímetro.
   - Al cambiar de pestaña o de aplicación con una tecla apretada, el auto seguía acelerando: ahora las teclas se sueltan también con el `blur` de la ventana y con `visibilitychange`.
   - La velocidad de impacto era la del comienzo del paso: ahora se interpola en el instante del contacto.
+- Revisión de Codex sobre `03b2f45` (5485494300), con prueba:
+  - La limpieza de la escena solo liberaba mallas, así que la grilla (`GridHelper`, que es un `LineSegments`) quedaba sin liberar al salir de la pista. Ahora también se liberan líneas y puntos.
+- Rebasado sobre `main` después de que el usuario fusionó #15.
 
 ## Pila y orden de fusión
 
