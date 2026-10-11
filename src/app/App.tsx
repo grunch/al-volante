@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { RouterProvider, createHashRouter } from 'react-router';
 import type { createMemoryRouter } from 'react-router';
 import { ContentProvider } from '../content/ContentProvider.tsx';
+import { ProgressProvider } from '../progress/ProgressProvider.tsx';
+import type { ProgressStore } from '../progress/storage.ts';
 import type { ContentResult } from '../content/validate.ts';
 import { RendererContext } from '../scene/RendererContext.ts';
 import type { RendererFactory } from '../scene/SceneCanvas.tsx';
@@ -16,15 +18,20 @@ interface AppProps {
   createRenderer?: RendererFactory;
   /** Tests inject content; the app loads and validates the bundled catalogs. */
   loadContent?: () => Promise<ContentResult>;
+  /** Tests inject a progress store and a clock; the app uses IndexedDB and the real time. */
+  openProgressStore?: () => Promise<ProgressStore>;
+  now?: () => Date;
 }
 
-export function App({ router, createRenderer, loadContent }: AppProps) {
+export function App({ router, createRenderer, loadContent, openProgressStore, now }: AppProps) {
   const [appRouter] = useState(() => router ?? createHashRouter(routes));
   return (
     <ContentProvider {...(loadContent ? { load: loadContent } : {})}>
-      <RendererContext.Provider value={createRenderer}>
-        <RouterProvider router={appRouter} />
-      </RendererContext.Provider>
+      <ProgressProvider {...(openProgressStore ? { openStore: openProgressStore } : {})} {...(now ? { now } : {})}>
+        <RendererContext.Provider value={createRenderer}>
+          <RouterProvider router={appRouter} />
+        </RendererContext.Provider>
+      </ProgressProvider>
     </ContentProvider>
   );
 }

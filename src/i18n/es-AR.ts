@@ -8,6 +8,7 @@ export const esAR = {
   navMap: 'Mapa de aprendizaje',
   navLibrary: 'Biblioteca',
   navActivities: 'Actividades',
+  navLogbook: 'Mi bitácora',
   garageHeading: 'Mi garaje',
   garageSceneLabel: 'Vista 3D del garaje con un auto de práctica',
   garageSceneLoading: 'Cargando el garaje…',
@@ -206,3 +207,68 @@ export const SOURCE_SHORT_LABELS: Record<string, string> = {
   recorridos: 'Recorridos',
   siniestros: 'Guía de siniestros',
 };
+
+const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
+export const LOGBOOK_COPY = {
+  heading: 'Mi bitácora',
+  intro:
+    'Tus errores recientes, los repasos que tocan y cómo vas con cada concepto. Todo se guarda solo en este navegador.',
+  loading: 'Cargando tu progreso…',
+  loadError: 'No pudimos leer tu progreso guardado. No se borró nada.',
+  retry: 'Reintentar',
+  notPersistent:
+    'Este navegador no permite guardar datos (por ejemplo, en modo privado): tu progreso se pierde al cerrar la pestaña. Descargá un respaldo para conservarlo.',
+  skipped: (count: number) =>
+    `${count === 1 ? 'Un registro guardado está dañado y no se pudo leer' : `${count} registros guardados están dañados y no se pudieron leer`}. Los dejamos como estaban; el resto de tu progreso está intacto.`,
+  saveFailed: 'No pudimos guardar tu último resultado. Probá de nuevo; tu progreso anterior está intacto.',
+  reviewHeading: 'Repaso recomendado',
+  reviewEmpty: 'No tenés repasos pendientes por ahora.',
+  reviewTryNew: 'Probá una actividad',
+  reasonRecentError: 'La última vez no te salió bien.',
+  reasonDue: 'Toca repasar:',
+  errorsHeading: 'Errores recientes',
+  errorsEmpty: 'Sin errores registrados.',
+  errorOn: (date: string) => `Último intento: ${date}`,
+  conceptsHeading: 'Progreso por concepto',
+  masteryHelp:
+    'Un concepto queda dominado con tres respuestas correctas seguidas y espaciadas: la primera, otra al menos un día después y otra al menos tres días más tarde. Responder de nuevo antes de tiempo no suma, y un error lo vuelve al principio. No calculamos una probabilidad de aprobar.',
+  groupSummary: (total: number, withActivities: number) =>
+    `${total} conceptos; ${withActivities} ya tienen actividades para practicar.`,
+  practicedCount: 'Practicados',
+  masteredCount: 'Dominados',
+  stateLabels: { practiced: 'Practicado', mastered: 'Dominado' },
+  conceptStats: (correct: number, attempts: number) => `Aciertos: ${correct} de ${attempts}`,
+  dueNow: 'Repasar ahora',
+  nextReview: (date: string) => `Próximo repaso: ${date}`,
+  groupEmpty: 'Todavía no practicaste conceptos de esta parte.',
+  backupHeading: 'Respaldo',
+  backupHelp:
+    'Descargá un archivo con todo tu progreso para guardarlo o pasarlo a otro navegador. Importarlo reemplaza el progreso de este navegador.',
+  exportButton: 'Descargar respaldo',
+  importLabel: 'Importar un respaldo',
+  importSummary: (date: string, attempts: number, concepts: number) =>
+    `Respaldo del ${date}: ${count(attempts, 'intento', 'intentos')} y ${count(concepts, 'concepto', 'conceptos')}.`,
+  importWarning: (attempts: number) =>
+    `Importarlo reemplaza tu progreso actual (${count(attempts, 'intento', 'intentos')}).`,
+  importConfirm: 'Reemplazar mi progreso',
+  importCancel: 'Cancelar',
+  importDone: 'Listo: restauramos tu progreso desde el respaldo.',
+  importWriteFailed: 'No pudimos guardar el respaldo importado. Tu progreso actual no cambió.',
+  importErrors: {
+    'invalid-json': 'El archivo no es un JSON válido.',
+    'not-a-backup': 'El archivo no es un respaldo de Al volante.',
+    'unsupported-version':
+      'El respaldo es de una versión del juego que esta no reconoce. Actualizá la página e intentá de nuevo.',
+    'invalid-data': 'El respaldo tiene datos dañados, así que no importamos nada.',
+    'too-large': 'El archivo es demasiado grande para ser un respaldo.',
+    unreadable: 'No pudimos leer el archivo.',
+  },
+  unchanged: 'Tu progreso actual no cambió.',
+} as const;
+
+const DATE_FORMAT = new Intl.DateTimeFormat('es-AR', { dateStyle: 'medium' });
+const DATE_TIME_FORMAT = new Intl.DateTimeFormat('es-AR', { dateStyle: 'medium', timeStyle: 'short' });
+
+export const formatDate = (iso: string) => DATE_FORMAT.format(new Date(iso));
+export const formatDateTime = (iso: string) => DATE_TIME_FORMAT.format(new Date(iso));

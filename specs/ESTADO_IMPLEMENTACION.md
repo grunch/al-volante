@@ -118,6 +118,32 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Codex, foco perdido al completar la semilla y al cambiar de variante: el título queda montado y recibe el foco, con pruebas unitarias y E2E.
   - Codex, texto nuevo del inicio dentro del TSX: resuelto con `HOME_SPACES` (#9).
 
+### F02-T05 — Progreso, bitácora, repaso espaciado, IndexedDB y respaldo
+
+- Alcance:
+  - intentos registrados con la versión de contenido;
+  - dominio por concepto con cajas de Leitner (disponible, practicado y dominado);
+  - «Mi bitácora» con repaso recomendado, errores recientes y progreso de la campaña B separado del complemento;
+  - IndexedDB con transacciones atómicas;
+  - respaldo versionado con importación validada y confirmada.
+- Aceptación:
+  - El progreso persiste al reiniciar: prueba con IndexedDB simulado (desmontar y volver a montar) y E2E con recarga real.
+  - El respaldo restaura los datos: E2E que exporta, importa en un navegador limpio, recarga y encuentra el progreso.
+  - Los datos corruptos no destruyen el progreso existente:
+    - registros ilegibles en la base, que se conservan y se avisan;
+    - respaldos inválidos, demasiado grandes o ilegibles, que se rechazan sin tocar nada;
+    - escrituras fallidas, que abortan la transacción;
+    - fallas de carga, durante las cuales no se escribe nada;
+    - en E2E, un respaldo dañado sin efecto después de recargar.
+- Verificación local:
+  - `npm run check` con 128 pruebas unitarias y de integración;
+  - `npm run test:e2e` con 22 pruebas;
+  - capturas revisadas: bitácora en móvil sin desborde horizontal e inicio en escritorio.
+- Errores encontrados por las pruebas y corregidos:
+  - un acierto después de un error subía de caja, y dos aciertos alcanzaban para dominar;
+  - con StrictMode quedaba una conexión de IndexedDB sin cerrar.
+- CodeRabbit y Codex: se solicitan al abrir el PR.
+
 ## Pila y orden de fusión
 
 `main ← F02-T01 ← F02-T02 ← F02-T03 ← F02-T04 ← F02-T05` (se crean en la etapa A; se fusionan en ese orden en la etapa B). T01–T04 ya están en `main`. Los findings que Codex dejó sobre esos merges van en correctivos desde `main`: `main ← F02-T01-FIX01 (#12) ← F02-T02-FIX01 (#13) ← F02-T05 (#11)`.

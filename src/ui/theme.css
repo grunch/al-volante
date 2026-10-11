@@ -447,3 +447,71 @@ a {
   padding: 0;
   list-style: none;
 }
+
+/* Logbook (F02-T05) */
+.status-message--success {
+  border-left-color: var(--color-turquoise-text);
+}
+
+.logbook-list {
+  padding-left: var(--space-4);
+}
+
+.logbook-list li {
+  margin-bottom: var(--space-2);
+}
+
+.logbook-list__detail {
+  margin: var(--space-1) 0 0;
+  color: #44516a;
+}
+
+.progress-group {
+  margin-top: var(--space-4);
+}
+
+.progress-counts {
+  display: flex;
+  gap: var(--space-4);
+  margin: 0 0 var(--space-3);
+}
+
+.progress-counts div {
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-counts dt {
+  font-size: 0.875rem;
+}
+
+.progress-counts dd {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.badge--mastered {
+  background: var(--color-turquoise-text);
+}
+
+.file-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-width: 100%;
+  font-weight: 600;
+}
+
+.file-field input {
+  max-width: 100%;
+  font-weight: 400;
+}
+
+.confirm-box {
+  margin-bottom: var(--space-3);
+  padding: var(--space-3);
+  border: 2px solid var(--color-night);
+  border-radius: var(--radius);
+  background: #fffdf8;
+}

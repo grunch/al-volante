@@ -86,7 +86,7 @@ function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityP
   const answer = (response: ActivityResponse) => {
     const result = evaluateResponse(activity, presentation.variantId, response);
     setEvaluation(result);
-    record({ activity, presentation, evaluation: result });
+    record({ activity, presentation, response, evaluation: result });
   };
 
   const sign =

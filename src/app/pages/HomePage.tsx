@@ -13,6 +13,7 @@ const SceneCanvas = lazy(() =>
 /** Routes of the spaces that already exist; the others are shown as coming soon. */
 const SPACE_ROUTES: Partial<Record<HomeSpaceId, string>> = {
   city: '/actividades',
+  logbook: '/bitacora',
 };
 
 export function HomePage() {
