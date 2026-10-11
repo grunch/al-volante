@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { canonicalIso } from './dates.ts';
 import type { RuleCatalog } from '../content/schemas.ts';
 import { attemptErrors } from '../content/validateAttempt.ts';
 import { AttemptSchema } from '../content/schemas.ts';
@@ -64,8 +65,6 @@ export function migrateBackup(
   return current;
 }
 
-const canonical = (iso: string) => new Date(iso).toISOString();
-
 /**
  * Rewrites every date in the format the app itself writes (toISOString: milliseconds and Z). IndexedDB orders the
  * attempt-time indexes as text, which matches time order only when all dates share one format.
@@ -74,15 +73,15 @@ function canonicalDates(snapshot: ProgressSnapshot): ProgressSnapshot {
   return {
     attempts: snapshot.attempts.map((attempt) => ({
       ...attempt,
-      startedAt: canonical(attempt.startedAt),
-      finishedAt: attempt.finishedAt === null ? null : canonical(attempt.finishedAt),
-      events: attempt.events.map((event) => ({ ...event, at: canonical(event.at) })),
-      faults: attempt.faults.map((fault) => ({ ...fault, at: canonical(fault.at) })),
+      startedAt: canonicalIso(attempt.startedAt),
+      finishedAt: attempt.finishedAt === null ? null : canonicalIso(attempt.finishedAt),
+      events: attempt.events.map((event) => ({ ...event, at: canonicalIso(event.at) })),
+      faults: attempt.faults.map((fault) => ({ ...fault, at: canonicalIso(fault.at) })),
     })),
     concepts: snapshot.concepts.map((concept) => ({
       ...concept,
-      lastAttemptAt: canonical(concept.lastAttemptAt),
-      dueAt: canonical(concept.dueAt),
+      lastAttemptAt: canonicalIso(concept.lastAttemptAt),
+      dueAt: canonicalIso(concept.dueAt),
     })),
   };
 }

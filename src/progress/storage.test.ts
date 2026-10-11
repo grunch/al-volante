@@ -180,6 +180,46 @@ describe('IndexedDB progress store', () => {
     expect(afterSuccess.snapshot.concepts[0]?.lastCorrect).toBe(false);
   });
 
+  it('rewrites version 2 dates canonically while upgrading, so the new indexes order them by time', async () => {
+    // Arrange: a version 2 database holding an older attempt without milliseconds and a newer one with them.
+    const v2 = await openDB(DB_NAME, 2, {
+      upgrade(database) {
+        database.createObjectStore('attempts', { keyPath: 'id' });
+        database.createObjectStore('concepts', { keyPath: 'unitId' });
+        database.createObjectStore('quarantine', { autoIncrement: true });
+      },
+    });
+    const older = {
+      ...sampleAttempt('older'),
+      startedAt: '2026-10-11T12:00:00Z',
+      finishedAt: '2026-10-11T12:00:00Z',
+      events: [],
+    };
+    const newer = {
+      ...sampleAttempt('newer'),
+      startedAt: '2026-10-11T12:00:00.500Z',
+      finishedAt: '2026-10-11T12:00:00.500Z',
+      events: [],
+    };
+    await v2.put('attempts', older);
+    await v2.put('attempts', newer);
+    v2.close();
+
+    // Act
+    const store = await openProgressStore();
+    let seen: string | undefined;
+    await store.record(
+      (latest) => ((seen = latest), sampleAttempt('next', true, at(1))),
+      ['manual.ch3.a'],
+      answer(true),
+    );
+    const { snapshot } = await store.load();
+
+    // Assert: as text, '12:00:00Z' sorts after '12:00:00.500Z'; once rewritten, the newer attempt is the latest.
+    expect(seen).toBe('2026-10-11T12:00:00.500Z');
+    expect(snapshot.attempts.find((attempt) => attempt.id === 'older')?.startedAt).toBe('2026-10-11T12:00:00.000Z');
+  });
+
   it('upgrades a version 1 database without losing its progress', async () => {
     // Arrange: the version 1 layout had no quarantine store.
     const v1 = await openDB(DB_NAME, 1, {

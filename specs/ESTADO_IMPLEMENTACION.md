@@ -178,6 +178,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisión de Codex sobre #14 en `2c20de4` (5485330256), con pruebas:
   - IndexedDB ordena como texto los índices de hora de los intentos, y un respaldo con fechas en otra precisión ISO (por ejemplo, sin milisegundos) desordenaba ese texto. Ahora la importación reescribe todas las fechas en el formato canónico que usa la app (`toISOString`).
   - Una línea de ESTADO decía «solo queda #13»: corregida.
+- Revisión de Codex sobre #14 en `9d861f1` (5485344650), con prueba:
+  - La migración a la versión 3 creaba los índices sobre las fechas que ya estaban guardadas en v2, sin normalizarlas. Ahora la rama de migración reescribe en formato canónico las fechas de los intentos guardados (inicio, fin, eventos y faltas) dentro de la misma transacción de actualización; si falla, la actualización se cancela.
 
 ## Pila y orden de fusión
 

@@ -1,5 +1,6 @@
 import { openDB } from 'idb';
-import type { DBSchema, IDBPDatabase, IDBPTransaction } from 'idb';
+import type { DBSchema, IDBPDatabase, IDBPObjectStore, IDBPTransaction, StoreNames } from 'idb';
+import { canonicalStoredAttempt } from './dates.ts';
 import { AttemptSchema } from '../content/schemas.ts';
 import type { Attempt } from '../content/schemas.ts';
 import { ConceptProgressSchema } from './model.ts';
@@ -219,6 +220,17 @@ export function createMemoryStore(initial: ProgressSnapshot = { attempts: [], co
   };
 }
 
+/** Rewrites every stored attempt's dates in the canonical format, inside the upgrade transaction. */
+async function canonicaliseAttempts(
+  store: IDBPObjectStore<ProgressDB, ArrayLike<StoreNames<ProgressDB>>, 'attempts', 'versionchange'>,
+): Promise<void> {
+  let cursor = await store.openCursor();
+  while (cursor) {
+    await cursor.update(canonicalStoredAttempt(cursor.value) as Attempt);
+    cursor = await cursor.continue();
+  }
+}
+
 /** Opens the IndexedDB store, falling back to memory (and saying so via `persistent`) when that fails. */
 export async function openProgressStore(): Promise<ProgressStore> {
   if (typeof indexedDB === 'undefined') return createMemoryStore();
@@ -232,8 +244,13 @@ export async function openProgressStore(): Promise<ProgressStore> {
         }
         if (oldVersion < 2) database.createObjectStore('quarantine', { autoIncrement: true });
         if (oldVersion < 3) {
-          // Lets a write find the latest attempt time without reading every attempt.
+          // Lets a write find the latest attempt time without reading every attempt. The indexes compare dates as
+          // text, so dates stored by version 2 (possibly imported in another ISO precision) are rewritten first.
           const attempts = transaction.objectStore('attempts');
+          void canonicaliseAttempts(attempts).catch((error: unknown) => {
+            console.warn('Could not normalise stored dates; the upgrade is cancelled', error);
+            transaction.abort();
+          });
           attempts.createIndex('by-started', 'startedAt');
           attempts.createIndex('by-finished', 'finishedAt');
         }
