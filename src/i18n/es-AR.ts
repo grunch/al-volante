@@ -7,6 +7,7 @@ export const esAR = {
   navHome: 'Inicio',
   navMap: 'Mapa de aprendizaje',
   navLibrary: 'Biblioteca',
+  navActivities: 'Actividades',
   garageHeading: 'Mi garaje',
   garageSceneLabel: 'Vista 3D del garaje con un auto de práctica',
   garageSceneLoading: 'Cargando el garaje…',
@@ -150,7 +151,7 @@ export const HOME_SPACES = [
   {
     id: 'city',
     title: 'La ciudad te pregunta',
-    description: 'Resolvé escenas de prioridades, señales, luces y estacionamiento.',
+    description: 'Resolvé escenas de prioridades, señales, semáforos y giros (muestra inicial).',
   },
   {
     id: 'lab',
@@ -167,3 +168,41 @@ export const HOME_SPACES = [
 ] as const;
 
 export type HomeSpaceId = (typeof HOME_SPACES)[number]['id'];
+
+export const ACTIVITY_COPY = {
+  heading: 'La ciudad te pregunta',
+  intro:
+    'Escenas y preguntas para practicar lo que estudiás. Esta es una muestra inicial: la campaña completa, con actividades para todo el manual, llega en la fase 5.',
+  answer: 'Responder',
+  check: 'Comprobar',
+  correct: '¡Correcto!',
+  incorrect: 'No es correcto',
+  partial: 'Casi',
+  explanation: 'Por qué',
+  correctAnswer: 'Respuesta correcta',
+  sources: 'Fuentes',
+  anotherVariant: 'Otra variante',
+  backToList: 'Volver a las actividades',
+  moveUp: 'Subir',
+  moveDown: 'Bajar',
+  position: 'Posición',
+  restart: 'Empezar de nuevo',
+  chooseOption: 'Elegí una opción',
+  scoreLabel: 'Puntaje',
+  notFound: 'No encontramos esa actividad.',
+  signToIdentify: 'Señal a identificar',
+} as const;
+
+export const ACTIVITY_TYPE_LABELS: Record<string, string> = {
+  'single-choice': 'Elección',
+  'sign-identification': 'Señales',
+  ordering: 'Ordenar',
+  decision: 'Decisión',
+};
+
+export const SOURCE_SHORT_LABELS: Record<string, string> = {
+  manual: 'Manual',
+  protocolo: 'Protocolo',
+  recorridos: 'Recorridos',
+  siniestros: 'Guía de siniestros',
+};

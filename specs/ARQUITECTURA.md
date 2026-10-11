@@ -33,6 +33,7 @@ src/
   main.tsx                 Punto de entrada.
   app/                     App, tabla de rutas, layout, orden de estudio (learningPath) y pantallas (pages/).
   i18n/es-AR.ts            Textos de la interfaz en español rioplatense, con claves en inglés.
+  activities/              Motor de actividades (puro y determinista), PRNG con semilla, componentes de pregunta y señales SVG.
   content/                 Esquemas (Zod), validación referencial, versión, cobertura y carga de catálogos.
   scene/                   Mundo 3D: escena pura de Three.js y su componente de montaje.
   ui/                      Estilos (tokens de diseño), compuerta de contenido, título de página y hooks compartidos.
@@ -43,7 +44,7 @@ specs/                     Documentación, fuentes y catálogos de datos.
 .github/workflows/ci.yml   Integración continua.
 ```
 
-Planificado en esta fase: `src/activities/` (motor de actividades, F02-T04) y `src/progress/` (progreso y persistencia, F02-T05).
+Planificado en esta fase: `src/progress/` (progreso y persistencia, F02-T05).
 
 ## Datos y validación (F02-T02)
 
@@ -73,6 +74,8 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 | `#/` | Inicio, «Mi garaje»: escena 3D y los seis espacios de la propuesta (los que todavía no existen se marcan «Próximamente»). |
 | `#/mapa` | Mapa de aprendizaje: campaña B en el orden del «Material a estudiar» (manual PDF 3), consulta (glosario) y material complementario por separado. |
 | `#/mapa/:fuente/:sección` | Unidades de una sección, con datos clave y enlaces a sus páginas. |
+| `#/actividades` | «La ciudad te pregunta»: muestra de actividades (F02-T04). |
+| `#/actividad/:id?semilla=n` | Una actividad; la semilla en la URL reproduce la misma variante y el mismo orden. |
 | `#/biblioteca` | Las cuatro fuentes oficiales, con edición, cantidad de páginas y PDF oficial. |
 | `#/biblioteca/:fuente/:página` | Una página física: clasificación, resumen, unidades, figuras, señales, observaciones, reglas del examen que la citan (protocolo), texto extraído y enlace al PDF oficial en esa página. |
 
@@ -80,6 +83,16 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 - **Carga del contenido:** `ContentProvider` carga y valida el contenido una sola vez; `ContentGate` muestra los estados de carga y de error (con reintento y detalle técnico).
 - **Accesibilidad:** al navegar, `Layout` mueve el foco al título (`h1#page-title`) y `PageTitle` actualiza `document.title`.
 - **Carga diferida del texto:** el texto extraído de cada fuente se carga solo al abrir una página de esa fuente.
+
+## Actividades (F02-T04)
+
+- **Motor** (`src/activities/engine.ts`): TypeScript puro, sin React.
+  - `presentActivity(activity, seed)` elige la variante y baraja opciones, ítems o elecciones con un PRNG con semilla (Mulberry32). La misma semilla da siempre la misma presentación, y la presentación nunca incluye qué opción es correcta.
+  - `evaluateResponse` puntúa: elección y señales, 0/1; ordenar, crédito parcial por posición; decisión, recorre el grafo hasta el desenlace. Devuelve devolución específica, respuesta correcta, explicación y citas.
+  - Una respuesta imposible lanza un error en lugar de puntuarse.
+- **Tipos:** `single-choice`, `sign-identification` (señal dibujada en SVG con formas y colores reglamentarios, descripta para lectores de pantalla), `ordering` (botones subir/bajar, sin arrastrar) y `decision` (escena ramificada).
+- **Resultados:** `ActivityResultContext` recibe cada intento terminado; F02-T05 lo usa para registrar el progreso.
+- **Contenido:** `specs/catalog/activities.json`. Cada actividad cita conceptos (`unitIds`) y páginas (`refs`) y se valida con `validateActivities`. Solo se escriben preguntas sobre datos sin discrepancias abiertas (COBERTURA.md).
 
 ## Convenciones
 
