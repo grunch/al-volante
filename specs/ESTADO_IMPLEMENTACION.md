@@ -238,9 +238,14 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - final con N o P, freno de mano, motor apagado y llave afuera (PDF 13, 25).
 - Errores encontrados por las pruebas y corregidos: cerca de la traba, el sentido del patinamiento del embrague salía del ruido de la diferencia de velocidades y el embrague frenaba en lugar de empujar. Dos procedimientos de prueba eran irreales (salir con el embrague a 0,55 y poco acelerador cala, como en un auto real) y se corrigieron.
 - Verificación local:
-  - `npm run check` con 247 pruebas;
+  - `npm run check` con 252 pruebas;
   - `npm run test:e2e` con 30 pruebas: automática hasta D con arrastre, manual con salida con embrague y acelerador, y vista sin foco.
 - Revisiones: se piden después de revisar los findings de T01 y T02 (indicación del usuario).
+- Findings de la revisión automática de Codex al abrir #17 (5485441891), aplicados con pruebas:
+  - Desde la pista no se podía sacar la llave, así que el procedimiento final no se podía completar: K ahora recorre el ciclo completo (contacto, arranque, apagado y sacar la llave). La E2E manual termina con el freno de mano, N, el motor apagado y la llave afuera.
+  - La salida con el freno de mano se volvía a informar al detenerse y arrancar otra vez sin soltarlo. REGLAS la define por episodio: ahora la marca solo se reinicia al soltar o volver a poner el freno de mano.
+  - Comentario y nombres de prueba con expresiones en español: pasan a inglés y citan los ids de regla (`rule.minor.f-handbrake-on-start`, `rule.low.d-engine-stall`).
+- Después del rebase sobre los findings de T01, la vista usa la misma función de cuadro (`driveFrame`) con el auto completo: rampas por paso fijo, comandos antes de los pasos y teclas liberadas al perder el foco la ventana.
 
 ## Pila y orden de fusión
 

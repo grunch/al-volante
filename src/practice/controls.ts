@@ -64,12 +64,16 @@ function neighbour(sequence: readonly string[], current: string, step: 1 | -1): 
   return next === undefined ? [] : [{ type: 'shift', to: next as ManualGear | AutomaticLever }];
 }
 
-/** Discrete commands a key asks for, given the current powertrain (K cycles the key, Space toggles the handbrake). */
+/**
+ * Discrete commands a key asks for, given the current powertrain. K cycles the key (contact, start, stop, take it
+ * out), Space toggles the handbrake and E/Q move along the gears or the lever.
+ */
 export function commandsForKey(code: string, powertrain: PowertrainState): PowertrainCommand[] {
   const is = (codes: readonly string[]) => codes.includes(code);
   if (is(KEY_BINDINGS.key)) {
     if (powertrain.key === 'removed') return [{ type: 'insert-key' }, { type: 'turn-key', to: 'on' }];
-    if (powertrain.key === 'off') return [{ type: 'turn-key', to: 'on' }];
+    // Switched off: the next press takes the key out (refused while the automatic is outside P).
+    if (powertrain.key === 'off') return [{ type: 'remove-key' }];
     return [{ type: 'turn-key', to: powertrain.engineRunning ? 'off' : 'start' }];
   }
   if (is(KEY_BINDINGS.handbrake)) return [{ type: 'handbrake', engaged: !powertrain.handbrake }];

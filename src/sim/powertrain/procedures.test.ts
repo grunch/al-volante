@@ -190,7 +190,7 @@ describe('first 100 m (protocolo PDF 11, 31)', () => {
 });
 
 describe('mistakes the exam penalises', () => {
-  it('stalls the manual when the clutch is released at once without accelerating (falta: apagado del motor)', () => {
+  it('stalls the manual when the clutch is released at once without accelerating (rule.low.d-engine-stall)', () => {
     let run = apply(started('manual'), { type: 'shift', to: '1' }, { type: 'handbrake', engaged: false });
 
     run = hold(run, IDLE, (state) => !state.powertrain.engineRunning, 3);
@@ -198,13 +198,24 @@ describe('mistakes the exam penalises', () => {
     expect(types(run)).toContain('stall');
   });
 
-  it('reports moving off with the handbrake applied (falta f, etapa I)', () => {
+  it('reports moving off with the handbrake applied once per episode, even after stopping (rule.minor.f-handbrake-on-start)', () => {
     let run = apply(started('manual'), { type: 'shift', to: '1' });
 
     // Enough clutch and throttle to overcome the handbrake without stalling.
     run = hold(run, { ...IDLE, clutch: 0.58, throttle: 1 }, (state) => speedKmh(state) > 2, 5);
-
+    // Stop without releasing the handbrake, then move off again: still the same episode (REGLAS.md, «por episodio»).
+    run = hold(run, { ...IDLE, clutch: 1, brake: 1 }, (state) => state.world.vehicle.speedMps === 0);
+    run = hold(run, { ...IDLE, clutch: 0.58, throttle: 1 }, (state) => speedKmh(state) > 2, 5);
     expect(types(run).filter((type) => type === 'moved-with-handbrake')).toHaveLength(1);
+
+    // Releasing and applying it again starts a new episode.
+    run = apply(
+      hold(run, { ...IDLE, clutch: 1, brake: 1 }, (state) => state.world.vehicle.speedMps === 0),
+      { type: 'handbrake', engaged: false },
+      { type: 'handbrake', engaged: true },
+    );
+    run = hold(run, { ...IDLE, clutch: 0.58, throttle: 1 }, (state) => speedKmh(state) > 2, 5);
+    expect(types(run).filter((type) => type === 'moved-with-handbrake')).toHaveLength(2);
   });
 
   it('refuses a manual gear change without the clutch, and leaving P without the brake', () => {

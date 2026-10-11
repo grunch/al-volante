@@ -47,12 +47,14 @@ describe('command keys', () => {
     ...overrides,
   });
 
-  it('use K for the key: contact, start, stop', () => {
+  it('use K for the whole key cycle: contact, start, stop, take it out', () => {
     expect(commandsForKey('KeyK', engine({}))).toEqual([{ type: 'insert-key' }, { type: 'turn-key', to: 'on' }]);
     expect(commandsForKey('KeyK', engine({ key: 'on' }))).toEqual([{ type: 'turn-key', to: 'start' }]);
     expect(commandsForKey('KeyK', engine({ key: 'on', engineRunning: true }))).toEqual([
       { type: 'turn-key', to: 'off' },
     ]);
+    // After switching off, K takes the key out, completing the finishing procedure (protocolo PDF 13, 25).
+    expect(commandsForKey('KeyK', engine({ key: 'off' }))).toEqual([{ type: 'remove-key' }]);
   });
 
   it('use Space for the handbrake, and E and Q to move along the gears or the lever', () => {

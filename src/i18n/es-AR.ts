@@ -296,7 +296,7 @@ export const TRACK_COPY = {
   controls: {
     common: [
       'Hacé clic en la pista o llegá a ella con Tab para manejar.',
-      'K: llave. La primera vez la pone en contacto; después arranca o apaga el motor.',
+      'K: llave. Cada vez que la apretás avanza un paso: contacto, arranque, apagado y sacar la llave.',
       'Espacio: poner o sacar el freno de mano.',
       'Flecha arriba o W: acelerar. Flecha abajo o S: frenar.',
       'Flechas izquierda y derecha, o A y D: girar el volante.',

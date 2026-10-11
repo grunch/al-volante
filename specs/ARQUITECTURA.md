@@ -182,7 +182,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
   - Convertidor de par con torque = k · ωe · (ωe − ωg): arrastra en ralentí y retiene cuando las ruedas van más rápido que el motor.
   - En D cambia de 1.ª a 4.ª según la velocidad, con histéresis.
   - Para salir de P hay que pisar el freno, y ni P ni R entran en movimiento.
-- **Llave:** afuera, apagada o en contacto, más el arranque.
+- **Llave:** afuera, apagada o en contacto, más el arranque. En la pista, K recorre el ciclo completo: contacto, arranque, apagado y sacar la llave.
   - La manual arranca en N o con el embrague pisado; la automática, en P o en N.
   - La llave solo sale con el motor apagado, y en la automática, en P.
 - **Retenciones:**
@@ -190,7 +190,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
   - traba de estacionamiento en P;
   - motor apagado con una marcha puesta y el embrague suelto.
   - Todas actúan por los neumáticos y juntas no superan la adherencia.
-- **Eventos para la evaluación** (F03-T04): arranque, apagado, calado, arranque rechazado, cambio rechazado, marcha engranada, freno de mano, salida con el freno de mano puesto (una vez por episodio) y llave. La simulación no los juzga.
+- **Eventos para la evaluación** (F03-T04): arranque, apagado, calado, arranque rechazado, cambio rechazado, marcha engranada, freno de mano, salida con el freno de mano puesto (una vez por episodio: detenerse y volver a salir sin soltarlo es el mismo episodio; soltarlo o volver a ponerlo abre uno nuevo) y llave. La simulación no los juzga.
 - **Integración** (`src/sim/car.ts`): `stepCar` convierte los pedales en fuerzas y el mundo mueve el auto. `command` aplica llave, palanca y freno de mano según los pedales del último paso (el embrague decide si entra un cambio).
 - **Procedimientos del protocolo reproducidos con pruebas** en las dos cajas (`procedures.test.ts`):
   - etapa I: motor apagado, llave en contacto y freno de mano puesto;

@@ -44,7 +44,7 @@ export const EXAM_POWERTRAIN: PowertrainSpec = {
     upshiftKmh: [18, 35, 55],
     downshiftKmh: [12, 28, 45],
   },
-  // Enough to hold the car on a 20 % slope, and weak enough to drive off with it on by mistake (falta f, etapa I).
+  // Enough to hold the car on a 20 % slope, and weak enough to drive off with it on by mistake (rule.minor.f-handbrake-on-start).
   handbrakeDecelMps2: 2,
   parkHoldN: 20000,
   stoppedEngineHoldNm: 40,
@@ -302,11 +302,11 @@ export function stepPowertrain(
     }
   }
   const moving = Math.abs(speedMps) > MOVING_MPS;
+  // Once per episode: stopping and moving off again with the handbrake still on is the same episode; releasing or
+  // applying the handbrake (applyCommand) starts a new one.
   if (next.handbrake && moving && !next.handbrakeReported) {
     next = { ...next, handbrakeReported: true };
     events.push({ type: 'moved-with-handbrake' });
-  } else if (!moving && next.handbrakeReported) {
-    next = { ...next, handbrakeReported: false };
   }
   return { state: next, tractionN, holdN: holdingForce(spec, next, pedals, massKg), events };
 }

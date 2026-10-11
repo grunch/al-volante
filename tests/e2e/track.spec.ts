@@ -64,9 +64,24 @@ test.describe('practice yard', () => {
       .toBeGreaterThan(1);
     await expect(canvas).toHaveAttribute('data-engine', 'running');
     await page.keyboard.up('ArrowUp');
+
+    // Finishing (protocolo PDF 13, 25): stop with the clutch down, handbrake, neutral, engine off, key out.
+    await page.keyboard.down('Shift');
+    await page.keyboard.down('ArrowDown');
+    await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh')), { timeout: 5000 }).toBe(0);
+    await press(page, 'Space');
+    await press(page, 'q');
+    await page.keyboard.up('ArrowDown');
+    await page.keyboard.up('Shift');
+    await press(page, 'k');
+    await press(page, 'k');
+    await expect(canvas).toHaveAttribute('data-gear', 'N');
+    await expect(readout(page, 'Llave')).toHaveText('Afuera');
+    await expect(readout(page, 'Freno de mano')).toHaveText('Puesto');
+    await expect(readout(page, 'Motor')).toHaveText('Apagado');
+
     await page.getByRole('button', { name: 'Volver al inicio' }).click();
     await expect.poll(async () => Number(await canvas.getAttribute('data-odometer-m'))).toBe(0);
-    await expect(readout(page, 'Llave')).toHaveText('Afuera');
   });
 
   test('keeps the page keyboard when the view does not have focus', async ({ page }) => {
