@@ -64,7 +64,7 @@ Fuente: `recorridosl.pdf`, página PDF 16, inspeccionada como texto y como image
 
 ![Lámina original de Comuna 13](specs/fuentes/comuna-13-recorrido-a.png)
 
-**Pendiente cartográfico concreto:** la secuencia repite Cuba–Quesada–Cuba y el gráfico no basta para determinar inequívocamente cada maniobra de ese punto. Debe cotejarse la geometría y dirección de cada tramo, sin borrar la repetición ni inventar una vuelta en U. El anexo antiguo del protocolo y el documento de recorridos se deben comparar; para seleccionar A se toma el archivo de recorridos indicado por el usuario.
+**Pendiente cartográfico resuelto (F01-T04):** Cuba está desplazada en Quesada, unos 66 m. «Cuba – Quesada – Cuba» es izquierda por Quesada y derecha para retomar Cuba, no una repetición ni una vuelta en U. Trazado, sentidos, controles y aproximaciones en [specs/RECORRIDO.md](specs/RECORRIDO.md).
 
 ### Fidelidad del barrio
 

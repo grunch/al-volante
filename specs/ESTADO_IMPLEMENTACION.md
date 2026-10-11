@@ -10,7 +10,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - Mensaje de inicio (2026-10-11): «lee todos los documentos y comienza la implementacion de la primera fase».
 - Fases 2–7: no iniciadas. Cada una requiere indicación manual del usuario.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
-- **Etapa actual de la fase 1: A (creación).**
+- **Etapa actual de la fase 1: B (revisión de findings con el usuario).** La etapa A terminó con #2, #3 y #4 creados; #1 ya está fusionado.
 
 ## Repositorio y revisión
 
@@ -32,7 +32,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F01-T01 | `f01-t01-repositorio` (borrada) | `main` | — | [#1](https://github.com/grunch/al-volante/pull/1) | `b96dcf6` | fusionado por el usuario (merge `12cf2a8`, 2026-10-11 18:59 UTC) |
 | F01-T02 | `f01-t02-cobertura` | `main` | T01 (#1, fusionado) | #2 | ver PR | en revisión (etapa A) |
 | F01-T03 | `f01-t03-reglas` | `f01-t02-cobertura` (#2) | T02 (#2) | #3 | ver PR | en revisión (etapa A) |
-| F01-T04 | — | — | T03 | — | — | pendiente |
+| F01-T04 | `f01-t04-recorrido` | `f01-t03-reglas` (#3) | T03 (#3) | #4 | ver PR | en revisión (etapa A) |
 
 ### F01-T01 — Repositorio, documentación y flujo de revisión
 
@@ -66,9 +66,22 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Autorrevisión: lectura completa del protocolo por columnas (anexo II) y por imagen (ficha y gráficos); cotejo de la ficha fila por fila; validadores OK. Última ejecución en esta rama, tras las correcciones de review: `node --test 'scripts/*.test.mjs'` → 21/21 (catálogo + reglas).
 - CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
 
+### F01-T04 — Recorrido A de Comuna 13 (`RECORRIDO.md` y datos)
+
+- Alcance: georreferenciar el recorrido A, resolver Cuba–Quesada–Cuba, verificar sentidos, cruces y señalización relevante, y registrar licencias. Entregables: `specs/RECORRIDO.md`, `specs/route/comuna13-a.{json,geojson}` con su README de licencias, y el validador `scripts/check-route.mjs` con su prueba.
+- Resultado: 8 tramos legales según OSM, 1503 m, giros coherentes con las láminas.
+  - Cuba está desplazada 66 m en Quesada: izquierda por Quesada y derecha para retomar Cuba.
+  - Semáforos contrastados con el GCBA: 4 coinciden y 1 discrepa (Cabildo y Guayra).
+  - Ciclovía bidireccional en Cuba y Quesada; Metrobús en Cabildo.
+  - Proyección métrica local documentada.
+- Hallazgo: el texto extraído de recorridos PDF 16 invierte A y B. La imagen y el protocolo confirman que A es la secuencia larga.
+- Aproximaciones declaradas: posición del cajón, ancho del cajón, PARE, máximas y carriles de fuente única (OSM). Ningún dato relevado en terreno.
+- Autorrevisión: ruteo y validador OK; 19/19 pruebas; orientaciones y giros cotejados con las láminas; ediciones del protocolo comparadas.
+- CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
+
 ## Pila y orden de fusión
 
-`main ← F01-T02 (#2) ← F01-T03 (#3) ← F01-T04`. #1 ya está en `main`. T03 y T04 se crean en la etapa A; se fusionan en ese orden en la etapa B.
+`main ← F01-T02 (#2) ← F01-T03 (#3) ← F01-T04 (#4)`. #1 ya está en `main`. T03 y T04 se crean en la etapa A; se fusionan en ese orden en la etapa B.
 
 ## Bloqueos
 
@@ -76,7 +89,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B en curso: findings de #2 y #3 resueltos en sus ramas; luego #4, y fusión en orden #2 → #3 → #4. #1 ya está fusionado. La re-revisión de CodeRabbit que quedó sin completar antes de fusionarlo no bloquea la fase y se registra como seguimiento. La versión vigente de este registro está en la rama más alta de la pila.
+Etapa B: revisar con el usuario los findings de Codex y CodeRabbit en #2, #3 y #4, en ese orden; corregir en cada rama, actualizar los descendientes y fusionar #2 → #3 → #4. La fase 1 se cierra solo con todos fusionados y sin ambigüedades críticas abiertas. Después, esperar el inicio manual de la fase 2. Luego, etapa B con el usuario: findings de #1 (re-revisión de CodeRabbit pendiente), T02, T03 y T04, y fusión en orden.
 
 ## Decisiones que no deben reinterpretarse
 
