@@ -178,3 +178,27 @@ export function evaluateResponse(activity: Activity, variantId: string, response
   }
   return { activityId: activity.id, variantId, ...result, explanation: activity.explanation, refs: activity.refs };
 }
+
+/** Seeds live in [0, SEED_LIMIT): they fit in the URL and in the 32-bit PRNG state. */
+export const SEED_LIMIT = 2 ** 31;
+/** How far `nextDistinctSeed` looks before giving up on finding another presentation. */
+const DISTINCT_SEED_SEARCH = 64;
+
+const presentationKey = (activity: Activity, seed: number) =>
+  JSON.stringify({ ...presentActivity(activity, seed), seed: 0 });
+
+/**
+ * The next seed whose presentation really differs: another variant when the activity has several, otherwise at
+ * least another order. Falls back to seed + 1 when every nearby seed looks the same.
+ */
+export function nextDistinctSeed(activity: Activity, seed: number): number {
+  const candidates = Array.from({ length: DISTINCT_SEED_SEARCH }, (_, index) => (seed + index + 1) % SEED_LIMIT);
+  const current = presentActivity(activity, seed);
+  const otherVariant = candidates.find(
+    (candidate) => presentActivity(activity, candidate).variantId !== current.variantId,
+  );
+  if (otherVariant !== undefined) return otherVariant;
+  const currentKey = presentationKey(activity, seed);
+  const otherOrder = candidates.find((candidate) => presentationKey(activity, candidate) !== currentKey);
+  return otherOrder ?? (seed + 1) % SEED_LIMIT;
+}

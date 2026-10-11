@@ -27,7 +27,9 @@ test.describe('activities', () => {
     await page.getByRole('button', { name: 'Freno y le cedo el paso, aunque tenga verde' }).click();
 
     await expect(page.getByRole('heading', { name: '¡Correcto!' })).toBeVisible();
-    await page.getByRole('button', { name: 'Otra variante' }).click();
-    await expect(page).toHaveURL(/semilla=1$/);
+    await page.getByRole('button', { name: 'Otra variante' }).press('Enter');
+    await expect(page).not.toHaveURL(/semilla=0$/);
+    await expect(page).toHaveURL(/semilla=\d+$/);
+    await expect(page.getByRole('heading', { level: 1, name: 'Doblar con gente cruzando' })).toBeFocused();
   });
 });

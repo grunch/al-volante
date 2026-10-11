@@ -1,7 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
 import { ActivityResultContext } from '../../activities/ActivityResultContext.ts';
-import { decisionStep, evaluateResponse, presentActivity } from '../../activities/engine.ts';
+import {
+  SEED_LIMIT,
+  decisionStep,
+  evaluateResponse,
+  nextDistinctSeed,
+  presentActivity,
+} from '../../activities/engine.ts';
 import type { ActivityResponse, Evaluation } from '../../activities/engine.ts';
 import { ChoiceQuestion } from '../../activities/ui/ChoiceQuestion.tsx';
 import { DecisionQuestion } from '../../activities/ui/DecisionQuestion.tsx';
@@ -15,10 +21,13 @@ import { PageTitle } from '../../ui/PageTitle.tsx';
 import { ACTIVITY_COPY, ACTIVITY_TYPE_LABELS } from '../../i18n/es-AR.ts';
 import { NotFoundPage } from './NotFoundPage.tsx';
 
-const MAX_SEED = 2 ** 31;
-
 function randomSeed(): number {
-  return Math.floor(Math.random() * MAX_SEED);
+  return Math.floor(Math.random() * SEED_LIMIT);
+}
+
+/** Keyboard and screen reader users land on the title again when the question is replaced under them. */
+function focusTitle(): void {
+  document.getElementById('page-title')?.focus();
 }
 
 /** Plays one activity. The seed lives in the URL (?semilla=) so a variant can be reproduced or shared. */
@@ -27,7 +36,7 @@ export function ActivityPage() {
   const [params, setParams] = useSearchParams();
   // Only plain digits count: Number(null) and Number('') would silently become seed 0.
   const rawSeed = params.get('semilla') ?? '';
-  const validSeed = /^\d{1,10}$/.test(rawSeed) && Number(rawSeed) < MAX_SEED;
+  const validSeed = /^\d{1,10}$/.test(rawSeed) && Number(rawSeed) < SEED_LIMIT;
   const seed = validSeed ? Number(rawSeed) : 0;
 
   useEffect(() => {
@@ -39,15 +48,23 @@ export function ActivityPage() {
       {(content) => {
         const activity = content.activities.find((item) => item.id === id);
         if (!activity) return <NotFoundPage />;
-        if (!validSeed) return null;
+        // The title stays mounted while the seed is normalised or changed, so the layout's focus stays on it.
         return (
-          <ActivityPlayer
-            key={`${activity.id}:${seed}`}
-            activity={activity}
-            content={content}
-            seed={seed}
-            onAnotherVariant={() => setParams({ semilla: String((seed + 1) % MAX_SEED) })}
-          />
+          <>
+            <PageTitle>{activity.title}</PageTitle>
+            {validSeed && (
+              <ActivityPlayer
+                key={`${activity.id}:${seed}`}
+                activity={activity}
+                content={content}
+                seed={seed}
+                onAnotherVariant={() => {
+                  focusTitle();
+                  setParams({ semilla: String(nextDistinctSeed(activity, seed)) });
+                }}
+              />
+            )}
+          </>
         );
       }}
     </ContentGate>
@@ -79,7 +96,6 @@ function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityP
 
   return (
     <>
-      <PageTitle>{activity.title}</PageTitle>
       <p className="badge">{ACTIVITY_TYPE_LABELS[activity.type]}</p>
       {sign && (
         <figure className="sign-figure">

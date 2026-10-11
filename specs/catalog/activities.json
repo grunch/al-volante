@@ -17,7 +17,7 @@
         "page": 8
       }
     ],
-    "explanation": "El manual fija las velocidades máximas en CABA para vehículos de hasta 3500 kg: pasajes y calles de convivencia 20 km/h, calles y colectoras 40 km/h, avenidas 60 km/h y autopistas 100 km/h. La autoridad puede modificarlas en algunos tramos y lo indica con señales; durante el examen práctico, además, el límite es 30 km/h en calles y 45 km/h en avenidas.",
+    "explanation": "El manual fija las velocidades máximas en CABA para vehículos de hasta 3500 kg: pasajes 20 km/h, calles y colectoras 40 km/h, avenidas 60 km/h y autopistas 100 km/h. Las calles de convivencia y peatonales no entran en esta actividad: el material oficial les asigna valores distintos (manual PDF 26 y 72) y todavía no está resuelto cuál rige. La autoridad puede modificarlas en algunos tramos y lo indica con señales; durante el examen práctico, además, el límite es 30 km/h en calles y 45 km/h en avenidas.",
     "status": "revisada",
     "variants": [
       {
@@ -28,25 +28,25 @@
             "id": "20",
             "text": "20 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "40",
             "text": "40 km/h",
             "correct": true,
-            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "60",
             "text": "60 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "100",
             "text": "100 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           }
         ]
       },
@@ -58,25 +58,25 @@
             "id": "20",
             "text": "20 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "40",
             "text": "40 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "60",
             "text": "60 km/h",
             "correct": true,
-            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "100",
             "text": "100 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           }
         ]
       },
@@ -88,25 +88,25 @@
             "id": "20",
             "text": "20 km/h",
             "correct": true,
-            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "40",
             "text": "40 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "60",
             "text": "60 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "100",
             "text": "100 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           }
         ]
       },
@@ -118,25 +118,25 @@
             "id": "20",
             "text": "20 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "40",
             "text": "40 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "60",
             "text": "60 km/h",
             "correct": false,
-            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "No es esa. Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           },
           {
             "id": "100",
             "text": "100 km/h",
             "correct": true,
-            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes y calles de convivencia, 40 en calles, 60 en avenidas y 100 en autopistas."
+            "feedback": "¡Exacto! Para autos de hasta 3500 kg en CABA: 20 km/h en pasajes, 40 en calles, 60 en avenidas y 100 en autopistas."
           }
         ]
       }

@@ -27,6 +27,15 @@ const DRAWINGS: Record<string, ReactElement> = {
     <>
       <polygon points="4,8 96,8 50,94" fill={RED} />
       <polygon points="20,17 80,17 50,74" fill={WHITE} />
+      {/* Two-line black legend near the top, as on manual PDF 186. */}
+      <text textAnchor="middle" fontSize="9" fontWeight="700" fill={BLACK} fontFamily="Arial, sans-serif">
+        <tspan x="50" y="31">
+          CEDA EL
+        </tspan>
+        <tspan x="50" y="42">
+          PASO
+        </tspan>
+      </text>
     </>
   ),
   'sign.regulatory.prohibition.wrong-way': (

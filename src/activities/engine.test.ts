@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import activitiesJson from '../../specs/catalog/activities.json';
 import { ActivityCatalogSchema } from '../content/schemas.ts';
 import type { Activity } from '../content/schemas.ts';
-import { decisionStep, evaluateResponse, presentActivity } from './engine.ts';
+import { decisionStep, evaluateResponse, nextDistinctSeed, presentActivity } from './engine.ts';
 import { createRandom, shuffle } from './random.ts';
 
 const activities = ActivityCatalogSchema.parse(activitiesJson);
@@ -11,6 +11,55 @@ function byId<T extends Activity['type']>(id: string, type: T): Extract<Activity
   if (!activity || activity.type !== type) throw new Error(`missing ${type} ${id}`);
   return activity as Extract<Activity, { type: T }>;
 }
+
+describe('nextDistinctSeed', () => {
+  it('prefers another variant when the activity has several', () => {
+    for (const activity of activities.filter((item) => item.variants.length > 1)) {
+      for (let seed = 0; seed < 20; seed += 1) {
+        const next = nextDistinctSeed(activity, seed);
+        expect(presentActivity(activity, next).variantId, `${activity.id}@${seed}`).not.toBe(
+          presentActivity(activity, seed).variantId,
+        );
+      }
+    }
+  });
+
+  it('changes at least the order when there is a single variant', () => {
+    const single = activities.find((item) => item.variants.length === 1 && item.type === 'ordering') as Activity;
+    const current = presentActivity(single, 3);
+
+    const next = presentActivity(single, nextDistinctSeed(single, 3));
+
+    expect({ ...next, seed: 0 }).not.toEqual({ ...current, seed: 0 });
+  });
+
+  it('falls back to the next seed when no other presentation exists', () => {
+    // One variant with a single option: every seed presents exactly the same question.
+    const base = activities.find((item) => item.type === 'single-choice') as Extract<
+      Activity,
+      { type: 'single-choice' }
+    >;
+    const variant = base.variants[0]!;
+    const constant: Activity = { ...base, variants: [{ ...variant, options: [variant.options[0]!] }] };
+
+    expect(nextDistinctSeed(constant, 41)).toBe(42);
+  });
+});
+
+describe('sample content', () => {
+  // COBERTURA.md lists these topics as open discrepancies; activities must not teach them as settled.
+  const OPEN_DISCREPANCIES = /convivencia|calles? peatonal|alcohol|cord[oó]n amarillo/i;
+
+  it('avoids topics with open discrepancies, except to say they are left out', () => {
+    for (const activity of activities) {
+      const sentences = JSON.stringify(activity).split(/(?<=[.:])\s+|","/);
+      const offending = sentences.filter(
+        (sentence) => OPEN_DISCREPANCIES.test(sentence) && !sentence.includes('no entran en esta actividad'),
+      );
+      expect(offending, activity.id).toEqual([]);
+    }
+  });
+});
 
 describe('random', () => {
   it('repeats the same sequence for the same seed and differs across seeds', () => {

@@ -88,6 +88,8 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 
 - **Motor** (`src/activities/engine.ts`): TypeScript puro, sin React.
   - `presentActivity(activity, seed)` elige la variante y baraja opciones, ítems o elecciones con un PRNG con semilla (Mulberry32). La misma semilla da siempre la misma presentación, y la presentación nunca incluye qué opción es correcta.
+  - `nextDistinctSeed` elige la semilla de «Otra variante»: otra variante si la actividad tiene varias o, si no, al menos otro orden. Dos semillas seguidas pueden dar la misma presentación.
+  - Al cambiar o completar la semilla, el título de la actividad sigue montado y recibe el foco.
   - `evaluateResponse` puntúa: elección y señales, 0/1; ordenar, crédito parcial por posición; decisión, recorre el grafo hasta el desenlace. Devuelve devolución específica, respuesta correcta, explicación y citas.
   - Una respuesta imposible lanza un error en lugar de puntuarse.
 - **Tipos:** `single-choice`, `sign-identification` (señal dibujada en SVG con formas y colores reglamentarios, descripta para lectores de pantalla), `ordering` (botones subir/bajar, sin arrastrar) y `decision` (escena ramificada).

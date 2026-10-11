@@ -129,15 +129,32 @@ describe('playing an activity', () => {
     expect(screen.getByText(/también hay que ceder el paso/)).toBeInTheDocument();
   });
 
-  it('offers another variant by changing the seed in the URL', async () => {
+  it('offers a really different variant and moves focus to the title', async () => {
+    // Arrange: seeds 10 and 11 give the same presentation of this activity.
     const user = userEvent.setup();
+    const activity = find('act.emergency-vehicle');
+    expect(presentActivity(activity, 11)).toEqual({ ...presentActivity(activity, 10), seed: 11 });
     const router = renderWithRealContent('/actividad/act.emergency-vehicle?semilla=10');
 
+    // Act
     const choices = await screen.findAllByRole('button', { name: /./ });
     await user.click(choices.find((button) => button.className.includes('button--choice'))!);
     await user.click(screen.getByRole('button', { name: ACTIVITY_COPY.anotherVariant }));
 
-    expect(router.state.location.search).toBe('?semilla=11');
+    // Assert
+    const next = Number(new URLSearchParams(router.state.location.search).get('semilla'));
+    expect(presentActivity(activity, next).variantId).not.toBe(presentActivity(activity, 10).variantId);
+    expect(screen.getByRole('heading', { level: 1, name: activity.title })).toHaveFocus();
+  });
+
+  it('keeps focus on the activity title while it adds the missing seed', async () => {
+    const user = userEvent.setup();
+    const router = renderWithRealContent('/actividades');
+
+    await user.click(await screen.findByRole('link', { name: 'Velocidades máximas en CABA' }));
+    await waitFor(() => expect(router.state.location.search).toMatch(/^\?semilla=\d+$/));
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Velocidades máximas en CABA' })).toHaveFocus();
   });
 
   it('adds a reproducible seed to the URL when it is missing', async () => {
@@ -168,6 +185,28 @@ describe('sign drawings', () => {
 
     expect(used.length).toBeGreaterThan(0);
     for (const signId of used) expect(hasSignDrawing(signId), signId).toBe(true);
+  });
+
+  it('show the legend their catalog description quotes, so sighted players see what screen readers announce', async () => {
+    const { signs } = await loadContent().then((result) => {
+      if (!result.ok) throw new Error(result.errors.join('\n'));
+      return result.content;
+    });
+    const used = new Set(
+      activities.flatMap((activity) =>
+        activity.type === 'sign-identification' ? activity.variants.map((variant) => variant.signId) : [],
+      ),
+    );
+
+    for (const sign of signs.filter((item) => used.has(item.id))) {
+      const legend = /"([^"]+)"/.exec(sign.visual)?.[1];
+      if (!legend) continue;
+      const { container, unmount } = render(<SignGraphic signId={sign.id} description={sign.visual} />);
+      // Each SVG line (text or tspan) is a separate element; join them as the reader sees them.
+      const lines = [...container.querySelectorAll('text, tspan')].filter((element) => element.children.length === 0);
+      expect(lines.map((line) => line.textContent?.trim()).join(' '), sign.id).toBe(legend);
+      unmount();
+    }
   });
 
   it('falls back to the written description for signs without a drawing', () => {
