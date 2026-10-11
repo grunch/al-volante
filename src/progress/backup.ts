@@ -64,6 +64,29 @@ export function migrateBackup(
   return current;
 }
 
+const canonical = (iso: string) => new Date(iso).toISOString();
+
+/**
+ * Rewrites every date in the format the app itself writes (toISOString: milliseconds and Z). IndexedDB orders the
+ * attempt-time indexes as text, which matches time order only when all dates share one format.
+ */
+function canonicalDates(snapshot: ProgressSnapshot): ProgressSnapshot {
+  return {
+    attempts: snapshot.attempts.map((attempt) => ({
+      ...attempt,
+      startedAt: canonical(attempt.startedAt),
+      finishedAt: attempt.finishedAt === null ? null : canonical(attempt.finishedAt),
+      events: attempt.events.map((event) => ({ ...event, at: canonical(event.at) })),
+      faults: attempt.faults.map((fault) => ({ ...fault, at: canonical(fault.at) })),
+    })),
+    concepts: snapshot.concepts.map((concept) => ({
+      ...concept,
+      lastAttemptAt: canonical(concept.lastAttemptAt),
+      dueAt: canonical(concept.dueAt),
+    })),
+  };
+}
+
 /** Allowed clock difference between the device that answered, the one that exported and the one that imports. */
 export const CLOCK_TOLERANCE_MS = 24 * 60 * 60 * 1000;
 
@@ -129,5 +152,5 @@ export function parseBackup(
   if (problem) return { ok: false, error: 'invalid-data', details: problem };
   const attemptProblem = attempts.flatMap((attempt) => attemptErrors(attempt, rules))[0];
   if (attemptProblem) return { ok: false, error: 'invalid-data', details: attemptProblem };
-  return { ok: true, snapshot: { attempts, concepts }, contentVersion, exportedAt, fromVersion };
+  return { ok: true, snapshot: canonicalDates({ attempts, concepts }), contentVersion, exportedAt, fromVersion };
 }

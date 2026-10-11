@@ -96,6 +96,34 @@ describe('backup consistency', () => {
   });
 });
 
+describe('backup date normalisation', () => {
+  it('stores every date in one canonical format, so text order is time order', () => {
+    // Arrange: valid ISO dates without milliseconds, as another tool might write them.
+    const loose = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
+    const second = '2026-10-11T11:00:00Z';
+    loose.attempts[0] = {
+      ...loose.attempts[0],
+      startedAt: second,
+      finishedAt: second,
+      events: [{ ...loose.attempts[0].events[0], at: second }],
+    };
+    loose.concepts[0] = { ...loose.concepts[0], lastAttemptAt: second, dueAt: '2026-10-12T11:00:00Z' };
+
+    // Act
+    const parsed = parse(JSON.stringify(loose));
+
+    // Assert
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    const [attempt] = parsed.snapshot.attempts;
+    const [concept] = parsed.snapshot.concepts;
+    expect([attempt?.startedAt, attempt?.finishedAt, attempt?.events[0]?.at]).toEqual(
+      Array(3).fill('2026-10-11T11:00:00.000Z'),
+    );
+    expect([concept?.lastAttemptAt, concept?.dueAt]).toEqual(['2026-10-11T11:00:00.000Z', '2026-10-12T11:00:00.000Z']);
+  });
+});
+
 describe('backup attempt chronology', () => {
   it('rejects an attempt that finishes before it starts', () => {
     const reversed = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
