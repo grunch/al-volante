@@ -19,7 +19,7 @@ Las claves y los ids están en inglés; títulos, resúmenes y descripciones, en
 ## Método
 
 1. **Integridad de fuentes.** SHA-256 y cantidad de páginas de `fuentes/pdf/manual.pdf` y `fuentes/pdf/siniestros.pdf` verificados contra `fuentes/manifest.json`.
-2. **Lectura de texto e imagen por página.** El texto extraído (`fuentes/*.txt`) pierde gran parte del contenido: infografías, tablas, rótulos de señales y cifras. Cada página se renderizó a 70 ppp (110 ppp para el anexo IV) y se revisó visualmente. Las cifras dudosas se volvieron a renderizar recortadas, a entre 150 y 300 ppp. 58 observaciones de tipo `extraction` documentan qué perdía el texto. Las unidades cuyo contenido sale principalmente de una imagen llevan `figureBased: true` (143 unidades).
+2. **Lectura de texto e imagen por página.** El texto extraído (`fuentes/*.txt`) pierde gran parte del contenido: infografías, tablas, rótulos de señales y cifras. Cada página se renderizó a 70 ppp (110 ppp para el anexo IV) y se revisó visualmente. Las cifras dudosas se volvieron a renderizar recortadas, a entre 150 y 300 ppp. 58 observaciones de tipo `extraction` documentan qué perdía el texto. Las unidades cuyo contenido sale principalmente de una imagen llevan `figureBased: true` (145 unidades).
 3. **Reparto.** La extracción se dividió en nueve tramos de páginas, procesados por subagentes con un esquema común. El autor integró los tramos, corrigió colisiones de ids, unificó prefijos, eliminó duplicados y corrió el validador.
 4. **Verificación por muestreo del autor.** Se contrastaron contra la imagen las páginas de `fuentes/pdf/manual.pdf` 61 (tipos de señalización vertical), 72 (velocidades máximas en CABA y excepciones por avenida), 91 (límites de alcohol por tipo de conductor) y 185 (27 señales de prohibición, una por una). No se encontraron diferencias.
 5. **Conteo de señales.** En cada página del anexo IV se contaron los dibujos y se cotejaron con las entradas. El `notes` de cada página registra el conteo y explica los casos en que un dibujo genera varias entradas (p. ej., los estados de cada semáforo en PDF 197).
@@ -53,12 +53,12 @@ Las claves y los ids están en inglés; títulos, resúmenes y descripciones, en
 | Cap. 3 Normas básicas | 57–88 | B | 32 | 30 | 122 | 59 | 38 |
 | Cap. 4 Capacidad natural | 89–97 | B | 9 | 7 | 31 | 2 | 1 |
 | Cap. 5 Actitud | 98–103 | B | 6 | 4 | 19 | 1 | 0 |
-| Anexo I Automóviles | 104–122 | B | 19 | 17 | 57 | 8 | 0 |
+| Anexo I Automóviles | 104–122 | B | 19 | 17 | 57 | 10 | 0 |
 | Anexo II Pasajeros/as | 123–151 | D | 29 | 27 | 94 | 12 | 0 |
 | Anexo III Carga | 152–183 | C-E | 32 | 30 | 91 | 11 | 0 |
 | Anexo IV Señales | 184–198 | B | 15 | 13 | 31 | 28 | 303 |
 | Contratapa | 199–200 | common | 2 | 0 | 0 | 0 | 0 |
-| **Total** | | | **200** | **175** | **674** | **143** | **355** |
+| **Total** | | | **200** | **175** | **674** | **145** | **355** |
 
 Campaña B (introducción, cap. 1–5, anexos I y IV): 412 unidades y 355 señales. Las señales fuera del anexo IV (cap. 1, 3 y 4) son ejemplos dentro del texto y llevan ids `sign.ch1-cycling.*`, `sign.ch3.*` y `sign.ch4.*` para no chocar con el catálogo del anexo IV.
 
