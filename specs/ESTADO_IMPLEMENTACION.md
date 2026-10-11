@@ -31,7 +31,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|---|---|
 | F01-T01 | `f01-t01-repositorio` (borrada) | `main` | — | [#1](https://github.com/grunch/al-volante/pull/1) | `b96dcf6` | fusionado por el usuario (merge `12cf2a8`, 2026-10-11 18:59 UTC) |
 | F01-T02 | `f01-t02-cobertura` | `main` | T01 (#1, fusionado) | #2 | ver PR | en revisión (etapa A) |
-| F01-T03 | — | — | T02 | — | — | pendiente |
+| F01-T03 | `f01-t03-reglas` | `f01-t02-cobertura` (#2) | T02 (#2) | #3 | ver PR | en revisión (etapa A) |
 | F01-T04 | — | — | T03 | — | — | pendiente |
 
 ### F01-T01 — Repositorio, documentación y flujo de revisión
@@ -58,9 +58,17 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Autorrevisión: estructura validada; sin rutas locales en el catálogo; conteos de COBERTURA recalculados desde los datos; corregido un issue duplicado y dos imprecisiones del borrador.
 - CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
 
+### F01-T03 — Reglas del examen (`REGLAS.md`)
+
+- Alcance: transcribir el protocolo completo (etapas, fallas, excepciones, repetición e interrupción) y verificar los parámetros del teórico contra fuentes oficiales. Entregables: `specs/REGLAS.md`, `specs/catalog/rules.json` y el validador `scripts/check-rules.mjs` con su prueba.
+- Resultado: 69 reglas (25 leves, 10 def. bajas, 16 def. altas, 18 eliminatorias) mapeadas a las 80 filas de la ficha; 12 eliminatorias que interrumpen (a–k, q) y 5 escalamientos por doble comando. Discrepancias X1–X5, vacíos V1–V7 y decisiones D1–D4 documentados.
+- Fuentes oficiales verificadas el 2026-10-11: el protocolo, el manual, la guía y los recorridos que publica hoy el sitio coinciden por SHA-256 con el manifiesto. La edición GEDO de enero de 2023 tiene texto normativo idéntico. Teórico: 40 preguntas, 34 correctas; tiempo de 45 min (Disp. 860/2023 y página vigente) frente a 40 min (informe 2024); se adopta 45 configurable.
+- Autorrevisión: lectura completa del protocolo por columnas (anexo II) y por imagen (ficha y gráficos); cotejo de la ficha fila por fila; validadores OK; 12/12 pruebas.
+- CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
+
 ## Pila y orden de fusión
 
-`main ← F01-T02 (#2) ← F01-T03 ← F01-T04`. #1 ya está en `main`. T03 y T04 se crean en la etapa A; se fusionan en ese orden en la etapa B.
+`main ← F01-T02 (#2) ← F01-T03 (#3) ← F01-T04`. #1 ya está en `main`. T03 y T04 se crean en la etapa A; se fusionan en ese orden en la etapa B.
 
 ## Bloqueos
 
@@ -68,7 +76,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B en curso: findings de #2 resueltos en esta rama; luego #3 y #4, y fusión en orden #2 → #3 → #4. #1 ya está fusionado. La re-revisión de CodeRabbit que quedó sin completar antes de fusionarlo no bloquea la fase y se registra como seguimiento. La versión vigente de este registro está en la rama más alta de la pila.
+Etapa B en curso: findings de #2 y #3 resueltos en sus ramas; luego #4, y fusión en orden #2 → #3 → #4. #1 ya está fusionado. La re-revisión de CodeRabbit que quedó sin completar antes de fusionarlo no bloquea la fase y se registra como seguimiento. La versión vigente de este registro está en la rama más alta de la pila.
 
 ## Decisiones que no deben reinterpretarse
 
