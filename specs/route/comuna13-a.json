@@ -1,0 +1,857 @@
+{
+  "id": "comuna13-a",
+  "name": "Comuna 13 (Núñez) — Recorrido A",
+  "officialSequence": [
+    "Quesada",
+    "Av. Cabildo",
+    "Guayra",
+    "Cuba",
+    "Quesada",
+    "Cuba",
+    "Manuel Ugarte",
+    "Vuelta de Obligado",
+    "Quesada"
+  ],
+  "sources": {
+    "route": [
+      {
+        "source": "recorridos",
+        "page": 16
+      },
+      {
+        "source": "protocolo",
+        "page": 39
+      }
+    ],
+    "osm": {
+      "baseTimestamp": "2026-10-11T19:16:50Z",
+      "license": "ODbL-1.0",
+      "attribution": "© OpenStreetMap contributors"
+    },
+    "gcba": {
+      "dataset": "https://data.buenosaires.gob.ar/dataset/cruces-semaforizados",
+      "downloaded": "2026-10-11",
+      "license": "CC-BY-2.5-AR",
+      "attribution": "Gobierno de la Ciudad Autónoma de Buenos Aires"
+    }
+  },
+  "projection": {
+    "type": "local-equirectangular-wgs84",
+    "originOsmNode": 437539782,
+    "originLat": -34.554415,
+    "originLon": -58.463435,
+    "metersPerDegLon": 91780.235,
+    "metersPerDegLat": 110932.417,
+    "axes": "x = este, y = norte, en metros",
+    "scaleSource": "Radios de curvatura del elipsoide WGS84 en la latitud del origen"
+  },
+  "loopLengthM": 1506.8,
+  "start": {
+    "label": "Inicio de examen: Quesada al 2381 (cajón en Quesada al 2300, entre Vuelta de Obligado y Av. Cabildo)",
+    "leg": 1,
+    "status": "aproximacion",
+    "notes": "La posición exacta del cajón dentro de la cuadra no surge de las fuentes; se fija en F04-T01 con relevamiento y se marca como aproximación hasta entonces."
+  },
+  "legs": [
+    {
+      "leg": 1,
+      "street": "Quesada",
+      "officialSteps": [
+        9,
+        1
+      ],
+      "lengthM": 126.7,
+      "osmWays": [
+        61756681
+      ],
+      "oneWay": true,
+      "roadType": "calle",
+      "postedMaxKmhOsm": [
+        40
+      ],
+      "examMaxKmh": 30,
+      "lanesOsm": [],
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 61756681,
+          "fromIndex": 0,
+          "toIndex": 2,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": null
+        }
+      ],
+      "turnIntoNext": {
+        "direction": "right",
+        "angleDeg": -77,
+        "nextStreet": "Av. Cabildo"
+      },
+      "path": [
+        {
+          "osmNode": 180274842,
+          "lat": -34.5538037,
+          "lon": -58.4622693,
+          "x": 107.0,
+          "y": 67.8
+        },
+        {
+          "osmNode": 247921753,
+          "lat": -34.5540286,
+          "lon": -58.462693,
+          "x": 68.1,
+          "y": 42.9
+        },
+        {
+          "osmNode": 437539782,
+          "lat": -34.5544153,
+          "lon": -58.4634349,
+          "x": 0.0,
+          "y": -0.0
+        }
+      ],
+      "status": "fuente-unica",
+      "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
+    },
+    {
+      "leg": 2,
+      "street": "Av. Cabildo",
+      "officialSteps": [
+        2
+      ],
+      "lengthM": 240.5,
+      "osmWays": [
+        63033510,
+        63514246
+      ],
+      "oneWay": true,
+      "roadType": "avenida",
+      "postedMaxKmhOsm": [
+        60
+      ],
+      "examMaxKmh": 45,
+      "lanesOsm": [
+        "2"
+      ],
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 63033510,
+          "fromIndex": 0,
+          "toIndex": 3,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 60,
+          "lanesOsm": 2
+        },
+        {
+          "osmWay": 63514246,
+          "fromIndex": 3,
+          "toIndex": 5,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 60,
+          "lanesOsm": 2
+        }
+      ],
+      "turnIntoNext": {
+        "direction": "right",
+        "angleDeg": -93,
+        "nextStreet": "Guayra"
+      },
+      "path": [
+        {
+          "osmNode": 437539782,
+          "lat": -34.5544153,
+          "lon": -58.4634349,
+          "x": 0.0,
+          "y": -0.0
+        },
+        {
+          "osmNode": 3577836556,
+          "lat": -34.554339,
+          "lon": -58.4635285,
+          "x": -8.6,
+          "y": 8.4
+        },
+        {
+          "osmNode": 3577836551,
+          "lat": -34.5535166,
+          "lon": -58.4643444,
+          "x": -83.5,
+          "y": 99.7
+        },
+        {
+          "osmNode": 437539781,
+          "lat": -34.5534494,
+          "lon": -58.4644123,
+          "x": -89.7,
+          "y": 107.1
+        },
+        {
+          "osmNode": 3577836545,
+          "lat": -34.5533686,
+          "lon": -58.4644847,
+          "x": -96.3,
+          "y": 116.1
+        },
+        {
+          "osmNode": 437539780,
+          "lat": -34.5527043,
+          "lon": -58.4650384,
+          "x": -147.2,
+          "y": 189.8
+        }
+      ],
+      "status": "fuente-unica",
+      "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
+    },
+    {
+      "leg": 3,
+      "street": "Guayra",
+      "officialSteps": [
+        3
+      ],
+      "lengthM": 189.7,
+      "osmWays": [
+        63514340,
+        346315238
+      ],
+      "oneWay": true,
+      "roadType": "calle",
+      "postedMaxKmhOsm": [
+        40
+      ],
+      "examMaxKmh": 30,
+      "lanesOsm": [],
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 346315238,
+          "fromIndex": 0,
+          "toIndex": 1,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": null
+        },
+        {
+          "osmWay": 63514340,
+          "fromIndex": 1,
+          "toIndex": 3,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": null
+        }
+      ],
+      "turnIntoNext": {
+        "direction": "right",
+        "angleDeg": -88,
+        "nextStreet": "Cuba"
+      },
+      "path": [
+        {
+          "osmNode": 437539780,
+          "lat": -34.5527043,
+          "lon": -58.4650384,
+          "x": -147.2,
+          "y": 189.8
+        },
+        {
+          "osmNode": 243459671,
+          "lat": -34.5522819,
+          "lon": -58.4641989,
+          "x": -70.1,
+          "y": 236.6
+        },
+        {
+          "osmNode": 9572165686,
+          "lat": -34.5518656,
+          "lon": -58.4633706,
+          "x": 5.9,
+          "y": 282.8
+        },
+        {
+          "osmNode": 243459666,
+          "lat": -34.5518178,
+          "lon": -58.4632705,
+          "x": 15.1,
+          "y": 288.1
+        }
+      ],
+      "status": "fuente-unica",
+      "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
+    },
+    {
+      "leg": 4,
+      "street": "Cuba",
+      "officialSteps": [
+        4
+      ],
+      "lengthM": 235.3,
+      "osmWays": [
+        86576244
+      ],
+      "oneWay": true,
+      "roadType": "calle",
+      "postedMaxKmhOsm": [
+        30
+      ],
+      "examMaxKmh": 30,
+      "lanesOsm": [],
+      "cycleTrack": "full",
+      "segments": [
+        {
+          "osmWay": 86576244,
+          "fromIndex": 0,
+          "toIndex": 2,
+          "cycleTrackLeft": true,
+          "maxspeedOsm": 30,
+          "lanesOsm": null
+        }
+      ],
+      "turnIntoNext": {
+        "direction": "left",
+        "angleDeg": 91,
+        "nextStreet": "Quesada"
+      },
+      "path": [
+        {
+          "osmNode": 243459666,
+          "lat": -34.5518178,
+          "lon": -58.4632705,
+          "x": 15.1,
+          "y": 288.1
+        },
+        {
+          "osmNode": 206176533,
+          "lat": -34.5525683,
+          "lon": -58.46271,
+          "x": 66.5,
+          "y": 204.9
+        },
+        {
+          "osmNode": 180275561,
+          "lat": -34.5536283,
+          "lon": -58.4619342,
+          "x": 137.7,
+          "y": 87.3
+        }
+      ],
+      "status": "fuente-unica",
+      "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
+    },
+    {
+      "leg": 5,
+      "street": "Quesada",
+      "officialSteps": [
+        5
+      ],
+      "lengthM": 66.2,
+      "osmWays": [
+        43340296
+      ],
+      "oneWay": true,
+      "roadType": "calle",
+      "postedMaxKmhOsm": [
+        30
+      ],
+      "examMaxKmh": 30,
+      "lanesOsm": [],
+      "cycleTrack": "full",
+      "segments": [
+        {
+          "osmWay": 43340296,
+          "fromIndex": 0,
+          "toIndex": 2,
+          "cycleTrackLeft": true,
+          "maxspeedOsm": 30,
+          "lanesOsm": null
+        }
+      ],
+      "turnIntoNext": {
+        "direction": "right",
+        "angleDeg": -87,
+        "nextStreet": "Cuba"
+      },
+      "path": [
+        {
+          "osmNode": 180275561,
+          "lat": -34.5536283,
+          "lon": -58.4619342,
+          "x": 137.7,
+          "y": 87.3
+        },
+        {
+          "osmNode": 10048544528,
+          "lat": -34.5533776,
+          "lon": -58.461456,
+          "x": 181.6,
+          "y": 115.1
+        },
+        {
+          "osmNode": 92583899,
+          "lat": -34.5533088,
+          "lon": -58.461325,
+          "x": 193.7,
+          "y": 122.7
+        }
+      ],
+      "status": "fuente-unica",
+      "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
+    },
+    {
+      "leg": 6,
+      "street": "Cuba",
+      "officialSteps": [
+        6
+      ],
+      "lengthM": 273.1,
+      "osmWays": [
+        10596246,
+        519835126
+      ],
+      "oneWay": true,
+      "roadType": "calle",
+      "postedMaxKmhOsm": [
+        30,
+        40
+      ],
+      "examMaxKmh": 30,
+      "lanesOsm": [
+        "1"
+      ],
+      "cycleTrack": "partial",
+      "segments": [
+        {
+          "osmWay": 519835126,
+          "fromIndex": 0,
+          "toIndex": 1,
+          "cycleTrackLeft": true,
+          "maxspeedOsm": 30,
+          "lanesOsm": 1
+        },
+        {
+          "osmWay": 10596246,
+          "fromIndex": 1,
+          "toIndex": 3,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": 1
+        }
+      ],
+      "turnIntoNext": {
+        "direction": "right",
+        "angleDeg": -93,
+        "nextStreet": "Manuel Ugarte"
+      },
+      "path": [
+        {
+          "osmNode": 92583899,
+          "lat": -34.5533088,
+          "lon": -58.461325,
+          "x": 193.7,
+          "y": 122.7
+        },
+        {
+          "osmNode": 92583898,
+          "lat": -34.5543673,
+          "lon": -58.4604187,
+          "x": 276.8,
+          "y": 5.3
+        },
+        {
+          "osmNode": 4496250272,
+          "lat": -34.5552096,
+          "lon": -58.4596883,
+          "x": 343.9,
+          "y": -88.1
+        },
+        {
+          "osmNode": 191931792,
+          "lat": -34.5553143,
+          "lon": -58.4595987,
+          "x": 352.1,
+          "y": -99.8
+        }
+      ],
+      "status": "fuente-unica",
+      "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
+    },
+    {
+      "leg": 7,
+      "street": "Manuel Ugarte",
+      "officialSteps": [
+        7
+      ],
+      "lengthM": 102.3,
+      "osmWays": [
+        693752605
+      ],
+      "oneWay": true,
+      "roadType": "calle",
+      "postedMaxKmhOsm": [
+        40
+      ],
+      "examMaxKmh": 30,
+      "lanesOsm": [
+        "2"
+      ],
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 693752605,
+          "fromIndex": 0,
+          "toIndex": 2,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": 2
+        }
+      ],
+      "turnIntoNext": {
+        "direction": "right",
+        "angleDeg": -85,
+        "nextStreet": "Vuelta de Obligado"
+      },
+      "path": [
+        {
+          "osmNode": 191931792,
+          "lat": -34.5553143,
+          "lon": -58.4595987,
+          "x": 352.1,
+          "y": -99.8
+        },
+        {
+          "osmNode": 6536207534,
+          "lat": -34.5557468,
+          "lon": -58.4604209,
+          "x": 276.6,
+          "y": -147.7
+        },
+        {
+          "osmNode": 191913299,
+          "lat": -34.555806,
+          "lon": -58.4605416,
+          "x": 265.6,
+          "y": -154.3
+        }
+      ],
+      "status": "fuente-unica",
+      "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
+    },
+    {
+      "leg": 8,
+      "street": "Vuelta de Obligado",
+      "officialSteps": [
+        8
+      ],
+      "lengthM": 272.9,
+      "osmWays": [
+        447800896
+      ],
+      "oneWay": true,
+      "roadType": "calle",
+      "postedMaxKmhOsm": [
+        40
+      ],
+      "examMaxKmh": 30,
+      "lanesOsm": [
+        "1"
+      ],
+      "cycleTrack": "none",
+      "segments": [
+        {
+          "osmWay": 447800896,
+          "fromIndex": 0,
+          "toIndex": 3,
+          "cycleTrackLeft": false,
+          "maxspeedOsm": 40,
+          "lanesOsm": 1
+        }
+      ],
+      "turnIntoNext": {
+        "direction": "left",
+        "angleDeg": 87,
+        "nextStreet": "Quesada"
+      },
+      "path": [
+        {
+          "osmNode": 191913299,
+          "lat": -34.555806,
+          "lon": -58.4605416,
+          "x": 265.6,
+          "y": -154.3
+        },
+        {
+          "osmNode": 191913308,
+          "lat": -34.5548635,
+          "lon": -58.4613625,
+          "x": 190.2,
+          "y": -49.8
+        },
+        {
+          "osmNode": 3733199928,
+          "lat": -34.5539015,
+          "lon": -58.4621855,
+          "x": 114.7,
+          "y": 57.0
+        },
+        {
+          "osmNode": 180274842,
+          "lat": -34.5538037,
+          "lon": -58.4622693,
+          "x": 107.0,
+          "y": 67.8
+        }
+      ],
+      "status": "fuente-unica",
+      "evidence": "Sentido y conectividad según OSM; secuencia y sentido de giro coinciden con la lámina oficial (recorridos PDF 16; protocolo PDF 39)."
+    }
+  ],
+  "controls": [
+    {
+      "legs": [
+        1,
+        2
+      ],
+      "type": "traffic_signals",
+      "osmNode": 437539782,
+      "lat": -34.5544153,
+      "lon": -58.4634349,
+      "x": 0.0,
+      "y": -0.0,
+      "sources": [
+        "osm",
+        "gcba-cruces-semaforizados"
+      ],
+      "gcbaId": "B-CR-03655",
+      "gcbaAddress": "Cabildo Av. y Quesada, CABA",
+      "status": "verificado-fuentes"
+    },
+    {
+      "legs": [
+        2
+      ],
+      "type": "crossing-traffic_signals",
+      "osmNode": 3577836556,
+      "lat": -34.554339,
+      "lon": -58.4635285,
+      "x": -8.6,
+      "y": 8.4,
+      "sources": [
+        "osm"
+      ],
+      "status": "fuente-unica"
+    },
+    {
+      "legs": [
+        2
+      ],
+      "type": "crossing-traffic_signals",
+      "osmNode": 3577836551,
+      "lat": -34.5535166,
+      "lon": -58.4643444,
+      "x": -83.5,
+      "y": 99.7,
+      "sources": [
+        "osm"
+      ],
+      "status": "fuente-unica"
+    },
+    {
+      "legs": [
+        2
+      ],
+      "type": "traffic_signals",
+      "osmNode": 437539781,
+      "lat": -34.5534494,
+      "lon": -58.4644123,
+      "x": -89.7,
+      "y": 107.1,
+      "sources": [
+        "osm",
+        "gcba-cruces-semaforizados"
+      ],
+      "gcbaId": "B-CR-03629",
+      "gcbaAddress": "Cabildo Av. y Iberá, CABA",
+      "status": "verificado-fuentes"
+    },
+    {
+      "legs": [
+        2
+      ],
+      "type": "crossing-traffic_signals",
+      "osmNode": 3577836545,
+      "lat": -34.5533686,
+      "lon": -58.4644847,
+      "x": -96.3,
+      "y": 116.1,
+      "sources": [
+        "osm"
+      ],
+      "status": "fuente-unica"
+    },
+    {
+      "legs": [
+        3
+      ],
+      "type": "stop",
+      "osmNode": 9572165686,
+      "lat": -34.5518656,
+      "lon": -58.4633706,
+      "x": 5.9,
+      "y": 282.8,
+      "sources": [
+        "osm"
+      ],
+      "status": "fuente-unica"
+    },
+    {
+      "legs": [
+        4
+      ],
+      "type": "stop",
+      "osmNode": 206176533,
+      "lat": -34.5525683,
+      "lon": -58.46271,
+      "x": 66.5,
+      "y": 204.9,
+      "sources": [
+        "osm"
+      ],
+      "status": "fuente-unica"
+    },
+    {
+      "legs": [
+        5
+      ],
+      "type": "stop",
+      "osmNode": 10048544528,
+      "lat": -34.5533776,
+      "lon": -58.461456,
+      "x": 181.6,
+      "y": 115.1,
+      "sources": [
+        "osm"
+      ],
+      "status": "fuente-unica"
+    },
+    {
+      "legs": [
+        6
+      ],
+      "type": "traffic_signals",
+      "osmNode": 92583898,
+      "lat": -34.5543673,
+      "lon": -58.4604187,
+      "x": 276.8,
+      "y": 5.3,
+      "sources": [
+        "osm",
+        "gcba-cruces-semaforizados"
+      ],
+      "gcbaId": "B-CR-03662",
+      "gcbaAddress": "Congreso Av. y Cuba, CABA",
+      "status": "verificado-fuentes"
+    },
+    {
+      "legs": [
+        6
+      ],
+      "type": "traffic-calming-hump",
+      "osmNode": 4496250272,
+      "lat": -34.5552096,
+      "lon": -58.4596883,
+      "x": 343.9,
+      "y": -88.1,
+      "sources": [
+        "osm"
+      ],
+      "status": "fuente-unica"
+    },
+    {
+      "legs": [
+        7
+      ],
+      "type": "stop",
+      "osmNode": 6536207534,
+      "lat": -34.5557468,
+      "lon": -58.4604209,
+      "x": 276.6,
+      "y": -147.7,
+      "sources": [
+        "osm"
+      ],
+      "status": "fuente-unica"
+    },
+    {
+      "legs": [
+        8
+      ],
+      "type": "traffic_signals",
+      "osmNode": 191913308,
+      "lat": -34.5548635,
+      "lon": -58.4613625,
+      "x": 190.2,
+      "y": -49.8,
+      "sources": [
+        "osm",
+        "gcba-cruces-semaforizados"
+      ],
+      "gcbaId": "B-CR-03661",
+      "gcbaAddress": "Congreso Av. y Vuelta de Obligado, CABA",
+      "status": "verificado-fuentes"
+    },
+    {
+      "legs": [
+        8
+      ],
+      "type": "stop",
+      "osmNode": 3733199928,
+      "lat": -34.5539015,
+      "lon": -58.4621855,
+      "x": 114.7,
+      "y": 57.0,
+      "sources": [
+        "osm"
+      ],
+      "status": "fuente-unica"
+    },
+    {
+      "legs": [
+        2,
+        3
+      ],
+      "type": "traffic_signals",
+      "osmNode": null,
+      "lat": -34.5527499,
+      "lon": -58.4651335,
+      "x": -155.9,
+      "y": 184.7,
+      "sources": [
+        "gcba-cruces-semaforizados"
+      ],
+      "gcbaId": "B-CR-00064",
+      "gcbaAddress": "CABILDO AV. y GUAYRA",
+      "status": "discrepancia",
+      "notes": "El dataset oficial lista un cruce semaforizado en Cabildo y Guayra; OSM no tiene el nodo de semáforo. Se adopta el dato oficial, a verificar en terreno."
+    }
+  ],
+  "context": [
+    {
+      "type": "metrobus",
+      "street": "Av. Cabildo",
+      "status": "fuente-unica",
+      "notes": "Metrobús Norte por el centro de Av. Cabildo (ways OSM bus=designated). Invadir carriles exclusivos es la eliminatoria j (REGLAS.md)."
+    },
+    {
+      "type": "cycle-track",
+      "street": "Cuba / Quesada",
+      "status": "fuente-unica",
+      "notes": "Ciclovía bidireccional protegida sobre el lado izquierdo de Cuba (Guayra–Congreso) y del empalme por Quesada (OSM cycleway:left=track). También cruzan ciclovías Iberá y Congreso."
+    },
+    {
+      "type": "avenue-crossing",
+      "street": "Av. Congreso",
+      "status": "verificado-fuentes",
+      "notes": "Cuba y Vuelta de Obligado cruzan la Av. Congreso con semáforo (OSM y GCBA B-CR-03662, B-CR-03661)."
+    }
+  ]
+}

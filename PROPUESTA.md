@@ -64,7 +64,7 @@ Fuente: `recorridosl.pdf`, página PDF 16, inspeccionada como texto y como image
 
 ![Lámina original de Comuna 13](specs/fuentes/comuna-13-recorrido-a.png)
 
-**Pendiente cartográfico concreto:** la secuencia repite Cuba–Quesada–Cuba y el gráfico no basta para determinar inequívocamente cada maniobra de ese punto. Debe cotejarse la geometría y dirección de cada tramo, sin borrar la repetición ni inventar una vuelta en U. El anexo antiguo del protocolo y el documento de recorridos se deben comparar; para seleccionar A se toma el archivo de recorridos indicado por el usuario.
+**Pendiente cartográfico resuelto (F01-T04):** Cuba está desplazada en Quesada, unos 66 m. «Cuba – Quesada – Cuba» es izquierda por Quesada y derecha para retomar Cuba, no una repetición ni una vuelta en U. Trazado, sentidos, controles y aproximaciones en [specs/RECORRIDO.md](specs/RECORRIDO.md).
 
 ### Fidelidad del barrio
 
@@ -179,7 +179,7 @@ Consulta oficial exploratoria realizada el 11/10/2026:
 
 Estos resultados muestran diferencias de edición. Los documentos completos ya se contrastaron en [specs/REGLAS.md §8](specs/REGLAS.md): 40 preguntas, 34 correctas (85%), y tiempo de 45 minutos según la Disposición 860/2023 y la página oficial vigente, frente a los 40 minutos del informe de gestión 2024. No fijar el temporizador como oficial. Diseñar cantidad de preguntas, duración y umbral como configuración versionada. No mezclar reglas de fuentes diferentes sin documentarlo.
 
-Pendientes para implementación: interpretación del punto Cuba–Quesada–Cuba; relevamiento cartográfico; inventario de cada señal/figura; transcripción íntegra de la ficha y excepciones; resolución de discrepancias; prueba de controles y rendimiento. Caja manual/automática se ofrecerán como selección, sin bloquear la propuesta por esa preferencia.
+Pendientes para implementación: relevamiento cartográfico en terreno (posición del cajón, señalización de fuente única; ver [specs/RECORRIDO.md §7](specs/RECORRIDO.md)); la interpretación de Cuba–Quesada–Cuba quedó resuelta en F01-T04 (desplazamiento de 66 m); inventario de cada señal/figura; transcripción íntegra de la ficha y excepciones; resolución de discrepancias; prueba de controles y rendimiento. Caja manual/automática se ofrecerán como selección, sin bloquear la propuesta por esa preferencia.
 
 ## 10. Entregas y criterios de terminado
 
@@ -210,4 +210,4 @@ Esta entrega contiene la propuesta, las fuentes extraídas, dos láminas inspecc
 
 ## 12. Modelos y recursos confirmados
 
-El usuario dispone de planes de **200 USD en Anthropic y 100 USD en OpenAI**, y declara menor disponibilidad de tokens en OpenAI. La estrategia operativa prioriza **Opus 5.5 para implementación** y reserva **GPT-6.1 Sol para revisión Codex** y asistencia focalizada. Detalles por fase en [ESTRATEGIA_MODELOS.md](specs/ESTRATEGIA_MODELOS.md). Se mantienen autorrevisión, revisión Codex/CodeRabbit según el presupuesto disponible y autorización manual para iniciar cada fase. Los importes no se convierten en una proporción de tokens; se ajustará el uso con las cuotas reales.
+El usuario dispone de planes de **200 USD en Anthropic y 100 USD en OpenAI**, y declara menor disponibilidad de tokens en OpenAI. La estrategia operativa prioriza **Opus 5.5 para implementación**, con **GPT-6 Astra asignado a F03-T03 (habitáculo), F04-T01 (barrio) y F06-T03 (inmersión visual)** y uso condicionado en F07-T01 para rendimiento. Se reserva **GPT-6.1 Sol para revisión Codex** y asistencia focalizada. Detalles por fase en [ESTRATEGIA_MODELOS.md](specs/ESTRATEGIA_MODELOS.md). Se mantienen autorrevisión, revisión Codex/CodeRabbit según el presupuesto disponible y autorización manual para iniciar cada fase. Los importes no se convierten en una proporción de tokens; se ajustará el uso con las cuotas reales.

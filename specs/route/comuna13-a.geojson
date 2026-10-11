@@ -1,0 +1,523 @@
+{
+ "type": "FeatureCollection",
+ "name": "comuna13-a",
+ "attribution": "© OpenStreetMap contributors (ODbL-1.0); semáforos: GCBA (CC-BY-2.5-AR)",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "leg": 1,
+    "street": "Quesada",
+    "lengthM": 126.7,
+    "examMaxKmh": 30,
+    "turnIntoNext": "right",
+    "status": "fuente-unica",
+    "stroke": "#0f766e",
+    "stroke-width": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -58.4622693,
+      -34.5538037
+     ],
+     [
+      -58.462693,
+      -34.5540286
+     ],
+     [
+      -58.4634349,
+      -34.5544153
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "leg": 2,
+    "street": "Av. Cabildo",
+    "lengthM": 240.5,
+    "examMaxKmh": 45,
+    "turnIntoNext": "right",
+    "status": "fuente-unica",
+    "stroke": "#0f766e",
+    "stroke-width": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -58.4634349,
+      -34.5544153
+     ],
+     [
+      -58.4635285,
+      -34.554339
+     ],
+     [
+      -58.4643444,
+      -34.5535166
+     ],
+     [
+      -58.4644123,
+      -34.5534494
+     ],
+     [
+      -58.4644847,
+      -34.5533686
+     ],
+     [
+      -58.4650384,
+      -34.5527043
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "leg": 3,
+    "street": "Guayra",
+    "lengthM": 189.7,
+    "examMaxKmh": 30,
+    "turnIntoNext": "right",
+    "status": "fuente-unica",
+    "stroke": "#0f766e",
+    "stroke-width": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -58.4650384,
+      -34.5527043
+     ],
+     [
+      -58.4641989,
+      -34.5522819
+     ],
+     [
+      -58.4633706,
+      -34.5518656
+     ],
+     [
+      -58.4632705,
+      -34.5518178
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "leg": 4,
+    "street": "Cuba",
+    "lengthM": 235.3,
+    "examMaxKmh": 30,
+    "turnIntoNext": "left",
+    "status": "fuente-unica",
+    "stroke": "#0f766e",
+    "stroke-width": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -58.4632705,
+      -34.5518178
+     ],
+     [
+      -58.46271,
+      -34.5525683
+     ],
+     [
+      -58.4619342,
+      -34.5536283
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "leg": 5,
+    "street": "Quesada",
+    "lengthM": 66.2,
+    "examMaxKmh": 30,
+    "turnIntoNext": "right",
+    "status": "fuente-unica",
+    "stroke": "#0f766e",
+    "stroke-width": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -58.4619342,
+      -34.5536283
+     ],
+     [
+      -58.461456,
+      -34.5533776
+     ],
+     [
+      -58.461325,
+      -34.5533088
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "leg": 6,
+    "street": "Cuba",
+    "lengthM": 273.1,
+    "examMaxKmh": 30,
+    "turnIntoNext": "right",
+    "status": "fuente-unica",
+    "stroke": "#0f766e",
+    "stroke-width": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -58.461325,
+      -34.5533088
+     ],
+     [
+      -58.4604187,
+      -34.5543673
+     ],
+     [
+      -58.4596883,
+      -34.5552096
+     ],
+     [
+      -58.4595987,
+      -34.5553143
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "leg": 7,
+    "street": "Manuel Ugarte",
+    "lengthM": 102.3,
+    "examMaxKmh": 30,
+    "turnIntoNext": "right",
+    "status": "fuente-unica",
+    "stroke": "#0f766e",
+    "stroke-width": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -58.4595987,
+      -34.5553143
+     ],
+     [
+      -58.4604209,
+      -34.5557468
+     ],
+     [
+      -58.4605416,
+      -34.555806
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "leg": 8,
+    "street": "Vuelta de Obligado",
+    "lengthM": 272.9,
+    "examMaxKmh": 30,
+    "turnIntoNext": "left",
+    "status": "fuente-unica",
+    "stroke": "#0f766e",
+    "stroke-width": 4
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -58.4605416,
+      -34.555806
+     ],
+     [
+      -58.4613625,
+      -34.5548635
+     ],
+     [
+      -58.4621855,
+      -34.5539015
+     ],
+     [
+      -58.4622693,
+      -34.5538037
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "traffic_signals",
+    "legs": "1, 2",
+    "status": "verificado-fuentes",
+    "sources": "osm, gcba-cruces-semaforizados",
+    "marker-color": "#dc2626",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4634349,
+     -34.5544153
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "crossing-traffic_signals",
+    "legs": "2",
+    "status": "fuente-unica",
+    "sources": "osm",
+    "marker-color": "#6b7280",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4635285,
+     -34.554339
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "crossing-traffic_signals",
+    "legs": "2",
+    "status": "fuente-unica",
+    "sources": "osm",
+    "marker-color": "#6b7280",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4643444,
+     -34.5535166
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "traffic_signals",
+    "legs": "2",
+    "status": "verificado-fuentes",
+    "sources": "osm, gcba-cruces-semaforizados",
+    "marker-color": "#dc2626",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4644123,
+     -34.5534494
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "crossing-traffic_signals",
+    "legs": "2",
+    "status": "fuente-unica",
+    "sources": "osm",
+    "marker-color": "#6b7280",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4644847,
+     -34.5533686
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "stop",
+    "legs": "3",
+    "status": "fuente-unica",
+    "sources": "osm",
+    "marker-color": "#b91c1c",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4633706,
+     -34.5518656
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "stop",
+    "legs": "4",
+    "status": "fuente-unica",
+    "sources": "osm",
+    "marker-color": "#b91c1c",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.46271,
+     -34.5525683
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "stop",
+    "legs": "5",
+    "status": "fuente-unica",
+    "sources": "osm",
+    "marker-color": "#b91c1c",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.461456,
+     -34.5533776
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "traffic_signals",
+    "legs": "6",
+    "status": "verificado-fuentes",
+    "sources": "osm, gcba-cruces-semaforizados",
+    "marker-color": "#dc2626",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4604187,
+     -34.5543673
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "traffic-calming-hump",
+    "legs": "6",
+    "status": "fuente-unica",
+    "sources": "osm",
+    "marker-color": "#6b7280",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4596883,
+     -34.5552096
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "stop",
+    "legs": "7",
+    "status": "fuente-unica",
+    "sources": "osm",
+    "marker-color": "#b91c1c",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4604209,
+     -34.5557468
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "traffic_signals",
+    "legs": "8",
+    "status": "verificado-fuentes",
+    "sources": "osm, gcba-cruces-semaforizados",
+    "marker-color": "#dc2626",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4613625,
+     -34.5548635
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "stop",
+    "legs": "8",
+    "status": "fuente-unica",
+    "sources": "osm",
+    "marker-color": "#b91c1c",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4621855,
+     -34.5539015
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "type": "traffic_signals",
+    "legs": "2, 3",
+    "status": "discrepancia",
+    "sources": "gcba-cruces-semaforizados",
+    "marker-color": "#dc2626",
+    "marker-size": "small"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4651335,
+     -34.5527499
+    ]
+   }
+  }
+ ]
+}

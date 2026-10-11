@@ -10,7 +10,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - Mensaje de inicio (2026-10-11): «lee todos los documentos y comienza la implementacion de la primera fase».
 - Fases 2–7: no iniciadas. Cada una requiere indicación manual del usuario.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
-- **Etapa actual de la fase 1: A (creación).**
+- **Etapa actual de la fase 1: B (revisión de findings con el usuario).** La etapa A terminó con #2, #3 y #4 creados; #1 ya está fusionado.
 
 ## Repositorio y revisión
 
@@ -32,7 +32,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F01-T01 | `f01-t01-repositorio` (borrada) | `main` | — | [#1](https://github.com/grunch/al-volante/pull/1) | `b96dcf6` | fusionado por el usuario (merge `12cf2a8`, 2026-10-11 18:59 UTC) |
 | F01-T02 | `f01-t02-cobertura` | `main` | T01 (#1, fusionado) | #2 | ver PR | en revisión (etapa A) |
 | F01-T03 | `f01-t03-reglas` | `f01-t02-cobertura` (#2) | T02 (#2) | #3 | ver PR | en revisión (etapa A) |
-| F01-T04 | — | — | T03 | — | — | pendiente |
+| F01-T04 | `f01-t04-recorrido` | `f01-t03-reglas` (#3) | T03 (#3) | #4 | ver PR | en revisión (etapa A) |
 
 ### F01-T01 — Repositorio, documentación y flujo de revisión
 
@@ -66,9 +66,22 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Autorrevisión: lectura completa del protocolo por columnas (anexo II) y por imagen (ficha y gráficos); cotejo de la ficha fila por fila; validadores OK. Última ejecución en esta rama, tras las correcciones de review: `node --test 'scripts/*.test.mjs'` → 21/21 (catálogo + reglas).
 - CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
 
+### F01-T04 — Recorrido A de Comuna 13 (`RECORRIDO.md` y datos)
+
+- Alcance: georreferenciar el recorrido A, resolver Cuba–Quesada–Cuba, verificar sentidos, cruces y señalización relevante, y registrar licencias. Entregables: `specs/RECORRIDO.md`, `specs/route/comuna13-a.{json,geojson}` con su README de licencias, y el validador `scripts/check-route.mjs` con su prueba.
+- Resultado: 8 tramos legales según OSM, 1507 m (proyección WGS84, verificada contra geodesia de Vincenty), giros coherentes con las láminas.
+  - Cuba está desplazada 66 m en Quesada: izquierda por Quesada y derecha para retomar Cuba.
+  - Semáforos contrastados con el GCBA: 4 coinciden y 1 discrepa (Cabildo y Guayra).
+  - Ciclovía bidireccional en Cuba y Quesada; Metrobús en Cabildo.
+  - Proyección métrica local documentada.
+- Hallazgo: el texto extraído de recorridos PDF 16 invierte A y B. La imagen y el protocolo confirman que A es la secuencia larga.
+- Aproximaciones declaradas: posición del cajón, ancho del cajón, PARE, máximas y carriles de fuente única (OSM). Ningún dato relevado en terreno.
+- Autorrevisión: ruteo y validador OK. Última ejecución en esta rama, tras las correcciones de review: `node --test 'scripts/*.test.mjs'` → 31/31; orientaciones y giros cotejados con las láminas; ediciones del protocolo comparadas.
+- CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
+
 ## Pila y orden de fusión
 
-`main ← F01-T02 (#2) ← F01-T03 (#3) ← F01-T04`. #1 ya está en `main`. T03 y T04 se crean en la etapa A; se fusionan en ese orden en la etapa B.
+`main ← F01-T02 (#2) ← F01-T03 (#3) ← F01-T04 (#4)`. #1 ya está en `main`. T03 y T04 se crean en la etapa A; se fusionan en ese orden en la etapa B.
 
 ## Bloqueos
 
@@ -76,9 +89,30 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B en curso: findings de #2 y #3 resueltos en sus ramas; luego #4, y fusión en orden #2 → #3 → #4. #1 ya está fusionado. La re-revisión de CodeRabbit que quedó sin completar antes de fusionarlo no bloquea la fase y se registra como seguimiento. La versión vigente de este registro está en la rama más alta de la pila.
+Etapa B en curso, iniciada por el usuario el 2026-10-11 («revisa los findings en los PRs abiertos, comienza por el #2, luego sigue #3 y #4»):
+
+- **#2:** el usuario lo fusionó (merge `58cf109`, 2026-10-11 19:39 UTC) con los findings de Codex y CodeRabbit resueltos. Los dos findings de la re-revisión de Codex que llegaron después están en el PR correctivo **#6 (F01-T02-FIX01)**, abierto contra `main` e independiente de #3 y #4.
+- **#3:** el usuario lo fusionó (merge `f542d2f`) con los findings de Codex resueltos, incluida la re-revisión.
+- **#4:** findings de Codex resueltos, incluida la re-revisión: subtramos, coordenadas y escalares finitos, giro geométrico, proyección WGS84 y documentos alineados. Apilado sobre #3.
+- **Falta:** revisiones de CodeRabbit en #4 y #6 (cupo de 1 por hora) y re-revisión de Codex del último commit de #4. Después, fusionar #4 y #6.
+- **#5** (estrategia de modelos, PR del usuario) se fusionó dentro de la rama de #4 (merge `d804221`), porque esa era su base, así que sus cambios entran a `main` con #4.
+
+La fase 1 se cierra solo con todo fusionado y sin ambigüedades críticas abiertas; después, esperar el inicio manual de la fase 2.
 
 ## Decisiones que no deben reinterpretarse
 
 - Repo destino, visibilidad pública y revisores fueron confirmados por el usuario el 2026-10-11; no volver a preguntar.
 - Ver también «Hallazgos que no deben perderse» en `CONTINUIDAD.md`.
+
+## Cambio documental — Asignación visual de Astra
+
+- Pedido del usuario: crear un PR que asigne GPT-6 Astra a las tareas visuales específicas.
+- PR: [#5](https://github.com/grunch/al-volante/pull/5), abierto; commit de asignaciones `5901294` (antes `d1cc0d2`, mismo contenido).
+- Rama: `docs/astra-threejs-tasks`; base: `f01-t04-recorrido` (#4). Orden de fusión: #2 (fusionado) → #3 → #4 → este PR documental. No inicia fases 3, 4, 6 o 7.
+- Rebase (2026-10-11): tras fusionarse #2, las ramas de #3 y #4 se reescribieron sobre `main` (y #4 de nuevo tras sus correcciones); la rama de #5 seguía apoyada en sus versiones previas y arrastraba sus commits al diff. Se trasladaron solo los dos commits propios sobre la base actual (`git rebase --onto`) sin conflictos de texto; `git range-diff` confirma contenido idéntico. Push con `--force-with-lease`.
+- Alcance: F03-T03, F04-T01 y F06-T03 tienen Astra como autor; F07-T01 lo usa condicionado a mediciones y problemas complejos de renderizado. Plan, estrategia, instrucciones y contexto quedan alineados.
+- Autorrevisión: diff documental completo y coherencia entre asignaciones comprobados antes de commit/push; formato y enlaces locales verificados. Repetida tras el rebase.
+- Codex: el primer pedido respondió que faltaba un entorno cloud; reintentado con `@codex review`, **completada sobre `d1cc0d2` sin findings** ([resultado](https://github.com/grunch/al-volante/pull/5#issuecomment-6112896334)). Los commits posteriores solo actualizan este registro.
+- CodeRabbit: revisión automática solicitada; la App informó límite OSS agotado ([respuesta](https://github.com/grunch/al-volante/pull/5#issuecomment-6112864475)). Estado: pendiente por cuota horaria; no hubo análisis ni findings. El check SUCCESS no demuestra revisión completada.
+- No se fusiona este PR hasta completar CodeRabbit (o registrar su excepción) y fusionar #3 y #4.
+- Siguiente acción de este cambio: reintentar CodeRabbit al renovar su cuota; revisar findings con el usuario en la etapa B, respetando los predecesores abiertos. El estado de las tareas de fase 1 se conserva.

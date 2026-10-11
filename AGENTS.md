@@ -81,7 +81,7 @@ Proyecto: **Al volante: Comuna 13**, juego web de código abierto para preparar 
 
 ## Uso de modelos y cuota
 
-- Seguir `specs/ESTRATEGIA_MODELOS.md`: Opus 5.5 como autor habitual y GPT-6.1 Sol prioritariamente para revisión Codex y asistencia focalizada, dada la menor cuota OpenAI declarada por el usuario.
+- Seguir `specs/ESTRATEGIA_MODELOS.md`: Opus 5.5 como autor habitual, **GPT-6 Astra como autor asignado de F03-T03, F04-T01 y F06-T03** (uso condicionado en F07-T01), y GPT-6.1 Sol prioritariamente para revisión Codex y asistencia focalizada, dada la menor cuota OpenAI declarada por el usuario.
 - Usar contexto pertinente, búsquedas acotadas y scripts para comprobaciones mecánicas. Ajustar esfuerzo al riesgo; reservar los modelos más costosos para problemas que lo justifiquen.
 - No sacrificar aceptación ni revisiones obligatorias para ahorrar tokens. Si no hay presupuesto para cerrar de forma fiable, actualizar continuidad y dejar el PR pendiente.
 - No activar créditos adicionales, contratar servicios ni cambiar modelos automáticamente basándose solo en esta guía.
