@@ -35,7 +35,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | Tarea | Rama | Base | Depende de | PR | Estado |
 |---|---|---|---|---|---|
 | F02-T01 | `f02-t01-base` | `main` | F01 (fusionada) | [#7](https://github.com/grunch/al-volante/pull/7) | en revisión (etapa A) |
-| F02-T02 | — | — | T01 | — | pendiente |
+| F02-T02 | `f02-t02-schemas` | `f02-t01-base` (#7) | T01 (#7) | #8 | en revisión (etapa A) |
 | F02-T03 | — | — | T02 | — | pendiente |
 | F02-T04 | — | — | T03 | — | pendiente |
 | F02-T05 | — | — | T04 | — | pendiente |
@@ -57,6 +57,18 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - CodeRabbit, ARQUITECTURA: fecha de publicación de cada versión, y la limitación de TypeScript acotada a `typescript-eslint` 8.70.1 con su rango de `peerDependencies`.
   - CodeRabbit, fila de F02-T01 en este registro: actualizada.
 
+### F02-T02 — Esquemas, validadores y carga de catálogos
+
+- Alcance: esquemas Zod de todos los contratos (fuentes, unidades, actividades, reglas, recorrido, escenario e intento), validación referencial en TypeScript, versión de contenido, cobertura por sección y carga validada de los catálogos de la fase 1. Reemplaza los validadores `.mjs` de la fase 1.
+- Resultado: `npm run validate:content` → `Content OK (version a48188f2)`, con 224 páginas, 705 unidades, 355 señales, 206 observaciones, 69 reglas, 8 tramos y 0 actividades (la muestra llega en T04). El manifiesto suma título, edición y procedencia (URL oficial y fecha) para cumplir el contrato `Source`.
+- Verificación local: `npm run check` con 52 pruebas unitarias (cobertura 98,7 % de sentencias y 95,5 % de ramas). Incluye los casos portados de los tres validadores, los de actividades y la prueba de integración con los datos reales.
+- CodeRabbit y Codex: solicitadas al abrir el PR (#8). Codex completada sobre `22aefa2`. CodeRabbit no revisó por el cupo de 1 revisión por hora; se vuelve a pedir en la etapa B.
+- Findings resueltos (etapa B), todos con prueba:
+  - Codex, CONTINUIDAD decía que no había software: corregido en #7, y este PR lo hereda.
+  - Codex, un desenlace correcto declarado pero inalcanzable dejaba la actividad imposible de ganar: ahora se exige un desenlace correcto alcanzable desde `start`, y también se rechazan los desenlaces que ninguna elección alcanza.
+  - Codex, una franja con `lt` y `lte` (o `gt` y `gte`) a la vez engañaba al control de bordes: se rechaza.
+  - Codex, citas sin validar contra el manifiesto: las del puntaje (`rules.scoring.refs`) y las del recorrido (`route.sources.route`) ahora se validan. Todas las citas pasan por `refs.ts`, que exige una fuente del manifiesto y una página dentro de su rango. El fixture de integración citaba `recorridos` sin tenerlo en el manifiesto y se corrigió.
+
 ## Pila y orden de fusión
 
 `main ← F02-T01 ← F02-T02 ← F02-T03 ← F02-T04 ← F02-T05` (se crean en la etapa A; se fusionan en ese orden en la etapa B).
@@ -67,7 +79,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa A: #7 (F02-T01) abierto. Sigue F02-T02 apilado sobre `f02-t01-base`, sin esperar revisiones.
+Etapa A: #7 (T01) y #8 (T02) creados. Sigue F02-T03 apilado sobre `f02-t02-schemas`, sin esperar revisiones.
 
 ## Decisiones que no deben reinterpretarse
 

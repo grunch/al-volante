@@ -104,8 +104,8 @@ El documento de recorridos (PDF 6–19) incluye circuitos A y B para las comunas
 ## 9. Cómo validar y regenerar
 
 ```bash
-node scripts/check-route.mjs        # secuencia, continuidad, proyección, longitudes, límites y estados
-node --test 'scripts/*.test.mjs'    # pruebas de los validadores
+npm run validate:content   # secuencia, continuidad, proyección, longitudes, límites y estados (y el resto de los catálogos)
+npm test                   # pruebas de los validadores (src/content/validateRoute.test.ts)
 ```
 
 Los datos se generaron con consultas Overpass sobre la caja `(-34.5585,-58.4690,-34.5500,-58.4570)`: todas las `way["highway"]` con `out body geom`, y los nodos `highway~traffic_signals|stop|give_way|crossing|bus_stop` y `traffic_calming`. El ruteo de cada tramo usa Dijkstra restringido a ways con el nombre de la calle del tramo, respetando `oneway`. Para regenerarlos con una base OSM posterior, repetir las consultas y volver a correr el validador. Cualquier cambio de sentido o de conectividad debe registrarse aquí antes de modificar la escena.

@@ -22,6 +22,7 @@ Las fechas de publicación salen del registro de npm (`npm view <paquete> time`)
 | Playwright | 1.63.0 | 2026-09-04 | Pruebas E2E en Chromium (escritorio y móvil). |
 | ESLint / typescript-eslint / react-hooks | 10.11.0 / 8.70.1 / 7.1.1 | 2026-09-18 / 2026-09-21 / 2026-04-17 | Lint estricto. |
 | Prettier | 3.9.9 | 2026-09-23 | Formato del código (no de los `.md` ni de los catálogos). |
+| Zod | 4.6.5 | 2026-09-13 | Esquemas de los catálogos de contenido (desde F02-T02). |
 
 ## Estructura
 
@@ -31,16 +32,38 @@ src/
   main.tsx                 Punto de entrada.
   app/                     Composición de la aplicación (App).
   i18n/es-AR.ts            Textos de la interfaz en español rioplatense, con claves en inglés.
+  content/                 Esquemas (Zod), validación referencial, versión, cobertura y carga de catálogos.
   scene/                   Mundo 3D: escena pura de Three.js y su componente de montaje.
   ui/                      Estilos (tokens de diseño) y hooks de interfaz compartidos.
   test/                    Configuración y dobles de prueba.
 tests/e2e/                 Pruebas de punta a punta con Playwright.
-scripts/                   Validadores de catálogo de la fase 1 (Node).
+scripts/validate-content.ts Valida los catálogos desde la terminal (Node ≥ 24 ejecuta TypeScript).
 specs/                     Documentación, fuentes y catálogos de datos.
 .github/workflows/ci.yml   Integración continua.
 ```
 
-Planificado en esta fase: `src/content/` (esquemas y carga de datos, F02-T02), pantallas y navegación (F02-T03), `src/activities/` (motor de actividades, F02-T04) y `src/progress/` (progreso y persistencia, F02-T05).
+Planificado en esta fase: pantallas y navegación (F02-T03), `src/activities/` (motor de actividades, F02-T04) y `src/progress/` (progreso y persistencia, F02-T05).
+
+## Datos y validación (F02-T02)
+
+Los catálogos viven en `specs/` (fuentes, páginas, unidades, señales, observaciones, reglas, recorrido y actividades) y son la única fuente de verdad del contenido. `src/content/` los valida en dos niveles:
+
+1. **Estructura** (`schemas.ts`, Zod): un esquema estricto por contrato de PROPUESTA §8 (Source, KnowledgeUnit, Activity, Rule, recorrido/RoadSegment, Scenario y Attempt), más páginas, señales y observaciones. Los errores indican archivo y ruta JSON, por ejemplo `specs/catalog/units.json[0].id: …`.
+2. **Referencias cruzadas**:
+   - `validateCatalog`: páginas ↔ unidades en ambos sentidos, herencia de sección y categoría, ids únicos y páginas de observaciones;
+   - `validateRules`: los 69 ítems exactos del anexo II, puntos por severidad, citas dentro del protocolo (incluidas las del puntaje) y partición de franjas de estacionamiento, sin dos límites del mismo lado en una franja;
+   - `validateRoute`: secuencia oficial, continuidad, proyección, longitudes, giros, controles y citas de la fuente del recorrido;
+   - `validateActivities`: conceptos y citas existentes, una sola opción correcta, señales conocidas y grafos de decisión sin ciclos ni nodos o desenlaces inalcanzables, con al menos un desenlace correcto alcanzable.
+   - Toda cita (`refs.ts`) debe nombrar una fuente del manifiesto y una página dentro de su rango.
+
+Además:
+
+- `validate.ts` coordina ambos niveles y calcula la **versión de contenido**: un hash FNV-1a de todos los catálogos, que acompañará a cada intento para saber con qué contenido se respondió.
+- `coverage.ts` resume por sección cuántas unidades tienen actividades.
+- `catalog.ts` carga los catálogos en forma diferida y los valida antes de usarlos.
+- La misma validación corre en la CI (`npm run validate:content`) y en la prueba de integración con los datos reales.
+
+Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus casos de prueba se portaron a Vitest.
 
 ## Convenciones
 
@@ -59,7 +82,7 @@ Planificado en esta fase: `src/content/` (esquemas y carga de datos, F02-T02), p
 | `npm run lint` / `npm run format:check` / `npm run typecheck` | Lint, formato y tipos. |
 | `npm test` / `npm run test:coverage` | Pruebas unitarias; la cobertura exige ≥ 80 % en líneas, ramas, funciones y sentencias. |
 | `npm run test:e2e` | Build, servidor de vista previa y pruebas Playwright. La primera vez: `npx playwright install chromium`. |
-| `npm run validate:catalog` | Validadores de catálogo, reglas y recorrido de la fase 1, más sus pruebas. |
+| `npm run validate:content` | Valida todos los catálogos con los esquemas y referencias de `src/content/` e imprime la versión y la cobertura. |
 | `npm run check` | Todo lo anterior salvo E2E, en el mismo orden que la CI. |
 
 La CI (`.github/workflows/ci.yml`) corre `checks` y `e2e` en cada PR y en `main`. Las actions están fijadas por SHA de commit. Activar la CI como check obligatorio de `main` queda a decisión del usuario.

@@ -16,7 +16,12 @@ export default tseslint.config(
     },
   },
   {
-    files: ['scripts/**/*.mjs', '*.config.{js,ts}', 'tests/e2e/**/*.ts'],
+    // Tests index into fixtures they built themselves; a non-null assertion states that precondition.
+    files: ['src/**/*.test.{ts,tsx}', 'src/**/testing/**/*.ts'],
+    rules: { '@typescript-eslint/no-non-null-assertion': 'off' },
+  },
+  {
+    files: ['scripts/**/*.ts', '*.config.{js,ts}', 'tests/e2e/**/*.ts'],
     languageOptions: { globals: { ...globals.node } },
   },
 );
