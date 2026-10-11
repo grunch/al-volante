@@ -1,0 +1,1238 @@
+[
+  {
+    "source": "manual",
+    "page": 1,
+    "type": "extraction",
+    "description": "La tapa (PDF 1) no tiene capa de texto; el título «Manual teórico de vehículos urbanos de cuatro ruedas 2023» se transcribió del render. La portada de la Introducción (PDF 14) usa otro nombre: «Manual teórico de conducción de vehículos urbanos de cuatro ruedas»."
+  },
+  {
+    "source": "manual",
+    "page": 3,
+    "type": "ambiguous",
+    "description": "«Categoría C / Carga» aparece como encabezado sin lista propia, inmediatamente antes de «Categoría E / Camiones y maquinaria especial no agrícola» y su lista (que incluye Anexo III). Se interpreta que C y E comparten el mismo material, pero no está explícito."
+  },
+  {
+    "source": "manual",
+    "page": 3,
+    "type": "ambiguous",
+    "description": "El material a estudiar (PDF 3–4) no lista ninguna categoría A (motovehículos); el manual es solo para vehículos de cuatro ruedas (B, C, D, E, F)."
+  },
+  {
+    "source": "manual",
+    "page": 8,
+    "type": "typo",
+    "description": "«Isleta» b): «trazo continúo» debería ser «trazo continuo». No cambia el sentido."
+  },
+  {
+    "source": "manual",
+    "page": 9,
+    "type": "typo",
+    "description": "El término del glosario se escribe «Moto furgón» (separado), pero en la definición de «Motovehículo» de la misma página aparece «motofurgones» (junto)."
+  },
+  {
+    "source": "manual",
+    "page": 10,
+    "type": "discrepancy",
+    "description": "La definición de «Senda peatonal» menciona «bolsones peatonales», pero el término definido en el glosario (PDF 6) es «Bolsón vehicular o de tránsito» (que describe precisamente una senda peatonal desplazada). Nombre inconsistente para el mismo concepto."
+  },
+  {
+    "source": "manual",
+    "page": 11,
+    "type": "typo",
+    "description": "En «Vía rápida» figura «Autopista Presidente Arturo U. Illia», mientras que en «Paseo del Bajo» (PDF 9) figura «Autopista Presidente Arturo Humberto Illia». Las dos definiciones escriben distinto el segundo nombre."
+  },
+  {
+    "source": "manual",
+    "page": 12,
+    "type": "ambiguous",
+    "description": "El índice de la Introducción lista 4 subtemas, pero no menciona los bloques «Factores de riesgo» (PDF 17), «Consecuencias de los incidentes de tránsito» (PDF 18), «Principios básicos», «Objetivos» ni «Ejes de trabajo» (PDF 18–19), que aparecen como subtítulos dentro de esos subtemas. Las páginas del índice coinciden con las secciones (impreso + 1 = PDF)."
+  },
+  {
+    "source": "manual",
+    "page": 15,
+    "type": "outdated",
+    "description": "Las estadísticas de CABA (96 víctimas fatales; 48% motociclistas, 34% peatones, 11% ocupantes de automóvil; 8 de cada 10 de sexo masculino; 49% de 25 a 54 años) provienen del informe del OSV de mayo de 2022 y no indican el año al que corresponden. Las cifras mundiales (1,4 millones de muertes y 50 millones de lesionados por año) no citan fuente ni año. Conviene verificar si están vigentes."
+  },
+  {
+    "source": "manual",
+    "page": 15,
+    "type": "extraction",
+    "description": "Las infografías de cifras (contexto mundial y CABA) de PDF 15, los factores de riesgo de PDF 17, las consecuencias de PDF 18 y los ejes de trabajo de PDF 19 no tienen capa de texto. Se transcribieron desde renders de 70 ppp; el texto pequeño de PDF 18 y PDF 19 es legible pero conviene verificarlo en mayor resolución."
+  },
+  {
+    "source": "manual",
+    "page": 15,
+    "type": "outdated",
+    "description": "La referencia a un sitio en la nota al pie 1 (https://www.buenosaires.gob.ar/movilidad/plan-de-seguridad-vial/compromiso-ciudadano/observatoriovial) requiere verificar si sigue vigente."
+  },
+  {
+    "source": "manual",
+    "page": 16,
+    "type": "extraction",
+    "description": "En la extracción de texto, el marcador de nota al pie «2» de «Ley² 2148» aparece suelto en medio de la frase «diferentes maneras 2 de actuar», y «Ley2 2148» queda pegado. En el render, el superíndice está correctamente en «Ley²»."
+  },
+  {
+    "source": "manual",
+    "page": 16,
+    "type": "outdated",
+    "description": "Las referencias a la Ley 2148 (Código de Tránsito y Transporte de CABA) y al enlace del Boletín Oficial de la nota al pie 2 (https://boletinoficialpdf.buenosaires.gob.ar/util/imagen.php?idn=95322&idf=2) requieren verificar su vigencia. El glosario también cita los artículos 7.1.10 (carga y descarga, PDF 6) y 2.3.6 (intervenciones peatonales, PDF 8) de ese código."
+  },
+  {
+    "source": "manual",
+    "page": 17,
+    "type": "discrepancy",
+    "description": "La cita de la Ley 3072 en PDF 17 dice «daño a una persona o cosa», mientras que el glosario (PDF 8, «Incidente de tránsito o incidente vial») dice «daño a personas o cosas». Es una diferencia menor de redacción, sin cambio de sentido."
+  },
+  {
+    "source": "manual",
+    "page": 17,
+    "type": "outdated",
+    "description": "La referencia a la Ley 3072 de CABA (definición de incidente de tránsito) requiere verificar su vigencia."
+  },
+  {
+    "source": "manual",
+    "page": 18,
+    "type": "outdated",
+    "description": "La nota al pie 3 remite al «nuevo plan 2020-2023» del Plan de Seguridad Vial (https://www.buenosaires.gob.ar/jefaturadegabinete/movilidad/noticias/presentamos-el-informe-de-victimas-fatales-2020-y-el-segundo#). Ese período ya terminó, por lo que el plan probablemente esté desactualizado y el enlace requiere verificación."
+  },
+  {
+    "source": "manual",
+    "page": 23,
+    "type": "extraction",
+    "description": "Las infografías (3 millones de habitantes, 1,8 millones ingresan, 9 millones de viajes: 3,5 millones interjurisdiccionales con 84 %/16 % y 5,5 millones internos; espacio de 60 personas; orden de vulnerabilidad 1° peatones a 6° camión) no aparecen en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 25,
+    "type": "extraction",
+    "description": "Los rótulos del gráfico «Fases del Impacto» (contacto, volteo, proyección, arrastre) no aparecen en el texto extraído; solo el título y la nota 4."
+  },
+  {
+    "source": "manual",
+    "page": 26,
+    "type": "ambiguous",
+    "description": "Calle prioridad peatón: la ficha indica velocidad máxima 10 km/h, pero la nota 5 aclara que las «calles de convivencia» admiten hasta 20 km/h y que solo en el «Centro Peatonal» se redujo a 10 km/h mediante señalética. Una pregunta sobre la velocidad máxima en calles de convivencia podría tener dos respuestas."
+  },
+  {
+    "source": "manual",
+    "page": 26,
+    "type": "extraction",
+    "description": "La placa de la foto («MICROCENTRO – Días hábiles 11 a 16 hs – Sólo vehículos autorizados») no aparece en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 27,
+    "type": "outdated",
+    "description": "Referencias externas a verificar: https://buenosaires.gob.ar/justiciayseguridad/senderos-escolares (nota 6) y www.buenosaires.gob.ar/movilidad/plan-de-seguridad-vial/sube-y-baja (nota 7)."
+  },
+  {
+    "source": "manual",
+    "page": 28,
+    "type": "discrepancy",
+    "description": "El texto enumera seis áreas con prioridad peatonal (Tribunales, Retiro, Casco Histórico, Once, Microcentro y Corrientes), pero el mapa solo muestra dos zonas (Tribunales Peatonal y Centro Peatonal), y la URL de la nota 8 se titula «5-nuevas-areas-con-prioridad-peatonal»."
+  },
+  {
+    "source": "manual",
+    "page": 28,
+    "type": "illegible",
+    "description": "En el render de 70 ppp no se pueden confirmar con precisión los rótulos menores ni qué calles son «arterias exceptuadas» (línea azul) en el mapa."
+  },
+  {
+    "source": "manual",
+    "page": 28,
+    "type": "outdated",
+    "description": "Referencia externa a verificar: https://www.buenosaires.gob.ar/compromisos/5-nuevas-areas-con-prioridad-peatonal (nota 8)."
+  },
+  {
+    "source": "manual",
+    "page": 29,
+    "type": "extraction",
+    "description": "El horario de la restricción a vehículos particulares (días hábiles de 11 a 16 hs, solo vehículos autorizados, control electrónico) y los modos con libre circulación (a pie, bici, transporte público, taxi) solo están en imágenes; el texto extraído dice «En este horario» y «se permite libre circulación» sin el referente."
+  },
+  {
+    "source": "manual",
+    "page": 29,
+    "type": "illegible",
+    "description": "El pictograma de la señal circular de restricción (tachado en rojo) no se distingue con claridad a 70 ppp; en la página 26 la señal equivalente muestra un auto tachado."
+  },
+  {
+    "source": "manual",
+    "page": 29,
+    "type": "outdated",
+    "description": "Referencia externa a verificar: trámite del permiso en http://transito.buenosaires.gob.ar/permisosba/default.aspx (nota 9, URL http y .aspx, posiblemente desactualizada); teléfono 147."
+  },
+  {
+    "source": "manual",
+    "page": 30,
+    "type": "extraction",
+    "description": "La infografía «La bici como agente de cambio» (ecológica, económica, rápida, saludable) no aparece en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 30,
+    "type": "outdated",
+    "description": "Referencias externas a verificar: https://www.buenosaires.gob.ar/ecobici/huellaecologica (nota 10) y «El Manual del Ciclista» en https://www.buenosaires.gob.ar/ecobici/pedalea-seguro/manual-ciclista (nota 11)."
+  },
+  {
+    "source": "manual",
+    "page": 31,
+    "type": "extraction",
+    "description": "Las imágenes de colocación del casco (correcto/incorrecto) y los rótulos de vestimenta, reflectantes, lentes, luces y guantes no aparecen en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 32,
+    "type": "extraction",
+    "description": "El catálogo de 13 señales para ciclistas no aparece en el texto extraído; se transcribió desde el render. Algunos textos menores (placa de «Descienda de la bicicleta», cifras del direccionador, placa de «Prohibido estacionar y detenerse») son poco legibles a 70 ppp."
+  },
+  {
+    "source": "manual",
+    "page": 33,
+    "type": "extraction",
+    "description": "La infografía «Postura corporal» (espalda, cabeza, manos, cadera, piernas) no aparece en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 34,
+    "type": "extraction",
+    "description": "Los rótulos de las ilustraciones («1,5 mtrs. Distancia de vehículos estacionados» y «Prohibido circular agarrados de otros vehículos») no aparecen en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 35,
+    "type": "extraction",
+    "description": "La explicación del off-tracking (ruedas traseras con arco de curvatura menor; peligro del punto ciego) está dentro de la ilustración y no aparece en el texto extraído; solo se extrajo el título y las señas de brazo."
+  },
+  {
+    "source": "manual",
+    "page": 35,
+    "type": "typo",
+    "description": "La distancia lateral de sobrepaso se escribe «1.5 mts.» (con punto), mientras que en la página 34 aparece como «1,5 mts.». No cambia el sentido."
+  },
+  {
+    "source": "manual",
+    "page": 37,
+    "type": "outdated",
+    "description": "Referencias normativas y externas a verificar: decreto 485/10 reglamentario de la Ley 1752/05 (nota 12), Ley 4619/13, app «BA Ecobici por Tembici» y https://www.buenosaires.gob.ar/ecobici/sistema-ecobici/como-utilizar-el-servicio (nota 13)."
+  },
+  {
+    "source": "manual",
+    "page": 40,
+    "type": "outdated",
+    "description": "Referencia externa a verificar: https://www.buenosaires.gob.ar/movilidad/viaspreferenciales (nota 15)."
+  },
+  {
+    "source": "manual",
+    "page": 41,
+    "type": "ambiguous",
+    "description": "El beneficio «al compartir el viaje con otras personas conductoras, habrá cuatro autos menos en la calle» no indica con cuántas personas se comparte; el diagrama muestra cuatro autos que convergen en uno solo (lo que daría tres autos menos si el auto final es uno de ellos)."
+  },
+  {
+    "source": "manual",
+    "page": 44,
+    "type": "typo",
+    "description": "Nota 16 cita 'Decreto N°70, art. 14604' como fuente de la unidad fija; la nota 17 (p. 45) repite 'C.A.B.A.N°70, art. 14604' después de citar la Ley 1472. La referencia parece un arrastre de edición y no es verificable."
+  },
+  {
+    "source": "manual",
+    "page": 44,
+    "type": "outdated",
+    "description": "Referencias legales a verificar: Ley 2148 (Código de Tránsito y Transporte de CABA) y Ley 451 arts. 18-19 sobre el valor de la unidad fija, que según el manual fija semestralmente la Subsecretaría de Justicia."
+  },
+  {
+    "source": "manual",
+    "page": 45,
+    "type": "outdated",
+    "description": "Nota 20 cita el Código Penal, arts. 84, 94 y 193 bis, modificados el 22/12/16 por Ley 27.347. Es una referencia legal fechada que conviene verificar."
+  },
+  {
+    "source": "manual",
+    "page": 46,
+    "type": "outdated",
+    "description": "Nota 22: el DNI digital es obligatorio desde el 31/03/2017 (Res. 1740/2016, fuente Res. 480/2016). Las notas 24 y 25 remiten a URLs de buenosaires.gob.ar que pueden haber cambiado."
+  },
+  {
+    "source": "manual",
+    "page": 47,
+    "type": "outdated",
+    "description": "Principiante: '0,0 g de alcohol por litro de sangre durante los dos años'. Es posible que la norma esté desactualizada respecto de la Ley Nacional 27.714 de alcohol cero (2023); verificar si el capítulo de alcohol del manual sigue usando otros límites generales para el resto de los conductores."
+  },
+  {
+    "source": "manual",
+    "page": 47,
+    "type": "ambiguous",
+    "description": "Se dice que la nueva cédula unificada 'reemplaza a todas las que se entregaban anteriormente' y que es igual para titular y autorizado, pero la figura y la p. 48 siguen usando las cédulas por color (verde/azul/marrón/rosa) y la 'cédula para autorizados a conducir'."
+  },
+  {
+    "source": "manual",
+    "page": 48,
+    "type": "ambiguous",
+    "description": "La cédula del vehículo figura con 'Vigencia: 1 año' (salvo para titular, taxis, etc.), pero el mismo párrafo dice que la 'cédula para autorizados a conducir' 'no tiene vencimiento'. Parece contradictorio o se refiere a documentos distintos sin aclararlo."
+  },
+  {
+    "source": "manual",
+    "page": 49,
+    "type": "outdated",
+    "description": "Nota 30 (vigencias de VTV para carga, pasajeros, escolares, etc.) menciona plazos 'por prórroga vigente'; probablemente desactualizados. Nota 31 remite a https://www.cent.gov.ar/listado-de-talleres-de-revision-tecnica/."
+  },
+  {
+    "source": "manual",
+    "page": 49,
+    "type": "extraction",
+    "description": "El calendario de VTV por terminación de patente (0 octubre … 9 septiembre) y los datos resumidos de primera VTV/renovación están sólo en una infografía; la capa de texto no los captura. Diciembre y enero no tienen terminación asignada."
+  },
+  {
+    "source": "manual",
+    "page": 50,
+    "type": "outdated",
+    "description": "Notas 32-33: remiten a https://www.dnrpa.gov.ar/portal_dnrpa/, al teléfono 147 y a una URL de grabado de autopartes de buenosaires.gob.ar; verificar vigencia."
+  },
+  {
+    "source": "manual",
+    "page": 51,
+    "type": "discrepancy",
+    "description": "Manual vs guía (distancia de las balizas). Manual p. 51: en ciudad, balizas portátiles a 30 y 60 m; en ruta, como mínimo a 50 y 100 m; en sentido único o carril derecho, del lado de donde vienen los vehículos; cerca del eje central de doble sentido, una baliza para cada lado. Guía p. 8: ambas balizas detrás; la más alejada a 1 m por cada km/h de máxima (avenida 60 m), con máximo de 90 m; en ruta, una delante y otra detrás a unos 90 m. La distancia en ruta (100 m vs 90 m) y la ubicación (detrás vs delante/detrás) no coinciden."
+  },
+  {
+    "source": "manual",
+    "page": 51,
+    "type": "discrepancy",
+    "description": "Manual vs guía (túnel y estructura). El manual (p. 51) incluye instrucciones para túneles (luces de posición, apagar el motor, abandonar el vehículo con chaleco, llamar a asistencia mecánica) y organiza los pasos como Proteger-Alertar-Socorrer; la guía no menciona túneles ni usa esa estructura. La guía (p. 9) recomienda además llevar linterna, cosa que el manual no hace."
+  },
+  {
+    "source": "manual",
+    "page": 51,
+    "type": "discrepancy",
+    "description": "Manual vs guía (contenido ausente en el manual). El manual (cap. 2) no trata el reclamo administrativo ante la aseguradora ni sus plazos (3 años ante el tercero / 1 año ante la propia, guía p. 14), ni la mediación, la demanda, la denuncia, la acción penal o la querella (guía pp. 17-21). Tampoco menciona la intervención policial en el lugar (guía p. 10). El plazo de 72 h para avisar a la aseguradora coincide (manual p. 53 en ícono, guía p. 7)."
+  },
+  {
+    "source": "manual",
+    "page": 52,
+    "type": "extraction",
+    "description": "Las instrucciones por carril para vehículos inmovilizados en autopista (carriles centrales/izquierdo vs. carril derecho) están sólo en una infografía; la capa de texto no las incluye."
+  },
+  {
+    "source": "manual",
+    "page": 52,
+    "type": "outdated",
+    "description": "El 911 aparece como el número que 'centraliza las llamadas dirigidas a Policía Federal, Bomberos y emergencias médicas', con derivación posterior al SAME. En CABA la seguridad está a cargo de la Policía de la Ciudad desde 2017; la mención a Policía Federal parece desactualizada."
+  },
+  {
+    "source": "manual",
+    "page": 52,
+    "type": "discrepancy",
+    "description": "Manual vs guía (teléfonos de emergencia). Manual p. 52: con heridos, 'llamar inmediatamente al servicio de Emergencias Médicas 107 y luego al 911'. Guía pp. 7, 9 y 10: sólo menciona el 911 (para avisar a la autoridad y dar intervención a la Policía) y nunca el 107."
+  },
+  {
+    "source": "manual",
+    "page": 52,
+    "type": "discrepancy",
+    "description": "Manual vs guía (autopista). Manual pp. 51-52: usar dársenas de emergencia si es posible; carril derecho: acercarse a la banquina, señalizar y esperar detrás de una defensa; la empresa de la autopista es la única autorizada a remover el vehículo. Guía p. 8: 'vías rápidas' sin distinguir carril derecho, 'no intentes remover el vehículo', sin mencionar dársenas. Los teléfonos coinciden (AUSA *287, AUSOL 140)."
+  },
+  {
+    "source": "manual",
+    "page": 53,
+    "type": "typo",
+    "description": "Título '3° Socorrerr' (doble r)."
+  },
+  {
+    "source": "manual",
+    "page": 53,
+    "type": "extraction",
+    "description": "Los datos 'Intercambiar documentos (cédula, seguro y licencia)', 'Solicitar datos a las personas presentes' e 'informar a la aseguradora dentro de las 72 h' sólo están en íconos con texto que la capa de texto no captura."
+  },
+  {
+    "source": "manual",
+    "page": 53,
+    "type": "discrepancy",
+    "description": "Manual vs guía (primeros auxilios). Manual p. 53: no movilizar 'salvo que exista posibilidad de atropello'; no retirar el casco 'a menos que haya vómito o asfixia'; reanimación si 'se conocen técnicas' y 'se cuenta con habilitación', y si no, esperar. Guía p. 10: 'No la muevas' y 'Si tiene casco, no lo retires', sin esas excepciones. La guía (p. 9) agrega hacer preguntas cerradas (nombre, edad), ofrecer llamar a un familiar y avisarle que ya se llamó a emergencias, pasos que el manual no incluye."
+  },
+  {
+    "source": "manual",
+    "page": 53,
+    "type": "discrepancy",
+    "description": "Manual vs guía (datos a recabar). El manual (p. 53) incluye datos 'De la persona asegurada' (si no conducía); la guía (p. 11) no. Los datos del vehículo se obtienen 'de la cédula de identificación del vehículo' en el manual y 'de la cédula verde o azul y de la tarjeta del seguro' en la guía. La guía agrega que las fotos registren la placa de dominio."
+  },
+  {
+    "source": "manual",
+    "page": 54,
+    "type": "typo",
+    "description": "Unidades de Orientación y Denuncia: 'https: https://www.mpf.gob.ar/dovic/' (prefijo duplicado). Además, el organismo se describe como del Ministerio Público Fiscal de la Ciudad, pero la URL corresponde al MPF de la Nación (DOVIC)."
+  },
+  {
+    "source": "manual",
+    "page": 54,
+    "type": "ambiguous",
+    "description": "Centro de Formación Profesional: 'Tel: 4372861/7679' tiene 7 dígitos, cuando los teléfonos de CABA tienen 8. Puede estar incompleto o mal formateado."
+  },
+  {
+    "source": "manual",
+    "page": 54,
+    "type": "discrepancy",
+    "description": "Manual vs guía (vehículo estacionado). Manual p. 54: dejar datos personales, del vehículo, de la licencia y del seguro obligatorio 'en un lugar seguro y bien sujeto'. Guía p. 12: dejar 'bien sujeto en el auto estacionado' los datos de la licencia, del seguro y un teléfono de contacto."
+  },
+  {
+    "source": "manual",
+    "page": 54,
+    "type": "discrepancy",
+    "description": "Manual vs guía (testigos y fuga). La guía (p. 12) agrega que el falso testimonio es delito, que ser testigo es carga pública y que ante una fuga conviene conseguir testigos sobre el otro vehículo; el manual (p. 54) sólo menciona la obligación de declarar. La regla de fuga = contravención / abandono de persona coincide (manual p. 45, guía p. 12)."
+  },
+  {
+    "source": "manual",
+    "page": 54,
+    "type": "discrepancy",
+    "description": "Manual vs guía (organismos públicos). El manual (p. 54) lista además las Unidades de Orientación y Denuncia (6089-9114/9135) y los CAJ (0800-222-3425), que la guía no incluye como contactos. La ANSV se llama 'Centro de Atención a la víctima y familiares…' en el manual y 'Oficina de asistencia a víctimas y familiares…' en la guía (p. 23), ambas con 149 opción 2. OFAVYT tiene el mismo teléfono (4014-1984) y dirección, pero distinta URL (mpfciudad.gob.ar vs guiajudicial.jusbaires.gob.ar). En el Centro de Formación Profesional, el manual agrega el teléfono 4372861/7679 y 'No se atienden casos por daños y perjuicios', y la guía (p. 22) no da teléfono y usa otra URL."
+  },
+  {
+    "source": "manual",
+    "page": 55,
+    "type": "outdated",
+    "description": "Nota 37 cita los incisos d) y e) del art. 11.1.4 del Código de Tránsito y Transporte. Las notas 35-36 remiten a URLs de buenosaires.gob.ar que pueden haber cambiado. Los datos de contacto de las ONG (celulares y correos personales) pueden estar desactualizados."
+  },
+  {
+    "source": "manual",
+    "page": 55,
+    "type": "discrepancy",
+    "description": "Manual vs guía (teléfonos y correos de ONG). Carla Arduini: manual 1160565111 y 3971-5437, asociacioncarlaarduini@gmail.com; guía (p. 23) 1160565111 / 1166076699 / 3971-5437, asociacioncivilcarlaarduini@gmail.com. Madres del Dolor: manual 39684082, 35357569 y 08002229832, kevinsedano@yahoo.com.ar; guía 3968-4082 / 353 575 69, asociacionmadresdeldolor@yahoo.com.ar. Red Nacional de Familiares: manual 1540832359 y 43013542; guía 4301-3542 / 4300-5060. A.C.T.I.V.V.A.S.: mismo teléfono, pero el manual da emacibotti@activvas.org y https://activvas.org/, y la guía www.activvas.org y activvas.blogspot.com."
+  },
+  {
+    "source": "manual",
+    "page": 55,
+    "type": "discrepancy",
+    "description": "Manual vs guía (ONG listadas). 'Asociación Civil Familias por la Vida' sólo figura en el manual (p. 55); 'Asociación Conduciendo a Conciencia' sólo figura en la guía (p. 23)."
+  },
+  {
+    "source": "manual",
+    "page": 58,
+    "type": "discrepancy",
+    "description": "La nota al pie 38 dice que las señales están desarrolladas en el “ANEXO V: Señales Viales”, pero el manual no tiene Anexo V: el índice (PDF 12–13) y la página 3 ubican las señales viales en el Anexo IV."
+  },
+  {
+    "source": "manual",
+    "page": 58,
+    "type": "extraction",
+    "description": "El orden de prioridad normativo (1° autoridad de control, 2° señales transitorias, 3° semáforos, 4° señal vertical y demarcación horizontal, 5° normas legales de carácter general) y los rótulos de las señas del agente solo están en imágenes; el texto extraído no los trae."
+  },
+  {
+    "source": "manual",
+    "page": 59,
+    "type": "discrepancy",
+    "description": "La nota al pie 39 remite al “ANEXO V: Señales Viales”; las señales están en el Anexo IV."
+  },
+  {
+    "source": "manual",
+    "page": 60,
+    "type": "extraction",
+    "description": "La ilustración de los tipos de línea longitudinal (doble continua, doble mixta, discontinua, simple continua, banquina) no aparece en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 61,
+    "type": "extraction",
+    "description": "Las 4 categorías de señalización vertical (función, características y tipos) están solo en la infografía; el texto extraído trae solo el título y la frase introductoria."
+  },
+  {
+    "source": "manual",
+    "page": 62,
+    "type": "outdated",
+    "description": "Referencias legales en este tramo: Ley 2148 (PDF 58 y 62) y artículo 4.1.5 del Código de Tránsito y Transporte de CABA (nota 40, PDF 67). Se registran para verificar su vigencia."
+  },
+  {
+    "source": "manual",
+    "page": 63,
+    "type": "extraction",
+    "description": "Las instrucciones para ceder el paso a vehículos de emergencia según los carriles y el símbolo de carril de emergencia están solo en la infografía."
+  },
+  {
+    "source": "manual",
+    "page": 63,
+    "type": "typo",
+    "description": "“deben hacerlo hacia a la izquierda” (dos veces): sobra la “a”. No cambia el sentido."
+  },
+  {
+    "source": "manual",
+    "page": 64,
+    "type": "ambiguous",
+    "description": "La excepción 2 a la prioridad de la derecha se titula “Se circule por el costado de vías férreas”, pero la explicación trata de atravesar un cruce ferroviario sin semáforos (prioridad del vehículo que sale del paso a nivel). El título no coincide bien con el contenido."
+  },
+  {
+    "source": "manual",
+    "page": 65,
+    "type": "extraction",
+    "description": "Las instrucciones para circular por la rotonda (A, B, C) están solo en la infografía."
+  },
+  {
+    "source": "manual",
+    "page": 67,
+    "type": "extraction",
+    "description": "La infografía de luces delanteras (altas, de posición, bajas, rompeniebla) no aparece en el texto extraído; solo se extrae la introducción y la nota 40."
+  },
+  {
+    "source": "manual",
+    "page": 68,
+    "type": "extraction",
+    "description": "La infografía de luces traseras (intermitentes, RSM, 5 segundos/30 metros, balizas, freno, retroceso, patente) no aparece en el texto extraído; se ve un fragmento suelto “( )”."
+  },
+  {
+    "source": "manual",
+    "page": 68,
+    "type": "typo",
+    "description": "“se encienden automáticamente alengranar la marcha atrás”: errata por “al engranar”."
+  },
+  {
+    "source": "manual",
+    "page": 68,
+    "type": "ambiguous",
+    "description": "La “Tercer luz de freno” aparece solo como rótulo, sin función ni uso. Además, el rótulo debería decir “Tercera”."
+  },
+  {
+    "source": "manual",
+    "page": 69,
+    "type": "extraction",
+    "description": "Las infografías de supervivencia según velocidad de impacto (30/45/60 km/h) y de campo de visión (35–150 km/h) no aparecen en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 69,
+    "type": "ambiguous",
+    "description": "La leyenda de la infografía de supervivencia dice “IMPACTO A” sin indicar contra quién es el impacto (los pictogramas son personas a pie; se supone un peatón, pero no se aclara)."
+  },
+  {
+    "source": "manual",
+    "page": 69,
+    "type": "typo",
+    "description": "“efecto tunel” sin tilde (debería ser “túnel”)."
+  },
+  {
+    "source": "manual",
+    "page": 70,
+    "type": "extraction",
+    "description": "El esquema de distancias y la tabla de distancia de detención (50/90/120 km/h, seco y mojado) no aparecen en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 70,
+    "type": "ambiguous",
+    "description": "En el gráfico de distancia de detención las barras no están a escala del eje en metros (por ejemplo, la barra de 24 m termina cerca de los 40 m del eje por el ícono del auto). Valen los números rotulados, que suman correctamente."
+  },
+  {
+    "source": "manual",
+    "page": 71,
+    "type": "extraction",
+    "description": "Los 3 pasos para calcular la distancia de seguridad están solo en la infografía."
+  },
+  {
+    "source": "manual",
+    "page": 72,
+    "type": "extraction",
+    "description": "Todas las velocidades máximas (generales, excepciones en avenidas y especiales para pasajeros/carga) están solo en infografías; el texto extraído solo trae títulos y la nota 41."
+  },
+  {
+    "source": "manual",
+    "page": 72,
+    "type": "typo",
+    "description": "“Av. Figuero Alcorta”: errata por “Figueroa Alcorta”."
+  },
+  {
+    "source": "manual",
+    "page": 72,
+    "type": "ambiguous",
+    "description": "Av. Gral. Paz aparece en tres excepciones con límites distintos según el tramo y la calzada: 60 km/h en las calzadas para tránsito pesado (Au Palazzo–Av. del Libertador), 80 km/h en la calzada central (Au Palazzo–Av. 27 de Febrero) y 100 km/h en la calzada central (Av. Lugones–Au Palazzo). No es contradictorio, pero se confunde fácil y conviene enseñarlo con cuidado."
+  },
+  {
+    "source": "manual",
+    "page": 72,
+    "type": "outdated",
+    "description": "Los límites de velocidad y las excepciones por avenida se fijan por normativa y la autoridad puede modificarlos por tramos (lo dice la propia página). Conviene verificar que sigan vigentes; solo se señala, no se corrige."
+  },
+  {
+    "source": "manual",
+    "page": 73,
+    "type": "extraction",
+    "description": "La tabla de velocidades máximas fuera de CABA y los mínimos especiales (40/60) están sólo en la infografía; el texto extraído no contiene ninguna cifra."
+  },
+  {
+    "source": "manual",
+    "page": 73,
+    "type": "outdated",
+    "description": "Cita la Ley Nacional de Tránsito N° 24.449 (nota 42) para las velocidades fuera de CABA; conviene verificar su vigencia frente a modificaciones posteriores."
+  },
+  {
+    "source": "manual",
+    "page": 74,
+    "type": "extraction",
+    "description": "Los límites máximos especiales de velocidad precautoria (20/30/40 y 'velocidad mínima de la arteria') sólo están en la infografía."
+  },
+  {
+    "source": "manual",
+    "page": 74,
+    "type": "ambiguous",
+    "description": "Dentro de 'Límites máximos especiales' aparece 'Velocidad mínima de la arteria' para la proximidad de establecimientos escolares, deportivos y de gran afluencia de público, sin cifra concreta. Además el rótulo tiene una doble coma ('escolares, , deportivos')."
+  },
+  {
+    "source": "manual",
+    "page": 75,
+    "type": "extraction",
+    "description": "Los títulos y leyendas de los diagramas de giros (incluida la prohibición de girar a la izquierda si el semáforo no tiene giro) no están en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 76,
+    "type": "extraction",
+    "description": "Las definiciones de adelantamiento/sobrepaso, el uso del carril y los pasos de sobrepaso seguro están sólo en imágenes."
+  },
+  {
+    "source": "manual",
+    "page": 77,
+    "type": "typo",
+    "description": "Dice 'La ley 2449, en su articulo 42'; probablemente sea la Ley Nacional de Tránsito 24.449 (art. 42, adelantamiento)."
+  },
+  {
+    "source": "manual",
+    "page": 77,
+    "type": "extraction",
+    "description": "Las reglas de prioridad en columna y del uso de las luces de giro (A/B/C) están sólo en imágenes."
+  },
+  {
+    "source": "manual",
+    "page": 78,
+    "type": "extraction",
+    "description": "Toda la sección de autopistas (ingreso, carriles, 3.500 kg, banquina, salida, velocidad, remolque) está en una imagen; el texto extraído sólo trae el título."
+  },
+  {
+    "source": "manual",
+    "page": 79,
+    "type": "extraction",
+    "description": "El contenido de la niebla (incluidas las 'V' invertidas: 3 = máxima de la vía, 2 = 60 km/h, 1 = 40 km/h) está sólo en la imagen."
+  },
+  {
+    "source": "manual",
+    "page": 79,
+    "type": "typo",
+    "description": "'para tener unas mayor visibilidad' (errata)."
+  },
+  {
+    "source": "manual",
+    "page": 80,
+    "type": "extraction",
+    "description": "Todo el contenido de lluvia está en la imagen; el texto extraído sólo trae 'Lluvia'."
+  },
+  {
+    "source": "manual",
+    "page": 80,
+    "type": "typo",
+    "description": "'aquaplanning' en el bloque Calzada, mientras que el resto de la página escribe 'aquaplaning'."
+  },
+  {
+    "source": "manual",
+    "page": 81,
+    "type": "extraction",
+    "description": "Todo el contenido de viento está en la imagen; el texto extraído sólo trae 'Viento'."
+  },
+  {
+    "source": "manual",
+    "page": 82,
+    "type": "extraction",
+    "description": "Las pautas de conducción con nieve y con calor (paradas cada 2 h, habitáculo entre 19 y 24 grados, etc.) están sólo en las imágenes."
+  },
+  {
+    "source": "manual",
+    "page": 84,
+    "type": "discrepancy",
+    "description": "La infografía '3 reglas' dice 'Pasajes: prohibido las 24 horas' sin la condición de ancho (calzada de hasta 4,5 m) que fija el texto, y omite calles de convivencia, el Macrocentro y las avenidas de doble sentido con prohibición las 24 h."
+  },
+  {
+    "source": "manual",
+    "page": 84,
+    "type": "ambiguous",
+    "description": "Se menciona el 'área del Macrocentro' sin definir sus límites."
+  },
+  {
+    "source": "manual",
+    "page": 85,
+    "type": "typo",
+    "description": "Nota 45: 'Existe una chat de la Ciudad'. Remite a https://www.buenosaires.gob.ar/laciudad/noticias/boti-el-chat-de-la-ciudad-ya-te-indica-en-que-calles-esta-permitido-estacionar (verificar vigencia del enlace)."
+  },
+  {
+    "source": "manual",
+    "page": 87,
+    "type": "outdated",
+    "description": "Remite al Código de Tránsito y Transporte (Ley 2148) y al enlace https://buenosaires.gob.ar/copidis/cio/simbolo-internacional-de-acceso (nota 46); verificar vigencia del enlace."
+  },
+  {
+    "source": "manual",
+    "page": 87,
+    "type": "ambiguous",
+    "description": "El texto da un máximo de 30 minutos en los cajones azules 'salvo otra indicación', pero la señal dibujada dice 'Espacio exclusivo carga y descarga las 24 horas' (se refiere al horario del espacio, no al tiempo de uso)."
+  },
+  {
+    "source": "manual",
+    "page": 91,
+    "type": "ambiguous",
+    "description": "La tabla de alcoholemia incluye 'ACOMPAÑANTE 0.50 g/l' con un ícono de dos personas en moto, sin explicar a quién se refiere (¿acompañante de motociclista?, ¿acompañante de conductor principiante?)."
+  },
+  {
+    "source": "manual",
+    "page": 91,
+    "type": "outdated",
+    "description": "Los límites (0,5 g/l general; 0,20 motociclistas; 0,00 principiantes y profesionales) se atribuyen a la Ley 2148 de CABA. Conviene verificar su vigencia frente a la normativa nacional posterior de 'alcohol cero' (Ley 27.714) y su eventual adhesión o aplicación en CABA. Aquí sólo se señala; no se corrige."
+  },
+  {
+    "source": "manual",
+    "page": 91,
+    "type": "extraction",
+    "description": "La tabla de límites por tipo de conductor está sólo en la infografía."
+  },
+  {
+    "source": "manual",
+    "page": 95,
+    "type": "extraction",
+    "description": "La tira '100 km/h = 27,7 m por segundo; 4 segundos cebando mate = una cuadra con los ojos tapados' no está en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 96,
+    "type": "outdated",
+    "description": "Menciona acciones como 'cambiar de radio o CD' y 'mirar un DVD portátil'; ejemplos tecnológicamente desactualizados (no afecta la norma)."
+  },
+  {
+    "source": "manual",
+    "page": 100,
+    "type": "extraction",
+    "description": "La infografía \"Contexto de Ciudad de Buenos Aires\" (54% de viajes diarios de mujeres en transporte público, 50% por trabajo/estudio, 30% tareas de cuidado) no está en el texto extraído; el párrafo siguiente (\"Esto implica...\") queda sin referente."
+  },
+  {
+    "source": "manual",
+    "page": 100,
+    "type": "ambiguous",
+    "description": "La infografía no aclara si el 50% (trabajo/estudio) y el 30% (tareas de cuidado) se calculan sobre todos los viajes de las mujeres o sobre los viajes en transporte público; tampoco se cita fuente ni año de los datos."
+  },
+  {
+    "source": "manual",
+    "page": 100,
+    "type": "outdated",
+    "description": "Referencia a la línea de reporte y contención por SMS 22676 (ACOSO), 24 hs, 365 días; verificar que siga vigente."
+  },
+  {
+    "source": "manual",
+    "page": 102,
+    "type": "ambiguous",
+    "description": "\"Puesta en marcha\": el texto dice que en vehículos a nafta la marcha puede iniciarse de inmediato \"por lo que su regulación o ralentí nunca debería superar los 5 minutos\"; la relación causal y a qué motor aplica el límite de 5 minutos no queda clara (y convive con la recomendación de apagar el motor si se va a estar detenido más de 3 minutos)."
+  },
+  {
+    "source": "manual",
+    "page": 105,
+    "type": "extraction",
+    "description": "La infografía \"Controles de VTV\" (8 rubros: luces, chasis, seguridad y emergencia, dirección y tren delantero, suspensión, escape, frenos, neumáticos) no está en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 105,
+    "type": "typo",
+    "description": "Infografía VTV: \"rótulos\" (probablemente \"rótulas\"), \"extremos direccón\" (por \"extremos de dirección\") y \"suspención\" (por \"suspensión\")."
+  },
+  {
+    "source": "manual",
+    "page": 106,
+    "type": "ambiguous",
+    "description": "Las recomendaciones llaman \"elementos de seguridad adicionales\" a matafuegos, balizas y chaleco, que en p. 119–120 se presentan como obligatorios."
+  },
+  {
+    "source": "manual",
+    "page": 108,
+    "type": "discrepancy",
+    "description": "El ejemplo de fecha de fabricación muestra SEMANA 17 / AÑO 16 y el rótulo dice \"corresponde a la tercera semana de abril 2016\". La semana 17 de 2016 (numeración ISO) va del 25 de abril al 1 de mayo, es decir, la última semana de abril, no la tercera. Se registra sin corregir."
+  },
+  {
+    "source": "manual",
+    "page": 108,
+    "type": "extraction",
+    "description": "La tabla \"Vida útil de los Neumáticos\" (profundidad vs. % de vida útil: 8mm 100% ... 1.6mm 0%), el rótulo de la fecha de fabricación y las etiquetas de presión (falta/excesiva/adecuada) no están en el texto extraído; se transcribieron desde un render a 200 ppp."
+  },
+  {
+    "source": "manual",
+    "page": 109,
+    "type": "extraction",
+    "description": "El texto del recuadro \"Pinchaduras\" (no frenar inmediatamente; desacelerar lentamente y sujetar firmemente el volante) y los rótulos de la infografía de puntos ciegos no están en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 110,
+    "type": "ambiguous",
+    "description": "\"Sólo debe reflejarse como máximo el 10% de la parte trasera del vehículo\": no aclara que se refiere al propio vehículo en los espejos laterales; se interpreta así por las fotos."
+  },
+  {
+    "source": "manual",
+    "page": 114,
+    "type": "ambiguous",
+    "description": "Prohibición de asientos delanteros \"desde el nacimiento hasta los 12 años, con estatura inferior a 1,50 metros o que pesen menos de 36kg\": la combinación de condiciones (y/o) es ambigua; luego dice \"Si supera la edad, estatura y peso puede circular en cualquier asiento\", lo que sugiere que deben superarse las tres."
+  },
+  {
+    "source": "manual",
+    "page": 114,
+    "type": "outdated",
+    "description": "Referencias legales en notas al pie: Código de Tránsito y Transporte de CABA modificado por la Ley Nº 5294, y Ley Nacional con la misma regla \"hasta los 10 años\". Verificar vigencia, en particular del límite nacional de 10 años."
+  },
+  {
+    "source": "manual",
+    "page": 114,
+    "type": "typo",
+    "description": "En \"Tipos\" de airbag, la frase \"Evitan un impacto contra elementos interiores del vehículo (volante, parabrisas, etc.)\" aparece como párrafo suelto después de \"Frontales\", repitiendo una viñeta de \"Función\"."
+  },
+  {
+    "source": "manual",
+    "page": 115,
+    "type": "extraction",
+    "description": "La tabla \"Tipos de SRI\" (grupos 0, 0+, 1, 2, 3 con edades, pesos y orientación) no está en el texto extraído; se transcribió desde un render a 200 ppp."
+  },
+  {
+    "source": "manual",
+    "page": 116,
+    "type": "discrepancy",
+    "description": "El texto indica viajar a contramarcha \"aproximadamente, hasta tener un año de edad y pesar 10 kg\", mientras que la tabla de p. 115 ubica al grupo 0+ (6/9 a 12/15 meses, hasta 13 kg) hacia atrás y al grupo 1 (desde 9 meses, 9 a 18 kg) hacia adelante. Los rangos se superponen y no coinciden exactamente."
+  },
+  {
+    "source": "manual",
+    "page": 116,
+    "type": "extraction",
+    "description": "El diagrama de posiciones de instalación del SRI, su leyenda (?1 nunca en asiento delantero; ?2 plaza central solo con cinturón de 3 puntos, o de 2 si el fabricante lo indica) y el criterio \"no se mueve más de 2,5 cm\" no están en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 116,
+    "type": "ambiguous",
+    "description": "El diagrama del SRI muestra una tercera fila de asientos (plaza izquierda lateral con cruz, derecha con tilde) sin explicación en el texto."
+  },
+  {
+    "source": "manual",
+    "page": 117,
+    "type": "discrepancy",
+    "description": "El texto dice que a 50 km/h la fuerza se eleva \"hasta por 40 veces su peso\", pero en la infografía la tablet (560 g → 23 kg) supera ese factor (~41 veces); los demás ejemplos están entre ~35 y ~40 veces."
+  },
+  {
+    "source": "manual",
+    "page": 117,
+    "type": "extraction",
+    "description": "Los valores de la infografía \"Velocidad de Impacto 50 km/h\" (portátil, bolso, consola, teléfono, tablet, biberón) no están en el texto extraído. Además \"Biberon\" sin tilde."
+  },
+  {
+    "source": "manual",
+    "page": 118,
+    "type": "outdated",
+    "description": "Referencia a la Ley 2148 (obligatoriedad de paragolpes y guardabarros); verificar vigencia y numeración actual."
+  },
+  {
+    "source": "manual",
+    "page": 118,
+    "type": "ambiguous",
+    "description": "Cristales: \"Generalmente son laminados, aunque también pueden ser templados. Una de sus ventajas es que en caso de quebrarse, se producen pequeños pedazos...\"; no queda claro a cuál de los dos tipos se refiere la ventaja de romperse en pequeños pedazos."
+  },
+  {
+    "source": "manual",
+    "page": 121,
+    "type": "ambiguous",
+    "description": "La cuarta de enganche se presenta como \"elemento de seguridad recomendable\", pero el mismo texto aclara que no puede utilizarse dentro de CABA porque está prohibido que un vehículo particular remolque a otro."
+  },
+  {
+    "source": "manual",
+    "page": 124,
+    "type": "typo",
+    "description": "'debiendo acreditarse con una antigüedad mayor a un 1 año en la clase B' ('un' sobra)."
+  },
+  {
+    "source": "manual",
+    "page": 124,
+    "type": "outdated",
+    "description": "Referencias a verificar: capítulo 3.2 del Código de Tránsito y Transporte de CABA (requisitos de licencias profesionales) y el enlace https://www.buenosaires.gob.ar/tramites/ampliacion-de-licencia-de-conducir."
+  },
+  {
+    "source": "manual",
+    "page": 125,
+    "type": "extraction",
+    "description": "El contenido de la infografía 'Tipo de Servicio' (urbano/interurbano; corta <30 km, media 30–100 km, media-larga 100–200 km, larga >200 km; LINTI) es una imagen raster y no aparece en manual.txt. Se transcribió desde el render de 70 ppp, legible pero con letra pequeña. Referencia: https://www.argentina.gob.ar/seguridadvial/linti."
+  },
+  {
+    "source": "manual",
+    "page": 126,
+    "type": "discrepancy",
+    "description": "Frecuencia de revisión de frenos distinta entre anexos: el anexo II recomienda 'Realizar la revisión de los frenos cada 6 meses como mínimo en vehículos con uso frecuente', mientras que el anexo I (PDF 107) dice 'al menos, una vez al año'. Además, el anexo II omite las cifras del anexo I: líquido de frenos cada dos años o 50.000 km, pastillas cada 25.000 km, discos cada cuatro cambios de pastillas. Agrega 'o de presión de aire' (frenos neumáticos). No menciona el ABS."
+  },
+  {
+    "source": "manual",
+    "page": 126,
+    "type": "ambiguous",
+    "description": "La infografía de seguridad activa incluye 'Luces', pero el anexo II no tiene una sección sobre luces (el anexo I tampoco la desarrolla como elemento de seguridad activa en texto)."
+  },
+  {
+    "source": "manual",
+    "page": 127,
+    "type": "discrepancy",
+    "description": "Neumáticos: el anexo II afirma que soportan 'una carga de hasta 50 veces su propio peso'; el anexo I (PDF 107) no da esta cifra."
+  },
+  {
+    "source": "manual",
+    "page": 127,
+    "type": "ambiguous",
+    "description": "La infografía 'Fecha de Fabricación' interpreta el código 'SEMANA 17 / AÑO 16' como 'la tercera semana de abril 2016'. La semana 17 del año suele caer a fines de abril, no en la tercera semana; el ejemplo puede inducir a error. El mismo texto figura en el anexo I (PDF 108)."
+  },
+  {
+    "source": "manual",
+    "page": 128,
+    "type": "discrepancy",
+    "description": "Profundidad del dibujo: el anexo II agrega que 'En el caso de vehículos de gran porte con una profundidad de 2 mm. es recomendable su cambio' (además del mínimo de 1,6 mm). El anexo I (PDF 108) solo da 1,6 mm. Es una diferencia por tipo de vehículo, no una contradicción."
+  },
+  {
+    "source": "manual",
+    "page": 128,
+    "type": "discrepancy",
+    "description": "Neumáticos recapados: la prohibición de neumáticos reconstruidos en los ejes delanteros de camiones y ómnibus de media y larga distancia (art. 4.1.2 inc. d.9 del Código de Tránsito y Transporte de CABA) no figura en el anexo I. Reaparece en el anexo III (PDF 172)."
+  },
+  {
+    "source": "manual",
+    "page": 129,
+    "type": "discrepancy",
+    "description": "Espejos: el anexo II agrega que en vehículos de gran porte se pierden aproximadamente 3 metros de visión delantera y que el espejo interno no refleja la parte trasera del vehículo. Omite lo que dice el anexo I (PDF 109–110) sobre los tres espejos (izquierdo, central y derecho) y que 'todos los espejos trabajan en conjunto'. Tampoco incluye la sección 'Bocina' del anexo I (90 dB frente al límite aceptable de 65 dB)."
+  },
+  {
+    "source": "manual",
+    "page": 130,
+    "type": "ambiguous",
+    "description": "La regla 'Sólo debe reflejarse como máximo el 10% de la parte trasera del vehículo' se ilustra con un espejo lateral de automóvil (fotos idénticas al anexo I). Su aplicación a vehículos de gran porte no se aclara, más aún cuando PDF 129 dice que en estos el espejo interno no refleja la parte trasera."
+  },
+  {
+    "source": "manual",
+    "page": 131,
+    "type": "discrepancy",
+    "description": "Cinturón de seguridad: el anexo II dice que tipo y ubicación varían según la cantidad de personas, el tipo de vehículo y la actividad (Anexo C del Decreto 779/95) y que quienes conducen 'son responsables de su uso'. El anexo I (PDF 111) es más explícito: es obligatorio poseer y usar cinturones normalizados, quien conduce es responsable de que todos los ocupantes lo usen, en un auto viajan tantas personas como plazas con cinturón haya, y se usa siempre, incluso en trayectos cortos. Tampoco aparece en el anexo II el reemplazo de los elementos del cinturón tras una colisión violenta."
+  },
+  {
+    "source": "manual",
+    "page": 132,
+    "type": "discrepancy",
+    "description": "Apoyacabeza: el anexo I (PDF 113) afirma 'La Ley establece que su uso es obligatorio para todas las personas ocupantes del vehículo'; el anexo II omite esa frase. El resto del contenido y la infografía son iguales."
+  },
+  {
+    "source": "manual",
+    "page": 133,
+    "type": "discrepancy",
+    "description": "Cristales: el anexo II dice 'Dependiendo de su ubicación y finalidad, son templados o laminados'; el anexo I (PDF 118) dice 'Generalmente son laminados, aunque también pueden ser templados' y agrega el requisito legal de visibilidad/tonalidad ('se deben distinguir a las personas que ocupan el vehículo a corta distancia'), ausente en el anexo II."
+  },
+  {
+    "source": "manual",
+    "page": 134,
+    "type": "discrepancy",
+    "description": "El anexo II no incluye secciones del anexo I sobre SRI/sillitas infantiles (PDF 114–116), equipaje (PDF 119), tipos de airbag (PDF 114) ni controles previos con lista (PDF 106). Para menores usa reglas propias: en escolares no pueden ir adelante los menores de 12 años (PDF 143) y en colectivos no pueden ocupar los primeros asientos (PDF 142)."
+  },
+  {
+    "source": "manual",
+    "page": 135,
+    "type": "discrepancy",
+    "description": "Matafuegos: el anexo I (PDF 120) exige 'un matafuego de 1 kg. del tipo ABC' (A sólidos, B líquidos, C eléctrico). El anexo II dice que la capacidad y la clase dependen del tipo de vehículo, sin cifras; agrega la obligación de la carga periódica; y exceptúa de ubicarlo dentro del habitáculo, al alcance de quien conduce, a 'aquellos cuya capacidad sea mayor a 1 Kg'. El soporte debe no representar riesgo para 'las personas que viajan' (anexo I: 'quien conduce o su acompañante')."
+  },
+  {
+    "source": "manual",
+    "page": 135,
+    "type": "ambiguous",
+    "description": "Matafuegos: 'exceptuando de esta obligación a aquellos cuya capacidad sea mayor a 1 Kg' no aclara dónde deben ubicarse los matafuegos de más de 1 kg. Errata: 'debe dirigirsea la base del fuego' (falta un espacio)."
+  },
+  {
+    "source": "manual",
+    "page": 136,
+    "type": "discrepancy",
+    "description": "Botiquín: el anexo II indica que su portación es obligatoria en transporte de escolares y de personas con movilidad reducida (caps. 8 y 10 del Código de Tránsito y Transporte); el anexo I (PDF 121) lo presenta solo como recomendable. El contenido listado es idéntico."
+  },
+  {
+    "source": "manual",
+    "page": 139,
+    "type": "extraction",
+    "description": "La infografía de postura corporal (brazos, piernas, cabeza y espalda, asiento: altura de al menos 30 cm del suelo) solo está en la imagen; manual.txt no la contiene. Ocurre lo mismo con los recuadros de curvas y pendientes (PDF 145–146), la tabla de autopistas (PDF 149) y el mapa de hospitales (PDF 150)."
+  },
+  {
+    "source": "manual",
+    "page": 139,
+    "type": "ambiguous",
+    "description": "Infografía de postura: 'La cadera debería poder quedar por debajo de la articulación de las rodillas' es una indicación poco clara y conviene verificarla con la fuente original antes de usarla como pregunta evaluable."
+  },
+  {
+    "source": "manual",
+    "page": 141,
+    "type": "typo",
+    "description": "Erratas: 'en el caso de que alquien quiera viajar' (alguien); 'dificultades para ascender y/o descender y del vehículo' (sobra 'y')."
+  },
+  {
+    "source": "manual",
+    "page": 141,
+    "type": "outdated",
+    "description": "Referencias legales a verificar: capítulo 12 del Código de Tránsito y Transporte de CABA (taxis) y Ley 2148, art. 5.2.4 inc. d) (prohibición de transportar animales sueltos)."
+  },
+  {
+    "source": "manual",
+    "page": 142,
+    "type": "outdated",
+    "description": "Referencias y datos a verificar: capítulo 9 del Código de Tránsito y Transporte (colectivos). Detenciones fuera de parada de 22.00 a 6.00 h, 2 asientos reservados, menores de 12 sin acceso a los primeros asientos, menores de 2 años sin pasaje y descuentos vía SUBE registrada: dependen de normativa tarifaria y operativa que puede cambiar."
+  },
+  {
+    "source": "manual",
+    "page": 143,
+    "type": "typo",
+    "description": "Notas al pie 10 y 11: 'la normativa que debe conocer quien conduce de este tipo de vehículos' (sobra 'de'). Referencias: capítulos 8 (escolares) y 10 (movilidad reducida) del Código de Tránsito y Transporte de CABA."
+  },
+  {
+    "source": "manual",
+    "page": 149,
+    "type": "ambiguous",
+    "description": "Paseo del Bajo: 'todo tipo de vehículo que no estuviere permitido en el punto 1 del presente inciso' reproduce una remisión de la norma original; en el manual no hay 'punto 1' ni 'inciso'. Tampoco se explica qué es AUSA."
+  },
+  {
+    "source": "manual",
+    "page": 149,
+    "type": "discrepancy",
+    "description": "La definición de Paseo del Bajo del glosario (PDF 9) habla de 'circulación exclusiva y obligatoria para Tránsito Pesado y Ómnibus de Transporte de Pasajeros de Larga Distancia', sin precisar las condiciones del anexo II: camiones y acoplados de 12 t o más, ómnibus con más de 19 asientos habilitados para turismo y velocidad máxima de 60 km/h. No es una contradicción, pero el glosario está incompleto. El contenido se repite en el anexo III (PDF 168–169)."
+  },
+  {
+    "source": "manual",
+    "page": 149,
+    "type": "outdated",
+    "description": "Enlace citado a verificar: https://buenosaires.gob.ar/desarrollo-urbano-y-transporte/noticias/como-sera-la-circulacion-para-el-transito-pesado-y (es una noticia de la etapa de implementación del Paseo del Bajo)."
+  },
+  {
+    "source": "manual",
+    "page": 150,
+    "type": "illegible",
+    "description": "Mapa de hospitales: en el render de 70 ppp aparece una etiqueta 'H 1' tanto en Flores (Álvarez, que en la leyenda es H1) como en la zona de Parque Patricios (donde estaría J. M. Penna, que en la leyenda es solo 'H'). Puede ser un error de rotulado del mapa; conviene verificarlo en mayor resolución. Los barrios asignados a cada hospital se infirieron por la posición en el mapa."
+  },
+  {
+    "source": "manual",
+    "page": 153,
+    "type": "typo",
+    "description": "'acreditar una antigüedad mayor a un 1 año en la clase B' (sobra 'un'); 'casas rodantes motorizadas de más 3.500 kg' (falta 'de')."
+  },
+  {
+    "source": "manual",
+    "page": 154,
+    "type": "discrepancy",
+    "description": "Las definiciones de camión rígido y camión tractor (Decreto 32/2018) admiten categoría N1 (≤ 3.500 kg), mientras que la definición general de 'Camión' (Anexo I Ley 2148, pág. PDF 153) exige más de 3.500 kg de peso total."
+  },
+  {
+    "source": "manual",
+    "page": 154,
+    "type": "outdated",
+    "description": "Referencias externas a verificar vigencia: Decreto N° 32/2018 (Anexo A), RUTA y https://www.argentina.gob.ar/seguridadvial/linti."
+  },
+  {
+    "source": "manual",
+    "page": 158,
+    "type": "extraction",
+    "description": "La infografía de ubicación de la carga (correcta/incorrecta) no tiene rótulos por fila; su interpretación es solo visual."
+  },
+  {
+    "source": "manual",
+    "page": 161,
+    "type": "extraction",
+    "description": "Los rótulos de postura corporal (Brazos, Cabeza y espalda, Piernas, El asiento; asiento a ≥ 30 cm del suelo) están solo en la imagen y no en el texto extraído."
+  },
+  {
+    "source": "manual",
+    "page": 161,
+    "type": "ambiguous",
+    "description": "El recuadro 'Piernas' indica que 'la cadera debería poder quedar por debajo de la articulación de las rodillas'; el sentido es dudoso y podría ser una errata (habitualmente se recomienda lo contrario). Se transcribió tal cual."
+  },
+  {
+    "source": "manual",
+    "page": 163,
+    "type": "extraction",
+    "description": "Los recuadros 'Curva' y 'Pendiente ascendente' solo están en la imagen; el texto extraído los omite."
+  },
+  {
+    "source": "manual",
+    "page": 164,
+    "type": "extraction",
+    "description": "El recuadro 'Pendiente descendente' solo está en la imagen; el texto extraído lo omite."
+  },
+  {
+    "source": "manual",
+    "page": 165,
+    "type": "extraction",
+    "description": "Los rótulos '1,5 metros de distancia' y 'Para realizar la maniobra, poner la luz de giro.' están solo en la ilustración."
+  },
+  {
+    "source": "manual",
+    "page": 166,
+    "type": "ambiguous",
+    "description": "Para carga y descarga se remite a 'los lugares y horarios que establecen las normas de estacionamiento' sin indicar franjas horarias; la nota 5 cita el art. 7.1.17 'Estacionamiento Carga y Descarga en Obras', que es específico de obras. El anexo III no contiene horarios concretos de carga y descarga."
+  },
+  {
+    "source": "manual",
+    "page": 168,
+    "type": "outdated",
+    "description": "Datos de la red de tránsito pesado (205 km, 95 calles, 39 barrios, Comuna 4 35,5 km, Barracas 20,9 km, Juan B. Justo 12,0 km) y Ley 6401 de 2020: verificar vigencia. URLs: https://buenosaires.gob.ar/movilidad/gerencia-operativa-de-logistica-urbana/normativa-general/red-de-transito-pesado ; https://buenosaires.gob.ar/desarrollo-urbano-y-transporte/noticias/como-sera-la-circulacion-para-el-transito-pesado-y ; http://www2.cedom.gob.ar/es/legislacion/normas/leyes/anexos/al2148Ie.html#d1"
+  },
+  {
+    "source": "manual",
+    "page": 168,
+    "type": "discrepancy",
+    "description": "La red de tránsito pesado se define para peso total bruto 'superior a 12 toneladas', mientras que el Paseo del Bajo (puntos 1, 8 y 9) habla de peso individual 'igual o mayor a 12 toneladas'."
+  },
+  {
+    "source": "manual",
+    "page": 168,
+    "type": "discrepancy",
+    "description": "La lista del Paseo del Bajo del anexo III tiene 9 puntos; la versión del anexo II (pág. PDF 149) solo incluye 5 (omite vehículos de emergencia/acompañamiento, sustancias peligrosas, cargas excepcionales y el permiso para el área del Bajo). El punto 2 dice 'punto anterior' en anexo III y 'punto 1 del presente inciso' en anexo II."
+  },
+  {
+    "source": "manual",
+    "page": 174,
+    "type": "discrepancy",
+    "description": "La pág. PDF 173 afirma que en un camión 'no existe espejo retrovisor interno', pero la pág. PDF 174 (paso 1) dice que 'el espejo retrovisor interno no refleja la parte trasera del vehículo', presuponiendo que existe."
+  },
+  {
+    "source": "manual",
+    "page": 178,
+    "type": "outdated",
+    "description": "Se afirma que el airbag 'no es obligatorio'; conviene verificar contra la normativa vigente."
+  },
+  {
+    "source": "manual",
+    "page": 179,
+    "type": "extraction",
+    "description": "Las cifras de la infografía de impacto a 50 km/h (2,2 kg→85 kg; 4 kg→158 kg; 110 g→3,9 kg; 560 g→23 kg) solo están en la imagen."
+  },
+  {
+    "source": "manual",
+    "page": 182,
+    "type": "extraction",
+    "description": "La tabla 'Autopistas' (9 filas con recorrido desde/hasta) es una imagen; el texto extraído solo contiene el título 'Autopistas'."
+  },
+  {
+    "source": "manual",
+    "page": 184,
+    "type": "extraction",
+    "description": "En todo el anexo IV (PDF 185–197) los rótulos de las señales y los textos explicativos (incluido el significado de las luces del semáforo en la página 197) están solo en las imágenes; manual.txt contiene únicamente los títulos de sección. Todo se transcribió desde las imágenes."
+  },
+  {
+    "source": "manual",
+    "page": 184,
+    "type": "ambiguous",
+    "description": "La página 3 lista el Anexo IV (Señales viales) como material de las categorías B, D y C/E, así que es común a todas. Siguiendo la convención indicada, se marcó category 'B'."
+  },
+  {
+    "source": "manual",
+    "page": 185,
+    "type": "illegible",
+    "description": "Las placas 'Playa de acarreo' de las señales NO ESTACIONAR (Acarreo de infractores) en la página 185, y las placas de tarifa de estacionamiento ordenado en la página 189, traen dirección y teléfono en letra muy pequeña (Av. Juan B. Justo 5500; teléfono que parece (011) 4700 8000). No se leen con seguridad, ni siquiera ampliadas."
+  },
+  {
+    "source": "manual",
+    "page": 186,
+    "type": "illegible",
+    "description": "El dibujo de la señal 'BARRERAS FERROVIARIAS' (De prioridad) está incompleto en el PDF: solo se ven fragmentos (pequeña unidad de luces, línea discontinua roja y blanca y una barra negra). Se comprobó con pdftoppm y pdftocairo a 200 ppp."
+  },
+  {
+    "source": "manual",
+    "page": 187,
+    "type": "typo",
+    "description": "Dos señales distintas comparten el rótulo 'ENCRUCIJADA (Bifurcación)': la Y y la T. La T probablemente corresponda a otro tipo de encrucijada (empalme en T); conviene verificarlo."
+  },
+  {
+    "source": "manual",
+    "page": 188,
+    "type": "ambiguous",
+    "description": "Los tipos de señales de la página 61 no coinciden del todo con los subtítulos del anexo IV. En preventivas, la página 61 dice 'Dispositivos de control de tránsito' y el anexo, 'Anticipo de otros dispositivos de control del tránsito'; el anexo agrega además 'Fin de prevención'. En informativas, la página 61 lista 'Destinos y distancias' e 'Informaciones Institucionales', que en el anexo no tienen subtítulo propio. En transitorias, la página 61 lista 'Carteles de prevención; Carteles de información; Vallas; Otros dispositivos' y el anexo usa 'Viales; Peatonales y de ciclovías; Otros dispositivos'."
+  },
+  {
+    "source": "manual",
+    "page": 189,
+    "type": "ambiguous",
+    "description": "El anexo no explica la diferencia entre las señales de 'ESTACIONAMIENTO ORDENADO' con reloj verde y con reloj naranja (página 189), ni el significado de 'PREFERENCIA DE AVANCE' (página 186). Solo se dan los rótulos."
+  },
+  {
+    "source": "manual",
+    "page": 192,
+    "type": "discrepancy",
+    "description": "El texto dice que cada estrella lleva 'el nombre de pila o apodo y edad de la víctima', pero el ejemplo dibujado en la página 191 muestra 'JUAN 02/02/2011' (una fecha, no una edad)."
+  },
+  {
+    "source": "manual",
+    "page": 192,
+    "type": "outdated",
+    "description": "La página 192 remite a un correo y a un sitio externo cuya vigencia conviene verificar: estrellasamarillas@buenosaires.gob.ar y https://buenosaires.gob.ar/informes-estadisticos-y-mapas/mapa-de-estrellas-amarillas-en-la-ciudad (en el PDF la URL está partida en dos líneas)."
+  },
+  {
+    "source": "manual",
+    "page": 192,
+    "type": "typo",
+    "description": "'ONG 'S' (con apóstrofo y espacio) en lugar de 'ONG'."
+  },
+  {
+    "source": "manual",
+    "page": 194,
+    "type": "typo",
+    "description": "El rótulo dice 'ACÉRQUESE A LA PARADA MÁS CERCANA', pero la leyenda de la señal dice 'Acérquese a la parada más próxima'."
+  },
+  {
+    "source": "manual",
+    "page": 196,
+    "type": "discrepancy",
+    "description": "Cordones amarillos: la página 196 dice 'Amarillo: prohibición de estacionar, pudiendo detenerse', mientras que la página 60 dice 'Color amarillo: indican la prohibición de estacionar durante las 24 horas'. La página 60 menciona además cordones anaranjados (estacionamiento exclusivo de ciclorodados y motovehículos), que no figuran en el anexo."
+  },
+  {
+    "source": "manual",
+    "page": 199,
+    "type": "extraction",
+    "description": "Las páginas PDF 199 y 200 tienen en la capa de texto los números '198' y '199', pero esos números no son visibles en la imagen (ilustración decorativa y contratapa). Se dejó printedPage = null."
+  },
+  {
+    "source": "siniestros",
+    "page": 2,
+    "type": "discrepancy",
+    "description": "El índice titula la sección 03 '¿Qué hacer ante un siniestro vial?' (igual que la 01), pero en el cuerpo (pp. 16-17) la sección se titula '¿Cuáles son los pasos posteriores al siniestro?'."
+  },
+  {
+    "source": "siniestros",
+    "page": 2,
+    "type": "discrepancy",
+    "description": "El índice titula 03-a 'Información general', pero en el cuerpo (p. 17) es 'Orientación Jurídica'. Además, 01-a dice 'más incidentes' en el índice y 'nuevos incidentes' en el cuerpo (p. 8), y 01-c dice 'Datos a recabar' en el índice y 'Datos a recolectar' en el cuerpo (p. 11)."
+  },
+  {
+    "source": "siniestros",
+    "page": 2,
+    "type": "extraction",
+    "description": "En la capa de texto del índice, los números de página de 03-b (XVII) y 03-c (XXII) quedan intercalados con los viñetas de los subtemas ('XXIIOrganismos...')."
+  },
+  {
+    "source": "siniestros",
+    "page": 3,
+    "type": "outdated",
+    "description": "Las autoridades listadas (Jefe de Gobierno Horacio Rodríguez Larreta, etc.) corresponden a una gestión anterior. La guía parece de 2018-2019 y puede estar desactualizada."
+  },
+  {
+    "source": "siniestros",
+    "page": 8,
+    "type": "ambiguous",
+    "description": "La regla 'un metro por cada kilómetro de máxima permitida' (avenida 60 km/h → 60 m) se combina con 'distancia máxima de 90 mts', sin aclarar dónde va la baliza más cercana. El diagrama muestra 30 m y 60 m."
+  },
+  {
+    "source": "siniestros",
+    "page": 19,
+    "type": "typo",
+    "description": "El superíndice de nota 1 aparece en 'tres¹ años' (plazo de la demanda civil) y en 'Buenos Aires¹'. La nota 1 (p. 21) trata sobre la transferencia de delitos a la Ciudad y no tiene relación con el plazo civil, así que el primer llamado parece erróneo."
+  },
+  {
+    "source": "siniestros",
+    "page": 21,
+    "type": "outdated",
+    "description": "Nota 1: la transferencia de las lesiones en tránsito (art. 94 bis CP) desde el 1/3/2018 'será operativa entre septiembre y octubre de 2018'. Está redactado en futuro y desactualizado."
+  },
+  {
+    "source": "siniestros",
+    "page": 21,
+    "type": "ambiguous",
+    "description": "La querella se describe 'en el fuero de la Ciudad Autónoma de Buenos Aires', pero la nota 2 cita el art. 83 del Código Procesal Penal de la Nación, no el código procesal de CABA."
+  },
+  {
+    "source": "siniestros",
+    "page": 22,
+    "type": "outdated",
+    "description": "Las URLs de OFAVYT (guiajudicial.jusbaires.gob.ar/...) y del Centro de Formación Profesional (jus.gob.ar/...aspx) parecen antiguas y pueden no funcionar."
+  }
+]

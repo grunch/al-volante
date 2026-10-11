@@ -47,7 +47,7 @@ Referencias como «protocolo PDF n» indican archivo y página física. Las cifr
 El usuario inició la fase 1 el 2026-10-11. El problema anterior de `.git` quedó resuelto: el directorio ya no tenía `.git`, se inicializó git y se conectó a `grunch/al-volante`, el repo público que eligió el usuario. Las tareas siguen el orden del plan:
 
 1. F01-T01: repositorio, documentación versionada, plantilla de PR, registro de ejecución y flujo de revisión (CodeRabbit App + `@codex review`).
-2. F01-T02: `specs/COBERTURA.md` y catálogo de unidades del manual y la guía, con estado: pendiente / transcrita / revisada / implementada / probada.
+2. F01-T02 (PR #2): `specs/COBERTURA.md` y `specs/catalog/` con 224 páginas, 705 unidades, 355 señales y 206 observaciones, todas en estado `transcrita`. Antes de crear contenido en F05 hay que resolver las discrepancias listadas en COBERTURA (alcohol, cordón amarillo, 107/911, balizas, SRI, etc.).
 3. F01-T03: `specs/REGLAS.md` con la ficha y el anexo completos, políticas de repetición e interrupción, parámetros del teórico y discrepancias.
 4. F01-T04: `specs/RECORRIDO.md` y datos cartográficos con geometría, fuentes, sentidos, cruces, evidencias y resolución de Cuba–Quesada–Cuba. Usar cartografía abierta con atribución; no inferir la señalización actual del mapa esquemático.
 5. Cerrar la fase 1 con evidencia y esperar la indicación manual para la fase 2.

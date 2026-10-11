@@ -30,7 +30,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | Tarea | Rama | Base | Depende de | PR | Último commit | Estado |
 |---|---|---|---|---|---|---|
 | F01-T01 | `f01-t01-repositorio` | `main` | — | [#1](https://github.com/grunch/al-volante/pull/1) | ver PR | en revisión |
-| F01-T02 | — | — | T01 | — | — | pendiente |
+| F01-T02 | `f01-t02-cobertura` | `f01-t01-repositorio` | T01 (#1) | #2 | ver PR | en revisión (etapa A) |
 | F01-T03 | — | — | T02 | — | — | pendiente |
 | F01-T04 | — | — | T03 | — | — | pendiente |
 
@@ -49,6 +49,14 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Incidente: la primera versión del PR versionó rutas del sistema de archivos local del usuario. El usuario lo señaló. Se eliminaron de todos los archivos y el commit de la rama se reescribió (`--force-with-lease`).
 - Checks: no hay checks configurados.
 
+### F01-T02 — Auditoría del manual y la guía (`COBERTURA.md` y catálogo)
+
+- Alcance: clasificar cada página del manual (200) y de la guía de siniestros (24), y catalogar unidades, señales y observaciones con su página. Entregables: `specs/COBERTURA.md`, `specs/catalog/{pages,units,signs,issues}.json` y el validador `scripts/check-catalog.mjs` con su prueba.
+- Resultado: 224 páginas, 705 unidades, 355 señales y 206 observaciones. Validador OK; 7/7 pruebas.
+- Método: nueve subagentes de extracción por tramos de páginas (texto + imagen), con integración y muestreo del autor (PDF 61, 72, 91 y 185 sin diferencias). Estado del contenido: `transcrita`.
+- Autorrevisión: estructura validada; sin rutas locales en el catálogo; conteos de COBERTURA recalculados desde los datos; corregido un issue duplicado y dos imprecisiones del borrador.
+- CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
+
 ## Pila y orden de fusión
 
 `main ← F01-T01 (#1) ← F01-T02 ← F01-T03 ← F01-T04` (T02–T04 se crean en la etapa A). Fusionar en ese orden en la etapa B.
@@ -59,7 +67,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa A: crear F01-T02 apilado sobre `f01-t01-repositorio`, después T03 y T04, sin esperar revisiones. Luego, etapa B con el usuario: findings de #1 (re-revisión de CodeRabbit pendiente), T02, T03 y T04, y fusión en orden.
+Etapa A: F01-T02 creado (#2). Siguen T03 apilado sobre `f01-t02-cobertura` y después T04, sin esperar revisiones. Luego, etapa B con el usuario: findings de #1 (re-revisión de CodeRabbit pendiente), T02, T03 y T04, y fusión en orden.
 
 ## Decisiones que no deben reinterpretarse
 
