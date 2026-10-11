@@ -6,7 +6,13 @@ import { project, validateRoute } from './check-route.mjs';
 const projection = { originLat: -34.55, originLon: -58.46, metersPerDegLon: 91700, metersPerDegLat: 110540 };
 
 function point(osmNode, x, y) {
-  return { osmNode, x, y, lat: projection.originLat + y / projection.metersPerDegLat, lon: projection.originLon + x / projection.metersPerDegLon };
+  return {
+    osmNode,
+    x,
+    y,
+    lat: projection.originLat + y / projection.metersPerDegLat,
+    lon: projection.originLon + x / projection.metersPerDegLon,
+  };
 }
 
 function buildRoute() {
@@ -17,14 +23,45 @@ function buildRoute() {
     loopLengthM: 400,
     start: { status: 'aproximacion' },
     legs: [
-      { leg: 1, street: 'Uno', officialSteps: [3, 1], status: 'fuente-unica', roadType: 'calle', examMaxKmh: 30, lengthM: 200,
-        turnIntoNext: { direction: 'left', angleDeg: 90 }, path: [point(1, 0, 0), point(2, 100, 0), point(3, 100, 100)],
-        cycleTrack: 'partial', segments: [{ osmWay: 10, fromIndex: 0, toIndex: 1, cycleTrackLeft: true }, { osmWay: 11, fromIndex: 1, toIndex: 2, cycleTrackLeft: false }] },
-      { leg: 2, street: 'Avenida Dos', officialSteps: [2], status: 'fuente-unica', roadType: 'avenida', examMaxKmh: 45, lengthM: 200,
-        turnIntoNext: { direction: 'left', angleDeg: 90 }, path: [point(3, 100, 100), point(4, 0, 100), point(1, 0, 0)],
-        cycleTrack: 'none', segments: [{ osmWay: 20, fromIndex: 0, toIndex: 2, cycleTrackLeft: false }] },
+      {
+        leg: 1,
+        street: 'Uno',
+        officialSteps: [3, 1],
+        status: 'fuente-unica',
+        roadType: 'calle',
+        examMaxKmh: 30,
+        lengthM: 200,
+        turnIntoNext: { direction: 'left', angleDeg: 90 },
+        path: [point(1, 0, 0), point(2, 100, 0), point(3, 100, 100)],
+        cycleTrack: 'partial',
+        segments: [
+          { osmWay: 10, fromIndex: 0, toIndex: 1, cycleTrackLeft: true },
+          { osmWay: 11, fromIndex: 1, toIndex: 2, cycleTrackLeft: false },
+        ],
+      },
+      {
+        leg: 2,
+        street: 'Avenida Dos',
+        officialSteps: [2],
+        status: 'fuente-unica',
+        roadType: 'avenida',
+        examMaxKmh: 45,
+        lengthM: 200,
+        turnIntoNext: { direction: 'left', angleDeg: 90 },
+        path: [point(3, 100, 100), point(4, 0, 100), point(1, 0, 0)],
+        cycleTrack: 'none',
+        segments: [{ osmWay: 20, fromIndex: 0, toIndex: 2, cycleTrackLeft: false }],
+      },
     ],
-    controls: [{ legs: [2], type: 'traffic_signals', status: 'verificado-fuentes', sources: ['osm', 'gcba'], ...point(4, 0, 100) }],
+    controls: [
+      {
+        legs: [2],
+        type: 'traffic_signals',
+        status: 'verificado-fuentes',
+        sources: ['osm', 'gcba'],
+        ...point(4, 0, 100),
+      },
+    ],
   };
 }
 

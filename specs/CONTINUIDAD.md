@@ -1,6 +1,6 @@
 # Continuidad del proyecto
 
-Actualizado: 2026-10-11. Estado: fase 1 en curso. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`.
+Actualizado: 2026-10-11. Estado: fase 1 cerrada; fase 2 en curso. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
 ## Pedido y alcance de esta etapa
 
@@ -55,6 +55,10 @@ El usuario inició la fase 1 el 2026-10-11. El problema anterior de `.git` qued�
 **Modo de trabajo indicado por el usuario (2026-10-11):** al iniciarse una fase se crean todos sus PRs, uno por uno y apilados, sin esperar revisiones (etapa A). Después se revisan con el usuario los findings de Codex y CodeRabbit PR por PR y se fusiona en orden (etapa B). Detalle en `PLAN_IMPLEMENTACION.md` §1–§3. En la fase 1, PR #1 ya recibió revisiones y correcciones antes de este cambio; T02–T04 se crean apilados sobre `f01-t01-repositorio`.
 
 Actualizar este archivo y `ESTADO_IMPLEMENTACION.md` en cada hito.
+
+## Fase 2 en curso
+
+Iniciada por el usuario el 2026-10-11, con la fase 1 fusionada. Tareas en orden: T01 base web y CI; T02 esquemas y carga de catálogos; T03 navegación, biblioteca y mapa de aprendizaje; T04 motor de actividades con muestra; T05 progreso, bitácora, repaso espaciado y respaldo. Decisiones técnicas en `ARQUITECTURA.md`: versiones exactas con al menos dos semanas de publicadas, TypeScript 6.0 (no 7, por `typescript-eslint`), Three.js sin capa React y escena cargada en forma diferida.
 
 ## Validación prevista
 

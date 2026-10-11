@@ -6,82 +6,50 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 ## Fase activa
 
-- **Fase 1 — Fuentes, cobertura y recorrido verificado: en curso.**
-- Mensaje de inicio (2026-10-11): «lee todos los documentos y comienza la implementacion de la primera fase».
-- Fases 2–7: no iniciadas. Cada una requiere indicación manual del usuario.
+- **Fase 2 — Base web, datos y aprendizaje inicial: en curso, etapa A (creación de PRs).**
+- Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
+- Fases 3–7: no iniciadas. Cada una requiere indicación manual del usuario.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
-- **Etapa actual de la fase 1: B (revisión de findings con el usuario).** La etapa A terminó con #2, #3 y #4 creados; #1 ya está fusionado.
 
 ## Repositorio y revisión
 
 | Dato | Valor |
 |---|---|
-| Remoto | `git@github.com:grunch/al-volante.git` (https://github.com/grunch/al-volante), público. El usuario confirmó publicar las fuentes de `specs/fuentes/` (PDF, textos y láminas). No versionar rutas del sistema de archivos local. |
+| Remoto | `git@github.com:grunch/al-volante.git` (https://github.com/grunch/al-volante), público. No versionar rutas del sistema de archivos local. |
 | Rama principal | `main` |
-| Commit base | `ac56c2f` «chore: initialize repository», único commit directo en `main`: un repositorio vacío no admite PRs. Solo contiene `README.md` y `.gitignore`. |
-| CodeRabbit | GitHub App elegida por el usuario, plan Advanced. Configuración en `.coderabbit.yaml` (revisa también PRs apilados). Cupo incluido observado en PR #1: 1 revisión por hora. CLI local `coderabbit` 0.7.6 disponible como alternativa. |
-| Codex | Comentario `@codex review` en cada PR, según eligió el usuario. Guía de revisión en `AGENTS.md`. El primer pedido respondió que faltaba un entorno de Codex cloud; una vez creado, la revisión corrió. CLI local `codex-cli` 0.162.1 disponible como alternativa (su modelo por defecto es Astra; usar `-c model="gpt-6.1-sol"`). |
-| Protección de rama | No configurada. Sin checks obligatorios por ahora; la CI llega en F02-T01. |
+| CodeRabbit | GitHub App, plan Advanced. Configuración en `.coderabbit.yaml` (revisa también PRs apilados). Cupo incluido observado: 1 revisión por hora. CLI local `coderabbit` disponible como alternativa. |
+| Codex | Comentario `@codex review` en cada PR. Guía de revisión en `AGENTS.md`. CLI local `codex-cli` disponible como alternativa (usar `-c model="gpt-6.1-sol"`). |
+| CI | `.github/workflows/ci.yml` (desde F02-T01): lint, formato, tipos, pruebas con cobertura ≥ 80 %, validadores de catálogo, build y E2E con Playwright. |
+| Protección de rama | No configurada. Activar «CI» como check obligatorio de `main` es una decisión del usuario (requiere permisos de administración). |
 
 Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por tokens agotados`, `bloqueada por integración`.
 
-## Tareas de la fase 1
+## Fases cerradas
 
-| Tarea | Rama | Base | Depende de | PR | Último commit | Estado |
-|---|---|---|---|---|---|---|
-| F01-T01 | `f01-t01-repositorio` (borrada) | `main` | — | [#1](https://github.com/grunch/al-volante/pull/1) | `b96dcf6` | fusionado por el usuario (merge `12cf2a8`, 2026-10-11 18:59 UTC) |
-| F01-T02 | `f01-t02-cobertura` | `main` | T01 (#1, fusionado) | #2 | ver PR | en revisión (etapa A) |
-| F01-T03 | `f01-t03-reglas` | `f01-t02-cobertura` (#2) | T02 (#2) | #3 | ver PR | en revisión (etapa A) |
-| F01-T04 | `f01-t04-recorrido` | `f01-t03-reglas` (#3) | T03 (#3) | #4 | ver PR | en revisión (etapa A) |
+| Fase | PRs fusionados en `main` | Detalle |
+|---|---|---|
+| 1 — Fuentes, cobertura y recorrido | #1 (merge `12cf2a8`), #2 (`58cf109`), #3 (`f542d2f`), #4 (`0ff3e63`), #6 F01-T02-FIX01 (`9468184`). #5 (estrategia de modelos, del usuario) entró por la rama de #4 (`d804221`). | [historial/FASE-1.md](historial/FASE-1.md) |
 
-### F01-T01 — Repositorio, documentación y flujo de revisión
+## Tareas de la fase 2
 
-- Alcance: inicializar git con remoto, versionar propuesta, plan, continuidad, estrategia y fuentes (PDF originales, textos extraídos y láminas); plantilla de PR; este registro; `AGENTS.md`/`CLAUDE.md`; configuración de CodeRabbit.
-- Autorrevisión: completa antes del primer push; se corrigieron dos líneas de estado obsoletas. Repetida antes del push correctivo.
-- CodeRabbit: completada sobre `5c78875` (4 findings). Re-revisión sujeta al cupo horario.
-- Codex: completada sobre `5c78875` (2 findings: P1 manifiesto, P2 registro) y sobre `d8e5e84` (1 finding P2: citar la política de repetición de fallas).
-- Findings:
-  - Manifiesto con rutas locales no reproducibles (Codex P1, CodeRabbit Major): **corregido**. Los PDF se copiaron a `specs/fuentes/pdf/`, con hashes verificados, y el manifiesto usa rutas relativas.
-  - Registro desactualizado (Codex P2, CodeRabbit): **corregido** en este archivo.
-  - `CONTINUIDAD.md` sin citas en los hallazgos (CodeRabbit): **corregido**. Cada cifra cita archivo y página PDF, localizada en el texto o en la lámina; la verificación completa queda en T03.
-  - Política de repetición sin cita en PROPUESTA §5 (Codex P2 sobre `d8e5e84`): **corregido**. Se citan protocolo PDF 22–28 para faltas que cuentan una vez y faltas que se repiten.
-  - Cifras de F04-T05 sin cita (CodeRabbit): **corregido en parte**. Las fuentes ya están citadas en PROPUESTA §5 y se transcriben en `REGLAS.md` (T03), así que agregué en el plan una nota que remite a ellas y no dupliqué las citas fila por fila.
-- Incidente: la primera versión del PR versionó rutas del sistema de archivos local del usuario. El usuario lo señaló. Se eliminaron de todos los archivos y el commit de la rama se reescribió (`--force-with-lease`).
-- Checks: no hay checks configurados.
-- Cierre: el usuario fusionó #1 el 2026-10-11 con merge commit. La re-revisión de CodeRabbit sobre los últimos commits no llegó a completarse antes de la fusión.
+| Tarea | Rama | Base | Depende de | PR | Estado |
+|---|---|---|---|---|---|
+| F02-T01 | `f02-t01-base` | `main` | F01 (fusionada) | pendiente | en curso (etapa A) |
+| F02-T02 | — | — | T01 | — | pendiente |
+| F02-T03 | — | — | T02 | — | pendiente |
+| F02-T04 | — | — | T03 | — | pendiente |
+| F02-T05 | — | — | T04 | — | pendiente |
 
-### F01-T02 — Auditoría del manual y la guía (`COBERTURA.md` y catálogo)
+### F02-T01 — Base web: TypeScript, Vite, React, Three.js y CI
 
-- Alcance: clasificar cada página del manual (200) y de la guía de siniestros (24), y catalogar unidades, señales y observaciones con su página. Entregables: `specs/COBERTURA.md`, `specs/catalog/{pages,units,signs,issues}.json` y el validador `scripts/check-catalog.mjs` con su prueba.
-- Resultado: 224 páginas, 705 unidades, 355 señales y 206 observaciones. Validador OK. Última ejecución en esta rama, tras las correcciones de review: `node --test 'scripts/*.test.mjs'` → 11/11.
-- Método: nueve subagentes de extracción por tramos de páginas (texto + imagen), con integración y muestreo del autor contra `fuentes/pdf/manual.pdf` (PDF 61, 72, 91 y 185, sin diferencias). Estado del contenido: `transcrita`.
-- Autorrevisión: estructura validada; sin rutas locales en el catálogo; conteos de COBERTURA recalculados desde los datos; corregido un issue duplicado y dos imprecisiones del borrador.
-- CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
-
-### F01-T03 — Reglas del examen (`REGLAS.md`)
-
-- Alcance: transcribir el protocolo completo (etapas, fallas, excepciones, repetición e interrupción) y verificar los parámetros del teórico contra fuentes oficiales. Entregables: `specs/REGLAS.md`, `specs/catalog/rules.json` y el validador `scripts/check-rules.mjs` con su prueba.
-- Resultado: 69 reglas (25 leves, 10 def. bajas, 16 def. altas, 18 eliminatorias) mapeadas a las 80 filas de la ficha; 12 eliminatorias que interrumpen (a–k, q) y 5 escalamientos por doble comando. Discrepancias X1–X7, vacíos V1–V7 y decisiones D1–D4 documentados.
-- Fuentes oficiales verificadas el 2026-10-11: el protocolo, el manual, la guía y los recorridos que publica hoy el sitio coinciden por SHA-256 con el manifiesto. La edición GEDO de enero de 2023 tiene texto normativo idéntico. Teórico: 40 preguntas, 34 correctas; tiempo de 45 min (Disp. 860/2023 y página vigente) frente a 40 min (informe 2024); se adopta 45 configurable.
-- Autorrevisión: lectura completa del protocolo por columnas (anexo II) y por imagen (ficha y gráficos); cotejo de la ficha fila por fila; validadores OK. Última ejecución en esta rama, tras las correcciones de review: `node --test 'scripts/*.test.mjs'` → 21/21 (catálogo + reglas).
-- CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
-
-### F01-T04 — Recorrido A de Comuna 13 (`RECORRIDO.md` y datos)
-
-- Alcance: georreferenciar el recorrido A, resolver Cuba–Quesada–Cuba, verificar sentidos, cruces y señalización relevante, y registrar licencias. Entregables: `specs/RECORRIDO.md`, `specs/route/comuna13-a.{json,geojson}` con su README de licencias, y el validador `scripts/check-route.mjs` con su prueba.
-- Resultado: 8 tramos legales según OSM, 1507 m (proyección WGS84, verificada contra geodesia de Vincenty), giros coherentes con las láminas.
-  - Cuba está desplazada 66 m en Quesada: izquierda por Quesada y derecha para retomar Cuba.
-  - Semáforos contrastados con el GCBA: 4 coinciden y 1 discrepa (Cabildo y Guayra).
-  - Ciclovía bidireccional en Cuba y Quesada; Metrobús en Cabildo.
-  - Proyección métrica local documentada.
-- Hallazgo: el texto extraído de recorridos PDF 16 invierte A y B. La imagen y el protocolo confirman que A es la secuencia larga.
-- Aproximaciones declaradas: posición del cajón, ancho del cajón, PARE, máximas y carriles de fuente única (OSM). Ningún dato relevado en terreno.
-- Autorrevisión: ruteo y validador OK. Última ejecución en esta rama, tras las correcciones de review: `node --test 'scripts/*.test.mjs'` → 31/31; orientaciones y giros cotejados con las láminas; ediciones del protocolo comparadas.
-- CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
+- Alcance: inicializar la aplicación con versiones fijadas, estructura, escena Three.js visible, pruebas (unitarias y E2E) y CI. Arquitectura y comandos en [ARQUITECTURA.md](ARQUITECTURA.md); arranque en el README.
+- Resultado: shell accesible (salto al contenido, `lang="es-AR"`), escena del garaje con auto de práctica y cajón de 6 m, carga diferida de Three.js, estado de error sin WebGL y respeto de `prefers-reduced-motion`.
+- Verificación local: `npm run check` (lint, formato, tipos, 16 pruebas unitarias con cobertura 99 % de sentencias y 89 % de ramas, validadores de catálogo y build) y `npm run test:e2e` (6 pruebas: escritorio y móvil). Capturas revisadas en 1280×800 y Pixel 7.
+- CodeRabbit y Codex: se solicitan al abrir el PR.
 
 ## Pila y orden de fusión
 
-`main ← F01-T02 (#2) ← F01-T03 (#3) ← F01-T04 (#4)`. #1 ya está en `main`. T03 y T04 se crean en la etapa A; se fusionan en ese orden en la etapa B.
+`main ← F02-T01 ← F02-T02 ← F02-T03 ← F02-T04 ← F02-T05` (se crean en la etapa A; se fusionan en ese orden en la etapa B).
 
 ## Bloqueos
 
@@ -89,30 +57,10 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B en curso, iniciada por el usuario el 2026-10-11 («revisa los findings en los PRs abiertos, comienza por el #2, luego sigue #3 y #4»):
-
-- **#2:** el usuario lo fusionó (merge `58cf109`, 2026-10-11 19:39 UTC) con los findings de Codex y CodeRabbit resueltos. Los dos findings de la re-revisión de Codex que llegaron después están en el PR correctivo **#6 (F01-T02-FIX01)**, abierto contra `main` e independiente de #3 y #4.
-- **#3:** el usuario lo fusionó (merge `f542d2f`) con los findings de Codex resueltos, incluida la re-revisión.
-- **#4:** findings de Codex resueltos, incluida la re-revisión: subtramos, coordenadas y escalares finitos, giro geométrico, proyección WGS84 y documentos alineados. Apilado sobre #3.
-- **Falta:** revisiones de CodeRabbit en #4 y #6 (cupo de 1 por hora) y re-revisión de Codex del último commit de #4. Después, fusionar #4 y #6.
-- **#5** (estrategia de modelos, PR del usuario) se fusionó dentro de la rama de #4 (merge `d804221`), porque esa era su base, así que sus cambios entran a `main` con #4.
-
-La fase 1 se cierra solo con todo fusionado y sin ambigüedades críticas abiertas; después, esperar el inicio manual de la fase 2.
+Etapa A: abrir el PR de F02-T01 y seguir con F02-T02 apilado sobre `f02-t01-base`, sin esperar revisiones.
 
 ## Decisiones que no deben reinterpretarse
 
 - Repo destino, visibilidad pública y revisores fueron confirmados por el usuario el 2026-10-11; no volver a preguntar.
+- Versiones de dependencias: exactas y con al menos dos semanas de publicadas al elegirlas; TypeScript 6.0.x porque `typescript-eslint` no admite TypeScript 7 (ver ARQUITECTURA.md).
 - Ver también «Hallazgos que no deben perderse» en `CONTINUIDAD.md`.
-
-## Cambio documental — Asignación visual de Astra
-
-- Pedido del usuario: crear un PR que asigne GPT-6 Astra a las tareas visuales específicas.
-- PR: [#5](https://github.com/grunch/al-volante/pull/5), abierto; commit de asignaciones `5901294` (antes `d1cc0d2`, mismo contenido).
-- Rama: `docs/astra-threejs-tasks`; base: `f01-t04-recorrido` (#4). Orden de fusión: #2 (fusionado) → #3 → #4 → este PR documental. No inicia fases 3, 4, 6 o 7.
-- Rebase (2026-10-11): tras fusionarse #2, las ramas de #3 y #4 se reescribieron sobre `main` (y #4 de nuevo tras sus correcciones); la rama de #5 seguía apoyada en sus versiones previas y arrastraba sus commits al diff. Se trasladaron solo los dos commits propios sobre la base actual (`git rebase --onto`) sin conflictos de texto; `git range-diff` confirma contenido idéntico. Push con `--force-with-lease`.
-- Alcance: F03-T03, F04-T01 y F06-T03 tienen Astra como autor; F07-T01 lo usa condicionado a mediciones y problemas complejos de renderizado. Plan, estrategia, instrucciones y contexto quedan alineados.
-- Autorrevisión: diff documental completo y coherencia entre asignaciones comprobados antes de commit/push; formato y enlaces locales verificados. Repetida tras el rebase.
-- Codex: el primer pedido respondió que faltaba un entorno cloud; reintentado con `@codex review`, **completada sobre `d1cc0d2` sin findings** ([resultado](https://github.com/grunch/al-volante/pull/5#issuecomment-6112896334)). Los commits posteriores solo actualizan este registro.
-- CodeRabbit: revisión automática solicitada; la App informó límite OSS agotado ([respuesta](https://github.com/grunch/al-volante/pull/5#issuecomment-6112864475)). Estado: pendiente por cuota horaria; no hubo análisis ni findings. El check SUCCESS no demuestra revisión completada.
-- No se fusiona este PR hasta completar CodeRabbit (o registrar su excepción) y fusionar #3 y #4.
-- Siguiente acción de este cambio: reintentar CodeRabbit al renovar su cuota; revisar findings con el usuario en la etapa B, respetando los predecesores abiertos. El estado de las tareas de fase 1 se conserva.

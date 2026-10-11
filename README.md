@@ -2,13 +2,28 @@
 
 Juego web para preparar el examen teórico y práctico de licencia B/B.1 en CABA. Se conduce en 3D (Three.js) desde el interior del auto por el recorrido A de la Comuna 13, y una campaña de aprendizaje cubre el manual y el protocolo de examen.
 
-Estado: **en construcción.** La fase 1 (fuentes, cobertura y recorrido verificado) está en curso; todavía no hay aplicación ejecutable.
+Estado: **en construcción.** Fase 1 (fuentes, cobertura y recorrido verificado) cerrada; fase 2 (base web, datos y aprendizaje inicial) en curso.
+
+## Arranque
+
+Requisitos: Node.js 24.9 o superior (`.nvmrc`).
+
+```bash
+npm ci                 # instala las dependencias fijadas
+npm run dev            # servidor de desarrollo (http://localhost:5173)
+npm run check          # lint, formato, tipos, pruebas con cobertura, validadores y build
+npx playwright install chromium   # una sola vez, para las pruebas E2E
+npm run test:e2e       # pruebas de punta a punta en Chromium (escritorio y móvil)
+```
+
+Pila, estructura y convenciones: [specs/ARQUITECTURA.md](specs/ARQUITECTURA.md).
 
 ## Documentación
 
 - [Propuesta](PROPUESTA.md): producto, evaluación y arquitectura.
 - [Plan de implementación](specs/PLAN_IMPLEMENTACION.md): fases, tareas y flujo de PRs.
 - [Estado de implementación](specs/ESTADO_IMPLEMENTACION.md): avance y siguiente acción.
+- [Arquitectura](specs/ARQUITECTURA.md): pila, estructura, convenciones y comandos.
 - [Continuidad](specs/CONTINUIDAD.md): contexto y hallazgos para retomar el trabajo.
 - [Estrategia de modelos](specs/ESTRATEGIA_MODELOS.md).
 - [Instrucciones para agentes](AGENTS.md).

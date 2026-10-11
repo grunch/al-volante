@@ -1,0 +1,11 @@
+dist
+coverage
+playwright-report
+test-results
+node_modules
+package-lock.json
+specs/fuentes
+specs/catalog
+specs/route
+*.md
+.coderabbit.yaml
