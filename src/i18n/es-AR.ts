@@ -219,8 +219,8 @@ export const LOGBOOK_COPY = {
   retry: 'Reintentar',
   notPersistent:
     'Este navegador no permite guardar datos (por ejemplo, en modo privado): tu progreso se pierde al cerrar la pestaña. Descargá un respaldo para conservarlo.',
-  skipped: (count: number) =>
-    `${count === 1 ? 'Un registro guardado está dañado y no se pudo leer' : `${count} registros guardados están dañados y no se pudieron leer`}. Los dejamos como estaban; el resto de tu progreso está intacto.`,
+  quarantined: (count: number) =>
+    `${count === 1 ? 'Un registro guardado estaba dañado y lo' : `${count} registros guardados estaban dañados y los`} apartamos sin modificarlos. No afectan el resto de tu progreso.`,
   saveFailed: 'No pudimos guardar tu último resultado. Probá de nuevo; tu progreso anterior está intacto.',
   reviewHeading: 'Repaso recomendado',
   reviewEmpty: 'No tenés repasos pendientes por ahora.',

@@ -9,15 +9,28 @@ export const MAX_BOX = LEITNER_INTERVALS_DAYS.length;
 export const MASTERY_BOX = 3;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-export const ConceptProgressSchema = z.strictObject({
-  unitId: z.string().min(1),
-  box: z.int().min(1).max(MAX_BOX),
-  attempts: z.int().nonnegative(),
-  correct: z.int().nonnegative(),
-  lastAttemptAt: z.iso.datetime(),
-  lastCorrect: z.boolean(),
-  dueAt: z.iso.datetime(),
-});
+export const ConceptProgressSchema = z
+  .strictObject({
+    unitId: z.string().min(1),
+    box: z.int().min(1).max(MAX_BOX),
+    attempts: z.int().nonnegative(),
+    correct: z.int().nonnegative(),
+    lastAttemptAt: z.iso.datetime(),
+    lastCorrect: z.boolean(),
+    dueAt: z.iso.datetime(),
+  })
+  .check((ctx) => {
+    // Cross-field invariants of updateConcept: a backup or a stored record that breaks them cannot be real progress.
+    const { box, attempts, correct, lastCorrect, lastAttemptAt, dueAt } = ctx.value;
+    const fail = (message: string) => ctx.issues.push({ code: 'custom', message, input: ctx.value });
+    if (attempts < 1) fail('a concept with progress has at least one attempt');
+    if (correct > attempts) fail('correct answers cannot exceed attempts');
+    if (lastCorrect && correct < 1) fail('a correct last answer needs a correct answer');
+    if (!lastCorrect && (box !== 1 || correct > attempts - 1)) fail('after a wrong answer the concept is in box 1');
+    if (box > 1 && correct < box) fail('box n needs at least n correct answers');
+    if (Date.parse(dueAt) <= Date.parse(lastAttemptAt)) fail('the next review comes after the last answer');
+  });
+
 export type ConceptProgress = z.infer<typeof ConceptProgressSchema>;
 
 export type MasteryState = 'available' | 'practiced' | 'mastered';
@@ -73,13 +86,12 @@ export interface ActivityAnswer {
   mode: Attempt['mode'];
 }
 
-/** Builds the stored attempt (the Attempt contract of PROPUESTA §8) and the updated concepts for one answer. */
-export function recordAnswer(
+/** Builds the stored attempt (the Attempt contract of PROPUESTA §8) for one answer. */
+export function createAttempt(
   answer: ActivityAnswer,
-  concepts: ReadonlyMap<string, ConceptProgress>,
   context: { id: string; at: string; contentVersion: string },
-): { attempt: Attempt; updates: ConceptProgress[] } {
-  const attempt: Attempt = {
+): Attempt {
+  return {
     id: context.id,
     kind: 'activity',
     subjectId: answer.activityId,
@@ -102,8 +114,4 @@ export function recordAnswer(
     faults: [],
     result: { correct: answer.correct, score: answer.score, points: null },
   };
-  const updates = [...new Set(answer.unitIds)].map((unitId) =>
-    updateConcept(concepts.get(unitId), unitId, answer.correct, context.at),
-  );
-  return { attempt, updates };
 }

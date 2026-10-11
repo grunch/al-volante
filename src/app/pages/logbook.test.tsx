@@ -155,15 +155,16 @@ describe('logbook contents', () => {
     const store: ProgressStore = {
       ...memory,
       persistent: true,
-      load: async () => ({ ...(await memory.load()), skipped: 2 }),
+      load: async () => ({ ...(await memory.load()), quarantined: 2 }),
     };
     renderAt('/bitacora', withStore(store));
 
-    expect(await screen.findByText(LOGBOOK_COPY.skipped(2))).toBeInTheDocument();
+    expect(await screen.findByText(LOGBOOK_COPY.quarantined(2))).toBeInTheDocument();
     expect(within(campaignB()).getByText('Pare y Ceda el Paso: pérdida de prioridad')).toBeInTheDocument();
   });
 
-  it('shows a load error with a retry and never records while progress is not loaded', async () => {
+  it('shows a load error with a retry, and keeps answers given meanwhile', async () => {
+    // Arrange: the first load fails; the store itself works.
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const memory = createMemoryStore();
     const store: ProgressStore = {
@@ -173,14 +174,14 @@ describe('logbook contents', () => {
         .mockRejectedValueOnce(new Error('boom'))
         .mockImplementation(() => memory.load()),
     };
-    const record = vi.spyOn(store, 'record');
-    const user = userEvent.setup();
-    const { router } = renderAt('/bitacora', withStore(store));
+    renderAt('/actividad/act.turn-with-pedestrian?semilla=0', withStore(store));
 
+    // Act: answer while progress is in the error state, then retry from the logbook.
+    const user = await playTurnWithPedestrian(true);
     await user.click(await screen.findByRole('button', { name: LOGBOOK_COPY.retry }));
-    expect(await screen.findByRole('region', { name: LOGBOOK_COPY.reviewHeading })).toBeInTheDocument();
-    expect(record).not.toHaveBeenCalled();
-    expect(router.state.location.pathname).toBe('/bitacora');
+
+    // Assert
+    expect(await within(campaignB()).findByText('Ceder el paso a peatones al girar con luz verde')).toBeInTheDocument();
   });
 
   it('tells the user when an attempt could not be saved, keeping the previous progress', async () => {

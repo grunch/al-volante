@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { BACKUP_FORMAT, CURRENT_BACKUP_VERSION, createBackup, migrateBackup, parseBackup } from './backup.ts';
-import { recordAnswer } from './model.ts';
+import { createAttempt, updateConcept } from './model.ts';
 
 const AT = '2026-10-11T12:00:00.000Z';
-const { attempt, updates } = recordAnswer(
+const attempt = createAttempt(
   {
     activityId: 'act.x',
     unitIds: ['manual.ch3.a'],
@@ -14,9 +14,9 @@ const { attempt, updates } = recordAnswer(
     score: 1,
     mode: 'practice',
   },
-  new Map(),
   { id: 'a1', at: AT, contentVersion: 'deadbeef' },
 );
+const updates = [updateConcept(undefined, 'manual.ch3.a', true, AT)];
 const snapshot = { attempts: [attempt], concepts: updates };
 
 describe('backup', () => {
@@ -78,6 +78,15 @@ describe('backup', () => {
       error: 'invalid-data',
       details: 'duplicate concept',
     });
+  });
+});
+
+describe('backup consistency', () => {
+  it('rejects concepts with impossible counters before they can replace real progress', () => {
+    const forged = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
+    forged.concepts[0] = { ...forged.concepts[0], box: 5, attempts: 0, correct: 100 };
+
+    expect(parseBackup(JSON.stringify(forged))).toMatchObject({ ok: false, error: 'invalid-data' });
   });
 });
 

@@ -130,19 +130,26 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - El progreso persiste al reiniciar: prueba con IndexedDB simulado (desmontar y volver a montar) y E2E con recarga real.
   - El respaldo restaura los datos: E2E que exporta, importa en un navegador limpio, recarga y encuentra el progreso.
   - Los datos corruptos no destruyen el progreso existente:
-    - registros ilegibles en la base, que se conservan y se avisan;
+    - registros ilegibles en la base, que se apartan sin cambios en `quarantine` y se avisan;
     - respaldos inválidos, demasiado grandes o ilegibles, que se rechazan sin tocar nada;
     - escrituras fallidas, que abortan la transacción;
-    - fallas de carga, durante las cuales no se escribe nada;
+    - respuestas dadas durante la carga o con la carga fallida, que se guardan igual a partir del valor almacenado;
+    - respaldos con contadores imposibles, que se rechazan;
     - en E2E, un respaldo dañado sin efecto después de recargar.
 - Verificación local:
-  - `npm run check` con 128 pruebas unitarias y de integración;
+  - `npm run check` con 149 pruebas unitarias y de integración (después de resolver los findings);
   - `npm run test:e2e` con 22 pruebas;
   - capturas revisadas: bitácora en móvil sin desborde horizontal e inicio en escritorio.
 - Errores encontrados por las pruebas y corregidos:
   - un acierto después de un error subía de caja, y dos aciertos alcanzaban para dominar;
   - con StrictMode quedaba una conexión de IndexedDB sin cerrar.
-- CodeRabbit y Codex: se solicitan al abrir el PR.
+- CodeRabbit y Codex: solicitadas al abrir el PR (#11). Codex completada sobre `ad80854`. CodeRabbit no revisó por el cupo de 1 revisión por hora; se vuelve a pedir en la etapa B.
+- Findings resueltos (etapa B), todos con prueba:
+  - Codex, una respuesta dada antes de que terminara la carga se descartaba en silencio: ahora espera en la cola y se guarda al terminar la carga. Si la carga falla, se guarda igual y aparece al reintentar.
+  - Codex, un concepto ilegible se pisaba al volver a practicarlo: los registros ilegibles pasan a `quarantine` sin cambios, al cargar o antes de escribir. La base sube a la versión 2, con prueba de migración desde la 1.
+  - Codex, un respaldo con contadores imposibles (por ejemplo, 100 aciertos en 0 intentos) se aceptaba: el esquema del concepto exige las invariantes de `updateConcept`, con una prueba que confirma que los estados de secuencias reales siguen siendo válidos.
+  - Codex, con dos pestañas una sobrescribía el dominio más nuevo de la otra: cada escritura lee el concepto guardado y calcula el nuevo dentro de la misma transacción.
+  - La corrección de los seis espacios del inicio, que estaba en este PR, pasó a #9, donde correspondía.
 
 ## Pila y orden de fusión
 

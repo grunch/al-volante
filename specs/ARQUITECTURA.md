@@ -111,14 +111,15 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
   - repaso recomendado: primero los errores recientes, después una actividad por concepto vencido (los fallados antes);
   - errores recientes;
   - progreso por grupo del mapa: la campaña B se mide aparte del material complementario (PROPUESTA §6).
-- **Persistencia** (`src/progress/storage.ts`): IndexedDB, base `al-volante`, almacenes `attempts` y `concepts`.
-  - Cada respuesta se escribe en una sola transacción. Si una escritura falla, la transacción se aborta y no queda nada a medias.
-  - Las migraciones de la base van en `upgrade`, una rama por versión (`DB_VERSION`).
-  - Al cargar, cada registro se valida con Zod. Los ilegibles no se borran: se cuentan y la bitácora lo avisa.
+- **Persistencia** (`src/progress/storage.ts`): IndexedDB, base `al-volante` (versión 2), almacenes `attempts`, `concepts` y `quarantine`.
+  - Cada respuesta se escribe en una sola transacción, que lee el valor guardado de cada concepto y calcula el nuevo dentro de ella. Así, una pestaña nunca pisa el progreso más nuevo que escribió otra. Si algo falla, la transacción se aborta y no queda nada a medias.
+  - Las migraciones de la base van en `upgrade`, una rama por versión (`DB_VERSION`). La versión 2 agregó `quarantine`.
+  - Al cargar, cada registro se valida con Zod. Los ilegibles se mueven a `quarantine` exactamente como estaban (almacén, clave y valor), en la misma transacción, y la bitácora avisa cuántos hay. Nunca se borran, y una práctica posterior del mismo concepto tampoco los pisa: si otra pestaña dejó un registro ilegible, también se aparta antes de escribir.
   - Si IndexedDB no está disponible (algunos modos privados), se usa memoria y la bitácora avisa que el progreso no va a durar.
-  - `ProgressProvider` no escribe nada mientras el progreso no se haya cargado, para no pisar los datos guardados.
+  - `ProgressProvider` encola las respuestas detrás de la carga: una respuesta dada mientras carga se guarda cuando la carga termina, y si la carga falla, se guarda igual y aparece al reintentar.
+  - Otra pestaña ve las respuestas nuevas al recargar; las escrituras no pierden datos, pero la vista no se sincroniza en vivo.
 - **Respaldo** (`src/progress/backup.ts`): JSON autodescriptivo con `format`, `formatVersion`, `exportedAt` y `contentVersion`.
-  - Al importar, primero se valida todo, incluidas las migraciones de formato una versión por vez y los ids duplicados.
+  - Al importar, primero se valida todo, incluidas las migraciones de formato una versión por vez, los ids duplicados y la coherencia de cada concepto (por ejemplo, no más aciertos que intentos ni una caja mayor que los aciertos).
   - Después se pide confirmación, y recién entonces se reemplaza el progreso en una sola transacción.
   - Un archivo inválido, demasiado grande (más de 20 MB) o ilegible, o una escritura que falla, dejan el progreso actual intacto.
 

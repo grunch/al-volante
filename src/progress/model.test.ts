@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { MASTERY_BOX, masteryOf, recordAnswer, updateConcept } from './model.ts';
+import { ConceptProgressSchema, MASTERY_BOX, createAttempt, masteryOf, updateConcept } from './model.ts';
 import type { ConceptProgress } from './model.ts';
 
 const DAY = 24 * 60 * 60 * 1000;
@@ -92,9 +92,37 @@ describe('masteryOf', () => {
   });
 });
 
-describe('recordAnswer', () => {
-  it('builds an Attempt with content version, response and result, and updates every concept once', () => {
-    const { attempt, updates } = recordAnswer(
+describe('ConceptProgressSchema', () => {
+  it('accepts every state updateConcept produces', () => {
+    let progress: ConceptProgress | undefined;
+    [true, true, false, true, true, true, true, true, true, true].forEach((correct, step) => {
+      progress = updateConcept(progress, 'u', correct, at(step * 4));
+      expect(ConceptProgressSchema.safeParse(progress).success, `step ${step}`).toBe(true);
+    });
+  });
+
+  it('rejects counters and states that no sequence of answers can produce', () => {
+    // Arrange: one correct first answer, then impossible variations of it.
+    const valid = updateConcept(undefined, 'u', true, T0);
+    const impossible: Record<string, Partial<ConceptProgress>> = {
+      'more correct answers than attempts': { correct: 2 },
+      'no attempts': { attempts: 0, correct: 0 },
+      'a box above the correct answers': { box: 3, attempts: 3, correct: 2 },
+      'a wrong last answer outside box 1': { box: 2, attempts: 3, correct: 2, lastCorrect: false },
+      'a correct last answer without correct answers': { correct: 0 },
+      'a review due before the last answer': { dueAt: T0 },
+    };
+
+    // Act / Assert
+    for (const [name, patch] of Object.entries(impossible)) {
+      expect(ConceptProgressSchema.safeParse({ ...valid, ...patch }).success, name).toBe(false);
+    }
+  });
+});
+
+describe('createAttempt', () => {
+  it('builds an Attempt with content version, response and result', () => {
+    const attempt = createAttempt(
       {
         activityId: 'act.x',
         unitIds: ['a', 'b', 'a'],
@@ -105,7 +133,6 @@ describe('recordAnswer', () => {
         score: 0,
         mode: 'practice',
       },
-      new Map(),
       { id: 'id-1', at: T0, contentVersion: 'deadbeef' },
     );
 
@@ -123,6 +150,5 @@ describe('recordAnswer', () => {
       response: { kind: 'choice', optionId: 'o' },
       unitIds: ['a', 'b', 'a'],
     });
-    expect(updates.map((update) => update.unitId)).toEqual(['a', 'b']);
   });
 });

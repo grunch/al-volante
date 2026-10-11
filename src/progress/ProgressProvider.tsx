@@ -4,7 +4,7 @@ import { ActivityResultContext } from '../activities/ActivityResultContext.ts';
 import type { ActivityResult } from '../activities/ActivityResultContext.ts';
 import type { Attempt } from '../content/schemas.ts';
 import { useContentState } from '../content/ContentProvider.tsx';
-import { recordAnswer } from './model.ts';
+import { createAttempt, updateConcept } from './model.ts';
 import type { ConceptProgress } from './model.ts';
 import { openProgressStore } from './storage.ts';
 import type { ProgressSnapshot, ProgressStore } from './storage.ts';
@@ -22,8 +22,8 @@ export type ProgressState =
       data: ProgressData;
       /** False when the browser cannot store data (IndexedDB unavailable): progress lasts until the tab closes. */
       persistent: boolean;
-      /** Stored records that could not be read; they stay in the database untouched. */
-      skipped: number;
+      /** Unreadable stored records set aside in quarantine; they are kept untouched. */
+      quarantined: number;
       /** The latest attempt could not be saved. */
       saveFailed: boolean;
     };
@@ -68,9 +68,9 @@ function withAttempt(data: ProgressData, attempt: Attempt, updates: readonly Con
 }
 
 /**
- * Loads progress from IndexedDB and records every finished activity. Writes are queued so each answer builds on the
- * previous one. While progress is not loaded nothing is written: updating concepts from an empty state would
- * overwrite the stored ones.
+ * Loads progress from IndexedDB and records every finished activity. Answers are queued behind the load, so one given
+ * while loading is saved once it ends instead of being dropped. The store computes each concept from its stored
+ * value inside the write, so neither a pending load nor another tab can make a write overwrite newer progress.
  */
 export function ProgressProvider({
   children,
@@ -90,7 +90,7 @@ export function ProgressProvider({
   useEffect(() => {
     let cancelled = false;
     let store: ProgressStore | null = null;
-    void (async () => {
+    const loading = (async () => {
       try {
         const opened = await open();
         // Unmounted while opening (StrictMode runs effects twice): release the connection nobody will use.
@@ -99,18 +99,20 @@ export function ProgressProvider({
           return;
         }
         store = opened;
-        const { snapshot, skipped } = await store.load();
+        storeRef.current = opened;
+        const { snapshot, quarantined } = await opened.load();
         if (cancelled) return;
         const data = toData(snapshot);
-        storeRef.current = store;
         dataRef.current = data;
-        setState({ status: 'ready', data, persistent: store.persistent, skipped, saveFailed: false });
+        setState({ status: 'ready', data, persistent: opened.persistent, quarantined, saveFailed: false });
       } catch (error) {
         if (cancelled) return;
         console.error('Could not load progress', error);
         setState({ status: 'error', message: error instanceof Error ? error.message : String(error) });
       }
     })();
+    // Answers given meanwhile wait in the queue until loading ends (it never rejects: errors become state).
+    queueRef.current = queueRef.current.then(() => loading);
     return () => {
       cancelled = true;
       storeRef.current = null;
@@ -131,9 +133,11 @@ export function ProgressProvider({
       if (contentVersion === null) return;
       queueRef.current = queueRef.current.then(async () => {
         const store = storeRef.current;
-        const data = dataRef.current;
-        if (!store || !data) return;
-        const { attempt, updates } = recordAnswer(
+        // No store means it could not be opened; the logbook shows that error.
+        if (!store) return;
+        const at = now().toISOString();
+        const { correct } = result.evaluation;
+        const attempt = createAttempt(
           {
             activityId: result.activity.id,
             unitIds: result.activity.unitIds,
@@ -144,17 +148,21 @@ export function ProgressProvider({
             score: result.evaluation.score,
             mode: 'practice',
           },
-          data.concepts,
-          { id: createId(), at: now().toISOString(), contentVersion },
+          { id: createId(), at, contentVersion },
         );
+        let updates: ConceptProgress[];
         try {
-          await store.record(attempt, updates);
+          updates = await store.record(attempt, result.activity.unitIds, (unitId, previous) =>
+            updateConcept(previous, unitId, correct, at),
+          );
         } catch (error) {
           console.error('Could not save the attempt', error);
           setState((previous) => (previous.status === 'ready' ? { ...previous, saveFailed: true } : previous));
           return;
         }
-        if (storeRef.current !== store) return;
+        const data = dataRef.current;
+        // Saved either way; without loaded data (a failed load) it shows up after a successful retry.
+        if (storeRef.current !== store || !data) return;
         const next = withAttempt(data, attempt, updates);
         dataRef.current = next;
         setState((previous) =>
@@ -172,10 +180,7 @@ export function ProgressProvider({
       await store.replaceAll(snapshot);
       const next = toData(snapshot);
       dataRef.current = next;
-      // Replacing clears the store, unreadable records included.
-      setState((previous) =>
-        previous.status === 'ready' ? { ...previous, data: next, skipped: 0, saveFailed: false } : previous,
-      );
+      setState((previous) => (previous.status === 'ready' ? { ...previous, data: next, saveFailed: false } : previous));
     });
     queueRef.current = run.catch(() => undefined);
     return run;

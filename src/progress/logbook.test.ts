@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { choiceActivity, unit } from '../content/testing/fixtures.ts';
 import type { Activity, Attempt } from '../content/schemas.ts';
 import { progressByGroup, recentErrors, recommendedReview } from './logbook.ts';
-import { MASTERY_BOX, recordAnswer } from './model.ts';
+import { MASTERY_BOX, createAttempt } from './model.ts';
 import type { ConceptProgress } from './model.ts';
 
 const NOW = new Date('2026-10-20T12:00:00.000Z');
@@ -23,7 +23,7 @@ function concept(unitId: string, overrides: Partial<ConceptProgress> = {}): Conc
 }
 
 function attempt(activityId: string, correct: boolean, at: string, id = `${activityId}-${at}`): Attempt {
-  return recordAnswer(
+  return createAttempt(
     {
       activityId,
       unitIds: [],
@@ -34,9 +34,8 @@ function attempt(activityId: string, correct: boolean, at: string, id = `${activ
       score: correct ? 1 : 0,
       mode: 'practice',
     },
-    new Map(),
     { id, at, contentVersion: 'deadbeef' },
-  ).attempt;
+  );
 }
 
 const activity = (id: string, unitIds: string[]): Activity => ({ ...choiceActivity(), id, unitIds });

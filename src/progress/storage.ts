@@ -7,11 +7,19 @@ import type { ConceptProgress } from './model.ts';
 
 export const DB_NAME = 'al-volante';
 /** Bump with a new branch in `upgrade` whenever stores or indexes change; never edit an old branch. */
-export const DB_VERSION = 1;
+export const DB_VERSION = 2;
+
+/** An unreadable record, moved aside exactly as it was found so a future migration can still recover it. */
+export interface QuarantinedRecord {
+  store: 'attempts' | 'concepts';
+  key: IDBValidKey;
+  value: unknown;
+}
 
 interface ProgressDB extends DBSchema {
   attempts: { key: string; value: Attempt };
   concepts: { key: string; value: ConceptProgress };
+  quarantine: { key: number; value: QuarantinedRecord };
 }
 
 export interface ProgressSnapshot {
@@ -21,34 +29,67 @@ export interface ProgressSnapshot {
 
 export interface LoadResult {
   snapshot: ProgressSnapshot;
-  /** Stored records that failed validation; they are reported and kept, never deleted. */
-  skipped: number;
+  /** Unreadable records set aside in quarantine so far; they are kept, never deleted. */
+  quarantined: number;
 }
+
+/** Computes a concept's new progress from the value stored right now (undefined when there is none). */
+export type ConceptUpdate = (unitId: string, previous: ConceptProgress | undefined) => ConceptProgress;
 
 export interface ProgressStore {
   /** False for the in-memory fallback used when IndexedDB is unavailable (e.g. some private modes). */
   readonly persistent: boolean;
   load(): Promise<LoadResult>;
-  /** Stores one attempt and its concept updates atomically. */
-  record(attempt: Attempt, updates: readonly ConceptProgress[]): Promise<void>;
+  /**
+   * Stores one attempt and updates its concepts in a single transaction, reading each concept inside it: another
+   * tab's newer progress is built upon, never overwritten. Returns the updated concepts.
+   */
+  record(attempt: Attempt, unitIds: readonly string[], update: ConceptUpdate): Promise<ConceptProgress[]>;
   /** Replaces all progress atomically: either everything is replaced or nothing changes. */
   replaceAll(snapshot: ProgressSnapshot): Promise<void>;
   close(): void;
 }
 
-function validRecords<T>(
-  records: readonly unknown[],
-  parse: (value: unknown) => { success: boolean; data?: T },
-): { valid: T[]; skipped: number } {
-  const valid: T[] = [];
-  let skipped = 0;
-  for (const record of records) {
-    const result = parse(record);
-    if (result.success) valid.push(result.data as T);
-    else skipped += 1;
+const STORES = ['attempts', 'concepts', 'quarantine'] as const;
+type ProgressTransaction = IDBPTransaction<ProgressDB, typeof STORES, 'readwrite'>;
+type Track = <T>(request: Promise<T>) => Promise<T>;
+
+/**
+ * Runs `work` inside one read-write transaction and waits for the commit. Every request goes through `track`, so a
+ * failure anywhere aborts the whole transaction (also when a request throws synchronously, which would otherwise let
+ * the earlier requests commit) and no rejection is left unhandled. Either everything is written or nothing is.
+ */
+async function inTransaction<T>(
+  db: IDBPDatabase<ProgressDB>,
+  work: (tx: ProgressTransaction, track: Track) => Promise<T>,
+): Promise<T> {
+  const tx = db.transaction(STORES, 'readwrite');
+  const pending: Array<Promise<unknown>> = [];
+  const track: Track = (request) => {
+    request.catch(() => undefined);
+    pending.push(request);
+    return request;
+  };
+  let result: T;
+  try {
+    result = await work(tx, track);
+  } catch (error) {
+    try {
+      tx.abort();
+    } catch {
+      // Already aborted by the failing request.
+    }
+    await Promise.allSettled([...pending, tx.done]);
+    throw error;
   }
-  return { valid, skipped };
+  await Promise.all([...pending, tx.done]);
+  return result;
 }
+
+const readConcept = (value: unknown): ConceptProgress | undefined => {
+  const parsed = ConceptProgressSchema.safeParse(value);
+  return parsed.success ? parsed.data : undefined;
+};
 
 class IndexedDbStore implements ProgressStore {
   readonly persistent = true;
@@ -58,60 +99,72 @@ class IndexedDbStore implements ProgressStore {
     this.db = db;
   }
 
-  async load(): Promise<LoadResult> {
-    const [attempts, concepts] = await Promise.all([this.db.getAll('attempts'), this.db.getAll('concepts')]);
-    const validAttempts = validRecords(attempts, (value) => AttemptSchema.safeParse(value));
-    const validConcepts = validRecords(concepts, (value) => ConceptProgressSchema.safeParse(value));
-    return {
-      snapshot: { attempts: validAttempts.valid, concepts: validConcepts.valid },
-      skipped: validAttempts.skipped + validConcepts.skipped,
-    };
-  }
-
   close(): void {
     this.db.close();
   }
 
-  async record(attempt: Attempt, updates: readonly ConceptProgress[]): Promise<void> {
-    const tx = this.db.transaction(['attempts', 'concepts'], 'readwrite');
-    await writeAtomically(tx, (requests) => {
-      requests.push(tx.objectStore('attempts').put(attempt));
-      for (const update of updates) requests.push(tx.objectStore('concepts').put(update));
+  /** Reads everything and, in the same transaction, moves records that fail validation to quarantine. */
+  load(): Promise<LoadResult> {
+    return inTransaction(this.db, async (tx, track) => {
+      const attemptStore = tx.objectStore('attempts');
+      const conceptStore = tx.objectStore('concepts');
+      const quarantine = tx.objectStore('quarantine');
+      const [attemptKeys, attemptValues, conceptKeys, conceptValues] = await Promise.all([
+        track(attemptStore.getAllKeys()),
+        track(attemptStore.getAll()),
+        track(conceptStore.getAllKeys()),
+        track(conceptStore.getAll()),
+      ]);
+      const attempts: Attempt[] = [];
+      attemptValues.forEach((value: unknown, index) => {
+        const parsed = AttemptSchema.safeParse(value);
+        if (parsed.success) return void attempts.push(parsed.data);
+        const key = attemptKeys[index] as string;
+        track(quarantine.add({ store: 'attempts', key, value }));
+        track(attemptStore.delete(key));
+      });
+      const concepts: ConceptProgress[] = [];
+      conceptValues.forEach((value: unknown, index) => {
+        const concept = readConcept(value);
+        if (concept) return void concepts.push(concept);
+        const key = conceptKeys[index] as string;
+        track(quarantine.add({ store: 'concepts', key, value }));
+        track(conceptStore.delete(key));
+      });
+      const quarantined = await track(quarantine.count());
+      return { snapshot: { attempts, concepts }, quarantined };
     });
   }
 
-  async replaceAll(snapshot: ProgressSnapshot): Promise<void> {
-    const tx = this.db.transaction(['attempts', 'concepts'], 'readwrite');
-    await writeAtomically(tx, (requests) => {
+  record(attempt: Attempt, unitIds: readonly string[], update: ConceptUpdate): Promise<ConceptProgress[]> {
+    return inTransaction(this.db, async (tx, track) => {
+      const conceptStore = tx.objectStore('concepts');
+      const ids = [...new Set(unitIds)];
+      const stored: unknown[] = await Promise.all(ids.map((unitId) => track(conceptStore.get(unitId))));
+      const updates = ids.map((unitId, index) => {
+        const value = stored[index];
+        const previous = readConcept(value);
+        // Written by another tab or version after this tab loaded: set aside before replacing it.
+        if (value !== undefined && !previous)
+          track(tx.objectStore('quarantine').add({ store: 'concepts', key: unitId, value }));
+        return update(unitId, previous);
+      });
+      track(tx.objectStore('attempts').put(attempt));
+      for (const concept of updates) track(conceptStore.put(concept));
+      return updates;
+    });
+  }
+
+  replaceAll(snapshot: ProgressSnapshot): Promise<void> {
+    return inTransaction(this.db, async (tx, track) => {
       const attempts = tx.objectStore('attempts');
       const concepts = tx.objectStore('concepts');
-      requests.push(attempts.clear(), concepts.clear());
-      for (const attempt of snapshot.attempts) requests.push(attempts.put(attempt));
-      for (const concept of snapshot.concepts) requests.push(concepts.put(concept));
+      track(attempts.clear());
+      track(concepts.clear());
+      for (const attempt of snapshot.attempts) track(attempts.put(attempt));
+      for (const concept of snapshot.concepts) track(concepts.put(concept));
     });
   }
-}
-
-type WriteTransaction = IDBPTransaction<ProgressDB, ['attempts', 'concepts'], 'readwrite'>;
-
-/**
- * Issues every write of one transaction and waits for the commit. A request that fails asynchronously aborts the
- * transaction by itself; one that throws synchronously (e.g. a record without its key) would let the earlier requests
- * commit, so the transaction is aborted explicitly. Either way nothing is written.
- */
-async function writeAtomically(
-  tx: WriteTransaction,
-  issue: (requests: Array<Promise<unknown>>) => void,
-): Promise<void> {
-  const requests: Array<Promise<unknown>> = [];
-  try {
-    issue(requests);
-  } catch (error) {
-    tx.abort();
-    await Promise.allSettled([...requests, tx.done]);
-    throw error;
-  }
-  await Promise.all([...requests, tx.done]);
 }
 
 /** Keeps progress for the current tab only; used when IndexedDB cannot be opened. */
@@ -121,11 +174,13 @@ export function createMemoryStore(initial: ProgressSnapshot = { attempts: [], co
   return {
     persistent: false,
     async load() {
-      return { snapshot: { attempts: [...attempts.values()], concepts: [...concepts.values()] }, skipped: 0 };
+      return { snapshot: { attempts: [...attempts.values()], concepts: [...concepts.values()] }, quarantined: 0 };
     },
-    async record(attempt, updates) {
-      attempts.set(attempt.id, attempt);
-      for (const update of updates) concepts.set(update.unitId, update);
+    async record(attempt, unitIds, update) {
+      const updates = [...new Set(unitIds)].map((unitId) => update(unitId, concepts.get(unitId)));
+      attempts = new Map([...attempts, [attempt.id, attempt]]);
+      concepts = new Map([...concepts, ...updates.map((concept) => [concept.unitId, concept] as const)]);
+      return updates;
     },
     async replaceAll(snapshot) {
       attempts = new Map(snapshot.attempts.map((attempt) => [attempt.id, attempt]));
@@ -148,6 +203,7 @@ export async function openProgressStore(): Promise<ProgressStore> {
           database.createObjectStore('attempts', { keyPath: 'id' });
           database.createObjectStore('concepts', { keyPath: 'unitId' });
         }
+        if (oldVersion < 2) database.createObjectStore('quarantine', { autoIncrement: true });
       },
     });
     return new IndexedDbStore(db);

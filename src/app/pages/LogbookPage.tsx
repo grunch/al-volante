@@ -48,9 +48,9 @@ function Logbook({ content }: { content: Content }) {
           {LOGBOOK_COPY.notPersistent}
         </p>
       )}
-      {state.skipped > 0 && (
+      {state.quarantined > 0 && (
         <p className="status-message" role="status">
-          {LOGBOOK_COPY.skipped(state.skipped)}
+          {LOGBOOK_COPY.quarantined(state.quarantined)}
         </p>
       )}
       {state.saveFailed && (

@@ -65,7 +65,7 @@ Iniciada por el usuario el 2026-10-11, con la fase 1 fusionada. Tareas en orden:
 - **Actividades:** solo se escriben sobre datos sin discrepancias abiertas (alcohol, cordón amarillo, calles de convivencia y excepciones de la prioridad de la derecha quedan fuera hasta resolverse). Cada dato se verifica contra la imagen de su página antes de marcarlo `revisada`.
 - **Variantes:** se eligen con una semilla, que viaja en la URL (`?semilla=`). El motor es puro y nunca expone la respuesta en la presentación.
 - **Dominio:** tres aciertos seguidos y espaciados (cajas de Leitner a 1/3/7/14/30 días; dominado desde la caja 3). Un error reinicia el espaciado. No se presenta ninguna probabilidad de aprobar.
-- **Progreso local:** IndexedDB con escrituras atómicas. No se escribe mientras el progreso no esté cargado. Los registros ilegibles se conservan, y los respaldos se validan por completo y se confirman antes de reemplazar nada.
+- **Progreso local:** IndexedDB con escrituras atómicas que calculan cada concepto desde el valor guardado (seguro con varias pestañas). Las respuestas esperan a que termine la carga. Los registros ilegibles se apartan en `quarantine` sin modificarlos, y los respaldos se validan por completo (incluida la coherencia de los contadores) y se confirman antes de reemplazar nada.
 - **Inicio:** los seis espacios son los de PROPUESTA §2 (el sexto es «Mi bitácora»); la Biblioteca es una pantalla aparte.
 
 ## Validación prevista
