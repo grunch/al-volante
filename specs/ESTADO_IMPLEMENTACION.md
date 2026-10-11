@@ -29,8 +29,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | Depende de | PR | Último commit | Estado |
 |---|---|---|---|---|---|---|
-| F01-T01 | `f01-t01-repositorio` | `main` | — | [#1](https://github.com/grunch/al-volante/pull/1) | ver PR | en revisión |
-| F01-T02 | `f01-t02-cobertura` | `f01-t01-repositorio` | T01 (#1) | #2 | ver PR | en revisión (etapa A) |
+| F01-T01 | `f01-t01-repositorio` (borrada) | `main` | — | [#1](https://github.com/grunch/al-volante/pull/1) | `b96dcf6` | fusionado por el usuario (merge `12cf2a8`, 2026-10-11 18:59 UTC) |
+| F01-T02 | `f01-t02-cobertura` | `main` | T01 (#1, fusionado) | #2 | ver PR | en revisión (etapa A) |
 | F01-T03 | — | — | T02 | — | — | pendiente |
 | F01-T04 | — | — | T03 | — | — | pendiente |
 
@@ -48,6 +48,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Cifras de F04-T05 sin cita (CodeRabbit): **corregido en parte**. Las fuentes ya están citadas en PROPUESTA §5 y se transcriben en `REGLAS.md` (T03), así que agregué en el plan una nota que remite a ellas y no dupliqué las citas fila por fila.
 - Incidente: la primera versión del PR versionó rutas del sistema de archivos local del usuario. El usuario lo señaló. Se eliminaron de todos los archivos y el commit de la rama se reescribió (`--force-with-lease`).
 - Checks: no hay checks configurados.
+- Cierre: el usuario fusionó #1 el 2026-10-11 con merge commit. La re-revisión de CodeRabbit sobre los últimos commits no llegó a completarse antes de la fusión.
 
 ### F01-T02 — Auditoría del manual y la guía (`COBERTURA.md` y catálogo)
 
@@ -59,7 +60,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ## Pila y orden de fusión
 
-`main ← F01-T01 (#1) ← F01-T02 ← F01-T03 ← F01-T04` (T02–T04 se crean en la etapa A). Fusionar en ese orden en la etapa B.
+`main ← F01-T02 (#2) ← F01-T03 ← F01-T04`. #1 ya está en `main`. T03 y T04 se crean en la etapa A; se fusionan en ese orden en la etapa B.
 
 ## Bloqueos
 
