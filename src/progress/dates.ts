@@ -8,7 +8,7 @@ export function canonicalIso(iso: string): string {
 
 const isValidIso = (value: unknown): value is string => typeof value === 'string' && !Number.isNaN(Date.parse(value));
 
-/** Same record with its readable dates rewritten canonically; anything unreadable stays as it was for load to judge. */
+/** Same attempt with its readable dates rewritten canonically. Callers apply it only to attempts that pass the schema. */
 export function canonicalStoredAttempt(value: unknown): unknown {
   if (typeof value !== 'object' || value === null) return value;
   const record = value as Record<string, unknown>;

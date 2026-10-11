@@ -220,13 +220,15 @@ export function createMemoryStore(initial: ProgressSnapshot = { attempts: [], co
   };
 }
 
-/** Rewrites every stored attempt's dates in the canonical format, inside the upgrade transaction. */
+/** Rewrites the dates of every readable stored attempt in the canonical format, inside the upgrade transaction. */
 async function canonicaliseAttempts(
   store: IDBPObjectStore<ProgressDB, ArrayLike<StoreNames<ProgressDB>>, 'attempts', 'versionchange'>,
 ): Promise<void> {
   let cursor = await store.openCursor();
   while (cursor) {
-    await cursor.update(canonicalStoredAttempt(cursor.value) as Attempt);
+    // Only readable attempts are rewritten; unreadable ones must reach quarantine exactly as they were stored.
+    if (AttemptSchema.safeParse(cursor.value).success)
+      await cursor.update(canonicalStoredAttempt(cursor.value) as Attempt);
     cursor = await cursor.continue();
   }
 }

@@ -6,7 +6,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 ## Fase activa
 
-- **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`) y #13 (`1a842bf`, 22:24) el 2026-10-11. Queda el correctivo F02-T02-FIX02 (#14), con los findings de la última revisión de Codex sobre #13, que llegó cuando ya estaba fusionado.
+- **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. Queda el correctivo F02-T02-FIX03 (#15), con el finding de la última revisión de Codex sobre #14, que llegó cuando ya estaba fusionado.
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - Fases 3–7: no iniciadas. Cada una requiere indicación manual del usuario.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
@@ -41,7 +41,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F02-T01-FIX01 | `f02-t01-fix01` | `main` | T01–T04 (fusionadas) | #12 | fusionada (`493e5f7`) |
 | F02-T02-FIX01 | `f02-t02-fix01` | `main` (antes `f02-t01-fix01`) | FIX01 de T01 (#12) | #13 | fusionada (`1a842bf`), con T05 |
 | F02-T05 | `f02-t05-progress` | `f02-t02-fix01` (#13) | T04 y los correctivos | #11 | fusionada en `f02-t02-fix01` (`5dfdd10`) y en `main` con #13 |
-| F02-T02-FIX02 | `f02-t02-fix02` | `main` | #13 (fusionado) | #14 | en revisión (etapa B) |
+| F02-T02-FIX02 | `f02-t02-fix02` | `main` | #13 (fusionado) | #14 | fusionada (`07af269`) |
+| F02-T02-FIX03 | `f02-t02-fix03` | `main` | #14 (fusionado) | #15 | en revisión (etapa B) |
 
 ### F02-T01 — Base web: TypeScript, Vite, React, Three.js y CI
 
@@ -180,10 +181,14 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Una línea de ESTADO decía «solo queda #13»: corregida.
 - Revisión de Codex sobre #14 en `9d861f1` (5485344650), con prueba:
   - La migración a la versión 3 creaba los índices sobre las fechas que ya estaban guardadas en v2, sin normalizarlas. Ahora la rama de migración reescribe en formato canónico las fechas de los intentos guardados (inicio, fin, eventos y faltas) dentro de la misma transacción de actualización; si falla, la actualización se cancela.
+- Revisión de Codex sobre #14 en `57d043c` (5485364414; llegó con #14 ya fusionado y se corrige en F02-T02-FIX03, #15), con prueba:
+  - La migración normalizaba también las fechas de intentos ilegibles, así que la cuarentena ya no guardaba el registro original. Ahora solo se normalizan los intentos que cumplen el esquema.
+- Revisión de Codex sobre #15 en `6e8fe7d` (5485379648): las bases que ya migraron a v3 con el código de #14 no vuelven a migrar, y el valor original de esas fechas no se conserva, así que no se puede restaurar. Queda documentado como limitación conocida en ARQUITECTURA: solo cambia el formato de la fecha de esos registros, y afecta bases locales, porque la app no está publicada.
+- Revisión de CodeRabbit sobre #15 en `6e8fe7d` (5485380475), 1 finding menor: ARQUITECTURA decía «intentos que se pueden leer» sin aclarar el criterio. **Corregido:** ahora dice que la migración normaliza los intentos que validan con `AttemptSchema`, que es lo que hace `canonicaliseAttempts` en `src/progress/storage.ts`.
 
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12) y F02-T02-FIX01 con T05 (#13, que incluye #11). Queda F02-T02-FIX02 (#14), desde `main`.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). Queda F02-T02-FIX03 (#15), desde `main`.
 
 ## Bloqueos
 
@@ -191,7 +196,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B: revisar los findings de #14 (F02-T02-FIX02) y fusionarlo. Con eso se cierra la fase 2.
+Etapa B: revisar los findings de #15 (F02-T02-FIX03) y fusionarlo. Con eso se cierra la fase 2.
 
 ## Decisiones que no deben reinterpretarse
 
