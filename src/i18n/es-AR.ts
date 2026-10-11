@@ -246,6 +246,7 @@ export const LOGBOOK_COPY = {
   backupHelp:
     'Descargá un archivo con todo tu progreso para guardarlo o pasarlo a otro navegador. Importarlo reemplaza el progreso de este navegador.',
   exportButton: 'Descargar respaldo',
+  exportFailed: 'No pudimos leer tu progreso para armar el respaldo. Probá de nuevo.',
   importLabel: 'Importar un respaldo',
   importSummary: (date: string, attempts: number, concepts: number) =>
     `Respaldo del ${date}: ${count(attempts, 'intento', 'intentos')} y ${count(concepts, 'concepto', 'conceptos')}.`,

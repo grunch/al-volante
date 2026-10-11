@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { IDBFactory } from 'fake-indexeddb';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter } from 'react-router';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -234,7 +234,7 @@ describe('backup', () => {
     await user.click(await screen.findByRole('button', { name: LOGBOOK_COPY.exportButton }));
 
     // Assert
-    expect(names).toEqual(['al-volante-progreso-2026-10-20.json']);
+    await waitFor(() => expect(names).toEqual(['al-volante-progreso-2026-10-20.json']));
     const backup = JSON.parse(await blobs[0]!.text());
     expect(backup).toMatchObject({
       format: 'al-volante-progress',
@@ -243,6 +243,24 @@ describe('backup', () => {
       concepts: stored.concepts,
     });
     expect(backup.contentVersion).toMatch(/^[0-9a-f]{8}$/);
+  });
+
+  it('says so when progress cannot be read to build the backup', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const memory = createMemoryStore(stored);
+    const store: ProgressStore = {
+      ...memory,
+      load: vi
+        .fn<ProgressStore['load']>()
+        .mockImplementationOnce(() => memory.load())
+        .mockRejectedValue(new Error('NotReadableError')),
+    };
+    const user = userEvent.setup();
+    renderAt('/bitacora', withStore(store));
+
+    await user.click(await screen.findByRole('button', { name: LOGBOOK_COPY.exportButton }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(LOGBOOK_COPY.exportFailed);
   });
 
   it('restores a backup after confirmation, replacing the current progress', async () => {

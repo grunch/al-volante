@@ -22,7 +22,7 @@ export function LogbookPage() {
 
 function Logbook({ content }: { content: Content }) {
   const contentState = useContentState();
-  const { state, now, retry, replaceAll } = useProgress();
+  const { state, now, retry, replaceAll, exportSnapshot } = useProgress();
 
   // ContentGate only renders this once content is ready; the check narrows the type.
   if (contentState.status !== 'ready') return null;
@@ -65,7 +65,8 @@ function Logbook({ content }: { content: Content }) {
       />
       <ConceptProgressSection groups={progressByGroup(content.units, content.activities, concepts, current)} />
       <BackupPanel
-        snapshot={{ attempts: [...attempts], concepts: [...concepts.values()] }}
+        attemptCount={attempts.length}
+        exportSnapshot={exportSnapshot}
         contentVersion={contentState.version}
         now={now}
         replaceAll={replaceAll}

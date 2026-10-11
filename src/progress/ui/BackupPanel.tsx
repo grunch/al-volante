@@ -13,21 +13,31 @@ type ParsedBackup = Extract<BackupParseResult, { ok: true }>;
 type ImportError = keyof typeof LOGBOOK_COPY.importErrors;
 
 interface BackupPanelProps {
-  snapshot: ProgressSnapshot;
+  /** Attempts shown in this tab, for the replacement warning. */
+  attemptCount: number;
+  /** Reads everything stored when the backup is made, so another tab's progress is never left out. */
+  exportSnapshot: () => Promise<ProgressSnapshot>;
   contentVersion: string;
   now: () => Date;
   replaceAll: (snapshot: ProgressSnapshot) => Promise<void>;
 }
 
 /** Export, and import with an explicit confirmation; a rejected or failed import never touches current progress. */
-export function BackupPanel({ snapshot, contentVersion, now, replaceAll }: BackupPanelProps) {
+export function BackupPanel({ attemptCount, exportSnapshot, contentVersion, now, replaceAll }: BackupPanelProps) {
   const [pending, setPending] = useState<ParsedBackup | null>(null);
   const [message, setMessage] = useState<{ kind: 'error' | 'success'; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const exportBackup = () => {
-    const at = now().toISOString();
-    downloadText(`al-volante-progreso-${at.slice(0, 10)}.json`, createBackup(snapshot, contentVersion, at));
+  const exportBackup = async () => {
+    setMessage(null);
+    try {
+      const snapshot = await exportSnapshot();
+      const at = now().toISOString();
+      downloadText(`al-volante-progreso-${at.slice(0, 10)}.json`, createBackup(snapshot, contentVersion, at));
+    } catch (error) {
+      console.error('Could not export the backup', error);
+      setMessage({ kind: 'error', text: LOGBOOK_COPY.exportFailed });
+    }
   };
 
   const reject = (error: ImportError) => {
@@ -74,7 +84,7 @@ export function BackupPanel({ snapshot, contentVersion, now, replaceAll }: Backu
       <h2 id="backup-heading">{LOGBOOK_COPY.backupHeading}</h2>
       <p>{LOGBOOK_COPY.backupHelp}</p>
       <p>
-        <button type="button" className="button" onClick={exportBackup}>
+        <button type="button" className="button" onClick={() => void exportBackup()}>
           {LOGBOOK_COPY.exportButton}
         </button>
       </p>
@@ -92,7 +102,7 @@ export function BackupPanel({ snapshot, contentVersion, now, replaceAll }: Backu
               pending.snapshot.attempts.length,
               pending.snapshot.concepts.length,
             )}{' '}
-            <strong>{LOGBOOK_COPY.importWarning(snapshot.attempts.length)}</strong>
+            <strong>{LOGBOOK_COPY.importWarning(attemptCount)}</strong>
           </p>
           <button type="button" className="button" disabled={busy} onClick={() => void confirm()}>
             {LOGBOOK_COPY.importConfirm}

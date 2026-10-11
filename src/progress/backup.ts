@@ -78,6 +78,7 @@ function dateProblem(snapshot: ProgressSnapshot, exportedAt: string, now: Date):
       attempt.startedAt,
       ...(attempt.finishedAt ? [attempt.finishedAt] : []),
       ...attempt.events.map((event) => event.at),
+      ...attempt.faults.map((fault) => fault.at),
     ]),
   ];
   const late = answeredAt.find((iso) => Date.parse(iso) > exported + CLOCK_TOLERANCE_MS);

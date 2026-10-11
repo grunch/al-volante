@@ -137,8 +137,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
     - respaldos con contadores imposibles, que se rechazan;
     - en E2E, un respaldo dañado sin efecto después de recargar.
 - Verificación local:
-  - `npm run check` con 149 pruebas unitarias y de integración (después de resolver los findings);
-  - `npm run test:e2e` con 22 pruebas;
+  - `npm run check` con 157 pruebas unitarias y de integración (después de resolver los findings);
+  - `npm run test:e2e` con 24 pruebas (incluida una con dos pestañas);
   - capturas revisadas: bitácora en móvil sin desborde horizontal e inicio en escritorio.
 - Errores encontrados por las pruebas y corregidos:
   - un acierto después de un error subía de caja, y dos aciertos alcanzaban para dominar;
@@ -154,6 +154,9 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Un respaldo con un repaso a décadas de distancia se aceptaba: ahora el próximo repaso tiene que caer dentro del intervalo de su caja y, después de un error, exactamente un día más tarde, como lo programa `updateConcept`.
 - Tercera revisión de Codex (sobre `f1e15f0`, revisión 5485052739), con prueba:
   - Un respaldo con la última respuesta y el repaso corridos juntos al futuro se aceptaba: ahora ninguna fecha de progreso puede ser posterior a la exportación, y la exportación no puede ser posterior a la hora del dispositivo que importa. Ambas comparaciones tienen una tolerancia de un día (`CLOCK_TOLERANCE_MS`) para desajustes de reloj.
+- Cuarta revisión de Codex (sobre `bcd11dd`, revisión 5485074360), con pruebas:
+  - Las fechas de las faltas (`faults[].at`) no se comparaban con la exportación: ahora sí.
+  - Con dos pestañas, la copia en memoria de una no veía lo que escribía la otra, así que la bitácora y el respaldo podían quedar incompletos. Ahora cada escritura vuelve a leer lo guardado y avisa a las demás pestañas por `BroadcastChannel`, y el respaldo se arma leyendo la base al exportar. Lo cubren pruebas de integración con dos proveedores, una de ellas sin `BroadcastChannel`, y una E2E con dos pestañas reales.
 
 ## Pila y orden de fusión
 

@@ -42,6 +42,17 @@ test.describe('progress and logbook', () => {
     await fresh.close();
   });
 
+  test('shows an answer given in another tab without reloading', async ({ context }) => {
+    const logbook = await context.newPage();
+    await logbook.goto('./#/bitacora');
+    await expect(campaignB(logbook).getByText('Todavía no practicaste conceptos de esta parte.')).toBeVisible();
+
+    const activityTab = await context.newPage();
+    await answerCorrectly(activityTab);
+
+    await expect(campaignB(logbook).getByRole('link', { name: CONCEPT })).toBeVisible();
+  });
+
   test('rejects a corrupt backup without touching the stored progress', async ({ page }) => {
     await answerCorrectly(page);
     await page.goto('./#/bitacora');

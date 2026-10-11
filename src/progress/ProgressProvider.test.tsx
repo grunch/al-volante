@@ -72,7 +72,15 @@ describe('ProgressProvider', () => {
     // Arrange: loading stays pending until the test releases it.
     const memory = createMemoryStore();
     let finishLoading: (result: LoadResult) => void = () => undefined;
-    const store = { ...memory, load: () => new Promise<LoadResult>((resolve) => (finishLoading = resolve)) };
+    // Only the first load stays pending; reading back after the write uses the real data.
+    const firstLoad = new Promise<LoadResult>((resolve) => (finishLoading = resolve));
+    const store = {
+      ...memory,
+      load: vi
+        .fn<() => Promise<LoadResult>>()
+        .mockReturnValueOnce(firstLoad)
+        .mockImplementation(() => memory.load()),
+    };
     const record = vi.spyOn(store, 'record');
 
     // Act

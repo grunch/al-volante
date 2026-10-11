@@ -34,6 +34,8 @@ interface ProgressContextValue {
   retry: () => void;
   /** Replaces all progress atomically; rejects, leaving progress as it was, when the write fails. */
   replaceAll: (snapshot: ProgressSnapshot) => Promise<void>;
+  /** Everything stored right now, other tabs' writes included; what a backup must contain. */
+  exportSnapshot: () => Promise<ProgressSnapshot>;
 }
 
 const ProgressContext = createContext<ProgressContextValue | null>(null);
@@ -67,10 +69,14 @@ function withAttempt(data: ProgressData, attempt: Attempt, updates: readonly Con
   };
 }
 
+/** Tabs of the app announce stored changes on this channel so the others reload. */
+export const PROGRESS_CHANNEL = 'al-volante-progress';
+
 /**
- * Loads progress from IndexedDB and records every finished activity. Answers are queued behind the load, so one given
- * while loading is saved once it ends instead of being dropped. The store computes each concept from its stored
- * value inside the write, so neither a pending load nor another tab can make a write overwrite newer progress.
+ * Loads progress from IndexedDB and records every finished activity. One queue orders loading, answers, refreshes,
+ * imports and exports: an answer given while loading is saved once loading ends instead of being dropped. The store
+ * computes each concept from its stored value inside the write, and after every write this tab reloads what is
+ * stored and tells the other tabs to do the same, so no tab shows, or exports, a stale copy.
  */
 export function ProgressProvider({
   children,
@@ -84,13 +90,39 @@ export function ProgressProvider({
   const [state, setState] = useState<ProgressState>({ status: 'loading' });
   const [loadCount, setLoadCount] = useState(0);
   const storeRef = useRef<ProgressStore | null>(null);
+  /** Shown data; null until loaded, so refreshes never replace an error state. */
   const dataRef = useRef<ProgressData | null>(null);
   const queueRef = useRef<Promise<void>>(Promise.resolve());
+  const channelRef = useRef<BroadcastChannel | null>(null);
+
+  /** Runs `task` after every queued one; a failing task does not stop the queue. */
+  const enqueue = useCallback(<T,>(task: () => Promise<T>): Promise<T> => {
+    const run = queueRef.current.then(task);
+    queueRef.current = run.then(
+      () => undefined,
+      () => undefined,
+    );
+    return run;
+  }, []);
+
+  /** Shows what is stored now, which includes other tabs' writes. */
+  const refresh = useCallback(async (store: ProgressStore) => {
+    const { snapshot, quarantined } = await store.load();
+    if (storeRef.current !== store || !dataRef.current) return;
+    const data = toData(snapshot);
+    dataRef.current = data;
+    setState((previous) => (previous.status === 'ready' ? { ...previous, data, quarantined } : previous));
+  }, []);
+
+  const announce = useCallback((store: ProgressStore) => {
+    if (store.persistent) channelRef.current?.postMessage('changed');
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     let store: ProgressStore | null = null;
-    const loading = (async () => {
+    // Errors become state, so this never rejects and answers queued behind it still run.
+    void enqueue(async () => {
       try {
         const opened = await open();
         // Unmounted while opening (StrictMode runs effects twice): release the connection nobody will use.
@@ -110,16 +142,30 @@ export function ProgressProvider({
         console.error('Could not load progress', error);
         setState({ status: 'error', message: error instanceof Error ? error.message : String(error) });
       }
-    })();
-    // Answers given meanwhile wait in the queue until loading ends (it never rejects: errors become state).
-    queueRef.current = queueRef.current.then(() => loading);
+    });
     return () => {
       cancelled = true;
       storeRef.current = null;
       dataRef.current = null;
       store?.close();
     };
-  }, [open, loadCount]);
+  }, [open, loadCount, enqueue]);
+
+  useEffect(() => {
+    if (typeof BroadcastChannel === 'undefined') return;
+    const channel = new BroadcastChannel(PROGRESS_CHANNEL);
+    channelRef.current = channel;
+    channel.onmessage = () => {
+      void enqueue(async () => {
+        const store = storeRef.current;
+        if (store) await refresh(store).catch((error: unknown) => console.error('Could not refresh progress', error));
+      });
+    };
+    return () => {
+      channel.close();
+      channelRef.current = null;
+    };
+  }, [enqueue, refresh]);
 
   const retry = useCallback(() => {
     setState({ status: 'loading' });
@@ -131,7 +177,7 @@ export function ProgressProvider({
     (result: ActivityResult) => {
       notifyParent(result);
       if (contentVersion === null) return;
-      queueRef.current = queueRef.current.then(async () => {
+      void enqueue(async () => {
         const store = storeRef.current;
         // No store means it could not be opened; the logbook shows that error.
         if (!store) return;
@@ -144,7 +190,7 @@ export function ProgressProvider({
             variantId: result.evaluation.variantId,
             seed: result.presentation.seed,
             response: result.response,
-            correct: result.evaluation.correct,
+            correct,
             score: result.evaluation.score,
             mode: 'practice',
           },
@@ -160,33 +206,54 @@ export function ProgressProvider({
           setState((previous) => (previous.status === 'ready' ? { ...previous, saveFailed: true } : previous));
           return;
         }
-        const data = dataRef.current;
-        // Saved either way; without loaded data (a failed load) it shows up after a successful retry.
-        if (storeRef.current !== store || !data) return;
-        const next = withAttempt(data, attempt, updates);
+        announce(store);
+        setState((previous) => (previous.status === 'ready' ? { ...previous, saveFailed: false } : previous));
+        try {
+          await refresh(store);
+        } catch (error) {
+          // Saved, but reading back failed: at least show this tab's own answer.
+          console.error('Could not refresh progress', error);
+          const data = dataRef.current;
+          if (storeRef.current !== store || !data) return;
+          const next = withAttempt(data, attempt, updates);
+          dataRef.current = next;
+          setState((previous) => (previous.status === 'ready' ? { ...previous, data: next } : previous));
+        }
+      });
+    },
+    [notifyParent, contentVersion, createId, now, enqueue, announce, refresh],
+  );
+
+  const replaceAll = useCallback(
+    (snapshot: ProgressSnapshot) =>
+      enqueue(async () => {
+        const store = storeRef.current;
+        if (!store) throw new Error('Progress is not loaded');
+        await store.replaceAll(snapshot);
+        announce(store);
+        const next = toData(snapshot);
         dataRef.current = next;
         setState((previous) =>
           previous.status === 'ready' ? { ...previous, data: next, saveFailed: false } : previous,
         );
-      });
-    },
-    [notifyParent, contentVersion, createId, now],
+      }),
+    [enqueue, announce],
   );
 
-  const replaceAll = useCallback((snapshot: ProgressSnapshot) => {
-    const run = queueRef.current.then(async () => {
-      const store = storeRef.current;
-      if (!store) throw new Error('Progress is not loaded');
-      await store.replaceAll(snapshot);
-      const next = toData(snapshot);
-      dataRef.current = next;
-      setState((previous) => (previous.status === 'ready' ? { ...previous, data: next, saveFailed: false } : previous));
-    });
-    queueRef.current = run.catch(() => undefined);
-    return run;
-  }, []);
+  const exportSnapshot = useCallback(
+    () =>
+      enqueue(async () => {
+        const store = storeRef.current;
+        if (!store) throw new Error('Progress is not loaded');
+        return (await store.load()).snapshot;
+      }),
+    [enqueue],
+  );
 
-  const value = useMemo(() => ({ state, now, retry, replaceAll }), [state, now, retry, replaceAll]);
+  const value = useMemo(
+    () => ({ state, now, retry, replaceAll, exportSnapshot }),
+    [state, now, retry, replaceAll, exportSnapshot],
+  );
   return (
     <ProgressContext.Provider value={value}>
       <ActivityResultContext.Provider value={record}>{children}</ActivityResultContext.Provider>

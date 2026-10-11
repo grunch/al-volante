@@ -105,6 +105,8 @@ describe('backup dates', () => {
     };
     const lateAttempt = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
     lateAttempt.attempts[0].events[0].at = '2036-10-11T12:00:00.000Z';
+    const lateFault = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
+    lateFault.attempts[0].faults = [{ ruleId: 'rule.minor.a-item', at: '2036-10-11T12:00:00.000Z', points: 1 }];
 
     // Act / Assert
     expect(parse(JSON.stringify(shifted))).toMatchObject({
@@ -113,6 +115,11 @@ describe('backup dates', () => {
       details: expect.stringContaining('after the export'),
     });
     expect(parse(JSON.stringify(lateAttempt))).toMatchObject({
+      ok: false,
+      error: 'invalid-data',
+      details: expect.stringContaining('after the export'),
+    });
+    expect(parse(JSON.stringify(lateFault))).toMatchObject({
       ok: false,
       error: 'invalid-data',
       details: expect.stringContaining('after the export'),
