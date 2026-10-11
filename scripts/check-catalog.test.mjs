@@ -9,9 +9,9 @@ function buildCatalog() {
     { id: 'siniestros', pages: 1 },
   ];
   const pages = [
-    { source: 'manual', page: 1, category: 'common', kind: 'cover', summary: 'Tapa', units: [] },
-    { source: 'manual', page: 2, category: 'B', kind: 'instructional', summary: 'Rotonda', units: ['manual.ch3.roundabout-priority'] },
-    { source: 'siniestros', page: 1, category: 'guide', kind: 'cover', summary: 'Tapa', units: [] },
+    { source: 'manual', page: 1, section: 'front', category: 'common', kind: 'cover', summary: 'Tapa', units: [] },
+    { source: 'manual', page: 2, section: 'ch3', category: 'B', kind: 'instructional', summary: 'Rotonda', units: ['manual.ch3.roundabout-priority'] },
+    { source: 'siniestros', page: 1, section: 'front', category: 'guide', kind: 'cover', summary: 'Tapa', units: [] },
   ];
   const units = [
     {
@@ -110,4 +110,15 @@ test('reports invalid and duplicate sign ids and signs on unknown pages', () => 
   assert.ok(errors.includes('sign.regulatory.no-entry: duplicate sign id'));
   assert.ok(errors.includes('Señal: invalid sign id'));
   assert.ok(errors.includes('Señal: references unclassified page manual:9'));
+});
+
+test('reports units whose section or category differ from the pages they reference', () => {
+  const catalog = buildCatalog();
+  catalog.units[0] = { ...catalog.units[0], id: 'manual.ch5.roundabout-priority', section: 'ch5', category: 'D' };
+  catalog.pages[1].units = ['manual.ch5.roundabout-priority'];
+
+  const errors = validateCatalog(catalog);
+
+  assert.ok(errors.includes('manual.ch5.roundabout-priority: section "ch5" differs from page manual:2 ("ch3")'));
+  assert.ok(errors.includes('manual.ch5.roundabout-priority: category "D" differs from page manual:2 ("B")'));
 });

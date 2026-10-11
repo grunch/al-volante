@@ -70,8 +70,14 @@ export function validateCatalog({ manifest, pages, units, signs }) {
     }
     for (const n of unit.pages) {
       const page = pageIndex.get(`${unit.source}:${n}`);
-      if (!page) errors.push(`${id}: references unclassified page ${unit.source}:${n}`);
-      else if (!page.units?.includes(id)) errors.push(`${id}: page ${unit.source}:${n} does not list this unit`);
+      if (!page) {
+        errors.push(`${id}: references unclassified page ${unit.source}:${n}`);
+        continue;
+      }
+      if (!page.units?.includes(id)) errors.push(`${id}: page ${unit.source}:${n} does not list this unit`);
+      // Keeps the B/complementary split honest: a unit inherits section and category from its pages.
+      if (page.section !== unit.section) errors.push(`${id}: section "${unit.section}" differs from page ${unit.source}:${n} ("${page.section}")`);
+      if (page.category !== unit.category) errors.push(`${id}: category "${unit.category}" differs from page ${unit.source}:${n} ("${page.category}")`);
     }
   }
 
