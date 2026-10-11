@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { App } from './App.tsx';
 import { renderApp } from '../test/renderApp.tsx';
-import { esAR, t } from '../i18n/es-AR.ts';
+import { HOME_SPACES, esAR, t } from '../i18n/es-AR.ts';
 
 describe('layout and home', () => {
   it('renders the garage home with navigation, skip link and the six spaces', async () => {
@@ -18,9 +18,25 @@ describe('layout and home', () => {
     expect(screen.getByRole('link', { name: esAR.skipToContent })).toBeInTheDocument();
     expect(await screen.findByRole('img', { name: esAR.garageSceneLabel })).toBeInTheDocument();
     const spaces = screen.getByRole('region', { name: esAR.spacesHeading });
-    expect(within(spaces).getAllByRole('listitem')).toHaveLength(6);
-    expect(within(spaces).getByRole('link', { name: 'Biblioteca' })).toHaveAttribute('href', '/biblioteca');
-    expect(within(spaces).getAllByText(esAR.comingSoon)).toHaveLength(5);
+    // The six spaces of PROPUESTA §2, in its order; the library is a separate screen, linked under the intro.
+    expect(
+      within(spaces)
+        .getAllByRole('heading', { level: 3 })
+        .map((heading) => heading.textContent),
+    ).toEqual(HOME_SPACES.map((space) => space.title));
+    expect(HOME_SPACES.map((space) => space.title)).toEqual([
+      'Mi garaje',
+      'La ciudad te pregunta',
+      'Laboratorio vial',
+      'Ruta 13',
+      'Sala de examen',
+      'Mi bitácora',
+    ]);
+    expect(within(spaces).getAllByText(esAR.comingSoon)).toHaveLength(6);
+    expect(within(screen.getByRole('main')).getByRole('link', { name: esAR.navLibrary })).toHaveAttribute(
+      'href',
+      '/biblioteca',
+    );
     expect(document.title).toBe(esAR.appTitle);
   });
 

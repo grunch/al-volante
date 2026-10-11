@@ -323,3 +323,8 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+.button--secondary {
+  background: transparent;
+  color: var(--color-ink);
+}

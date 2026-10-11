@@ -1,7 +1,8 @@
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import { renderApp } from '../../test/renderApp.tsx';
+import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
+import { rule, ruleCatalog } from '../../content/testing/fixtures.ts';
 import { esAR } from '../../i18n/es-AR.ts';
 import { loadPageText, splitPages } from '../../content/sourceText.ts';
 import type * as SourceTextModule from '../../content/sourceText.ts';
@@ -90,6 +91,35 @@ describe('library', () => {
 
     expect(await screen.findByText(esAR.pageNotCatalogued)).toBeInTheDocument();
     expect(screen.getByText('Cruza con el semáforo en rojo', { exact: false })).toBeInTheDocument();
+  });
+
+  it('shows the ficha row of the page being viewed when a rule spans several pages', async () => {
+    // Arrange: one rule with ficha rows on pages 16 and 17 and a citation on page 30.
+    const spanning = rule({
+      id: 'rule.high.l-yield-to-pedestrians',
+      severity: 'high',
+      annexItem: 'l',
+      points: 3,
+      refs: [{ source: 'protocolo', page: 30 }],
+      fichaRows: [
+        { stage: 'II', group: 'Giros', text: 'Conducta de la página 16', page: 16 },
+        { stage: 'II', group: 'Giros', text: 'Conducta de la página 17', page: 17 },
+      ],
+    });
+    const load = readyContent({ ...testContent(), rules: ruleCatalog([spanning]) });
+
+    // Act
+    const page17 = renderApp('/biblioteca/protocolo/17', load);
+    const rules17 = within(await screen.findByRole('region', { name: esAR.pageRules }));
+
+    // Assert
+    expect(rules17.getByText('Conducta de la página 17', { exact: false })).toBeInTheDocument();
+    expect(rules17.queryByText('Conducta de la página 16', { exact: false })).not.toBeInTheDocument();
+    page17.unmount();
+
+    // A page that only cites the rule falls back to its first ficha row.
+    renderApp('/biblioteca/protocolo/30', load);
+    expect(await screen.findByText('Conducta de la página 16', { exact: false })).toBeInTheDocument();
   });
 
   it('moves between pages with the previous/next links and the page form', async () => {

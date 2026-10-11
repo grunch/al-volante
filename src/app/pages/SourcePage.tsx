@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { loadPageText } from '../../content/sourceText.ts';
-import type { Source, SourceId } from '../../content/schemas.ts';
+import type { Rule, Source, SourceId } from '../../content/schemas.ts';
 import type { Content } from '../../content/validate.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
@@ -38,6 +38,15 @@ export function SourcePage() {
       }}
     </ContentGate>
   );
+}
+
+/**
+ * The ficha row printed on this page; a rule can span several pages. Pages that only cite the rule (its `refs`)
+ * fall back to the first row.
+ */
+function fichaTextForPage(rule: Rule, page: number): string {
+  const rows = rule.fichaRows.filter((row) => row.page === page);
+  return (rows.length > 0 ? rows : rule.fichaRows.slice(0, 1)).map((row) => row.text).join('; ');
 }
 
 function SourcePageView({ content, source, page }: { content: Content; source: Source; page: number }) {
@@ -117,7 +126,7 @@ function SourcePageView({ content, source, page }: { content: Content; source: S
                 <strong>
                   {SEVERITY_LABELS[rule.severity]} ({rule.points})
                 </strong>
-                : {rule.fichaRows[0]?.text}
+                : {fichaTextForPage(rule, page)}
               </li>
             ))}
           </ul>

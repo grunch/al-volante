@@ -139,3 +139,31 @@ export const SEVERITY_LABELS: Record<string, string> = {
   high: 'Deficiente alta',
   eliminatory: 'Eliminatoria',
 };
+
+/** The six spaces of PROPUESTA §2, in its order. */
+export const HOME_SPACES = [
+  {
+    id: 'garage',
+    title: 'Mi garaje',
+    description: 'Explorá el auto, la postura, los espejos y los elementos de seguridad.',
+  },
+  {
+    id: 'city',
+    title: 'La ciudad te pregunta',
+    description: 'Resolvé escenas de prioridades, señales, luces y estacionamiento.',
+  },
+  {
+    id: 'lab',
+    title: 'Laboratorio vial',
+    description: 'Compará distancias de reacción y frenado, lluvia y puntos ciegos.',
+  },
+  { id: 'route', title: 'Ruta 13', description: 'Conducí el recorrido A de Núñez desde el interior del auto.' },
+  { id: 'exam', title: 'Sala de examen', description: 'Simulacros del teórico equilibrados por tema.' },
+  {
+    id: 'logbook',
+    title: 'Mi bitácora',
+    description: 'Revisá tus errores, los repasos pendientes y cómo vas con cada concepto.',
+  },
+] as const;
+
+export type HomeSpaceId = (typeof HOME_SPACES)[number]['id'];
