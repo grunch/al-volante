@@ -7,7 +7,7 @@ import type { ConceptProgress } from './model.ts';
 
 export const DB_NAME = 'al-volante';
 /** Bump with a new branch in `upgrade` whenever stores or indexes change; never edit an old branch. */
-export const DB_VERSION = 2;
+export const DB_VERSION = 3;
 
 /** An unreadable record, moved aside exactly as it was found so a future migration can still recover it. */
 export interface QuarantinedRecord {
@@ -17,7 +17,7 @@ export interface QuarantinedRecord {
 }
 
 interface ProgressDB extends DBSchema {
-  attempts: { key: string; value: Attempt };
+  attempts: { key: string; value: Attempt; indexes: { 'by-started': string; 'by-finished': string } };
   concepts: { key: string; value: ConceptProgress };
   quarantine: { key: number; value: QuarantinedRecord };
 }
@@ -33,18 +33,35 @@ export interface LoadResult {
   quarantined: number;
 }
 
+/** Builds the attempt to store from the latest attempt time already stored (undefined when there is none). */
+export type AttemptFactory = (latestAttemptAt: string | undefined) => Attempt;
+
 /** Computes a concept's new progress from the value stored right now (undefined when there is none). */
-export type ConceptUpdate = (unitId: string, previous: ConceptProgress | undefined) => ConceptProgress;
+export type ConceptUpdate = (unitId: string, previous: ConceptProgress | undefined, at: string) => ConceptProgress;
+
+export interface RecordResult {
+  attempt: Attempt;
+  updates: ConceptProgress[];
+}
+
+/** When an attempt happened, for ordering: its end, or its start while unfinished. */
+export const attemptTime = (attempt: Attempt): string => attempt.finishedAt ?? attempt.startedAt;
+
+function latestOf(times: ReadonlyArray<string | undefined>): string | undefined {
+  const parsed = times.filter((time): time is string => time !== undefined).map((time) => Date.parse(time));
+  return parsed.length > 0 ? new Date(Math.max(...parsed)).toISOString() : undefined;
+}
 
 export interface ProgressStore {
   /** False for the in-memory fallback used when IndexedDB is unavailable (e.g. some private modes). */
   readonly persistent: boolean;
   load(): Promise<LoadResult>;
   /**
-   * Stores one attempt and updates its concepts in a single transaction, reading each concept inside it: another
-   * tab's newer progress is built upon, never overwritten. Returns the updated concepts.
+   * Stores one attempt and updates its concepts in a single transaction. The attempt is built from the latest stored
+   * attempt time and each concept from its stored value, both read inside the transaction: another tab's newer
+   * progress is built upon, never overwritten or reordered.
    */
-  record(attempt: Attempt, unitIds: readonly string[], update: ConceptUpdate): Promise<ConceptProgress[]>;
+  record(createAttempt: AttemptFactory, unitIds: readonly string[], update: ConceptUpdate): Promise<RecordResult>;
   /** Replaces all progress atomically: either everything is replaced or nothing changes. */
   replaceAll(snapshot: ProgressSnapshot): Promise<void>;
   close(): void;
@@ -136,9 +153,16 @@ class IndexedDbStore implements ProgressStore {
     });
   }
 
-  record(attempt: Attempt, unitIds: readonly string[], update: ConceptUpdate): Promise<ConceptProgress[]> {
+  record(createAttempt: AttemptFactory, unitIds: readonly string[], update: ConceptUpdate): Promise<RecordResult> {
     return inTransaction(this.db, async (tx, track) => {
+      const attemptStore = tx.objectStore('attempts');
       const conceptStore = tx.objectStore('concepts');
+      const [latestStart, latestEnd] = await Promise.all([
+        track(attemptStore.index('by-started').openKeyCursor(null, 'prev')),
+        track(attemptStore.index('by-finished').openKeyCursor(null, 'prev')),
+      ]);
+      const attempt = AttemptSchema.parse(createAttempt(latestOf([latestStart?.key, latestEnd?.key])));
+      const at = attemptTime(attempt);
       const ids = [...new Set(unitIds)];
       const stored: unknown[] = await Promise.all(ids.map((unitId) => track(conceptStore.get(unitId))));
       const updates = ids.map((unitId, index) => {
@@ -148,11 +172,11 @@ class IndexedDbStore implements ProgressStore {
         if (value !== undefined && !previous)
           track(tx.objectStore('quarantine').add({ store: 'concepts', key: unitId, value }));
         // Never write what a later load would have to quarantine: an invalid result aborts the whole write.
-        return ConceptProgressSchema.parse(update(unitId, previous));
+        return ConceptProgressSchema.parse(update(unitId, previous, at));
       });
-      track(tx.objectStore('attempts').put(attempt));
+      track(attemptStore.put(attempt));
       for (const concept of updates) track(conceptStore.put(concept));
-      return updates;
+      return { attempt, updates };
     });
   }
 
@@ -177,11 +201,13 @@ export function createMemoryStore(initial: ProgressSnapshot = { attempts: [], co
     async load() {
       return { snapshot: { attempts: [...attempts.values()], concepts: [...concepts.values()] }, quarantined: 0 };
     },
-    async record(attempt, unitIds, update) {
-      const updates = [...new Set(unitIds)].map((unitId) => update(unitId, concepts.get(unitId)));
+    async record(createAttempt, unitIds, update) {
+      const attempt = createAttempt(latestOf([...attempts.values()].map(attemptTime)));
+      const at = attemptTime(attempt);
+      const updates = [...new Set(unitIds)].map((unitId) => update(unitId, concepts.get(unitId), at));
       attempts = new Map([...attempts, [attempt.id, attempt]]);
       concepts = new Map([...concepts, ...updates.map((concept) => [concept.unitId, concept] as const)]);
-      return updates;
+      return { attempt, updates };
     },
     async replaceAll(snapshot) {
       attempts = new Map(snapshot.attempts.map((attempt) => [attempt.id, attempt]));
@@ -198,13 +224,19 @@ export async function openProgressStore(): Promise<ProgressStore> {
   if (typeof indexedDB === 'undefined') return createMemoryStore();
   try {
     const db = await openDB<ProgressDB>(DB_NAME, DB_VERSION, {
-      upgrade(database, oldVersion) {
+      upgrade(database, oldVersion, _newVersion, transaction) {
         // One branch per schema version, applied in order, so any older database upgrades step by step.
         if (oldVersion < 1) {
           database.createObjectStore('attempts', { keyPath: 'id' });
           database.createObjectStore('concepts', { keyPath: 'unitId' });
         }
         if (oldVersion < 2) database.createObjectStore('quarantine', { autoIncrement: true });
+        if (oldVersion < 3) {
+          // Lets a write find the latest attempt time without reading every attempt.
+          const attempts = transaction.objectStore('attempts');
+          attempts.createIndex('by-started', 'startedAt');
+          attempts.createIndex('by-finished', 'finishedAt');
+        }
       },
     });
     return new IndexedDbStore(db);

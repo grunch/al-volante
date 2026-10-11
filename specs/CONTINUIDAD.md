@@ -58,7 +58,7 @@ Actualizar este archivo y `ESTADO_IMPLEMENTACION.md` en cada hito.
 
 Iniciada por el usuario el 2026-10-11, con la fase 1 fusionada. Tareas en orden: T01 base web y CI; T02 esquemas y carga de catálogos; T03 navegación, biblioteca y mapa de aprendizaje; T04 motor de actividades con muestra; T05 progreso, bitácora, repaso espaciado y respaldo. Decisiones técnicas en `ARQUITECTURA.md`: versiones exactas con al menos dos semanas de publicadas, TypeScript 6.0 (no 7, por `typescript-eslint`), Three.js sin capa React y escena cargada en forma diferida.
 
-T01–T04 fusionadas (#7–#10). #11 (T05) sigue abierto, apilado sobre los correctivos. Los findings que Codex dejó sobre esos merges van en los correctivos F02-T01-FIX01 (#12) y F02-T02-FIX01 (#13). En #13 los valores técnicos de los catálogos (`status`, `roadType`) pasaron a inglés; los documentos explican cada valor en español.
+Toda la fase 2 está en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12) y F02-T02-FIX01 con T05 (#13; #11 se fusionó dentro de esa rama). Queda el correctivo F02-T02-FIX02 (#14). En #13 los valores técnicos de los catálogos (`status`, `roadType`) pasaron a inglés; los documentos explican cada valor en español.
 
 Decisiones de esta fase que las siguientes no deben reinterpretar:
 

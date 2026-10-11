@@ -10,8 +10,7 @@ const COUNTED_ONCE: ReadonlySet<Rule['repetition']> = new Set(['once', 'single-c
 export function attemptErrors(attempt: Attempt, rules: RuleCatalog): string[] {
   const errors: string[] = [];
   const byId = new Map(rules.rules.map((rule) => [rule.id, rule]));
-  if (attempt.kind === 'activity' && attempt.faults.length > 0)
-    errors.push(`${attempt.id}: activity attempts cannot have driving faults`);
+  if (attempt.kind === 'activity') errors.push(...activityErrors(attempt));
   const seen = new Set<string>();
   attempt.faults.forEach((fault, index) => {
     const rule = byId.get(fault.ruleId);
@@ -32,5 +31,20 @@ export function attemptErrors(attempt: Attempt, rules: RuleCatalog): string[] {
   const total = attempt.faults.reduce((sum, fault) => sum + fault.points, 0);
   if (attempt.result.points !== null && attempt.result.points !== total)
     errors.push(`${attempt.id}: result points ${attempt.result.points} do not match the faults (${total})`);
+  return errors;
+}
+
+/** What an answered activity always looks like (createAttempt): finished, one answer, a coherent score, no faults. */
+function activityErrors(attempt: Attempt): string[] {
+  const errors: string[] = [];
+  const { correct, score, points } = attempt.result;
+  if (attempt.faults.length > 0) errors.push(`${attempt.id}: activity attempts cannot have driving faults`);
+  if (attempt.finishedAt === null) errors.push(`${attempt.id}: an activity attempt is finished when it is answered`);
+  const answers = attempt.events.filter((event) => event.type === 'answer').length;
+  if (answers !== 1) errors.push(`${attempt.id}: an activity attempt has exactly one answer (found ${answers})`);
+  if (correct === null || score === null)
+    errors.push(`${attempt.id}: an activity attempt records correctness and score`);
+  else if (correct !== (score === 1)) errors.push(`${attempt.id}: correct must match a full score`);
+  if (points !== null) errors.push(`${attempt.id}: activity attempts have no exam points`);
   return errors;
 }

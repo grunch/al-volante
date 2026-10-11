@@ -21,10 +21,10 @@ function answerResult(): ActivityResult {
 }
 
 /** One browser tab: its own provider and IndexedDB connection, a button to answer and one to export. */
-function Tab({ name }: { name: string }) {
+function Tab({ name, now }: { name: string; now?: () => Date }) {
   return (
     <section aria-label={name}>
-      <ProgressProvider>
+      <ProgressProvider {...(now ? { now } : {})}>
         <TabBody />
       </ProgressProvider>
     </section>
@@ -52,11 +52,11 @@ function TabBody() {
   );
 }
 
-function renderTabs() {
+function renderTabs(clocks: { a?: () => Date; b?: () => Date } = {}) {
   render(
     <ContentProvider load={readyContent()}>
-      <Tab name="A" />
-      <Tab name="B" />
+      <Tab name="A" {...(clocks.a ? { now: clocks.a } : {})} />
+      <Tab name="B" {...(clocks.b ? { now: clocks.b } : {})} />
     </ContentProvider>,
   );
   return { a: within(screen.getByRole('region', { name: 'A' })), b: within(screen.getByRole('region', { name: 'B' })) };
@@ -86,6 +86,32 @@ describe('progress across tabs', () => {
     await user.click(b.getByRole('button', { name: 'answer' }));
     expect(await b.findByText('attempts: 2')).toBeInTheDocument();
     expect(await a.findByText('attempts: 2')).toBeInTheDocument();
+  });
+
+  it('keeps a later answer last even when its tab clock is behind another tab', async () => {
+    // Arrange: no tab messages; tab A runs an hour ahead of tab B.
+    vi.stubGlobal('BroadcastChannel', undefined);
+    const base = Date.parse('2026-10-20T12:00:00.000Z');
+    const user = userEvent.setup();
+    const { a, b } = renderTabs({ a: () => new Date(base + 60 * 60 * 1000), b: () => new Date(base) });
+    await a.findByText('attempts: 0');
+    await b.findByText('attempts: 0');
+
+    // Act: A answers first, then B, which never loaded A's answer.
+    await user.click(a.getByRole('button', { name: 'answer' }));
+    await a.findByText('attempts: 1');
+    await user.click(b.getByRole('button', { name: 'answer' }));
+    await b.findByText('attempts: 2');
+    await user.click(b.getByRole('button', { name: 'export' }));
+
+    // Assert: B's answer is dated after A's, so it stays the newest.
+    await b.findByText('exported: 2');
+    const stored = await (await import('./storage.ts')).openProgressStore().then((store) => store.load());
+    const [first, second] = [...stored.snapshot.attempts].sort(
+      (x, y) => Date.parse(x.finishedAt ?? '') - Date.parse(y.finishedAt ?? ''),
+    );
+    expect(Date.parse(second?.finishedAt ?? '')).toBeGreaterThan(Date.parse(first?.finishedAt ?? ''));
+    expect(Date.parse(first?.finishedAt ?? '')).toBe(base + 60 * 60 * 1000);
   });
 
   it('exports everything stored, and catches up on its own next save, even without tab messages', async () => {
