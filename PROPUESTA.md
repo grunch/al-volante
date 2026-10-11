@@ -119,7 +119,7 @@ Detalles que debe respetar la implementación:
 - Primeros 100 metros a no más de 30 km/h y en segunda para manual, según indicación del examinador (PDF 11).
 - Estacionar en más de tres maniobras y hacerlo en más de dos intentos son fallas distintas; no contar cada corrección de volante como un intento (PDF 17, 24–25, 33).
 - Cajón de 6 metros, según gráfico 4, PDF 21. Objetivo aproximadamente a 20 cm del cordón. Las franjas y consecuencias se extraen del gráfico y del anexo, sin sustituirlas por un umbral inventado.
-- Algunas faltas de reconocimiento se contabilizan una sola vez aunque haya varios errores. Las reglas tendrán política explícita de repetición.
+- Algunas faltas se contabilizan una sola vez aunque haya varios errores: reconocimiento de luces e instrumental (protocolo PDF 22); vehículo descentrado o inclinado al estacionar, y no apagar el motor, no quitar la llave o no bloquear la dirección (PDF 25). Otras suman una falla cada vez que ocurren: roce del cordón (PDF 23); tirones, aceleración en vacío, motor detenido, manos fuera del volante y direccionales en giros (PDF 26); direccionales en cambios de carril o maniobras (PDF 27); roce de elementos del cajón (PDF 28). Las reglas tendrán política explícita de repetición; la transcripción completa queda en `REGLAS.md` (F01-T03).
 - La intervención del doble comando y las interrupciones se representarán como toma de control del examinador.
 - Al terminar: ficha por etapa, eventos con instante y ubicación, explicación, página fuente y acceso al ejercicio correctivo.
 

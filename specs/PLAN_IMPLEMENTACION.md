@@ -8,23 +8,30 @@ Este documento concreta la ejecución de [PROPUESTA.md](../PROPUESTA.md). Cada t
 
 - El usuario inicia cada fase de forma explícita, por ejemplo: «iniciá la fase 1».
 - Aprobar la propuesta o este plan no inicia una fase. Finalizar una fase tampoco autoriza la siguiente.
-- Dentro de una fase iniciada, el modelo crea y procesa todas sus tareas **una por una**, en el orden indicado. No delegar implementaciones paralelas ni abrir en lote los PRs.
-- El modelo puede corregir y fusionar cada PR sin pedir otra aprobación cuando considere que está listo, cumpla los controles de este documento y las protecciones del repositorio lo permitan.
+- **Modo de trabajo por fase (indicado por el usuario el 2026-10-11):** al iniciarse una fase, el modelo implementa y crea **todos los PRs de la fase**, uno por uno, en el orden indicado y apilados. **No espera las revisiones ni la fusión de un PR para crear el siguiente.** Cuando la fase tiene todos sus PRs creados, comienza la etapa de revisión, en la que el usuario y el modelo repasan juntos los findings de los agentes revisores.
+- Cada PR se implementa completo antes de pasar al siguiente. No delegar implementaciones paralelas ni crear PRs vacíos o provisionales para reservar lugar.
+- En la etapa de revisión, el modelo corrige los findings aceptados y puede fusionar cada PR, en el orden de la pila, cuando cumpla los criterios de fusión de este documento y las protecciones del repositorio lo permitan.
 - Al cerrar una fase, entregar resumen, enlaces a PRs, evidencia de validación, limitaciones y estado de continuidad; esperar la indicación manual para iniciar otra.
 - Una corrección necesaria de una tarea pertenece a su PR. Si ya se fusionó, abrir un PR correctivo identificado como `Fxx-Tyy-FIXnn`, con el mismo flujo. No aprovechar correcciones para iniciar trabajo de otra fase.
 - No fusionar todos los cambios en un único PR ni sustituir los PRs por commits directos a la rama principal.
 
-## 2. Flujo obligatorio de cada PR
+## 2. Flujo obligatorio de cada fase y de cada PR
 
-1. **Preparar:** leer instrucciones aplicables, specs, estado de fase y dependencias; definir alcance y aceptación. Crear una rama de tarea desde la base correcta.
+Una fase tiene dos etapas consecutivas.
+
+**Etapa A — Creación.** Para cada tarea, en orden, ejecutar los pasos 1–6 y pasar enseguida a la tarea siguiente. Las revisiones externas corren en segundo plano y no se esperan. Al crear el último PR, entregar al usuario la lista de PRs, la pila y el estado de las revisiones solicitadas.
+
+**Etapa B — Revisión de findings.** Con todos los PRs creados, recorrer la pila desde la base y ejecutar los pasos 7–9 en cada PR, junto con el usuario. Esperar o volver a pedir las revisiones que todavía no terminaron.
+
+1. **Preparar:** leer instrucciones aplicables, specs, estado de fase y dependencias; definir alcance y aceptación. Crear una rama de tarea sobre la rama del PR anterior de la fase (o sobre `main` para la primera tarea; ver §3).
 2. **Implementar:** cambios, documentación y verificaciones proporcionales a su riesgo. Mantener los cambios revisables y acotados a la tarea.
 3. **Autorrevisar antes de commit y push:** el modelo autor revisa el diff completo frente a los requisitos, fuentes, posibles regresiones y pruebas. Corrige sus findings y vuelve a revisar los cambios corregidos. Esta revisión es obligatoria, aunque no quede presupuesto para revisores adicionales.
 4. **Commit y push:** solo después de la autorrevisión. Todo commit posterior de corrección repite el paso anterior antes de publicarse.
 5. **Crear PR:** descripción completa con problema, comportamiento resultante, validación, dependencias, orden de fusión, estado de revisiones y limitaciones.
-6. **Revisión por Codex y CodeRabbit:** solicitar ambas, siempre que haya presupuesto/tokens disponibles para cada servicio. Codex será una revisión adicional y diferenciada de la autorrevisión; si el autor es Codex, su autorrevisión no cuenta como ambas. Usar la integración o sesión de revisión disponible y registrar el mecanismo utilizado. La revisión adicional por un agente está autorizada para este fin; no implica implementación paralela de tareas.
-7. **Resolver findings:** evaluar cada hallazgo, corregir los aceptados y justificar con evidencia los descartados o no aplicables. Ante desacuerdo no esconder el hallazgo. Revalidar lo afectado y pedir nueva revisión cuando los cambios o las observaciones lo requieran y haya presupuesto.
-8. **Decidir y fusionar:** comprobar criterios de fusión, dependencias y último estado de checks/revisiones. El modelo puede fusionar si concluye que el resultado es correcto. No eludir reglas de protección ni checks obligatorios de GitHub.
-9. **Registrar:** enlace/número del PR, commits relevantes, resultado de revisiones, findings, comprobaciones y estado final. Continuar con la siguiente tarea de la fase iniciada.
+6. **Solicitar revisión por Codex y CodeRabbit** y continuar con la siguiente tarea sin esperar el resultado: solicitar ambas, siempre que haya presupuesto/tokens disponibles para cada servicio. Codex será una revisión adicional y diferenciada de la autorrevisión; si el autor es Codex, su autorrevisión no cuenta como ambas. Usar la integración o sesión de revisión disponible y registrar el mecanismo utilizado. La revisión adicional por un agente está autorizada para este fin; no implica implementación paralela de tareas.
+7. **Resolver findings (etapa B):** revisar con el usuario los findings de cada PR, evaluar cada hallazgo, corregir los aceptados y justificar con evidencia los descartados o no aplicables. Ante desacuerdo no esconder el hallazgo. Corregir en la rama del PR afectado, actualizar los descendientes de la pila (§3), revalidar lo afectado y pedir nueva revisión cuando los cambios o las observaciones lo requieran y haya presupuesto.
+8. **Decidir y fusionar (etapa B):** fusionar en el orden de la pila, comprobando criterios de fusión, dependencias y último estado de checks/revisiones. El modelo puede fusionar si concluye que el resultado es correcto. No eludir reglas de protección ni checks obligatorios de GitHub.
+9. **Registrar:** en `ESTADO_IMPLEMENTACION.md`, enlace/número del PR, commits relevantes, estado de revisiones, findings, comprobaciones y estado final. En la etapa A se registra al crear cada PR; en la etapa B, al resolver y fusionar.
 
 ### Tokens y excepciones de revisión
 
@@ -49,9 +56,9 @@ Si se agotan tokens de revisión, se permite fusionar con la excepción explíci
 
 ## 3. PRs apilados y orden
 
-Los PRs se crean uno a uno. Preferir cerrar y fusionar el actual antes de crear el siguiente. Cuando una tarea depende de un PR todavía abierto, crear su rama **sobre la rama del PR anterior** y abrir el PR apuntando a esa rama; así su diff contiene solo su tarea. Esto permite continuar secuencialmente mientras termina una revisión externa, manteniendo las dependencias explícitas.
+Los PRs de una fase se crean uno a uno durante la etapa A, sin esperar la fusión del anterior. Por eso, dentro de una fase, cada tarea crea su rama **sobre la rama del PR anterior** y abre el PR apuntando a esa rama; así su diff contiene solo su tarea y las dependencias quedan explícitas. La primera tarea de la fase parte de `main`.
 
-Si el predecesor ya fue fusionado, crear la nueva rama desde la principal actualizada y registrar el PR satisfecho; no mantener una pila artificial. Las dependencias de fases anteriores deben estar fusionadas al iniciar la nueva fase.
+Si al crear una tarea su predecesor ya fue fusionado, crear la nueva rama desde la principal actualizada; no mantener una pila artificial. Las dependencias de fases anteriores deben estar fusionadas al iniciar la nueva fase.
 
 Ejemplo:
 
