@@ -114,7 +114,7 @@ Objetivo: conducción real en primera persona, preparación y salida del cajón 
 |---|---|---|---|
 | F03-T01 | Implementar simulación a paso fijo, vehículo, dirección, frenado y colisiones; calibrar baja velocidad y escala. | F02 completa | Movimiento independiente de FPS dentro de tolerancias documentadas; colisiones y distancias comprobables. |
 | F03-T02 | Implementar caja manual/automática, embrague, punto de acople, calado, reversa, llave y freno de mano. | T01 | Procedimientos y restricciones del protocolo reproducibles en ambas transmisiones. |
-| F03-T03 | Construir habitáculo, tablero, volante, espejos funcionales, mirada, ajustes, cinturón e instrumental interactivo; controles configurables. | T02 | Comandos afectan al estado simulado; espejos muestran actores reales; controles usables y legibles. |
+| F03-T03 | **Autor: GPT-6 Astra (`gpt-6-astra`).** Construir habitáculo, tablero, volante, espejos funcionales, mirada, ajustes, cinturón e instrumental interactivo; controles configurables. Revisar interior, proporciones, tablero y espejos en navegador mediante capturas y pruebas de controles. | T02 | Comandos afectan al estado simulado; espejos muestran actores reales; controles usables y legibles. |
 | F03-T04 | Implementar motor de evaluación, familiarización, etapa I, desplazamientos de 30 cm y salida; registrar eventos y faltas. | T03 | Secuencia completa comprobable, reglas de repetición/interrupción y puntuación verificadas para este alcance. |
 | F03-T05 | Construir primer tramo real y un cruce con semáforos, vehículo y peatón; integrar conducción, observación y devolución básica. | T04 | Sesión jugable desde preparación hasta cruce; prioridades, giro y detención tienen consecuencias verificables. |
 
@@ -126,7 +126,7 @@ Objetivo: circuito completo con tránsito y las tres etapas evaluadas.
 
 | Tarea / PR | Trabajo | Depende de | Aceptación |
 |---|---|---|---|
-| F04-T01 | Extender calles, carriles, veredas, señalización y geometría a todo A; cargar por sectores y contrastar datos con escena. | F03 completa | Trazado completo, escala y conexiones coinciden con recorrido validado. |
+| F04-T01 | **Autor: GPT-6 Astra (`gpt-6-astra`).** Extender calles, carriles, veredas, señalización y geometría a todo A; cargar por sectores y contrastar datos con escena. Crear primero una cuadra representativa y un sistema visual reutilizable; extenderlo al circuito validado y revisar en navegador. | F03 completa | Trazado completo, escala y conexiones coinciden con recorrido validado. |
 | F04-T02 | Implementar tránsito del circuito: autos, colectivos, peatones y bicicletas, prioridades, semáforos y escenarios por semilla. | T01 | Actores interactúan coherentemente; cruces y tránsito no bloquean indefinidamente una conducción válida. |
 | F04-T03 | Integrar examinador y todas las reglas de circulación: primeros metros, velocidades, giros, carril, sobrepaso, emergencias e interrupciones. | T02 | Cada regla del alcance tiene evidencia; distinción entre 30/45 y máxima vial; toma de control cuando corresponde. |
 | F04-T04 | Implementar estacionamiento y descenso: cajón, contactos, franjas, maniobras/intentos, apagado y apertura segura. | T03 | Evaluación de ambas transmisiones; casos frontera documentados y comprobados. |
@@ -156,7 +156,7 @@ Objetivo: transformar errores en práctica dirigida y completar la experiencia c
 |---|---|---|---|
 | F06-T01 | Grabar estados/inputs, reproducir intentos y reintentar situaciones con restauración de auto, actores, semáforos y evaluación. | F05 completa | Repetición coherente y reintento desde estado correcto; modo examen conserva sus restricciones. |
 | F06-T02 | Construir laboratorio de reacción/frenado, puntos ciegos, cargas y condiciones adversas; escenarios y desafíos didácticos. | T01 | Variables producen consecuencias coherentes y explicadas; escenarios adicionales identificados como entrenamiento. |
-| F06-T03 | Integrar voz/subtítulos del examinador, audio espacial, ambiente porteño, fachadas y referencias visuales del barrio. | T02 | Audio y visuales apoyan conducción; activos con procedencia/licencia y calidad gráfica graduable. |
+| F06-T03 | **Autor: GPT-6 Astra (`gpt-6-astra`).** Integrar voz/subtítulos del examinador, audio espacial, ambiente porteño, fachadas y referencias visuales del barrio. Pulir materiales, iluminación, sombras e identidad porteña con capturas comparables y presupuesto gráfico. | T02 | Audio y visuales apoyan conducción; activos con procedencia/licencia y calidad gráfica graduable. |
 | F06-T04 | Completar sesiones recomendadas, conexión teoría-práctica, medallas útiles y devolución con acceso a ejercicios correctivos. | T03 | Errores llevan a unidades y ejercicios adecuados; recompensas no alteran puntaje de examen. |
 
 Cierre: aprender → conducir → revisar → reintentar → repasar funciona de punta a punta.
@@ -167,12 +167,18 @@ Objetivo: versión completa verificable, estable y lista para usar.
 
 | Tarea / PR | Trabajo | Depende de | Aceptación |
 |---|---|---|---|
-| F07-T01 | Medir y optimizar CPU/GPU, espejos, memoria, carga por sectores y niveles de calidad. | F06 completa | Registrar hardware/escenarios/FPS; cumplir presupuesto acordado o corregir antes de cerrar. |
+| F07-T01 | **Autor habitual: Opus 5.5; usar GPT-6 Astra si las mediciones muestran un problema complejo de renderizado que requiera diagnóstico adicional.** Medir y optimizar CPU/GPU, espejos, memoria, carga por sectores y niveles de calidad. | F06 completa | Registrar hardware/escenarios/FPS; cumplir presupuesto acordado o corregir antes de cerrar. |
 | F07-T02 | Auditar accesibilidad de teoría, legibilidad, subtítulos, movimiento reducido, controles y compatibilidad de escritorio/móvil; verificar mando. | T01 | Flujos principales usables; límites del práctico móvil y dispositivos soportados documentados con evidencia. |
 | F07-T03 | Completar instalación PWA, caché sin conexión, actualización de versiones y migraciones de progreso. | T02 | Sesión offline tras descarga; actualización no pierde progreso ni combina reglas incompatibles. |
 | F07-T04 | Auditar fuentes y cobertura final, ejecutar recorrido completo y casos críticos; corregir regresiones; documentar arranque, entrega y continuidad. | T03 | Todos los criterios de PROPUESTA satisfechos, checks verdes y pendientes explícitos resueltos; informe final con PRs y evidencia. |
 
 Cierre: versión completa local y lista para publicación. Publicar en un servicio, contratar recursos o configurar un dominio no forma parte implícita de la fusión de PRs; registrar cualquier pedido posterior como alcance concreto.
+
+## Asignación de Astra para Three.js
+
+El usuario asignó GPT-6 Astra como autor de **F03-T03, F04-T01 y F06-T03**. Esta asignación específica prevalece sobre Opus como autor habitual. En **F07-T01** su uso es condicionado al diagnóstico de problemas complejos de renderizado respaldados por mediciones. Empezar con esfuerzo medium y velocidad Standard; aumentar a high cuando espejos, geometría o diagnóstico lo requieran.
+
+Estos siguen siendo PRs completos de sus tareas; Opus continúa las tareas posteriores de integración y mantenimiento a partir de los sistemas entregados. Preparar referencias visuales, escenas reproducibles, capturas y contadores de rendimiento para iterar con evidencia. Reservar cuota OpenAI para la revisión Codex adicional; la autorrevisión de Astra no sustituye esa revisión. Si Astra no está disponible o no alcanza la cuota, registrar el bloqueo y acordar con el usuario una alternativa antes de sustituir al autor asignado. La asignación no inicia fases futuras ni activa créditos adicionales.
 
 ## 5. Plantilla de descripción de PR
 

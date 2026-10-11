@@ -14,7 +14,7 @@ Optimizar cuota por tarea aceptada y PR fusionado, incluyendo correcciones y rev
 
 ## Recomendación principal
 
-Usar **Opus 5.5 como autor habitual de las siete fases** y reservar **GPT-6.1 Sol para las revisiones Codex** y asistencia técnica focalizada. Usar GPT-6 Luna solo en tareas delimitadas cuando exista cuota OpenAI sobrante después de prever las revisiones. Reservar Fable y Astra para problemas específicos difíciles; preferir probar Fable con cuota incluida disponible antes de consumir Astra, sin asumir que Fable siempre dará mejor resultado. Esta asignación reemplaza la recomendación anterior de Sol como autor principal, dado el mayor margen que el usuario declara en Anthropic. Esta distribución es una recomendación de ingeniería basada en roles documentados; no es un benchmark realizado sobre este proyecto ni garantiza ausencia de errores.
+Usar **Opus 5.5 como autor habitual, con GPT-6 Astra asignado a F03-T03, F04-T01 y F06-T03** y reservar **GPT-6.1 Sol para las revisiones Codex** y asistencia técnica focalizada. Usar GPT-6 Luna solo en tareas delimitadas cuando exista cuota OpenAI sobrante después de prever las revisiones. Reservar Fable y los usos adicionales de Astra para problemas específicos difíciles. La asignación visual de Astra es planificada y no exige que Opus o Fable fallen primero. Esta asignación reemplaza la recomendación anterior de Sol como autor principal, dado el mayor margen que el usuario declara en Anthropic. Esta distribución es una recomendación de ingeniería basada en roles documentados; no es un benchmark realizado sobre este proyecto ni garantiza ausencia de errores.
 
 La documentación oficial sitúa GPT-6.1 Sol como opción para trabajo prolongado de código/documentos a menor costo que Astra, y Luna para tareas claras y repetibles. Opus 5.5 está orientado a programación agéntica y trabajo prolongado. Referencias: [modelos de OpenAI](https://learn.chatgpt.com/docs/models), [Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/overview).
 
@@ -22,24 +22,35 @@ La documentación oficial sitúa GPT-6.1 Sol como opción para trabajo prolongad
 
 Los niveles de esfuerzo siguientes son recomendaciones iniciales, sujetos a los controles disponibles en cada cliente. Standard se refiere a velocidad; medium/high se refiere a esfuerzo de razonamiento.
 
-| Fase | Si se elige un solo autor para toda la fase | Ajustes rentables por tarea |
+| Fase | Autor habitual (salvo tareas asignadas) | Ajustes rentables por tarea |
 |---|---|---|
 | 1. Fuentes y recorrido | Opus 5.5, medium; high en interpretación crítica | T01–T02 medium; extracción mecánica con scripts. T03–T04 high. Sol revisa reglas, fuentes y geometría; escalar solo una ambigüedad concreta con evidencia. |
 | 2. Base web y aprendizaje | Opus 5.5, medium | T01–T04 medium; T05 high en persistencia y migraciones. Sol realiza revisión adicional; no duplicar toda la implementación. |
-| 3. Auto y primer tramo | Opus 5.5, high | T01–T02 y T04–T05 high por física, transmisión, reglas e integración; T03 medium/high según complejidad. Sol revisa casos críticos. Fable o Astra solo ante problemas persistentes con reproducción. |
-| 4. Circuito y práctico | Opus 5.5, high | T01 medium/high según geometría; T02–T05 high por actores, reglas, estacionamiento y estados. Priorizar la cuota Sol para revisión de este código. |
+| 3. Auto y primer tramo | Opus 5.5, high | T01–T02 y T04–T05 high por física, transmisión, reglas e integración; **T03: GPT-6 Astra medium (high si hace falta), para habitáculo, tablero y espejos.** Sol revisa casos críticos. Fuera de T03, Fable/Astra se usan ante problemas persistentes con reproducción. |
+| 4. Circuito y práctico | Opus 5.5, high | **T01: GPT-6 Astra medium/high para sistema visual del barrio y extensión al circuito.** T02–T05: Opus high por actores, reglas, estacionamiento y estados. Priorizar la cuota Sol para revisión de este código. |
 | 5. Contenido y teórico | Opus 5.5, medium | T01–T04 medium con plantillas y scripts; T05 high para simulacro y evaluación. Sol comprueba cobertura y lógica. Luna solo si sobra cuota; no dejar inferencia normativa o revisión final solo a Luna. |
-| 6. Repetición e inmersión | Opus 5.5, medium/high | T01–T02 high por restauración determinista y modelos físicos; T03–T04 medium. Sol revisa restauración, reglas e integración. |
-| 7. Validación y entrega | Opus 5.5, high en T01/T03/T04, medium en T02 | Decidir optimizaciones con perfiles. Reservar Sol para revisión final y regresiones. Astra únicamente si un diagnóstico difícil justifica su consumo. |
+| 6. Repetición e inmersión | Opus 5.5, medium/high | T01–T02 high por restauración determinista y modelos físicos; **T03: GPT-6 Astra medium/high para pulido visual e inmersión.** T04: Opus medium. Sol revisa restauración, reglas e integración. |
+| 7. Validación y entrega | Opus 5.5, high en T01/T03/T04, medium en T02 | Decidir optimizaciones con perfiles. Reservar Sol para revisión final y regresiones. **T01: Astra condicionado a un problema complejo de renderizado identificado por mediciones.** |
 
 La prioridad de Opus responde a las cuotas declaradas, no a una superioridad demostrada sobre Sol en Three.js. Si Opus no avanza y Sol resuelve un problema con menos retrabajo, usar Sol en ese alcance y volver al reparto habitual. Mantener al autor durante el PR cuando progresa evita repetir contexto. Las tareas siguen ejecutándose una a una; esta tabla no autoriza implementación paralela.
+
+## Trabajo visual asignado a Astra
+
+- **F03-T03:** habitáculo completo, cámara, proporciones, tablero, materiales, iluminación, controles y espejos funcionales.
+- **F04-T01:** cuadra representativa, componentes visuales reutilizables y recorrido completo, manteniendo geometría y señalización contrastadas.
+- **F06-T03:** pulido visual, ambiente porteño y presentación audiovisual del alcance de la tarea.
+- **F07-T01 (condicional):** optimización y diagnóstico de renderizado cuando los perfiles lo justifiquen.
+
+La prioridad visual es F03-T03. Astra debe inspeccionar y probar el juego en navegador, comparar capturas y medir costos de renderizado; evaluar solo el código no basta. Cada asignación corresponde al PR completo de su tarea. Opus retoma las siguientes tareas y el mantenimiento; no duplicar implementaciones para comparar modelos. Planificar la cuota de estos tres PRs junto con las revisiones Codex. Si el modelo asignado no está disponible, documentar el impedimento y acordar sustitución con el usuario. No cambiarlo silenciosamente.
+
+Esta es una decisión del usuario apoyada en un ejemplo oficial de Astra con Three.js, materiales, geometría procedural y herramientas de inspección: [Building games with Astra](https://developers.openai.com/blog/how-to-build-games-with-astra). El ejemplo no demuestra superioridad sobre Opus en este proyecto ni exige adoptar WebGPU.
 
 ## Papel de cada modelo solicitado
 
 - **GPT-6.1 Sol:** opción por defecto para revisión Codex cuando el mecanismo permite elegir. Medium en PRs estándar, high para reglas, estados, física y migraciones. Autor solo como alternativa focalizada por bloqueo o ventaja observada, preservando cuota de revisión.
 - **GPT-6 Luna:** uso opcional si sobra cuota OpenAI para transformaciones, catálogos, clasificación y cambios pequeños con aceptación inequívoca; high como punto inicial. No usar como único responsable del trazado ambiguo o de reglas críticas.
 - **Opus 5.5:** autor principal del proyecto aprovechando el plan Anthropic de 200 USD. Medium por defecto; high si hay ambigüedad o integración difícil. Reparte consumo entre empresas sin recurrir al modelo de mayor costo.
-- **GPT-6 Astra:** escalamiento focalizado. Empezar en low/light o medium según dificultad; high si el problema lo requiere. No gastarlo leyendo otra vez todo el manual o escribiendo todas las preguntas.
+- **GPT-6 Astra:** autor asignado de F03-T03, F04-T01 y F06-T03; asistencia condicionada en F07-T01 para renderizado complejo. Empezar en medium y velocidad Standard para esas tareas; high si el problema lo requiere. Fuera de ellas, escalamiento focalizado. No gastarlo leyendo otra vez todo el manual o escribiendo todas las preguntas.
 - **Claude Fable 5.1:** último recurso o análisis difícil si el plan lo incluye y hay cuota; no autor habitual de fases. Evaluar primero Opus con esfuerzo mayor y un caso bien delimitado.
 - **GPT-6 Sol:** alternativa si 6.1 no está disponible, hay un problema comprobado en 6.1 o se obtiene mejor resultado medido. No asumir ahorro por ser anterior.
 - **GPT-5.6 Sol/Terra/Luna:** reserva por disponibilidad, cuotas específicas o ventaja medida en una tarea. La antigüedad no demuestra menor costo. Evitar cambiar automáticamente a 5.6 para ahorrar.
