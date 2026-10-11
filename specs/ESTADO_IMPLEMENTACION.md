@@ -54,7 +54,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 - Alcance: clasificar cada página del manual (200) y de la guía de siniestros (24), y catalogar unidades, señales y observaciones con su página. Entregables: `specs/COBERTURA.md`, `specs/catalog/{pages,units,signs,issues}.json` y el validador `scripts/check-catalog.mjs` con su prueba.
 - Resultado: 224 páginas, 705 unidades, 355 señales y 206 observaciones. Validador OK; 7/7 pruebas.
-- Método: nueve subagentes de extracción por tramos de páginas (texto + imagen), con integración y muestreo del autor (PDF 61, 72, 91 y 185 sin diferencias). Estado del contenido: `transcrita`.
+- Método: nueve subagentes de extracción por tramos de páginas (texto + imagen), con integración y muestreo del autor contra `fuentes/pdf/manual.pdf` (PDF 61, 72, 91 y 185, sin diferencias). Estado del contenido: `transcrita`.
 - Autorrevisión: estructura validada; sin rutas locales en el catálogo; conteos de COBERTURA recalculados desde los datos; corregido un issue duplicado y dos imprecisiones del borrador.
 - CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
 
@@ -68,7 +68,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa A: F01-T02 creado (#2). Siguen T03 apilado sobre `f01-t02-cobertura` y después T04, sin esperar revisiones. Luego, etapa B con el usuario: findings de #1 (re-revisión de CodeRabbit pendiente), T02, T03 y T04, y fusión en orden.
+Etapa B en curso: findings de #2 resueltos en esta rama; luego #3 y #4, y fusión en orden #2 → #3 → #4. #1 ya está fusionado. La re-revisión de CodeRabbit que quedó sin completar antes de fusionarlo no bloquea la fase y se registra como seguimiento. La versión vigente de este registro está en la rama más alta de la pila.
 
 ## Decisiones que no deben reinterpretarse
 

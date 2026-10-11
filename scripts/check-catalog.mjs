@@ -10,14 +10,15 @@ export const CATEGORIES = ['B', 'common', 'D', 'C-E', 'guide'];
 export const PAGE_KINDS = ['instructional', 'chapter-cover', 'closing-quote', 'toc', 'cover', 'credits', 'blank', 'other'];
 export const UNIT_TYPES = ['definition', 'rule', 'procedure', 'fact', 'recommendation', 'concept', 'table', 'contact', 'sign-group'];
 export const STATUSES = ['pendiente', 'transcrita', 'revisada', 'implementada', 'probada'];
+export const ISSUE_TYPES = ['discrepancy', 'illegible', 'typo', 'outdated', 'ambiguous', 'extraction'];
 const UNIT_ID = /^(manual|siniestros)\.[a-z0-9]+\.[a-z0-9]+(-[a-z0-9]+)*$/;
 const SIGN_ID = /^sign\.[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)+$/;
 
 /**
  * Returns a list of human-readable errors; an empty list means the catalog is valid.
- * @param {{ manifest: Array<{id: string, pages: number}>, pages: object[], units: object[], signs: object[] }} catalog
+ * @param {{ manifest: Array<{id: string, pages: number}>, pages: object[], units: object[], signs: object[], issues?: object[] }} catalog
  */
-export function validateCatalog({ manifest, pages, units, signs }) {
+export function validateCatalog({ manifest, pages, units, signs, issues = [] }) {
   const errors = [];
   const pageCounts = new Map(manifest.map((source) => [source.id, source.pages]));
   const pageIndex = new Map();
@@ -54,8 +55,14 @@ export function validateCatalog({ manifest, pages, units, signs }) {
   }
 
   const unitIds = new Set();
+  const unitById = new Map();
   for (const unit of units) {
+    if (unit.id !== undefined && typeof unit.id !== 'string') {
+      errors.push(`${unit.id}: unit id must be a string`);
+      continue;
+    }
     const id = unit.id ?? '<missing id>';
+    unitById.set(id, unit);
     if (!UNIT_ID.test(id)) errors.push(`${id}: invalid unit id`);
     if (unitIds.has(id)) errors.push(`${id}: duplicate unit id`);
     unitIds.add(id);
@@ -82,10 +89,22 @@ export function validateCatalog({ manifest, pages, units, signs }) {
   }
 
   for (const page of pages) {
-    for (const id of page.units ?? []) {
-      if (!unitIds.has(id)) errors.push(`${page.source}:${page.page}: lists unknown unit ${id}`);
+    if (!Array.isArray(page.units)) continue;
+    const key = `${page.source}:${page.page}`;
+    for (const id of page.units) {
+      const unit = unitById.get(id);
+      if (!unitIds.has(id)) errors.push(`${key}: lists unknown unit ${id}`);
+      else if (unit.source !== page.source || !unit.pages?.includes(page.page)) errors.push(`${key}: lists unit ${id}, which does not reference this page`);
     }
   }
+
+  issues.forEach((issue, index) => {
+    const label = `issue ${index}`;
+    if (!AUDITED_SOURCES.includes(issue.source)) errors.push(`${label}: unknown source "${issue.source}"`);
+    else if (issue.page !== null && issue.page !== undefined && !pageIndex.has(`${issue.source}:${issue.page}`)) errors.push(`${label}: page ${issue.source}:${issue.page} is not classified`);
+    if (!ISSUE_TYPES.includes(issue.type)) errors.push(`${label}: invalid type "${issue.type}"`);
+    if (typeof issue.description !== 'string' || issue.description.trim() === '') errors.push(`${label}: missing description`);
+  });
 
   const signIds = new Set();
   for (const sign of signs) {
@@ -101,10 +120,12 @@ export function validateCatalog({ manifest, pages, units, signs }) {
   return errors;
 }
 
+/** Reads and parses a UTF-8 JSON file. */
 function readJson(path) {
   return JSON.parse(readFileSync(path, 'utf8'));
 }
 
+/** CLI entry point: validates the catalog directory and exits with code 1 on errors. */
 function main() {
   const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
   const catalogDir = resolve(process.argv[2] ?? join(root, 'specs/catalog'));
@@ -113,6 +134,7 @@ function main() {
     pages: readJson(join(catalogDir, 'pages.json')),
     units: readJson(join(catalogDir, 'units.json')),
     signs: readJson(join(catalogDir, 'signs.json')),
+    issues: readJson(join(catalogDir, 'issues.json')),
   };
   const errors = validateCatalog(catalog);
   if (errors.length > 0) {
@@ -120,7 +142,7 @@ function main() {
     for (const error of errors) console.error(`- ${error}`);
     process.exit(1);
   }
-  console.log(`Catalog OK: ${catalog.pages.length} pages, ${catalog.units.length} units, ${catalog.signs.length} signs.`);
+  console.log(`Catalog OK: ${catalog.pages.length} pages, ${catalog.units.length} units, ${catalog.signs.length} signs, ${catalog.issues.length} issues.`);
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();

@@ -122,3 +122,41 @@ test('reports units whose section or category differ from the pages they referen
   assert.ok(errors.includes('manual.ch5.roundabout-priority: section "ch5" differs from page manual:2 ("ch3")'));
   assert.ok(errors.includes('manual.ch5.roundabout-priority: category "D" differs from page manual:2 ("B")'));
 });
+
+test('reports pages that list a unit which does not reference them back', () => {
+  const catalog = buildCatalog();
+  catalog.pages[0].units = ['manual.ch3.roundabout-priority'];
+
+  const errors = validateCatalog(catalog);
+
+  assert.ok(errors.includes('manual:1: lists unit manual.ch3.roundabout-priority, which does not reference this page'));
+});
+
+test('reports wrongly typed values instead of throwing', () => {
+  const catalog = buildCatalog();
+  catalog.units.push({ ...catalog.units[0], id: 42 });
+  catalog.pages[2].units = 7;
+
+  const errors = validateCatalog(catalog);
+
+  assert.ok(errors.includes('42: unit id must be a string'));
+  assert.ok(errors.includes('siniestros:1: units must be an array'));
+});
+
+test('validates source issues: source, page range, type and description', () => {
+  const catalog = buildCatalog();
+  catalog.issues = [
+    { source: 'manual', page: 2, type: 'discrepancy', description: 'ok' },
+    { source: 'manual', page: 9, type: 'discrepancy', description: 'x' },
+    { source: 'otro', page: 1, type: 'typo', description: 'x' },
+    { source: 'siniestros', page: 1, type: 'rumor', description: '' },
+  ];
+
+  const errors = validateCatalog(catalog);
+
+  assert.ok(errors.includes('issue 1: page manual:9 is not classified'));
+  assert.ok(errors.includes('issue 2: unknown source "otro"'));
+  assert.ok(errors.includes('issue 3: invalid type "rumor"'));
+  assert.ok(errors.includes('issue 3: missing description'));
+  assert.equal(errors.length, 4);
+});

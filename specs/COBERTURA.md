@@ -21,7 +21,7 @@ Las claves y los ids están en inglés; títulos, resúmenes y descripciones, en
 1. **Integridad de fuentes.** SHA-256 y cantidad de páginas de `fuentes/pdf/manual.pdf` y `fuentes/pdf/siniestros.pdf` verificados contra `fuentes/manifest.json`.
 2. **Lectura de texto e imagen por página.** El texto extraído (`fuentes/*.txt`) pierde gran parte del contenido: infografías, tablas, rótulos de señales y cifras. Cada página se renderizó a 70 ppp (110 ppp para el anexo IV) y se revisó visualmente. Las cifras dudosas se volvieron a renderizar recortadas, a entre 150 y 300 ppp. 58 observaciones de tipo `extraction` documentan qué perdía el texto. Las unidades cuyo contenido sale principalmente de una imagen llevan `figureBased: true` (143 unidades).
 3. **Reparto.** La extracción se dividió en nueve tramos de páginas, procesados por subagentes con un esquema común. El autor integró los tramos, corrigió colisiones de ids, unificó prefijos, eliminó duplicados y corrió el validador.
-4. **Verificación por muestreo del autor.** Se contrastaron contra la imagen las páginas 61 (tipos de señalización vertical), 72 (velocidades máximas en CABA y excepciones por avenida), 91 (límites de alcohol por tipo de conductor) y 185 (27 señales de prohibición, una por una). No se encontraron diferencias.
+4. **Verificación por muestreo del autor.** Se contrastaron contra la imagen las páginas de `fuentes/pdf/manual.pdf` 61 (tipos de señalización vertical), 72 (velocidades máximas en CABA y excepciones por avenida), 91 (límites de alcohol por tipo de conductor) y 185 (27 señales de prohibición, una por una). No se encontraron diferencias.
 5. **Conteo de señales.** En cada página del anexo IV se contaron los dibujos y se cotejaron con las entradas. El `notes` de cada página registra el conteo y explica los casos en que un dibujo genera varias entradas (p. ej., los estados de cada semáforo en PDF 197).
 
 ## Clasificación
@@ -102,7 +102,17 @@ Lista completa en `catalog/issues.json`: 41 `discrepancy`, 39 `outdated`, 38 `am
 | Referencias normativas | manual PDF 58–59 y 77 | Remite a un «Anexo V» inexistente (las señales están en el IV) y cita la «Ley 2449» (probablemente la 24.449). |
 | Calendario de VTV | manual PDF 49 | La infografía por terminación de patente no asigna diciembre ni enero. |
 
-En el material complementario se registraron diferencias entre los anexos I, II y III (frenos, matafuegos, neumáticos, espejos, 12 t «superior» frente a «igual o mayor», Paseo del Bajo con 5 o 9 puntos). La propia guía tiene diferencias entre su índice y sus títulos. Los datos de contacto (teléfonos, correos, sitios web y normas citadas) se marcaron `outdated` para verificarlos antes de publicarlos.
+En el material complementario se registraron diferencias entre los anexos I, II y III. Cada una está en `issues.json` con su página:
+
+- **Frenos:** frecuencia de revisión (manual PDF 126 frente a 107).
+- **Neumáticos:** carga, profundidad para gran porte y recapados (PDF 127–128 frente a 107–108).
+- **Espejos de gran porte:** PDF 129; espejo interno del camión, PDF 173 frente a 174.
+- **Cinturón, apoyacabeza y cristales:** PDF 131–133 frente a 112–113 y 118.
+- **Matafuegos y botiquín:** PDF 135–136 frente a 120–121.
+- **Definición de camión y categoría N1:** PDF 154.
+- **Umbral de 12 t («superior» frente a «igual o mayor») y Paseo del Bajo con 9 o 5 puntos:** PDF 168 frente a 149, y glosario, PDF 9.
+
+La propia guía tiene diferencias entre su índice y sus títulos (siniestros PDF 2 frente a 16–17). Los datos de contacto (teléfonos, correos, sitios web y normas citadas) se marcaron `outdated` para verificarlos antes de publicarlos.
 
 **Política:** el catálogo transcribe la fuente tal como está y no corrige discrepancias. Cada actividad que use un dato discrepante debe citar ambas fuentes o la norma verificada y registrar la decisión. Ninguna pregunta puede depender de un dato no resuelto.
 
