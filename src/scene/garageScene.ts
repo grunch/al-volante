@@ -1,14 +1,10 @@
 import * as THREE from 'three';
+import { createCarModel } from './carModel.ts';
+import { SCENE_COLORS } from './colors.ts';
+import { disposeScene } from './dispose.ts';
+import { EXAM_CAR } from '../sim/vehicle.ts';
 
-/** Palette shared with the UI tokens in src/ui/theme.css. */
-export const SCENE_COLORS = {
-  night: 0x13233a,
-  ivory: 0xf7f2e8,
-  turquoise: 0x1fa79b,
-  roadYellow: 0xf2c230,
-  concrete: 0x8a8f96,
-  tire: 0x1d1d1f,
-} as const;
+export { SCENE_COLORS } from './colors.ts';
 
 /** Seconds per full camera orbit; slow enough to read as ambient motion. */
 const ORBIT_PERIOD_S = 40;
@@ -38,7 +34,7 @@ export function createGarageScene({ reducedMotion }: GarageSceneOptions): Garage
   scene.background = new THREE.Color(SCENE_COLORS.night);
 
   const camera = new THREE.PerspectiveCamera(45, 16 / 9, 0.1, 100);
-  scene.add(createLights(), createFloor(), createParkingBox(), createPlaceholderCar());
+  scene.add(createLights(), createFloor(), createParkingBox(), createGarageCar());
   placeCamera(camera, 0);
 
   return {
@@ -54,13 +50,7 @@ export function createGarageScene({ reducedMotion }: GarageSceneOptions): Garage
       camera.updateProjectionMatrix();
     },
     dispose() {
-      scene.traverse((object) => {
-        if (object instanceof THREE.Mesh) {
-          object.geometry.dispose();
-          const materials = Array.isArray(object.material) ? object.material : [object.material];
-          for (const material of materials) material.dispose();
-        }
-      });
+      disposeScene(scene);
     },
   };
 }
@@ -126,36 +116,9 @@ function createParkingBox(): THREE.Group {
   return box;
 }
 
-function createPlaceholderCar(): THREE.Group {
-  const car = new THREE.Group();
-  car.name = 'placeholder-car';
-  const body = new THREE.Mesh(
-    new THREE.BoxGeometry(4.3, 0.7, 1.75),
-    new THREE.MeshStandardMaterial({ color: SCENE_COLORS.turquoise, metalness: 0.2, roughness: 0.5 }),
-  );
-  body.name = 'body';
-  body.position.y = 0.65;
-  const cabin = new THREE.Mesh(
-    new THREE.BoxGeometry(2.2, 0.6, 1.55),
-    new THREE.MeshStandardMaterial({ color: SCENE_COLORS.ivory, roughness: 0.3 }),
-  );
-  cabin.name = 'cabin';
-  cabin.position.set(-0.2, 1.3, 0);
-  car.add(body, cabin);
-  for (const [x, z] of [
-    [1.35, 0.85],
-    [1.35, -0.85],
-    [-1.35, 0.85],
-    [-1.35, -0.85],
-  ] as const) {
-    const wheel = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.32, 0.32, 0.22, 24),
-      new THREE.MeshStandardMaterial({ color: SCENE_COLORS.tire, roughness: 0.9 }),
-    );
-    wheel.name = 'wheel';
-    wheel.rotation.x = Math.PI / 2;
-    wheel.position.set(x, 0.32, z);
-    car.add(wheel);
-  }
+/** The simulated car, turned to show its side to the orbiting camera. */
+function createGarageCar(): THREE.Group {
+  const car = createCarModel(EXAM_CAR);
+  car.rotation.y = Math.PI / 2;
   return car;
 }

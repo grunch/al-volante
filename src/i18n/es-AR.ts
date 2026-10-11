@@ -275,5 +275,39 @@ export const LOGBOOK_COPY = {
 const DATE_FORMAT = new Intl.DateTimeFormat('es-AR', { dateStyle: 'medium' });
 const DATE_TIME_FORMAT = new Intl.DateTimeFormat('es-AR', { dateStyle: 'medium', timeStyle: 'short' });
 
+/** Numbers as written in Argentina (decimal comma). */
+export const formatNumber = (value: number, fractionDigits: number) =>
+  new Intl.NumberFormat('es-AR', {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  }).format(value);
+
 export const formatDate = (iso: string) => DATE_FORMAT.format(new Date(iso));
 export const formatDateTime = (iso: string) => DATE_TIME_FORMAT.format(new Date(iso));
+
+export const TRACK_COPY = {
+  heading: 'Pista de prueba',
+  intro:
+    'Probá cómo se mueve el auto en un predio cerrado, con un cajón de estacionamiento de 6 m marcado con postes y un cordón. Es un banco de pruebas de la simulación: el habitáculo, la caja de cambios y los controles configurables llegan en las próximas tareas.',
+  controlsHeading: 'Controles',
+  controls: [
+    'Hacé clic en la pista o llegá a ella con Tab para manejar.',
+    'Flecha arriba o W: acelerar.',
+    'Flecha abajo o S: frenar.',
+    'Flechas izquierda y derecha, o A y D: girar el volante.',
+    'R: cambiar entre marcha adelante y marcha atrás.',
+  ],
+  canvasLabel: 'Vista 3D de la pista de prueba. Usá las flechas para manejar.',
+  loading: 'Cargando la pista…',
+  unavailable:
+    'Tu navegador no puede mostrar gráficos 3D (WebGL), así que la pista no está disponible en este dispositivo.',
+  speed: 'Velocidad',
+  distance: 'Recorrido',
+  direction: 'Sentido',
+  forward: 'Adelante',
+  backward: 'Marcha atrás',
+  contact: (what: string) => `Tocaste ${what}. El auto se detuvo.`,
+  obstacleNames: { wall: 'una pared', pole: 'un poste del cajón', curb: 'el cordón', cone: 'un cono' },
+  reset: 'Volver al inicio',
+  homeLink: 'Pista de prueba',
+} as const;

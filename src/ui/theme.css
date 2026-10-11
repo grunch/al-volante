@@ -515,3 +515,32 @@ a {
   border-radius: var(--radius);
   background: #fffdf8;
 }
+
+/* Practice yard (F03-T01) */
+.driving-canvas:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: var(--space-3) 0;
+}
+
+.hud div {
+  display: flex;
+  flex-direction: column;
+}
+
+.hud dt {
+  font-size: 0.875rem;
+}
+
+.hud dd {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}

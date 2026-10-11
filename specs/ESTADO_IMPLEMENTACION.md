@@ -8,7 +8,8 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. Queda el correctivo F02-T02-FIX03 (#15), con el finding de la última revisión de Codex sobre #14, que llegó cuando ya estaba fusionado.
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
-- Fases 3–7: no iniciadas. Cada una requiere indicación manual del usuario.
+- **Fase 3 — Auto e interior: en curso, etapa A.** Mensaje de inicio (2026-10-11): «ahora comienza la fase 3, pero solo haz solo los dos primeros PRs porque el PR de la t03 es con gpt Astra, no hagas ese, luego de hacer t02 vuelve a t01 y ve si hay findings, haz lo. mismo en t02, pide Review luego». Alcance autorizado: F03-T01 y F03-T02. F03-T03 corresponde a GPT-6 Astra (ESTRATEGIA_MODELOS) y no se hace en esta sesión; F03-T04 y F03-T05 dependen de T03.
+- Fases 4–7: no iniciadas. Cada una requiere indicación manual del usuario.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
 ## Repositorio y revisión
@@ -186,6 +187,35 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisión de Codex sobre #15 en `6e8fe7d` (5485379648): las bases que ya migraron a v3 con el código de #14 no vuelven a migrar, y el valor original de esas fechas no se conserva, así que no se puede restaurar. Queda documentado como limitación conocida en ARQUITECTURA: solo cambia el formato de la fecha de esos registros, y afecta bases locales, porque la app no está publicada.
 - Revisión de CodeRabbit sobre #15 en `6e8fe7d` (5485380475), 1 finding menor: ARQUITECTURA decía «intentos que se pueden leer» sin aclarar el criterio. **Corregido:** ahora dice que la migración normaliza los intentos que validan con `AttemptSchema`, que es lo que hace `canonicaliseAttempts` en `src/progress/storage.ts`.
 
+## Tareas de la fase 3
+
+| Tarea | Rama | Base | Depende de | PR | Estado |
+|---|---|---|---|---|---|
+| F03-T01 | `f03-t01-simulation` | `f02-t02-fix03` (#15) | F02 (con #15) | #16 | en revisión (etapa A) |
+| F03-T02 | — | `f03-t01-simulation` (#16) | T01 | — | pendiente |
+| F03-T03 | — | — | T02 | — | autor asignado: GPT-6 Astra; fuera de esta sesión |
+| F03-T04 | — | — | T03 | — | pendiente |
+| F03-T05 | — | — | T04 | — | pendiente |
+
+### F03-T01 — Simulación a paso fijo, vehículo, dirección, frenado y colisiones
+
+- Alcance: simulación pura y determinista en `src/sim/`:
+  - paso fijo de 1/120 s con acumulador e interpolación;
+  - vehículo con modelo bicicleta cinemático, dirección de velocidad limitada y límite de adherencia;
+  - frenado calibrado con la tabla del manual (PDF 70);
+  - colisiones de cajas orientadas con contacto refinado por bisección y medición de distancias.
+  - Además, una pista de prueba en `#/pista` para calibrar y verificar en el navegador.
+- Aceptación:
+  - **Movimiento independiente de los FPS dentro de tolerancias documentadas:** a 30, 60 y 144 Hz, los estados difieren como máximo en un paso (prueba).
+  - **Colisiones y distancias comprobables:** el auto se detiene a menos de 1 cm de la pared, con la velocidad de impacto informada; la distancia a un poste se mide con precisión; el frenado coincide con el manual (pruebas).
+- Rapier: evaluado y no adoptado por ahora (ver ARQUITECTURA, «Simulación de manejo»).
+- Verificación local:
+  - `npm run check` con 221 pruebas;
+  - `npm run test:e2e` con 28 pruebas (manejar con el teclado, frenar hasta detenerse, volver al inicio, y que la vista no lea teclas sin foco);
+  - capturas revisadas en escritorio y móvil, sin desborde horizontal.
+- Limitación documentada: en móvil no se puede manejar todavía; los controles táctiles llegan con F03-T03.
+- Revisiones: según la indicación del usuario, se piden después de revisar los findings propios de T01 y T02.
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). Queda F02-T02-FIX03 (#15), desde `main`.
@@ -196,7 +226,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B: revisar los findings de #15 (F02-T02-FIX03) y fusionarlo. Con eso se cierra la fase 2.
+Fase 2: revisar los findings de #15 (F02-T02-FIX03) y fusionarlo; con eso se cierra. Fase 3: abrir F03-T02 apilado sobre #16, después revisar los findings de T01 y T02 y recién entonces pedir las revisiones de Codex.
 
 ## Decisiones que no deben reinterpretarse
 
