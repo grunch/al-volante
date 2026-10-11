@@ -61,7 +61,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 ### F01-T03 — Reglas del examen (`REGLAS.md`)
 
 - Alcance: transcribir el protocolo completo (etapas, fallas, excepciones, repetición e interrupción) y verificar los parámetros del teórico contra fuentes oficiales. Entregables: `specs/REGLAS.md`, `specs/catalog/rules.json` y el validador `scripts/check-rules.mjs` con su prueba.
-- Resultado: 69 reglas (25 leves, 10 def. bajas, 16 def. altas, 18 eliminatorias) mapeadas a las 80 filas de la ficha; 12 eliminatorias que interrumpen (a–k, q) y 5 escalamientos por doble comando. Discrepancias X1–X5, vacíos V1–V7 y decisiones D1–D4 documentados.
+- Resultado: 69 reglas (25 leves, 10 def. bajas, 16 def. altas, 18 eliminatorias) mapeadas a las 80 filas de la ficha; 12 eliminatorias que interrumpen (a–k, q) y 5 escalamientos por doble comando. Discrepancias X1–X6, vacíos V1–V7 y decisiones D1–D4 documentados.
 - Fuentes oficiales verificadas el 2026-10-11: el protocolo, el manual, la guía y los recorridos que publica hoy el sitio coinciden por SHA-256 con el manifiesto. La edición GEDO de enero de 2023 tiene texto normativo idéntico. Teórico: 40 preguntas, 34 correctas; tiempo de 45 min (Disp. 860/2023 y página vigente) frente a 40 min (informe 2024); se adopta 45 configurable.
 - Autorrevisión: lectura completa del protocolo por columnas (anexo II) y por imagen (ficha y gráficos); cotejo de la ficha fila por fila; validadores OK; 12/12 pruebas.
 - CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.

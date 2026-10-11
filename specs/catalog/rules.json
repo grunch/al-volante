@@ -27,6 +27,31 @@
       }
     ]
   },
+  "parkingBands": [
+    {
+      "band": "too-close",
+      "lt": 15,
+      "rule": "rule.minor.t-parking-too-close-to-curb"
+    },
+    {
+      "band": "correct",
+      "gte": 15,
+      "lte": 25,
+      "rule": null
+    },
+    {
+      "band": "second-line",
+      "gt": 25,
+      "lte": 50,
+      "rule": "rule.minor.u-parking-on-second-band",
+      "decision": "V1"
+    },
+    {
+      "band": "outside",
+      "gt": 50,
+      "rule": "rule.eliminatory.r-parking-outside-second-band"
+    }
+  ],
   "rules": [
     {
       "id": "rule.minor.a-lights-recognition",
@@ -781,7 +806,9 @@
       "exceptions": [],
       "examinerAction": null,
       "parameters": {
-        "minCurbDistanceCm": 15
+        "curbDistanceCm": {
+          "lt": 15
+        }
       },
       "refs": [
         {
@@ -817,15 +844,17 @@
           "page": 17
         }
       ],
-      "condition": "Una o las dos ruedas derechas quedan a más de 25 cm y a menos de 50 cm del cordón.",
+      "condition": "Una o las dos ruedas derechas quedan a más de 25 cm del cordón y hasta 50 cm inclusive.",
       "repetition": "once",
       "interrupts": false,
       "escalation": null,
       "exceptions": [],
       "examinerAction": null,
       "parameters": {
-        "secondBandFromCm": 25,
-        "secondBandToCm": 50
+        "curbDistanceCm": {
+          "gt": 25,
+          "lte": 50
+        }
       },
       "refs": [
         {
@@ -846,7 +875,7 @@
         }
       ],
       "status": "transcrita",
-      "notes": ""
+      "notes": "El protocolo dice «menos de 50 cm» (PDF 25) y la eliminatoria r, «más de 50 cm» (PDF 33): 50 cm exactos no está definido. Decisión del proyecto V1 (REGLAS.md §7): se incluye en esta franja, la menos severa compatible con ambos textos."
     },
     {
       "id": "rule.minor.v-low-beams-not-off",
@@ -1564,7 +1593,7 @@
           "page": 15
         }
       ],
-      "condition": "Antes de salir del cajón no chequea los espejos ni gira la cabeza para verificar que no entorpecerá la circulación.",
+      "condition": "Antes de salir del cajón no chequea los espejos retrovisores (obligatorio), o no gira la cabeza cuando la situación lo requiere, para verificar que no entorpecerá la circulación.",
       "repetition": "single-check",
       "interrupts": false,
       "escalation": {
@@ -1591,7 +1620,7 @@
         }
       ],
       "status": "transcrita",
-      "notes": ""
+      "notes": "La ficha (PDF 15) y el anexo (PDF 28) dicen «no chequea los espejos o no gira la cabeza»; el desarrollo (PDF 11, 28) exige los espejos y presenta girar la cabeza como acción eventual («en caso de necesitarlo»). Lectura adoptada, X6 en REGLAS.md §7: no chequear los espejos siempre es falla; no girar la cabeza solo lo es cuando la situación lo requiere."
     },
     {
       "id": "rule.high.f-exam-speed-exceeded",
@@ -2766,7 +2795,9 @@
       "exceptions": [],
       "examinerAction": "La desaprobación se informa al terminar.",
       "parameters": {
-        "maxCurbDistanceCm": 50
+        "curbDistanceCm": {
+          "gt": 50
+        }
       },
       "refs": [
         {

@@ -8,14 +8,53 @@ import { fileURLToPath } from 'node:url';
 export const SEVERITY_POINTS = { minor: 1, low: 2, high: 3, eliminatory: 8 };
 export const REPETITION_POLICIES = ['once', 'per-occurrence', 'per-episode', 'single-check', 'unspecified'];
 export const STAGES = ['I', 'II', 'III'];
+export const EXPECTED_ANNEX_ITEMS = {
+  minor: 'abcdefghijklmnopqrstuvwxy',
+  low: 'abcdefghij',
+  high: 'abcdefghijklmnop',
+  eliminatory: 'abcdefghijklmnopqr',
+};
 const RULE_ID = /^rule\.(minor|low|high|eliminatory)\.[a-z]-[a-z0-9]+(-[a-z0-9]+)*$/;
+
+function lowerBound(band) {
+  return band.gt ?? band.gte ?? 0;
+}
+
+function upperBound(band) {
+  return band.lt ?? band.lte ?? Infinity;
+}
+
+/** Returns the curb distance band that contains `cm`, or undefined when no band does. */
+export function classifyCurbDistance(bands, cm) {
+  return bands.find((band) => (band.gt === undefined || cm > band.gt) && (band.gte === undefined || cm >= band.gte)
+    && (band.lt === undefined || cm < band.lt) && (band.lte === undefined || cm <= band.lte));
+}
+
+/** Checks that the bands cover [0, ∞) exactly once: each boundary closed on one side and open on the other. */
+export function validateParkingBands(bands) {
+  const errors = [];
+  const sorted = [...bands].sort((a, b) => lowerBound(a) - lowerBound(b));
+  if (sorted.length === 0) return ['parking bands are missing'];
+  if (lowerBound(sorted[0]) !== 0 || sorted[0].gt !== undefined) errors.push('parking bands must start at 0 cm inclusive');
+  for (let i = 1; i < sorted.length; i += 1) {
+    const previous = sorted[i - 1];
+    const current = sorted[i];
+    const closedOnce = (previous.lte !== undefined) !== (current.gte !== undefined);
+    const sharedBoundary = upperBound(previous) === lowerBound(current);
+    const consistent = (previous.lte !== undefined && current.gt !== undefined) || (previous.lt !== undefined && current.gte !== undefined);
+    if (!sharedBoundary || !closedOnce || !consistent) errors.push(`parking bands leave a gap or overlap between ${previous.band} and ${current.band}`);
+  }
+  if (upperBound(sorted.at(-1)) !== Infinity) errors.push('parking bands must extend to infinity');
+  return errors;
+}
 
 /**
  * Returns a list of human-readable errors; an empty list means the rule catalog is valid.
- * @param {{ source: {id: string}, scoring: object, rules: object[] }} catalog
+ * @param {{ source: {id: string}, scoring: object, rules: object[], parkingBands?: object[] }} catalog
  * @param {number} protocolPages page count of the protocol PDF from the manifest
+ * @param {{ requireFullAnnex?: boolean }} [options] small fixtures may opt out of the full annex II set
  */
-export function validateRules({ source, scoring, rules }, protocolPages) {
+export function validateRules({ source, scoring, rules, parkingBands }, protocolPages, { requireFullAnnex = true } = {}) {
   const errors = [];
   if (source?.id !== 'protocolo') errors.push('source.id must be "protocolo"');
   if (scoring?.passMaxPoints !== 7 || scoring?.failMinPoints !== 8) errors.push('scoring must pass with <= 7 and fail with >= 8 points');
@@ -52,6 +91,19 @@ export function validateRules({ source, scoring, rules }, protocolPages) {
       if (ref.source !== 'protocolo' || !Number.isInteger(ref.page) || ref.page < 1 || ref.page > protocolPages) {
         errors.push(`${id}: invalid reference ${ref.source}:${ref.page}`);
       }
+    }
+  }
+  if (requireFullAnnex) {
+    for (const [severity, letters] of Object.entries(EXPECTED_ANNEX_ITEMS)) {
+      for (const letter of letters) {
+        if (!annexItems.has(`${severity}.${letter}`)) errors.push(`missing annex item ${severity}.${letter}`);
+      }
+    }
+  }
+  if (parkingBands !== undefined) {
+    errors.push(...validateParkingBands(parkingBands));
+    for (const band of parkingBands) {
+      if (band.rule !== null && !ids.has(band.rule)) errors.push(`parking band ${band.band}: unknown rule ${band.rule}`);
     }
   }
   return errors;

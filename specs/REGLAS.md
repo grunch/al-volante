@@ -260,13 +260,14 @@ Políticas de repetición, según el texto del anexo II:
 | X2 | No ubicarse en el carril más próximo para girar | La ficha (PDF 17) y el encabezado (PDF 27) dicen deficiente alta, 3 puntos; el cuerpo dice «falla eliminatoria» (PDF 29). | Se adopta **deficiente alta (3)**, escalando a eliminatoria con interrupción si interviene el doble comando, como dice el mismo ítem. Mismo criterio que X1. |
 | X3 | Línea que prohíbe cambiar de carril | PDF 12 menciona «líneas continuas blancas o doble línea amarilla»; la eliminatoria o (PDF 33) solo nombra líneas continuas blancas. | Se aplica a ambas demarcaciones, porque PDF 12 enumera los dos casos en que no puede hacerse. Señalarlo como interpretación. |
 | X4 | Dispositivos con el vehículo detenido | PDF 8 los prohíbe aun detenido; la eliminatoria m (PDF 32) habla de usarlos «durante la conducción». | Se puntúa la eliminatoria solo durante la conducción y el uso detenido se muestra como advertencia. Señalarlo como interpretación. |
+| X6 | Espejos y giro de cabeza al salir del cajón | La ficha (PDF 15) y el anexo (PDF 28) dicen «no chequea los espejos **o** no gira la cabeza»; el desarrollo (PDF 11, 28) exige los espejos y presenta el giro de cabeza como eventual («en caso de necesitarlo»). | No chequear los espejos **siempre** es falla (def. alta e); no girar la cabeza solo lo es cuando la situación lo requiere (p. ej., un punto ciego con tránsito que se acerca). Una salida sin espejos nunca queda sin puntuar. |
 | X5 | «Primera cuadra» frente a 100 m | La ficha dice «primer cuadra» (PDF 16); el anexo y la etapa II dicen 100 m (PDF 11, 31). | Rige **100 m**, la medida explícita. |
 
 **Vacíos: el protocolo no fija un valor.**
 
 | Id | Caso | Tratamiento en el juego |
 |---|---|---|
-| V1 | Exactamente 15, 25 o 50 cm del cordón | t: «menos de 15»; u: «más de 25 y menos de 50»; r: «más de 50». Los valores exactos 15 y 25 quedan dentro de la 1.ª línea (correcto). **50 cm exactos no está definido**; se asigna a la 2.ª línea (leve), el resultado menos severo compatible con ambos textos, y se documenta en la devolución. |
+| V1 | Exactamente 15, 25 o 50 cm del cordón | t: «menos de 15»; u: «más de 25 y menos de 50»; r: «más de 50». Los valores exactos 15 y 25 quedan dentro de la 1.ª línea (correcto). **50 cm exactos no está definido**; se asigna a la 2.ª línea (leve), el resultado menos severo compatible con ambos textos, y se documenta en la devolución. En `rules.json`, `parkingBands` fija la partición: `< 15` t; `[15, 25]` correcto; `(25, 50]` u; `> 50` r. El validador exige que las franjas cubran todas las distancias sin huecos ni solapes. |
 | V2 | Tolerancia de «retroceder/avanzar 30 cm» | El protocolo solo dice «mayor o menor a 30 cm». Se usa un parámetro `displacementToleranceCm`, que se fijará y calibrará en F03-T04 y se mostrará como **aproximación del juego**, no como regla oficial. |
 | V3 | «Descentrado» | Sin umbral numérico. Se usa un parámetro de aproximación igual que V2. |
 | V4 | Salida del cajón con más de 2 maniobras | PDF 11 la define como no fluida, pero no hay falla en la ficha ni en el anexo. No se puntúa; la devolución lo informa como observación. |
@@ -317,7 +318,8 @@ node --test 'scripts/*.test.mjs'    # pruebas de los validadores
 El validador comprueba:
 
 - puntos por severidad (1/2/3/8) y umbrales 7/8;
-- 69 ítems únicos del anexo, con ids coherentes;
+- el conjunto **exacto** de los 69 ítems del anexo (leves a–y, def. bajas a–j, def. altas a–p, eliminatorias a–r), con ids coherentes: si falta uno, falla;
+- que las franjas de distancia al cordón (`parkingBands`) cubran de 0 a ∞ sin huecos ni solapes, y que apunten a reglas existentes;
 - que solo las eliminatorias interrumpan y que los escalamientos sean eliminatorias con interrupción;
 - políticas de repetición válidas;
 - al menos una fila de ficha por regla;
