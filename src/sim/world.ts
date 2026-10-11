@@ -70,7 +70,8 @@ export function stepWorld(
     if (hits(spec, world, interpolateVehicle(state.vehicle, next, middle)).length > 0) blocked = middle;
     else free = middle;
   }
-  const impactSpeedMps = Math.abs(state.vehicle.speedMps);
+  // Speed where the bisection found the contact, not where the step began.
+  const impactSpeedMps = Math.abs(state.vehicle.speedMps + (next.speedMps - state.vehicle.speedMps) * free);
   return {
     vehicle: { ...interpolateVehicle(state.vehicle, next, free), speedMps: 0 },
     timeS,

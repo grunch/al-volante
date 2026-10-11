@@ -120,6 +120,49 @@ describe('DrivingCanvas', () => {
     expect(Number(surface.dataset.odometerM)).toBe(0);
   });
 
+  it('moves the same whatever the frame rate, pedal ramps included', () => {
+    // Arrange: drive for 2 s holding the accelerator and the wheel, once at 30 Hz and once at 144 Hz.
+    const drive = (hz: number) => {
+      const { surface, unmount } = renderCanvas();
+      // The first frame has no previous timestamp and simulates nothing; start holding keys after it.
+      const first = callbacks.shift();
+      act(() => first?.(clock));
+      fireEvent.keyDown(surface, { code: 'ArrowUp' });
+      fireEvent.keyDown(surface, { code: 'ArrowLeft' });
+      for (let i = 0; i < Math.round(2 * hz); i += 1) {
+        const callback = callbacks.shift();
+        clock += 1000 / hz;
+        act(() => callback?.(clock));
+      }
+      const odometer = Number(surface.dataset.odometerM);
+      unmount();
+      callbacks.length = 0;
+      return odometer;
+    };
+
+    // Act
+    const at30 = drive(30);
+    const at144 = drive(144);
+
+    // Assert: the difference stays within the one step the accumulator may hold (about 4 cm at these speeds).
+    expect(at30).toBeGreaterThan(1);
+    expect(Math.abs(at30 - at144)).toBeLessThan(0.05);
+  });
+
+  it('releases every key when the window loses focus, so the car never keeps accelerating unattended', () => {
+    const { surface } = renderCanvas();
+    fireEvent.keyDown(surface, { code: 'ArrowUp' });
+    runFrames(0.5);
+
+    const atBlur = Number(surface.dataset.speedKmh);
+    fireEvent.blur(window);
+    runFrames(3);
+
+    // With the keys released the car only rolls on, slowing down.
+    expect(atBlur).toBeGreaterThan(0);
+    expect(Number(surface.dataset.speedKmh)).toBeLessThan(atBlur);
+  });
+
   it('falls back to a message when WebGL cannot start', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     render(

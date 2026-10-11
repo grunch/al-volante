@@ -215,6 +215,10 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - capturas revisadas en escritorio y móvil, sin desborde horizontal.
 - Limitación documentada: en móvil no se puede manejar todavía; los controles táctiles llegan con F03-T03.
 - Revisiones: según la indicación del usuario, se piden después de revisar los findings propios de T01 y T02.
+- Findings de la revisión automática de Codex al abrir #16 (5485401092), aplicados con pruebas:
+  - Las rampas de pedales y volante avanzaban una vez por cuadro y su valor se aplicaba a todos los pasos del cuadro, así que dependían de los FPS. Ahora avanzan dentro de cada paso fijo. Una prueba exige estados idénticos a 30 y a 120 Hz, y falla sin la corrección; la primera prueba del componente no lo detectaba, porque comparaba con redondeo al centímetro.
+  - Al cambiar de pestaña o de aplicación con una tecla apretada, el auto seguía acelerando: ahora las teclas se sueltan también con el `blur` de la ventana y con `visibilitychange`.
+  - La velocidad de impacto era la del comienzo del paso: ahora se interpola en el instante del contacto.
 
 ## Pila y orden de fusión
 

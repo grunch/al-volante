@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import * as THREE from 'three';
-import { KEY_BINDINGS, NEUTRAL_CONTROLS, stepControls } from './controls.ts';
+import { KEY_BINDINGS } from './controls.ts';
+import { driveFrame, startDriving } from './drivingLoop.ts';
 import { createTrackScene } from '../scene/trackScene.ts';
 import type { RendererFactory, SceneRenderer } from '../scene/SceneCanvas.tsx';
-import { SIM_STEP_S, advance, createStepper } from '../sim/fixedStep.ts';
-import { simpleDriveInput } from '../sim/simpleDrive.ts';
 import { interpolateVehicle } from '../sim/vehicle.ts';
 import type { VehicleSpec, VehicleState } from '../sim/vehicle.ts';
-import { initialWorldState, stepWorld } from '../sim/world.ts';
-import type { Contact, World, WorldState } from '../sim/world.ts';
+import type { Contact, World } from '../sim/world.ts';
 import { usePrefersReducedMotion } from '../ui/usePrefersReducedMotion.ts';
 
 /** How often the page gets telemetry for its readouts; the canvas itself updates every frame. */
@@ -95,9 +93,12 @@ export function DrivingCanvas({
     resize();
     const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(resize) : null;
     observer?.observe(container);
+    // Switching tab or app may not blur the view itself, and the key-up never arrives: release everything.
+    const releaseKeys = () => keysRef.current.clear();
+    window.addEventListener('blur', releaseKeys);
+    document.addEventListener('visibilitychange', releaseKeys);
 
-    let stepper = createStepper<WorldState>(initialWorldState(start));
-    let controls = NEUTRAL_CONTROLS;
+    let driving = startDriving(start);
     let appliedReset = resetRef.current;
     let lastTime: number | null = null;
     let sinceTelemetryS = TELEMETRY_INTERVAL_S;
@@ -110,29 +111,22 @@ export function DrivingCanvas({
       lastTime = now;
       if (appliedReset !== resetRef.current) {
         appliedReset = resetRef.current;
-        stepper = createStepper<WorldState>(initialWorldState(start));
-        controls = NEUTRAL_CONTROLS;
+        driving = startDriving(start);
         reverseRef.current = false;
         contact = null;
       }
-      controls = stepControls({ ...controls, reverse: reverseRef.current }, keysRef.current, frameS);
-      const input = simpleDriveInput(controls);
-      let touched: Contact | undefined;
-      const result = advance(stepper, frameS, (current) => {
-        const next = stepWorld(spec, world, current, input, SIM_STEP_S);
-        touched = next.contacts[0] ?? touched;
-        return next;
-      });
-      stepper = result.stepper;
+      driving = driveFrame(spec, world, driving, keysRef.current, reverseRef.current, frameS);
+      const { stepper, controls } = driving;
       const vehicle = stepper.state.vehicle;
-      track.update(interpolateVehicle(result.previous.vehicle, vehicle, result.alpha));
+      track.update(interpolateVehicle(stepper.previous.vehicle, vehicle, driving.alpha));
       renderer.render(track.scene, track.camera);
       container.dataset.speedKmh = (vehicle.speedMps * 3.6).toFixed(1);
       container.dataset.odometerM = vehicle.odometerM.toFixed(2);
+      container.dataset.timeS = stepper.state.timeS.toFixed(4);
       container.dataset.reverse = String(controls.reverse);
-      if (touched) contact = touched;
+      if (driving.contact) contact = driving.contact;
       sinceTelemetryS += frameS;
-      if (touched || sinceTelemetryS >= TELEMETRY_INTERVAL_S) {
+      if (driving.contact || sinceTelemetryS >= TELEMETRY_INTERVAL_S) {
         sinceTelemetryS = 0;
         telemetryRef.current?.({
           speedKmh: vehicle.speedMps * 3.6,
@@ -152,6 +146,8 @@ export function DrivingCanvas({
     return () => {
       cancelAnimationFrame(frame);
       observer?.disconnect();
+      window.removeEventListener('blur', releaseKeys);
+      document.removeEventListener('visibilitychange', releaseKeys);
       track.dispose();
       renderer.dispose();
       renderer.domElement.remove();

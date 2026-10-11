@@ -61,6 +61,21 @@ describe('world step', () => {
     expect(frontOf(away)).toBeLessThan(frontOf(state) - 0.3);
   });
 
+  it('reports the speed at the instant of contact, not at the start of the step', () => {
+    // Arrange: braking hard with the bumper 1 cm from the wall, at 2 m/s; the step crosses the wall.
+    const body = bodyBox(EXAM_CAR, restingVehicle());
+    const gapZ = 10 - 0.01 - (body.centerZ + body.halfLengthM);
+    const start = initialWorldState({ ...restingVehicle({ z: gapZ }), speedMps: 2 });
+
+    // Act
+    const next = stepWorld(EXAM_CAR, world, start, { tractionN: 0, brake: 1, steer: 0 }, SIM_STEP_S);
+
+    // Assert: slower than when the step began, faster than where the step would have ended.
+    const unobstructedEnd = 2 - EXAM_CAR.maxBrakeDecelMps2 * SIM_STEP_S;
+    expect(next.contacts[0]?.impactSpeedMps).toBeLessThan(2);
+    expect(next.contacts[0]?.impactSpeedMps).toBeGreaterThan(unobstructedEnd - 0.05);
+  });
+
   it('passes beside a pole without touching it, and measures how close it was', () => {
     // The car's right side is at x = -0.875 + 0 ... the pole stands at x = 2, so the gap is 2 - 0.875 - 0.05.
     const start = initialWorldState(restingVehicle({ z: -2 }));

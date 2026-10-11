@@ -136,6 +136,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
   - La simulación nunca ve los FPS: los mismos controles durante el mismo tiempo dan los mismos estados a 30 o a 144 Hz. La diferencia máxima es el paso que queda en el acumulador, y hay prueba.
   - Cada cuadro avanza como máximo 0,1 s; el exceso (por ejemplo, una pestaña en segundo plano) se descarta.
   - La vista interpola entre los dos últimos estados.
+  - También las rampas de pedales y volante avanzan dentro de cada paso fijo (`src/practice/drivingLoop.ts`), no por cuadro. A 30 y a 120 Hz, con la misma cantidad de pasos, el auto queda **exactamente** igual (prueba).
 - **Vehículo** (`vehicle.ts`, `dynamics.ts`): modelo bicicleta cinemático, adecuado a las velocidades bajas del examen.
   - El eje trasero sigue el rumbo y el auto gira a velocidad · tan(dirección) / distancia entre ejes.
   - La dirección gira a velocidad limitada.
@@ -154,14 +155,14 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 
   Las pruebas comprueban el frenado contra la tabla del manual (50 km/h: 10 ± 0,5 m; 90 km/h: 32 ± 1 m; mojado: 20 ± 1 m), el radio de giro, la velocidad de la dirección y el límite de adherencia.
 - **Colisiones** (`collision.ts`, `world.ts`): cajas orientadas con prueba de ejes separados (SAT).
-  - Si un paso llevaría la carrocería dentro de un obstáculo, una bisección (12 rondas, menos de un milímetro) encuentra el punto de contacto. El auto queda ahí, con velocidad cero, y se informa el contacto con su velocidad de impacto.
+  - Si un paso llevaría la carrocería dentro de un obstáculo, una bisección (12 rondas, menos de un milímetro) encuentra el punto de contacto. El auto queda ahí, con velocidad cero, y se informa el contacto con su velocidad de impacto, interpolada en el instante del contacto.
   - Tocar sin penetrar (menos de 0,1 mm) no cuenta.
   - `nearestObstacle` mide la distancia de la carrocería al obstáculo más cercano, para reglas como los 20 cm del cordón.
   - Las marcas pintadas (`markings`) se dibujan pero no chocan.
 - **Rapier, evaluado y no adoptado por ahora:** el problema de esta tarea es un auto en un plano contra obstáculos fijos, y una solución propia, pequeña, determinista y con pruebas lo resuelve. `@dimforge/rapier3d-compat` 0.21.0 (2026-09-25) suma un WASM incluido de varios MB (unos 14 MB desempaquetado) y una inicialización asíncrona. Se reevalúa cuando haya actores dinámicos con contactos físicos (tránsito y peatones, F03-T05 y F04).
 - **Pista de prueba** (`#/pista`):
   - un predio de 30 × 50 m con un cajón de 6 m entre postes, un cordón, paredes, una grilla de 1 m y las líneas del cajón;
-  - teclado provisional con rampas para pedales y volante (`src/practice/controls.ts`), que solo se lee con la vista enfocada;
+  - teclado provisional con rampas para pedales y volante (`src/practice/controls.ts`), que solo se lee con la vista enfocada, y todas las teclas se sueltan si la vista o la ventana pierden el foco, o si la pestaña se oculta;
   - control simple de tracción (`simpleDrive.ts`) hasta la caja de cambios de F03-T02;
   - en móvil no se puede manejar todavía: los controles táctiles y configurables llegan con el habitáculo (F03-T03).
 
