@@ -69,14 +69,14 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 ### F01-T04 — Recorrido A de Comuna 13 (`RECORRIDO.md` y datos)
 
 - Alcance: georreferenciar el recorrido A, resolver Cuba–Quesada–Cuba, verificar sentidos, cruces y señalización relevante, y registrar licencias. Entregables: `specs/RECORRIDO.md`, `specs/route/comuna13-a.{json,geojson}` con su README de licencias, y el validador `scripts/check-route.mjs` con su prueba.
-- Resultado: 8 tramos legales según OSM, 1503 m, giros coherentes con las láminas.
+- Resultado: 8 tramos legales según OSM, 1507 m (proyección WGS84, verificada contra geodesia de Vincenty), giros coherentes con las láminas.
   - Cuba está desplazada 66 m en Quesada: izquierda por Quesada y derecha para retomar Cuba.
   - Semáforos contrastados con el GCBA: 4 coinciden y 1 discrepa (Cabildo y Guayra).
   - Ciclovía bidireccional en Cuba y Quesada; Metrobús en Cabildo.
   - Proyección métrica local documentada.
 - Hallazgo: el texto extraído de recorridos PDF 16 invierte A y B. La imagen y el protocolo confirman que A es la secuencia larga.
 - Aproximaciones declaradas: posición del cajón, ancho del cajón, PARE, máximas y carriles de fuente única (OSM). Ningún dato relevado en terreno.
-- Autorrevisión: ruteo y validador OK; 19/19 pruebas; orientaciones y giros cotejados con las láminas; ediciones del protocolo comparadas.
+- Autorrevisión: ruteo y validador OK. Última ejecución en esta rama, tras las correcciones de review: `node --test 'scripts/*.test.mjs'` → 31/31; orientaciones y giros cotejados con las láminas; ediciones del protocolo comparadas.
 - CodeRabbit y Codex: solicitadas al abrir el PR; se revisan en la etapa B.
 
 ## Pila y orden de fusión
@@ -91,9 +91,11 @@ Ninguno conocido.
 
 Etapa B en curso, iniciada por el usuario el 2026-10-11 («revisa los findings en los PRs abiertos, comienza por el #2, luego sigue #3 y #4»):
 
-- Findings de Codex corregidos y respondidos: #2 (1), #3 (3) y #4 (4).
-- Las ramas #3 y #4 se rebasaron sobre sus padres actualizados.
-- Falta: las revisiones de CodeRabbit (cupo de 1 por hora) y la re-revisión de Codex sobre los commits corregidos. Después, resolver lo nuevo y fusionar #2 → #3 → #4.
+- **#2:** el usuario lo fusionó (merge `58cf109`, 2026-10-11 19:39 UTC) con los findings de Codex y CodeRabbit resueltos. Los dos findings de la re-revisión de Codex que llegaron después están en el PR correctivo **#6 (F01-T02-FIX01)**, abierto contra `main` e independiente de #3 y #4.
+- **#3:** findings de Codex resueltos, incluida la re-revisión. Base actual: `main`.
+- **#4:** findings de Codex resueltos, incluida la re-revisión: subtramos, coordenadas y escalares finitos, giro geométrico, proyección WGS84 y documentos alineados. Apilado sobre #3.
+- **Falta:** revisiones de CodeRabbit en #3, #4 y #6 (cupo de 1 por hora) y re-revisión de Codex de los últimos commits. Después, fusionar #3 → #4 y #6.
+- **No es de esta fase:** #5 (estrategia de modelos) es un PR del usuario.
 
 La fase 1 se cierra solo con todo fusionado y sin ambigüedades críticas abiertas; después, esperar el inicio manual de la fase 2.
 

@@ -59,6 +59,10 @@ export function validateRoute(route) {
   const errors = [];
   const { legs = [], controls = [], projection, officialSequence = [] } = route;
   if (!projection) return ['missing projection'];
+  const projectionErrors = ['originLat', 'originLon', 'metersPerDegLon', 'metersPerDegLat']
+    .filter((key) => !isFiniteNumber(projection[key]))
+    .map((key) => `projection.${key} must be a finite number`);
+  if (projectionErrors.length > 0) return projectionErrors;
   if (legs.length === 0) return ['route has no legs'];
 
   const coveredSteps = legs.flatMap((leg) => leg.officialSteps ?? []).sort((a, b) => a - b);
@@ -91,7 +95,8 @@ export function validateRoute(route) {
       }
     });
     total += length;
-    if (Math.abs(length - leg.lengthM) > LENGTH_TOLERANCE_M) errors.push(`${label}: lengthM ${leg.lengthM} differs from path length ${length.toFixed(1)}`);
+    if (!isFiniteNumber(leg.lengthM)) errors.push(`${label}: lengthM must be a finite number`);
+    else if (Math.abs(length - leg.lengthM) > LENGTH_TOLERANCE_M) errors.push(`${label}: lengthM ${leg.lengthM} differs from path length ${length.toFixed(1)}`);
     const next = legs[(index + 1) % legs.length];
     if (leg.path.at(-1).osmNode !== next.path[0].osmNode) errors.push(`${label}: does not connect to leg ${next.leg}`);
     const cap = EXAM_MAX_KMH[leg.roadType];
@@ -100,6 +105,8 @@ export function validateRoute(route) {
     const turn = leg.turnIntoNext;
     if (!TURN_DIRECTIONS.includes(turn?.direction)) {
       errors.push(`${label}: invalid turn direction "${turn?.direction}"`);
+    } else if (!isFiniteNumber(turn.angleDeg)) {
+      errors.push(`${label}: turnIntoNext.angleDeg must be a finite number`);
     } else if (geometryOk[(index + 1) % legs.length]) {
       const actual = turnAngleDeg(leg.path, next.path);
       const actualDirection = actual > 0 ? 'left' : 'right';
@@ -108,7 +115,8 @@ export function validateRoute(route) {
       }
     }
   });
-  if (Math.abs(total - route.loopLengthM) > LENGTH_TOLERANCE_M) errors.push(`loopLengthM ${route.loopLengthM} differs from legs total ${total.toFixed(1)}`);
+  if (!isFiniteNumber(route.loopLengthM)) errors.push('loopLengthM must be a finite number');
+  else if (Math.abs(total - route.loopLengthM) > LENGTH_TOLERANCE_M) errors.push(`loopLengthM ${route.loopLengthM} differs from legs total ${total.toFixed(1)}`);
 
   const legNumbers = new Set(legs.map((leg) => leg.leg));
   controls.forEach((control, index) => {

@@ -31,18 +31,18 @@ Define qué calles construir y conducir en el práctico 3D. Los datos están en 
 
 ## 4. Tramos
 
-El inicio (E) está dentro del tramo 1, por eso ese tramo cubre los pasos oficiales 9 (llegada) y 1 (salida). Longitud total del circuito: **1503 m**. Los ocho tramos se rutearon sobre la red de OSM con sus restricciones de mano única: todos son legales en el sentido indicado y se encadenan nodo a nodo, cerrando el circuito.
+El inicio (E) está dentro del tramo 1, por eso ese tramo cubre los pasos oficiales 9 (llegada) y 1 (salida). Longitud total del circuito: **1507 m** (1506.8 m). Los ocho tramos se rutearon sobre la red de OSM con sus restricciones de mano única: todos son legales en el sentido indicado y se encadenan nodo a nodo, cerrando el circuito.
 
 | Tramo | Pasos | Calle | Desde → hasta | Sentido | m | Límite de examen (km/h) | Ciclovía a la izquierda | Controles en el tramo | Giro siguiente |
 |---|---|---|---|---|---:|---:|---|---|---|
-| 1 | 9, 1 | Quesada | Vuelta de Obligado → Av. Cabildo (incluye E) | sudoeste | 126 | 30 | no | semáforo | derecha a Av. Cabildo |
+| 1 | 9, 1 | Quesada | Vuelta de Obligado → Av. Cabildo (incluye E) | sudoeste | 127 | 30 | no | semáforo | derecha a Av. Cabildo |
 | 2 | 2 | Av. Cabildo | Quesada → Guayra | noroeste | 240 | 45 | no | semáforo, semáforo (GCBA, sin OSM), senda con semáforo | derecha a Guayra |
-| 3 | 3 | Guayra | Av. Cabildo → Cuba | noreste | 189 | 30 | no | PARE | derecha a Cuba |
+| 3 | 3 | Guayra | Av. Cabildo → Cuba | noreste | 190 | 30 | no | PARE | derecha a Cuba |
 | 4 | 4 | Cuba | Guayra → Quesada | sudeste | 235 | 30 | sí | PARE | izquierda a Quesada |
 | 5 | 5 | Quesada | Cuba (norte) → Cuba (sur) | noreste | 66 | 30 | sí | PARE | derecha a Cuba |
-| 6 | 6 | Cuba | Quesada → Manuel Ugarte | sudeste | 272 | 30 | parcial (Quesada–Congreso) | reductor (lomo de burro), semáforo | derecha a Manuel Ugarte |
+| 6 | 6 | Cuba | Quesada → Manuel Ugarte | sudeste | 273 | 30 | parcial (Quesada–Congreso) | reductor (lomo de burro), semáforo | derecha a Manuel Ugarte |
 | 7 | 7 | Manuel Ugarte | Cuba → Vuelta de Obligado | sudoeste | 102 | 30 | no | PARE | derecha a Vuelta de Obligado |
-| 8 | 8 | Vuelta de Obligado | Manuel Ugarte → Quesada | noroeste | 272 | 30 | no | PARE, semáforo | izquierda a Quesada |
+| 8 | 8 | Vuelta de Obligado | Manuel Ugarte → Quesada | noroeste | 273 | 30 | no | PARE, semáforo | izquierda a Quesada |
 
 - **Límite de examen:** 30 km/h en calles y 45 km/h en avenidas (`REGLAS.md` §6). Las máximas de OSM (40 en calles, 30 en algunos tramos de Cuba y Quesada, 60 en Cabildo) son iguales o mayores, así que no lo bajan. Esas máximas no se relevaron en terreno: el límite que fija la falla l (máxima de la vía) debe confirmarse en F04-T01.
 - **Atributos por subtramo:** cada tramo lista sus `segments`, uno por way de OSM, con ciclovía, máxima y carriles. El resumen `cycleTrack` puede ser `none`, `partial` o `full`. En el tramo 6 la ciclovía solo existe entre Quesada y Congreso (way 519835126, máxima 30); entre Congreso y Manuel Ugarte, OSM indica `cycleway:both=no` (way 10596246, máxima 40).
@@ -74,8 +74,8 @@ Las intersecciones internas sin semáforo en OSM (Guayra–Vuelta de Obligado, C
 
 ## 6. Geometría métrica
 
-- **Proyección:** equirectangular local con origen en el nodo OSM 437539782 (Quesada y Av. Cabildo; lat −34.554415, lon −58.463435). x apunta al este, y al norte, en metros: `x = (lon − lon0) · 111320 · cos(lat0)` y `y = (lat − lat0) · 110540`.
-- **Precisión:** en un área de unos 600 m el error de la proyección es menor que 0,1 %, muy inferior a la precisión de los datos de OSM.
+- **Proyección:** equirectangular local con origen en el nodo OSM 437539782 (Quesada y Av. Cabildo; lat −34.554415, lon −58.463435). x apunta al este, y al norte, en metros. Escalas del elipsoide **WGS84** en la latitud del origen: `metersPerDegLat = 111132.92 − 559.82·cos 2φ + 1.175·cos 4φ − 0.0023·cos 6φ = 110932.417` y `metersPerDegLon = 111412.84·cos φ − 93.5·cos 3φ + 0.118·cos 5φ = 91780.235`. Entonces `x = (lon − lon0) · metersPerDegLon` y `y = (lat − lat0) · metersPerDegLat`.
+- **Precisión verificada:** cada tramo se comparó con la suma de distancias geodésicas de Vincenty sobre WGS84. La peor diferencia por tramo es de 0,021 %, que corresponde al redondeo a décimas; el circuito completo difiere en 0,002 % (1506,78 m geodésicos). La primera versión usaba factores esféricos aproximados (110540 y 111320·cos φ), que comprimían las escalas un 0,35 % en latitud y un 0,11 % en longitud. Se corrigió por la revisión de Codex en #4.
 - **Datos:** cada punto de la ruta guarda lat/lon y x/y. El validador exige coordenadas numéricas finitas y comprueba:
   - que lat/lon y x/y coincidan (tolerancia de 0,5 m);
   - que las longitudes cuadren y los tramos sean continuos;

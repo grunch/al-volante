@@ -124,3 +124,20 @@ test('requires segments that cover each leg and a matching cycle track summary',
   assert.ok(errors.includes('leg 1: segments must cover the path contiguously from point 0 to 2'));
   assert.ok(errors.includes('leg 2: cycleTrack "full" does not match its segments ("none")'));
 });
+
+test('rejects missing or non-finite scalar metrics and projection factors', () => {
+  const missingLength = buildRoute();
+  delete missingLength.legs[0].lengthM;
+  delete missingLength.loopLengthM;
+  delete missingLength.legs[1].turnIntoNext.angleDeg;
+
+  const missingProjection = buildRoute();
+  missingProjection.projection = { ...projection, metersPerDegLat: undefined };
+
+  const errors = validateRoute(missingLength);
+
+  assert.ok(errors.includes('leg 1: lengthM must be a finite number'));
+  assert.ok(errors.includes('loopLengthM must be a finite number'));
+  assert.ok(errors.includes('leg 2: turnIntoNext.angleDeg must be a finite number'));
+  assert.deepEqual(validateRoute(missingProjection), ['projection.metersPerDegLat must be a finite number']);
+});

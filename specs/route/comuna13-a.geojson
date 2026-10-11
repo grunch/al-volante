@@ -8,7 +8,7 @@
    "properties": {
     "leg": 1,
     "street": "Quesada",
-    "lengthM": 126.5,
+    "lengthM": 126.7,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
     "status": "fuente-unica",
@@ -38,7 +38,7 @@
    "properties": {
     "leg": 2,
     "street": "Av. Cabildo",
-    "lengthM": 239.9,
+    "lengthM": 240.5,
     "examMaxKmh": 45,
     "turnIntoNext": "right",
     "status": "fuente-unica",
@@ -80,7 +80,7 @@
    "properties": {
     "leg": 3,
     "street": "Guayra",
-    "lengthM": 189.4,
+    "lengthM": 189.7,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
     "status": "fuente-unica",
@@ -114,7 +114,7 @@
    "properties": {
     "leg": 4,
     "street": "Cuba",
-    "lengthM": 234.7,
+    "lengthM": 235.3,
     "examMaxKmh": 30,
     "turnIntoNext": "left",
     "status": "fuente-unica",
@@ -144,7 +144,7 @@
    "properties": {
     "leg": 5,
     "street": "Quesada",
-    "lengthM": 66.1,
+    "lengthM": 66.2,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
     "status": "fuente-unica",
@@ -174,7 +174,7 @@
    "properties": {
     "leg": 6,
     "street": "Cuba",
-    "lengthM": 272.4,
+    "lengthM": 273.1,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
     "status": "fuente-unica",
@@ -208,7 +208,7 @@
    "properties": {
     "leg": 7,
     "street": "Manuel Ugarte",
-    "lengthM": 102.1,
+    "lengthM": 102.3,
     "examMaxKmh": 30,
     "turnIntoNext": "right",
     "status": "fuente-unica",
@@ -238,7 +238,7 @@
    "properties": {
     "leg": 8,
     "street": "Vuelta de Obligado",
-    "lengthM": 272.2,
+    "lengthM": 272.9,
     "examMaxKmh": 30,
     "turnIntoNext": "left",
     "status": "fuente-unica",

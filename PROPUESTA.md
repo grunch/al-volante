@@ -179,7 +179,7 @@ Consulta oficial exploratoria realizada el 11/10/2026:
 
 Estos resultados muestran diferencias de edición. Los documentos completos ya se contrastaron en [specs/REGLAS.md §8](specs/REGLAS.md): 40 preguntas, 34 correctas (85%), y tiempo de 45 minutos según la Disposición 860/2023 y la página oficial vigente, frente a los 40 minutos del informe de gestión 2024. No fijar el temporizador como oficial. Diseñar cantidad de preguntas, duración y umbral como configuración versionada. No mezclar reglas de fuentes diferentes sin documentarlo.
 
-Pendientes para implementación: interpretación del punto Cuba–Quesada–Cuba; relevamiento cartográfico; inventario de cada señal/figura; transcripción íntegra de la ficha y excepciones; resolución de discrepancias; prueba de controles y rendimiento. Caja manual/automática se ofrecerán como selección, sin bloquear la propuesta por esa preferencia.
+Pendientes para implementación: relevamiento cartográfico en terreno (posición del cajón, señalización de fuente única; ver [specs/RECORRIDO.md §7](specs/RECORRIDO.md)); la interpretación de Cuba–Quesada–Cuba quedó resuelta en F01-T04 (desplazamiento de 66 m); inventario de cada señal/figura; transcripción íntegra de la ficha y excepciones; resolución de discrepancias; prueba de controles y rendimiento. Caja manual/automática se ofrecerán como selección, sin bloquear la propuesta por esa preferencia.
 
 ## 10. Entregas y criterios de terminado
 
