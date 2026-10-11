@@ -15,7 +15,7 @@ El usuario pide un juego web prolijo y creativo para estudiar TODO el manual y p
 4. `fuentes/INDICE.md`: índice automatizado por página.
 5. PDFs originales en `fuentes/pdf/` (hashes verificados contra `manifest.json`).
 
-El repositorio es `grunch/al-volante`. Las rutas de este proyecto se expresan relativas a la raíz del repo; no registrar rutas del sistema de archivos local en documentos versionados (el repo es público). No hay aplicación ni dependencias instaladas.
+El repositorio es `grunch/al-volante`. Las rutas de este proyecto se expresan relativas a la raíz del repo; no registrar rutas del sistema de archivos local en documentos versionados (el repo es público). Desde F02-T01 hay una aplicación web (Vite, React y Three.js) con dependencias fijadas en `package.json`; ver `ARQUITECTURA.md`.
 
 ## Hecho
 
@@ -23,7 +23,7 @@ El repositorio es `grunch/al-volante`. Las rutas de este proyecto se expresan re
 - Extracción con `pdftotext -layout`, conservando saltos de página. El protocolo tiene fondo decorativo que contamina la extracción; usar `pdftotext -raw` para mejorar la lectura y renderizar tablas/gráficos.
 - Leídos índice, distribución B, etapas, ficha y partes del anexo de fallas. No afirmar que cada párrafo del manual o protocolo está auditado: la revisión integral pedagógica sigue pendiente.
 - Inspección visual de página PDF 16 del recorrido y PDF 21 del protocolo (cajón).
-- Propuesta escrita; sin implementación ni pruebas funcionales.
+- Propuesta escrita; la implementación empezó en la fase 2, con pruebas unitarias, de integración y E2E (ver `ESTADO_IMPLEMENTACION.md`).
 - Búsqueda oficial exploratoria del formato teórico: resultados contradictorios respecto del tiempo. Enlaces y estado en propuesta. No se ha certificado vigencia.
 
 ## Hallazgos que no deben perderse

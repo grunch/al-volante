@@ -58,6 +58,9 @@ describe('SceneCanvas', () => {
 
     expect(screen.getByTestId('garage-scene')).toHaveAttribute('data-state', 'unavailable');
     expect(screen.getByRole('status')).toHaveTextContent('Sin WebGL');
+    // The message must not sit inside an ARIA image, whose descendants screen readers treat as decorative.
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+    expect(screen.getByRole('status').closest('[role="img"]')).toBeNull();
   });
 
   it('sizes the renderer to its container', () => {

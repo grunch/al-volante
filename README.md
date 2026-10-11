@@ -6,7 +6,7 @@ Estado: **en construcción.** Fase 1 (fuentes, cobertura y recorrido verificado)
 
 ## Arranque
 
-Requisitos: Node.js 24.9 o superior (`.nvmrc` fija 24.9.0, la versión usada en la CI).
+Requisitos: Node.js 24.15 o superior, que es lo que exige jsdom 30 (`.nvmrc` fija 24.21.0, la versión usada en la CI).
 
 ```bash
 npm ci                 # instala las dependencias fijadas

@@ -101,8 +101,8 @@ export function SceneCanvas({
     <div
       className="scene-canvas"
       ref={containerRef}
-      role="img"
-      aria-label={label}
+      // Without WebGL there is no image to describe, and an ARIA image would hide the status message inside it.
+      {...(state === 'unavailable' ? {} : { role: 'img', 'aria-label': label })}
       data-state={state}
       data-testid="garage-scene"
     >
