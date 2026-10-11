@@ -13,7 +13,8 @@ test.describe('home page', () => {
     await page.goto('./');
 
     // Assert
-    await expect(page.getByRole('heading', { level: 1, name: 'Al volante: Comuna 13' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'Mi garaje' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Al volante: Comuna 13' })).toBeVisible();
     const scene = page.getByTestId('garage-scene');
     await expect(scene).toHaveAttribute('data-state', 'ready', { timeout: 15_000 });
     const box = await scene.locator('canvas').boundingBox();

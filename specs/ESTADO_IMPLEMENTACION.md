@@ -36,7 +36,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|---|
 | F02-T01 | `f02-t01-base` | `main` | F01 (fusionada) | [#7](https://github.com/grunch/al-volante/pull/7) | en revisión (etapa A) |
 | F02-T02 | `f02-t02-schemas` | `f02-t01-base` (#7) | T01 (#7) | #8 | en revisión (etapa A) |
-| F02-T03 | — | — | T02 | — | pendiente |
+| F02-T03 | `f02-t03-navigation` | `f02-t02-schemas` (#8) | T02 (#8) | #9 | en revisión (etapa A) |
 | F02-T04 | — | — | T03 | — | pendiente |
 | F02-T05 | — | — | T04 | — | pendiente |
 
@@ -69,6 +69,23 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Codex, una franja con `lt` y `lte` (o `gt` y `gte`) a la vez engañaba al control de bordes: se rechaza.
   - Codex, citas sin validar contra el manifiesto: las del puntaje (`rules.scoring.refs`) y las del recorrido (`route.sources.route`) ahora se validan. Todas las citas pasan por `refs.ts`, que exige una fuente del manifiesto y una página dentro de su rango. El fixture de integración citaba `recorridos` sin tenerlo en el manifiesto y se corrigió.
 
+### F02-T03 — Navegación, inicio/garaje, biblioteca y mapa de aprendizaje
+
+- Alcance:
+  - rutas con hash e inicio «Mi garaje» con los seis espacios;
+  - mapa de aprendizaje (campaña B separada del complemento) y detalle de sección;
+  - biblioteca con consulta página por página de las cuatro fuentes (texto extraído y PDF oficial);
+  - estados de carga y error, 404, foco y título por pantalla, diseño adaptable.
+- Verificación local:
+  - `npm run check` con 71 pruebas unitarias (cobertura del 98,3 % en sentencias y 93,5 % en ramas);
+  - `npm run test:e2e` con 14 pruebas en escritorio y móvil: navegación completa por teclado con foco en el título, mapa → sección → página 72 con texto y PDF, salto de página y reglas del protocolo, y ausencia de desborde horizontal en pantallas angostas;
+  - capturas revisadas del mapa, el visor y el inicio, y contraste de los colores nuevos calculado (≥ 4,5:1).
+- CodeRabbit y Codex: solicitadas al abrir el PR (#9). Codex completada sobre `743445a`. CodeRabbit no revisó por el cupo de 1 revisión por hora; se vuelve a pedir en la etapa B.
+- Findings resueltos (etapa B), todos con prueba:
+  - Codex, el inicio reemplazaba «Mi bitácora» por la Biblioteca entre los seis espacios: ahora son los seis de PROPUESTA §2 (todos «Próximamente» en este PR), y la Biblioteca queda en la navegación y en un botón bajo la introducción.
+  - Codex, títulos y descripciones de los espacios dentro del TSX: pasan a `HOME_SPACES` en `src/i18n/es-AR.ts`. Una búsqueda no encontró otros textos visibles incrustados.
+  - Codex, una regla con filas de ficha en varias páginas mostraba siempre la primera (por ejemplo, en la página 17 aparecía el texto de la 16): ahora se muestra la fila de la página consultada, y la primera solo se usa como respaldo en páginas que únicamente citan la regla.
+
 ## Pila y orden de fusión
 
 `main ← F02-T01 ← F02-T02 ← F02-T03 ← F02-T04 ← F02-T05` (se crean en la etapa A; se fusionan en ese orden en la etapa B).
@@ -79,7 +96,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa A: #7 (T01) y #8 (T02) creados. Sigue F02-T03 apilado sobre `f02-t02-schemas`, sin esperar revisiones.
+Etapa A: #7 (T01), #8 (T02) y #9 (T03) creados. Sigue F02-T04 apilado sobre `f02-t03-navigation`, sin esperar revisiones.
 
 ## Decisiones que no deben reinterpretarse
 
