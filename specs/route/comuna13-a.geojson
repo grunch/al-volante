@@ -271,25 +271,7 @@
    "type": "Feature",
    "properties": {
     "type": "traffic_signals",
-    "leg": 1,
-    "status": "verificado-fuentes",
-    "sources": "osm, gcba-cruces-semaforizados",
-    "marker-color": "#dc2626",
-    "marker-size": "small"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -58.4634349,
-     -34.5544153
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "type": "traffic_signals",
-    "leg": 2,
+    "legs": "1, 2",
     "status": "verificado-fuentes",
     "sources": "osm, gcba-cruces-semaforizados",
     "marker-color": "#dc2626",
@@ -307,7 +289,7 @@
    "type": "Feature",
    "properties": {
     "type": "crossing-traffic_signals",
-    "leg": 2,
+    "legs": "2",
     "status": "fuente-unica",
     "sources": "osm",
     "marker-color": "#6b7280",
@@ -325,7 +307,7 @@
    "type": "Feature",
    "properties": {
     "type": "crossing-traffic_signals",
-    "leg": 2,
+    "legs": "2",
     "status": "fuente-unica",
     "sources": "osm",
     "marker-color": "#6b7280",
@@ -343,7 +325,7 @@
    "type": "Feature",
    "properties": {
     "type": "traffic_signals",
-    "leg": 2,
+    "legs": "2",
     "status": "verificado-fuentes",
     "sources": "osm, gcba-cruces-semaforizados",
     "marker-color": "#dc2626",
@@ -361,7 +343,7 @@
    "type": "Feature",
    "properties": {
     "type": "crossing-traffic_signals",
-    "leg": 2,
+    "legs": "2",
     "status": "fuente-unica",
     "sources": "osm",
     "marker-color": "#6b7280",
@@ -379,7 +361,7 @@
    "type": "Feature",
    "properties": {
     "type": "stop",
-    "leg": 3,
+    "legs": "3",
     "status": "fuente-unica",
     "sources": "osm",
     "marker-color": "#b91c1c",
@@ -397,7 +379,7 @@
    "type": "Feature",
    "properties": {
     "type": "stop",
-    "leg": 4,
+    "legs": "4",
     "status": "fuente-unica",
     "sources": "osm",
     "marker-color": "#b91c1c",
@@ -415,7 +397,7 @@
    "type": "Feature",
    "properties": {
     "type": "stop",
-    "leg": 5,
+    "legs": "5",
     "status": "fuente-unica",
     "sources": "osm",
     "marker-color": "#b91c1c",
@@ -433,7 +415,7 @@
    "type": "Feature",
    "properties": {
     "type": "traffic_signals",
-    "leg": 6,
+    "legs": "6",
     "status": "verificado-fuentes",
     "sources": "osm, gcba-cruces-semaforizados",
     "marker-color": "#dc2626",
@@ -451,7 +433,7 @@
    "type": "Feature",
    "properties": {
     "type": "traffic-calming-hump",
-    "leg": 6,
+    "legs": "6",
     "status": "fuente-unica",
     "sources": "osm",
     "marker-color": "#6b7280",
@@ -469,7 +451,7 @@
    "type": "Feature",
    "properties": {
     "type": "stop",
-    "leg": 7,
+    "legs": "7",
     "status": "fuente-unica",
     "sources": "osm",
     "marker-color": "#b91c1c",
@@ -487,7 +469,7 @@
    "type": "Feature",
    "properties": {
     "type": "traffic_signals",
-    "leg": 8,
+    "legs": "8",
     "status": "verificado-fuentes",
     "sources": "osm, gcba-cruces-semaforizados",
     "marker-color": "#dc2626",
@@ -505,7 +487,7 @@
    "type": "Feature",
    "properties": {
     "type": "stop",
-    "leg": 8,
+    "legs": "8",
     "status": "fuente-unica",
     "sources": "osm",
     "marker-color": "#b91c1c",
@@ -523,7 +505,7 @@
    "type": "Feature",
    "properties": {
     "type": "traffic_signals",
-    "leg": 2,
+    "legs": "2, 3",
     "status": "discrepancia",
     "sources": "gcba-cruces-semaforizados",
     "marker-color": "#dc2626",

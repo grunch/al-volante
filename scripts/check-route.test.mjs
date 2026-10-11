@@ -24,7 +24,7 @@ function buildRoute() {
         turnIntoNext: { direction: 'left', angleDeg: 90 }, path: [point(3, 100, 100), point(4, 0, 100), point(1, 0, 0)],
         cycleTrack: 'none', segments: [{ osmWay: 20, fromIndex: 0, toIndex: 2, cycleTrackLeft: false }] },
     ],
-    controls: [{ leg: 2, type: 'traffic_signals', status: 'verificado-fuentes', sources: ['osm', 'gcba'], ...point(4, 0, 100) }],
+    controls: [{ legs: [2], type: 'traffic_signals', status: 'verificado-fuentes', sources: ['osm', 'gcba'], ...point(4, 0, 100) }],
   };
 }
 
@@ -140,4 +140,39 @@ test('rejects missing or non-finite scalar metrics and projection factors', () =
   assert.ok(errors.includes('loopLengthM must be a finite number'));
   assert.ok(errors.includes('leg 2: turnIntoNext.angleDeg must be a finite number'));
   assert.deepEqual(validateRoute(missingProjection), ['projection.metersPerDegLat must be a finite number']);
+});
+
+test('rejects a missing official sequence and invalid official steps', () => {
+  const route = buildRoute();
+  delete route.officialSequence;
+  route.legs[0].officialSteps = [0];
+  delete route.legs[1].officialSteps;
+
+  const errors = validateRoute(route);
+
+  assert.ok(errors.includes('officialSequence must be a non-empty list of street names'));
+  assert.ok(errors.includes('leg 1: officialSteps must be a non-empty list of positive integers'));
+  assert.ok(errors.includes('leg 2: officialSteps must be a non-empty list of positive integers'));
+});
+
+test('reports an invalid next path without throwing', () => {
+  const route = buildRoute();
+  delete route.legs[1].path;
+
+  const errors = validateRoute(route);
+
+  assert.ok(errors.includes('leg 2: path needs at least two points'));
+  assert.ok(!errors.some((error) => error.includes('does not connect')));
+});
+
+test('rejects duplicated controls and controls without valid legs', () => {
+  const route = buildRoute();
+  route.controls.push({ ...route.controls[0], legs: [1, 2] });
+  route.controls.push({ ...route.controls[0], osmNode: 99, x: 50, legs: [7] });
+  route.controls[2] = { ...route.controls[2], ...point(99, 50, 0) };
+
+  const errors = validateRoute(route);
+
+  assert.ok(errors.includes('control 1 (traffic_signals): duplicates control 0'));
+  assert.ok(errors.includes('control 2 (traffic_signals): unknown leg 7'));
 });

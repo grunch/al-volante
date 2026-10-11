@@ -65,15 +65,25 @@ export function validateRoute(route) {
   if (projectionErrors.length > 0) return projectionErrors;
   if (legs.length === 0) return ['route has no legs'];
 
-  const coveredSteps = legs.flatMap((leg) => leg.officialSteps ?? []).sort((a, b) => a - b);
-  const expectedSteps = officialSequence.map((_, index) => index + 1);
-  if (coveredSteps.join(',') !== expectedSteps.join(',')) errors.push(`legs must cover official steps ${expectedSteps.join(',')} exactly once`);
+  const sequenceOk = Array.isArray(officialSequence) && officialSequence.length > 0
+    && officialSequence.every((street) => typeof street === 'string' && street.trim() !== '');
+  if (!sequenceOk) errors.push('officialSequence must be a non-empty list of street names');
+  const stepsOk = legs.map((leg) => Array.isArray(leg.officialSteps) && leg.officialSteps.length > 0
+    && leg.officialSteps.every((step) => Number.isInteger(step) && step > 0));
+  legs.forEach((leg, index) => {
+    if (!stepsOk[index]) errors.push(`leg ${leg.leg}: officialSteps must be a non-empty list of positive integers`);
+  });
+  if (sequenceOk && stepsOk.every(Boolean)) {
+    const coveredSteps = legs.flatMap((leg) => leg.officialSteps).sort((a, b) => a - b);
+    const expectedSteps = officialSequence.map((_, index) => index + 1);
+    if (coveredSteps.join(',') !== expectedSteps.join(',')) errors.push(`legs must cover official steps ${expectedSteps.join(',')} exactly once`);
+  }
 
   let total = 0;
   const geometryOk = legs.map((leg) => Array.isArray(leg.path) && leg.path.length >= 2 && leg.path.every(hasFiniteCoordinates));
   legs.forEach((leg, index) => {
     const label = `leg ${leg.leg}`;
-    for (const step of leg.officialSteps ?? []) {
+    for (const step of stepsOk[index] && sequenceOk ? leg.officialSteps : []) {
       if (normalize(officialSequence[step - 1] ?? '') !== normalize(leg.street)) errors.push(`${label}: street "${leg.street}" does not match official step ${step}`);
     }
     if (!STATUSES.includes(leg.status)) errors.push(`${label}: invalid status "${leg.status}"`);
@@ -97,8 +107,9 @@ export function validateRoute(route) {
     total += length;
     if (!isFiniteNumber(leg.lengthM)) errors.push(`${label}: lengthM must be a finite number`);
     else if (Math.abs(length - leg.lengthM) > LENGTH_TOLERANCE_M) errors.push(`${label}: lengthM ${leg.lengthM} differs from path length ${length.toFixed(1)}`);
-    const next = legs[(index + 1) % legs.length];
-    if (leg.path.at(-1).osmNode !== next.path[0].osmNode) errors.push(`${label}: does not connect to leg ${next.leg}`);
+    const nextIndex = (index + 1) % legs.length;
+    const next = legs[nextIndex];
+    if (geometryOk[nextIndex] && leg.path.at(-1).osmNode !== next.path[0].osmNode) errors.push(`${label}: does not connect to leg ${next.leg}`);
     const cap = EXAM_MAX_KMH[leg.roadType];
     if (cap === undefined) errors.push(`${label}: invalid roadType "${leg.roadType}"`);
     else if (!(leg.examMaxKmh > 0 && leg.examMaxKmh <= cap)) errors.push(`${label}: examMaxKmh must be in (0, ${cap}] for ${leg.roadType}`);
@@ -107,7 +118,7 @@ export function validateRoute(route) {
       errors.push(`${label}: invalid turn direction "${turn?.direction}"`);
     } else if (!isFiniteNumber(turn.angleDeg)) {
       errors.push(`${label}: turnIntoNext.angleDeg must be a finite number`);
-    } else if (geometryOk[(index + 1) % legs.length]) {
+    } else if (geometryOk[nextIndex]) {
       const actual = turnAngleDeg(leg.path, next.path);
       const actualDirection = actual > 0 ? 'left' : 'right';
       if (turn.direction !== actualDirection || Math.abs(turn.angleDeg - actual) > TURN_ANGLE_TOLERANCE_DEG) {
@@ -119,9 +130,18 @@ export function validateRoute(route) {
   else if (Math.abs(total - route.loopLengthM) > LENGTH_TOLERANCE_M) errors.push(`loopLengthM ${route.loopLengthM} differs from legs total ${total.toFixed(1)}`);
 
   const legNumbers = new Set(legs.map((leg) => leg.leg));
+  const seenControls = new Map();
   controls.forEach((control, index) => {
     const label = `control ${index} (${control.type})`;
-    if (!legNumbers.has(control.leg)) errors.push(`${label}: unknown leg ${control.leg}`);
+    if (!Array.isArray(control.legs) || control.legs.length === 0) errors.push(`${label}: legs must be a non-empty list`);
+    for (const legNumber of control.legs ?? []) {
+      if (!legNumbers.has(legNumber)) errors.push(`${label}: unknown leg ${legNumber}`);
+    }
+    // One physical control per location: a control shared by two legs lists both in `legs`.
+    const identity = control.osmNode ?? `${control.type}@${control.lat},${control.lon}`;
+    const key = `${control.type}|${identity}`;
+    if (seenControls.has(key)) errors.push(`${label}: duplicates control ${seenControls.get(key)}`);
+    else seenControls.set(key, index);
     if (!STATUSES.includes(control.status)) errors.push(`${label}: invalid status "${control.status}"`);
     if (control.status === 'verificado-fuentes' && (control.sources ?? []).length < 2) errors.push(`${label}: verified controls need two sources`);
     if (!hasFiniteCoordinates(control)) {

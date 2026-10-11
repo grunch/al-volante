@@ -92,10 +92,10 @@ Ninguno conocido.
 Etapa B en curso, iniciada por el usuario el 2026-10-11 («revisa los findings en los PRs abiertos, comienza por el #2, luego sigue #3 y #4»):
 
 - **#2:** el usuario lo fusionó (merge `58cf109`, 2026-10-11 19:39 UTC) con los findings de Codex y CodeRabbit resueltos. Los dos findings de la re-revisión de Codex que llegaron después están en el PR correctivo **#6 (F01-T02-FIX01)**, abierto contra `main` e independiente de #3 y #4.
-- **#3:** findings de Codex resueltos, incluida la re-revisión. Base actual: `main`.
+- **#3:** el usuario lo fusionó (merge `f542d2f`) con los findings de Codex resueltos, incluida la re-revisión.
 - **#4:** findings de Codex resueltos, incluida la re-revisión: subtramos, coordenadas y escalares finitos, giro geométrico, proyección WGS84 y documentos alineados. Apilado sobre #3.
-- **Falta:** revisiones de CodeRabbit en #3, #4 y #6 (cupo de 1 por hora) y re-revisión de Codex de los últimos commits. Después, fusionar #3 → #4 y #6.
-- **No es de esta fase:** #5 (estrategia de modelos) es un PR del usuario.
+- **Falta:** revisiones de CodeRabbit en #4 y #6 (cupo de 1 por hora) y re-revisión de Codex del último commit de #4. Después, fusionar #4 y #6.
+- **#5** (estrategia de modelos, PR del usuario) se fusionó dentro de la rama de #4 (merge `d804221`), porque esa era su base, así que sus cambios entran a `main` con #4.
 
 La fase 1 se cierra solo con todo fusionado y sin ambigüedades críticas abiertas; después, esperar el inicio manual de la fase 2.
 

@@ -607,7 +607,10 @@
   ],
   "controls": [
     {
-      "leg": 1,
+      "legs": [
+        1,
+        2
+      ],
       "type": "traffic_signals",
       "osmNode": 437539782,
       "lat": -34.5544153,
@@ -623,23 +626,9 @@
       "status": "verificado-fuentes"
     },
     {
-      "leg": 2,
-      "type": "traffic_signals",
-      "osmNode": 437539782,
-      "lat": -34.5544153,
-      "lon": -58.4634349,
-      "x": 0.0,
-      "y": -0.0,
-      "sources": [
-        "osm",
-        "gcba-cruces-semaforizados"
+      "legs": [
+        2
       ],
-      "gcbaId": "B-CR-03655",
-      "gcbaAddress": "Cabildo Av. y Quesada, CABA",
-      "status": "verificado-fuentes"
-    },
-    {
-      "leg": 2,
       "type": "crossing-traffic_signals",
       "osmNode": 3577836556,
       "lat": -34.554339,
@@ -652,7 +641,9 @@
       "status": "fuente-unica"
     },
     {
-      "leg": 2,
+      "legs": [
+        2
+      ],
       "type": "crossing-traffic_signals",
       "osmNode": 3577836551,
       "lat": -34.5535166,
@@ -665,7 +656,9 @@
       "status": "fuente-unica"
     },
     {
-      "leg": 2,
+      "legs": [
+        2
+      ],
       "type": "traffic_signals",
       "osmNode": 437539781,
       "lat": -34.5534494,
@@ -681,7 +674,9 @@
       "status": "verificado-fuentes"
     },
     {
-      "leg": 2,
+      "legs": [
+        2
+      ],
       "type": "crossing-traffic_signals",
       "osmNode": 3577836545,
       "lat": -34.5533686,
@@ -694,7 +689,9 @@
       "status": "fuente-unica"
     },
     {
-      "leg": 3,
+      "legs": [
+        3
+      ],
       "type": "stop",
       "osmNode": 9572165686,
       "lat": -34.5518656,
@@ -707,7 +704,9 @@
       "status": "fuente-unica"
     },
     {
-      "leg": 4,
+      "legs": [
+        4
+      ],
       "type": "stop",
       "osmNode": 206176533,
       "lat": -34.5525683,
@@ -720,7 +719,9 @@
       "status": "fuente-unica"
     },
     {
-      "leg": 5,
+      "legs": [
+        5
+      ],
       "type": "stop",
       "osmNode": 10048544528,
       "lat": -34.5533776,
@@ -733,7 +734,9 @@
       "status": "fuente-unica"
     },
     {
-      "leg": 6,
+      "legs": [
+        6
+      ],
       "type": "traffic_signals",
       "osmNode": 92583898,
       "lat": -34.5543673,
@@ -749,7 +752,9 @@
       "status": "verificado-fuentes"
     },
     {
-      "leg": 6,
+      "legs": [
+        6
+      ],
       "type": "traffic-calming-hump",
       "osmNode": 4496250272,
       "lat": -34.5552096,
@@ -762,7 +767,9 @@
       "status": "fuente-unica"
     },
     {
-      "leg": 7,
+      "legs": [
+        7
+      ],
       "type": "stop",
       "osmNode": 6536207534,
       "lat": -34.5557468,
@@ -775,7 +782,9 @@
       "status": "fuente-unica"
     },
     {
-      "leg": 8,
+      "legs": [
+        8
+      ],
       "type": "traffic_signals",
       "osmNode": 191913308,
       "lat": -34.5548635,
@@ -791,7 +800,9 @@
       "status": "verificado-fuentes"
     },
     {
-      "leg": 8,
+      "legs": [
+        8
+      ],
       "type": "stop",
       "osmNode": 3733199928,
       "lat": -34.5539015,
@@ -804,7 +815,10 @@
       "status": "fuente-unica"
     },
     {
-      "leg": 2,
+      "legs": [
+        2,
+        3
+      ],
       "type": "traffic_signals",
       "osmNode": null,
       "lat": -34.5527499,
