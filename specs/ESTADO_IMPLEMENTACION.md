@@ -107,8 +107,11 @@ La fase 1 se cierra solo con todo fusionado y sin ambigüedades críticas abiert
 ## Cambio documental — Asignación visual de Astra
 
 - Pedido del usuario: crear un PR que asigne GPT-6 Astra a las tareas visuales específicas.
+- PR: [#5](https://github.com/grunch/al-volante/pull/5), abierto; commit de asignaciones `d1cc0d2`.
 - Rama: `docs/astra-threejs-tasks`; base: `f01-t04-recorrido` (#4). Orden de fusión: #2 → #3 → #4 → este PR documental. No inicia fases 3, 4, 6 o 7.
 - Alcance: F03-T03, F04-T01 y F06-T03 tienen Astra como autor; F07-T01 lo usa condicionado a mediciones y problemas complejos de renderizado. Plan, estrategia, instrucciones y contexto quedan alineados.
 - Autorrevisión: diff documental completo y coherencia entre asignaciones comprobados antes de commit/push; formato y enlaces locales verificados.
-- Codex y CodeRabbit: pendientes de solicitar al crear el PR; resultados y findings se registrarán en el PR. Este registro no afirma que las revisiones estén completadas.
-- Siguiente acción de este cambio: solicitar revisiones y resolver findings en la etapa B, respetando los predecesores abiertos. El estado de las tareas de fase 1 se conserva.
+- Codex: solicitado mediante `@codex review`; el conector respondió que se necesita crear un entorno cloud ([respuesta](https://github.com/grunch/al-volante/pull/5#issuecomment-6112864033)). Estado: bloqueada por integración; no es una excepción por tokens.
+- CodeRabbit: revisión automática solicitada; la App informó límite OSS agotado y próximo cupo en 59 minutos ([respuesta](https://github.com/grunch/al-volante/pull/5#issuecomment-6112864475)). Estado: pendiente por cuota horaria; no hubo análisis ni findings. El check SUCCESS no demuestra revisión completada.
+- Revisiones adicionales no completadas; no se fusiona este PR.
+- Siguiente acción de este cambio: resolver el entorno Codex y reintentar CodeRabbit al renovar su cuota; revisar findings con el usuario en la etapa B, respetando los predecesores abiertos. El estado de las tareas de fase 1 se conserva.
