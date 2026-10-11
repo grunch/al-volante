@@ -24,6 +24,8 @@ Las fechas de publicación salen del registro de npm (`npm view <paquete> time`)
 | Prettier | 3.9.9 | 2026-09-23 | Formato del código (no de los `.md` ni de los catálogos). |
 | Zod | 4.6.5 | 2026-09-13 | Esquemas de los catálogos de contenido (desde F02-T02). |
 | React Router | 8.4.0 | 2026-09-15 | Navegación con URLs con hash (desde F02-T03). |
+| idb | 8.0.3 | 2025-05-07 | Envoltorio con promesas de IndexedDB para el progreso (desde F02-T05). La 8.0.4 es del 2026-10-06 y todavía no cumplía las dos semanas. |
+| fake-indexeddb | 6.2.5 | 2025-11-07 | IndexedDB en memoria para las pruebas (solo desarrollo). |
 
 ## Estructura
 
@@ -35,6 +37,7 @@ src/
   i18n/es-AR.ts            Textos de la interfaz en español rioplatense, con claves en inglés.
   activities/              Motor de actividades (puro y determinista), PRNG con semilla, componentes de pregunta y señales SVG.
   content/                 Esquemas (Zod), validación referencial, versión, cobertura y carga de catálogos.
+  progress/                Progreso por concepto (Leitner), bitácora, IndexedDB, respaldo versionado y sus pantallas.
   scene/                   Mundo 3D: escena pura de Three.js y su componente de montaje.
   ui/                      Estilos (tokens de diseño), compuerta de contenido, título de página y hooks compartidos.
   test/                    Configuración y dobles de prueba.
@@ -43,8 +46,6 @@ scripts/validate-content.ts Valida los catálogos desde la terminal (Node ≥ 24
 specs/                     Documentación, fuentes y catálogos de datos.
 .github/workflows/ci.yml   Integración continua.
 ```
-
-Planificado en esta fase: `src/progress/` (progreso y persistencia, F02-T05).
 
 ## Datos y validación (F02-T02)
 
@@ -78,6 +79,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 | `#/mapa/:fuente/:sección` | Unidades de una sección, con datos clave y enlaces a sus páginas. |
 | `#/actividades` | «La ciudad te pregunta»: muestra de actividades (F02-T04). |
 | `#/actividad/:id?semilla=n` | Una actividad; la semilla en la URL reproduce la misma variante y el mismo orden. |
+| `#/bitacora` | «Mi bitácora»: repaso recomendado, errores recientes, progreso por concepto (campaña B separada del complemento) y respaldo (F02-T05). |
 | `#/biblioteca` | Las cuatro fuentes oficiales, con edición, cantidad de páginas y PDF oficial. |
 | `#/biblioteca/:fuente/:página` | Una página física: clasificación, resumen, unidades, figuras, señales, observaciones, reglas del examen que la citan (protocolo), texto extraído y enlace al PDF oficial en esa página. |
 
@@ -97,6 +99,31 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 - **Tipos:** `single-choice`, `sign-identification` (señal dibujada en SVG con formas y colores reglamentarios, descripta para lectores de pantalla), `ordering` (botones subir/bajar, sin arrastrar) y `decision` (escena ramificada).
 - **Resultados:** `ActivityResultContext` recibe cada intento terminado; F02-T05 lo usa para registrar el progreso.
 - **Contenido:** `specs/catalog/activities.json`. Cada actividad cita conceptos (`unitIds`) y páginas (`refs`) y se valida con `validateActivities`. Solo se escriben preguntas sobre datos sin discrepancias abiertas (COBERTURA.md).
+
+## Progreso y bitácora (F02-T05)
+
+- **Intentos:** cada actividad terminada se guarda como `Attempt` (PROPUESTA §8), con la versión de contenido, la variante, la semilla y la respuesta. Así se sabe con qué contenido se respondió.
+- **Dominio por concepto** (`src/progress/model.ts`): cajas de Leitner con repasos a 1, 3, 7, 14 y 30 días.
+  - Un acierto sube una caja solo si la respuesta anterior también fue correcta y el repaso ya tocaba. Responder antes de tiempo no suma.
+  - Un error, o el primer acierto después de un error, vuelve a la caja 1.
+  - **Dominado** = caja 3: tres aciertos seguidos y espaciados (día 0, ≥ 1 y ≥ 4). Leer una página o acertar una vez no alcanza (PROPUESTA §3). No se calcula ninguna probabilidad de aprobar.
+- **Bitácora** (`src/progress/logbook.ts`, funciones puras):
+  - repaso recomendado: primero los errores recientes, después una actividad por concepto vencido (los fallados antes);
+  - errores recientes;
+  - progreso por grupo del mapa: la campaña B se mide aparte del material complementario (PROPUESTA §6).
+- **Persistencia** (`src/progress/storage.ts`): IndexedDB, base `al-volante` (versión 2), almacenes `attempts`, `concepts` y `quarantine`.
+  - Cada respuesta se escribe en una sola transacción, que lee el valor guardado de cada concepto y calcula el nuevo dentro de ella. Así, una pestaña nunca pisa el progreso más nuevo que escribió otra. Si algo falla, la transacción se aborta y no queda nada a medias.
+  - Las migraciones de la base van en `upgrade`, una rama por versión (`DB_VERSION`). La versión 2 agregó `quarantine`.
+  - Antes de escribir, cada concepto calculado se valida con Zod; si no cumple el esquema, la escritura se aborta. Si el reloj retrocede, la hora de la última respuesta no retrocede.
+  - Al cargar, cada registro se valida con Zod. Los ilegibles se mueven a `quarantine` exactamente como estaban (almacén, clave y valor), en la misma transacción, y la bitácora avisa cuántos hay. Nunca se borran, y una práctica posterior del mismo concepto tampoco los pisa: si otra pestaña dejó un registro ilegible, también se aparta antes de escribir.
+  - Si IndexedDB no está disponible (algunos modos privados), se usa memoria y la bitácora avisa que el progreso no va a durar.
+  - `ProgressProvider` encola las respuestas detrás de la carga: una respuesta dada mientras carga se guarda cuando la carga termina, y si la carga falla, se guarda igual y aparece al reintentar.
+  - Después de cada escritura, la pestaña vuelve a leer lo guardado y avisa a las demás por `BroadcastChannel` (`al-volante-progress`) para que hagan lo mismo. Así la bitácora de cada pestaña muestra también lo que se respondió en otra.
+  - El respaldo se arma leyendo la base en el momento de exportar, no con la copia en memoria, así que siempre contiene todo lo guardado.
+- **Respaldo** (`src/progress/backup.ts`): JSON autodescriptivo con `format`, `formatVersion`, `exportedAt` y `contentVersion`.
+  - Al importar, primero se valida todo, incluidas las migraciones de formato una versión por vez, los ids duplicados las faltas de cada intento contra las reglas del examen (`attemptErrors`) y la coherencia de cada concepto: no más aciertos que intentos, una caja que no supere los aciertos y un próximo repaso dentro del intervalo de la caja (exactamente un día después de un error). Ninguna fecha de progreso (último intento, inicio, fin, eventos y faltas) puede ser posterior a la exportación, ni la exportación posterior a la hora del dispositivo que importa, con una tolerancia de un día para desajustes de reloj.
+  - Después se pide confirmación, y recién entonces se reemplaza el progreso en una sola transacción.
+  - Un archivo inválido, demasiado grande (más de 20 MB) o ilegible, o una escritura que falla, dejan el progreso actual intacto.
 
 ## Convenciones
 

@@ -1,4 +1,5 @@
 import type { Category } from '../content/schemas.ts';
+import { t } from '../i18n/es-AR.ts';
 
 export interface PathSection {
   source: 'manual' | 'siniestros';
@@ -35,3 +36,10 @@ export const LEARNING_PATH: PathGroup[] = [
 
 /** Categories that count towards campaign B progress. */
 export const CAMPAIGN_B_CATEGORIES: readonly Category[] = ['B'];
+
+/** Visible title of each learning-path group. */
+export const GROUP_TITLES: Record<PathGroup['id'], string> = {
+  'campaign-b': t('mapCampaignB'),
+  reference: t('mapReference'),
+  complementary: t('mapComplementary'),
+};

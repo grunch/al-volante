@@ -118,6 +118,50 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Codex, foco perdido al completar la semilla y al cambiar de variante: el título queda montado y recibe el foco, con pruebas unitarias y E2E.
   - Codex, texto nuevo del inicio dentro del TSX: resuelto con `HOME_SPACES` (#9).
 
+### F02-T05 — Progreso, bitácora, repaso espaciado, IndexedDB y respaldo
+
+- Alcance:
+  - intentos registrados con la versión de contenido;
+  - dominio por concepto con cajas de Leitner (disponible, practicado y dominado);
+  - «Mi bitácora» con repaso recomendado, errores recientes y progreso de la campaña B separado del complemento;
+  - IndexedDB con transacciones atómicas;
+  - respaldo versionado con importación validada y confirmada.
+- Aceptación:
+  - El progreso persiste al reiniciar: prueba con IndexedDB simulado (desmontar y volver a montar) y E2E con recarga real.
+  - El respaldo restaura los datos: E2E que exporta, importa en un navegador limpio, recarga y encuentra el progreso.
+  - Los datos corruptos no destruyen el progreso existente:
+    - registros ilegibles en la base, que se apartan sin cambios en `quarantine` y se avisan;
+    - respaldos inválidos, demasiado grandes o ilegibles, que se rechazan sin tocar nada;
+    - escrituras fallidas, que abortan la transacción;
+    - respuestas dadas durante la carga o con la carga fallida, que se guardan igual a partir del valor almacenado;
+    - respaldos con contadores imposibles, que se rechazan;
+    - en E2E, un respaldo dañado sin efecto después de recargar.
+- Verificación local:
+  - `npm run check` con 157 pruebas unitarias y de integración (después de resolver los findings);
+  - `npm run test:e2e` con 24 pruebas (incluida una con dos pestañas);
+  - capturas revisadas: bitácora en móvil sin desborde horizontal e inicio en escritorio.
+- Errores encontrados por las pruebas y corregidos:
+  - un acierto después de un error subía de caja, y dos aciertos alcanzaban para dominar;
+  - con StrictMode quedaba una conexión de IndexedDB sin cerrar.
+- CodeRabbit y Codex: solicitadas al abrir el PR (#11). Codex completada sobre `ad80854`. CodeRabbit no revisó por el cupo de 1 revisión por hora; se vuelve a pedir en la etapa B.
+- Findings resueltos (etapa B), todos con prueba:
+  - Codex, una respuesta dada antes de que terminara la carga se descartaba en silencio: ahora espera en la cola y se guarda al terminar la carga. Si la carga falla, se guarda igual y aparece al reintentar.
+  - Codex, un concepto ilegible se pisaba al volver a practicarlo: los registros ilegibles pasan a `quarantine` sin cambios, al cargar o antes de escribir. La base sube a la versión 2, con prueba de migración desde la 1.
+  - Codex, un respaldo con contadores imposibles (por ejemplo, 100 aciertos en 0 intentos) se aceptaba: el esquema del concepto exige las invariantes de `updateConcept`, con una prueba que confirma que los estados de secuencias reales siguen siendo válidos.
+  - Codex, con dos pestañas una sobrescribía el dominio más nuevo de la otra: cada escritura lee el concepto guardado y calcula el nuevo dentro de la misma transacción.
+  - La corrección de los seis espacios del inicio, que estaba en este PR, pasó a #9, donde correspondía.
+- Segunda revisión de Codex (sobre `3b92467`, revisión 5485016205), con prueba:
+  - Un respaldo con un repaso a décadas de distancia se aceptaba: ahora el próximo repaso tiene que caer dentro del intervalo de su caja y, después de un error, exactamente un día más tarde, como lo programa `updateConcept`.
+- Tercera revisión de Codex (sobre `f1e15f0`, revisión 5485052739), con prueba:
+  - Un respaldo con la última respuesta y el repaso corridos juntos al futuro se aceptaba: ahora ninguna fecha de progreso puede ser posterior a la exportación, y la exportación no puede ser posterior a la hora del dispositivo que importa. Ambas comparaciones tienen una tolerancia de un día (`CLOCK_TOLERANCE_MS`) para desajustes de reloj.
+- Cuarta revisión de Codex (sobre `bcd11dd`, revisión 5485074360), con pruebas:
+  - Las fechas de las faltas (`faults[].at`) no se comparaban con la exportación: ahora sí.
+  - Con dos pestañas, la copia en memoria de una no veía lo que escribía la otra, así que la bitácora y el respaldo podían quedar incompletos. Ahora cada escritura vuelve a leer lo guardado y avisa a las demás pestañas por `BroadcastChannel`, y el respaldo se arma leyendo la base al exportar. Lo cubren pruebas de integración con dos proveedores, una de ellas sin `BroadcastChannel`, y una E2E con dos pestañas reales.
+- Quinta revisión de Codex (sobre `f73b428`, revisión 5485134783), con pruebas:
+  - Si el reloj retrocedía (progreso importado de un dispositivo adelantado dentro de la tolerancia), un acierto antes del repaso dejaba un estado que el esquema rechaza, y la recarga lo mandaba a cuarentena. Ahora la hora de la última respuesta nunca retrocede. Además, el almacén se niega a escribir un concepto inválido: la escritura se aborta y la bitácora avisa que no se guardó.
+- Validación de faltas al importar (finding de Codex en #8, resuelto con F02-T02-FIX01): un respaldo con faltas de reglas desconocidas, con puntos distintos de los de la regla o con un total incoherente se rechaza con `attemptErrors`.
+- Este PR pasó a estar apilado sobre los correctivos (#12 y #13) después de que el usuario fusionó #7–#10.
+
 ## Pila y orden de fusión
 
 `main ← F02-T01 ← F02-T02 ← F02-T03 ← F02-T04 ← F02-T05` (se crean en la etapa A; se fusionan en ese orden en la etapa B). T01–T04 ya están en `main`. Los findings que Codex dejó sobre esos merges van en correctivos desde `main`: `main ← F02-T01-FIX01 (#12) ← F02-T02-FIX01 (#13) ← F02-T05 (#11)`.

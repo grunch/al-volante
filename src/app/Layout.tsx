@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { to: '/', label: t('navHome'), end: true },
   { to: '/mapa', label: t('navMap'), end: false },
   { to: '/actividades', label: t('navActivities'), end: false },
+  { to: '/bitacora', label: t('navLogbook'), end: false },
   { to: '/biblioteca', label: t('navLibrary'), end: false },
 ] as const;
 

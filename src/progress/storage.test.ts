@@ -1,0 +1,211 @@
+import 'fake-indexeddb/auto';
+import { IDBFactory } from 'fake-indexeddb';
+import { openDB } from 'idb';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { DB_NAME, DB_VERSION, createMemoryStore, openProgressStore } from './storage.ts';
+import type { ConceptUpdate, ProgressSnapshot, ProgressStore } from './storage.ts';
+import { createAttempt, updateConcept } from './model.ts';
+
+const DAY = 24 * 60 * 60 * 1000;
+const T0 = '2026-10-11T12:00:00.000Z';
+const at = (days: number) => new Date(Date.parse(T0) + days * DAY).toISOString();
+
+function sampleAttempt(id: string, correct = true, when = T0) {
+  return createAttempt(
+    {
+      activityId: 'act.x',
+      unitIds: ['manual.ch3.a'],
+      variantId: 'v1',
+      seed: 1,
+      response: { kind: 'choice', optionId: 'a' },
+      correct,
+      score: correct ? 1 : 0,
+      mode: 'practice',
+    },
+    { id, at: when, contentVersion: 'deadbeef' },
+  );
+}
+
+const answer =
+  (correct: boolean, when: string): ConceptUpdate =>
+  (unitId, previous) =>
+    updateConcept(previous, unitId, correct, when);
+
+async function practise(store: ProgressStore, id: string, correct = true, when = T0) {
+  return store.record(sampleAttempt(id, correct, when), ['manual.ch3.a'], answer(correct, when));
+}
+
+describe('IndexedDB progress store', () => {
+  beforeEach(() => {
+    // A fresh, empty IndexedDB for every test.
+    globalThis.indexedDB = new IDBFactory();
+  });
+
+  it('keeps progress across a restart (closing and reopening the database)', async () => {
+    // Arrange
+    const first = await openProgressStore();
+
+    // Act
+    const updates = await practise(first, 'a1');
+    first.close();
+    const reopened = await openProgressStore();
+    const { snapshot, quarantined } = await reopened.load();
+
+    // Assert
+    expect(reopened.persistent).toBe(true);
+    expect(quarantined).toBe(0);
+    expect(snapshot.attempts).toEqual([sampleAttempt('a1')]);
+    expect(snapshot.concepts).toEqual(updates);
+    expect(updates).toMatchObject([{ unitId: 'manual.ch3.a', box: 1, attempts: 1 }]);
+  });
+
+  it('updates each concept from the stored value, so a second tab never overwrites newer progress', async () => {
+    // Two connections stand for two tabs; neither knows what the other wrote.
+    const tabA = await openProgressStore();
+    const tabB = await openProgressStore();
+
+    await practise(tabA, 'a1', true, at(0));
+    const [fromB] = await practise(tabB, 'b1', true, at(1));
+
+    expect(fromB).toMatchObject({ box: 2, attempts: 2, correct: 2 });
+    expect((await tabA.load()).snapshot.concepts).toEqual([fromB]);
+  });
+
+  it('moves unreadable records to a quarantine store unchanged, and keeps counting them', async () => {
+    // Arrange
+    const store = await openProgressStore();
+    await practise(store, 'a1');
+    const raw = await openDB(DB_NAME);
+    await raw.put('attempts', { id: 'broken', kind: 'activity' });
+    await raw.put('concepts', { unitId: 'manual.ch3.b', box: 99 });
+
+    // Act
+    const first = await store.load();
+    const second = await store.load();
+
+    // Assert
+    expect(first.quarantined).toBe(2);
+    expect(second.quarantined).toBe(2);
+    expect(first.snapshot.attempts.map((item) => item.id)).toEqual(['a1']);
+    expect(await raw.get('attempts', 'broken')).toBeUndefined();
+    expect(await raw.getAll('quarantine')).toEqual([
+      { store: 'attempts', key: 'broken', value: { id: 'broken', kind: 'activity' } },
+      { store: 'concepts', key: 'manual.ch3.b', value: { unitId: 'manual.ch3.b', box: 99 } },
+    ]);
+    raw.close();
+  });
+
+  it('quarantines an unreadable concept before practising it again instead of overwriting it', async () => {
+    const store = await openProgressStore();
+    const raw = await openDB(DB_NAME);
+    await raw.put('concepts', { unitId: 'manual.ch3.a', box: 'tres' });
+
+    const [fresh] = await practise(store, 'a1');
+
+    expect(fresh).toMatchObject({ box: 1, attempts: 1 });
+    expect(await raw.getAll('quarantine')).toEqual([
+      { store: 'concepts', key: 'manual.ch3.a', value: { unitId: 'manual.ch3.a', box: 'tres' } },
+    ]);
+    raw.close();
+  });
+
+  it('refuses to store a concept the schema rejects, leaving everything as it was', async () => {
+    const store = await openProgressStore();
+    await practise(store, 'a1');
+    const broken: ConceptUpdate = (unitId, previous) => ({ ...updateConcept(previous, unitId, true, T0), correct: 99 });
+
+    await expect(store.record(sampleAttempt('a2'), ['manual.ch3.a'], broken)).rejects.toThrow();
+    const { snapshot, quarantined } = await store.load();
+
+    expect(snapshot.attempts.map((item) => item.id)).toEqual(['a1']);
+    expect(snapshot.concepts[0]).toMatchObject({ attempts: 1 });
+    expect(quarantined).toBe(0);
+  });
+
+  it('replaces everything atomically and leaves old data intact when the replacement fails', async () => {
+    const store = await openProgressStore();
+    await practise(store, 'a1');
+    const replacement = {
+      attempts: [sampleAttempt('b1', false)],
+      concepts: [updateConcept(undefined, 'manual.ch3.a', false, T0)],
+    };
+
+    // A record without the key path makes IndexedDB reject the write midway through the transaction.
+    const broken = {
+      attempts: [...replacement.attempts, { noId: true }],
+      concepts: replacement.concepts,
+    } as unknown as ProgressSnapshot;
+    await expect(store.replaceAll(broken)).rejects.toThrow();
+    const afterFailure = await store.load();
+    await store.replaceAll(replacement);
+    const afterSuccess = await store.load();
+
+    expect(afterFailure.snapshot.attempts.map((item) => item.id)).toEqual(['a1']);
+    expect(afterSuccess.snapshot.attempts.map((item) => item.id)).toEqual(['b1']);
+    expect(afterSuccess.snapshot.concepts[0]?.lastCorrect).toBe(false);
+  });
+
+  it('upgrades a version 1 database without losing its progress', async () => {
+    // Arrange: the version 1 layout had no quarantine store.
+    const v1 = await openDB(DB_NAME, 1, {
+      upgrade(database) {
+        database.createObjectStore('attempts', { keyPath: 'id' });
+        database.createObjectStore('concepts', { keyPath: 'unitId' });
+      },
+    });
+    await v1.put('attempts', sampleAttempt('old'));
+    v1.close();
+
+    // Act
+    const store = await openProgressStore();
+    const { snapshot, quarantined } = await store.load();
+
+    // Assert
+    expect(DB_VERSION).toBe(2);
+    expect(snapshot.attempts.map((item) => item.id)).toEqual(['old']);
+    expect(quarantined).toBe(0);
+  });
+});
+
+describe('fallback without IndexedDB', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('uses a non-persistent memory store when IndexedDB does not exist', async () => {
+    vi.stubGlobal('indexedDB', undefined);
+
+    const store = await openProgressStore();
+
+    expect(store.persistent).toBe(false);
+  });
+
+  it('uses a memory store when opening IndexedDB fails', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    vi.stubGlobal('indexedDB', {
+      open: () => {
+        throw new Error('SecurityError');
+      },
+    });
+
+    const store = await openProgressStore();
+
+    expect(store.persistent).toBe(false);
+  });
+
+  it('records from the stored value, loads and replaces progress in memory', async () => {
+    const store = createMemoryStore();
+
+    await practise(store, 'a1', true, at(0));
+    const [second] = await practise(store, 'a2', true, at(1));
+    const loaded = await store.load();
+    await store.replaceAll({ attempts: [sampleAttempt('b1')], concepts: [] });
+    const replaced = await store.load();
+
+    expect(second).toMatchObject({ box: 2, attempts: 2 });
+    expect(loaded.snapshot.attempts).toHaveLength(2);
+    expect(replaced.snapshot.attempts.map((item) => item.id)).toEqual(['b1']);
+    expect(replaced.snapshot.concepts).toEqual([]);
+  });
+});
