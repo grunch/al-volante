@@ -3,13 +3,66 @@ export const esAR = {
   appTitle: 'Al volante: Comuna 13',
   appTagline: 'Prepará el examen de licencia B en Núñez, de la teoría al volante.',
   skipToContent: 'Saltar al contenido',
+  mainNavigation: 'Navegación principal',
+  navHome: 'Inicio',
+  navMap: 'Mapa de aprendizaje',
+  navLibrary: 'Biblioteca',
   garageHeading: 'Mi garaje',
   garageSceneLabel: 'Vista 3D del garaje con un auto de práctica',
   garageSceneLoading: 'Cargando el garaje…',
   garageSceneUnavailable:
     'Tu navegador no pudo iniciar los gráficos 3D (WebGL). Podés seguir usando la parte teórica sin problemas.',
-  buildStatus: 'En construcción: fase 2, base de la aplicación.',
+  homeIntro:
+    'Estudiá el manual completo y el protocolo del examen práctico. Cada explicación cita la página del material oficial.',
+  spacesHeading: 'Espacios',
+  comingSoon: 'Próximamente',
+  available: 'Disponible',
   footerSources: 'Contenido basado en material público del Gobierno de la Ciudad de Buenos Aires. Proyecto no oficial.',
+  contentLoading: 'Cargando el material de estudio…',
+  contentError: 'No pudimos cargar el material de estudio.',
+  contentErrorDetails: 'Detalle técnico',
+  retry: 'Reintentar',
+  mapHeading: 'Mapa de aprendizaje',
+  mapIntro:
+    'La campaña B sigue el «Material a estudiar» de la licencia B (manual, página 3). El material complementario se muestra aparte y no afecta tu progreso de la licencia B.',
+  mapCampaignB: 'Campaña licencia B',
+  mapReference: 'Consulta',
+  mapComplementary: 'Material complementario',
+  unitsCount: 'unidades',
+  unitsWithActivities: 'con actividades',
+  sectionUnitsHeading: 'Unidades de conocimiento',
+  sectionPages: 'Páginas del manual',
+  figureBased: 'Contenido en figura',
+  seeSourcePage: 'Ver página',
+  libraryHeading: 'Biblioteca',
+  libraryIntro:
+    'Material oficial usado por el juego, página por página. El texto extraído puede tener errores: ante cualquier duda, consultá el PDF original.',
+  edition: 'Edición',
+  pagesLabel: 'páginas',
+  browseSource: 'Explorar páginas',
+  officialPdf: 'PDF oficial',
+  officialPdfAtPage: 'Abrir el PDF oficial en esta página',
+  pageLabel: 'Página',
+  printedPageLabel: 'página impresa',
+  previousPage: 'Página anterior',
+  nextPage: 'Página siguiente',
+  goToPage: 'Ir a la página',
+  go: 'Ir',
+  pageSummary: 'Resumen',
+  pageUnits: 'Unidades en esta página',
+  pageFigures: 'Figuras e infografías',
+  pageSigns: 'Señales',
+  pageIssues: 'Observaciones sobre la fuente',
+  pageRules: 'Reglas del examen que citan esta página',
+  pageNotCatalogued: 'Esta fuente no tiene un catálogo por página; se muestra el texto extraído.',
+  extractedText: 'Texto extraído automáticamente',
+  extractedTextLoading: 'Cargando el texto…',
+  extractedTextEmpty: 'Esta página no tiene texto extraíble (puede ser solo imagen).',
+  extractedTextError: 'No pudimos cargar el texto de esta página. Probá abrir el PDF oficial.',
+  notFoundHeading: 'No encontramos esa página',
+  notFoundBody: 'Puede que el enlace esté mal escrito o que el contenido todavía no exista.',
+  backHome: 'Volver al inicio',
+  invalidPage: 'Esa página no existe en esta fuente.',
 } as const;
 
 export type MessageKey = keyof typeof esAR;
@@ -18,3 +71,71 @@ export type MessageKey = keyof typeof esAR;
 export function t(key: MessageKey): string {
   return esAR[key];
 }
+
+/** Section titles from the manual index (manual PDF 12–13) and the crash guide index (siniestros PDF 2). */
+export const SECTION_LABELS: Record<string, Record<string, string>> = {
+  manual: {
+    front: 'Presentación y material a estudiar',
+    glossary: 'Glosario',
+    toc: 'Índice',
+    intro: 'Introducción',
+    ch1: 'Cap. 1 · Hacia una movilidad sustentable',
+    ch2: 'Cap. 2 · Conducir es un acto de responsabilidad',
+    ch3: 'Cap. 3 · Normas básicas de conducción',
+    ch4: 'Cap. 4 · Capacidad natural',
+    ch5: 'Cap. 5 · Actitud al conducir',
+    annex1: 'Anexo I · Automóviles particulares',
+    annex2: 'Anexo II · Transporte de pasajeros/as',
+    annex3: 'Anexo III · Transporte de carga y mercaderías',
+    annex4: 'Anexo IV · Señales viales',
+    back: 'Contratapa',
+  },
+  siniestros: {
+    front: 'Presentación',
+    intro: 'Introducción',
+    s1: '¿Qué hacer ante un siniestro vial?',
+    s2: 'El reclamo ante la compañía de seguros',
+    s3: 'Pasos posteriores al siniestro',
+    back: 'Contratapa',
+  },
+};
+
+export const CATEGORY_LABELS: Record<string, string> = {
+  B: 'Licencia B',
+  common: 'Consulta general',
+  D: 'Complementario: transporte de pasajeros/as',
+  'C-E': 'Complementario: transporte de carga',
+  guide: 'Guía de siniestros',
+};
+
+export const PAGE_KIND_LABELS: Record<string, string> = {
+  instructional: 'Contenido',
+  'chapter-cover': 'Portada de sección',
+  'closing-quote': 'Frase de cierre',
+  toc: 'Índice',
+  cover: 'Tapa',
+  credits: 'Créditos',
+  blank: 'En blanco',
+  other: 'Otra',
+};
+
+export const ISSUE_TYPE_LABELS: Record<string, string> = {
+  discrepancy: 'Discrepancia',
+  illegible: 'Ilegible',
+  typo: 'Errata',
+  outdated: 'Posiblemente desactualizado',
+  ambiguous: 'Ambiguo',
+  extraction: 'Falla de extracción',
+};
+
+/** Human label for a section; falls back to the raw id so a new section never renders blank. */
+export function sectionLabel(source: string, section: string): string {
+  return SECTION_LABELS[source]?.[section] ?? section;
+}
+
+export const SEVERITY_LABELS: Record<string, string> = {
+  minor: 'Leve',
+  low: 'Deficiente baja',
+  high: 'Deficiente alta',
+  eliminatory: 'Eliminatoria',
+};

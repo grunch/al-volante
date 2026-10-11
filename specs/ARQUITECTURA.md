@@ -23,6 +23,7 @@ Las fechas de publicación salen del registro de npm (`npm view <paquete> time`)
 | ESLint / typescript-eslint / react-hooks | 10.11.0 / 8.70.1 / 7.1.1 | 2026-09-18 / 2026-09-21 / 2026-04-17 | Lint estricto. |
 | Prettier | 3.9.9 | 2026-09-23 | Formato del código (no de los `.md` ni de los catálogos). |
 | Zod | 4.6.5 | 2026-09-13 | Esquemas de los catálogos de contenido (desde F02-T02). |
+| React Router | 8.4.0 | 2026-09-15 | Navegación con URLs con hash (desde F02-T03). |
 
 ## Estructura
 
@@ -30,11 +31,11 @@ Las fechas de publicación salen del registro de npm (`npm view <paquete> time`)
 index.html                 Documento base (lang es-AR).
 src/
   main.tsx                 Punto de entrada.
-  app/                     Composición de la aplicación (App).
+  app/                     App, tabla de rutas, layout, orden de estudio (learningPath) y pantallas (pages/).
   i18n/es-AR.ts            Textos de la interfaz en español rioplatense, con claves en inglés.
   content/                 Esquemas (Zod), validación referencial, versión, cobertura y carga de catálogos.
   scene/                   Mundo 3D: escena pura de Three.js y su componente de montaje.
-  ui/                      Estilos (tokens de diseño) y hooks de interfaz compartidos.
+  ui/                      Estilos (tokens de diseño), compuerta de contenido, título de página y hooks compartidos.
   test/                    Configuración y dobles de prueba.
 tests/e2e/                 Pruebas de punta a punta con Playwright.
 scripts/validate-content.ts Valida los catálogos desde la terminal (Node ≥ 24 ejecuta TypeScript).
@@ -42,7 +43,7 @@ specs/                     Documentación, fuentes y catálogos de datos.
 .github/workflows/ci.yml   Integración continua.
 ```
 
-Planificado en esta fase: pantallas y navegación (F02-T03), `src/activities/` (motor de actividades, F02-T04) y `src/progress/` (progreso y persistencia, F02-T05).
+Planificado en esta fase: `src/activities/` (motor de actividades, F02-T04) y `src/progress/` (progreso y persistencia, F02-T05).
 
 ## Datos y validación (F02-T02)
 
@@ -64,6 +65,21 @@ Además:
 - La misma validación corre en la CI (`npm run validate:content`) y en la prueba de integración con los datos reales.
 
 Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus casos de prueba se portaron a Vitest.
+
+## Navegación y pantallas (F02-T03)
+
+| Ruta | Pantalla |
+|---|---|
+| `#/` | Inicio, «Mi garaje»: escena 3D y los seis espacios de la propuesta (los que todavía no existen se marcan «Próximamente»). |
+| `#/mapa` | Mapa de aprendizaje: campaña B en el orden del «Material a estudiar» (manual PDF 3), consulta (glosario) y material complementario por separado. |
+| `#/mapa/:fuente/:sección` | Unidades de una sección, con datos clave y enlaces a sus páginas. |
+| `#/biblioteca` | Las cuatro fuentes oficiales, con edición, cantidad de páginas y PDF oficial. |
+| `#/biblioteca/:fuente/:página` | Una página física: clasificación, resumen, unidades, figuras, señales, observaciones, reglas del examen que la citan (protocolo), texto extraído y enlace al PDF oficial en esa página. |
+
+- **URLs con hash:** funcionan en cualquier hosting estático y sin conexión, sin reescrituras del servidor.
+- **Carga del contenido:** `ContentProvider` carga y valida el contenido una sola vez; `ContentGate` muestra los estados de carga y de error (con reintento y detalle técnico).
+- **Accesibilidad:** al navegar, `Layout` mueve el foco al título (`h1#page-title`) y `PageTitle` actualiza `document.title`.
+- **Carga diferida del texto:** el texto extraído de cada fuente se carga solo al abrir una página de esa fuente.
 
 ## Convenciones
 

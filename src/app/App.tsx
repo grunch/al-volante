@@ -1,48 +1,30 @@
-import { Suspense, lazy } from 'react';
+import { useState } from 'react';
+import { RouterProvider, createHashRouter } from 'react-router';
+import type { createMemoryRouter } from 'react-router';
+import { ContentProvider } from '../content/ContentProvider.tsx';
+import type { ContentResult } from '../content/validate.ts';
+import { RendererContext } from '../scene/RendererContext.ts';
 import type { RendererFactory } from '../scene/SceneCanvas.tsx';
-import { t } from '../i18n/es-AR.ts';
+import { routes } from './routes.tsx';
 
-// Three.js is code-split so the rest of the app never waits for the 3D bundle.
-const SceneCanvas = lazy(() => import('../scene/SceneCanvas.tsx').then((module) => ({ default: module.SceneCanvas })));
+type AppRouter = ReturnType<typeof createHashRouter> | ReturnType<typeof createMemoryRouter>;
 
 interface AppProps {
-  /** Injected in tests to avoid WebGL; production uses THREE.WebGLRenderer. */
+  /** Tests inject a memory router; the app uses hash URLs so it works on any static host and offline. */
+  router?: AppRouter;
+  /** Tests inject a fake renderer to avoid WebGL. */
   createRenderer?: RendererFactory;
+  /** Tests inject content; the app loads and validates the bundled catalogs. */
+  loadContent?: () => Promise<ContentResult>;
 }
 
-export function App({ createRenderer }: AppProps) {
+export function App({ router, createRenderer, loadContent }: AppProps) {
+  const [appRouter] = useState(() => router ?? createHashRouter(routes));
   return (
-    <>
-      <a className="skip-link" href="#main">
-        {t('skipToContent')}
-      </a>
-      <header className="app-header">
-        <h1 className="app-header__title">{t('appTitle')}</h1>
-        <p className="app-header__tagline">{t('appTagline')}</p>
-      </header>
-      <main id="main" className="app-main" tabIndex={-1}>
-        <section aria-labelledby="garage-heading" className="garage">
-          <h2 id="garage-heading">{t('garageHeading')}</h2>
-          <Suspense
-            fallback={
-              <div className="scene-canvas" data-state="loading" data-testid="garage-scene">
-                <p className="scene-canvas__status">{t('garageSceneLoading')}</p>
-              </div>
-            }
-          >
-            <SceneCanvas
-              label={t('garageSceneLabel')}
-              loadingText={t('garageSceneLoading')}
-              unavailableText={t('garageSceneUnavailable')}
-              {...(createRenderer ? { createRenderer } : {})}
-            />
-          </Suspense>
-          <p className="garage__status">{t('buildStatus')}</p>
-        </section>
-      </main>
-      <footer className="app-footer">
-        <p>{t('footerSources')}</p>
-      </footer>
-    </>
+    <ContentProvider {...(loadContent ? { load: loadContent } : {})}>
+      <RendererContext.Provider value={createRenderer}>
+        <RouterProvider router={appRouter} />
+      </RendererContext.Provider>
+    </ContentProvider>
   );
 }
