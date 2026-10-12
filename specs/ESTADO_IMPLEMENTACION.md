@@ -480,7 +480,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: abrir el PR de F05-T03 y seguir con F05-T04 (anexos II–III, protocolo y recorridos de consulta) y F05-T05 (simulacros teóricos y auditoría global) sin esperar revisiones. Después, etapa B con el usuario.
+La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: F05-T03 ya está abierto ([#30](https://github.com/grunch/al-volante/pull/30)); seguir con F05-T04 (anexos II–III, protocolo y recorridos de consulta) y F05-T05 (simulacros teóricos y auditoría global) sin esperar revisiones. Después, etapa B con el usuario.
 
 ### Cierre de la fase 4 contra el plan
 
