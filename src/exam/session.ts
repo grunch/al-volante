@@ -6,7 +6,10 @@ import { MIRROR_IDS } from '../practice/cockpit.ts';
 import type { CockpitCommand, CockpitState, MirrorId } from '../practice/cockpit.ts';
 import type { CarEvent, CarState } from '../sim/car.ts';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
-import { forwardOf, restingVehicle } from '../sim/vehicle.ts';
+import type { ScenarioState } from '../sim/scenario.ts';
+import type { OrientedBox } from '../sim/collision.ts';
+import { overlaps } from '../sim/collision.ts';
+import { EXAM_CAR, bodyBox, forwardOf, restingVehicle } from '../sim/vehicle.ts';
 
 /** Game approximations, not protocol values (REGLAS.md §7, V2 and D4). The feedback shows them as such. */
 export const GAME_PARAMETERS = {
@@ -26,13 +29,46 @@ export const GAME_PARAMETERS = {
   settleS: 0.5,
   /** Faster than this, the car has moved off in stage II (belt check, cutoff no longer applies). */
   movedOffMps: 0.2,
+  /** Speed limits are judged with this margin, so a reading of 30.4 km/h is not over 30. */
+  speedToleranceKmh: 1,
+  /** In the first 100 m, above this speed the manual must be in second and the automatic in D. */
+  firstMetresGearSpeedKmh: 15,
+  /** Standing inside the intersection this long with the light red counts as blocking it. */
+  blockIntersectionS: 2,
+  /** The right turn is done once the heading has swung at least this far (about 70°). */
+  turnDoneHeadingRad: -1.2,
+  /** Metres before the corner by which the turn must be signalled (protocolo PDF 12, 24). */
+  signalBeforeCornerM: 30,
 } as const;
+
+/** The street after the box: zones and limits of the first block (firstBlock.ts); absent in the closed yard. */
+export interface Course {
+  stopLineZ: number;
+  crosswalk: OrientedBox;
+  intersection: OrientedBox;
+  turnDoneX: number;
+  /** Exam limits (REGLAS.md §6) and the roads' own maxima, which fix the eliminatory l (decision D2). */
+  limits: { examKmh: number; roadKmh: number; avenueExamKmh: number; avenueRoadKmh: number };
+}
+
+/** The first 100 m after leaving the box (protocolo PDF 11, 31). */
+const FIRST_METRES_M = 100;
 
 /** Rear axle in the middle of the yard's parking box (practiceYard.ts), facing +z with the kerb on the right. */
 export const EXAM_START = restingVehicle({ x: -5.15, z: 11.65, headingRad: 0 });
 
 export type Phase =
-  'familiarisation' | 'recognition' | 'preparation' | 'unlock' | 'reverse' | 'forward' | 'exit' | 'finished';
+  | 'familiarisation'
+  | 'recognition'
+  | 'preparation'
+  | 'unlock'
+  | 'reverse'
+  | 'forward'
+  | 'exit'
+  | 'firstMetres'
+  | 'approach'
+  | 'turn'
+  | 'finished';
 
 /** What the examiner asks to recognise: a pedal, a gear, a light or an instrument (protocolo PDF 9). */
 export type RecognitionTarget =
@@ -56,7 +92,14 @@ export type Prompt = { kind: 'recognise'; target: RecognitionTarget } | { kind: 
 
 export type Observation =
   | { type: 'cockpit'; command: CockpitCommand; before: CockpitState; after: CockpitState }
-  | { type: 'step'; car: CarState; cockpit: CockpitState; events: readonly CarEvent[]; dt: number }
+  | {
+      type: 'step';
+      car: CarState;
+      cockpit: CockpitState;
+      events: readonly CarEvent[];
+      dt: number;
+      scenario?: ScenarioState | null;
+    }
   | { type: 'ready' }
   | { type: 'request-stop' };
 
@@ -80,7 +123,21 @@ export interface Session {
   ledger: Ledger;
   completedStages: readonly Stage[];
   timeS: number;
-  measurements: { reverseCm: number | null; forwardCm: number | null; exitManoeuvres: number };
+  course: Course | null;
+  measurements: {
+    reverseCm: number | null;
+    forwardCm: number | null;
+    exitManoeuvres: number;
+    firstMetresTopKmh: number | null;
+  };
+  street: {
+    odometerStartM: number | null;
+    signalledAtZ: number | null;
+    crossedStopLine: boolean;
+    blockedS: number;
+    stops: number;
+    wasStopped: boolean;
+  };
   queue: readonly RecognitionTarget[];
   /** Stage I adjustments made since the recognition began; all three mirrors must be checked (protocolo PDF 9). */
   adjusted: { seat: boolean; headrest: boolean; mirrors: readonly MirrorId[] };
@@ -96,7 +153,8 @@ export interface Session {
 }
 
 const PEDALS = ['throttle', 'brake', 'clutch'] as const;
-const STAGE_TWO_PHASES: readonly Phase[] = ['unlock', 'reverse', 'forward', 'exit'];
+const STAGE_TWO_PHASES: readonly Phase[] = ['unlock', 'reverse', 'forward', 'exit', 'firstMetres', 'approach', 'turn'];
+const STREET_PHASES: readonly Phase[] = ['firstMetres', 'approach', 'turn'];
 const LIGHT_TARGETS: readonly RecognitionTarget[] = [
   'position',
   'low',
@@ -150,17 +208,31 @@ function recognitionQueue(kind: TransmissionKind, seed: number): RecognitionTarg
   return [...others.slice(0, at), ...gears, ...others.slice(at)];
 }
 
-export function createSession(rules: readonly Rule[], kind: TransmissionKind, seed: number): Session {
+export function createSession(
+  rules: readonly Rule[],
+  kind: TransmissionKind,
+  seed: number,
+  course: Course | null = null,
+): Session {
   return {
     rules,
     kind,
+    course,
     seed,
     phase: 'familiarisation',
     prompt: { kind: 'say', message: 'familiarisation' },
     ledger: createLedger(rules),
     completedStages: [],
     timeS: 0,
-    measurements: { reverseCm: null, forwardCm: null, exitManoeuvres: 0 },
+    measurements: { reverseCm: null, forwardCm: null, exitManoeuvres: 0, firstMetresTopKmh: null },
+    street: {
+      odometerStartM: null,
+      signalledAtZ: null,
+      crossedStopLine: false,
+      blockedS: 0,
+      stops: 0,
+      wasStopped: false,
+    },
     queue: recognitionQueue(kind, seed),
     adjusted: { seat: false, headrest: false, mirrors: [] },
     pedalsDown: { throttle: false, brake: false, clutch: false },
@@ -188,8 +260,8 @@ function cutoff(session: Session): Session {
 }
 
 /** Scores a fault; an interruption ends the exam, except during the recognition round, which is judged whole. */
-function fault(session: Session, ruleId: string, episode?: string): Session {
-  const ledger = recordFault(session.ledger, { ruleId, atS: session.timeS, episode });
+function fault(session: Session, ruleId: string, episode?: string, escalate = false): Session {
+  const ledger = recordFault(session.ledger, { ruleId, atS: session.timeS, episode, escalate });
   const next: Session = { ...session, ledger };
   if (ledger.interruption && session.phase !== 'recognition') return finish(next);
   return cutoff(next);
@@ -357,8 +429,119 @@ function onExitStep(session: Session, car: CarState, cockpit: CockpitState): Ses
     if (next.phase !== 'finished' && !next.exit.looked) next = fault(next, 'rule.high.e-no-mirror-check-leaving-box');
   }
   // Clear of the box: past the lane-side posts (x = -4) with the whole body.
-  if (next.phase !== 'finished' && car.world.vehicle.x > -2.5) return finish(next);
+  if (next.phase !== 'finished' && car.world.vehicle.x > -2.5) {
+    if (!next.course) return finish(next);
+    return enter({ ...next, street: { ...next.street, odometerStartM: car.world.vehicle.odometerM } }, 'firstMetres');
+  }
   return next;
+}
+
+const kmhOf = (car: CarState) => Math.abs(car.world.vehicle.speedMps) * 3.6;
+
+/** Exam speed against the road's maximum (decision D2: one episode, the more severe rule only). */
+function judgeSpeed(session: Session, car: CarState, roadKmh: number, examKmh: number): Session {
+  const kmh = kmhOf(car);
+  const tolerance = GAME_PARAMETERS.speedToleranceKmh;
+  if (kmh > roadKmh + tolerance) return fault(session, 'rule.eliminatory.l-road-speed-limit-exceeded');
+  if (kmh > examKmh + tolerance) return fault(session, 'rule.high.f-exam-speed-exceeded', `speed-${session.phase}`);
+  return session;
+}
+
+/** First 100 m: at most 30 km/h in second (manual) or D (automatic); otherwise the instruction is not followed. */
+function onFirstMetresStep(session: Session, car: CarState, course: Course): Session {
+  const kmh = kmhOf(car);
+  const { powertrain } = car;
+  const topKmh = Math.max(session.measurements.firstMetresTopKmh ?? 0, kmh);
+  let next: Session = { ...session, measurements: { ...session.measurements, firstMetresTopKmh: topKmh } };
+  const wrongGear =
+    kmh > GAME_PARAMETERS.firstMetresGearSpeedKmh &&
+    (powertrain.kind === 'manual' ? powertrain.manualGear !== '2' : powertrain.lever !== 'D');
+  if (kmh > course.limits.examKmh + GAME_PARAMETERS.speedToleranceKmh || wrongGear)
+    next = fault(next, 'rule.eliminatory.g-first-block-instruction');
+  if (next.phase === 'finished') return next;
+  const start = next.street.odometerStartM ?? car.world.vehicle.odometerM;
+  return car.world.vehicle.odometerM - start >= FIRST_METRES_M ? enter(next, 'approach') : next;
+}
+
+/** Where the current right-signal episode began; switching it off or to the left forgets it. */
+function noteSignal(session: Session, car: CarState, cockpit: CockpitState): Session {
+  const { signalledAtZ } = session.street;
+  if (cockpit.signal !== 'right')
+    return signalledAtZ === null ? session : { ...session, street: { ...session.street, signalledAtZ: null } };
+  if (signalledAtZ !== null) return session;
+  return { ...session, street: { ...session.street, signalledAtZ: car.world.vehicle.z } };
+}
+
+/** Up to the corner: the light, the stop line, the crosswalk, blocking the intersection and the turn signal. */
+function onApproachStep(
+  session: Session,
+  car: CarState,
+  cockpit: CockpitState,
+  scenario: ScenarioState | null,
+  course: Course,
+  dt: number,
+): Session {
+  let next = judgeSpeed(session, car, course.limits.roadKmh, course.limits.examKmh);
+  if (next.phase === 'finished') return next;
+  const vehicle = car.world.vehicle;
+  const body = bodyBox(EXAM_CAR, vehicle);
+  const frontZ = body.centerZ + body.halfLengthM;
+  const stopped = vehicle.speedMps === 0;
+  const light = scenario?.light ?? 'green';
+  next = noteSignal(next, car, cockpit);
+  // Stopping past the line or on the crosswalk, once per stop.
+  if (stopped && !next.street.wasStopped) {
+    next = { ...next, street: { ...next.street, wasStopped: true, stops: next.street.stops + 1 } };
+    if (frontZ > course.stopLineZ + 0.1)
+      next = fault(next, 'rule.high.h-stop-over-line-or-crosswalk', `stop-${next.street.stops}`);
+  } else if (!stopped && next.street.wasStopped) next = { ...next, street: { ...next.street, wasStopped: false } };
+  if (next.phase === 'finished') return next;
+  // Entering the crosswalk while a pedestrian is on it.
+  const pedestrianOnCrosswalk = scenario?.poses.some(
+    (pose) => pose.kind === 'pedestrian' && pose.active && pose.inside(course.crosswalk),
+  );
+  if (pedestrianOnCrosswalk && !stopped && overlaps(body, course.crosswalk))
+    next = fault(next, 'rule.high.l-yield-to-pedestrians-cyclists', 'crosswalk');
+  if (next.phase === 'finished') return next;
+  // Standing inside the intersection with the light red.
+  const blockedS = stopped && light === 'red' && overlaps(body, course.intersection) ? next.street.blockedS + dt : 0;
+  next = { ...next, street: { ...next.street, blockedS } };
+  if (blockedS >= GAME_PARAMETERS.blockIntersectionS)
+    next = fault(next, 'rule.high.i-block-intersection', 'intersection');
+  if (next.phase === 'finished') return next;
+  // Crossing the stop line: the red light, and the signal that should have been on 30 m before the corner.
+  if (!next.street.crossedStopLine && frontZ >= course.stopLineZ) {
+    next = { ...next, street: { ...next.street, crossedStopLine: true } };
+    if (light === 'red') next = fault(next, 'rule.eliminatory.k-red-light');
+    if (next.phase === 'finished') return next;
+    const signalledAt = next.street.signalledAtZ;
+    if (signalledAt === null) next = fault(next, 'rule.low.g-no-turn-signal');
+    else if (course.stopLineZ - signalledAt < GAME_PARAMETERS.signalBeforeCornerM)
+      next = fault(next, 'rule.minor.q-turn-lane-late');
+    if (next.phase === 'finished') return next;
+  }
+  // Into the intersection: the turn begins.
+  const nearEdgeZ = course.intersection.centerZ - course.intersection.halfLengthM;
+  return frontZ >= nearEdgeZ ? enter(next, 'turn') : next;
+}
+
+/** The right turn onto the avenue: done past the corner heading -x; going straight ignores the examiner. */
+function onTurnStep(session: Session, car: CarState, course: Course): Session {
+  const vehicle = car.world.vehicle;
+  const turned = vehicle.headingRad <= GAME_PARAMETERS.turnDoneHeadingRad;
+  const { limits } = course;
+  let next = judgeSpeed(
+    session,
+    car,
+    turned ? limits.avenueRoadKmh : limits.roadKmh,
+    turned ? limits.avenueExamKmh : limits.examKmh,
+  );
+  if (next.phase === 'finished') return next;
+  // Past the middle of the avenue still heading along the street: the car did not turn.
+  if (vehicle.z > course.intersection.centerZ + 2 && vehicle.headingRad > -0.5)
+    next = fault(next, 'rule.eliminatory.f-examiner-safety-instruction-ignored');
+  if (next.phase === 'finished') return next;
+  return turned && vehicle.x <= course.turnDoneX ? finish(next) : next;
 }
 
 function onEvent(session: Session, event: CarEvent): Session {
@@ -402,6 +585,11 @@ function onEvent(session: Session, event: CarEvent): Session {
             : 'rule.minor.i-curb-scrape',
         );
       return session;
+    case 'actor-contact':
+      // Hitting a pedestrian: the examiner intervenes (escalated high l). Hitting a vehicle: a reckless manoeuvre.
+      return event.actor === 'pedestrian'
+        ? fault(session, 'rule.high.l-yield-to-pedestrians-cyclists', 'crosswalk', true)
+        : fault(session, 'rule.eliminatory.i-reckless-maneuver');
     default:
       return session;
   }
@@ -425,6 +613,7 @@ function onStep(
   cockpit: CockpitState,
   events: readonly CarEvent[],
   dt: number,
+  scenario?: ScenarioState | null,
 ): Session {
   let next = onPedals({ ...session, timeS: session.timeS + dt }, car);
   for (const event of events) {
@@ -444,6 +633,15 @@ function onStep(
   }
   if (next.phase === 'reverse' || next.phase === 'forward') return onManoeuvreStep(next, car, dt);
   if (next.phase === 'exit') return onExitStep(next, car, cockpit);
+  if (next.course && STREET_PHASES.includes(next.phase)) {
+    if (next.phase === 'firstMetres') {
+      // The corner rules also watch a car that reaches the line within its first 100 m.
+      const judged = onFirstMetresStep(noteSignal(next, car, cockpit), car, next.course);
+      return judged.phase === 'firstMetres' ? judged : judged;
+    }
+    if (next.phase === 'approach') return onApproachStep(next, car, cockpit, scenario ?? null, next.course, dt);
+    return onTurnStep(next, car, next.course);
+  }
   return next;
 }
 
@@ -458,6 +656,13 @@ export function observe(session: Session, observation: Observation): Session {
     case 'request-stop':
       return finish({ ...session, ledger: interrupt(session.ledger, session.timeS, 'driver-request') });
     case 'step':
-      return onStep(session, observation.car, observation.cockpit, observation.events, observation.dt);
+      return onStep(
+        session,
+        observation.car,
+        observation.cockpit,
+        observation.events,
+        observation.dt,
+        observation.scenario,
+      );
   }
 }

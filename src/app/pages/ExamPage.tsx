@@ -1,12 +1,14 @@
 import { Suspense, lazy, useCallback, useContext, useRef, useState } from 'react';
+import { Link } from 'react-router';
 import type { Rule } from '../../content/schemas.ts';
 import type { Content } from '../../content/validate.ts';
 import { resultOf } from '../../exam/scoring.ts';
-import { EXAM_START, createSession, observe } from '../../exam/session.ts';
+import { createSession, observe } from '../../exam/session.ts';
 import type { Observation, Session } from '../../exam/session.ts';
 import { RendererContext } from '../../scene/RendererContext.ts';
 import type { PowertrainCommand, TransmissionKind } from '../../sim/powertrain/powertrain.ts';
-import { PRACTICE_YARD } from '../../sim/tracks/practiceYard.ts';
+import type { LightState } from '../../sim/scenario.ts';
+import { FIRST_BLOCK, FIRST_BLOCK_START, FIRST_BLOCK_ZONES } from '../../sim/tracks/firstBlock.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
 import { EXAM_COPY as copy, formatNumber } from '../../i18n/es-AR.ts';
@@ -28,15 +30,15 @@ function examinerSays(session: Session, kind: TransmissionKind): string {
     return `${text} ${kind === 'manual' ? copy.gearHintManual : copy.gearHintAutomatic}`;
   }
   const detail =
-    prompt.message === 'reverse' || prompt.message === 'forward'
+    prompt.message === 'reverse' || prompt.message === 'forward' || prompt.message === 'firstMetres'
       ? ` ${copy.phases[`${prompt.message}${kind === 'manual' ? 'Manual' : 'Automatic'}`]}`
       : '';
   return `${copy.phases[prompt.message]}${detail}`;
 }
 
-function FaultList({ session, rules }: { session: Session; rules: readonly Rule[] }) {
+function FaultList({ session, rules, feedback }: { session: Session; rules: readonly Rule[]; feedback: boolean }) {
   const { faults } = session.ledger;
-  if (faults.length === 0) return <p>{copy.noFaults}</p>;
+  if (faults.length === 0) return <p>{feedback ? copy.feedbackClean : copy.noFaults}</p>;
   return (
     <ol className="exam-faults">
       {faults.map((fault, index) => {
@@ -47,6 +49,17 @@ function FaultList({ session, rules }: { session: Session; rules: readonly Rule[
             <strong>{copy.faultPoints(fault.points)}</strong> · {text}
             {rule && <small> ({copy.repetition[rule.repetition]})</small>}
             {fault.escalated && <small> ({copy.escalated})</small>}
+            {feedback && rule && (
+              <p className="exam-feedback">
+                <b>{copy.whatIsEvaluated}:</b> {rule.condition} <b>{copy.readMore}:</b>{' '}
+                {rule.refs.map((ref, position) => (
+                  <span key={ref.page}>
+                    {position > 0 && ', '}
+                    <Link to={`/biblioteca/${ref.source}/${ref.page}`}>{copy.protocolPage(ref.page)}</Link>
+                  </span>
+                ))}
+              </p>
+            )}
           </li>
         );
       })}
@@ -60,12 +73,16 @@ function Exam({ content }: { content: Content }) {
   const [transmission, setTransmission] = useState<TransmissionKind>('manual');
   const [seed, setSeed] = useState(DEFAULT_SEED);
   const [resetCount, setResetCount] = useState(0);
-  const [session, setSession] = useState<Session>(() => createSession(rules, 'manual', DEFAULT_SEED));
+  const [session, setSession] = useState<Session>(() =>
+    createSession(rules, 'manual', DEFAULT_SEED, FIRST_BLOCK_ZONES),
+  );
+  const [light, setLight] = useState<LightState | null>(null);
   // The latest session, updated 120 times a second by the steps without re-rendering each time.
   const sessionRef = useRef<Session>(session);
 
   const begin = (kind: TransmissionKind, nextSeed: number) => {
-    sessionRef.current = createSession(rules, kind, nextSeed);
+    sessionRef.current = createSession(rules, kind, nextSeed, FIRST_BLOCK_ZONES);
+    setLight(null);
     setSession(sessionRef.current);
     setTransmission(kind);
     setSeed(nextSeed);
@@ -78,8 +95,13 @@ function Exam({ content }: { content: Content }) {
     if (before === 'familiarisation' && sessionRef.current.phase === 'recognition') setResetCount((count) => count + 1);
     // Steps come 120 times a second: the page refreshes with the telemetry; commands refresh at once.
     if (observation.type !== 'step') setSession(sessionRef.current);
+    else if (observation.scenario) lightRef.current = observation.scenario.light;
   }, []);
-  const onTelemetry = useCallback(() => setSession(sessionRef.current), []);
+  const lightRef = useRef<LightState | null>(null);
+  const onTelemetry = useCallback(() => {
+    setSession(sessionRef.current);
+    setLight(lightRef.current);
+  }, []);
 
   const { ledger } = session;
   const finished = session.phase === 'finished';
@@ -142,8 +164,8 @@ function Exam({ content }: { content: Content }) {
       <Suspense fallback={<p className="scene-canvas__status">{copy.loading}</p>}>
         <DrivingCanvas
           key={transmission}
-          world={PRACTICE_YARD}
-          start={EXAM_START}
+          world={FIRST_BLOCK}
+          start={FIRST_BLOCK_START}
           transmission={transmission}
           label={copy.canvasLabel}
           loadingText={copy.loading}
@@ -172,6 +194,18 @@ function Exam({ content }: { content: Content }) {
           <dt>{copy.exitManoeuvres}</dt>
           <dd>{session.measurements.exitManoeuvres}</dd>
         </div>
+        <div>
+          <dt>{copy.firstMetresTopKmh}</dt>
+          <dd>
+            {session.measurements.firstMetresTopKmh === null
+              ? copy.pendingMeasure
+              : `${formatNumber(session.measurements.firstMetresTopKmh, 0)} km/h`}
+          </dd>
+        </div>
+        <div>
+          <dt>{copy.light}</dt>
+          <dd data-testid="exam-light">{light ? copy.lightStates[light] : copy.pendingMeasure}</dd>
+        </div>
       </dl>
       {finished && (
         <p role="status" data-testid="exam-result">
@@ -182,8 +216,9 @@ function Exam({ content }: { content: Content }) {
               : copy.results.pending}
         </p>
       )}
-      <h2>{copy.faults}</h2>
-      <FaultList session={session} rules={rules} />
+      <h2>{finished ? copy.feedback : copy.faults}</h2>
+      {finished && <p>{copy.feedbackIntro}</p>}
+      <FaultList session={session} rules={rules} feedback={finished} />
       <p>
         <small>{copy.approximations}</small>
       </p>
@@ -194,7 +229,7 @@ function Exam({ content }: { content: Content }) {
   );
 }
 
-/** The practical exam, stage I and the box, with the virtual examiner (F03-T04). */
+/** The practical exam with the virtual examiner: stage I and the box (F03-T04), the first block (F03-T05). */
 export function ExamPage() {
   return (
     <>

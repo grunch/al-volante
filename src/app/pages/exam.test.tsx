@@ -127,6 +127,8 @@ describe('exam page', () => {
 
     expect(screen.getByTestId('exam-result')).toHaveTextContent(EXAM_COPY.results.disapproved);
     expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'finished');
+    expect(screen.getByText(EXAM_COPY.feedbackClean)).toBeInTheDocument();
+    expect(screen.getByTestId('exam-light')).toHaveTextContent(EXAM_COPY.lightStates.green);
 
     await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.restart }));
     runFrames(5);

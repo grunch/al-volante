@@ -113,3 +113,10 @@ El usuario pidió el 2026-10-11: «ya hay un PR del F03 T03, ahora haz T04 en ad
 - El corte de 8 puntos (`protocolo.pdf`, PDF 10) se aplica hasta que el auto se mueve en la etapa II (0,2 m/s); después, los puntos se acumulan y se informan al final (PDF 14). Es la decisión D5 de REGLAS.md §7, una interpretación del proyecto, no una regla del protocolo.
 - Las aproximaciones (10 cm de tolerancia, 1 m/s para derribar un poste, mirada al espejo entre 0,25 y 0,9 rad de giro de cabeza) son del juego y están en `GAME_PARAMETERS`; cambiarlas no cambia el protocolo.
 - No se persisten intentos de manejo todavía.
+
+Decisiones de T05 que no deben reinterpretarse:
+
+- El cajón del primer tramo está a 127 m de la línea de detención (RECORRIDO.md), así que los primeros 100 m terminan unos 20 m antes de la esquina; el guion de pruebas sale del cajón con un giro corto (35°) y un tramo recto, porque un giro a tope mete la trompa en el cordón izquierdo de una calle de 10 m.
+- Un exceso en los primeros 100 m consigna la eliminatoria g (la indicación de marcha), no f ni l (D1: un hecho, una regla). Después de los 100 m rige D2.
+- El tránsito que cruza va por la mitad lejana de la avenida, para que solo seguir de largo lo encuentre; el giro a la derecha pega al cordón cercano.
+- Las etapas II y III no se completan en la fase 3: el resultado se muestra como parcial.

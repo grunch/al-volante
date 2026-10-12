@@ -2,6 +2,7 @@ import { clearance, overlaps } from './collision.ts';
 import type { OrientedBox } from './collision.ts';
 import { stepVehicle } from './dynamics.ts';
 import type { DriveInput, Surface } from './dynamics.ts';
+import type { Scenario } from './scenario.ts';
 import { bodyBox, interpolateVehicle } from './vehicle.ts';
 import type { VehicleSpec, VehicleState } from './vehicle.ts';
 
@@ -21,6 +22,8 @@ export interface World {
   obstacles: readonly Obstacle[];
   /** Painted lines: drawn on the ground, never collided with. */
   markings?: readonly OrientedBox[];
+  /** Traffic light and scripted actors, stepped beside the car (F03-T05); none in a closed yard. */
+  scenario?: Scenario;
 }
 
 export interface Contact {

@@ -417,9 +417,9 @@ export const COCKPIT_COPY = {
 } as const;
 
 export const EXAM_COPY = {
-  heading: 'Examen práctico: etapa I y salida del cajón',
+  heading: 'Examen práctico: etapa I y primera cuadra',
   intro:
-    'Un examinador virtual te guía por las comprobaciones previas, los 30 cm hacia atrás y hacia adelante, y la salida del cajón, con las fallas del protocolo oficial. El tramo en la calle llega en la siguiente entrega.',
+    'Un examinador virtual te guía por las comprobaciones previas, los 30 cm hacia atrás y hacia adelante, la salida del cajón, los primeros 100 m por Quesada y el cruce con semáforo de Av. Cabildo, con las fallas del protocolo oficial. El resto del circuito llega en la fase 4.',
   transmission: 'Caja de cambios',
   manual: 'Manual',
   automatic: 'Automática',
@@ -446,6 +446,12 @@ export const EXAM_COPY = {
     forwardManual: 'En primera.',
     forwardAutomatic: 'En D.',
     exit: 'Salí del cajón hacia la calle, a tu izquierda: direccional, espejos y una salida fluida.',
+    firstMetres: 'Primeros 100 m: a no más de 30 km/h. Te aviso cuando terminen.',
+    firstMetresManual: 'En segunda.',
+    firstMetresAutomatic: 'En D.',
+    approach:
+      'Terminaron los 100 m. En la esquina doblá a la derecha, por Av. Cabildo: direccional 30 m antes, respetá el semáforo, la línea de detención y la senda peatonal.',
+    turn: 'Doblá a la derecha y seguí por la avenida.',
     finished: 'Esta parte del examen terminó.',
   },
   prompts: {
@@ -504,9 +510,19 @@ export const EXAM_COPY = {
   reverseCm: 'Retroceso',
   forwardCm: 'Avance',
   exitManoeuvres: 'Maniobras de salida',
+  firstMetresTopKmh: 'Máxima en los primeros 100 m',
+  light: 'Semáforo',
+  lightStates: { green: 'Verde', yellow: 'Amarillo', red: 'Rojo' },
   pendingMeasure: 'pendiente',
+  feedback: 'Devolución',
+  feedbackIntro: 'Cada falla cita la conducta de la ficha, qué evalúa el protocolo y las páginas para repasar.',
+  feedbackClean:
+    'Sin fallas en esta parte. Repasá igual las páginas del protocolo sobre la salida del cajón y los primeros 100 m (PDF 11 y 31).',
+  whatIsEvaluated: 'Qué evalúa',
+  readMore: 'Repasar en el protocolo',
+  protocolPage: (page: number) => `PDF ${page}`,
   approximations:
-    'Aproximaciones del juego, no reglas del protocolo: tolerancia de ±10 cm en los 30 cm (V2); un poste tocado a menos de 1 m/s es un roce y a más, un derribo; chequear los espejos se registra al mirar un espejo lateral (un giro corto de la cabeza, D4); girar del todo la cabeza no lo reemplaza (X6); el cordón tocado a menos de 1 m/s es un roce de la rueda y a más, subirse a la vereda. Ver REGLAS.md §7.',
+    'Aproximaciones del juego, no reglas del protocolo: tolerancia de ±10 cm en los 30 cm (V2); un poste tocado a menos de 1 m/s es un roce y a más, un derribo; chequear los espejos se registra al mirar un espejo lateral (un giro corto de la cabeza, D4); girar del todo la cabeza no lo reemplaza (X6); el cordón tocado a menos de 1 m/s es un roce de la rueda y a más, subirse a la vereda; en manual, frenar durante los 30 cm solo vale al final; los límites de velocidad se juzgan con 1 km/h de margen; en los primeros 100 m, la marcha se exige por encima de 15 km/h; bloquear el cruce se cuenta tras 2 s detenido en rojo. Ver REGLAS.md §7.',
   source: 'Protocolo: etapa I (PDF 9–10), maniobrabilidad y salida del cajón (PDF 11), puntaje (PDF 14).',
   homeLink: 'Examen práctico',
 } as const;

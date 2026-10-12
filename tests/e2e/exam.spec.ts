@@ -10,6 +10,7 @@ test.describe('practical exam, stage I and the box', () => {
     await expect(view).toHaveAttribute('data-engine', 'off');
     const says = page.getByTestId('examiner-says');
     await expect(says).toHaveAttribute('data-phase', 'familiarisation');
+    await expect(page.getByTestId('exam-light')).toHaveText(/Verde|Amarillo|Rojo/);
 
     await page.getByRole('button', { name: 'Listo, sigamos' }).click();
     await expect(says).toHaveAttribute('data-phase', 'recognition');

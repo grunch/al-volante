@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { driveFrame, startDriving } from './drivingLoop.ts';
 import type { DrivingFrame } from './drivingLoop.ts';
+import * as FIRST from '../sim/tracks/firstBlock.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../sim/tracks/practiceYard.ts';
 
 /** Automatic, engine running, in D with the handbrake off: K K, then E E E with the brake held, then Space. */
@@ -73,5 +74,23 @@ describe('driving frame observer', () => {
 
     // One command (the handbrake event), then two fixed steps.
     expect(seen).toEqual([1, -1, -1]);
+  });
+});
+
+describe('driving frame scenario', () => {
+  it('steps the world scenario beside the car and reports touching an actor as an event', () => {
+    const { FIRST_BLOCK, FIRST_BLOCK_START, FIRST_BLOCK_ZONES } = FIRST;
+    // Place the car on the crosswalk and send the pedestrian across it.
+    const start = { ...FIRST_BLOCK_START, x: -1.5, z: FIRST_BLOCK_ZONES.crosswalk.centerZ - 1.7 };
+    let frame = startDriving(start, 'automatic', [], undefined, FIRST_BLOCK.scenario);
+    expect(frame.scenario?.light).toBe('green');
+    const touched: string[] = [];
+    for (let i = 0; i < 600 && touched.length === 0; i += 1) {
+      frame = driveFrame(FIRST_BLOCK, frame, new Set(), [], 1 / 60);
+      touched.push(...frame.events.flatMap((event) => (event.type === 'actor-contact' ? [event.actor] : [])));
+    }
+
+    expect(touched).toEqual(['pedestrian']);
+    expect(frame.scenario?.poses.find((pose) => pose.id === 'pedestrian')?.active).toBe(true);
   });
 });
