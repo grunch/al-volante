@@ -503,6 +503,12 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
     - El espacio del inicio deja de estar «Próximamente».
   - **Bitácora:** sección de simulacros, con fecha, puntaje y resultado. Los simulacros se guardan como intentos y no entrenan conceptos.
   - **Auditoría global:** `auditCoverage` y su prueba de integración. Resultado: 753 de 753 unidades tratadas (697 practicadas, 56 de consulta), 355 de 355 señales tratadas y recortadas y ninguna página sin clasificar en las cuatro fuentes. Reemplaza las listas de secciones tratadas de las tareas anteriores.
+- Verificación local, sobre `main` con #31 (`9bc0257`) y los arreglos de las revisiones (`54b0674`):
+  - `npm run check`: lint, formato y tipos aprobados; 1360 de 1361 pruebas. La que falló es `track.test.tsx`, inestable con la CPU cargada; sola pasa (3 de 3).
+  - Como `check` se corta en las pruebas, `validate:content` y el build se corrieron aparte: los dos OK, con la auditoría sin brechas.
+  - La cobertura de esa corrida no se informó por el fallo. La corrida anterior, con 1352 de 1352 pruebas, dio 96,07 % de sentencias, 90,34 % de ramas, 95,11 % de funciones y 97,06 % de líneas.
+  - Playwright: suite completa `npx playwright test --workers=1`, 66 E2E aprobados (14,1 min), incluido el de la sala de examen.
+  - CI sobre `54b0674`: unitarias, catálogo, build y E2E aprobados.
 - Cierre de la fase: cobertura total auditable y simulacros disponibles. El dominio personal (bitácora) se distingue de la disponibilidad del contenido (mapa y auditoría).
 
 ## Pila y orden de fusión
