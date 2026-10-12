@@ -11,6 +11,7 @@ import type { Path } from './network.ts';
 import {
   ACTIVE_RADIUS_M,
   ACTOR_SIZES,
+  DEADLOCK_S,
   MAX_ACTIVE_ACTORS,
   createTraffic,
   createTrafficSource,
@@ -239,6 +240,47 @@ describe('seeded traffic', () => {
     // The car then stays stopped short of the corner: by exception 4 the actor may go.
     const parked = approaching(8);
     const released = run(traffic, parked, 12, undefined, held);
+    expect(frontOf(traffic, released, 'vehicle-0')).toBeGreaterThan(stop.atS + 1);
+  });
+
+  it('keeps the right of way of the car coming from the right however long it waits, never breaking it as a deadlock', () => {
+    const stop = lap.stops.find((item) => item.approach.road.id === 'leg-4-1')!;
+    const link = city.roads.find((road) => road.id === 'quesada-link')!;
+    const traffic = only([car({ pathId: 'lap', startS: stop.atS - 25 })]);
+    // The car keeps creeping toward the corner, short of its line, for longer than the deadlock wait.
+    const creeping = (timeS: number) => {
+      const point = offsetPoint(
+        link.a,
+        link.headingRad,
+        0,
+        2 + 6 * Math.min(timeS, 1.5) + 0.6 * Math.max(0, timeS - 1.5),
+      );
+      return carAt(point.x, point.z, link.headingRad);
+    };
+    let waitedS = 0;
+    const end = run(traffic, creeping, 18, (state) => {
+      expect(frontOf(traffic, state, 'vehicle-0')).toBeLessThanOrEqual(stop.atS + 0.3);
+      if (vehicle(state, 'vehicle-0').speedMps === 0) waitedS += SIM_STEP_S;
+    });
+    expect(waitedS).toBeGreaterThan(DEADLOCK_S + 1);
+    expect(end.contacts).toEqual([]);
+  });
+
+  it('waits at its line while the car stands on the crossing, past the deadlock wait, and goes once it is clear', () => {
+    const stop = lap.stops.find((item) => item.approach.road.id === 'leg-4-1')!;
+    const link = city.roads.find((road) => road.id === 'quesada-link')!;
+    const crossing = stop.approach.conflicts[0]!;
+    // A stalled car across the middle of the corner: no priority to keep, but it occupies the pavement.
+    const stalled = carAt(crossing.centerX, crossing.centerZ, link.headingRad);
+    const traffic = only([car({ pathId: 'lap', startS: stop.atS - 25 })]);
+    let waitedS = 0;
+    const held = run(traffic, stalled, 20, (state) => {
+      expect(frontOf(traffic, state, 'vehicle-0')).toBeLessThanOrEqual(stop.atS + 0.3);
+      if (vehicle(state, 'vehicle-0').speedMps === 0) waitedS += SIM_STEP_S;
+      expect(state.contacts).toEqual([]);
+    });
+    expect(waitedS).toBeGreaterThan(DEADLOCK_S + 1);
+    const released = run(traffic, FAR_AWAY, 10, undefined, held);
     expect(frontOf(traffic, released, 'vehicle-0')).toBeGreaterThan(stop.atS + 1);
   });
 
