@@ -17,7 +17,7 @@ function inTheLane(kind: TransmissionKind): Driver {
   driver.moveInBox(-0.3);
   driver.moveInBox(0.3);
   driver.cabin({ type: 'signal', value: 'left' });
-  driver.cabin({ type: 'look', yaw: 1.3, pitch: 0 });
+  driver.cabin({ type: 'look', yaw: 0.5, pitch: 0 });
   driver.cabin({ type: 'look', yaw: 0, pitch: 0 });
   driver.driveOut();
   driver.cabin({ type: 'signal', value: 'off' });
