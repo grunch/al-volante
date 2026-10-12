@@ -448,7 +448,13 @@ export const TRACK_COPY = {
     'key-refused': 'Para sacar la llave, apagá el motor (y en la automática, poné la palanca en P).',
   },
   contact: (what: string) => `Tocaste ${what}. El auto se detuvo.`,
-  obstacleNames: { wall: 'una pared', pole: 'un poste del cajón', curb: 'el cordón', cone: 'un cono' },
+  obstacleNames: {
+    wall: 'una pared',
+    pole: 'un poste del cajón',
+    curb: 'el cordón',
+    cone: 'un cono',
+    vehicle: 'un auto estacionado',
+  },
   reset: 'Volver al inicio',
   homeLink: 'Pista de prueba',
 } as const;
@@ -851,3 +857,19 @@ export const CITY_COPY = {
   nextLeft: 'Al final, doblá a la izquierda.',
   nextRight: 'Al final, doblá a la derecha.',
 };
+
+export const AUDIO_COPY = {
+  title: 'Sonido de conducción',
+  muted: 'Audio silenciado.',
+  mute: 'Silenciar',
+  unmute: 'Activar sonido',
+  volume: 'Volumen',
+  waiting: 'El sonido se activa al usar los controles.',
+  running: 'Audio de motor y tránsito activo.',
+  unavailable: 'No se pudo activar el audio. Podés seguir manejando y volver a intentarlo.',
+  storageError: 'El volumen funciona, pero no se pudo guardar la preferencia.',
+} as const;
+
+export const NEIGHBORHOOD_COPY = {
+  shops: ['ALMACÉN', 'CAFÉ', 'PANADERÍA', 'KIOSCO', 'VERDULERÍA', 'ÓPTICA', 'LIBRERÍA', 'CAFÉ'],
+} as const;

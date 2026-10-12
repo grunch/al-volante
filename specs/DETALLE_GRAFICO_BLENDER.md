@@ -1,5 +1,7 @@
 # Detalle gráfico del recorrido con Blender
 
+Este documento conserva la implementación y las mediciones de #35. La ampliación posterior, el catálogo de diecinueve familias y el audio se documentan en [INMERSION_RECORRIDO.md](INMERSION_RECORRIDO.md).
+
 Correctivo **F04-T01-FIX03**, solicitado por el usuario después de fusionar [#34](https://github.com/grunch/al-volante/pull/34). Parte de `main` en `f3d2f60`, en la rama `f04-t01-fix03-blender-detail` y un worktree independiente. Es una mejora de presentación del práctico; no inicia la fase 6.
 
 ## Referencias y resultado
@@ -16,7 +18,7 @@ Se ejecutó **Blender 5.2.0 LTS** para construir y exportar geometría original.
 - **Personas y bicicletas:** cabeza y rasgos genéricos, pelo, cuello, chaqueta, manos, articulaciones, calzado y bolso; ciclista con casco y bicicleta con cuadro, llantas, rayos, asiento y manubrio. Las proporciones humanas se conservan con escala uniforme.
 - **Sombras:** mapa estático local de 2048², más definido que el anterior de 1024². Los actores tienen una sombra de contacto propia que los acompaña y no deja siluetas en el mapa estático.
 
-Son modelos estilizados, sin marcas y de dimensiones aproximadas. No hay fotogrametría, reproducción de personas reales ni reconstrucción exacta de todos los frentes. Persisten diferencias ya registradas, como los autos estacionados y el cableado ausentes y el pintado continuo de la ciclovía. El recorrido, las cajas de colisión, las reglas y las posiciones evaluadas de señales y cajón conservan los datos anteriores.
+Son modelos estilizados, sin marcas y de dimensiones aproximadas. No hay fotogrametría, reproducción de personas reales ni reconstrucción exacta de todos los frentes. En #35 persistían diferencias ya registradas, como los autos estacionados y el cableado ausentes y el pintado continuo de la ciclovía. El recorrido, las cajas de colisión, las reglas y las posiciones evaluadas de señales y cajón conservan los datos anteriores.
 
 ## Procedencia y reproducción
 

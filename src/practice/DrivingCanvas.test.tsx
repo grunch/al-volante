@@ -239,7 +239,7 @@ describe('DrivingCanvas', () => {
     runFrames(0.05);
 
     expect(screen.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'unavailable');
-    expect(screen.getByRole('status')).toHaveTextContent('Sin WebGL');
+    expect(screen.getByText('Sin WebGL')).toHaveAttribute('role', 'status');
   });
   it('operates cabin switches and returns observations to the front', () => {
     const { surface, press } = renderCanvas('manual');

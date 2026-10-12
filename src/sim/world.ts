@@ -10,7 +10,7 @@ import type { VehicleSpec, VehicleState } from './vehicle.ts';
 /** Bisection rounds to locate an impact inside a step: 2⁻¹² of a step is well under a millimetre at exam speeds. */
 const IMPACT_SEARCH_ROUNDS = 12;
 
-export type ObstacleKind = 'wall' | 'pole' | 'curb' | 'cone';
+export type ObstacleKind = 'wall' | 'pole' | 'curb' | 'cone' | 'vehicle';
 
 export interface Obstacle {
   id: string;

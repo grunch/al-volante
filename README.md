@@ -2,18 +2,19 @@
 
 Juego web para preparar el examen teórico y práctico de licencia B/B.1 en CABA. Se conduce en 3D (Three.js) desde el interior del auto por el recorrido A de la Comuna 13, y una campaña de aprendizaje cubre el manual y el protocolo de examen.
 
-Estado: **en construcción.** Fases 1–3 integradas; F04-T01 incorpora la geometría completa del recorrido A. El examen completo y el tránsito del circuito siguen pendientes. Ver el [estado operativo](specs/ESTADO_IMPLEMENTACION.md).
+Estado: **en construcción.** Fases 1–5 integradas, incluido el tránsito y el examen práctico completo. Ver el [estado operativo](specs/ESTADO_IMPLEMENTACION.md).
 
 ## Arranque
 
 Requisitos: Node.js 24 desde la 24.15, o 26 en adelante; jsdom 30 no admite la 25 (`.nvmrc` fija 24.21.0, la versión usada en la CI).
 
 ```bash
-npm ci                 # instala las dependencias fijadas
-npm run dev            # servidor de desarrollo (http://localhost:5173)
-npm run check          # lint, formato, tipos, pruebas con cobertura, validadores y build
-npx playwright install --with-deps chromium   # una sola vez, para las pruebas E2E (en Linux instala también las bibliotecas del sistema; requiere sudo)
-npm run test:e2e       # pruebas de punta a punta en Chromium (escritorio y móvil)
+npm ci                 # install pinned dependencies
+npm run dev            # development server (http://localhost:5173)
+npm run check          # lint, formatting, types, coverage, validators and build
+npx playwright install --with-deps chromium   # once for E2E; Linux system libraries require sudo
+npm run test:e2e       # end-to-end tests in Chromium (desktop and mobile)
+npm run test:audio     # real Web Audio PCM checks in Chromium
 ```
 
 Pila, estructura y convenciones: [specs/ARQUITECTURA.md](specs/ARQUITECTURA.md).
@@ -25,6 +26,7 @@ Desde el inicio, «Explorar Comuna 13» abre `#/recorrido`: ocho entradas, vista
 - [Propuesta](PROPUESTA.md): producto, evaluación y arquitectura.
 - [Plan de implementación](specs/PLAN_IMPLEMENTACION.md): fases, tareas y flujo de PRs.
 - [Estado de implementación](specs/ESTADO_IMPLEMENTACION.md): avance y siguiente acción.
+- [Inmersión del recorrido](specs/INMERSION_RECORRIDO.md): referencias, Blender, sonido y comprobaciones.
 - [Arquitectura](specs/ARQUITECTURA.md): pila, estructura, convenciones y comandos.
 - [Continuidad](specs/CONTINUIDAD.md): contexto y hallazgos para retomar el trabajo.
 - [Estrategia de modelos](specs/ESTRATEGIA_MODELOS.md).

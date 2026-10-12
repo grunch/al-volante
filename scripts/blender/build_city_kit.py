@@ -266,33 +266,33 @@ def person(cyclist=False):
         tube('Bag strap',(-.22,1.36,0),(-.25,1.03,-.075),.013,'55473c',sides=5)
 
 
-def tree(seed, sparse=False):
+def tree(seed, sparse=False, distant=False):
     """Add a seeded branching tree with individual leaves to the current asset.
 
     A local random generator keeps the seed reproducible; sparse reduces leaf count."""
     rng=random.Random(seed)
     leaves=[]; leaf_faces=[]
     tips=[]
-    tube('Rooted trunk',(0,0,0),(.17,3.9,.07),.23,'716c5c',end_radius=.13,sides=10)
-    for i in range(5):
+    tube('Rooted trunk',(0,0,0),(.17,3.9,.07),.23,'716c5c',end_radius=.13,sides=6 if distant else 10)
+    for i in range(0 if distant else 5):
         a=i*math.tau/5
         tube('Root flare',(math.cos(a)*.40,.10,math.sin(a)*.40),(0,.65,0),.075,'777161',end_radius=.13)
     for i in range(7):
         a=i*2.399+seed
         origin=(.10,2.8+i*.18,.03)
         end=(math.cos(a)*2.0,5.5+rng.random()*1.3,math.sin(a)*2.0)
-        tube('Main bough',origin,end,.10,'797465',end_radius=.035)
+        tube('Main bough',origin,end,.10,'797465',end_radius=.035,sides=5 if distant else 8)
         for j in range(3):
             angle=a+(j-1)*.65
             tip=(end[0]+math.cos(angle)*(1.0+rng.random()*.5),end[1]+.55+rng.random(),end[2]+math.sin(angle)*1.2)
-            tube('Twig',end,tip,.030,'817867',end_radius=.008,sides=5)
+            tube('Twig',end,tip,.030,'817867',end_radius=.008,sides=3 if distant else 5)
             tips.append(tip)
     for tip in tips:
-        for j in range(38 if sparse else 78):
+        for j in range((6 if sparse else 10) if distant else (38 if sparse else 78)):
             direction=Vector((rng.uniform(-1,1),rng.uniform(-1,1),rng.uniform(-1,1))).normalized()
             center=Vector(tip)+direction*rng.random()**(1/3)*1.05
             normal=Vector((rng.uniform(-1,1),rng.uniform(.15,1),rng.uniform(-1,1))).normalized()
-            u=normal.cross(Vector((0,0,1))).normalized()*rng.uniform(.085,.16)
+            u=normal.cross(Vector((0,0,1))).normalized()*(rng.uniform(.26,.38) if distant else rng.uniform(.085,.16))
             v=normal.cross(u).normalized()*u.length*.48
             base=len(leaves)
             leaves.extend([center-u,center+v+normal*.035,center+normal*.045,center+u,center-v+normal*.035])
@@ -363,9 +363,69 @@ def manhole():
         box('Cover grip',(0,.027,z),(span,.008,.014),'424e48',.002)
 
 
+def distant_car():
+    """Keep windows, lamps and wheels in a single low-cost material at a distance."""
+    box('Body',(0,.65,0),(1.57,.52,4.08),'849fa9')
+    box('Windows',(0,1.12,-.12),(1.28,.56,2.3),'405c69')
+    box('Roof',(0,1.43,-.12),(1.23,.05,1.25),'849fa9')
+    for side in [-1,1]:
+        for z in [-1.30,1.29]:
+            tube('Wheel',(side*.71,.31,z),(side*.84,.31,z),.31,'232629',sides=8)
+        box('Headlight',(side*.49,.66,2.05),(.36,.12,.03),'e2e4d9')
+        box('Tail lamp',(side*.54,.74,-2.05),(.22,.16,.03),'a62922')
+
+
+def distant_window():
+    """Preserve contrast and opening proportions without tiny frame geometry."""
+    box('Reveal',(0,0,0),(.12,1.9,1.46),'c8c7b9')
+    box('Glass',(.07,0,0),(.025,1.67,1.24),'334e5b')
+
+
+def container():
+    """Original wheeled street recycling container with lid, pedals and handles."""
+    box('Tapered green body',(0,.67,0),(1.22,1.12,.88),'456a56',.09)
+    box('Lid',(0,1.26,0),(1.34,.13,.99),'344d41',.06)
+    box('Deposit opening',(0,1.16,.453),(.68,.15,.026),'202d28',.025)
+    box('Blank service panel',(0,.79,.46),(.48,.27,.024),'b9c7ad',.014)
+    for x in [-.52,.52]:
+        for z in [-.31,.31]:
+            tube('Caster axle',(x-.04,.13,z),(x+.04,.13,z),.12,'2e3433',sides=10)
+        tube('Side handle',(x,.93,-.18),(x,.93,.18),.035,'bbc1af',finish='metal')
+    tube('Lid hinge',(-.56,1.2,-.46),(.56,1.2,-.46),.045,'2b3b32')
+    box('Foot pedal',(0,.16,.50),(.44,.05,.15),'727a6a',.014,'metal')
+
+
+def scooter():
+    """A parked scooter with seat, fork, mirrors and brake discs; no brand or plate data."""
+    for z in [-.63,.63]:
+        torus('Tyre',(0,.24,z),.19,.055,'262c2d',segments=14)
+        tube('Wheel hub',(-.055,.24,z),(.055,.24,z),.12,'939d9e',finish='metal',sides=12)
+    loft('Rear fairing',[(-.82,.12,.3,.55),(-.4,.24,.25,.60),(.05,.19,.3,.44)],'a7b2b4')
+    box('Seat',(0,.68,-.39),(.44,.12,.65),'293033',.055)
+    box('Footboard',(0,.3,.12),(.39,.07,.58),'454d4d',.03)
+    tube('Steering fork',(0,.25,.63),(0,.98,.45),.07,'8b9899',finish='metal')
+    box('Leg shield',(0,.66,.43),(.47,.56,.12),'9daeb0',.05,'paint')
+    tube('Handlebars',(-.29,1.02,.43),(.29,1.02,.43),.034,'303a3c',finish='metal')
+    box('Headlamp',(0,.96,.54),(.23,.16,.05),'dfe2d9',.04,'glass')
+    for side in [-1,1]:
+        tube('Mirror stem',(side*.22,1.02,.43),(side*.32,1.27,.44),.012,'9ca5a3',finish='metal')
+        ellipsoid('Mirror',(side*.32,1.29,.44),(.10,.065,.032),'c6d3d5','glass',segments=8,rings=4)
+    tube('Kickstand',(0,.30,-.17),(.26,.015,-.17),.025,'67736e',finish='metal')
+
+
+def bike_rack():
+    """An inverted U rack and base plates, dimensioned for the sidewalk."""
+    for z in [-.38,.38]:
+        tube('Rack leg',(0,0,z),(0,.78,z),.035,'78847c',finish='metal',sides=8)
+        box('Base plate',(0,.02,z),(.17,.03,.17),'5a6660',.01,'metal')
+    tube('Top rail',(0,.78,-.38),(0,.78,.38),.035,'78847c',finish='metal',sides=8)
+
+
 builders={'car':car,'bus':lambda:van(True),'emergency':van,'pedestrian':person,
           'bicycle':lambda:person(True),'tree':lambda:tree(41),'treeSparse':lambda:tree(79,True),
-          'signal':signal,'window':facade,'aircon':aircon,'drain':drain,'manhole':manhole}
+          'signal':signal,'window':facade,'aircon':aircon,'drain':drain,'manhole':manhole,
+          'treeLow':lambda:tree(41,distant=True),'treeSparseLow':lambda:tree(79,True,True),
+          'carLow':distant_car,'windowLow':distant_window,'container':container,'scooter':scooter,'bikeRack':bike_rack}
 for asset,builder in builders.items():
     builder()
 

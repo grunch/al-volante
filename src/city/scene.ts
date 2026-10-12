@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import type { City } from './model.ts';
 import { disposeScene } from '../scene/dispose.ts';
 import { createCityLighting } from './lighting.ts';
-import { instantiate, disposeSector } from './geometry.ts';
+import { instantiate, disposeSector, updateDetail } from './geometry.ts';
 import { planStreetscape } from './streetscape.ts';
 import { createControl, isSignalControl, lightControl, label } from './signage.ts';
 import { sectorKey, SectorSet } from './sectors.ts';
@@ -120,6 +120,7 @@ export function attachCity(scene: THREE.Scene, city: City) {
             stream.active.add(key);
           }
       } else stream.update(position);
+      for (const group of groups.values()) lightingDirty = updateDetail(group, position) || lightingDirty;
       lighting.update(position, lightingDirty);
       lightingDirty = false;
       scene.userData.activeSectors = stream.active.size;
