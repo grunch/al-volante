@@ -219,7 +219,7 @@ Desde #34, el E2E de `main` se cancelaba aunque el mismo árbol pasaba en la cor
 
 - En los E2E de manejo, el tiempo de reloj no mide la simulación. Con WebGL por software, el runner dibuja cerca de 1,5 cuadros por segundo; en local, recorrer 3 m (2,2 s simulados) lleva 14,8 s de reloj. Dimensionar las esperas con al menos el triple de lo medido en local y no achicarlas para acelerar la suite. Los asertos (distancias, estados, textos) no se relajan.
 - Presupuestos vigentes:
-  - 60 s para los 3 m de `city.spec.ts`;
+  - 60 s para los 3 m de `city.spec.ts` y 360 s para toda esa prueba (1,8 min en local sobre `main`; 2,9 min con el detalle de #35);
   - 90 s por prueba de `cockpit.spec.ts`;
   - 240 s para el bloque de `exam.spec.ts`;
   - 30 min para el job E2E (las corridas que pasan usan 13–15 min).
