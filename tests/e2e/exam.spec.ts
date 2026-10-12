@@ -59,6 +59,9 @@ test.describe('practical exam on the circuit', () => {
 });
 
 test.describe('exam modes (F04-T05)', () => {
+  // The exam renders the city by software on CI, where every check waits more than a second for a frame.
+  test.describe.configure({ timeout: 120_000 });
+
   test('offers the four modes and hides every aid in the exam mode, keeping what the examiner says', async ({
     page,
   }) => {
