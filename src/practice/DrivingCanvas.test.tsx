@@ -244,4 +244,27 @@ describe('DrivingCanvas', () => {
     runFrames(2);
     expect(Number(surface.dataset.rpm)).toBeLessThan(rpm);
   });
+  it('renders a horn tap released between frames and clears it on the following frame', () => {
+    renderCanvas('manual');
+    vi.stubGlobal('PointerEvent', MouseEvent);
+    const horn = screen.getByRole('button', { name: 'Bocina' });
+    horn.setPointerCapture = vi.fn();
+
+    fireEvent.pointerDown(horn, { button: 0 });
+    fireEvent.pointerUp(horn, { button: 0 });
+    runFrames(1 / 60);
+
+    expect(screen.getByText(/Bocina activada/)).toBeVisible();
+    runFrames(1 / 60);
+    expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
+  });
+
+  it('discards an unsampled tap when the window loses focus', () => {
+    const { surface } = renderCanvas('manual');
+    fireEvent.keyDown(surface, { code: 'KeyH' });
+    fireEvent.keyUp(surface, { code: 'KeyH' });
+    fireEvent.blur(window);
+    runFrames(1 / 60);
+    expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
+  });
 });

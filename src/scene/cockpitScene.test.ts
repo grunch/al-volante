@@ -6,6 +6,16 @@ import { EXAM_CAR } from '../sim/vehicle.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../sim/tracks/practiceYard.ts';
 
 describe('cockpit scene', () => {
+  it('adjusts only the vehicle body when an obstacle shares its name', () => {
+    const obstacle = { ...PRACTICE_YARD.obstacles[0]!, id: 'body' };
+    const view = createCockpitScene({ ...PRACTICE_YARD, obstacles: [obstacle] }, EXAM_CAR);
+    const body = view.scene.getObjectByName('placeholder-car')!.getObjectByName('body')!;
+    expect(body.scale.y).toBe(0.65);
+    expect(body.position.y).toBe(0.48);
+    expect(view.scene.getObjectByName('body')!.scale.y).toBe(1);
+    view.dispose();
+  });
+
   it('moves the driver eye with seat adjustment, heading and observation', () => {
     const view = createCockpitScene(PRACTICE_YARD, EXAM_CAR);
     const cabin = initialCockpit();

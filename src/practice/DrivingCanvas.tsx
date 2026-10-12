@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import * as THREE from 'three';
+import { HeldInput } from './heldInput.ts';
 import { KEY_BINDINGS } from './controls.ts';
 import { driveFrame, startDriving } from './drivingLoop.ts';
 import { gearLabel } from './telemetry.ts';
@@ -71,7 +72,7 @@ export function DrivingCanvas({
   resetCount = 0,
 }: DrivingCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const heldRef = useRef(new Map<string, Action>());
+  const heldRef = useRef(new HeldInput());
   const [cockpit, setCockpit] = useState(initialCockpit);
   const cockpitRef = useRef(cockpit);
   const [bindings, setBindings] = useState<Bindings>(() => {
@@ -96,7 +97,7 @@ export function DrivingCanvas({
   };
   const startAction = (action: Action, source: string) => {
     if (HOLD_ACTIONS.has(action)) {
-      heldRef.current.set(source, action);
+      heldRef.current.press(source, action);
       if (action === 'horn') command({ type: 'horn', value: true });
     } else if (DRIVE_COMMANDS.has(action)) {
       pendingRef.current.push(KEY_BINDINGS[action as keyof typeof KEY_BINDINGS][0]);
@@ -138,9 +139,8 @@ export function DrivingCanvas({
     }
   };
   const stopAction = (source: string) => {
-    heldRef.current.delete(source);
-    if (![...heldRef.current.values()].includes('horn') && cockpitRef.current.horn)
-      command({ type: 'horn', value: false });
+    heldRef.current.release(source);
+    if (!heldRef.current.peek().has('horn') && cockpitRef.current.horn) command({ type: 'horn', value: false });
   };
   const saveBindings = (next: Bindings) => {
     release();
@@ -216,7 +216,24 @@ export function DrivingCanvas({
         cockpitRef.current = initialCockpit();
         setCockpit(cockpitRef.current);
       }
-      driving = driveFrame(world, driving, drivingKeys(heldRef.current.values()), pendingRef.current.splice(0), frameS);
+      let hornSampled = false;
+      driving = driveFrame(
+        world,
+        driving,
+        () => {
+          const actions = heldRef.current.sample();
+          hornSampled ||= actions.has('horn');
+          return drivingKeys(actions);
+        },
+        pendingRef.current.splice(0),
+        frameS,
+      );
+      // Keep a short horn press visible for the frame that consumes it.
+      const horn = hornSampled || heldRef.current.peek().has('horn');
+      if (horn !== cockpitRef.current.horn) {
+        cockpitRef.current = commandCockpit(cockpitRef.current, { type: 'horn', value: horn });
+        setCockpit(cockpitRef.current);
+      }
       const { stepper, events } = driving;
       const car = stepper.state;
       const rpm = radSToRpm(car.powertrain.engineRadS);

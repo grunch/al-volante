@@ -255,7 +255,9 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Fuentes: `specs/fuentes/pdf/protocolo.pdf`, PDF 9–10 y 18–20. Ajustes y dimensiones identificados como aproximaciones; sin evaluación todavía.
 - Verificaciones: `npm run check` pasó con 268 pruebas y cobertura de 95,07 % en sentencias / 88,89 % en ramas. `npx playwright test --workers=1` pasó: 34 E2E, cero fallos o reintentos. El ajuste final de sentido visual del volante/agujas tiene cuatro pruebas de escena aprobadas y cuatro E2E de revalidación visual aprobadas.
 - Capturas inspeccionadas: se corrigieron orientación del espejo interior y obstrucción del volante por la carrocería provisional.
-- Revisores: Codex y CodeRabbit solicitados en #18 sobre `db33865`. Codex confirmó ejecución; resultados y CI pendientes al registrar. No se declara revisión independiente completada.
+- Revisión Codex 5485745268: aplicaba la pérdida de toques entre cuadros. Corregida con retención hasta el siguiente paso fijo; los cuadros sin pasos conservan el pulso y la pérdida de foco lo descarta. La bocina se representa al menos durante el cuadro que consume el pulso. No se reconstruye la duración exacta de eventos entre cuadros.
+- Revisión CodeRabbit 5485752374: aplicaba la búsqueda global de `body`. Corregida limitándola al auto; prueba de regresión con un obstáculo homónimo.
+- Verificación de ambas correcciones: `npm run check` aprobado, 279 pruebas, cobertura 95,32 % de sentencias / 89,02 % de ramas. Además, 10 E2E de habitáculo y conducción aprobados en Chromium de escritorio y móvil, con un worker. La CI anterior (`da59c65`) aprobó comprobaciones estáticas y falló E2E con tiempos agotados; no se declara CI aprobada para la corrección.
 - Siguiente acción vigente: monitorear #18 y resolver findings aplicables antes de pedir nuevas revisiones. T04 y T05 quedan pendientes de autorización.
 
 

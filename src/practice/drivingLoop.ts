@@ -33,7 +33,7 @@ export function startDriving(start: VehicleState, transmission: TransmissionKind
 export function driveFrame(
   world: World,
   frame: DrivingFrame,
-  keys: ReadonlySet<string>,
+  keys: ReadonlySet<string> | (() => ReadonlySet<string>),
   pressed: readonly string[],
   frameS: number,
   specs: CarSpecs = EXAM_SPECS,
@@ -49,7 +49,7 @@ export function driveFrame(
   }
   let controls = frame.controls;
   const result = advance(stepper, frameS, (current) => {
-    controls = stepControls(controls, keys, SIM_STEP_S);
+    controls = stepControls(controls, typeof keys === 'function' ? keys() : keys, SIM_STEP_S);
     const next = stepCar(world, current, controls, SIM_STEP_S, specs);
     events.push(...next.events);
     return next.state;

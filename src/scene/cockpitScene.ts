@@ -13,10 +13,11 @@ export function createCockpitScene(world: World, spec: VehicleSpec) {
   const { scene, camera } = track;
   scene.background = new THREE.Color('#b6d2dc');
   scene.fog = new THREE.Fog('#b6d2dc', 65, 170);
-  const exteriorCabin = scene.getObjectByName('placeholder-car')?.getObjectByName('cabin');
+  const car = scene.getObjectByName('placeholder-car');
+  const exteriorCabin = car?.getObjectByName('cabin');
   if (!exteriorCabin) throw new Error('Vehicle cabin is missing');
   exteriorCabin.visible = false;
-  const exteriorBody = scene.getObjectByName('body');
+  const exteriorBody = car?.getObjectByName('body');
   if (exteriorBody) {
     exteriorBody.scale.y = 0.65;
     exteriorBody.position.y = 0.48;
