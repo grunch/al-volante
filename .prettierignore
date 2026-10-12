@@ -9,3 +9,5 @@ specs/catalog
 specs/route
 *.md
 .coderabbit.yaml
+
+src/assets/blender/city-kit.json

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import type { CityControl } from './model.ts';
 import { CITY_COLORS as c } from './palette.ts';
 import { CITY_COPY } from '../i18n/es-AR.ts';
+import { createBlenderModel } from '../scene/blenderAssets.ts';
 import type { LightState } from '../sim/scenario.ts';
 
 const LAMP_STATES: readonly LightState[] = ['red', 'yellow', 'green'];
@@ -43,6 +44,7 @@ export function lightControl(group: THREE.Object3D, state: LightState | null): v
 export const isSignalControl = (type: string): boolean =>
   type === 'traffic_signals' || type === 'crossing-traffic_signals';
 
+/** Build a positioned stop sign or signal head with lenses ready for lightControl updates. */
 export function createControl(control: CityControl): THREE.Group {
   const group = new THREE.Group();
   group.name = control.id;
@@ -55,7 +57,11 @@ export function createControl(control: CityControl): THREE.Group {
     new THREE.MeshStandardMaterial({ color: c.steel }),
   );
   pole.position.y = 1.5;
-  group.add(pole);
+  if (control.type === 'stop') group.add(pole);
+  else {
+    pole.geometry.dispose();
+    pole.material.dispose();
+  }
   if (control.type === 'stop') {
     const plate = new THREE.Mesh(
       new THREE.CircleGeometry(0.46, 8, Math.PI / 8),
@@ -74,17 +80,12 @@ export function createControl(control: CityControl): THREE.Group {
     text.rotation.y = Math.PI;
     group.add(text);
   } else {
-    const housing = new THREE.Mesh(
-      new THREE.BoxGeometry(0.34, 1.04, 0.24),
-      new THREE.MeshStandardMaterial({ color: c.steel }),
-    );
-    housing.position.set(0, 2.65, -0.1);
-    group.add(housing);
+    group.add(createBlenderModel('signal'));
     // Lenses start unlit; `lightControl` lights one of them from the traffic state (F04-T02).
     LAMP_STATES.forEach((state, index) => {
       const lens = new THREE.Mesh(
-        new THREE.CircleGeometry(0.12, 12),
-        new THREE.MeshBasicMaterial({ color: c.inactive, side: THREE.DoubleSide }),
+        new THREE.CircleGeometry(0.116, 24),
+        new THREE.MeshBasicMaterial({ color: c.inactive, side: THREE.DoubleSide, toneMapped: false }),
       );
       lens.name = `lens-${state}`;
       lens.position.set(0, 2.96 - index * 0.31, -0.23);

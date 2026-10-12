@@ -2,7 +2,7 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-12 (#36 fusionado en `c71a289`; correctivo F04-T01-FIX04, #37).
+Última actualización: 2026-10-12 (correctivo gráfico F04-T01-FIX03 con Blender; integra `main` con #36, `c71a289`, y el correctivo de E2E #37).
 
 ## Fase activa
 
@@ -11,8 +11,9 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
 - **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
 - **Fase 5 — Todo el contenido y simulacros teóricos: tareas fusionadas.** F05-T05 ([#33](https://github.com/grunch/al-volante/pull/33)) se integró en `main` con `9dd6d9e`. Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
-- **F04-T01-FIX02 — experiencia de conducción:** rama `f04-t01-fix02-driving-realism`, base `main` actualizada a `9dd6d9e`, worktree independiente; [#34](https://github.com/grunch/al-volante/pull/34), implementación `404ea74`, validación local previa aprobada; integración de #33 verificada localmente; fusionado en `main` (`f3d2f60`). Pedido puntual posterior a #31; no inicia fase 6.
-- **F04-T05-FIX01 — guía de manejo del examen práctico:** [#36](https://github.com/grunch/al-volante/pull/36), rama `f04-t05-fix01-driving-guide`, fusionado por el usuario en `main` (`c71a289`). Pedido puntual del usuario; no inicia fase 6. Detalle en la sección de la tarea.
+- **F04-T01-FIX03 — detalle gráfico con Blender:** rama `f04-t01-fix03-blender-detail`, base `main` en `f3d2f60`, worktree independiente. [PR #35](https://github.com/grunch/al-volante/pull/35), implementación `1f1195b`, validación local aprobada. Codex sin observaciones sobre `1f1195b`; CodeRabbit sin comentarios accionables sobre `c7e655c`, y agregó docstrings en `30db45a`. Integra `main` (`c71a289`, con #36) y el correctivo de E2E #37. Doce familias de modelos originales y superficies generadas con Blender, tras revisar otra vez las 35 referencias. No inicia fase 6.
+- **F04-T01-FIX02 — experiencia de conducción, fusionado:** [#34](https://github.com/grunch/al-volante/pull/34), merge `f3d2f60` del 2026-10-12 20:51 UTC. El E2E de `main` posterior a la fusión se canceló por tiempos de reloj justos con WebGL por software, no por un error de código (el mismo árbol pasó en la corrida del PR); lo corrige F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37)).
+- **F04-T05-FIX01 — guía de manejo del examen práctico:** [#36](https://github.com/grunch/al-volante/pull/36), fusionado por el usuario en `main` (`c71a289`). Pedido puntual del usuario; no inicia fase 6. Detalle en la sección de la tarea.
 - **F04-T01-FIX01 — referencias visuales, fusionado en `9bc0257`:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
 - **F04-T01-FIX04 — E2E con margen para WebGL por software:** rama `f04-t01-fix04-e2e-budgets`, desde `main` (`f3d2f60`), [#37](https://github.com/grunch/al-volante/pull/37). Repara la CI roja de `main` tras #34 (tiempos de reloj justos, sin error de código); #37 integra `main` con #36 (`c71a289`) y #35 integra #37.
 - Fases 6–7: no iniciadas.
@@ -462,6 +463,13 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - PR [#36](https://github.com/grunch/al-volante/pull/36), implementación `d73a185`; fusionado por el usuario en `main` (`c71a289`, 21:56 UTC). CodeRabbit: no revisó por el límite de revisiones incluidas («Review limit reached») antes de la fusión. Al fusionarse, el E2E de su CI seguía en curso; el arreglo de esa CI es F04-T01-FIX04 (#37). Codex: completada sobre `d2e7386` (revisión 5496225183), con dos findings documentales, ambos corregidos: faltaba la entrada en CONTINUIDAD y este registro daba F05-T05 por abierta (la integración de `main` trae la fila y la fase activa al día, y se actualizaron #34 y los bloqueos).
 - Integración de `main` (`f3d2f60`, con #34) por merge, sin reescribir historia. El único conflicto fue este registro. #34 cambió el volante con teclas: a más velocidad gira menos, y al soltar la tecla vuelve al centro más despacio que antes. La referencia de teclas dice que gira menos cuanto más rápido se va. Pedales, embrague y freno no cambiaron, así que las mediciones de los 30 cm siguen valiendo.
 
+## Correctivo F04-T01-FIX03 — Detalle gráfico con Blender
+
+- Pedido: una nueva revisión de las imágenes y mayor nitidez y detalle de calle, árboles, edificios, semáforos, autos y personas, usando Blender, con un nuevo PR. Rama `f04-t01-fix03-blender-detail`, base `main` (`f3d2f60`), worktree independiente; [PR #35](https://github.com/grunch/al-volante/pull/35), implementación `1f1195b`.
+- Resultado: catálogo de doce familias construido y exportado por Blender 5.2, superficies de 256×256, fachadas y barandas detalladas, árboles con hojas individuales, vehículos y personas con piezas reconocibles y semáforos con lentes dinámicas. Fuente, procedencia, capturas, límites y reproducción en [DETALLE_GRAFICO_BLENDER.md](DETALLE_GRAFICO_BLENDER.md).
+- Revisión independiente local: completada sobre el diff de trabajo. Corregidos el presupuesto del árbol, la compresión del ciclista y las normales de cierre de tubos de pocos lados. Pruebas focalizadas de recursos, contornos y entorno aprobadas. Codex GitHub: «Didn't find any major issues» sobre `1f1195b`. CodeRabbit: sin comentarios accionables sobre `c7e655c`; agregó docstrings en `30db45a`. CI remota: el E2E se canceló por los presupuestos de reloj que repara #37 (también falla en `main` desde #34); la rama integra `main` y #37 para volver a comprobarla. Medición con WebGL por software (Chromium de Playwright, el renderizador de la CI): unos 945 ms por cuadro en el recorrido y 1000 ms en el examen, frente a 600 y 655 ms de `main` (`c71a289`), alrededor de un 55 % más lento. La simulación avanza 0,11 s por segundo de reloj, frente a 0,16. Con los márgenes de #37 los E2E entran, pero no hay margen para mucho más detalle sin medirlo.
+- Verificación: 32 E2E focalizados aprobados en Chromium con GPU, escritorio y Pixel 7 emulado; inspección de los ocho tramos, cabina, espejos, pantalla completa, teclado, frenado, restauración y móvil sin desborde. `npm run check` aprobado con Node 24.21.0: 1.389 pruebas en 72 archivos, cobertura de líneas 96,31 % y ramas 89,81 %, lint, formato, tipos, catálogo y build. Tras los últimos ajustes visuales y del exportador se repitieron 29 pruebas afectadas, lint y build, aprobados. Dos exportaciones completas de Blender produjeron archivos idénticos. El bloque diferido del habitáculo tiene advertencia de tamaño, documentada junto con la medición de rendimiento.
+
 ## Correctivo F04-T01-FIX02 — Experiencia de conducción
 
 - Pedido: conducción más real tras fusionar #31; revisar otra vez las fotos, con Blender disponible si fuera necesario. Rama `f04-t01-fix02-driving-realism`, base `9bc0257`, worktree independiente. Alcance en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md); se resolvió con geometría y texturas originales generadas desde código, sin dependencias nuevas.
@@ -574,11 +582,11 @@ Fase 5: la pila `main ← F04-T04-FIX01 (#27) ← F05-T01 ← F05-T02 ← F05-T0
 
 ## Bloqueos
 
-El correctivo #31 ya fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34) en `f3d2f60` y F04-T05-FIX01 (#36) en `c71a289`. Desde #34, el E2E de `main` falla por tiempos de reloj justos con WebGL por software; lo corrige F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37)), que debe fusionarse antes de #35. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31.
+El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34) en `f3d2f60` y F04-T05-FIX01 (#36) en `c71a289`. Desde #34, el E2E de `main` se cancela por tiempos de reloj justos con WebGL por software; lo corrige F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37)), que este PR integra. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31.
 
 ## Siguiente acción
 
-La fase 4, la fase 5 (F05-T05, #33 en `main`, `9dd6d9e`) y los correctivos #31, F04-T01-FIX02 ([#34](https://github.com/grunch/al-volante/pull/34), `f3d2f60`) y F04-T05-FIX01 ([#36](https://github.com/grunch/al-volante/pull/36), `c71a289`) están fusionados. Siguiente: fusionar F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37), E2E con margen para WebGL por software) y después F04-T01-FIX03 (#35, que lo integra). La fase 6 requiere orden explícita del usuario.
+Fase 5 y correctivos #31, #34 y #36 fusionados. Orden: fusionar F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37)) y después F04-T01-FIX03 ([#35](https://github.com/grunch/al-volante/pull/35)), cuando su CI pase con #37 integrado. La fase 6 requiere inicio explícito del usuario.
 
 ### Cierre de la fase 4 contra el plan
 

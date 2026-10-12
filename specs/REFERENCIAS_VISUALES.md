@@ -41,3 +41,9 @@ Las fotos muestran detalles que todavía difieren del modelo: el pintado verde d
 ## Revisión de experiencia — F04-T01-FIX02
 
 Después de fusionar #31, el usuario pidió mejorar también el manejo. Se volvió a observar la colección y se añadió asfalto con grano, veredas con juntas, copas con huecos y siluetas reconocibles para los actores existentes. La cabina, cámara y asistencia de teclado se describen en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md). Todas sus magnitudes son ajustes de presentación o de interfaz, no mediciones obtenidas de estas imágenes.
+
+## Nueva revisión y modelado en Blender — F04-T01-FIX03
+
+Después de fusionar #34, se revisaron nuevamente las 35 referencias en orden cronológico. Se tomó como guía el detalle de ramas y follaje, barandas abiertas, marcos de ventanas y equipos de fachada. Blender 5.2 produjo doce familias originales de modelos y los campos de altura de pavimento y vereda. Se integraron también autos, colectivos, personas, bicicletas y carcasas de semáforos más detallados. Las piezas genéricas, como tapas, rejillas o llantas, mejoran la lectura visual sin atribuirles una ubicación o medida relevada.
+
+La fuente reproducible, las comparaciones de la aplicación, la procedencia de los recursos y los límites están en [DETALLE_GRAFICO_BLENDER.md](DETALLE_GRAFICO_BLENDER.md). Se mantienen las aproximaciones y exclusiones descritas arriba; ninguna referencia se convirtió en una nueva regla de examen ni en evidencia `surveyed`.

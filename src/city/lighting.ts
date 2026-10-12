@@ -11,15 +11,16 @@ export function createCityRenderer(): THREE.WebGLRenderer {
   return renderer;
 }
 
+/** Add sun and ambient light; return controls to refresh local shadows and release the lights. */
 export function createCityLighting(scene: THREE.Scene) {
   const sun = new THREE.DirectionalLight('#fff2db', 3.0);
   const ambient = new THREE.HemisphereLight('#dce9f3', '#8a8172', 1.5);
   sun.name = 'city-sun';
   sun.castShadow = true;
-  sun.shadow.mapSize.set(1024, 1024);
-  Object.assign(sun.shadow.camera, { left: -85, right: 85, top: 85, bottom: -85, near: 1, far: 240 });
+  sun.shadow.mapSize.set(2048, 2048);
+  Object.assign(sun.shadow.camera, { left: -65, right: 65, top: 65, bottom: -65, near: 1, far: 240 });
   sun.shadow.camera.updateProjectionMatrix();
-  sun.shadow.normalBias = 0.06;
+  sun.shadow.normalBias = 0.035;
   sun.shadow.bias = -0.0001;
   sun.shadow.autoUpdate = false;
   let lastKey = '';

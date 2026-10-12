@@ -180,9 +180,23 @@ function facadeBuilder(frontage: Frontage, add: AddPart) {
   };
 }
 
+/** Emit building and facade details, using neighbors to hide shared party-wall windows. */
 function addFacade(frontage: Frontage, neighbors: readonly Frontage[], add: AddPart): void {
   const { floors, widthM: width, depthM, style, color, shops } = frontage;
   const box = facadeBuilder(frontage, add);
+  /** Place a Blender detail in facade coordinates, facing the street and scaled by size. */
+  const asset = (model: 'window' | 'aircon', x: number, y: number, z: number, size: [number, number, number]) => {
+    const face = offsetPoint(frontage.center, frontage.road.headingRad, (-frontage.side * depthM) / 2);
+    const point = offsetPoint(face, frontage.road.headingRad, -frontage.side * x, z);
+    add({
+      shape: 'box',
+      model,
+      position: [point.x, y, point.z],
+      size,
+      color: '#ffffff',
+      heading: frontage.road.headingRad + (frontage.side === 1 ? Math.PI : 0),
+    });
+  };
   const height = floors * 2.95 + 0.6;
   const masonry = color === c.brick ? 'brick' : 'matte';
   box(-depthM / 2, height / 2, 0, depthM, height, width, color, masonry);
@@ -200,18 +214,11 @@ function addFacade(frontage: Frontage, neighbors: readonly Frontage[], add: AddP
     const level = floor * 2.95 + 0.7;
     if (style === 'balconies' || style === 'modern') {
       box(0.48, level - 0.25, 0, 1.12, 0.18, width - 0.55, c.trim);
-      box(
-        1.03,
-        level + 0.28,
-        0,
-        0.065,
-        0.95,
-        width - 0.65,
-        style === 'modern' ? c.balconyGlass : c.railing,
-        style === 'modern' ? 'glass' : 'matte',
-      );
-      box(1.08, level + 0.78, 0, 0.08, 0.06, width - 0.55, c.railing);
-      for (let z = -width / 2 + 0.55; z < width / 2; z += 1.8) box(1.09, level + 0.25, z, 0.05, 1, 0.045, c.railing);
+      if (style === 'modern') box(1.03, level + 0.28, 0, 0.065, 0.95, width - 0.65, c.balconyGlass, 'glass');
+      else for (const y of [0, 0.39, 0.78]) box(1.06, level + y, 0, 0.045, 0.035, width - 0.55, c.railing);
+      box(1.08, level + 0.78, 0, 0.07, 0.055, width - 0.55, c.railing);
+      for (let z = -width / 2 + 0.55; z < width / 2; z += floor < 3 ? 0.27 : 0.65)
+        box(1.09, level + 0.25, z, 0.025, 1, 0.025, c.railing);
       // Narrow side returns leave a recess instead of a flat painted window.
       for (const z of [-width / 2 + 0.3, width / 2 - 0.3]) box(0.45, level + 0.9, z, 1.1, 2.2, 0.18, color, masonry);
       if (floor % 3 === 1) {
@@ -224,11 +231,14 @@ function addFacade(frontage: Frontage, neighbors: readonly Frontage[], add: AddP
     for (let col = 0; col < columns; col++) {
       const z = -width / 2 + 0.8 + (col + 0.5) * columnWidth;
       const opening = columnWidth * 0.78;
-      box(0.04, level + 0.9, z, 0.09, 2, opening, c.glass, 'glass');
-      box(0.1, level + 0.9, z, 0.06, 2, 0.065, c.trim);
-      box(0.1, level + 1.88, z, 0.09, 0.08, opening + 0.12, c.trim);
+      if (floor < 3) asset('window', 0.045, level + 0.9, z, [1, 1, opening / 1.4]);
+      else {
+        box(0.04, level + 0.9, z, 0.09, 2, opening, c.glass, 'glass');
+        box(0.1, level + 0.9, z, 0.06, 2, 0.065, c.trim);
+        box(0.1, level + 1.88, z, 0.09, 0.08, opening + 0.12, c.trim);
+      }
       if ((floor + col) % 4 === 0) box(0.14, level + 1.53, z, 0.11, 0.7, opening, c.shutter);
-      if (floor === 1 && col === 0) box(0.32, level + 1.3, z + opening / 2 + 0.28, 0.45, 0.5, 0.65, c.stone);
+      if (floor === 1 && col === 0) asset('aircon', 0.24, level + 1.3, z + opening / 2 + 0.32, [0.9, 0.9, 0.9]);
     }
   }
   for (const end of [-1, 1]) {
@@ -289,31 +299,15 @@ function addFacade(frontage: Frontage, neighbors: readonly Frontage[], add: AddP
 
 /** Clustered crowns and branching trunks form a canopy above, not across, the driver's sightline. */
 function addTree(point: Point, heading: number, variation: number, canopy: boolean, add: AddPart): void {
-  const height = (canopy ? 7.2 : 5.7) + (variation % 3) * 0.55;
-  add({ shape: 'cylinder', color: c.trunk, position: [point.x, height / 2, point.z], size: [0.35, height, 0.35] });
-  for (const side of [-1, 1]) {
-    const branch = offsetPoint(point, heading, side * 0.65);
-    add({
-      shape: 'cylinder',
-      color: c.trunk,
-      position: [branch.x, height - 0.65, branch.z],
-      size: [0.17, 2.6, 0.17],
-      heading,
-      tilt: -side * 0.6,
-    });
-  }
-  for (let i = 0; i < 5; i++) {
-    const angle = i * 2.4 + variation;
-    const radius = i === 0 ? 0 : canopy ? 2.2 : 1.7;
-    add({
-      shape: 'sphere',
-      surface: 'foliage',
-      heading: angle,
-      color: [c.foliage, c.foliageLight, c.foliageDark][i % 3] ?? c.foliage,
-      position: [point.x + Math.cos(angle) * radius, height + 0.9 + (i % 2) * 0.8, point.z + Math.sin(angle) * radius],
-      size: [canopy ? 5.8 : 4.2, 3.3, canopy ? 5.8 : 4.2],
-    });
-  }
+  const scale = (canopy ? 1.12 : 0.91) + (variation % 3) * 0.05;
+  add({
+    shape: 'box',
+    model: variation % 4 === 0 ? 'treeSparse' : 'tree',
+    color: '#ffffff',
+    position: [point.x, 0.14, point.z],
+    size: [scale, scale, scale],
+    heading: heading + variation * 1.7,
+  });
   add({ shape: 'box', color: c.soil, position: [point.x, 0.16, point.z], size: [1.15, 0.04, 1.15], heading });
 }
 
