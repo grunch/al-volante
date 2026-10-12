@@ -11,6 +11,7 @@ import { LearningMapPage } from './pages/LearningMapPage.tsx';
 import { LibraryPage } from './pages/LibraryPage.tsx';
 import { NotFoundPage } from './pages/NotFoundPage.tsx';
 import { SectionPage } from './pages/SectionPage.tsx';
+import { SignsPage } from './pages/SignsPage.tsx';
 import { SourcePage } from './pages/SourcePage.tsx';
 
 /** Route table shared by the hash router (app) and memory routers (tests). */
@@ -29,6 +30,7 @@ export const routes: RouteObject[] = [
       { path: '/recorrido', element: <CityPage /> },
       { path: '/biblioteca', element: <LibraryPage /> },
       { path: '/biblioteca/:source/:page', element: <SourcePage /> },
+      { path: '/senales', element: <SignsPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

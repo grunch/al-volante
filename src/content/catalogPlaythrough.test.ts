@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { evaluateResponse, presentActivity } from '../activities/engine.ts';
+import type { Presentation } from '../activities/engine.ts';
 import type { Activity } from './schemas.ts';
 import { catalogActivities } from './testing/catalogActivities.ts';
 
@@ -15,6 +16,17 @@ function seedFor(activity: Activity, variantId: string): number | undefined {
   for (let seed = 0; seed < SEED_SEARCH; seed += 1)
     if (presentActivity(activity, seed).variantId === variantId) return seed;
   return undefined;
+}
+
+/** Keys beyond id and text in what the player sees: anything else (correct, feedback, next…) would leak the answer. */
+function revealedKeys(presentation: Presentation): string[] {
+  const extra = (item: object) => Object.keys(item).filter((key) => key !== 'id' && key !== 'text');
+  if (presentation.kind === 'choice') return presentation.options.flatMap(extra);
+  if (presentation.kind === 'ordering') return presentation.items.flatMap(extra);
+  return Object.values(presentation.nodes).flatMap((node) => [
+    ...Object.keys(node).filter((key) => key !== 'text' && key !== 'choices'),
+    ...node.choices.flatMap(extra),
+  ]);
 }
 
 /** Every choice path from the start to an outcome. */
@@ -41,8 +53,7 @@ describe('catalog playthrough', () => {
         for (const variant of activity.variants) {
           const seed = seedFor(activity, variant.id);
           expect(seed, `${activity.id}#${variant.id} is never presented`).toBeDefined();
-          const shown = JSON.stringify(presentActivity(activity, seed ?? 0));
-          expect(shown).not.toMatch(/"(correct|feedback|reason|outcome|next)"/);
+          expect(revealedKeys(presentActivity(activity, seed ?? 0)), `${activity.id}#${variant.id}`).toEqual([]);
         }
       });
 

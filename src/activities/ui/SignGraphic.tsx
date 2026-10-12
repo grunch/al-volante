@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import { signFile } from '../../content/figures.ts';
 
 // Regulatory shapes and colours as drawn in the manual's annex IV (manual PDF 185–186).
 const RED = '#c8102e';
@@ -70,9 +71,29 @@ export function hasSignDrawing(signId: string): boolean {
   return signId in DRAWINGS;
 }
 
-/** Draws a road sign; `description` (the catalog's visual description) is its accessible name. */
-export function SignGraphic({ signId, description }: { signId: string; description: string }) {
+/**
+ * Draws a road sign: the vector drawing when there is one, otherwise its crop of the manual page (`hasCrop`),
+ * otherwise its written description. `description` (the catalog's visual description) is its accessible name.
+ */
+export function SignGraphic({
+  signId,
+  description,
+  hasCrop = false,
+}: {
+  signId: string;
+  description: string;
+  hasCrop?: boolean;
+}) {
   const drawing = DRAWINGS[signId];
+  if (!drawing && hasCrop) {
+    return (
+      <img
+        className="sign-graphic sign-graphic--crop"
+        src={`${import.meta.env.BASE_URL}${signFile(signId)}`}
+        alt={description}
+      />
+    );
+  }
   if (!drawing) {
     return (
       <p className="sign-fallback" role="img" aria-label={description}>

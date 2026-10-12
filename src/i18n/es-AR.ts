@@ -149,6 +149,17 @@ export const SEVERITY_LABELS: Record<string, string> = {
   eliminatory: 'Eliminatoria',
 };
 
+export const SIGN_COPY = {
+  heading: 'Catálogo de señales',
+  intro:
+    'Todas las señales del manual, como aparecen en sus páginas: reglamentarias, preventivas, informativas, transitorias, marcas en la calzada y semáforos. Cada una enlaza a su página y a la actividad donde se practica.',
+  libraryLink: 'Catálogo de señales',
+  libraryLinkHint: 'todas las señales del manual, con su imagen',
+  consultation: 'Para consulta',
+  page: 'Página',
+  practise: 'Practicar',
+} as const;
+
 /** The six spaces of PROPUESTA §2, in its order. */
 export const HOME_SPACES = [
   {

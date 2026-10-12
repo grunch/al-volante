@@ -78,7 +78,20 @@ describe('validateTreatment', () => {
 
     expect(check(units, [signActivity], signs)).toEqual([
       'sign.x.used: used by an activity but its status is transcribed',
-      'sign.x.orphan: status tested needs a sign-identification activity',
+      'sign.x.orphan: status tested needs a sign-identification activity or a consultation reason',
+      'sign.x.orphan: only activities can make a sign tested',
+    ]);
+  });
+
+  it('accepts signs kept for reference with a reason, once reviewed', () => {
+    const units = [unit({ id: UNIT_ID, status: 'tested' })];
+    const signs = [
+      sign({ id: 'sign.x.ok', status: 'implemented', consultationReason: 'Dibujo incompleto en el PDF.' }),
+      sign({ id: 'sign.x.early', status: 'transcribed', consultationReason: 'Dibujo incompleto en el PDF.' }),
+    ];
+
+    expect(check(units, [choiceActivity()], signs)).toEqual([
+      'sign.x.early: consultation needs a reviewed sign (status transcribed)',
     ]);
   });
 });

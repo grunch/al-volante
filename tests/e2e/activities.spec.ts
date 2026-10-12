@@ -36,6 +36,21 @@ test.describe('activities', () => {
     await expect(page.locator('figure.source-figure figcaption')).toHaveText('Manual, PDF 32');
   });
 
+  test('shows the sign catalog with the crops of the manual, linked to their practice', async ({ page }) => {
+    await page.goto('./#/biblioteca');
+    await page.getByRole('link', { name: 'Catálogo de señales' }).click();
+    await expect(page.getByRole('heading', { level: 1, name: 'Catálogo de señales' })).toBeVisible();
+
+    const preventivas = page.getByRole('region', { name: 'Preventivas', exact: true });
+    const crop = preventivas.locator('img.sign-graphic--crop').first();
+    await expect(crop).toBeVisible();
+    expect(await crop.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+    await preventivas.getByRole('link', { name: 'Practicar' }).first().click();
+    await expect(page).toHaveURL(/#\/actividad\/act\./);
+    // The variant is random: a crop or, for the few signs drawn in vector form, an SVG; both are named images.
+    await expect(page.getByRole('img', { name: /^Señal a identificar: / })).toBeVisible();
+  });
+
   test('plays a decision scene to the end and offers another variant', async ({ page }) => {
     await page.goto('./#/actividad/act.turn-with-pedestrian?semilla=0');
 

@@ -108,7 +108,11 @@ function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityP
       <p className="badge">{ACTIVITY_TYPE_LABELS[activity.type]}</p>
       {sign && (
         <figure className="sign-figure">
-          <SignGraphic signId={sign.id} description={`${ACTIVITY_COPY.signToIdentify}: ${sign.visual}`} />
+          <SignGraphic
+            signId={sign.id}
+            description={`${ACTIVITY_COPY.signToIdentify}: ${sign.visual}`}
+            hasCrop={sign.box !== undefined}
+          />
         </figure>
       )}
       {presentation.kind === 'choice' && (

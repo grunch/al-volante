@@ -132,7 +132,7 @@ export function validateContent(raw: RawContent): ContentResult {
       signIds: new Set(signs.map((sign) => sign.id)),
     }).map((error) => `activities: ${error}`),
     ...activityFileErrors(activityFiles, units).map((error) => `activities: ${error}`),
-    ...validateFigures(figures, { manifest, units, activities }).map((error) => `figures: ${error}`),
+    ...validateFigures(figures, { manifest, units, activities, signs }).map((error) => `figures: ${error}`),
     ...validateTreatment({ units, signs, activities }).map((error) => `treatment: ${error}`),
   );
   const protocol = manifest.find((source) => source.id === 'protocolo');
