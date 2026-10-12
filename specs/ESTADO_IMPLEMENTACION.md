@@ -195,7 +195,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F03-T02 | `f03-t02-transmission` | `f03-t01-simulation` (#16) | T01 (#16) | #17 | fusionada (`e49dc5b`) |
 | F03-T03 | `f03-t03-cockpit` | `main` (`e49dc5b`) | T02 fusionada (#17) | [#18](https://github.com/grunch/al-volante/pull/18) | abierto; revisiones solicitadas |
 | F03-T04 | `f03-t04-evaluation` | `f03-t03-cockpit` (#18) | T03 (#18) | [#19](https://github.com/grunch/al-volante/pull/19) | en revisión (etapa A) |
-| F03-T05 | — | `f03-t04-evaluation` | T04 | — | en curso |
+| F03-T05 | `f03-t05-first-block` | `f03-t04-evaluation` (#19) | T04 (#19) | PR_T05 | en revisión (etapa A) |
 
 ### F03-T01 — Simulación a paso fijo, vehículo, dirección, frenado y colisiones
 
@@ -292,6 +292,17 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - El avance de 30 cm aprobaba en segunda; ahora exige primera (o D) y el retroceso exige R.
   - Los ajustes hechos en la familiarización sobrevivían al reinicio del habitáculo; ahora se olvidan al empezar el reconocimiento.
   - Un solo espejo bastaba; ahora hay que regular los tres (PDF 9).
+
+### F03-T05 — Primer tramo real y cruce con semáforo, vehículo y peatón
+
+- Apilado sobre `f03-t04-evaluation` (#19), por el mismo pedido del usuario.
+- Alcance: `src/sim/scenario.ts` (semáforo y actores con guion), `src/sim/tracks/firstBlock.ts` (Quesada hasta Av. Cabildo, tramo 1 del recorrido A), escenario avanzado en el bucle de manejo y dibujado en la escena, fases `firstMetres`, `approach` y `turn` del examinador, y devolución básica en `#/examen`. Detalle y límites en ARQUITECTURA, «Primer tramo y cruce».
+- Aceptación:
+  - **Sesión jugable desde la preparación hasta el cruce:** la página de examen usa el primer tramo; `street.test.ts` recorre con el auto, el habitáculo y el escenario reales desde el cajón hasta la avenida.
+  - **Prioridades, giro y detención con consecuencias verificables:** peatón en la senda (alta l; atropello escalado a eliminatoria), vehículo que cruza (eliminatoria i al tocarlo), rojo (eliminatoria k), detención pasada la línea (alta h), bloqueo de la encrucijada (alta i), direccional ausente o tardía (baja g, leve q), seguir de largo (eliminatoria f), primeros 100 m (eliminatoria g); cada caso con prueba.
+- Aproximaciones declaradas (ARQUITECTURA; `GAME_PARAMETERS`): margen de 1 km/h, marcha exigida por encima de 15 km/h, 2 s para bloquear el cruce, 70° para dar el giro por hecho, ciclo del semáforo y actores del guion.
+- Verificación local: `npm run check` con 319 pruebas (cobertura 95,1 % sentencias / 88,5 % ramas), contenido OK y build OK; `npx playwright test --workers=1` con 36 E2E.
+- Revisiones: Codex y CodeRabbit solicitados al abrir el PR; se registran al llegar.
 
 ## Pila y orden de fusión
 

@@ -6,6 +6,7 @@ import type {
   PowertrainState,
   TransmissionKind,
 } from './powertrain/powertrain.ts';
+import type { ActorKind } from './scenario.ts';
 import { EXAM_CAR } from './vehicle.ts';
 import type { VehicleSpec, VehicleState } from './vehicle.ts';
 import { initialWorldState, stepWorld } from './world.ts';
@@ -26,7 +27,13 @@ export interface CarState {
   controls: CarControls;
 }
 
-export type CarEvent = PowertrainEvent | ({ type: 'contact' } & Contact);
+/** Touching a scripted actor (a pedestrian, a vehicle) of the world's scenario; the driving loop reports it. */
+export interface ActorContact {
+  type: 'actor-contact';
+  actor: ActorKind;
+}
+
+export type CarEvent = PowertrainEvent | ({ type: 'contact' } & Contact) | ActorContact;
 
 export interface CarSpecs {
   vehicle: VehicleSpec;

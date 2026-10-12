@@ -5,6 +5,7 @@ import { SCENE_COLORS } from './colors.ts';
 import { bodyBox, forwardOf } from '../sim/vehicle.ts';
 import type { VehicleSpec, VehicleState } from '../sim/vehicle.ts';
 import type { OrientedBox } from '../sim/collision.ts';
+import type { ActorKind, LightState, Scenario, ScenarioState } from '../sim/scenario.ts';
 import type { Obstacle, ObstacleKind, World } from '../sim/world.ts';
 
 /** Chase camera: behind and above the car, looking a little ahead of it. */
@@ -22,11 +23,21 @@ const OBSTACLE_LOOK: Record<ObstacleKind, { heightM: number; color: THREE.ColorR
   cone: { heightM: 0.7, color: '#e8742e' },
 };
 
+const ACTOR_LOOK: Record<ActorKind, { heightM: number; color: THREE.ColorRepresentation }> = {
+  pedestrian: { heightM: 1.7, color: '#2f6fd6' },
+  vehicle: { heightM: 1.4, color: '#c94b3b' },
+};
+const LAMP_COLORS: Record<LightState, THREE.ColorRepresentation> = {
+  red: '#e03b2e',
+  yellow: '#f2c230',
+  green: '#2ec46a',
+};
+
 export interface TrackScene {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
-  /** Shows the car where the simulation has it and moves the camera after it. */
-  update(vehicle: VehicleState): void;
+  /** Shows the car where the simulation has it, the scenario's actors and light, and moves the camera after it. */
+  update(vehicle: VehicleState, scenario?: ScenarioState | null): void;
   resize(widthPx: number, heightPx: number): void;
   dispose(): void;
 }
@@ -69,6 +80,47 @@ function createMarking(marking: OrientedBox, index: number): THREE.Mesh {
   return mesh;
 }
 
+/** A scripted actor as a simple box of its kind, named by its id so the update can pose it. */
+function createActor(id: string, kind: ActorKind, halfLengthM: number, halfWidthM: number): THREE.Mesh {
+  const { heightM, color } = ACTOR_LOOK[kind];
+  const mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(halfWidthM * 2, heightM, halfLengthM * 2),
+    new THREE.MeshStandardMaterial({ color, roughness: 0.7 }),
+  );
+  mesh.name = `actor-${id}`;
+  mesh.position.y = heightM / 2;
+  return mesh;
+}
+
+/** A traffic light on the right of the lane at the stop line: a pole and three lamps, lit by `setLight`. */
+function createTrafficLight(scenario: Scenario): { group: THREE.Group; setLight(state: LightState): void } {
+  const group = new THREE.Group();
+  group.name = 'traffic-light';
+  const pole = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.08, 0.08, 4, 12),
+    new THREE.MeshStandardMaterial({ color: '#3b3f46' }),
+  );
+  pole.position.y = 2;
+  group.add(pole);
+  const lamps = (['red', 'yellow', 'green'] as const).map((state, index) => {
+    const lamp = new THREE.Mesh(
+      new THREE.SphereGeometry(0.16, 12, 12),
+      new THREE.MeshStandardMaterial({ color: '#222', emissive: LAMP_COLORS[state], emissiveIntensity: 0 }),
+    );
+    lamp.name = `lamp-${state}`;
+    lamp.position.set(0, 4 - index * 0.4, 0.1);
+    group.add(lamp);
+    return { state, material: lamp.material };
+  });
+  group.position.set(-7.2, 0, scenario.light.stopLineZ + 1);
+  return {
+    group,
+    setLight(state) {
+      for (const lamp of lamps) lamp.material.emissiveIntensity = lamp.state === state ? 2 : 0;
+    },
+  };
+}
+
 function createGround(): THREE.Mesh {
   const ground = new THREE.Mesh(
     new THREE.PlaneGeometry(GROUND_SIZE_M, GROUND_SIZE_M),
@@ -96,14 +148,36 @@ export function createTrackScene(
   scene.add(createGrid());
   const car = createCarModel(spec);
   scene.add(car);
+  const actors = new Map<string, THREE.Mesh>();
+  let trafficLight: ReturnType<typeof createTrafficLight> | null = null;
+  if (world.scenario) {
+    for (const actor of world.scenario.actors) {
+      const mesh = createActor(actor.id, actor.kind, actor.halfLengthM, actor.halfWidthM);
+      mesh.position.set(actor.from.x, mesh.position.y, actor.from.z);
+      actors.set(actor.id, mesh);
+      scene.add(mesh);
+    }
+    trafficLight = createTrafficLight(world.scenario);
+    trafficLight.setLight('green');
+    scene.add(trafficLight.group);
+  }
   const camera = new THREE.PerspectiveCamera(60, 16 / 9, 0.1, 300);
   let placed = false;
 
   return {
     scene,
     camera,
-    update(vehicle) {
+    update(vehicle, scenario) {
       poseCar(car, spec, vehicle);
+      if (scenario) {
+        for (const pose of scenario.poses) {
+          const mesh = actors.get(pose.id);
+          if (!mesh) continue;
+          mesh.position.set(pose.x, mesh.position.y, pose.z);
+          mesh.rotation.y = pose.headingRad;
+        }
+        trafficLight?.setLight(scenario.light);
+      }
       const body = bodyBox(spec, vehicle);
       const forward = forwardOf(vehicle.headingRad);
       const target = new THREE.Vector3(

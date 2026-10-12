@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { createCarModel, poseCar } from './carModel.ts';
 import { createTrackScene } from './trackScene.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../sim/tracks/practiceYard.ts';
+import { FIRST_BLOCK, FIRST_BLOCK_START, FIRST_BLOCK_ZONES } from '../sim/tracks/firstBlock.ts';
+import { createScenarioState, stepScenario } from '../sim/scenario.ts';
 import { EXAM_CAR, bodyBox, restingVehicle } from '../sim/vehicle.ts';
 
 describe('car model', () => {
@@ -77,5 +79,31 @@ describe('track scene', () => {
     expect(track.camera.position.z - before).toBeGreaterThan(0);
     expect(track.camera.position.z - before).toBeLessThan(10);
     track.dispose();
+  });
+});
+
+describe('track scene scenario', () => {
+  it('draws the scenario actors and a traffic light, and moves them with the scenario state', () => {
+    const view = createTrackScene(FIRST_BLOCK, EXAM_CAR, { reducedMotion: true });
+    const pedestrian = view.scene.getObjectByName('actor-pedestrian');
+    const light = view.scene.getObjectByName('traffic-light');
+    expect(pedestrian).toBeDefined();
+    expect(light?.position.z).toBeCloseTo(FIRST_BLOCK_ZONES.stopLineZ + 1, 6);
+
+    let state = createScenarioState(FIRST_BLOCK.scenario!);
+    state = stepScenario(FIRST_BLOCK.scenario!, state, bodyBox(EXAM_CAR, { ...FIRST_BLOCK_START, z: 100 }), 14);
+    state = stepScenario(FIRST_BLOCK.scenario!, state, bodyBox(EXAM_CAR, { ...FIRST_BLOCK_START, z: 100 }), 15);
+    view.update({ ...FIRST_BLOCK_START, z: 100 }, state);
+
+    const red = view.scene.getObjectByName('lamp-red') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
+    const green = view.scene.getObjectByName('lamp-green') as THREE.Mesh<
+      THREE.BufferGeometry,
+      THREE.MeshStandardMaterial
+    >;
+    expect(state.light).toBe('red');
+    expect(red.material.emissiveIntensity).toBeGreaterThan(0);
+    expect(green.material.emissiveIntensity).toBe(0);
+    expect(pedestrian?.position.x).toBeLessThan(FIRST_BLOCK.scenario!.actors[0]!.from.x);
+    view.dispose();
   });
 });

@@ -26,6 +26,7 @@ import { COCKPIT_COPY as copy } from '../i18n/es-AR.ts';
 import type { RendererFactory, SceneRenderer } from '../scene/SceneCanvas.tsx';
 import { EXAM_SPECS } from '../sim/car.ts';
 import type { CarEvent, CarState } from '../sim/car.ts';
+import type { ScenarioState } from '../sim/scenario.ts';
 import { radSToRpm } from '../sim/powertrain/engine.ts';
 import type { PowertrainCommand, TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { interpolateVehicle } from '../sim/vehicle.ts';
@@ -216,11 +217,11 @@ export function DrivingCanvas({
     window.addEventListener('blur', releaseKeys);
     document.addEventListener('visibilitychange', releaseKeys);
 
-    const observeStep = (car: CarState, stepEvents: readonly CarEvent[], dt: number) =>
-      observationRef.current?.({ type: 'step', car, cockpit: cockpitRef.current, events: stepEvents, dt });
+    const observeStep = (car: CarState, stepEvents: readonly CarEvent[], dt: number, scenario: ScenarioState | null) =>
+      observationRef.current?.({ type: 'step', car, cockpit: cockpitRef.current, events: stepEvents, dt, scenario });
     const fresh = () => {
-      const frame = startDriving(start, transmission, prepared);
-      if (prepared.length > 0) observeStep(frame.stepper.state, frame.events, 0);
+      const frame = startDriving(start, transmission, prepared, EXAM_SPECS, world.scenario);
+      if (prepared.length > 0) observeStep(frame.stepper.state, frame.events, 0, frame.scenario);
       return frame;
     };
     let driving = fresh();
@@ -270,6 +271,7 @@ export function DrivingCanvas({
         cockpitRef.current,
         rpm,
         car.world.timeS,
+        driving.scenario,
       );
       renderer.render(track.scene, track.camera);
       container.dataset.speedKmh = (car.world.vehicle.speedMps * 3.6).toFixed(1);
