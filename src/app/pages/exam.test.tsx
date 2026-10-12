@@ -135,7 +135,8 @@ describe('exam page', () => {
     expect(screen.getByTestId('exam-result')).toHaveTextContent(EXAM_COPY.results.disapproved);
     expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'finished');
     expect(screen.getByText(EXAM_COPY.feedbackClean)).toBeInTheDocument();
-    expect(screen.getByTestId('exam-light')).toHaveTextContent(EXAM_COPY.lightStates.green);
+    // In the box there is no signal ahead: no light is shown, never a default green.
+    expect(screen.getByTestId('exam-light')).toHaveTextContent(EXAM_COPY.noSignalAhead);
 
     await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.restart }));
     runFrames(5);

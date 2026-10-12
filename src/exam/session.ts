@@ -2,7 +2,8 @@ import { createLedger, interrupt, recordFault, withdrawFault } from './scoring.t
 import type { Ledger, Stage } from './scoring.ts';
 import type { Circuit } from './circuit.ts';
 import { createStreet, judgeCirculation, noteGlance } from './circulation.ts';
-import type { Report, Street } from './circulation.ts';
+import { remember } from './street.ts';
+import type { Report, Street, Verdict } from './circulation.ts';
 import { createRandom, shuffle } from '../activities/random.ts';
 import type { Rule } from '../content/schemas.ts';
 import { MIRROR_IDS } from '../practice/cockpit.ts';
@@ -230,7 +231,7 @@ const enter = (session: Session, phase: Phase): Session => ({
   phase,
   prompt: { kind: 'say', message: phase },
 });
-const finish = (session: Session): Session => enter(session, 'finished');
+const finish = (session: Session): Session => (session.phase === 'finished' ? session : enter(session, 'finished'));
 const inStageTwo = (session: Session) => STAGE_TWO_PHASES.includes(session.phase);
 
 /** With 8 points or more before circulating, the exam is interrupted (protocolo PDF 10). */
@@ -255,7 +256,7 @@ function fault(
 
 /**
  * The examiner takes the dual controls (protocolo PDF 7): a recent fault that escalates is raised to eliminatory
- * (high l, n, o); with none to raise, the manoeuvre itself is reckless (eliminatory i). The exam is interrupted.
+ * (high e, l, n, o); with none to raise, the manoeuvre itself is reckless (eliminatory i). The exam is interrupted.
  */
 function takeover(session: Session): Session {
   const marked: Session = { ...session, street: { ...session.street, takeover: true } };
@@ -266,11 +267,14 @@ function takeover(session: Session): Session {
   return judged.phase === 'finished' ? judged : finish(judged);
 }
 
-/** Applies what the circulation judge reported, in order, until an interruption ends the exam. */
-function applyReports(session: Session, reports: readonly Report[]): Session {
+/**
+ * Applies what the circulation judge reported, in order, until an interruption ends the exam; with `all`, every
+ * report of the step is recorded even after one interrupts (the examiner took over in that same step).
+ */
+function applyReports(session: Session, reports: readonly Report[], all = false): Session {
   let next = session;
   for (const report of reports) {
-    if (next.phase === 'finished') return next;
+    if (next.phase === 'finished' && !all) return next;
     if (report.withdraw) {
       next = { ...next, ledger: withdrawFault(next.ledger, report.ruleId, report.episode) };
       continue;
@@ -453,7 +457,11 @@ function onExitStep(session: Session, car: CarState, cockpit: CockpitState): Ses
   if (direction !== 0 && !next.exit.movedOffChecked) {
     next = { ...next, exit: { ...next.exit, movedOffChecked: true } };
     if (cockpit.signal !== 'left') next = fault(next, 'rule.minor.j-no-signal-leaving-box');
-    if (next.phase !== 'finished' && !next.exit.looked) next = fault(next, 'rule.high.e-no-mirror-check-leaving-box');
+    if (next.phase !== 'finished' && !next.exit.looked) {
+      // High e escalates (protocolo PDF 7): a takeover while leaving the box raises it instead of a reckless i.
+      const street = remember(next.street, 'rule.high.e-no-mirror-check-leaving-box', 'exit', next.timeS);
+      next = fault({ ...next, street }, 'rule.high.e-no-mirror-check-leaving-box', 'exit');
+    }
   }
   // Clear of the box: in the lane, a car's width or more to the left of where it was parked.
   if (next.phase !== 'finished' && exitLateralM(next, car) >= GAME_PARAMETERS.exitLateralM) {
@@ -495,9 +503,23 @@ function onCirculationStep(
   let next: Session = { ...session, street: verdict.street };
   if (firstMetres) next = onFirstMetresStep(next, car, next.street.road?.examKmh ?? 30);
   if (next.phase === 'finished') return next;
-  next = applyReports(next, verdict.reports);
+  return settleCirculation(next, verdict);
+}
+
+/**
+ * Applies one step's verdict. When the examiner takes the dual controls in that step, the takeover is applied even
+ * if a fault of the same step already interrupted (crossing on red towards a car): every fault is recorded, the
+ * escalation or the reckless manoeuvre is added, and the interruption is the examiner's (protocolo PDF 7).
+ */
+export function settleCirculation(session: Session, verdict: Pick<Verdict, 'reports' | 'takeover' | 'done'>): Session {
+  if (verdict.takeover) {
+    const taken = takeover(applyReports(session, verdict.reports, true));
+    const interruption = taken.ledger.interruption;
+    if (interruption?.cause !== 'fault' || interruption.atS !== taken.timeS) return taken;
+    return { ...taken, ledger: { ...taken.ledger, interruption: { ...interruption, cause: 'examiner' } } };
+  }
+  const next = applyReports(session, verdict.reports);
   if (next.phase === 'finished') return next;
-  if (verdict.takeover) return takeover(next);
   // Back on the first leg after the eighth: stage II is complete. Stage III (parking) is F04-T04.
   if (verdict.done) return finish({ ...next, completedStages: [...next.completedStages, 'II'] });
   return next;

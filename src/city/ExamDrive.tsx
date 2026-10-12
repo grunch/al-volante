@@ -29,7 +29,7 @@ export function ExamDrive({
   prepared: readonly PowertrainCommand[];
   onObservation: (observation: Observation) => void;
   onTelemetry: (telemetry: Telemetry) => void;
-  halted: boolean;
+  halted: boolean | (() => boolean);
   createRenderer?: RendererFactory;
 }) {
   const createScene = useMemo(() => cityCockpitFactory(city), [city]);

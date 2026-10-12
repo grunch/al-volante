@@ -58,8 +58,11 @@ interface DrivingCanvasProps {
   prepared?: readonly PowertrainCommand[];
   /** Receives every cabin command and every simulation step, for the exam evaluation (F03-T04). */
   onObservation?: (observation: Observation) => void;
-  /** The examiner took the dual controls (F04-T03): the pedals answer to nobody and the car is braked to a stop. */
-  halted?: boolean;
+  /**
+   * The examiner took the dual controls (F04-T03): the pedals answer to nobody and the car is braked to a stop. A
+   * function is read before every simulation step, so a takeover decided in one step brakes from the next one.
+   */
+  halted?: boolean | (() => boolean);
 }
 
 const defaultRendererFactory: RendererFactory = () => new THREE.WebGLRenderer({ antialias: true });
@@ -229,6 +232,10 @@ export function DrivingCanvas({
     window.addEventListener('blur', releaseKeys);
     document.addEventListener('visibilitychange', releaseKeys);
 
+    const isHalted = () => {
+      const halted = haltedRef.current;
+      return typeof halted === 'function' ? halted() : halted;
+    };
     const observeStep = (
       car: CarState,
       stepEvents: readonly CarEvent[],
@@ -268,10 +275,10 @@ export function DrivingCanvas({
           const actions = heldRef.current.sample();
           hornSampled ||= actions.has('horn');
           // The dual controls: brake and clutch down, whatever the driver presses.
-          if (haltedRef.current) return HALT_KEYS;
+          if (isHalted()) return HALT_KEYS;
           return drivingKeys(actions);
         },
-        haltedRef.current ? [] : pressed,
+        isHalted() ? [] : pressed,
         frameS,
         EXAM_SPECS,
         observeStep,

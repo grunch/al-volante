@@ -12,7 +12,7 @@ test.describe('practical exam on the circuit', () => {
     await expect(view).toHaveAttribute('data-engine', 'off');
     const says = page.getByTestId('examiner-says');
     await expect(says).toHaveAttribute('data-phase', 'familiarisation');
-    await expect(page.getByTestId('exam-light')).toHaveText(/Verde|Amarillo|Rojo/);
+    await expect(page.getByTestId('exam-light')).toHaveText('sin semáforo cerca');
 
     await page.getByRole('button', { name: 'Listo, sigamos' }).click();
     await expect(says).toHaveAttribute('data-phase', 'recognition');

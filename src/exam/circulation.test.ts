@@ -10,9 +10,9 @@ import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import type { ActorKind, ActorPose, TrafficSnapshot } from '../sim/scenario.ts';
 import { restingVehicle } from '../sim/vehicle.ts';
 import { CITY } from '../test/circuitDriver.ts';
-import { headingDifference, pointAlong } from '../traffic/network.ts';
+import { headingDifference, locateOnPath, pointAlong } from '../traffic/network.ts';
 import { ACTOR_SIZES, createTraffic } from '../traffic/traffic.ts';
-import { buildCircuit } from './circuit.ts';
+import { buildCircuit, roadAt } from './circuit.ts';
 import type { Circuit, CircuitCrossing } from './circuit.ts';
 import { CIRCULATION, createStreet, judgeCirculation } from './circulation.ts';
 import type { Report, Street } from './circulation.ts';
@@ -104,7 +104,9 @@ function run(
   poses: (t: number) => ActorPose[] = () => [],
   options: RunOptions = {},
 ): Run {
-  let street = options.street ?? createStreet(circuit);
+  // The judge only advances to the next leg in order, so a fresh street starts on the leg where the car is placed.
+  const startLeg = roadAt(circuit.lap, locateOnPath(circuit.lap, start.world.vehicle, 10)?.s ?? 0)?.leg ?? 1;
+  let street = options.street ?? createStreet(circuit, startLeg);
   let car = start;
   const cockpit = { ...initialCockpit(), belt: true, lights: 'low' as const, ...options.cockpit };
   const reports: Report[] = [];
@@ -146,6 +148,21 @@ function onApproach(crossing: CircuitCrossing, pick: (difference: number) => boo
   const start = other.reverse ? other.road.b : other.road.a;
   return { point: offsetPoint(start, other.headingRad, 0, other.entryM - beforeM), headingRad: other.headingRad };
 }
+
+describe('progress along the circuit', () => {
+  it('counts only the next leg in order: going back to the previous one never advances the lap', () => {
+    const second = circuit.legs[1]!;
+    const first = circuit.legs[0]!;
+    let street = run(carAt(second.startS + 5, 0, 0), 0.1).street;
+    expect([street.leg, street.legsEntered]).toEqual([2, 1]);
+    for (let back = 0; back < 8; back++) {
+      street = run(carAt(first.endS - 5, 0, 0), 0.1, undefined, { street }).street;
+      expect([street.leg, street.legsEntered]).toEqual([2, 1]);
+      street = run(carAt(second.startS + 5, 0, 0), 0.1, undefined, { street }).street;
+      expect([street.leg, street.legsEntered]).toEqual([2, 1]);
+    }
+  });
+});
 
 describe('priority at unsignalised corners (protocolo PDF 12; high k)', () => {
   const corner = crossingOf(4, 'priority', true);
@@ -287,6 +304,23 @@ describe('the emergency vehicle (protocolo PDF 12; eliminatory n)', () => {
     expect(ids(right)).toEqual([]);
     const slow = run(carAt(s, 0, 2), 6, (t) => [ambulance(t)]);
     expect(ids(slow)).toEqual([]);
+  });
+
+  it('does not keep a slow moment from far away as making way: the yield must hold while it comes close', () => {
+    const farBehind = pointAlong(circuit.lap, s - 80);
+    const far = mover(
+      'ambulance',
+      'emergency',
+      offsetPoint(farBehind.point, farBehind.headingRad, 2.4),
+      farBehind.headingRad,
+      14,
+    );
+    // Slow for a moment while the ambulance is 80 m behind, then back to normal speed until it passes.
+    const slowFirst = run(carAt(s - 1, 0, 2), 0.5, (t) => [far(t)]);
+    expect(ids(slowFirst)).toEqual([]);
+    const thenFast = run(carAt(s, 0, 7), 14, (t) => [far(t)], { street: slowFirst.street, startS: 0.5 });
+    // The 90 m driven also cross the next corner, which scores its own rules; only the ambulance matters here.
+    expect(ids(thenFast)).toContain('rule.eliminatory.n-emergency-vehicle-not-yielded');
   });
 });
 

@@ -1,4 +1,4 @@
-import { overlaps } from '../sim/collision.ts';
+import { clearance, overlaps } from '../sim/collision.ts';
 import type { OrientedBox, Point } from '../sim/collision.ts';
 import type { CarState } from '../sim/car.ts';
 import type { CockpitState } from '../practice/cockpit.ts';
@@ -197,9 +197,14 @@ function judgeCrossings(street: Street, frame: Frame, reports: Report[]): Street
   const inside = last ? last.pavements.some((box) => overlaps(frame.body, box)) : false;
   const yielding = circuit.crosswalks.some((crosswalk) => {
     const distanceM = distanceAlong(circuit, frame.frontS, crosswalk.startS);
-    return (
+    // Through a corner the lap distance runs along the link, longer than the body's straight clearance to the
+    // crosswalk the car is about to take: either measure within the yielding distance counts.
+    const near =
       distanceM > -1 &&
-      distanceM <= CIRCULATION.yieldingM &&
+      (distanceM <= CIRCULATION.yieldingM ||
+        (distanceM <= CIRCULATION.yieldingLinkM && clearance(frame.body, crosswalk.box) <= CIRCULATION.yieldingM));
+    return (
+      near &&
       frame.scenario.poses.some((pose) => pose.kind === 'pedestrian' && pose.active && pose.inside(crosswalk.box))
     );
   });
@@ -382,7 +387,10 @@ function judgeProgress(street: Street, frame: Frame, reports: Report[]): { stree
   let next = street;
   const road = roadAt(circuit.lap, frame.centreS);
   let done = false;
-  if (road && road.leg !== null && road.leg !== next.leg) {
+  // Only the next leg in the route's order counts: going back to the previous one (correcting near a corner, or the
+  // projection flickering between the outgoing and incoming roads) neither advances the lap nor resets the corner.
+  const expected = (next.leg % circuit.legs.length) + 1;
+  if (road && road.leg === expected && road.leg !== next.leg) {
     const leg = circuit.legs.find((item) => item.number === road.leg);
     if (leg) {
       const legsEntered = next.legsEntered + 1;

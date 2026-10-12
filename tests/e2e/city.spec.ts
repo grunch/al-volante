@@ -36,7 +36,8 @@ test('explores all eight legs, opens sources and preserves the geographic overvi
 });
 
 test('drives from a route entry with the keyboard and restores the parked state', async ({ page }, testInfo) => {
-  test.setTimeout(60000);
+  // The CI browser draws the city in software with traffic and mirrors: a minute was not always enough there.
+  test.setTimeout(120000);
   await page.goto('/#/recorrido');
   await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready');
   await page.getByRole('button', { name: 'Conducir este tramo', exact: true }).click();

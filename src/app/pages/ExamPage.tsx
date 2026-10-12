@@ -10,7 +10,6 @@ import { createSession, observe } from '../../exam/session.ts';
 import type { Observation, Session } from '../../exam/session.ts';
 import { RendererContext } from '../../scene/RendererContext.ts';
 import type { PowertrainCommand, TransmissionKind } from '../../sim/powertrain/powertrain.ts';
-import type { LightState } from '../../sim/scenario.ts';
 import { createTraffic, trafficSourceOf } from '../../traffic/traffic.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
@@ -93,14 +92,12 @@ function Exam({ content }: { content: Content }) {
   const circuit = useMemo(() => buildCircuit(city, source.traffic), [city, source]);
   const world = useMemo(() => ({ ...city.world, traffic: source }), [city, source]);
   const [session, setSession] = useState<Session>(() => createSession(rules, 'manual', DEFAULT_SEED, circuit));
-  const [light, setLight] = useState<LightState | null>(null);
   // The latest session, updated 120 times a second by the steps without re-rendering each time.
   const sessionRef = useRef<Session>(session);
 
   const begin = (kind: TransmissionKind, nextSeed: number) => {
     const nextCircuit = nextSeed === seed ? circuit : buildCircuit(city, createTraffic(city, nextSeed));
     sessionRef.current = createSession(rules, kind, nextSeed, nextCircuit);
-    setLight(null);
     setSession(sessionRef.current);
     setTransmission(kind);
     setSeed(nextSeed);
@@ -113,12 +110,11 @@ function Exam({ content }: { content: Content }) {
     if (before === 'familiarisation' && sessionRef.current.phase === 'recognition') setResetCount((count) => count + 1);
     // Steps come 120 times a second: the page refreshes with the telemetry; commands refresh at once.
     if (observation.type !== 'step') setSession(sessionRef.current);
-    else if (observation.scenario) lightRef.current = observation.scenario.light;
   }, []);
-  const lightRef = useRef<LightState | null>(null);
+  // Read by the simulation before every step: the examiner's brake does not wait for the next render.
+  const isHalted = useCallback(() => sessionRef.current.street.takeover, []);
   const onTelemetry = useCallback(() => {
     setSession(sessionRef.current);
-    setLight(lightRef.current);
   }, []);
 
   const { ledger, street } = session;
@@ -195,7 +191,7 @@ function Exam({ content }: { content: Content }) {
           resetCount={resetCount}
           onObservation={onObservation}
           onTelemetry={onTelemetry}
-          halted={street.takeover}
+          halted={isHalted}
           {...(createRenderer ? { createRenderer } : {})}
         />
       </Suspense>
@@ -250,7 +246,12 @@ function Exam({ content }: { content: Content }) {
         </div>
         <div>
           <dt>{copy.light}</dt>
-          <dd data-testid="exam-light">{light ? copy.lightStates[light] : copy.pendingMeasure}</dd>
+          {/* Only a signal ahead has a light to show: elsewhere the traffic reports green by default. */}
+          <dd data-testid="exam-light">
+            {street.notice?.kind === 'signal' && street.notice.light
+              ? copy.lightStates[street.notice.light]
+              : copy.noSignalAhead}
+          </dd>
         </div>
       </dl>
       {finished && (

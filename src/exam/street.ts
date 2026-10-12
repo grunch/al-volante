@@ -50,6 +50,7 @@ export const CIRCULATION = {
   /** Standing inside the crossing this long blocks it (high i), unless yielding to a crosswalk this close ahead. */
   blockIntersectionS: 2,
   yieldingM: 6,
+  yieldingLinkM: 12,
   /** A stop whose front is past the line, up to the far edge of the crosswalk, is over the line (high h). */
   overLineM: 0.1,
   crosswalkEndM: 4.5,
@@ -77,6 +78,8 @@ export const CIRCULATION = {
   emergencyYieldKmh: 10,
   emergencyPullRightM: 0.7,
   emergencyStuckS: 4,
+  /** Making way is judged while the ambulance is this close behind (D6). */
+  emergencyNearM: 30,
   /** Overtaking (eliminatory p): a vehicle is beside the car between these lateral distances, ahead by this. */
   besideMinM: 1.5,
   besideMaxM: 5,
@@ -158,12 +161,13 @@ export interface Street {
   takeover: boolean;
 }
 
-export function createStreet(circuit: Circuit | null): Street {
-  const first = circuit?.legs[0];
+/** The street state at the start of leg `startLeg` (1 for the exam; a later leg to practise from there). */
+export function createStreet(circuit: Circuit | null, startLeg = 1): Street {
+  const first = circuit?.legs.find((leg) => leg.number === startLeg) ?? circuit?.legs[0];
   return {
     odometerStartM: null,
-    leg: 1,
-    legsEntered: 0,
+    leg: first?.number ?? 1,
+    legsEntered: (first?.number ?? 1) - 1,
     instruction: first ? { turn: first.turn, street: first.nextStreet } : null,
     notice: null,
     road: first ? { street: first.street, examKmh: first.examKmh, postedKmh: first.postedKmh } : null,

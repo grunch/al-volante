@@ -107,7 +107,10 @@ export function judgeEmergency(street: Street, frame: Frame, reports: Report[]):
     ? lateralOnRoad(road, frame.center) <=
       laneOffsetM(road, 0, Math.max(1, road.lanes)) - CIRCULATION.emergencyPullRightM
     : false;
-  const yielded = state.yielded || frame.kmh <= CIRCULATION.emergencyYieldKmh || pulledRight;
+  // Making way counts only while the ambulance is close behind, and only as long as it lasts: a slow moment while
+  // it is still far away, followed by speeding up and keeping the lane, does not let it through.
+  const near = along >= -CIRCULATION.emergencyNearM;
+  const yielded = near ? frame.kmh <= CIRCULATION.emergencyYieldKmh || pulledRight : state.yielded;
   const speed = poseSpeed(street, ambulance, frame.dt);
   const stuck = along < 0 && along > -20 && Math.hypot(speed.x, speed.z) < 0.5;
   return { ...street, emergency: { ...state, seen: true, yielded, stuckS: stuck ? state.stuckS + frame.dt : 0 } };

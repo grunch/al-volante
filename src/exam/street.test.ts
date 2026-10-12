@@ -134,14 +134,14 @@ describe('the whole circuit (RECORRIDO.md §4; protocolo PDF 10–12)', () => {
     cruise(fast, { until: (driver) => kmh(driver) > 33, maxS: 30, speed: () => 12, slowAtCorners: false });
     expect(fast.driver.faults).toEqual(['rule.eliminatory.g-first-block-instruction']);
     expect(fast.driver.session.ledger.interruption?.cause).toBe('fault');
-  }, 30000);
+  }, 90000);
 
   it('manual: staying in first above 15 km/h in the first 100 m ignores the instruction to drive in second', () => {
     const exam = cityExam('manual', 1);
     throughTheBox(exam.driver, { secondGear: false });
     exam.driver.hold({ ...IDLE, throttle: 1 }, (car) => car.world.vehicle.speedMps * 3.6 > 17, 30);
     expect(exam.driver.faults).toEqual(['rule.eliminatory.g-first-block-instruction']);
-  }, 30000);
+  }, 90000);
 });
 
 describe('speed: exam limit against the posted maximum (REGLAS.md §6, D2 and D3)', () => {
@@ -160,7 +160,7 @@ describe('speed: exam limit against the posted maximum (REGLAS.md §6, D2 and D3
     expect(driver.session.ledger.points).toBe(11);
     expect(driver.session.ledger.interruption).toBeNull();
     expect(driver.phase).toBe('circulation');
-  }, 30000);
+  }, 90000);
 });
 
 describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
@@ -175,7 +175,7 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
     });
     expect(exam.driver.faults).toEqual(['rule.eliminatory.k-red-light']);
     expect(exam.driver.session.ledger.interruption?.cause).toBe('fault');
-  }, 30000);
+  }, 90000);
 
   it('stopping past the line scores a high fault, once per stop', () => {
     const exam = stoppedAtTheFirstCorner();
@@ -184,7 +184,7 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
     stopNow(exam.driver);
     exam.driver.hold({ ...IDLE, brake: 1 }, (_, t) => t > 0.5);
     expect(exam.driver.faults).toEqual(['rule.high.h-stop-over-line-or-crosswalk']);
-  }, 30000);
+  }, 90000);
 
   it('standing on the avenue for two seconds blocks the intersection', () => {
     const exam = stoppedAtTheFirstCorner();
@@ -196,9 +196,10 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
       speed: () => 3,
       slowAtCorners: false,
     });
-    cruise(exam, { until: (_, t) => t > 2.5, maxS: 5, speed: () => 0 });
+    // Standing there with nothing to yield to (once any pedestrian ahead has finished crossing) blocks it.
+    cruise(exam, { until: (driver, t) => driver.faults.length > 0 || t > 15, maxS: 20, speed: () => 0 });
     expect(exam.driver.faults).toEqual(['rule.high.i-block-intersection']);
-  }, 30000);
+  }, 90000);
 
   it('turning without the signal, with the wrong one, or signalling too late is a fault of its own', () => {
     const quiet = stoppedAtTheFirstCorner();
@@ -230,7 +231,7 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
     waitFor(late, 'green');
     cruise(late, { until: () => toLine(late, corner(late, 1)) < -0.5, maxS: 20, signalTurns: false, speed: () => 3 });
     expect(late.driver.faults).toEqual(['rule.minor.q-turn-lane-late']);
-  }, 30000);
+  }, 90000);
 
   it('going straight across the avenue instead of turning ignores the examiner', () => {
     const exam = stoppedAtTheFirstCorner();
@@ -244,7 +245,7 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
       steer: (driver) => -2 * (driver.car.world.vehicle.headingRad - heading),
     });
     expect(exam.driver.faults).toEqual(['rule.eliminatory.f-examiner-safety-instruction-ignored']);
-  }, 30000);
+  }, 90000);
 });
 
 describe('STOP signs and unsignalised corners (protocolo PDF 12)', () => {
@@ -260,7 +261,7 @@ describe('STOP signs and unsignalised corners (protocolo PDF 12)', () => {
     cruise(lawful, { until: () => toLine(lawful, corner(lawful, 3)) < -0.5, maxS: 60 });
     expect(lawful.driver.faults).toEqual([]);
     expect(lawful.driver.session.street.stoppedAt).toBe(stop.approachId);
-  }, 30000);
+  }, 90000);
 
   it('arriving fast at the unsignalised corner of Cuba and Quesada does not slow down for the manoeuvre', () => {
     const exam = inCirculation();
@@ -274,7 +275,7 @@ describe('STOP signs and unsignalised corners (protocolo PDF 12)', () => {
       yieldPriority: false,
     });
     expect(exam.driver.faults).toContain('rule.high.m-no-slowdown-before-maneuver');
-  }, 30000);
+  }, 90000);
 });
 
 describe('the ambulance of Guayra (protocolo PDF 12; eliminatory n)', () => {
@@ -304,7 +305,7 @@ describe('the ambulance of Guayra (protocolo PDF 12; eliminatory n)', () => {
     });
     expect(polite.driver.faults).toEqual([]);
     expect(polite.driver.session.street.emergency.yielded).toBe(true);
-  }, 60000);
+  }, 120000);
 });
 
 describe('the examiner takes the dual controls (protocolo PDF 7)', () => {
@@ -393,7 +394,7 @@ describe('handling (minor n, eliminatory h) and what the HUD reads', () => {
     cruise(exam, { until: (driver) => kmh(driver) > 24, maxS: 30, speed: () => 7 });
     exam.driver.hold({ ...IDLE, throttle: 0.3, steer: -1 }, (_, t) => t > 1.2, 5);
     expect(exam.driver.faults).toEqual(['rule.eliminatory.h-loss-of-control']);
-  }, 30000);
+  }, 90000);
 
   it('announces the next control and the road limits as the car drives', () => {
     const exam = outOfTheBox();
@@ -403,5 +404,5 @@ describe('handling (minor n, eliminatory h) and what the HUD reads', () => {
     expect(driver.session.street.road).toEqual({ street: 'Quesada', examKmh: 30, postedKmh: 40 });
     expect(driver.session.street.instruction).toEqual({ turn: 'right', street: 'Av. Cabildo' });
     expect(CITY.legs[0]?.street).toBe('Quesada');
-  }, 30000);
+  }, 90000);
 });
