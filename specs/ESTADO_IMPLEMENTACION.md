@@ -6,9 +6,9 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 ## Fase activa
 
-- **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. Queda el correctivo F02-T02-FIX03 (#15), con el finding de la última revisión de Codex sobre #14, que llegó cuando ya estaba fusionado.
+- **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
-- **Fase 3 — Auto e interior: en curso, etapa A.** Mensaje de inicio (2026-10-11): «ahora comienza la fase 3, pero solo haz solo los dos primeros PRs porque el PR de la t03 es con gpt Astra, no hagas ese, luego de hacer t02 vuelve a t01 y ve si hay findings, haz lo. mismo en t02, pide Review luego». Alcance autorizado: F03-T01 y F03-T02. F03-T03 corresponde a GPT-6 Astra (ESTRATEGIA_MODELOS) y no se hace en esta sesión; F03-T04 y F03-T05 dependen de T03.
+- **Fase 3 — Auto e interior: en curso, etapa A.** Mensaje de inicio (2026-10-11): «ahora comienza la fase 3, pero solo haz solo los dos primeros PRs porque el PR de la t03 es con gpt Astra, no hagas ese, luego de hacer t02 vuelve a t01 y ve si hay findings, haz lo. mismo en t02, pide Review luego». Alcance inicial: F03-T01 y F03-T02. Autorización posterior del usuario: limpiar con `git restore .` e iniciar F03-T03 desde `main`. #16 y #17 están fusionados en `e49dc5b`. F03-T04 y F03-T05 no se inician con este pedido.
 - Fases 4–7: no iniciadas. Cada una requiere indicación manual del usuario.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -43,7 +43,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F02-T02-FIX01 | `f02-t02-fix01` | `main` (antes `f02-t01-fix01`) | FIX01 de T01 (#12) | #13 | fusionada (`1a842bf`), con T05 |
 | F02-T05 | `f02-t05-progress` | `f02-t02-fix01` (#13) | T04 y los correctivos | #11 | fusionada en `f02-t02-fix01` (`5dfdd10`) y en `main` con #13 |
 | F02-T02-FIX02 | `f02-t02-fix02` | `main` | #13 (fusionado) | #14 | fusionada (`07af269`) |
-| F02-T02-FIX03 | `f02-t02-fix03` | `main` | #14 (fusionado) | #15 | en revisión (etapa B) |
+| F02-T02-FIX03 | `f02-t02-fix03` | `main` | #14 (fusionado) | #15 | fusionada (`d7db55c`) |
 
 ### F02-T01 — Base web: TypeScript, Vite, React, Three.js y CI
 
@@ -191,9 +191,9 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | Depende de | PR | Estado |
 |---|---|---|---|---|---|
-| F03-T01 | `f03-t01-simulation` | `main` | F02 (fusionada, con #15) | #16 | en revisión (etapa B) |
-| F03-T02 | `f03-t02-transmission` | `f03-t01-simulation` (#16) | T01 (#16) | #17 | en revisión (etapa B) |
-| F03-T03 | — | — | T02 | — | autor asignado: GPT-6 Astra; fuera de esta sesión |
+| F03-T01 | `f03-t01-simulation` | `main` | F02 (fusionada, con #15) | #16 | fusionada (`0fce7c2`) |
+| F03-T02 | `f03-t02-transmission` | `f03-t01-simulation` (#16) | T01 (#16) | #17 | fusionada (`e49dc5b`) |
+| F03-T03 | `f03-t03-cockpit` | `main` (`e49dc5b`) | T02 fusionada (#17) | pendiente de publicar | implementación y validación |
 | F03-T04 | — | — | T03 | — | pendiente |
 | F03-T05 | — | — | T04 | — | pendiente |
 
@@ -247,9 +247,21 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Comentario y nombres de prueba con expresiones en español: pasan a inglés y citan los ids de regla (`rule.minor.f-handbrake-on-start`, `rule.low.d-engine-stall`).
 - Después del rebase sobre los findings de T01, la vista usa la misma función de cuadro (`driveFrame`) con el auto completo: rampas por paso fijo, comandos antes de los pasos y teclas liberadas al perder el foco la ventana.
 
+
+### F03-T03 — Habitáculo, espejos e instrumental
+
+- Inicio explícito posterior al cierre de T01/T02; se conservó `main` limpia y se trabajó en la rama de tarea existente.
+- Resultado: habitáculo procedural, vista desde el conductor, volante/tablero animados, tres espejos de la escena, mirada, asiento/apoyacabezas, cinturón, instrumental, teclado reasignable y controles en pantalla.
+- Fuentes: `specs/fuentes/pdf/protocolo.pdf`, PDF 9–10 y 18–20. Ajustes y dimensiones identificados como aproximaciones; sin evaluación todavía.
+- Verificaciones: `npm run check` pasó con 268 pruebas y cobertura de 95,07 % en sentencias / 88,89 % en ramas. `npx playwright test --workers=1` pasó: 34 E2E, cero fallos o reintentos. El ajuste final de sentido visual del volante/agujas tiene cuatro pruebas de escena aprobadas y revalidación visual separada.
+- Capturas inspeccionadas: se corrigieron orientación del espejo interior y obstrucción del volante por la carrocería provisional.
+- Revisores: Codex y CodeRabbit pendientes de solicitud al publicar. No se declara revisión independiente completada.
+- Siguiente acción vigente: completar validación y publicar T03. T04 y T05 quedan pendientes de autorización.
+
+
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). Queda F02-T02-FIX03 (#15), desde `main`.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01 y T02 (#16 y #17) están fusionados; T03 parte de `e49dc5b`.
 
 ## Bloqueos
 
@@ -257,7 +269,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Fase 2: revisar los findings de #15 (F02-T02-FIX03) y fusionarlo; con eso se cierra. Fase 3: revisar los findings de T01 (#16) y de T02 (#17), corregirlos y recién entonces pedir las revisiones de Codex.
+Validar y publicar F03-T03, autorizado por el usuario. F03-T04 y T05 no se inician con este pedido. Los findings tardíos de #16 se mantienen explícitos en CONTINUIDAD.
 
 ## Decisiones que no deben reinterpretarse
 

@@ -554,3 +554,192 @@ a {
   border: 1px solid var(--color-ivory-strong);
   border-radius: var(--radius);
 }
+
+/* Driver cabin: the scene stays unobstructed; every control also has a DOM equivalent. */
+.cockpit-shell {
+  border: 1px solid #46606b;
+  border-radius: 18px;
+  background: #14272f;
+  color: #ecf6f3;
+  overflow: hidden;
+  margin-block: 1.5rem;
+}
+.cockpit-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.25rem 0;
+}
+.cockpit-heading span {
+  color: #9dc5c7;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}
+.cockpit-heading strong {
+  font-size: 0.8rem;
+  color: #f4cd82;
+}
+.cockpit-help {
+  font-size: 0.85rem;
+  padding: 0 1.25rem;
+  color: #c8dadd;
+}
+.cockpit-viewport {
+  position: relative;
+}
+.cockpit-shell .driving-canvas {
+  aspect-ratio: 16 / 9;
+  height: auto;
+  min-height: 330px;
+  border: 0;
+  border-radius: 0;
+  touch-action: none;
+}
+.cockpit-digital {
+  position: absolute;
+  pointer-events: none;
+  bottom: 0.65rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 0.45rem 1rem;
+  border-radius: 10px;
+  background: #0a1a23ed;
+  border: 1px solid #557a84;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.cockpit-digital b {
+  font-size: 1.6rem;
+}
+.cockpit-digital strong {
+  font-size: 1.5rem;
+  color: #a4e9d6;
+}
+.cockpit-indicator {
+  color: #f4cd82;
+  font-size: 0.8rem;
+}
+.cockpit-controls {
+  padding: 1rem;
+}
+.cockpit-drive-row,
+.cockpit-look-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+.cockpit-shell button,
+.cockpit-shell select {
+  min-height: 44px;
+  border: 1px solid #78929b;
+  background: #263e48;
+  color: #f2f9f6;
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+  cursor: pointer;
+}
+.cockpit-shell button:hover {
+  background: #365461;
+}
+.cockpit-shell button:active,
+.cockpit-shell button[aria-pressed='true'] {
+  background: #345c53;
+  border-color: #a4e9d6;
+}
+.cockpit-shell .cockpit-hold {
+  touch-action: none;
+  user-select: none;
+  background: #365763;
+  font-weight: 700;
+}
+.cockpit-shell button:focus-visible,
+.cockpit-shell input:focus-visible,
+.cockpit-shell select:focus-visible,
+.cockpit-shell summary:focus-visible {
+  outline: 3px solid #f4cd82;
+  outline-offset: 3px;
+}
+.cockpit-panels {
+  display: grid;
+  gap: 0.7rem;
+}
+.cockpit-panels details {
+  border-top: 1px solid #49616b;
+  padding-block: 0.65rem;
+}
+.cockpit-panels summary {
+  cursor: pointer;
+  padding: 0.4rem;
+  font-weight: 700;
+}
+.cockpit-switches,
+.cockpit-binding-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.5rem;
+  padding-block: 0.8rem;
+}
+.cockpit-switches button span,
+.cockpit-binding-grid kbd {
+  display: block;
+  font-size: 0.75rem;
+  color: #c0d5d8;
+  margin-top: 0.25rem;
+}
+.cockpit-range {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.65rem 0;
+}
+.cockpit-range input {
+  width: 100%;
+  min-height: 32px;
+  accent-color: #a4e9d6;
+}
+.cockpit-select {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.cockpit-panels fieldset {
+  border: 1px solid #67828c;
+  border-radius: 8px;
+  margin-block: 0.65rem;
+}
+.cockpit-shell .muted {
+  color: #bcd0d3;
+  font-size: 0.85rem;
+}
+@media (max-width: 600px) {
+  .cockpit-shell .driving-canvas {
+    aspect-ratio: 4 / 3;
+    min-height: 280px;
+  }
+  .cockpit-digital {
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.55rem;
+  }
+  .cockpit-drive-row > button {
+    flex: 1 1 28%;
+    font-size: 0.85rem;
+  }
+  .cockpit-look-row > button {
+    flex: 1 1 40%;
+    font-size: 0.8rem;
+  }
+  .cockpit-controls {
+    padding: 0.75rem;
+  }
+}
+
+.cockpit-shell a {
+  color: #a4e9d6;
+}

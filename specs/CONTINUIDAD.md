@@ -1,6 +1,6 @@
 # Continuidad del proyecto
 
-Actualizado: 2026-10-11. Estado: fase 1 cerrada; fase 2 en curso. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
+Actualizado: 2026-10-11. Estado: fases 1 y 2 fusionadas; F03-T03 en curso. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
 ## Pedido y alcance de esta etapa
 
@@ -54,11 +54,11 @@ Fusionada en `main` (#1–#4 y #6; detalle en `historial/FASE-1.md`). Resultados
 
 Actualizar este archivo y `ESTADO_IMPLEMENTACION.md` en cada hito.
 
-## Fase 2 en curso
+## Fase 2 fusionada
 
 Iniciada por el usuario el 2026-10-11, con la fase 1 fusionada. Tareas en orden: T01 base web y CI; T02 esquemas y carga de catálogos; T03 navegación, biblioteca y mapa de aprendizaje; T04 motor de actividades con muestra; T05 progreso, bitácora, repaso espaciado y respaldo. Decisiones técnicas en `ARQUITECTURA.md`: versiones exactas con al menos dos semanas de publicadas, TypeScript 6.0 (no 7, por `typescript-eslint`), Three.js sin capa React y escena cargada en forma diferida.
 
-Toda la fase 2 está en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12) F02-T02-FIX01 con T05 (#13; #11 se fusionó dentro de esa rama) y F02-T02-FIX02 (#14). Queda el correctivo F02-T02-FIX03 (#15). En #13 los valores técnicos de los catálogos (`status`, `roadType`) pasaron a inglés; los documentos explican cada valor en español.
+Toda la fase 2 está en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12) F02-T02-FIX01 con T05 (#13; #11 se fusionó dentro de esa rama) y F02-T02-FIX02 (#14). El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`). En #13 los valores técnicos de los catálogos (`status`, `roadType`) pasaron a inglés; los documentos explican cada valor en español.
 
 Decisiones de esta fase que las siguientes no deben reinterpretar:
 
@@ -71,7 +71,7 @@ Decisiones de esta fase que las siguientes no deben reinterpretar:
 
 ## Fase 3 en curso
 
-Iniciada por el usuario el 2026-10-11, solo para F03-T01 y F03-T02: F03-T03 (habitáculo) es de GPT-6 Astra y no se hace en esta sesión. Modo pedido: abrir T01 y T02, después revisar sus findings y recién entonces pedir las revisiones. Decisiones de T01 que no deben reinterpretarse:
+Iniciada por el usuario el 2026-10-11 para F03-T01 y F03-T02, ahora fusionadas. Después autorizó F03-T03 (habitáculo), según la actualización al final de este documento. Modo pedido: abrir T01 y T02, después revisar sus findings y recién entonces pedir las revisiones. Decisiones de T01 que no deben reinterpretarse:
 
 - **Simulación pura y a paso fijo** (`src/sim/`, 120 Hz): nada depende de los FPS ni de React. La vista solo interpola.
 - **Convenciones:** posición = centro del eje trasero; rumbo 0 = +z; positivo = izquierda (+x); velocidad con signo.
@@ -87,3 +87,11 @@ Contenido trazable y completo; reglas con casos y excepciones; navegación carto
 ## Modelos y cuota
 
 El usuario confirmó **Anthropic 200 USD y OpenAI 100 USD**, y aclaró que tiene menos tokens en OpenAI. Ver `ESTRATEGIA_MODELOS.md`: **Opus 5.5 como autor habitual, con GPT-6 Astra asignado a F03-T03, F04-T01 y F06-T03; GPT-6.1 Sol reservado prioritariamente para revisión Codex y ayuda focalizada**. Luna solo con cuota sobrante; Fable y usos adicionales de Astra para escalamiento justificado; F07-T01 usa Astra solo si mediciones justifican un diagnóstico complejo de renderizado. La autorrevisión de Astra no sustituye la revisión Codex separada. Esto sustituye la recomendación previa de Sol como autor habitual. No deducir proporciones de tokens ni el nombre comercial del plan por su precio; consultar uso real y sublímites cuando haga falta. No volver a preguntar los importes confirmados. Fuentes oficiales consultadas el 11/10/2026. No inferir cuota incluida desde precios API.
+
+### Actualización: inicio de F03-T03
+
+El usuario autorizó expresamente «haz un git restore . para que trabajes en main limpia y comienza a implementar F03 T03». Se descartó el cambio sin commit de `drivingLoop.test.ts` en el checkout principal y se dejó `main` limpia en `e49dc5b`, que incluye #16 y #17. Se preservó y continuó el trabajo parcial existente en `f03-t03-cockpit`, con esa misma base. Esta autorización reemplaza la exclusión previa de T03; no inicia T04 ni T05.
+
+T03 incorpora interior procedural, cámara desde el conductor, espejos por reflexión de la escena, tablero y volante animados, preparación e instrumental, mirada, teclado reasignable persistente y mandos en pantalla. Detalles y límites en ARQUITECTURA. Las revisiones y la validación final se registran en ESTADO_IMPLEMENTACION.
+
+Los dos findings tardíos de #16 (pulsaciones entre cuadros y suavizado de la cámara exterior) no se declaran resueltos por esta tarea. El usuario pidió descartar el correctivo local y pasar a T03. La vista nueva usa cámara interior sin suavizado; el muestreo de pedales conserva el adaptador de T02. No se implementó el motor de evaluación ni el primer cruce.
