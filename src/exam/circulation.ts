@@ -523,10 +523,14 @@ export function judgeCirculation(
   next = judgeOvertaking(next, frame, reports);
   const takeover = imminentContact(next, frame);
   const fresh = dedupe(next.reported, reports);
+  // On the last leg, 100 m before the bay, the examiner says the parking comes next (protocolo PDF 24; D10).
+  const toBayM = distanceAlong(circuit, frontS, circuit.bay.frontS);
+  const lastLeg = next.legsEntered >= circuit.legs.length - 1;
   next = {
     ...forget(next, snapshot),
     previousFrontS: frontS,
     notice: noticeOf(frame),
+    parkingAheadM: lastLeg && toBayM >= 0 && toBayM <= CIRCULATION.parkingNoticeM ? toBayM : null,
     takeover: next.takeover || takeover,
     escalatable: next.escalatable.filter((item) => timeS - item.atS <= CIRCULATION.escalatableS),
     reported: fresh.reported,

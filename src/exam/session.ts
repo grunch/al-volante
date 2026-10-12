@@ -4,8 +4,17 @@ import type { Circuit } from './circuit.ts';
 import { createStreet, judgeCirculation, noteGlance } from './circulation.ts';
 import { remember } from './street.ts';
 import type { Report, Street, Verdict } from './circulation.ts';
+import {
+  createParking,
+  judgeDescent,
+  judgeFinalPosition,
+  judgeParkingStep,
+  noteDescentLook,
+  noteParkingLook,
+} from './parking.ts';
+import type { Parking } from './parking.ts';
 import { createRandom, shuffle } from '../activities/random.ts';
-import type { Rule } from '../content/schemas.ts';
+import type { ParkingBand, Rule } from '../content/schemas.ts';
 import { MIRROR_IDS } from '../practice/cockpit.ts';
 import type { CockpitCommand, CockpitState, MirrorId } from '../practice/cockpit.ts';
 import type { CarEvent, CarState } from '../sim/car.ts';
@@ -55,6 +64,8 @@ export type Phase =
   | 'exit'
   | 'firstMetres'
   | 'circulation'
+  | 'parking'
+  | 'leaving'
   | 'finished';
 
 /** What the examiner asks to recognise: a pedal, a gear, a light or an instrument (protocolo PDF 9). */
@@ -103,6 +114,8 @@ interface Manoeuvre {
 
 export interface Session {
   rules: readonly Rule[];
+  /** Distance bands from the kerb of the final position (`parkingBands` of rules.json; V1). */
+  bands: readonly ParkingBand[];
   kind: TransmissionKind;
   seed: number;
   phase: Phase;
@@ -120,6 +133,8 @@ export interface Session {
   };
   /** Stage II on the street: progress, context and the memory every circulation rule needs (circulation.ts). */
   street: Street;
+  /** Stage III: the parking manoeuvre, the final position and the descent (parking.ts). */
+  parking: Parking;
   queue: readonly RecognitionTarget[];
   /** Stage I adjustments made since the recognition began; all three mirrors must be checked (protocolo PDF 9). */
   adjusted: { seat: boolean; headrest: boolean; mirrors: readonly MirrorId[] };
@@ -143,6 +158,7 @@ export interface Session {
 const PEDALS = ['throttle', 'brake', 'clutch'] as const;
 const STAGE_TWO_PHASES: readonly Phase[] = ['unlock', 'reverse', 'forward', 'exit', 'firstMetres', 'circulation'];
 const STREET_PHASES: readonly Phase[] = ['firstMetres', 'circulation'];
+const STAGE_THREE_PHASES: readonly Phase[] = ['parking', 'leaving'];
 const LIGHT_TARGETS: readonly RecognitionTarget[] = [
   'position',
   'low',
@@ -201,9 +217,11 @@ export function createSession(
   kind: TransmissionKind,
   seed: number,
   circuit: Circuit | null = null,
+  bands: readonly ParkingBand[] = [],
 ): Session {
   return {
     rules,
+    bands,
     kind,
     circuit,
     seed,
@@ -214,6 +232,7 @@ export function createSession(
     timeS: 0,
     measurements: { reverseCm: null, forwardCm: null, exitManoeuvres: 0, firstMetresTopKmh: null },
     street: createStreet(circuit),
+    parking: createParking(),
     queue: recognitionQueue(kind, seed),
     adjusted: { seat: false, headrest: false, mirrors: [] },
     pedalsDown: { throttle: false, brake: false, clutch: false },
@@ -233,6 +252,8 @@ const enter = (session: Session, phase: Phase): Session => ({
 });
 const finish = (session: Session): Session => (session.phase === 'finished' ? session : enter(session, 'finished'));
 const inStageTwo = (session: Session) => STAGE_TWO_PHASES.includes(session.phase);
+/** The car is driven in stages II and III: engine, handbrake, stall and contact events are judged. */
+const driving = (session: Session) => inStageTwo(session) || STAGE_THREE_PHASES.includes(session.phase);
 
 /** With 8 points or more before circulating, the exam is interrupted (protocolo PDF 10). */
 function cutoff(session: Session): Session {
@@ -319,7 +340,13 @@ function cockpitAnswer(command: CockpitCommand, after: CockpitState): Recognitio
     case 'signal':
       return command.value === 'off' ? null : command.value === 'left' ? 'signal-left' : 'signal-right';
     case 'toggle':
-      if (command.control === 'belt' || command.control === 'heating' || !after[command.control]) return null;
+      if (
+        command.control === 'belt' ||
+        command.control === 'heating' ||
+        command.control === 'door' ||
+        !after[command.control]
+      )
+        return null;
       return command.control;
     case 'horn':
       return command.value ? 'horn' : null;
@@ -338,15 +365,23 @@ function onCockpit(session: Session, command: CockpitCommand, after: CockpitStat
     const answered = cockpitAnswer(command, after);
     return answered ? judgeRecognition(next, answered) : next;
   }
-  // Taking the belt off during the exam eliminates (eliminatory c).
-  if (inStageTwo(next) && next.movedOff && command.type === 'toggle' && command.control === 'belt' && !after.belt)
+  // Taking the belt off during the exam eliminates (eliminatory c); once parked, it comes off to get out.
+  const beltOff = command.type === 'toggle' && command.control === 'belt' && !after.belt;
+  if (((inStageTwo(next) && next.movedOff) || next.phase === 'parking') && beltOff)
     return fault(next, 'rule.eliminatory.c-no-seatbelt');
   const yaw = Math.abs(after.lookYaw);
-  const { min, max } = GAME_PARAMETERS.mirrorGlanceYawRad;
-  const glance = command.type === 'look' && yaw >= min && yaw <= max;
+  const range = GAME_PARAMETERS.mirrorGlanceYawRad;
+  const glance = command.type === 'look' && yaw >= range.min && yaw <= range.max;
   if (next.phase === 'exit' && glance) return { ...next, exit: { ...next.exit, looked: true } };
   if (STREET_PHASES.includes(next.phase) && glance)
     return { ...next, street: noteGlance(next.street, after.lookYaw, next.timeS) };
+  if (next.phase === 'parking' && command.type === 'look')
+    return { ...next, parking: noteParkingLook(next.parking, after.lookYaw, range) };
+  if (next.phase === 'leaving' && command.type === 'look')
+    return { ...next, parking: noteDescentLook(next.parking, after.lookYaw, range) };
+  // Opening the door ends the exam: the descent is judged at the next step, with the car's state.
+  if (next.phase === 'leaving' && command.type === 'toggle' && command.control === 'door' && after.door)
+    return { ...next, parking: { ...next.parking, doorOpened: true } };
   return next;
 }
 
@@ -373,6 +408,9 @@ function onReady(session: Session): Session {
       if (next.adjusted.mirrors.length < MIRROR_IDS.length) next = fault(next, 'rule.high.a-mirrors-not-checked');
       return cutoff(enter({ ...next, completedStages: [...next.completedStages, 'I'] }, 'unlock'));
     }
+    case 'parking':
+      // "I am done": the final position is measured at the next step, once the car is known to be stopped.
+      return { ...session, parking: { ...session.parking, endRequested: true } };
     default:
       return session;
   }
@@ -520,15 +558,36 @@ export function settleCirculation(session: Session, verdict: Pick<Verdict, 'repo
   }
   const next = applyReports(session, verdict.reports);
   if (next.phase === 'finished') return next;
-  // Back on the first leg after the eighth: stage II is complete. Stage III (parking) is F04-T04.
-  if (verdict.done) return finish({ ...next, completedStages: [...next.completedStages, 'II'] });
+  // Back on the first leg after the eighth: stage II is complete and the parking of stage III begins.
+  if (verdict.done) return enter({ ...next, completedStages: [...next.completedStages, 'II'] }, 'parking');
   return next;
+}
+
+/** Stage III, the manoeuvre: judged every step; the final position when the driver says so, standing still. */
+function onParkingStep(session: Session, car: CarState, cockpit: CockpitState, circuit: Circuit): Session {
+  const { bay } = circuit;
+  const verdict = judgeParkingStep(session.parking, bay, car, cockpit, session.timeS);
+  let next = applyReports({ ...session, parking: verdict.parking }, verdict.reports);
+  if (next.phase === 'finished' || !next.parking.endRequested) return next;
+  // Said while moving, the request is dropped: the manoeuvre ends with the car stopped (protocolo PDF 13).
+  if (car.world.vehicle.speedMps !== 0) return { ...next, parking: { ...next.parking, endRequested: false } };
+  const final = judgeFinalPosition(next.parking, bay, car, next.bands);
+  next = applyReports({ ...next, parking: final.parking }, final.reports);
+  return next.phase === 'finished' ? next : enter(next, 'leaving');
+}
+
+/** Stage III, the descent: judged once, when the door opens; the three stages are then complete. */
+function onLeavingStep(session: Session, car: CarState, cockpit: CockpitState): Session {
+  if (!session.parking.doorOpened) return session;
+  const reports = judgeDescent(session.parking, car, cockpit, session.kind);
+  const next = applyReports(session, reports);
+  return finish({ ...next, completedStages: [...next.completedStages, 'III'] });
 }
 
 function onEvent(session: Session, event: CarEvent): Session {
   if (session.phase === 'recognition') return event.type === 'gear-engaged' ? judgeGear(session, event.gear) : session;
   if (event.type === 'gear-engaged') return { ...session, lastGear: event.gear };
-  if (!inStageTwo(session)) return session;
+  if (!driving(session)) return session;
   switch (event.type) {
     case 'start-refused':
       if (event.reason === 'in-gear') return fault(session, 'rule.minor.e-neutral-check-before-start');
@@ -623,6 +682,8 @@ function onStep(
   if (next.phase === 'exit') return onExitStep(next, car, cockpit);
   if (next.circuit && STREET_PHASES.includes(next.phase))
     return onCirculationStep(next, car, cockpit, scenario ?? null, next.circuit, dt);
+  if (next.circuit && next.phase === 'parking') return onParkingStep(next, car, cockpit, next.circuit);
+  if (next.phase === 'leaving') return onLeavingStep(next, car, cockpit);
   return next;
 }
 

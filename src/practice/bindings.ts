@@ -15,6 +15,7 @@ export const DEFAULT_BINDINGS = {
   hazards: ['KeyV'],
   wipers: ['KeyF'],
   horn: ['KeyH'],
+  door: ['KeyG'],
 } as const;
 export type Action = keyof typeof DEFAULT_BINDINGS;
 export const ACTIONS = Object.keys(DEFAULT_BINDINGS) as Action[];

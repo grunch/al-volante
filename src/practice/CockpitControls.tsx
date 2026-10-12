@@ -88,6 +88,9 @@ export function CockpitControls({
             {copy.actions[action]}
           </button>
         ))}
+        <button type="button" aria-pressed={state.door} onClick={() => invoke('door')}>
+          {copy.actions.door}
+        </button>
       </div>
       <div className="cockpit-look-row" role="group" aria-label={copy.look}>
         {(['glanceLeft', 'lookLeft', 'lookCenter', 'lookRight', 'glanceRight', 'lookBack'] as const).map((action) => (
@@ -100,7 +103,7 @@ export function CockpitControls({
         <details open>
           <summary>{copy.instruments}</summary>
           <div className="cockpit-switches">
-            {(Object.keys(copy.toggles) as Toggle[]).map((control) => (
+            {(Object.keys(copy.toggles) as Exclude<Toggle, 'door'>[]).map((control) => (
               <button
                 type="button"
                 key={control}

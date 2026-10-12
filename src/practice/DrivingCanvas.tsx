@@ -150,6 +150,7 @@ export function DrivingCanvas({
         case 'belt':
         case 'hazards':
         case 'wipers':
+        case 'door':
           command({ type: 'toggle', control: action });
           break;
         case 'lights': {

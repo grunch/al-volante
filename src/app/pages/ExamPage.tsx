@@ -41,12 +41,29 @@ function examinerSays(session: Session, kind: TransmissionKind): string {
     prompt.message === 'reverse' || prompt.message === 'forward' || prompt.message === 'firstMetres'
       ? ` ${copy.phases[`${prompt.message}${kind === 'manual' ? 'Manual' : 'Automatic'}`]}`
       : '';
-  const { instruction } = session.street;
+  const { instruction, parkingAheadM } = session.street;
   const turn =
     (prompt.message === 'firstMetres' || prompt.message === 'circulation') && instruction
       ? ` ${copy.instruction(instruction.turn, instruction.street)}`
       : '';
-  return `${copy.phases[prompt.message]}${detail}${turn}`;
+  // The parking is announced 100 m before the bay, while still circulating (protocolo PDF 24).
+  const notice =
+    prompt.message === 'circulation' && parkingAheadM !== null ? ` ${copy.parkingNotice(parkingAheadM)}` : '';
+  return `${copy.phases[prompt.message]}${detail}${turn}${notice}`;
+}
+
+/** What the driver still has to do before opening the door, read from the car and the cabin at the last step. */
+function descentText(session: Session, kind: TransmissionKind): string {
+  const { parking } = session;
+  const steps = [
+    kind === 'manual' ? copy.descentSteps.neutral : copy.descentSteps.park,
+    copy.descentSteps.handbrake,
+    copy.descentSteps.lightsOff,
+    copy.descentSteps.engineOff,
+    copy.descentSteps.keyOut,
+    `${copy.descentSteps.mirror}${parking.leftMirrorChecked ? ' ✓' : ''}`,
+  ];
+  return steps.join(' · ');
 }
 
 function FaultList({ session, rules, feedback }: { session: Session; rules: readonly Rule[]; feedback: boolean }) {
@@ -91,13 +108,14 @@ function Exam({ content }: { content: Content }) {
   const source = useMemo(() => trafficSourceOf(createTraffic(city, seed)), [city, seed]);
   const circuit = useMemo(() => buildCircuit(city, source.traffic), [city, source]);
   const world = useMemo(() => ({ ...city.world, traffic: source }), [city, source]);
-  const [session, setSession] = useState<Session>(() => createSession(rules, 'manual', DEFAULT_SEED, circuit));
+  const bands = content.rules.parkingBands;
+  const [session, setSession] = useState<Session>(() => createSession(rules, 'manual', DEFAULT_SEED, circuit, bands));
   // The latest session, updated 120 times a second by the steps without re-rendering each time.
   const sessionRef = useRef<Session>(session);
 
   const begin = (kind: TransmissionKind, nextSeed: number) => {
     const nextCircuit = nextSeed === seed ? circuit : buildCircuit(city, createTraffic(city, nextSeed));
-    sessionRef.current = createSession(rules, kind, nextSeed, nextCircuit);
+    sessionRef.current = createSession(rules, kind, nextSeed, nextCircuit, bands);
     setSession(sessionRef.current);
     setTransmission(kind);
     setSeed(nextSeed);
@@ -121,6 +139,12 @@ function Exam({ content }: { content: Content }) {
   const finished = session.phase === 'finished';
   const result = finished ? resultOf(ledger, session.completedStages) : null;
   const cm = (value: number | null) => (value === null ? copy.pendingMeasure : `${formatNumber(value, 0)} cm`);
+  const { parking } = session;
+  const kerb = parking.final ?? parking.kerb;
+  const parkingText =
+    session.phase === 'parking' && parking.startedAtS === null && parking.aheadM !== null
+      ? copy.bayAhead(parking.aheadM)
+      : copy.parkingCountersOf(parking.manoeuvres, parking.attempts);
   const interruptingRule = ledger.interruption?.ruleId
     ? rules.find((rule) => rule.id === ledger.interruption?.ruleId)
     : undefined;
@@ -165,6 +189,16 @@ function Exam({ content }: { content: Content }) {
           {(session.phase === 'familiarisation' || session.phase === 'preparation') && (
             <button type="button" className="button" onClick={() => onObservation({ type: 'ready' })}>
               {copy.ready}
+            </button>
+          )}
+          {session.phase === 'parking' && (
+            <button
+              type="button"
+              className="button"
+              title={copy.parkingDoneHint}
+              onClick={() => onObservation({ type: 'ready' })}
+            >
+              {copy.parkingDone}
             </button>
           )}{' '}
           {!finished && (
@@ -253,6 +287,20 @@ function Exam({ content }: { content: Content }) {
               : copy.noSignalAhead}
           </dd>
         </div>
+        <div>
+          <dt>{copy.parkingCounters}</dt>
+          <dd data-testid="exam-parking">{parkingText}</dd>
+        </div>
+        <div>
+          <dt>{copy.kerbDistance}</dt>
+          <dd data-testid="exam-kerb">{kerb ? copy.kerbDistanceOf(kerb.frontCm, kerb.rearCm) : copy.pendingMeasure}</dd>
+        </div>
+        {session.phase === 'leaving' && (
+          <div>
+            <dt>{copy.descentChecklist}</dt>
+            <dd data-testid="exam-descent">{descentText(session, transmission)}</dd>
+          </div>
+        )}
       </dl>
       {finished && (
         <p role="status" data-testid="exam-result">
@@ -264,7 +312,9 @@ function Exam({ content }: { content: Content }) {
               }${street.takeover ? `${copy.takeover} ` : ''}${copy.results.disapproved}.`
             : result === 'disapproved'
               ? `${copy.results.disapproved}: ${copy.overPoints}`
-              : copy.results.pending}
+              : result === 'approved'
+                ? `${copy.results.approved} ${copy.approvedWith(ledger.points)}`
+                : copy.results.pending}
         </p>
       )}
       <h2>{finished ? copy.feedback : copy.faults}</h2>
@@ -281,8 +331,8 @@ function Exam({ content }: { content: Content }) {
 }
 
 /**
- * The practical exam with the virtual examiner: stage I and the box (F03-T04), the first block (F03-T05) and the
- * whole circulation of route A with its traffic (F04-T03). Stage III, parking, is F04-T04.
+ * The practical exam with the virtual examiner: stage I and the box (F03-T04), the first block (F03-T05), the
+ * whole circulation of route A with its traffic (F04-T03) and the parking with the descent (F04-T04).
  */
 export function ExamPage() {
   return (
