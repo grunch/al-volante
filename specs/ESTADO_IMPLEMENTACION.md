@@ -2,7 +2,7 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-12 (integración de #33 en el correctivo #34).
+Última actualización: 2026-10-12 (correctivo F04-T05-FIX01, #36, con `main` en `f3d2f60`).
 
 ## Fase activa
 
@@ -11,7 +11,8 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
 - **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
 - **Fase 5 — Todo el contenido y simulacros teóricos: tareas fusionadas.** F05-T05 ([#33](https://github.com/grunch/al-volante/pull/33)) se integró en `main` con `9dd6d9e`. Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
-- **F04-T01-FIX02 — experiencia de conducción:** rama `f04-t01-fix02-driving-realism`, base `main` actualizada a `9dd6d9e`, worktree independiente; [#34](https://github.com/grunch/al-volante/pull/34), implementación `404ea74`, validación local previa aprobada; integración de #33 verificada localmente, CI y CodeRabbit pendientes. Pedido puntual posterior a #31; no inicia fase 6.
+- **F04-T01-FIX02 — experiencia de conducción:** rama `f04-t01-fix02-driving-realism`, base `main` actualizada a `9dd6d9e`, worktree independiente; [#34](https://github.com/grunch/al-volante/pull/34), implementación `404ea74`, validación local previa aprobada; integración de #33 verificada localmente; fusionado en `main` (`f3d2f60`). Pedido puntual posterior a #31; no inicia fase 6.
+- **F04-T05-FIX01 — guía de manejo del examen práctico:** [#36](https://github.com/grunch/al-volante/pull/36), rama `f04-t05-fix01-driving-guide`, abierto. Pedido puntual del usuario; no inicia fase 6. Detalle en la sección de la tarea.
 - **F04-T01-FIX01 — referencias visuales, fusionado en `9bc0257`:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
 - **F04-T01-FIX04 — E2E con margen para WebGL por software:** rama `f04-t01-fix04-e2e-budgets`, desde `main` (`f3d2f60`). Repara la CI roja de `main` tras #34 (tiempos de reloj justos, sin error de código); #35 y #36 lo integran.
 - Fases 6–7: no iniciadas.
@@ -338,6 +339,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | fusionada en `main` (`cefe7b2`); findings de `f2624a4`, `b551baa` y siguientes corregidos |
 | F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | fusionada en `main` (`b36fe55`); findings de `f7b9398` y siguientes corregidos |
 | F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | fusionado en `main` (`367b484`); findings de Codex (`3327a92`, `bbea36a`, `7c010ff`) y CodeRabbit (`e048648`) resueltos |
+| F04-T05-FIX01 | `f04-t05-fix01-driving-guide` | `main` (`9dd6d9e`) | [#36](https://github.com/grunch/al-volante/pull/36) | abierto: guía de manejo del examen práctico; revisiones solicitadas |
 
 ### F04-T01 — Ciudad y recorrido completo
 
@@ -432,6 +434,33 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisiones sobre `f7b9398` (etapa B, 2026-10-12). CI: las fallas eran las heredadas de #23/#24, corregidas allí. Codex, 3 findings, corregidos: (1) una práctica que terminaba con 8 puntos, interrumpida o pedida por el aspirante salía «desaprobado» y se guardaba con `correct: false`; `buildCard` deja pendiente toda sesión que no abarca las tres etapas (D15); (2) en la práctica de la etapa III, el tramo 8 manejado en `circulation` caía en la etapa II, fuera de alcance; `stageOf` asigna las fases anteriores al alcance a su primera etapa, en la ficha y en las fallas; (3) el paso a `recognition` no quedaba en `transitions` ni en los eventos del intento; ahora entra con `enter`. Pruebas nuevas en `card.test.ts` que fallan sin cada cambio. Al rebasar se integraron la toma de control síncrona, el semáforo según el aviso y el cierre idempotente de #24 con los modos (las ayudas siguen ocultas en «rendir»). CodeRabbit no revisó por cuota; se vuelve a pedir.
 - CI sobre `83562c4`: el E2E «offers the four modes…» agotó sus 30 s en el runner sin un error de la página. La traza muestra cada comprobación a ~1,3 s por el render por software y el pedido de interrupción empezando a los 26 s. El bloque de modos tiene ahora 120 s, como el E2E de manejo de la ciudad; local: 12 E2E de `exam.spec.ts` aprobados (escritorio y Pixel 7 emulado).
 - Para la fase 5 y F06-T01: la sesión terminada queda en `sessionRef` de `ExamPage` y se persiste como `Attempt` `driving` con `events` (`phase`, `stage-completed`, `interruption`, `finished`) y `faults`; no se graban entradas ni estados por paso, así que la repetición (F06-T01) necesita su propia grabación. Los modos se eligen por URL; un reintento desde un estado intermedio debe crear la sesión con `enter` en la fase deseada y restaurar auto, cabina, tránsito (`TrafficState`) y `Session` completos.
+
+### F04-T05-FIX01 — Guía de manejo del examen práctico
+
+- Pedido del usuario (2026-10-12): «incluye intrucciones clara para el manejo en el examen practico». Es un correctivo de F04-T05 (modos y panel guiado), no inicia la fase 6. Base `main` (`9dd6d9e`), rama `f04-t05-fix01-driving-guide`.
+- Problema: la página `#/examen` no explicaba cómo manejar. Las teclas solo aparecían en el modo aprender, como una línea por fase, y dos indicaciones eran incorrectas. El espejo izquierdo se indicaba con «U o J», pero J gira toda la cabeza (1,3 rad), fuera del rango del espejo (0,25–0,9 rad, D4/X6), y no cuenta: seguirla daba la falla de espejos en la salida del cajón y en el descenso. Además, «R» se leía como una tecla, cuando es la marcha a la que se llega con Q.
+- Resultado:
+  - «Qué hacer ahora», junto a la consigna del examinador: la acción concreta de la fase actual con sus teclas, según la caja elegida.
+  - «Cómo manejar en el examen» (desplegable, antes de la vista): la referencia de teclas, en los cuatro modos, y el paso a paso de las etapas en juego, con el paso actual marcado (`aria-current="step"`). La referencia explica pedales, volante, caja, llave, luces, espejos frente a giro de cabeza, vista y puerta.
+  - Los textos usan las teclas que el jugador configuró: `DrivingCanvas` informa sus asignaciones (`onBindingsChange`) y `keyNames` las nombra.
+  - Cada paso dice lo que la sesión juzga: el selector «Iluminación» para no pasar por una luz intermedia en el reconocimiento, la dirección hacia la marcha pedida, el embrague o el freno solos en los 30 cm, la direccional y el espejo antes de moverse, las balizas 3 s antes de la doble fila y la mirada antes de retroceder y durante el retroceso.
+- Decisión (D15 actualizada en REGLAS.md §7): el paso a paso es una ayuda nueva, `steps`. Se muestra en aprender, practicar y recorrer, y se oculta en rendir. La referencia de teclas se ve en los cuatro modos porque es del juego y no del examen. El panel del modo aprender conserva «Qué se evalúa ahora» y la última falla; su antiguo «Cómo hacerlo» pasa a ser el paso a paso.
+- Hallazgo de jugabilidad, sin corregir en este PR y comunicado al usuario: los 30 cm en manual son muy difíciles con el teclado. Se midió con una sonda temporal sobre la simulación real y `stepControls`, que no queda versionada. Si se suelta Shift hasta el final, el auto retrocede unos 10 cm y se cala. Si se vuelve a pisar Shift después de que el auto empieza a moverse, la medición depende de la demora:
+
+  | Demora | Retroceso | Avance |
+  |---|---|---|
+  | 0,1 s | 7 cm | 8 cm |
+  | 0,15 s | — | 28 cm |
+  | 0,2 s | 35 cm | 74 cm |
+  | 0,3 s | se cala | se cala |
+
+  El margen útil es de unos 0,05 s. En la automática, volver a frenar unos 0,65–0,8 s después de que el auto se mueve da 20–40 cm en los dos sentidos; a los 0,95 s, el avance llega a 44 cm. La guía indica «unos tres cuartos de segundo» y avisa que en manual la maniobra es fina. Resolverlo requiere un cambio de controles o una lectura de la distancia en vivo, que queda a decisión del usuario.
+- Verificación local:
+  - `npm run check`: lint, formato, tipos, 1375 de 1375 pruebas (cobertura 96,09 % de sentencias, 90,55 % de ramas, 95,24 % de funciones y 97,09 % de líneas), contenido OK y build OK.
+  - `npx playwright test tests/e2e/exam.spec.ts --workers=1`: 12 de 12 E2E (escritorio y Pixel 7 emulado).
+  - Navegador (Chromium de Playwright, 1280×900 y 412×915): la guía abierta, «Qué hacer ahora» y el modo rendir sin paso a paso; sin desborde horizontal ni errores de consola.
+- PR [#36](https://github.com/grunch/al-volante/pull/36), implementación `d73a185`. CodeRabbit: automática al abrir el PR; no revisó por el límite de revisiones incluidas («Review limit reached») y se vuelve a pedir cuando se libere. Codex: completada sobre `d2e7386` (revisión 5496225183), con dos findings documentales, ambos corregidos: faltaba la entrada en CONTINUIDAD y este registro daba F05-T05 por abierta (la integración de `main` trae la fila y la fase activa al día, y se actualizaron #34 y los bloqueos).
+- Integración de `main` (`f3d2f60`, con #34) por merge, sin reescribir historia. El único conflicto fue este registro. #34 cambió el volante con teclas: a más velocidad gira menos, y al soltar la tecla vuelve al centro más despacio que antes. La referencia de teclas dice que gira menos cuanto más rápido se va. Pedales, embrague y freno no cambiaron, así que las mediciones de los 30 cm siguen valiendo.
 
 ## Correctivo F04-T01-FIX02 — Experiencia de conducción
 
@@ -545,11 +574,11 @@ Fase 5: la pila `main ← F04-T04-FIX01 (#27) ← F05-T01 ← F05-T02 ← F05-T0
 
 ## Bloqueos
 
-El correctivo #31 ya fue fusionado por el usuario en `9bc0257`. F04-T01-FIX02: CI de la base actualizada y CodeRabbit pendientes; no fusionar sin checks aprobados y findings resueltos. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31.
+El correctivo #31 ya fue fusionado por el usuario en `9bc0257` y F04-T01-FIX02 (#34) en `f3d2f60`. F04-T05-FIX01 (#36): no fusionar sin checks aprobados y findings resueltos; CodeRabbit está limitado por cuota. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31.
 
 ## Siguiente acción
 
-Fase 5 y correctivo #31 fusionados. Correctivo F04-T01-FIX02 ([#34](https://github.com/grunch/al-volante/pull/34)): completar CI y revisión CodeRabbit sobre la integración de `main` (`9dd6d9e`). Codex completó la revisión de la implementación sin observaciones. Fase 6 requiere inicio explícito del usuario; este correctivo no modifica el worktree de Opus.
+La fase 4, la fase 5 (F05-T05, #33 en `main`, `9dd6d9e`) y los correctivos #31 y F04-T01-FIX02 ([#34](https://github.com/grunch/al-volante/pull/34), `f3d2f60`) están fusionados. En curso: el correctivo F04-T05-FIX01 ([#36](https://github.com/grunch/al-volante/pull/36), guía de manejo del examen práctico), pedido por el usuario; resolver los findings de Codex y CodeRabbit. La fase 6 requiere orden explícita del usuario.
 
 ### Cierre de la fase 4 contra el plan
 

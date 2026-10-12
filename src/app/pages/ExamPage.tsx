@@ -5,6 +5,7 @@ import type { Content } from '../../content/validate.ts';
 import { buildCard } from '../../exam/card.ts';
 import { buildCircuit } from '../../exam/circuit.ts';
 import type { Circuit } from '../../exam/circuit.ts';
+import { guideSteps } from '../../exam/guide.ts';
 import type { Notice } from '../../exam/circulation.ts';
 import {
   DRIVING_MODES,
@@ -22,6 +23,9 @@ import type { Aid, DrivingMode } from '../../exam/modes.ts';
 import type { Stage } from '../../exam/scoring.ts';
 import { createPracticeSession, createSession, observe } from '../../exam/session.ts';
 import type { Observation, Session } from '../../exam/session.ts';
+import { DEFAULT_BINDINGS } from '../../practice/bindings.ts';
+import type { Bindings } from '../../practice/bindings.ts';
+import { keyNames } from '../../practice/keyLabels.ts';
 import { createDrivingAttempt } from '../../progress/model.ts';
 import { useProgress } from '../../progress/ProgressProvider.tsx';
 import { RendererContext } from '../../scene/RendererContext.ts';
@@ -30,7 +34,9 @@ import { createTraffic, trafficSourceOf } from '../../traffic/traffic.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
 import { EXAM_COPY as copy, formatNumber } from '../../i18n/es-AR.ts';
+import { DRIVING_GUIDE_COPY as guideCopy } from '../../i18n/drivingGuide.ts';
 import { ExamCardView, FaultItem, FaultList } from './ExamCardView.tsx';
+import { ExamGuide } from './ExamGuide.tsx';
 
 // Three.js stays in its own chunk, as on the home page.
 const ExamDrive = lazy(() => import('../../city/ExamDrive.tsx').then((module) => ({ default: module.ExamDrive })));
@@ -87,7 +93,7 @@ function descentText(session: Session, kind: TransmissionKind): string {
   return steps.join(' · ');
 }
 
-/** Guided learning: what the current phase checks, how to do it, and the last fault explained as it happens. */
+/** Guided learning: what the current phase checks, and the last fault explained as it happens. */
 function LearnPanel({ session }: { session: Session }) {
   const hints = copy.learnHints[session.phase];
   const last = session.ledger.faults.at(-1);
@@ -96,9 +102,6 @@ function LearnPanel({ session }: { session: Session }) {
     <section className="exam-learn" data-testid="exam-hints" aria-live="polite">
       <p>
         <b>{copy.learnChecks}:</b> {hints.checks}
-      </p>
-      <p>
-        <b>{copy.learnHow}:</b> {hints.hint}
       </p>
       {last && rule && (
         <div data-testid="exam-last-fault">
@@ -121,6 +124,9 @@ function Exam({ content }: { content: Content }) {
   const [seed, setSeed] = useState(DEFAULT_SEED);
   const [resetCount, setResetCount] = useState(0);
   const [saveState, setSaveState] = useState<SaveState>('idle');
+  // The keys the driver bound in the cabin, so the guide names the ones that work.
+  const [bindings, setBindings] = useState<Bindings>(DEFAULT_BINDINGS);
+  const keys = useMemo(() => keyNames(bindings), [bindings]);
   // The city, its seeded traffic and the circuit the examiner reads; the seed recreates the traffic.
   const city = useMemo(() => buildCity(content.route), [content.route]);
   const source = useMemo(() => trafficSourceOf(createTraffic(city, seed)), [city, seed]);
@@ -226,6 +232,7 @@ function Exam({ content }: { content: Content }) {
       ? copy.bayAhead(parking.aheadM)
       : copy.parkingCountersOf(parking.manoeuvres, parking.attempts);
   const currentLeg = city.legs.find((leg) => leg.number === street.leg);
+  const step = session.phase === 'finished' ? null : session.phase;
   return (
     <>
       <fieldset className="choice" data-testid="exam-mode">
@@ -298,6 +305,11 @@ function Exam({ content }: { content: Content }) {
         <p data-testid="examiner-says" data-phase={session.phase} data-mode={mode}>
           {examinerSays(session, transmission)}
         </p>
+        {show('steps') && step && (
+          <p data-testid="exam-how">
+            <b>{guideCopy.now}:</b> {guideCopy.steps[step].how(keys, transmission)}
+          </p>
+        )}
         <p>
           {(session.phase === 'familiarisation' || session.phase === 'preparation') && (
             <button type="button" className="button" onClick={() => onObservation({ type: 'ready' })}>
@@ -328,6 +340,13 @@ function Exam({ content }: { content: Content }) {
           </button>
         </p>
       </section>
+      <ExamGuide
+        keys={keys}
+        kind={transmission}
+        steps={guideSteps(session.scope)}
+        current={step}
+        showSteps={show('steps')}
+      />
       {show('hints') && <LearnPanel session={session} />}
       <Suspense fallback={<p className="scene-canvas__status">{copy.loading}</p>}>
         <ExamDrive
@@ -341,6 +360,7 @@ function Exam({ content }: { content: Content }) {
           onObservation={onObservation}
           onTelemetry={onTelemetry}
           halted={isHalted}
+          onBindingsChange={setBindings}
           {...(createRenderer ? { createRenderer } : {})}
         />
       </Suspense>

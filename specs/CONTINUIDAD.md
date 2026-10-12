@@ -201,6 +201,16 @@ Las CI de las fusiones de #25 y #26 quedaron canceladas y `main` tenía rojas la
 - **El conductor de prueba cede a ciclistas** (`src/test/circuitDriver.ts`): antes de la línea espera a los que vienen por el lado del giro y a los que van a cruzar el pavimento que va a atravesar. Las distancias que usa (hasta 25 m detrás, a menos de 8 m hacia el lado del giro, proyección de hasta 3 s) son heurísticas del guion, no umbrales del protocolo; la obligación de ceder es la falla l (`protocolo.pdf`, PDF 12, 16, 17 y 29; manual PDF 35).
 - Las vueltas guionadas son sensibles a los tiempos: un cambio del conductor de prueba o del tránsito puede llevar a la semilla 1 a situaciones nuevas. Correr `street.test.ts`, `parkingStreet.test.ts` y `src/traffic` antes de fusionar cualquier cambio de esas capas, y no fusionar con la CI cancelada.
 
+## F04-T05-FIX01: guía de manejo del examen práctico
+
+Pedido puntual del usuario (2026-10-12): «incluye intrucciones clara para el manejo en el examen practico». PR [#36](https://github.com/grunch/al-volante/pull/36), desde `main`; no inicia la fase 6. Decisiones que no deben reinterpretarse:
+
+- **D15 ampliada:** el paso a paso (`steps`) es una ayuda; se ve en aprender, practicar y recorrer, y se oculta en rendir. La referencia de teclas se ve en los cuatro modos porque es del juego, no del examen. «Qué hacer ahora» va junto a la consigna del examinador; el panel de aprender conserva solo «Qué se evalúa ahora» y la última falla.
+- **Nunca escribir letras de teclas fijas en instrucciones de manejo:** los textos (`src/i18n/drivingGuide.ts`) son funciones de `keyNames(bindings)`, y `DrivingCanvas` informa las asignaciones del jugador con `onBindingsChange`. Si se agrega una acción o un paso, se agrega su texto con la misma firma.
+- **Espejos:** solo las teclas de mirada corta (`glanceLeft` y `glanceRight`, 0,5 rad) cuentan como mirar un espejo (D4). Girar la cabeza (`lookLeft` y `lookRight`, 1,3 rad) no cuenta (X6), aunque mirar atrás sí vale al estacionar marcha atrás. `guide.test.ts` impide indicar el espejo con el giro de cabeza.
+- **Cada paso describe lo que juzga la sesión** (`session.ts`, `parking.ts`, `circulation.ts`). Si cambia una regla o un umbral, revisar el texto del paso correspondiente.
+- **Limitación abierta, a decisión del usuario:** en manual, los 30 cm son casi imposibles con el teclado. El embrague sube a 0,6/s y la mordida útil dura unos 0,05 s: volver a pisar Shift 0,1 s después de que el auto se mueve da 7–8 cm, 0,2 s da 35–74 cm y 0,3 s cala el motor. En la automática, frenar 0,65–0,8 s después da 20–40 cm. Las cifras completas están en `ESTADO_IMPLEMENTACION.md`. Arreglarlo exige cambiar los controles (por ejemplo, un embrague que sostenga el punto de acople) o mostrar la distancia en vivo; no hacerlo sin pedido del usuario.
+
 ## Fase 5: todo el contenido y simulacros teóricos
 
 Iniciada por el usuario el 2026-10-12 con la fase 4 fusionada: «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Etapa A: T01–T05 apiladas, sin esperar revisiones. El método, los estados y las decisiones están en `CONTENIDO.md`; no reinterpretar:
