@@ -3,6 +3,7 @@ import { Layout } from './Layout.tsx';
 import { ActivitiesPage } from './pages/ActivitiesPage.tsx';
 import { ActivityPage } from './pages/ActivityPage.tsx';
 import { ExamPage } from './pages/ExamPage.tsx';
+import { GaragePage } from './pages/GaragePage.tsx';
 import { LogbookPage } from './pages/LogbookPage.tsx';
 import { TrackPage } from './pages/TrackPage.tsx';
 import { CityPage } from './pages/CityPage.tsx';
@@ -11,6 +12,7 @@ import { LearningMapPage } from './pages/LearningMapPage.tsx';
 import { LibraryPage } from './pages/LibraryPage.tsx';
 import { NotFoundPage } from './pages/NotFoundPage.tsx';
 import { SectionPage } from './pages/SectionPage.tsx';
+import { SignsPage } from './pages/SignsPage.tsx';
 import { SourcePage } from './pages/SourcePage.tsx';
 
 /** Route table shared by the hash router (app) and memory routers (tests). */
@@ -29,6 +31,8 @@ export const routes: RouteObject[] = [
       { path: '/recorrido', element: <CityPage /> },
       { path: '/biblioteca', element: <LibraryPage /> },
       { path: '/biblioteca/:source/:page', element: <SourcePage /> },
+      { path: '/senales', element: <SignsPage /> },
+      { path: '/garaje', element: <GaragePage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

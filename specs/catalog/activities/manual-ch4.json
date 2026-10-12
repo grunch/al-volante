@@ -1,0 +1,2677 @@
+[
+  {
+    "id": "act.capacity-fitness-and-drugs",
+    "type": "single-choice",
+    "title": "Aptitud para conducir y drogas",
+    "unitIds": [
+      "manual.ch4.driving-aptitude",
+      "manual.ch4.impairing-factors",
+      "manual.ch4.drug-definition",
+      "manual.ch4.drug-saliva-test"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 90
+      },
+      {
+        "source": "manual",
+        "page": 94
+      },
+      {
+        "source": "manual",
+        "page": 95
+      }
+    ],
+    "explanation": "La aptitud para conducir se considera disminuida cuando se alteran la coordinación motora, la atención, la percepción sensorial o el juicio crítico; por eso el Estado toma un examen psicofísico antes de entregar la licencia. Los factores que impiden o disminuyen el buen ejercicio de conducir son el alcohol y las drogas, el sueño y la fatiga, el estrés y las distracciones. Droga es toda sustancia que altera el sistema nervioso central y puede crear dependencia: también lo son el alcohol y algunos medicamentos. Los estupefacientes se detectan con un dispositivo que se coloca en la boca, en contacto con la saliva (manual PDF 90).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "aptitude",
+        "prompt": "Según el manual, ¿cuándo se considera disminuida la aptitud para conducir?",
+        "options": [
+          {
+            "id": "altered",
+            "text": "Cuando se alteran la coordinación, la atención, la percepción o el juicio",
+            "correct": true,
+            "feedback": "¡Correcto! La aptitud baja cuando se altera la coordinación motora, la atención, la percepción sensorial o el juicio crítico, y eso cambia el comportamiento habitual (manual PDF 90)."
+          },
+          {
+            "id": "chronic",
+            "text": "Solo cuando la persona tiene una enfermedad crónica diagnosticada",
+            "correct": false,
+            "feedback": "No solo eso. También influyen las enfermedades de corta duración y algunos estados anímicos; lo que cuenta es si se alteran la coordinación, la atención, la percepción o el juicio (manual PDF 90)."
+          },
+          {
+            "id": "illegal",
+            "text": "Solo cuando la persona consumió drogas ilegales antes de manejar",
+            "correct": false,
+            "feedback": "Las drogas ilegales son un caso, pero no el único: el alcohol, algunos medicamentos o una enfermedad también pueden alterar la coordinación, la atención, la percepción o el juicio (manual PDF 90)."
+          },
+          {
+            "id": "experience",
+            "text": "Cuando la persona tiene poca experiencia manejando en la ciudad",
+            "correct": false,
+            "feedback": "La experiencia no define la aptitud. Se considera disminuida cuando se alteran la coordinación motora, la atención, la percepción sensorial o el juicio crítico (manual PDF 90)."
+          }
+        ]
+      },
+      {
+        "id": "psychophysical",
+        "prompt": "¿Para qué toma el Estado un examen psicofísico antes de entregar una licencia de conducir?",
+        "options": [
+          {
+            "id": "fitness",
+            "text": "Para poner a prueba la aptitud de quien aspira a conducir",
+            "correct": true,
+            "feedback": "¡Exacto! Como la salud y algunos estados anímicos influyen en la conducción, el Estado pone a prueba la capacidad de la persona aspirante con un examen psicofísico (manual PDF 90)."
+          },
+          {
+            "id": "signs",
+            "text": "Para comprobar que conocés las señales de tránsito",
+            "correct": false,
+            "feedback": "No. El psicofísico no evalúa normas ni señales: pone a prueba la capacidad de la persona aspirante, porque la salud influye en la conducción (manual PDF 90)."
+          },
+          {
+            "id": "car",
+            "text": "Para verificar que el auto está en condiciones de circular",
+            "correct": false,
+            "feedback": "No. El psicofísico evalúa a la persona, no al vehículo: pone a prueba su aptitud para conducir (manual PDF 90)."
+          },
+          {
+            "id": "driving",
+            "text": "Para ver cómo manejás en la calle, con tránsito real",
+            "correct": false,
+            "feedback": "No es una prueba de manejo. El psicofísico evalúa la capacidad de la persona: coordinación, atención, percepción y juicio (manual PDF 90)."
+          }
+        ]
+      },
+      {
+        "id": "factors",
+        "prompt": "¿Cuál de estas listas reúne los factores que, según el manual, impiden o disminuyen el buen ejercicio de conducir?",
+        "options": [
+          {
+            "id": "right",
+            "text": "Alcohol y drogas, sueño y fatiga, estrés y distracciones",
+            "correct": true,
+            "feedback": "¡Bien! Son los cuatro factores que enumera el manual, y el capítulo desarrolla cada uno (manual PDF 90)."
+          },
+          {
+            "id": "weather",
+            "text": "Alcohol y drogas, lluvia y niebla, tránsito y bocinazos",
+            "correct": false,
+            "feedback": "No. Lluvia, niebla y tránsito son condiciones del entorno. Los factores del manual son alcohol y drogas, sueño y fatiga, estrés y distracciones (manual PDF 90)."
+          },
+          {
+            "id": "vehicle",
+            "text": "Velocidad, frenos gastados, calles rotas y poca luz",
+            "correct": false,
+            "feedback": "No. Esos son riesgos del vehículo o de la vía. Lo que disminuye la capacidad de conducir es el alcohol y las drogas, el sueño y la fatiga, el estrés y las distracciones (manual PDF 90)."
+          },
+          {
+            "id": "age",
+            "text": "Sueño y fatiga, edad avanzada, ruido y poca experiencia",
+            "correct": false,
+            "feedback": "Sueño y fatiga sí están, pero la lista completa del manual es: alcohol y drogas, sueño y fatiga, estrés y distracciones (manual PDF 90)."
+          }
+        ]
+      },
+      {
+        "id": "alcohol-drug",
+        "prompt": "Según la definición del manual, ¿el alcohol es una droga?",
+        "options": [
+          {
+            "id": "yes",
+            "text": "Sí: es una droga legal que altera el sistema nervioso",
+            "correct": true,
+            "feedback": "¡Correcto! Droga es toda sustancia que altera el funcionamiento del sistema nervioso central y puede crear dependencia. No son solo las ilegales: también el alcohol y algunos medicamentos (manual PDF 90)."
+          },
+          {
+            "id": "illegal",
+            "text": "No: solo son drogas las sustancias prohibidas por ley",
+            "correct": false,
+            "feedback": "No. El manual aclara que no se trata solo de drogas ilegales, sino también de las legales, como el alcohol y algunos medicamentos (manual PDF 90)."
+          },
+          {
+            "id": "excess",
+            "text": "Solo si se toma en exceso o todos los días de la semana",
+            "correct": false,
+            "feedback": "No. Lo que hace del alcohol una droga es que altera el sistema nervioso central y puede crear dependencia, no la frecuencia con que se toma (manual PDF 90)."
+          },
+          {
+            "id": "mixed",
+            "text": "Solo cuando se lo mezcla con algún medicamento",
+            "correct": false,
+            "feedback": "No. El alcohol es una droga por sí mismo: altera el sistema nervioso central y puede crear dependencia (manual PDF 90)."
+          }
+        ]
+      },
+      {
+        "id": "saliva",
+        "prompt": "En un control te piden colocar un dispositivo en la boca y mantenerlo en contacto con la saliva. ¿Qué detecta?",
+        "options": [
+          {
+            "id": "drugs",
+            "text": "La presencia de estupefacientes",
+            "correct": true,
+            "feedback": "¡Correcto! Es el instrumento de detección de estupefacientes: se retira la tapa, se inserta en la boca en contacto con la saliva y da positivo si los detecta (manual PDF 90)."
+          },
+          {
+            "id": "fatigue",
+            "text": "Tu nivel de cansancio o fatiga",
+            "correct": false,
+            "feedback": "No. Este dispositivo detecta estupefacientes. La fatiga se reconoce por sus síntomas, como bostezos, ojos pesados o cabeceos (manual PDF 90 y 94)."
+          },
+          {
+            "id": "sugar",
+            "text": "Tu nivel de azúcar en la sangre",
+            "correct": false,
+            "feedback": "No. No es un control médico: el dispositivo de saliva detecta la presencia de estupefacientes (manual PDF 90)."
+          },
+          {
+            "id": "tobacco",
+            "text": "Si fumaste tabaco antes de salir",
+            "correct": false,
+            "feedback": "No. Fumar al volante distrae y ocupa una mano, pero este dispositivo detecta estupefacientes (manual PDF 90 y 95)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-medication-decisions",
+    "type": "decision",
+    "title": "Medicamentos que dan sueño",
+    "unitIds": [
+      "manual.ch4.medication-effects"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 90
+      }
+    ],
+    "explanation": "Algunos medicamentos afectan la capacidad de conducir, como los de prescripción con efectos sedantes que se usan para inducir el sueño: pueden tener efectos residuales en las primeras horas de la mañana aunque los hayas tomado la noche anterior. Siempre hay que leer el prospecto, donde figura la advertencia si afecta la capacidad de conducir, y consultar a un/a médico/a ante cualquier duda (manual PDF 90).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "morning",
+        "start": "wake",
+        "nodes": {
+          "wake": {
+            "text": "Anoche tomaste un medicamento recetado para dormir. Son las 7 y tenés que ir manejando al trabajo; te sentís un poco lento/a.",
+            "choices": [
+              {
+                "id": "leaflet",
+                "text": "Leo el prospecto antes de decidir si manejo",
+                "next": "warning"
+              },
+              {
+                "id": "go",
+                "text": "Salgo igual: lo tomé anoche y el efecto ya pasó",
+                "outcome": "residual"
+              },
+              {
+                "id": "slow",
+                "text": "Salgo, pero manejo más despacio que de costumbre",
+                "outcome": "slow"
+              }
+            ]
+          },
+          "warning": {
+            "text": "El prospecto advierte que el medicamento puede afectar la capacidad de conducir.",
+            "choices": [
+              {
+                "id": "no-drive",
+                "text": "No manejo y le consulto al médico cómo seguir",
+                "outcome": "good"
+              },
+              {
+                "id": "short",
+                "text": "Manejo igual: son pocas cuadras y voy con cuidado",
+                "outcome": "short"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Leíste el prospecto y respetaste su advertencia. Los sedantes para dormir pueden tener efectos residuales a la mañana; ante cualquier duda, consultá a un/a médico/a (manual PDF 90)."
+          },
+          "residual": {
+            "correct": false,
+            "feedback": "Ojo: los medicamentos sedantes para dormir pueden tener efectos residuales en las primeras horas de la mañana, aunque los hayas tomado la noche anterior. Primero leé el prospecto (manual PDF 90)."
+          },
+          "slow": {
+            "correct": false,
+            "feedback": "Ir más despacio no resuelve el problema. Si el medicamento afecta tu capacidad de conducir, el prospecto lo advierte: leelo y, ante la duda, consultá a un/a médico/a (manual PDF 90)."
+          },
+          "short": {
+            "correct": false,
+            "feedback": "El prospecto advierte que afecta la capacidad de conducir, y eso no cambia por ser pocas cuadras ni por ir con cuidado. Consultá a un/a médico/a ante cualquier duda (manual PDF 90)."
+          }
+        }
+      },
+      {
+        "id": "new-prescription",
+        "start": "prescription",
+        "nodes": {
+          "prescription": {
+            "text": "Te recetaron un medicamento nuevo y esta tarde tenés que manejar. No sabés si afecta la conducción.",
+            "choices": [
+              {
+                "id": "read-ask",
+                "text": "Leo el prospecto y, si tengo dudas, consulto al médico",
+                "outcome": "good"
+              },
+              {
+                "id": "wait",
+                "text": "Lo tomo y, si no me da sueño enseguida, manejo",
+                "outcome": "no-sleep"
+              },
+              {
+                "id": "friend",
+                "text": "Le pregunto a un amigo que tomó algo parecido",
+                "outcome": "friend"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Muy bien! En el prospecto figura la advertencia si el medicamento afecta la capacidad de conducir, y el/la médico/a puede aclararte cualquier duda (manual PDF 90)."
+          },
+          "no-sleep": {
+            "correct": false,
+            "feedback": "No sentir sueño en el momento no alcanza: algunos medicamentos afectan la capacidad de conducir y sus efectos pueden durar horas. Leé el prospecto y consultá al médico (manual PDF 90)."
+          },
+          "friend": {
+            "correct": false,
+            "feedback": "Lo que le pasó a otra persona no te dice cómo te afecta a vos. La información está en el prospecto, y ante cualquier inquietud hay que consultar a un/a médico/a (manual PDF 90)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-alcohol-effects",
+    "type": "single-choice",
+    "title": "Efectos del alcohol al volante",
+    "unitIds": [
+      "manual.ch4.alcohol-effects"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 91
+      },
+      {
+        "source": "manual",
+        "page": 92
+      }
+    ],
+    "explanation": "El alcohol es una droga depresora del sistema nervioso central. Reduce la capacidad de reacción y aumenta el tiempo para responder ante un estímulo, disminuye la visión periférica y la resistencia al deslumbramiento, altera la coordinación y la atención, da exceso de confianza, baja las inhibiciones y produce somnolencia. Estos efectos aparecen en mayor o menor medida según la concentración de alcohol en sangre, que se mide en gramos por litro (manual PDF 91).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "depressant",
+        "prompt": "¿Qué tipo de droga es el alcohol, según el manual?",
+        "options": [
+          {
+            "id": "depressant",
+            "text": "Una droga depresora del sistema nervioso central",
+            "correct": true,
+            "feedback": "¡Correcto! Por eso reduce la capacidad de reacción, altera la coordinación y la atención y produce somnolencia (manual PDF 91)."
+          },
+          {
+            "id": "stimulant",
+            "text": "Una droga estimulante que agiliza los reflejos",
+            "correct": false,
+            "feedback": "Al revés: el alcohol es depresor del sistema nervioso central y reduce la capacidad de reacción (manual PDF 91)."
+          },
+          {
+            "id": "none",
+            "text": "Una sustancia que no actúa sobre el sistema nervioso",
+            "correct": false,
+            "feedback": "No. El alcohol actúa sobre el sistema nervioso central: es una droga depresora (manual PDF 91)."
+          },
+          {
+            "id": "mixed",
+            "text": "Una droga que solo actúa mezclada con medicamentos",
+            "correct": false,
+            "feedback": "No. El alcohol actúa por sí solo: es una droga depresora del sistema nervioso central (manual PDF 91)."
+          }
+        ]
+      },
+      {
+        "id": "vision",
+        "prompt": "¿Qué le pasa a tu vista si manejás después de tomar alcohol?",
+        "options": [
+          {
+            "id": "worse",
+            "text": "Ves menos hacia los costados y resistís peor el encandilamiento",
+            "correct": true,
+            "feedback": "¡Exacto! El alcohol disminuye la visión periférica y deteriora la resistencia al deslumbramiento (manual PDF 91)."
+          },
+          {
+            "id": "night",
+            "text": "Ves mejor de noche, porque se dilatan las pupilas",
+            "correct": false,
+            "feedback": "No. El manual no menciona ninguna mejora: el alcohol reduce la visión periférica y la resistencia al deslumbramiento (manual PDF 91)."
+          },
+          {
+            "id": "nothing",
+            "text": "Nada: el alcohol afecta los reflejos, pero no la vista",
+            "correct": false,
+            "feedback": "No. Además de los reflejos, el alcohol disminuye la visión periférica y deteriora la resistencia al deslumbramiento (manual PDF 91)."
+          },
+          {
+            "id": "sides",
+            "text": "Ves mejor a los costados, aunque te cuesta leer carteles",
+            "correct": false,
+            "feedback": "Al revés: el alcohol disminuye la visión periférica, la que te deja ver hacia los costados (manual PDF 91)."
+          }
+        ]
+      },
+      {
+        "id": "confidence",
+        "prompt": "Después de unas copas, Martín dice que se siente «más seguro que nunca» para manejar. ¿Qué explica el manual?",
+        "options": [
+          {
+            "id": "overconfidence",
+            "text": "El alcohol da exceso de confianza y baja las inhibiciones",
+            "correct": true,
+            "feedback": "¡Correcto! El exceso de confianza y la disminución de las inhibiciones son efectos del alcohol: esa seguridad es engañosa (manual PDF 91)."
+          },
+          {
+            "id": "fine",
+            "text": "Si se siente seguro, sus reflejos no están afectados",
+            "correct": false,
+            "feedback": "No. Sentirse seguro es justamente un efecto del alcohol, que al mismo tiempo reduce la capacidad de reacción (manual PDF 91)."
+          },
+          {
+            "id": "focus",
+            "text": "Con poco alcohol mejora la concentración al volante",
+            "correct": false,
+            "feedback": "No. El alcohol perturba la atención y la asociación de ideas; sus efectos están presentes en mayor o menor medida según la concentración (manual PDF 91)."
+          },
+          {
+            "id": "gone",
+            "text": "Sentirse seguro indica que ya eliminó el alcohol",
+            "correct": false,
+            "feedback": "No. Esa sensación es un efecto del alcohol, no una señal de que se eliminó: la eliminación lleva tiempo (manual PDF 91 y 92)."
+          }
+        ]
+      },
+      {
+        "id": "reaction",
+        "prompt": "¿Qué efecto tiene el alcohol sobre tu tiempo de reacción?",
+        "options": [
+          {
+            "id": "longer",
+            "text": "Lo aumenta: tardás más en responder ante un estímulo",
+            "correct": true,
+            "feedback": "¡Bien! El alcohol reduce la capacidad de reacción y aumenta el tiempo necesario para responder ante un estímulo (manual PDF 91)."
+          },
+          {
+            "id": "shorter",
+            "text": "Lo reduce: reaccionás más rápido, aunque con menos precisión",
+            "correct": false,
+            "feedback": "Al revés: el alcohol aumenta el tiempo que tardás en responder ante un estímulo (manual PDF 91)."
+          },
+          {
+            "id": "same",
+            "text": "Ninguno: solo afecta la vista y el equilibrio",
+            "correct": false,
+            "feedback": "No. El primer efecto que menciona el manual es la reducción de la capacidad de reacción, con más tiempo para responder (manual PDF 91)."
+          },
+          {
+            "id": "glasses",
+            "text": "Solo lo cambia si tomaste más de tres copas",
+            "correct": false,
+            "feedback": "No. El manual no fija un número de copas: los efectos están presentes en mayor o menor medida según la concentración en sangre (manual PDF 91)."
+          }
+        ]
+      },
+      {
+        "id": "concentration",
+        "prompt": "¿De qué depende que los efectos del alcohol sean mayores o menores?",
+        "options": [
+          {
+            "id": "concentration",
+            "text": "De su concentración: los gramos de alcohol por litro de sangre",
+            "correct": true,
+            "feedback": "¡Correcto! Los efectos están presentes en mayor o menor medida según la concentración, que se mide en gramos de alcohol por litro de sangre (manual PDF 91)."
+          },
+          {
+            "id": "drink-type",
+            "text": "Solo del tipo de bebida: el vino afecta menos que otras",
+            "correct": false,
+            "feedback": "No. El tipo de bebida influye en cuánto alcohol se absorbe, pero los efectos dependen de la concentración en sangre (manual PDF 91 y 92)."
+          },
+          {
+            "id": "mood",
+            "text": "Del estado de ánimo con que se toma",
+            "correct": false,
+            "feedback": "No. Los efectos dependen de la concentración de alcohol en sangre, medida en gramos por litro (manual PDF 91)."
+          },
+          {
+            "id": "hour",
+            "text": "De la hora del día en que se toma",
+            "correct": false,
+            "feedback": "No. Lo que marca cuánto te afecta es la concentración: los gramos de alcohol por litro de sangre (manual PDF 91)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-alcohol-in-the-body",
+    "type": "single-choice",
+    "title": "El alcohol en el organismo",
+    "unitIds": [
+      "manual.ch4.alcohol-metabolism-factors",
+      "manual.ch4.alcohol-elimination",
+      "manual.ch4.hangover-veisalgia"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 92
+      },
+      {
+        "source": "manual",
+        "page": 93
+      }
+    ],
+    "explanation": "El grado de alcoholización depende del tipo de bebida, la cantidad, los alimentos en el estómago, el peso, la cantidad de sangre, la grasa corporal y el funcionamiento hepático: por eso no se puede saber cuánto tomar para quedar en una concentración determinada, y la regla es «si tomaste alcohol, no manejes» (manual PDF 92). El alcohol se elimina por vía hepática, renal y pulmonar; tras dejar de tomar, la concentración sigue subiendo durante la primera hora y después baja de a poco, y los efectos duran hasta eliminar todo rastro. La resaca, o veisalgia, altera la coordinación, la atención y el tiempo de reacción: manejar con resaca es equiparable a manejar alcoholizado/a (PDF 93).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "calculate",
+        "prompt": "Un amigo calcula que, con su peso, puede tomar dos cervezas y quedar por debajo del límite de alcohol. ¿Qué dice el manual?",
+        "options": [
+          {
+            "id": "unknowable",
+            "text": "Que no se puede saber: cada organismo y ocasión dan otro resultado",
+            "correct": true,
+            "feedback": "¡Correcto! Influyen el tipo de bebida, la cantidad, la comida, el peso, la sangre, la grasa corporal y el hígado, así que no hay forma de calcularlo. Si tomaste alcohol, no manejes (manual PDF 92)."
+          },
+          {
+            "id": "weight",
+            "text": "Que tiene razón: alcanza con calcularlo según el peso corporal",
+            "correct": false,
+            "feedback": "No. El peso es solo uno de los factores; también influyen la bebida, la comida, la grasa corporal y el funcionamiento hepático. No se puede saber de antemano (manual PDF 92)."
+          },
+          {
+            "id": "food",
+            "text": "Que tiene razón, siempre que coma algo antes de empezar a tomar",
+            "correct": false,
+            "feedback": "No. La comida influye en la absorción, pero no permite calcular la concentración: cada organismo y cada circunstancia dan un resultado distinto (manual PDF 92)."
+          },
+          {
+            "id": "beer",
+            "text": "Que tiene razón si toma cerveza y no otra bebida más fuerte",
+            "correct": false,
+            "feedback": "No. El tipo de bebida es un factor más, pero no alcanza para saber qué concentración vas a tener (manual PDF 92)."
+          }
+        ]
+      },
+      {
+        "id": "factor",
+        "prompt": "¿Cuál de estos factores influye en el grado de alcoholización, según el manual?",
+        "options": [
+          {
+            "id": "food",
+            "text": "Que haya alimentos en el estómago",
+            "correct": true,
+            "feedback": "¡Bien! La presencia de alimentos en el estómago es uno de los factores, junto con el tipo de bebida, la cantidad, el peso, la cantidad de sangre, la grasa corporal y el funcionamiento hepático (manual PDF 92)."
+          },
+          {
+            "id": "hour",
+            "text": "La hora del día en que se toma",
+            "correct": false,
+            "feedback": "No figura entre los factores. El manual menciona tipo de bebida, cantidad, alimentos en el estómago, peso, cantidad de sangre, grasa corporal y funcionamiento hepático (manual PDF 92)."
+          },
+          {
+            "id": "temperature",
+            "text": "Si la bebida se toma fría o natural",
+            "correct": false,
+            "feedback": "No. La temperatura de la bebida no está en la lista; sí lo están, por ejemplo, la comida en el estómago, el peso y la grasa corporal (manual PDF 92)."
+          },
+          {
+            "id": "posture",
+            "text": "Si se toma de pie o sentado/a",
+            "correct": false,
+            "feedback": "No. La postura no figura entre los factores. Influyen la bebida, la cantidad, la comida, el peso, la sangre, la grasa corporal y el hígado (manual PDF 92)."
+          }
+        ]
+      },
+      {
+        "id": "first-hour",
+        "prompt": "Dejaste de tomar alcohol hace un rato. ¿Qué pasa con la concentración en tu sangre durante la primera hora?",
+        "options": [
+          {
+            "id": "rises",
+            "text": "Sigue subiendo, y después baja de a poco",
+            "correct": true,
+            "feedback": "¡Exacto! En promedio, la concentración sigue subiendo durante la primera hora y luego desciende paulatinamente (manual PDF 92)."
+          },
+          {
+            "id": "drops",
+            "text": "Empieza a bajar apenas dejás de tomar",
+            "correct": false,
+            "feedback": "No. En promedio, durante la primera hora la concentración sigue subiendo; recién después empieza a bajar (manual PDF 92)."
+          },
+          {
+            "id": "zero",
+            "text": "Vuelve a cero en pocos minutos",
+            "correct": false,
+            "feedback": "No. La concentración no baja a cero de un momento a otro: la eliminación lleva tiempo, y en la primera hora todavía sube (manual PDF 92)."
+          },
+          {
+            "id": "flat",
+            "text": "Queda igual hasta que te vas a dormir",
+            "correct": false,
+            "feedback": "No. Sigue subiendo durante la primera hora y después baja de a poco, a medida que el organismo elimina el alcohol (manual PDF 92)."
+          }
+        ]
+      },
+      {
+        "id": "elimination",
+        "prompt": "¿Por qué vías elimina el alcohol el organismo, fundamentalmente?",
+        "options": [
+          {
+            "id": "routes",
+            "text": "Por el hígado, los riñones y los pulmones",
+            "correct": true,
+            "feedback": "¡Correcto! La eliminación es fundamentalmente hepática, renal y a través de los pulmones, y lleva su tiempo (manual PDF 92)."
+          },
+          {
+            "id": "lungs",
+            "text": "Solo por los pulmones, al respirar",
+            "correct": false,
+            "feedback": "No solo por ahí. La eliminación se realiza fundamentalmente por vía hepática, renal y pulmonar (manual PDF 92)."
+          },
+          {
+            "id": "sweat",
+            "text": "Solo por la transpiración",
+            "correct": false,
+            "feedback": "No. El alcohol se elimina fundamentalmente por el hígado, los riñones y los pulmones (manual PDF 92)."
+          },
+          {
+            "id": "stomach",
+            "text": "Por el estómago, al comer algo después",
+            "correct": false,
+            "feedback": "No. Los alimentos influyen en la absorción, pero la eliminación es hepática, renal y pulmonar (manual PDF 92)."
+          }
+        ]
+      },
+      {
+        "id": "hangover",
+        "prompt": "Anoche tomaste mucho alcohol y hoy tenés resaca. ¿Qué dice el manual sobre manejar así?",
+        "options": [
+          {
+            "id": "same",
+            "text": "Que es equiparable a manejar alcoholizado/a",
+            "correct": true,
+            "feedback": "¡Correcto! La resaca, o veisalgia, altera la coordinación, la atención y el tiempo de reacción. Por eso manejar con resaca es equiparable a manejar en estado de alcoholización (manual PDF 93)."
+          },
+          {
+            "id": "slept",
+            "text": "Que no hay riesgo si dormiste unas horas",
+            "correct": false,
+            "feedback": "No. El alcohol tarda en eliminarse y sus efectos siguen hasta que no queda rastro; además, la resaca altera la coordinación y la reacción (manual PDF 92 y 93)."
+          },
+          {
+            "id": "discomfort",
+            "text": "Que es un malestar que no afecta la conducción",
+            "correct": false,
+            "feedback": "No. La resaca tiene efectos en el organismo: altera la coordinación, la atención y el tiempo de reacción (manual PDF 93)."
+          },
+          {
+            "id": "slow",
+            "text": "Que alcanza con manejar más despacio",
+            "correct": false,
+            "feedback": "No. Manejar con resaca es equiparable a manejar alcoholizado/a: ir más despacio no quita la alteración de la coordinación, la atención y la reacción (manual PDF 93)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-alcohol-after-drinking-order",
+    "type": "ordering",
+    "title": "Qué pasa con el alcohol después de la última copa",
+    "unitIds": [
+      "manual.ch4.alcohol-elimination"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 92
+      }
+    ],
+    "explanation": "En promedio, una vez que se dejó de tomar, la concentración de alcohol en sangre sigue subiendo durante la primera hora y luego baja paulatinamente, porque eliminarlo por vía hepática, renal y pulmonar lleva tiempo. Los efectos no terminan con la última copa: duran hasta que se eliminó todo rastro de alcohol, y por eso manejar al día siguiente de un consumo excesivo también es riesgoso (manual PDF 92).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "curve",
+        "prompt": "Ordená lo que pasa con el alcohol en tu sangre desde que dejás de tomar.",
+        "items": [
+          {
+            "id": "stop",
+            "text": "Dejás de tomar alcohol",
+            "reason": "Es el punto de partida, pero no el final: los efectos no terminan con la última copa (manual PDF 92)."
+          },
+          {
+            "id": "rise",
+            "text": "Durante la primera hora, la concentración sigue subiendo",
+            "reason": "En promedio, la concentración continúa subiendo durante la primera hora después de dejar de tomar (manual PDF 92)."
+          },
+          {
+            "id": "fall",
+            "text": "Después empieza a bajar de a poco",
+            "reason": "Recién entonces desciende paulatinamente: la eliminación por el hígado, los riñones y los pulmones lleva tiempo (manual PDF 92)."
+          },
+          {
+            "id": "clear",
+            "text": "Los efectos terminan cuando se eliminó todo rastro",
+            "reason": "Los efectos se extienden hasta eliminar todo rastro del organismo; por eso también es riesgoso manejar al día siguiente (manual PDF 92)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-zero-alcohol",
+    "type": "single-choice",
+    "title": "Alcohol cero y alcoholemia en otras zonas",
+    "unitIds": [
+      "manual.ch4.alcohol-limits-by-driver-type",
+      "manual.ch4.alcohol-limits-other-jurisdictions",
+      "manual.ch4.alcohol-metabolism-factors"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 91
+      },
+      {
+        "source": "manual",
+        "page": 92
+      },
+      {
+        "source": "manual",
+        "page": 47
+      }
+    ],
+    "explanation": "En la tabla «Límites de alcohol en sangre para conducir» del manual, principiantes y profesionales tienen 0,00 g/l: no pueden manejar con nada de alcohol en sangre, y quien es principiante lo cumple durante sus dos primeros años (manual PDF 91 y 47). La tabla también muestra 0,20 g/l para motociclistas y 0,50 g/l para particulares y para «acompañante», según la Ley 2148 de la Ciudad: esos valores no se evalúan, porque no pudimos confirmar si siguen vigentes frente a la ley nacional de alcohol cero, así que tomalos solo como consulta. Fuera de la Ciudad, cada provincia y municipio tiene autonomía normativa y tenés que conocer el límite de la zona (PDF 91). La regla segura vale en todos lados: si tomaste alcohol, no manejes (PDF 92).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "beginner",
+        "prompt": "Sacaste tu primera licencia hace unos meses: sos principiante. Según la tabla del manual, ¿cuánto alcohol en sangre podés tener al manejar?",
+        "options": [
+          {
+            "id": "zero",
+            "text": "Nada: 0,00 g/l",
+            "correct": true,
+            "feedback": "¡Correcto! Para principiantes el límite es 0,00 g/l: ni una copa. Rige durante los dos años de principiante (manual PDF 91 y 47)."
+          },
+          {
+            "id": "wait",
+            "text": "Un poco, si esperás una hora antes de salir",
+            "correct": false,
+            "feedback": "No. Como principiante tenés que manejar con 0,00 g/l. Además, durante la primera hora después de tomar la concentración sigue subiendo (manual PDF 91 y 92)."
+          },
+          {
+            "id": "tolerance",
+            "text": "Lo que tu cuerpo tolere sin sentirte mal",
+            "correct": false,
+            "feedback": "No. Sentirte bien no indica nada, porque el alcohol da exceso de confianza. Para principiantes el límite es 0,00 g/l (manual PDF 91)."
+          },
+          {
+            "id": "food",
+            "text": "Una copa, siempre que hayas comido",
+            "correct": false,
+            "feedback": "No. La comida cambia la absorción, pero tu límite como principiante es 0,00 g/l: nada de alcohol (manual PDF 91 y 92)."
+          }
+        ]
+      },
+      {
+        "id": "professional",
+        "prompt": "Trabajás como chofer profesional. ¿Qué límite de alcohol en sangre te marca la tabla del manual?",
+        "options": [
+          {
+            "id": "zero",
+            "text": "0,00 g/l: nada de alcohol en sangre",
+            "correct": true,
+            "feedback": "¡Correcto! En la tabla, profesionales y principiantes tienen 0,00 g/l (manual PDF 91)."
+          },
+          {
+            "id": "shift",
+            "text": "Depende de cuántas horas faltan para tu turno",
+            "correct": false,
+            "feedback": "No. El límite no depende del horario: para profesionales es 0,00 g/l (manual PDF 91)."
+          },
+          {
+            "id": "weight",
+            "text": "Depende de tu peso y de lo que comiste",
+            "correct": false,
+            "feedback": "No. El peso y la comida cambian la absorción, pero no tu límite: como profesional es 0,00 g/l (manual PDF 91 y 92)."
+          },
+          {
+            "id": "employer",
+            "text": "El que fije la empresa para la que manejás",
+            "correct": false,
+            "feedback": "No. El límite no lo fija el empleador: para profesionales la tabla del manual indica 0,00 g/l (manual PDF 91)."
+          }
+        ]
+      },
+      {
+        "id": "who-zero",
+        "prompt": "En la tabla de límites de alcohol del manual, ¿quiénes tienen un límite de 0,00 g/l?",
+        "options": [
+          {
+            "id": "both",
+            "text": "Principiantes y profesionales",
+            "correct": true,
+            "feedback": "¡Correcto! Principiantes y profesionales no pueden manejar con nada de alcohol en sangre (manual PDF 91)."
+          },
+          {
+            "id": "beginners",
+            "text": "Solo principiantes",
+            "correct": false,
+            "feedback": "Falta una parte: profesionales también tienen 0,00 g/l (manual PDF 91)."
+          },
+          {
+            "id": "professionals",
+            "text": "Solo profesionales",
+            "correct": false,
+            "feedback": "Falta una parte: principiantes también tienen 0,00 g/l, durante sus dos primeros años (manual PDF 91 y 47)."
+          },
+          {
+            "id": "six-months",
+            "text": "Principiantes, solo los primeros 6 meses",
+            "correct": false,
+            "feedback": "No. Los 6 meses son para el cartel de principiante; el 0,00 g/l rige durante los dos años, y también para profesionales (manual PDF 91 y 47)."
+          }
+        ]
+      },
+      {
+        "id": "other-province",
+        "prompt": "Vas a manejar por otra provincia. Según el manual, ¿qué tenés que saber sobre la alcoholemia?",
+        "options": [
+          {
+            "id": "local-limit",
+            "text": "Cuál es el límite de alcoholemia que rige en esa zona",
+            "correct": true,
+            "feedback": "¡Correcto! Cada provincia y municipio tiene autonomía normativa, así que tenés que conocer el límite de la zona por la que circulás (manual PDF 91)."
+          },
+          {
+            "id": "same",
+            "text": "Nada: en todo el país rige el mismo límite que en la Ciudad",
+            "correct": false,
+            "feedback": "No. El manual aclara que cada provincia y municipio tiene autonomía normativa: tenés que conocer el límite de la zona (manual PDF 91)."
+          },
+          {
+            "id": "license",
+            "text": "Que rige el límite de la provincia que te dio la licencia",
+            "correct": false,
+            "feedback": "No. Importa la zona por la que circulás, no dónde sacaste la licencia: cada provincia y municipio tiene autonomía normativa (manual PDF 91)."
+          },
+          {
+            "id": "no-checks",
+            "text": "Nada: fuera de la Ciudad no se controla la alcoholemia",
+            "correct": false,
+            "feedback": "No. El manual pide conocer el límite de alcoholemia de cada zona, porque cada provincia y municipio tiene su propia normativa (manual PDF 91)."
+          }
+        ]
+      },
+      {
+        "id": "safe-rule",
+        "prompt": "¿Cuál es la regla más segura que da el manual sobre el alcohol y la conducción?",
+        "options": [
+          {
+            "id": "dont-drive",
+            "text": "Si tomaste alcohol, no manejes",
+            "correct": true,
+            "feedback": "¡Correcto! Como no se puede saber qué concentración vas a tener, la regla es simple: si tomaste alcohol, no manejes (manual PDF 92)."
+          },
+          {
+            "id": "eat-wait",
+            "text": "Si tomaste, comé algo y esperá una hora",
+            "correct": false,
+            "feedback": "No. La comida y el tiempo no permiten calcular la concentración, y en la primera hora todavía sube. Si tomaste alcohol, no manejes (manual PDF 92)."
+          },
+          {
+            "id": "light",
+            "text": "Tomá solo bebidas de baja graduación",
+            "correct": false,
+            "feedback": "No. El tipo de bebida es solo uno de los factores y no permite saber qué concentración vas a tener. Si tomaste alcohol, no manejes (manual PDF 92)."
+          },
+          {
+            "id": "slow",
+            "text": "Si tomaste, manejá despacio y con cuidado",
+            "correct": false,
+            "feedback": "No. El alcohol reduce la capacidad de reacción y da exceso de confianza, vayas a la velocidad que vayas. Si tomaste alcohol, no manejes (manual PDF 91 y 92)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-alcohol-table-icon",
+    "type": "sign-identification",
+    "title": "Ícono de la tabla de alcoholemia",
+    "unitIds": [
+      "manual.ch4.alcohol-limits-by-driver-type"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 91
+      },
+      {
+        "source": "manual",
+        "page": 47
+      }
+    ],
+    "explanation": "En la tabla «Límites de alcohol en sangre para conducir» del manual, cada columna tiene un ícono: la «P» blanca sobre un cuadrado verde corresponde a principiante, el colectivo a profesional, la persona en moto a motociclista y el auto a particular (manual PDF 91). Principiantes y profesionales tienen 0,00 g/l: no pueden conducir con nada de alcohol en sangre, y quien es principiante lo cumple durante sus dos primeros años (PDF 47). Los demás valores de la tabla no se evalúan, porque no pudimos confirmar si siguen vigentes frente a la ley nacional de alcohol cero.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "beginner-p",
+        "signId": "sign.ch4.other.beginner-driver-p",
+        "prompt": "Este ícono encabeza una columna de la tabla de límites de alcohol en sangre del manual. ¿A quién corresponde?",
+        "options": [
+          {
+            "id": "beginner",
+            "text": "Principiante",
+            "correct": true,
+            "feedback": "¡Correcto! La «P» verde corresponde a principiante, que tiene un límite de 0,00 g/l: no puede manejar con nada de alcohol en sangre (manual PDF 91)."
+          },
+          {
+            "id": "professional",
+            "text": "Profesional",
+            "correct": false,
+            "feedback": "No. En la tabla, profesional se identifica con el ícono de un colectivo. La «P» verde es la de principiante, que también tiene 0,00 g/l (manual PDF 91)."
+          },
+          {
+            "id": "motorcyclist",
+            "text": "Motociclista",
+            "correct": false,
+            "feedback": "No. Motociclista se identifica con el ícono de una persona en moto; la «P» verde es la de principiante (manual PDF 91)."
+          },
+          {
+            "id": "private",
+            "text": "Particular",
+            "correct": false,
+            "feedback": "No. Particular se identifica con el ícono de un auto; la «P» verde corresponde a principiante (manual PDF 91)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-night-out-decisions",
+    "type": "decision",
+    "title": "Una noche con alcohol",
+    "unitIds": [
+      "manual.ch4.designated-driver",
+      "manual.ch4.alcohol-elimination",
+      "manual.ch4.hangover-veisalgia",
+      "manual.ch4.alcohol-test-refusal"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 91
+      },
+      {
+        "source": "manual",
+        "page": 92
+      },
+      {
+        "source": "manual",
+        "page": 93
+      }
+    ],
+    "explanation": "Si vas a un encuentro donde se toma alcohol, lo mejor es designar a un/a conductor/a responsable: alguien que se compromete a no tomar y lleva a cada persona a su destino (manual PDF 93). Si tomaste, no manejes: después de dejar de tomar, la concentración sigue subiendo durante la primera hora y los efectos duran hasta eliminar todo rastro de alcohol, por eso también es riesgoso manejar al día siguiente (PDF 92). La resaca altera la coordinación, la atención y la reacción: manejar así es equiparable a manejar alcoholizado/a (PDF 93). Y si en un control te negás a la prueba, se presume alcoholemia positiva: no podés seguir manejando y el vehículo se remueve (PDF 92).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "dinner",
+        "start": "plan",
+        "nodes": {
+          "plan": {
+            "text": "Esta noche vas en tu auto a una cena con amigos donde va a haber vino y cerveza. ¿Cómo organizan la vuelta?",
+            "choices": [
+              {
+                "id": "designated",
+                "text": "Elegimos a alguien que no tome y nos lleve a cada uno",
+                "next": "end"
+              },
+              {
+                "id": "see-later",
+                "text": "Vemos al final de la noche cómo estamos",
+                "next": "later"
+              }
+            ]
+          },
+          "end": {
+            "text": "Al final de la noche, quien se comprometió a manejar te dice que tomó «solo una copa» y que está bien.",
+            "choices": [
+              {
+                "id": "other-way",
+                "text": "No maneja: buscamos otra forma de volver",
+                "outcome": "good"
+              },
+              {
+                "id": "let",
+                "text": "Lo dejamos manejar: una copa no se nota",
+                "outcome": "one-glass"
+              }
+            ]
+          },
+          "later": {
+            "text": "Tomaste dos copas de vino. Ya es tarde y tu auto está en la puerta.",
+            "choices": [
+              {
+                "id": "leave-car",
+                "text": "Dejo el auto y vuelvo sin manejar",
+                "outcome": "good-late"
+              },
+              {
+                "id": "wait-hour",
+                "text": "Espero una hora tomando agua y después manejo",
+                "outcome": "first-hour"
+              },
+              {
+                "id": "slow",
+                "text": "Manejo despacio por calles tranquilas",
+                "outcome": "slow"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien hecho! El/la conductor/a responsable se compromete a no tomar alcohol. Si no cumplió, no maneja: no hay forma de saber qué concentración tiene, y los efectos siguen después de tomar (manual PDF 92 y 93)."
+          },
+          "one-glass": {
+            "correct": false,
+            "feedback": "El compromiso de quien maneja es no tomar nada. No se puede saber qué concentración da una copa en cada organismo: si tomó alcohol, no maneja (manual PDF 92 y 93)."
+          },
+          "good-late": {
+            "correct": true,
+            "feedback": "Bien: si tomaste alcohol, no manejes (manual PDF 92). La próxima, organizá la vuelta desde el principio con un/a conductor/a responsable que no tome (PDF 93)."
+          },
+          "first-hour": {
+            "correct": false,
+            "feedback": "Después de dejar de tomar, la concentración sigue subiendo durante la primera hora y luego baja de a poco: esperar una hora no te deja en condiciones de manejar (manual PDF 92)."
+          },
+          "slow": {
+            "correct": false,
+            "feedback": "El alcohol reduce la capacidad de reacción y da exceso de confianza aunque vayas despacio. Si tomaste alcohol, no manejes (manual PDF 91 y 92)."
+          }
+        }
+      },
+      {
+        "id": "next-morning",
+        "start": "morning",
+        "nodes": {
+          "morning": {
+            "text": "Anoche tomaste mucho en un cumpleaños y dormiste unas horas. A la mañana te duele la cabeza y tenés que ir manejando a hacer un trámite.",
+            "choices": [
+              {
+                "id": "no-drive",
+                "text": "No manejo: busco otra forma de llegar",
+                "outcome": "good"
+              },
+              {
+                "id": "slept",
+                "text": "Manejo: mientras dormía se eliminó el alcohol",
+                "outcome": "elimination"
+              },
+              {
+                "id": "careful",
+                "text": "Manejo con cuidado: la resaca es solo un malestar",
+                "outcome": "hangover"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! La eliminación del alcohol lleva tiempo y sus efectos siguen hasta que no queda rastro. Además, manejar con resaca es equiparable a manejar alcoholizado/a (manual PDF 92 y 93)."
+          },
+          "elimination": {
+            "correct": false,
+            "feedback": "No es así: la concentración no baja a cero de un momento a otro y los efectos duran hasta eliminar todo rastro de alcohol. Por eso manejar al día siguiente de un consumo excesivo también es riesgoso (manual PDF 92)."
+          },
+          "hangover": {
+            "correct": false,
+            "feedback": "La resaca no es solo un malestar: altera la coordinación, la atención y el tiempo de reacción. Manejar así es equiparable a manejar alcoholizado/a (manual PDF 93)."
+          }
+        }
+      },
+      {
+        "id": "checkpoint",
+        "start": "stop",
+        "nodes": {
+          "stop": {
+            "text": "Volvés manejando de una reunión y te para un control de alcoholemia. Te piden hacer la prueba.",
+            "choices": [
+              {
+                "id": "test",
+                "text": "Hago la prueba como me indican",
+                "outcome": "good"
+              },
+              {
+                "id": "refuse",
+                "text": "Me niego: sin prueba no me pueden sancionar",
+                "outcome": "refused"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "Correcto. Los controles usan instrumentos certificados y calibrados, y negarte no te salvaría de nada: se presumiría alcoholemia positiva (manual PDF 92 y 93)."
+          },
+          "refused": {
+            "correct": false,
+            "feedback": "Al revés: si te negás, se presume alcoholemia positiva. La autoridad te prohíbe seguir conduciendo y ordena remover el vehículo (manual PDF 92)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-alcohol-checks",
+    "type": "single-choice",
+    "title": "Controles de alcoholemia y de estupefacientes",
+    "unitIds": [
+      "manual.ch4.alcohol-test-refusal",
+      "manual.ch4.positive-alcohol-test-procedure",
+      "manual.ch4.testing-instruments-and-equal-procedure"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 92
+      },
+      {
+        "source": "manual",
+        "page": 93
+      }
+    ],
+    "explanation": "Ante una alcoholemia positiva se sanciona la falta administrativa y contravencional si la hubiese, se retiene la licencia y se remite el vehículo para que la persona no siga conduciendo. Si alguien se niega a la prueba, la autoridad le prohíbe seguir conduciendo y ordena remover el vehículo, porque se presume alcoholemia positiva (manual PDF 92). Los controles usan instrumentos certificados y calibrados, y ante un resultado positivo o una negativa el procedimiento es el mismo para alcohol que para estupefacientes (PDF 93).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "refusal",
+        "prompt": "En un control, una conductora se niega a hacer la prueba de alcoholemia. ¿Qué hace la autoridad de control?",
+        "options": [
+          {
+            "id": "stop-remove",
+            "text": "Le prohíbe seguir conduciendo y ordena remover el vehículo",
+            "correct": true,
+            "feedback": "¡Correcto! Al negarse, se presume que la alcoholemia es positiva: no puede seguir conduciendo y el vehículo se remueve (manual PDF 92)."
+          },
+          {
+            "id": "lets-go",
+            "text": "La deja seguir: sin prueba no se puede comprobar nada",
+            "correct": false,
+            "feedback": "No. Negarse no evita las consecuencias: se presume alcoholemia positiva, se le prohíbe seguir conduciendo y se remueve el vehículo (manual PDF 92)."
+          },
+          {
+            "id": "tomorrow",
+            "text": "Le pide que se presente al día siguiente a hacer la prueba",
+            "correct": false,
+            "feedback": "No. La autoridad actúa en el momento: le prohíbe continuar conduciendo y ordena la remoción del vehículo (manual PDF 92)."
+          },
+          {
+            "id": "warning",
+            "text": "Le hace una advertencia y la deja seguir hasta su casa",
+            "correct": false,
+            "feedback": "No. La negativa hace presumir alcoholemia positiva: no puede seguir manejando y el vehículo se remueve (manual PDF 92)."
+          }
+        ]
+      },
+      {
+        "id": "positive",
+        "prompt": "Un control da alcoholemia positiva. ¿Qué procedimiento indica el manual?",
+        "options": [
+          {
+            "id": "full",
+            "text": "Sancionar la falta, retener la licencia y remitir el vehículo",
+            "correct": true,
+            "feedback": "¡Correcto! Se sanciona la falta administrativa y contravencional si la hubiese, se retiene la licencia y se remite el vehículo, para impedir que se siga conduciendo (manual PDF 92)."
+          },
+          {
+            "id": "keep-driving",
+            "text": "Labrar un acta y dejar que la persona siga manejando",
+            "correct": false,
+            "feedback": "No. El procedimiento impide que se siga conduciendo: además de sancionar la falta, se retiene la licencia y se remite el vehículo (manual PDF 92)."
+          },
+          {
+            "id": "keep-license",
+            "text": "Remitir el vehículo, pero devolverle la licencia en el acto",
+            "correct": false,
+            "feedback": "No. Además de remitir el vehículo, se retiene la licencia de conducir (manual PDF 92)."
+          },
+          {
+            "id": "fine-only",
+            "text": "Cobrar una multa en el lugar y dejarla seguir con cuidado",
+            "correct": false,
+            "feedback": "No. El manual no prevé que se siga conduciendo: se sanciona la falta, se retiene la licencia y se remite el vehículo (manual PDF 92)."
+          }
+        ]
+      },
+      {
+        "id": "drugs-same",
+        "prompt": "En un control de estupefacientes, el resultado da positivo. ¿Qué procedimiento se sigue?",
+        "options": [
+          {
+            "id": "same",
+            "text": "El mismo que ante una alcoholemia positiva",
+            "correct": true,
+            "feedback": "¡Correcto! Frente a un resultado positivo o a la negativa a someterse al examen, el procedimiento es el mismo en un control de alcoholemia que en uno de estupefacientes (manual PDF 93)."
+          },
+          {
+            "id": "lighter",
+            "text": "Uno más leve, porque no se trata de alcohol",
+            "correct": false,
+            "feedback": "No. El procedimiento es el mismo que en un control de alcoholemia (manual PDF 93)."
+          },
+          {
+            "id": "none",
+            "text": "Ninguno: solo cuenta el alcohol en sangre",
+            "correct": false,
+            "feedback": "No. Los controles toxicológicos siguen el mismo procedimiento que los de alcoholemia ante un positivo o una negativa (manual PDF 93)."
+          },
+          {
+            "id": "license-only",
+            "text": "Se retiene la licencia y la persona sigue manejando",
+            "correct": false,
+            "feedback": "No. Se aplica el mismo procedimiento que ante una alcoholemia positiva, que incluye remitir el vehículo para impedir que se siga conduciendo (manual PDF 92 y 93)."
+          }
+        ]
+      },
+      {
+        "id": "instruments",
+        "prompt": "¿Qué garantiza la calidad de la medición en los controles de alcoholemia y toxicológicos?",
+        "options": [
+          {
+            "id": "certified",
+            "text": "Que los instrumentos están certificados y calibrados",
+            "correct": true,
+            "feedback": "¡Correcto! Los controles usan instrumentos debidamente certificados y calibrados, que garantizan la calidad de la medición o detección (manual PDF 93)."
+          },
+          {
+            "id": "agent",
+            "text": "Que cada agente ajusta el aparato a su criterio",
+            "correct": false,
+            "feedback": "No. La calidad la garantizan instrumentos debidamente certificados y calibrados (manual PDF 93)."
+          },
+          {
+            "id": "repeat",
+            "text": "Que la prueba se repite hasta que dé negativa",
+            "correct": false,
+            "feedback": "No. La medición es confiable porque los instrumentos están certificados y calibrados (manual PDF 93)."
+          },
+          {
+            "id": "speed",
+            "text": "Que son los mismos aparatos que miden la velocidad",
+            "correct": false,
+            "feedback": "No. Son instrumentos de medición o detección de alcohol y estupefacientes, debidamente certificados y calibrados (manual PDF 93)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-sleep-and-fatigue",
+    "type": "single-choice",
+    "title": "Sueño y fatiga",
+    "unitIds": [
+      "manual.ch4.fatigue-definition",
+      "manual.ch4.fatigue-symptoms",
+      "manual.ch4.short-sleep-effects",
+      "manual.ch4.sleep-need"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 93
+      },
+      {
+        "source": "manual",
+        "page": 94
+      },
+      {
+        "source": "manual",
+        "page": 95
+      }
+    ],
+    "explanation": "El sueño es una necesidad biológica: si no dormís lo suficiente, los días siguientes aumenta la necesidad de sueño y baja el rendimiento, y el alcohol y las comidas abundantes pueden inducir cansancio. Dormir pocas horas reduce la capacidad de reacción, la alerta, la concentración y la memoria, y predispone a malas decisiones (manual PDF 93). La fatiga es la falta de energía, agotamiento o cansancio con falta de motivación, y aparece por dormir poco, por sobreesfuerzo o por una tensión mantenida. Sus síntomas son bostezos, visión borrosa, ojos pesados, lagrimeo o picor, cabeceos y microsueños (PDF 94).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "definition",
+        "prompt": "¿Qué es la fatiga, según el manual?",
+        "options": [
+          {
+            "id": "right",
+            "text": "Falta de energía o cansancio, acompañada de falta de motivación",
+            "correct": true,
+            "feedback": "¡Correcto! Es la sensación de falta de energía, agotamiento o cansancio con ausencia de motivación; aparece por dormir poco, por sobreesfuerzo o por tensión mantenida (manual PDF 93)."
+          },
+          {
+            "id": "alcohol",
+            "text": "Un efecto que aparece solo después de tomar bebidas alcohólicas",
+            "correct": false,
+            "feedback": "No. El alcohol puede inducir cansancio, pero la fatiga aparece también por dormir poco, por sobreesfuerzo o por una tensión mantenida (manual PDF 93)."
+          },
+          {
+            "id": "night",
+            "text": "Las ganas de dormir que aparecen solo de noche, al volver a casa",
+            "correct": false,
+            "feedback": "No. La fatiga es falta de energía, agotamiento o cansancio con falta de motivación, causada por dormir poco, por sobreesfuerzo o por tensión mantenida (manual PDF 93)."
+          },
+          {
+            "id": "muscle",
+            "text": "Un dolor muscular que aparece por manejar con mala postura",
+            "correct": false,
+            "feedback": "No. El manual la define como falta de energía, agotamiento o cansancio con falta de motivación, que puede ser transitoria o crónica (manual PDF 93)."
+          }
+        ]
+      },
+      {
+        "id": "induce",
+        "prompt": "Según el manual, ¿qué puede inducir cansancio?",
+        "options": [
+          {
+            "id": "alcohol-food",
+            "text": "Tomar bebidas alcohólicas o comer en abundancia",
+            "correct": true,
+            "feedback": "¡Correcto! El manual aclara que el cansancio puede verse inducido por bebidas alcohólicas y comidas abundantes (manual PDF 93)."
+          },
+          {
+            "id": "water",
+            "text": "Tomar agua con frecuencia durante el viaje",
+            "correct": false,
+            "feedback": "No. Beber agua de manera frecuente es una recomendación contra la fatiga (manual PDF 94)."
+          },
+          {
+            "id": "ventilation",
+            "text": "Llevar el interior del auto bien ventilado",
+            "correct": false,
+            "feedback": "No. La buena ventilación en el interior del vehículo es una recomendación contra la fatiga (manual PDF 94)."
+          },
+          {
+            "id": "light-food",
+            "text": "Comer algo liviano antes de salir a la ruta",
+            "correct": false,
+            "feedback": "No. Las comidas ligeras se recomiendan contra la fatiga; lo que puede inducir cansancio son las abundantes (manual PDF 93 y 94)."
+          }
+        ]
+      },
+      {
+        "id": "symptoms",
+        "prompt": "Vas por la ruta y empezás a bostezar, a parpadear más seguido y a sentir los ojos pesados. ¿Qué te está pasando?",
+        "options": [
+          {
+            "id": "fatigue",
+            "text": "Son síntomas físicos de fatiga",
+            "correct": true,
+            "feedback": "¡Correcto! Bostezos, ojos pesados con más parpadeos, visión borrosa, lagrimeo, cabeceos y microsueños son síntomas de fatiga (manual PDF 94)."
+          },
+          {
+            "id": "light",
+            "text": "Es poca luz: alcanza con subir el brillo del tablero",
+            "correct": false,
+            "feedback": "No. Son síntomas de fatiga, y la fatiga se trata interrumpiendo el viaje para descansar (manual PDF 94)."
+          },
+          {
+            "id": "boredom",
+            "text": "Es aburrimiento y no afecta cómo manejás",
+            "correct": false,
+            "feedback": "No. Son síntomas físicos de fatiga, que reduce la capacidad de reacción (manual PDF 94)."
+          },
+          {
+            "id": "glasses",
+            "text": "Es señal de que necesitás anteojos nuevos",
+            "correct": false,
+            "feedback": "No. Bostezar, parpadear más y sentir los ojos pesados son síntomas de fatiga (manual PDF 94)."
+          }
+        ]
+      },
+      {
+        "id": "microsleep",
+        "prompt": "¿Qué es un microsueño?",
+        "options": [
+          {
+            "id": "right",
+            "text": "Quedarse dormido/a unos segundos sin querer",
+            "correct": true,
+            "feedback": "¡Correcto! Dormitar sin intención o quedarse dormido/a unos segundos es un síntoma de fatiga (manual PDF 94)."
+          },
+          {
+            "id": "nap",
+            "text": "Una siesta corta y planificada en una parada",
+            "correct": false,
+            "feedback": "No. La parada de descanso es la forma de tratar la fatiga; el microsueño es dormirse unos segundos sin querer (manual PDF 94)."
+          },
+          {
+            "id": "blink",
+            "text": "Un parpadeo normal cuando cambia la luz",
+            "correct": false,
+            "feedback": "No. El microsueño es quedarse dormido/a unos segundos sin querer, un síntoma de fatiga (manual PDF 94)."
+          },
+          {
+            "id": "daydream",
+            "text": "Distraerse pensando en otra cosa",
+            "correct": false,
+            "feedback": "No. Eso es una distracción; el microsueño es quedarse dormido/a unos segundos sin querer (manual PDF 94 y 95)."
+          }
+        ]
+      },
+      {
+        "id": "short-sleep",
+        "prompt": "Anoche dormiste pocas horas. Según el manual, ¿qué te puede pasar al manejar?",
+        "options": [
+          {
+            "id": "slower",
+            "text": "Reaccionás más lento y te cuesta concentrarte",
+            "correct": true,
+            "feedback": "¡Correcto! Dormir pocas horas reduce la capacidad de reacción y el estado de alerta, dificulta la concentración y la memoria, y predispone a malas decisiones por ansiedad e irritabilidad (manual PDF 93)."
+          },
+          {
+            "id": "alert",
+            "text": "Estás más alerta, porque el cuerpo se activa",
+            "correct": false,
+            "feedback": "Al revés: dormir pocas horas reduce el estado de alerta y aumenta el tiempo de respuesta (manual PDF 93)."
+          },
+          {
+            "id": "water",
+            "text": "Nada, si tomás agua y comés liviano",
+            "correct": false,
+            "feedback": "No. Esas recomendaciones ayudan en un viaje largo, pero no reemplazan el sueño: para combatirlo se necesita dormir (manual PDF 93 y 94)."
+          },
+          {
+            "id": "tomorrow",
+            "text": "Nada hoy, aunque mañana vas a estar más cansado/a",
+            "correct": false,
+            "feedback": "No. Los efectos ya están: menos reacción, menos alerta, peor concentración. Y además, los días siguientes aumenta la necesidad de sueño (manual PDF 93)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-fatigue-prevention",
+    "type": "single-choice",
+    "title": "Cómo prevenir la fatiga en viajes largos",
+    "unitIds": [
+      "manual.ch4.fatigue-recommendations",
+      "manual.ch4.awake-17-hours-alcohol-equivalent"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 94
+      }
+    ],
+    "explanation": "Antes de un viaje largo conviene dormir unas 8 horas; durante el viaje, parar cada 200 km o cada dos horas (en moto, cada 100 km o cada hora), ventilar el vehículo, tomar agua seguido y comer liviano, y evitar manejar al anochecer y al amanecer por la escasa visibilidad. Profesionales (por el largo tiempo de conducción) y principiantes (por la exigencia de su falta de experiencia) son más propensos a la fatiga. Según un estudio que cita el manual, estar 17 horas despierto/a da el mismo nivel de reacción que tener más alcohol en sangre que el permitido por ley (manual PDF 94).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "car-stops",
+        "prompt": "En un viaje largo en auto, ¿cada cuánto recomienda el manual interrumpir la marcha?",
+        "options": [
+          {
+            "id": "200",
+            "text": "Cada 200 km o cada dos horas",
+            "correct": true,
+            "feedback": "¡Correcto! En auto, la recomendación es interrumpir el viaje cada 200 kilómetros o cada dos horas (manual PDF 94)."
+          },
+          {
+            "id": "500",
+            "text": "Cada 500 km o cada cinco horas",
+            "correct": false,
+            "feedback": "Es demasiado espaciado: la recomendación es parar cada 200 km o cada dos horas (manual PDF 94)."
+          },
+          {
+            "id": "tired",
+            "text": "Solo cuando aparezca el cansancio",
+            "correct": false,
+            "feedback": "No. El manual recomienda paradas regulares: cada 200 km o cada dos horas (manual PDF 94)."
+          },
+          {
+            "id": "fuel",
+            "text": "Cuando haya que cargar combustible",
+            "correct": false,
+            "feedback": "No. Las paradas no dependen del tanque: hay que interrumpir el viaje cada 200 km o cada dos horas (manual PDF 94)."
+          }
+        ]
+      },
+      {
+        "id": "moto-stops",
+        "prompt": "Hacés un viaje largo en moto. ¿Cada cuánto conviene interrumpir la marcha, según el manual?",
+        "options": [
+          {
+            "id": "100",
+            "text": "Cada 100 km o cada hora",
+            "correct": true,
+            "feedback": "¡Correcto! Para quienes conducen motovehículos conviene parar cada 100 kilómetros o cada hora (manual PDF 94)."
+          },
+          {
+            "id": "200",
+            "text": "Cada 200 km o cada dos horas",
+            "correct": false,
+            "feedback": "Esa es la recomendación para autos. En moto conviene parar más seguido: cada 100 km o cada hora (manual PDF 94)."
+          },
+          {
+            "id": "300",
+            "text": "Cada 300 km o cada tres horas",
+            "correct": false,
+            "feedback": "No. En moto, la recomendación es parar cada 100 km o cada hora (manual PDF 94)."
+          },
+          {
+            "id": "never",
+            "text": "No hace falta: en moto el aire despeja",
+            "correct": false,
+            "feedback": "No. En moto también hay que parar, y más seguido que en auto: cada 100 km o cada hora (manual PDF 94)."
+          }
+        ]
+      },
+      {
+        "id": "dusk",
+        "prompt": "Según las recomendaciones contra la fatiga, ¿en qué momentos del día conviene evitar manejar?",
+        "options": [
+          {
+            "id": "dusk-dawn",
+            "text": "Al anochecer y al amanecer, por la escasa visibilidad",
+            "correct": true,
+            "feedback": "¡Correcto! Son momentos de dificultad para manejar a causa de la escasa visibilidad (manual PDF 94)."
+          },
+          {
+            "id": "noon",
+            "text": "Al mediodía, por el calor del sol",
+            "correct": false,
+            "feedback": "No. El manual recomienda evitar el anochecer y el amanecer, por la escasa visibilidad (manual PDF 94)."
+          },
+          {
+            "id": "rush",
+            "text": "A la tarde, por el tránsito de la hora pico",
+            "correct": false,
+            "feedback": "No. La recomendación contra la fatiga es evitar el anochecer y el amanecer, cuando la visibilidad es escasa (manual PDF 94)."
+          },
+          {
+            "id": "morning",
+            "text": "A media mañana, porque hay más camiones",
+            "correct": false,
+            "feedback": "No. Los momentos que conviene evitar son el anochecer y el amanecer, por la escasa visibilidad (manual PDF 94)."
+          }
+        ]
+      },
+      {
+        "id": "predisposed",
+        "prompt": "¿Quiénes tienen más predisposición a sufrir fatiga, según el manual?",
+        "options": [
+          {
+            "id": "pros-beginners",
+            "text": "Profesionales y principiantes",
+            "correct": true,
+            "feedback": "¡Correcto! Las personas profesionales, por el prolongado tiempo de conducción, y las principiantes, por la exigencia que les demanda su falta de experiencia (manual PDF 94)."
+          },
+          {
+            "id": "riders",
+            "text": "Motociclistas y ciclistas",
+            "correct": false,
+            "feedback": "No. El manual señala a profesionales, por las muchas horas al volante, y a principiantes, por su falta de experiencia (manual PDF 94)."
+          },
+          {
+            "id": "elderly",
+            "text": "Solo las personas mayores",
+            "correct": false,
+            "feedback": "No. Las personas más predispuestas a la fatiga son las profesionales y las principiantes (manual PDF 94)."
+          },
+          {
+            "id": "city",
+            "text": "Quienes manejan solo en la ciudad",
+            "correct": false,
+            "feedback": "No. El manual señala a profesionales y principiantes como las personas más predispuestas a sufrir fatiga (manual PDF 94)."
+          }
+        ]
+      },
+      {
+        "id": "awake-17",
+        "prompt": "Te levantaste a las 6 y a las 23 seguís despierto/a: llevás 17 horas sin dormir. Según el estudio que cita el manual, ¿a qué se parece tu nivel de reacción?",
+        "options": [
+          {
+            "id": "alcohol",
+            "text": "Al de alguien con más alcohol en sangre que el permitido",
+            "correct": true,
+            "feedback": "¡Correcto! Estar 17 horas despierto/a provoca el mismo nivel de reacción que un nivel de alcohol en sangre mayor al permitido por ley (manual PDF 94). El sueño se combate durmiendo."
+          },
+          {
+            "id": "rested",
+            "text": "Al de alguien que durmió bien: 17 horas es poco",
+            "correct": false,
+            "feedback": "No. Según el estudio citado, a las 17 horas despierto/a tu reacción se parece a la de alguien con más alcohol en sangre que el permitido (manual PDF 94)."
+          },
+          {
+            "id": "first-time",
+            "text": "Al de una persona que maneja por primera vez",
+            "correct": false,
+            "feedback": "No. El manual lo compara con el alcohol: es como tener un nivel de alcohol en sangre mayor al permitido por ley (manual PDF 94)."
+          },
+          {
+            "id": "active",
+            "text": "Al normal, si te mantenés activo/a y con música",
+            "correct": false,
+            "feedback": "No. Según el estudio citado, es como manejar con más alcohol en sangre que el permitido; para combatir el sueño se necesita dormir (manual PDF 94)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-tired-driving-decisions",
+    "type": "decision",
+    "title": "Manejar con sueño o cansancio",
+    "unitIds": [
+      "manual.ch4.sleep-vs-fatigue-remedies",
+      "manual.ch4.fatigue-recommendations",
+      "manual.ch4.fatigue-symptoms",
+      "manual.ch4.awake-17-hours-alcohol-equivalent"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 94
+      }
+    ],
+    "explanation": "Manejar con fatiga y con pocas horas de sueño tiene efectos parecidos: menos capacidad de reacción y más tiempo de respuesta. Pero se combaten distinto: el sueño, durmiendo; la fatiga, interrumpiendo el viaje y haciendo una parada de descanso. Ante síntomas como bostezos, ojos pesados o cabeceos hay que parar; antes de un viaje largo conviene dormir unas 8 horas, planear paradas cada 200 km o cada dos horas y evitar el anochecer y el amanecer. Estar 17 horas despierto/a equivale, en reacción, a tener más alcohol en sangre que el permitido por ley (manual PDF 94).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "night-return",
+        "start": "late",
+        "nodes": {
+          "late": {
+            "text": "Te levantaste a las 6 y trabajaste todo el día. Son las 23 y te quedan tres horas de ruta para volver a casa.",
+            "choices": [
+              {
+                "id": "sleep",
+                "text": "Duermo y salgo a media mañana, ya descansado/a",
+                "outcome": "good"
+              },
+              {
+                "id": "window",
+                "text": "Salgo ya, con la ventanilla abierta y música fuerte",
+                "outcome": "awake"
+              },
+              {
+                "id": "stops",
+                "text": "Salgo ya y hago una parada cada dos horas",
+                "outcome": "stops-not-enough"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Llevás 17 horas despierto/a: tu reacción es como la de alguien con más alcohol en sangre que el permitido. El sueño se combate durmiendo, y salir a media mañana evita además el amanecer (manual PDF 94)."
+          },
+          "awake": {
+            "correct": false,
+            "feedback": "La ventilación y la música no reemplazan el sueño. Con 17 horas despierto/a tu reacción equivale a la de alguien con más alcohol que el permitido: el sueño se combate durmiendo (manual PDF 94)."
+          },
+          "stops-not-enough": {
+            "correct": false,
+            "feedback": "Las paradas sirven contra la fatiga, pero lo tuyo es sueño: llevás 17 horas despierto/a, y el sueño se combate durmiendo (manual PDF 94)."
+          }
+        }
+      },
+      {
+        "id": "symptoms",
+        "start": "road",
+        "nodes": {
+          "road": {
+            "text": "Hace casi dos horas que manejás por la ruta en un viaje largo. Empezás a bostezar y a parpadear más seguido.",
+            "choices": [
+              {
+                "id": "stop",
+                "text": "Paro en un lugar seguro y hago una parada de descanso",
+                "next": "rested"
+              },
+              {
+                "id": "music",
+                "text": "Subo la música y sigo hasta destino",
+                "outcome": "ignore"
+              },
+              {
+                "id": "faster",
+                "text": "Acelero un poco para llegar antes",
+                "outcome": "faster"
+              }
+            ]
+          },
+          "rested": {
+            "text": "Descansaste un rato, pero seguís con mucho sueño: anoche casi no dormiste.",
+            "choices": [
+              {
+                "id": "sleep",
+                "text": "Duermo antes de seguir viaje",
+                "outcome": "good"
+              },
+              {
+                "id": "continue",
+                "text": "Sigo: ya hice la parada de descanso",
+                "outcome": "sleepy"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Muy bien! Los bostezos y los ojos pesados son síntomas de fatiga, que se trata con una parada de descanso; y como además tenías sueño, dormiste: el sueño se combate durmiendo (manual PDF 94)."
+          },
+          "ignore": {
+            "correct": false,
+            "feedback": "Bostezar y parpadear más son síntomas de fatiga. La música no la resuelve: hay que interrumpir el viaje y hacer una parada de descanso (manual PDF 94)."
+          },
+          "faster": {
+            "correct": false,
+            "feedback": "Con fatiga aumenta el tiempo de respuesta, y acelerar suma riesgo. Lo que corresponde es interrumpir el viaje y hacer una parada de descanso (manual PDF 94)."
+          },
+          "sleepy": {
+            "correct": false,
+            "feedback": "La parada sirve contra la fatiga, pero el sueño se combate durmiendo. Si seguís con sueño, dormí antes de continuar (manual PDF 94)."
+          }
+        }
+      },
+      {
+        "id": "plan",
+        "start": "plan",
+        "nodes": {
+          "plan": {
+            "text": "El sábado hacés un viaje de 600 km en auto. ¿Cómo lo planificás?",
+            "choices": [
+              {
+                "id": "rest-stops",
+                "text": "Duermo unas 8 horas antes y paro cada 2 horas o 200 km",
+                "outcome": "good"
+              },
+              {
+                "id": "dawn",
+                "text": "Salgo al amanecer y hago todo el viaje de un tirón",
+                "outcome": "dawn"
+              },
+              {
+                "id": "fuel",
+                "text": "Paro solo cuando haga falta cargar combustible",
+                "outcome": "fuel"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien planificado! Dormir unas 8 horas la noche anterior y parar cada 200 km o cada dos horas, con buena ventilación, agua y comidas ligeras, ayuda a prevenir la fatiga (manual PDF 94)."
+          },
+          "dawn": {
+            "correct": false,
+            "feedback": "Dos errores: el amanecer es un momento difícil por la escasa visibilidad, y hay que interrumpir el viaje cada 200 km o cada dos horas (manual PDF 94)."
+          },
+          "fuel": {
+            "correct": false,
+            "feedback": "Las paradas no dependen del tanque: hay que interrumpir el viaje cada 200 km o cada dos horas, y dormir unas 8 horas la noche anterior (manual PDF 94)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-stress",
+    "type": "single-choice",
+    "title": "Estrés al volante",
+    "unitIds": [
+      "manual.ch4.stress-definition",
+      "manual.ch4.stress-recommendations"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 93
+      },
+      {
+        "source": "manual",
+        "page": 94
+      },
+      {
+        "source": "manual",
+        "page": 95
+      }
+    ],
+    "explanation": "Con el estrés hay una doble relación: manejar genera estrés y el estrés lleva a manejar de forma más temeraria y menos segura, lo que aumenta el estrés en el entorno vial. La OMS lo define como el conjunto de reacciones fisiológicas que preparan al organismo para entrar en acción; en exceso, produce una sobrecarga de tensión (manual PDF 94). Para reducirlo: atender al contexto y dejar de lado preocupaciones y discusiones, planificar el viaje y evaluar caminos alternativos, salir con tiempo, regular la temperatura del vehículo y ser tolerante en los embotellamientos (PDF 95).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "double",
+        "prompt": "Según el manual, ¿qué relación hay entre manejar y el estrés?",
+        "options": [
+          {
+            "id": "both-ways",
+            "text": "Manejar genera estrés, y el estrés empeora cómo se maneja",
+            "correct": true,
+            "feedback": "¡Correcto! Es una doble relación: la conducción genera estrés, y el estrés lleva a manejar de forma más temeraria y menos segura (manual PDF 94)."
+          },
+          {
+            "id": "relax",
+            "text": "Manejar siempre relaja y ayuda a bajar el estrés",
+            "correct": false,
+            "feedback": "No. Según el manual, la conducción genera estrés por sí misma (manual PDF 94)."
+          },
+          {
+            "id": "none",
+            "text": "Ninguna: el estrés no influye en cómo se maneja",
+            "correct": false,
+            "feedback": "No. El estrés lleva a manejar de forma más temeraria y menos segura, y eso aumenta el estrés en el entorno vial (manual PDF 94)."
+          },
+          {
+            "id": "pros",
+            "text": "El estrés solo afecta a choferes profesionales",
+            "correct": false,
+            "feedback": "No. Las exigencias crecientes alcanzan a todas las personas que conducen, y el estrés lleva a manejar de forma más temeraria (manual PDF 94)."
+          }
+        ]
+      },
+      {
+        "id": "who",
+        "prompt": "¿Cómo define la OMS el estrés, según cita el manual?",
+        "options": [
+          {
+            "id": "right",
+            "text": "Reacciones fisiológicas que preparan al organismo para actuar",
+            "correct": true,
+            "feedback": "¡Correcto! Es una respuesta necesaria para la supervivencia, pero en exceso produce una sobrecarga de tensión (manual PDF 94)."
+          },
+          {
+            "id": "illness",
+            "text": "Una enfermedad que siempre impide manejar con seguridad",
+            "correct": false,
+            "feedback": "No. Para la OMS es el conjunto de reacciones fisiológicas que preparan al organismo para entrar en acción; el problema aparece cuando es excesivo (manual PDF 94)."
+          },
+          {
+            "id": "calm",
+            "text": "Un estado de calma que aparece frente a un peligro",
+            "correct": false,
+            "feedback": "No. Son reacciones fisiológicas que preparan al organismo para la acción; en exceso, producen una sobrecarga de tensión (manual PDF 94)."
+          },
+          {
+            "id": "tired",
+            "text": "Un tipo de cansancio que aparece por dormir pocas horas",
+            "correct": false,
+            "feedback": "No. Eso se parece más a la fatiga. El estrés, para la OMS, es el conjunto de reacciones fisiológicas que preparan al organismo para la acción (manual PDF 93 y 94)."
+          }
+        ]
+      },
+      {
+        "id": "temperature",
+        "prompt": "¿Por qué el manual recomienda regular la temperatura dentro del vehículo?",
+        "options": [
+          {
+            "id": "stress",
+            "text": "Porque el calor y el frío en exceso generan estrés",
+            "correct": true,
+            "feedback": "¡Correcto! El calor y el frío en exceso son estímulos estresantes (manual PDF 95)."
+          },
+          {
+            "id": "fuel",
+            "text": "Porque así se gasta menos combustible en el viaje",
+            "correct": false,
+            "feedback": "No. Entre las recomendaciones contra el estrés, la razón es que el calor y el frío en exceso son estímulos estresantes (manual PDF 95)."
+          },
+          {
+            "id": "engine",
+            "text": "Para que el motor no se recaliente en el tránsito",
+            "correct": false,
+            "feedback": "No. Se trata de la persona, no del motor: el calor y el frío excesivos son estímulos estresantes (manual PDF 95)."
+          },
+          {
+            "id": "hours",
+            "text": "Para poder manejar más horas seguidas sin hacer paradas",
+            "correct": false,
+            "feedback": "No. La temperatura no reemplaza las paradas de descanso; se regula porque el calor y el frío en exceso estresan (manual PDF 94 y 95)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-stress-decisions",
+    "type": "decision",
+    "title": "Estrés en el camino",
+    "unitIds": [
+      "manual.ch4.stress-recommendations",
+      "manual.ch4.stress-definition"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 94
+      },
+      {
+        "source": "manual",
+        "page": 95
+      },
+      {
+        "source": "manual",
+        "page": 96
+      }
+    ],
+    "explanation": "El estrés lleva a manejar de forma más temeraria y menos segura, y eso aumenta el estrés de todo el entorno vial (manual PDF 94). Para evitarlo, dejá de lado preocupaciones y discusiones mientras manejás, planificá el viaje y evaluá caminos alternativos, salí con tiempo suficiente, regulá la temperatura del vehículo y tené una actitud tolerante y paciente en los embotellamientos (PDF 95).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "jam",
+        "start": "jam",
+        "nodes": {
+          "jam": {
+            "text": "Vas a una entrevista de trabajo y quedás atrapado/a en un embotellamiento en la avenida. Vas a llegar con lo justo.",
+            "choices": [
+              {
+                "id": "patient",
+                "text": "Tomo la demora con paciencia y sigo atento/a",
+                "outcome": "good"
+              },
+              {
+                "id": "lanes",
+                "text": "Cambio de carril cada vez que veo un hueco",
+                "outcome": "zigzag"
+              },
+              {
+                "id": "horn",
+                "text": "Toco bocina para que los de adelante avancen",
+                "outcome": "horn"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Frente a los embotellamientos, el manual recomienda una actitud tolerante y paciente: el estrés lleva a manejar de forma más temeraria y menos segura (manual PDF 94 y 95)."
+          },
+          "zigzag": {
+            "correct": false,
+            "feedback": "Maniobrar con apuro es justamente manejar de forma más temeraria por el estrés. En un embotellamiento, tolerancia y paciencia (manual PDF 94 y 95)."
+          },
+          "horn": {
+            "correct": false,
+            "feedback": "Tocar bocina suma tensión a un entorno vial que ya está estresado. La recomendación es tener una actitud tolerante y paciente (manual PDF 94 y 95)."
+          }
+        }
+      },
+      {
+        "id": "appointment",
+        "start": "plan",
+        "nodes": {
+          "plan": {
+            "text": "Mañana tenés un turno médico importante en un barrio que no conocés.",
+            "choices": [
+              {
+                "id": "plan",
+                "text": "Planifico el recorrido, veo alternativas y salgo con tiempo",
+                "outcome": "good"
+              },
+              {
+                "id": "improvise",
+                "text": "Salgo con el tiempo justo y voy viendo en el camino",
+                "outcome": "rush"
+              },
+              {
+                "id": "phone",
+                "text": "Salgo justo y busco la dirección en el celular al manejar",
+                "outcome": "phone"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Muy bien! Planificar el viaje, evaluar caminos alternativos y salir con tiempo suficiente son recomendaciones del manual para manejar sin estrés (manual PDF 95)."
+          },
+          "rush": {
+            "correct": false,
+            "feedback": "Salir con el tiempo justo es una fuente de estrés. El manual recomienda planificar el viaje, evaluar caminos alternativos y salir con tiempo suficiente (manual PDF 95)."
+          },
+          "phone": {
+            "correct": false,
+            "feedback": "Doble error: salir con lo justo suma estrés, y usar el celular mientras manejás está prohibido. El recorrido se planifica antes de salir (manual PDF 95 y 96)."
+          }
+        }
+      },
+      {
+        "id": "argument",
+        "start": "car",
+        "nodes": {
+          "car": {
+            "text": "Vas manejando con tu pareja y empiezan a discutir por un problema de la casa. La discusión se pone tensa.",
+            "choices": [
+              {
+                "id": "postpone",
+                "text": "Propongo seguirla al llegar y me concentro en manejar",
+                "outcome": "good"
+              },
+              {
+                "id": "keep",
+                "text": "Sigo discutiendo: puedo hacer las dos cosas a la vez",
+                "outcome": "argue"
+              },
+              {
+                "id": "look",
+                "text": "Me doy vuelta para mirarla mientras le contesto",
+                "outcome": "look"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Las preocupaciones y discusiones al manejar provocan mayor tensión y generan un alto riesgo: conviene dejarlas de lado y prestar atención al contexto (manual PDF 95)."
+          },
+          "argue": {
+            "correct": false,
+            "feedback": "Las discusiones al volante aumentan la tensión y generan un alto riesgo para la seguridad vial. Dejala para después y atendé al contexto (manual PDF 95)."
+          },
+          "look": {
+            "correct": false,
+            "feedback": "Mirar a otros ocupantes mientras manejás es una de las acciones que el manual pide evitar, y la discusión suma tensión. Dejala para después (manual PDF 95 y 96)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-distractions",
+    "type": "single-choice",
+    "title": "Distracciones al volante",
+    "unitIds": [
+      "manual.ch4.distraction-definition",
+      "manual.ch4.eating-drinking-mate-smoking",
+      "manual.ch4.other-distracting-actions"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 95
+      },
+      {
+        "source": "manual",
+        "page": 96
+      }
+    ],
+    "figureIds": [
+      "fig.manual-p95-mate-distraction"
+    ],
+    "explanation": "Distracción es desviar la atención de aquello a lo que se debe atender; al volante, cualquier tarea que te saque la vista, las manos o la atención de la conducción te deja con menos capacidad de respuesta ante imprevistos. Comer, beber, tomar mate o fumar suman la distracción y además obligan a sacar las manos del volante: a 100 km/h un auto recorre 27,7 metros por segundo, así que 4 segundos cebando mate son como manejar una cuadra entera con los ojos tapados (manual PDF 95). El cinturón y el espejo retrovisor se ajustan antes de emprender la marcha, y mientras manejás no hay que maquillarse, sacarse el abrigo, estirarse a la guantera ni buscar cosas (PDF 96). Los ejemplos del manual con radio, CD o DVD son de otra época, pero la regla es la misma para cualquier aparato.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "definition",
+        "prompt": "¿Qué es una distracción al manejar, según el manual?",
+        "options": [
+          {
+            "id": "right",
+            "text": "Desviar la atención de lo que tenés que atender: manejar",
+            "correct": true,
+            "feedback": "¡Correcto! Distracción es la desviación de la atención cuando hay que atender a algo específico; al volante, eso es conducir (manual PDF 95)."
+          },
+          {
+            "id": "phone",
+            "text": "Solo mirar el celular mientras manejás",
+            "correct": false,
+            "feedback": "El celular es un caso, pero no el único: distracción es cualquier desviación de la atención, como comer, tomar mate o maquillarse (manual PDF 95 y 96)."
+          },
+          {
+            "id": "mistake",
+            "text": "Cualquier error de manejo, como no poner el guiño",
+            "correct": false,
+            "feedback": "No. Un error de manejo puede ser consecuencia de una distracción, pero distracción es desviar la atención de lo que hay que atender (manual PDF 95)."
+          },
+          {
+            "id": "vision",
+            "text": "Un problema de la vista que impide ver bien",
+            "correct": false,
+            "feedback": "No. Distracción es la desviación de la atención cuando hay que atender a algo específico, como conducir (manual PDF 95)."
+          }
+        ]
+      },
+      {
+        "id": "share",
+        "prompt": "¿Por qué es peligroso repartir la atención entre manejar y otra tarea?",
+        "options": [
+          {
+            "id": "response",
+            "text": "Porque te queda menos capacidad de respuesta ante imprevistos",
+            "correct": true,
+            "feedback": "¡Correcto! Si repartís la atención, sos menos eficiente en la tarea principal y no tenés toda tu capacidad de respuesta ante imprevistos (manual PDF 95)."
+          },
+          {
+            "id": "exam",
+            "text": "Porque es una falta solo durante el examen práctico",
+            "correct": false,
+            "feedback": "No. El riesgo existe siempre: si repartís la atención, no tenés toda tu capacidad de respuesta ante imprevistos (manual PDF 95)."
+          },
+          {
+            "id": "short",
+            "text": "No es peligroso si la otra tarea dura pocos segundos",
+            "correct": false,
+            "feedback": "No. Pocos segundos alcanzan: según el manual, a 100 km/h, 4 segundos cebando mate son una cuadra entera con los ojos tapados (manual PDF 95)."
+          },
+          {
+            "id": "speed",
+            "text": "Solo es peligroso a más de 60 km/h",
+            "correct": false,
+            "feedback": "No. Repartir la atención te quita capacidad de respuesta ante imprevistos a cualquier velocidad (manual PDF 95)."
+          }
+        ]
+      },
+      {
+        "id": "mate",
+        "prompt": "Además de distraerte, ¿qué riesgo agrega cebar mate, comer o fumar mientras manejás?",
+        "options": [
+          {
+            "id": "hands",
+            "text": "Tenés que manipularlos, y las manos no están firmes en el volante",
+            "correct": true,
+            "feedback": "¡Correcto! Estas tareas exigen manipulación, así que las manos no pueden estar firmes en el volante; además, hay que cuidar que no haya derrames ni caiga ceniza encendida (manual PDF 95)."
+          },
+          {
+            "id": "quiet",
+            "text": "Ninguno, si lo hacés en calles tranquilas y sin mucho tránsito",
+            "correct": false,
+            "feedback": "No. El riesgo no depende del tránsito: estas tareas distraen y exigen manipulación, por lo que las manos no están firmes en el volante (manual PDF 95)."
+          },
+          {
+            "id": "clothes",
+            "text": "Solo el riesgo de mancharte la ropa o el tapizado del auto",
+            "correct": false,
+            "feedback": "No es solo eso. Estas tareas exigen manipulación, y con las manos ocupadas no están firmes en el volante (manual PDF 95)."
+          },
+          {
+            "id": "fog",
+            "text": "Que el vapor del agua caliente te empañe el parabrisas",
+            "correct": false,
+            "feedback": "No. El riesgo adicional que señala el manual es que exigen manipulación, por lo que las manos no pueden estar firmes en el volante (manual PDF 95)."
+          }
+        ]
+      },
+      {
+        "id": "block",
+        "prompt": "Según la infografía del manual, un auto a 100 km/h recorre 27,7 metros por segundo. ¿A qué equivalen 4 segundos cebando mate mientras manejás?",
+        "options": [
+          {
+            "id": "block",
+            "text": "A manejar una cuadra entera con los ojos tapados",
+            "correct": true,
+            "feedback": "¡Exacto! En esos 4 segundos el auto sigue avanzando sin que mires el camino: es como manejar una cuadra entera con los ojos tapados (manual PDF 95)."
+          },
+          {
+            "id": "few",
+            "text": "A unos pocos metros, casi sin riesgo",
+            "correct": false,
+            "feedback": "No. A 100 km/h cada segundo son 27,7 metros: en 4 segundos el auto recorre una cuadra entera sin que mires (manual PDF 95)."
+          },
+          {
+            "id": "brake",
+            "text": "A lo que tarda el auto en frenar por completo",
+            "correct": false,
+            "feedback": "No. La infografía no habla de frenar: compara esos 4 segundos con manejar una cuadra entera con los ojos tapados (manual PDF 95)."
+          },
+          {
+            "id": "nothing",
+            "text": "A nada: el mate se ceba sin dejar de mirar",
+            "correct": false,
+            "feedback": "No. Cebar mate exige atención y manipulación: la infografía lo compara con manejar una cuadra entera con los ojos tapados (manual PDF 95)."
+          }
+        ]
+      },
+      {
+        "id": "before-start",
+        "prompt": "Según el manual, ¿cuándo hay que abrocharse el cinturón y ajustar el espejo retrovisor?",
+        "options": [
+          {
+            "id": "before",
+            "text": "Antes de emprender la marcha",
+            "correct": true,
+            "feedback": "¡Correcto! Abrocharse el cinturón y ajustar el espejo son acciones que deben hacerse antes de emprender la marcha, no mientras se conduce (manual PDF 96)."
+          },
+          {
+            "id": "first-light",
+            "text": "En el primer semáforo en rojo",
+            "correct": false,
+            "feedback": "No. El manual pide hacerlo antes de emprender la marcha, no en el camino (manual PDF 96)."
+          },
+          {
+            "id": "while",
+            "text": "Mientras arrancás, con una mano",
+            "correct": false,
+            "feedback": "No. Abrocharse el cinturón o ajustar el espejo mientras se conduce es justamente lo que hay que evitar: se hace antes de emprender la marcha (manual PDF 96)."
+          },
+          {
+            "id": "cruise",
+            "text": "Cuando ya vas a velocidad constante",
+            "correct": false,
+            "feedback": "No. Son acciones que deben hacerse antes de emprender la marcha (manual PDF 96)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-in-car-decisions",
+    "type": "decision",
+    "title": "Tareas que pueden esperar",
+    "unitIds": [
+      "manual.ch4.other-distracting-actions",
+      "manual.ch4.distraction-definition",
+      "manual.ch4.eating-drinking-mate-smoking"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 95
+      },
+      {
+        "source": "manual",
+        "page": 96
+      },
+      {
+        "source": "manual",
+        "page": 111
+      }
+    ],
+    "explanation": "Cualquier tarea que te saque la vista, las manos o la atención del manejo es una distracción y reduce tu capacidad de respuesta ante imprevistos (manual PDF 95). El cinturón y el espejo retrovisor se ajustan antes de emprender la marcha, y mientras manejás no hay que sacarse el abrigo, estirarse para cerrar una puerta o buscar algo en la guantera, maquillarse ni mirar a otros ocupantes (PDF 96). Comer, tomar mate o fumar también distraen y obligan a sacar las manos del volante (PDF 95).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "seatbelt",
+        "start": "go",
+        "nodes": {
+          "go": {
+            "text": "Arrancaste y, a las pocas cuadras, te das cuenta de que no te abrochaste el cinturón.",
+            "choices": [
+              {
+                "id": "stop",
+                "text": "Me detengo en un lugar permitido, me lo abrocho y sigo",
+                "outcome": "good"
+              },
+              {
+                "id": "while",
+                "text": "Me lo abrocho mientras manejo, con la otra mano en el volante",
+                "outcome": "while"
+              },
+              {
+                "id": "skip",
+                "text": "Sigo sin cinturón: el viaje es corto y voy despacio",
+                "outcome": "skip"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! El cinturón se abrocha antes de emprender la marcha; si te olvidaste, hacelo con el auto detenido, no mientras manejás (manual PDF 96)."
+          },
+          "while": {
+            "correct": false,
+            "feedback": "Abrocharse el cinturón mientras se conduce es una de las acciones que el manual pide evitar: debe hacerse antes de emprender la marcha (manual PDF 96)."
+          },
+          "skip": {
+            "correct": false,
+            "feedback": "El cinturón se usa siempre, incluso en trayectos cortos o a baja velocidad (manual PDF 111). Detenete en un lugar permitido y abrochátelo antes de seguir (PDF 96)."
+          }
+        }
+      },
+      {
+        "id": "glovebox",
+        "start": "drive",
+        "nodes": {
+          "drive": {
+            "text": "Vas solo/a por una avenida y necesitás un pañuelo que está en la guantera.",
+            "choices": [
+              {
+                "id": "wait",
+                "text": "Espero a estar detenido/a en un lugar permitido",
+                "outcome": "good"
+              },
+              {
+                "id": "reach",
+                "text": "Me estiro rápido a buscarlo, sin soltar el volante",
+                "outcome": "reach"
+              },
+              {
+                "id": "grope",
+                "text": "Abro la guantera y busco tanteando, sin mirar",
+                "outcome": "grope"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Estirarse para buscar algo en la guantera es una de las acciones que no hay que hacer mientras se conduce (manual PDF 96)."
+          },
+          "reach": {
+            "correct": false,
+            "feedback": "Estirarte hacia la guantera te saca la vista y la atención del camino, y una mano del volante: el manual pide no hacerlo mientras manejás (manual PDF 95 y 96)."
+          },
+          "grope": {
+            "correct": false,
+            "feedback": "Aunque no mires, la tarea te saca la atención y una mano del volante: repartir la atención reduce tu capacidad de respuesta ante imprevistos (manual PDF 95 y 96)."
+          }
+        }
+      },
+      {
+        "id": "mate",
+        "start": "road",
+        "nodes": {
+          "road": {
+            "text": "Salís temprano a la ruta, vas solo/a y tenés ganas de tomar mate.",
+            "choices": [
+              {
+                "id": "stop",
+                "text": "Lo tomo en una parada, con el auto detenido",
+                "outcome": "good"
+              },
+              {
+                "id": "drive",
+                "text": "Cebo mientras manejo, con cuidado de no derramar",
+                "outcome": "drive"
+              },
+              {
+                "id": "straight",
+                "text": "Cebo solo en las rectas, donde hay menos riesgo",
+                "outcome": "straight"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Cebar mate exige atención y manipulación, y con las manos ocupadas no están firmes en el volante: mejor hacerlo con el auto detenido (manual PDF 95)."
+          },
+          "drive": {
+            "correct": false,
+            "feedback": "Cebar mate mientras manejás distrae y obliga a sacar las manos del volante: a 100 km/h, 4 segundos cebando son como manejar una cuadra con los ojos tapados (manual PDF 95)."
+          },
+          "straight": {
+            "correct": false,
+            "feedback": "En una recta a 100 km/h recorrés 27,7 metros por segundo: 4 segundos cebando mate son una cuadra entera sin mirar. La recta no lo vuelve seguro (manual PDF 95)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-phone-and-gps",
+    "type": "single-choice",
+    "title": "Celular y GPS",
+    "unitIds": [
+      "manual.ch4.cell-phone-prohibition",
+      "manual.ch4.cell-phone-recommendations",
+      "manual.ch4.gps-use"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 96
+      }
+    ],
+    "explanation": "Usar el celular mientras manejás está prohibido: disminuye la atención y la reacción, aumenta el tiempo de respuesta y limita la audición o la vista; además, hay que conducir con ambas manos en el volante. El altavoz y los auriculares también son riesgosos, porque hablar por teléfono implica representarse mentalmente a la otra persona. Conviene apagarlo o ponerlo en modo avión, guardarlo, dejar que atienda quien te acompaña o usar una aplicación que avise que estás manejando; si esperás una llamada importante, poné balizas y detenete en un lugar permitido. El GPS se programa antes de salir y se usa solo para escuchar, sin mirarlo ni manipularlo (manual PDF 96).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "why",
+        "prompt": "¿Por qué está prohibido usar el celular mientras manejás?",
+        "options": [
+          {
+            "id": "attention",
+            "text": "Baja la atención y la reacción, y limita la vista o el oído",
+            "correct": true,
+            "feedback": "¡Correcto! El celular disminuye la capacidad de atención y reacción, aumenta el tiempo de respuesta y limita la audición o la vista; además, hay que manejar con las dos manos en el volante (manual PDF 96)."
+          },
+          {
+            "id": "signal",
+            "text": "Porque su señal interfiere con los sistemas del auto",
+            "correct": false,
+            "feedback": "No. El motivo está en quien maneja: el celular disminuye la atención y la reacción y limita la vista o la audición (manual PDF 96)."
+          },
+          {
+            "id": "avenues",
+            "text": "Solo está prohibido en avenidas y autopistas, no en calles",
+            "correct": false,
+            "feedback": "No. La prohibición no depende del tipo de vía: usar el celular disminuye la atención y la reacción en cualquier lado (manual PDF 96)."
+          },
+          {
+            "id": "dialing",
+            "text": "Solo porque podés chocar mientras marcás un número",
+            "correct": false,
+            "feedback": "No es solo al marcar. Usarlo, aun para hablar, disminuye la atención y la reacción y limita la vista o la audición (manual PDF 96)."
+          }
+        ]
+      },
+      {
+        "id": "handsfree",
+        "prompt": "¿Es seguro hablar por teléfono con altavoz o auriculares mientras manejás?",
+        "options": [
+          {
+            "id": "no",
+            "text": "No: hablar te obliga a pensar en la otra persona y te distrae",
+            "correct": true,
+            "feedback": "¡Correcto! Aunque no uses las manos, hablar por teléfono implica representarte mentalmente a la persona con la que hablás: también es riesgoso (manual PDF 96)."
+          },
+          {
+            "id": "yes",
+            "text": "Sí: si no usás las manos, no hay ningún riesgo al manejar",
+            "correct": false,
+            "feedback": "No. El manual considera riesgoso el altavoz y los auriculares: hablar implica representarte mentalmente a la otra persona (manual PDF 96)."
+          },
+          {
+            "id": "short",
+            "text": "Sí, siempre que la llamada sea corta y el tránsito esté tranquilo",
+            "correct": false,
+            "feedback": "No. Aunque sea corta, la llamada te exige representarte mentalmente a quien te habla y eso te quita atención (manual PDF 96)."
+          },
+          {
+            "id": "earbuds",
+            "text": "Solo con auriculares, porque se escucha mejor la llamada",
+            "correct": false,
+            "feedback": "No. Los auriculares también son riesgosos: el problema no es cómo se escucha, sino que hablar te obliga a representarte a la otra persona (manual PDF 96)."
+          }
+        ]
+      },
+      {
+        "id": "app",
+        "prompt": "¿Qué hace la aplicación que recomienda el manual para quien maneja?",
+        "options": [
+          {
+            "id": "notify",
+            "text": "Avisa a quien llama que no podés atender porque manejás",
+            "correct": true,
+            "feedback": "¡Correcto! La aplicación avisa a quien llama que no podés atender porque estás conduciendo, e incluso puede decir cuánto tiempo te falta (manual PDF 96)."
+          },
+          {
+            "id": "reads",
+            "text": "Te lee los mensajes en voz alta mientras manejás",
+            "correct": false,
+            "feedback": "No. La aplicación recomendada no te acerca los mensajes: avisa a quien llama que estás conduciendo y no podés atender (manual PDF 96)."
+          },
+          {
+            "id": "answers",
+            "text": "Atiende sola las llamadas y las pasa al altavoz",
+            "correct": false,
+            "feedback": "No. El altavoz también es riesgoso; la aplicación avisa a quien llama que no podés atender porque estás conduciendo (manual PDF 96)."
+          },
+          {
+            "id": "speed",
+            "text": "Te avisa cuando superás el límite de velocidad",
+            "correct": false,
+            "feedback": "No. La aplicación que recomienda el manual avisa a quien llama que estás conduciendo (manual PDF 96)."
+          }
+        ]
+      },
+      {
+        "id": "gps",
+        "prompt": "¿Cómo conviene usar el GPS durante el viaje, según el manual?",
+        "options": [
+          {
+            "id": "listen",
+            "text": "Programarlo antes de salir y usarlo solo para escuchar",
+            "correct": true,
+            "feedback": "¡Correcto! El GPS no debe manipularse mientras manejás: se programa antes de iniciar el viaje y se usa solo para escuchar, no para mirar (manual PDF 96)."
+          },
+          {
+            "id": "look",
+            "text": "Mirarlo en cada esquina para no equivocarte de calle",
+            "correct": false,
+            "feedback": "No. El GPS se usa solo para escuchar, no para mirar (manual PDF 96)."
+          },
+          {
+            "id": "red-light",
+            "text": "Programarlo en los semáforos en rojo, cuando estás quieto/a",
+            "correct": false,
+            "feedback": "No. El GPS no se manipula durante la conducción: la ruta se programa antes de iniciar el viaje (manual PDF 96)."
+          },
+          {
+            "id": "hand",
+            "text": "Llevarlo en la mano, así ves mejor el mapa y las calles",
+            "correct": false,
+            "feedback": "No. Hay que conducir con ambas manos en el volante, y el GPS se usa para escuchar, no para mirar (manual PDF 96)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.capacity-phone-decisions",
+    "type": "decision",
+    "title": "El celular mientras manejás",
+    "unitIds": [
+      "manual.ch4.cell-phone-recommendations",
+      "manual.ch4.cell-phone-prohibition",
+      "manual.ch4.gps-use"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 96
+      }
+    ],
+    "explanation": "Usar el celular mientras manejás está prohibido, y el altavoz o los auriculares también son riesgosos. Lo mejor es apagarlo o ponerlo en modo avión y guardarlo antes de salir, dejar que atienda quien te acompaña o usar una aplicación que avise que estás manejando; si esperás una llamada importante y no podés hacer nada de eso, poné balizas y detenete en un lugar permitido. El GPS se programa antes de salir y se usa solo para escuchar (manual PDF 96).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "message",
+        "start": "before",
+        "nodes": {
+          "before": {
+            "text": "Estás por salir con el auto para ir al trabajo. ¿Qué hacés con el celular?",
+            "choices": [
+              {
+                "id": "off",
+                "text": "Lo pongo en modo avión y lo guardo en la guantera",
+                "outcome": "good"
+              },
+              {
+                "id": "seat",
+                "text": "Lo dejo en el asiento del acompañante, con sonido",
+                "next": "ping"
+              }
+            ]
+          },
+          "ping": {
+            "text": "Vas por una avenida y suena: te llegó un mensaje.",
+            "choices": [
+              {
+                "id": "ignore",
+                "text": "No lo miro: lo leo cuando termine de manejar",
+                "outcome": "ok"
+              },
+              {
+                "id": "glance",
+                "text": "Lo leo rápido, con una mano en el volante",
+                "outcome": "glance"
+              },
+              {
+                "id": "voice",
+                "text": "Le contesto con un audio, sin mirar la pantalla",
+                "outcome": "voice"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Excelente! Apagarlo o ponerlo en modo avión y guardarlo en la guantera o el baúl evita que te distraiga (manual PDF 96)."
+          },
+          "ok": {
+            "correct": true,
+            "feedback": "Bien: no lo usaste mientras manejabas. La próxima, apagalo o ponelo en modo avión y guardalo antes de salir, así ni te tienta (manual PDF 96)."
+          },
+          "glance": {
+            "correct": false,
+            "feedback": "Usar el celular al conducir está prohibido: disminuye la atención y la reacción, y hay que manejar con las dos manos en el volante (manual PDF 96)."
+          },
+          "voice": {
+            "correct": false,
+            "feedback": "Hablarle al teléfono también te distrae: aunque no uses las manos, implica representarte a la otra persona. Contestá cuando termines de manejar (manual PDF 96)."
+          }
+        }
+      },
+      {
+        "id": "important-call",
+        "start": "ring",
+        "nodes": {
+          "ring": {
+            "text": "Vas manejando sin acompañante y esperás una llamada importante del médico. Suena el teléfono.",
+            "choices": [
+              {
+                "id": "stop",
+                "text": "Pongo balizas, me detengo en un lugar permitido y atiendo",
+                "outcome": "good"
+              },
+              {
+                "id": "speaker",
+                "text": "Atiendo con el altavoz, con las dos manos en el volante",
+                "outcome": "speaker"
+              },
+              {
+                "id": "quick",
+                "text": "Atiendo y hablo rápido, en un minuto",
+                "outcome": "quick"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Si esperás una llamada importante y no podés hacer otra cosa, el manual indica colocar las balizas y detenerte en un lugar permitido para no generar riesgos (manual PDF 96)."
+          },
+          "speaker": {
+            "correct": false,
+            "feedback": "El altavoz también es riesgoso: hablar por teléfono implica representarte mentalmente a la otra persona. Detenete en un lugar permitido, con balizas, para atender (manual PDF 96)."
+          },
+          "quick": {
+            "correct": false,
+            "feedback": "Usar el celular mientras manejás está prohibido, aunque la llamada sea corta. Poné balizas y detenete en un lugar permitido para atender (manual PDF 96)."
+          }
+        }
+      },
+      {
+        "id": "companion",
+        "start": "ring",
+        "nodes": {
+          "ring": {
+            "text": "Tu amiga va de acompañante y te suena el celular, que está en el portavasos.",
+            "choices": [
+              {
+                "id": "friend",
+                "text": "Le pido que atienda y avise que llamo al terminar",
+                "outcome": "good"
+              },
+              {
+                "id": "earbuds",
+                "text": "Me pongo un auricular y atiendo yo mismo/a",
+                "outcome": "earbuds"
+              },
+              {
+                "id": "check",
+                "text": "Miro en la pantalla quién es y decido si atiendo",
+                "outcome": "check"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Muy bien! Dejar que la persona que acompaña atienda y avise que te comunicarás al terminar de manejar es una de las recomendaciones del manual (manual PDF 96)."
+          },
+          "earbuds": {
+            "correct": false,
+            "feedback": "Los auriculares también son riesgosos: hablar por teléfono implica representarte mentalmente a la otra persona. Que atienda tu amiga (manual PDF 96)."
+          },
+          "check": {
+            "correct": false,
+            "feedback": "Mirar la pantalla ya es usar el celular y te saca la vista del camino. Mejor que atienda tu amiga y avise que llamás después (manual PDF 96)."
+          }
+        }
+      },
+      {
+        "id": "gps",
+        "start": "route",
+        "nodes": {
+          "route": {
+            "text": "Vas a un lugar que no conocés y vas a guiarte con el GPS del celular.",
+            "choices": [
+              {
+                "id": "before",
+                "text": "Cargo el destino antes de salir y lo uso solo para escuchar",
+                "outcome": "good"
+              },
+              {
+                "id": "on-way",
+                "text": "Arranco y cargo el destino en el camino, en una calle tranquila",
+                "outcome": "manipulate"
+              },
+              {
+                "id": "hand",
+                "text": "Lo llevo en la mano para ir mirando el mapa",
+                "outcome": "hand"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! El GPS no debe manipularse mientras manejás: programá la ruta antes de iniciar el viaje y usalo solo para escuchar, no para mirar (manual PDF 96)."
+          },
+          "manipulate": {
+            "correct": false,
+            "feedback": "El GPS no se manipula durante la conducción, ni siquiera en una calle tranquila: la ruta se programa antes de salir (manual PDF 96)."
+          },
+          "hand": {
+            "correct": false,
+            "feedback": "Hay que conducir con ambas manos en el volante, y el GPS se usa para escuchar, no para mirar (manual PDF 96)."
+          }
+        }
+      }
+    ]
+  }
+]

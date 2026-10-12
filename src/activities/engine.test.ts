@@ -23,6 +23,14 @@ describe('nextDistinctSeed', () => {
     }
   });
 
+  it('leaves a requested variant for another one', () => {
+    const activity = byId('act.max-speed-light-vehicles', 'single-choice');
+    for (const variant of activity.variants) {
+      const next = nextDistinctSeed(activity, 0, variant.id);
+      expect(presentActivity(activity, next).variantId, variant.id).not.toBe(variant.id);
+    }
+  });
+
   it('changes at least the order when there is a single variant', () => {
     const single = activities.find((item) => item.variants.length === 1 && item.type === 'ordering') as Activity;
     const current = presentActivity(single, 3);
@@ -69,6 +77,18 @@ describe('random', () => {
 });
 
 describe('presentActivity', () => {
+  it('shows a requested variant with the order of its seed, and ignores an unknown one', () => {
+    const activity = byId('act.max-speed-light-vehicles', 'single-choice');
+    const [, second] = activity.variants;
+    const random = presentActivity(activity, 7);
+
+    const requested = presentActivity(activity, 7, second?.id);
+
+    expect(requested.variantId).toBe(second?.id);
+    expect(presentActivity(activity, 7, second?.id)).toEqual(requested);
+    expect(presentActivity(activity, 7, 'missing')).toEqual(random);
+  });
+
   it('is deterministic for a seed and reaches every variant across seeds', () => {
     const activity = byId('act.max-speed-light-vehicles', 'single-choice');
 

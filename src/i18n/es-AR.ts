@@ -149,6 +149,33 @@ export const SEVERITY_LABELS: Record<string, string> = {
   eliminatory: 'Eliminatoria',
 };
 
+export const GARAGE_COPY = {
+  heading: 'Mi garaje',
+  intro:
+    'Conocé tu auto antes de salir: revisá sus elementos de seguridad y practicá la preparación al volante, como en la primera etapa del examen.',
+  cockpitHeading: 'Al volante',
+  cockpitIntro:
+    'Sentate en el habitáculo: regulá el asiento, el apoyacabezas y los espejos, abrochate el cinturón y reconocé el instrumental.',
+  stageOne: 'Practicar la etapa I del examen',
+  yard: 'Pista de prueba',
+  inspectionHeading: 'Revisión del auto',
+  inspectionIntro:
+    'Frenos, neumáticos, luces, espejos, cinturones, sillitas para chicos y los elementos de seguridad que tenés que llevar (manual, anexo I).',
+  noActivities: 'Todavía no hay actividades de revisión del auto.',
+  studyAnnex: 'Estudiar el anexo I · Automóviles particulares',
+} as const;
+
+export const SIGN_COPY = {
+  heading: 'Catálogo de señales',
+  intro:
+    'Todas las señales del manual, como aparecen en sus páginas: reglamentarias, preventivas, informativas, transitorias, marcas en la calzada y semáforos. Cada una enlaza a su página y a la actividad donde se practica.',
+  libraryLink: 'Catálogo de señales',
+  libraryLinkHint: 'todas las señales del manual, con su imagen',
+  consultation: 'Para consulta',
+  page: 'Página',
+  practise: 'Practicar',
+} as const;
+
 /** The six spaces of PROPUESTA §2, in its order. */
 export const HOME_SPACES = [
   {

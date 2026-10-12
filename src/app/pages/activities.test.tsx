@@ -209,28 +209,30 @@ describe('playing an activity', () => {
   });
 });
 
+async function realSigns() {
+  const result = await loadContent();
+  if (!result.ok) throw new Error(result.errors.join('\n'));
+  return result.content.signs;
+}
+
 describe('sign drawings', () => {
-  it('exist for every sign used by an identification activity', () => {
+  it('exist, as a vector drawing or a crop of the manual, for every sign used by an identification activity', async () => {
+    const signs = new Map((await realSigns()).map((sign) => [sign.id, sign]));
     const used = activities.flatMap((activity) =>
       activity.type === 'sign-identification' ? activity.variants.map((variant) => variant.signId) : [],
     );
 
     expect(used.length).toBeGreaterThan(0);
-    for (const signId of used) expect(hasSignDrawing(signId), signId).toBe(true);
+    for (const signId of used)
+      expect(hasSignDrawing(signId) || signs.get(signId)?.box !== undefined, signId).toBe(true);
   });
 
   it('show the legend their catalog description quotes, so sighted players see what screen readers announce', async () => {
-    const { signs } = await loadContent().then((result) => {
-      if (!result.ok) throw new Error(result.errors.join('\n'));
-      return result.content;
-    });
-    const used = new Set(
-      activities.flatMap((activity) =>
-        activity.type === 'sign-identification' ? activity.variants.map((variant) => variant.signId) : [],
-      ),
-    );
+    const signs = await realSigns();
+    const drawn = signs.filter((sign) => hasSignDrawing(sign.id));
 
-    for (const sign of signs.filter((item) => used.has(item.id))) {
+    expect(drawn.length).toBeGreaterThan(0);
+    for (const sign of drawn) {
       const legend = /"([^"]+)"/.exec(sign.visual)?.[1];
       if (!legend) continue;
       const { container, unmount } = render(<SignGraphic signId={sign.id} description={sign.visual} />);
@@ -241,7 +243,15 @@ describe('sign drawings', () => {
     }
   });
 
-  it('falls back to the written description for signs without a drawing', () => {
+  it('shows the crop of the manual page for a sign without a drawing', () => {
+    render(<SignGraphic signId="sign.warning.cow" description="Rombo amarillo con una vaca" hasCrop />);
+
+    const image = screen.getByRole('img', { name: 'Rombo amarillo con una vaca' });
+    expect(image.tagName).toBe('IMG');
+    expect(image.getAttribute('src')).toMatch(/signs\/warning\.cow\.png$/);
+  });
+
+  it('falls back to the written description for signs without a drawing or a crop', () => {
     render(<SignGraphic signId="sign.unknown" description="Rombo amarillo con una vaca" />);
 
     expect(screen.getByRole('img', { name: 'Rombo amarillo con una vaca' })).toHaveTextContent(

@@ -8,7 +8,8 @@ Entregable de la fase 5 (iniciada el 2026-10-12). Define cómo se convierten las
 |---|---|
 | `catalog/activities/<fuente>-<sección>.json` | Actividades de una sección (`manual-ch1`, `manual-glossary`, `siniestros-s1`…). Una actividad vive en el archivo de la sección de **su primera unidad**; el validador lo exige. |
 | `catalog/figures.json` | Recortes de páginas de los PDF oficiales: fuente, página, caja en fracciones de la página, descripción accesible y unidades que ilustran. |
-| `../public/figures/*.png` | Imágenes de esos recortes, generadas con `node scripts/crop-figures.ts` (requiere poppler). Se versionan porque la aplicación estática las sirve. |
+| `../public/figures/*.png` | Imágenes de esos recortes, generadas con `node scripts/crop-figures.ts` (requiere poppler e ImageMagick). Se versionan porque la aplicación estática las sirve. |
+| `catalog/signs.json` (`box`) y `../public/signs/*.png` | Recorte de cada señal en su página, sin el rótulo impreso que la nombra (desde F05-T02); el mismo script genera las imágenes. Una señal que no admite pregunta lleva `consultationReason`. |
 | `catalog/units.json` | Las unidades, con su estado y, si son de consulta, `consultationReason`. Las correcciones de la revisión quedan en el propio registro y se anotan en `notes`. |
 
 Las figuras recortan el mismo material oficial que el repositorio ya incluye en `fuentes/pdf/` para estudio (ver README): no son material propio ni oficial del proyecto.
@@ -40,7 +41,9 @@ Escala común (`COBERTURA.md`): `pending` → `transcribed` → `reviewed` → `
 
 ## Reglas de autoría
 
-- **Tipos:** `single-choice` para definiciones y datos; `ordering` solo para procedimientos cuyo orden fija la fuente; `decision` para conductas en situación; `sign-identification` para señales (desde F05-T02).
+- **Tipos:** `single-choice` para definiciones y datos; `ordering` solo para procedimientos cuyo orden fija la fuente; `decision` para conductas en situación; `sign-identification` para señales (desde F05-T02): una variante por señal, con distractores del mismo grupo y, cuando el capítulo 3 da la conducta, preguntas de aplicación.
+- **Largo de las opciones:** la correcta no supera en más de 10 caracteres a la más larga de las incorrectas (se delataría).
+- **Texto para quien juega:** sin ids internos (decisiones, issues, archivos). Vale para enunciados, opciones y devoluciones, y también para los motivos de consulta, que se muestran en la página de sección y en el catálogo de señales (ver «Consulta»).
 - **Una sola respuesta defendible** según la página citada. Distractores plausibles pero claramente incorrectos para quien estudió esa página; sin «todas/ninguna de las anteriores» ni opciones que se delaten por su largo.
 - **Devolución por opción:** la correcta confirma y explica; cada incorrecta dice por qué no y cuál es el dato correcto. La `explanation` enseña la regla completa con su cita.
 - **Español rioplatense con voseo**, claro y breve. Ids y claves en inglés.
@@ -52,6 +55,8 @@ Escala común (`COBERTURA.md`): `pending` → `transcribed` → `reviewed` → `
 ## Decisiones sobre discrepancias
 
 Política (`COBERTURA.md`): ninguna pregunta depende de un dato no resuelto. Cuando dos fuentes difieren se evalúa lo que comparten o la versión verificada, y la diferencia se explica citando ambas. Las verificaciones externas indican fecha y fuente.
+
+Citas: «manual PDF n» y «guía PDF n» son páginas físicas de `fuentes/pdf/manual.pdf` y `fuentes/pdf/siniestros.pdf`. Dentro de una decisión, «PDF n» sin otra indicación es del manual.
 
 ### F05-T01
 
@@ -74,13 +79,54 @@ Política (`COBERTURA.md`): ninguna pregunta depende de un dato no resuelto. Cua
 - **D-T01-17 Guía, proceso penal** (PDF 17–21: fuero, querella, transferencia de 2018): evaluar solo conceptos generales (qué es la mediación, la demanda civil, la denuncia penal); no evaluar fueros, códigos procesales ni la transferencia.
 - **D-T01-18 Scoring** (manual PDF 55: 20 puntos iniciales, curso de 4 puntos, reasignación del 50 % y de 10 puntos, inhabilitación de 60 días a 5 años): evaluable. Verificado el 12/10/2026: la [página oficial del sistema de evaluación permanente de conductores](https://buenosaires.gob.ar/jefaturadegabinete/movilidad/licencias-de-conducir/scoring) confirma los 20 puntos iniciales; la recuperación de puntos y los plazos de inhabilitación coinciden en notas periodísticas de 2026 y no se confirmaron en una página oficial.
 
-Observaciones nuevas encontradas al revisar (agregadas a `catalog/issues.json`, que pasa de 206 a 214): límite de 13 m entre calle y avenida (glosario PDF 5–6), pictogramas de PDF 23 y 29, horario de la calle prioridad peatón (PDF 26 y 29), edad de 12 años en veredas (PDF 33), picadas como contravención (PDF 45), balizas en doble sentido (manual PDF 51 frente a guía PDF 8) y documentos a intercambiar (manual PDF 53 frente a guía PDF 7). Ninguna pregunta depende de ellas.
+### F05-T02
+
+- **D-T02-1 Cordón amarillo** (manual PDF 60: «prohibición de estacionar durante las 24 horas»; manual PDF 196: «prohibición de estacionar, pudiendo detenerse»): se evalúa solo lo que comparten, que el cordón amarillo prohíbe estacionar. No se evalúa si se puede detener ni el «24 horas». El cordón anaranjado (solo manual PDF 60) se evalúa citando esa página.
+- **D-T02-2 Estacionar en pasajes** (PDF 84: el texto lo prohíbe en pasajes de calzada de hasta 4,5 m y la infografía en todos): se evalúa la prohibición en pasajes de calzada de hasta 4,5 m, que ambas incluyen; no se pregunta por pasajes más anchos.
+- **D-T02-3 Referencias erradas** («Anexo V», «Ley 2449», PDF 58, 59, 77): no se pregunta por números de anexo, ley ni artículo.
+- **D-T02-4 Velocidades** (PDF 72–74): se evalúan los límites generales de CABA (20/40/60/100) y los de fuera de CABA que da el manual, citándolo; la velocidad de calles de convivencia queda fuera (D-T01-1). Las excepciones por avenida (Corrientes, Gral. Paz, Figueroa Alcorta, etc.) no se evalúan: la propia página dice que la autoridad las modifica por tramos y pueden haber cambiado; se estudian como consulta en la unidad.
+- **D-T02-5 Excepción 2 de la prioridad de la derecha** (PDF 64): se evalúa el contenido (en un cruce ferroviario sin semáforo tiene prioridad quien sale del paso a nivel), no el título.
+- **D-T02-6 Tercera luz de freno** (PDF 68): solo rótulo; no se evalúa su función.
+- **D-T02-7 Infografía de supervivencia** (PDF 69, «IMPACTO A»): los pictogramas son personas a pie; se evalúa como probabilidad de que sobreviva una persona a pie atropellada, «según la infografía del manual».
+- **D-T02-8 Distancia de detención** (PDF 70): valen las cifras rotuladas, no el largo de las barras.
+- **D-T02-9 «Velocidad mínima de la arteria» cerca de escuelas** (PDF 74): sin cifra; no se evalúa un número.
+- **D-T02-10 Macrocentro** (PDF 84): sin límites definidos; no se evalúan.
+- **D-T02-11 Cajón azul** (PDF 87): se evalúa el máximo de 30 minutos «salvo otra indicación»; el «24 horas» de la señal es el horario del espacio.
+- **D-T02-12 Anexo IV, ilegibles** (placas de acarreo y de tarifa, PDF 185 y 189) e **incompletos** («Barreras ferroviarias», PDF 186): ninguna pregunta depende de lo ilegible. Una señal cuyo dibujo está incompleto queda de consulta (`implemented` con `consultationReason`).
+- **D-T02-13 «ENCRUCIJADA (Bifurcación)»** (PDF 187, dos dibujos distintos con el mismo rótulo): no se usan como respuestas distintas entre sí.
+- **D-T02-14 Subtítulos** (PDF 61 frente al anexo): para agrupar señales valen los subtítulos del anexo IV.
+- **D-T02-15 Sin significado en la fuente** (estacionamiento ordenado con reloj verde o naranja, PDF 189; «Preferencia de avance», PDF 186): se evalúa el nombre de la señal, no un significado que la fuente no da.
+- **D-T02-16 Estrellas amarillas** (PDF 192): se evalúa que marcan el lugar donde murió una persona en un siniestro vial, según la página; no la leyenda del ejemplo (edad o fecha).
+- **D-T02-17 «Acérquese a la parada…»** (PDF 194): vale la leyenda dibujada en la señal.
+- **D-T02-18 Luz amarilla** (PDF 64: «detenerse si aún no se ha iniciado el cruce»; PDF 197: detenerse «si no se llega a transponer la encrucijada antes del cambio a rojo»): se evalúa solo el caso en que coinciden (todavía no empezaste a cruzar y no llegarías antes del rojo); la explicación cita las dos.
+
+### F05-T03
+
+- **D-T03-1 Alcohol** (PDF 91, Ley 2148: 0,5 g/l general, 0,20 motociclistas, 0,00 principiantes y profesionales; «ACOMPAÑANTE 0.50» sin explicar): la Ley nacional 27.714 de alcohol cero rige en rutas nacionales y en las jurisdicciones que adhieren; no se encontró confirmación oficial de que la Ciudad haya adherido ni de que mantenga sus límites (búsqueda del 12/10/2026: solo notas de prensa de hasta 2023 que dicen que mantenía los suyos). Se evalúa el 0,0 g/l de principiantes y profesionales (válido con cualquiera de las dos normas) y los efectos del alcohol; **no** se evalúan los límites de 0,5 y 0,2 ni el del acompañante: quedan en la unidad como consulta, con la advertencia en la explicación.
+- **D-T03-2 Distracciones** (PDF 96): ejemplos como cambiar el CD o mirar un DVD están desactualizados; se evalúa el concepto (todo lo que saca la vista, las manos o la atención de la conducción), no esos aparatos como respuesta.
+- **D-T03-3 Capítulo 5, cifras de la infografía de viajes de mujeres y línea por SMS** (PDF 100): no se evalúan porcentajes ni números de contacto.
+- **D-T03-4 Ralentí de 5 minutos** (PDF 102): relación causal ambigua; se evalúan las recomendaciones de conducción eficiente sin la cifra de 5 minutos.
+- **D-T03-5 Elementos de seguridad** (PDF 106 los llama «adicionales», PDF 119–120 los presenta como obligatorios): se evalúa lo que dice la sección específica (PDF 119–120), sin preguntar si son «adicionales u obligatorios».
+- **D-T03-6 Fecha del neumático** (PDF 108): se evalúa cómo se lee el código (semana y año), no la equivalencia «tercera semana de abril».
+- **D-T03-7 Espejos laterales, 10 %** (PDF 110): se evalúa que el propio vehículo apenas debe verse en el espejo lateral, sin la cifra si la pregunta depende de la ambigüedad.
+- **D-T03-8 Niños en asientos delanteros** (PDF 114, combinación ambigua de 12 años, 1,50 m y 36 kg; nota con 10 años de la ley nacional): se evalúan solo casos que cumplen todas las condiciones a la vez (por ejemplo, un chico de 7 años viaja atrás con su SRI), no los casos frontera ni el límite nacional.
+- **D-T03-9 Contramarcha del SRI** (PDF 115 frente a 116): se evalúa que los bebés viajan a contramarcha en los primeros grupos, no el corte exacto de edad o peso.
+- **D-T03-10 Objetos sueltos** (PDF 117, «hasta 40 veces su peso» y un ejemplo de ~41): se evalúa el concepto (en un choque a 50 km/h un objeto suelto multiplica muchas veces su peso y se vuelve un proyectil); la cifra solo en la explicación.
+- **D-T03-11 Cristales laminados o templados** (PDF 118): no se evalúa cuál se rompe en pedazos pequeños.
+- **D-T03-12 Cuarta de enganche** (PDF 121): se evalúa que en la Ciudad un vehículo particular no puede remolcar a otro.
+- **D-T03-13 Tercera fila del SRI** (PDF 116): no se evalúa.
+
+Observaciones nuevas de F05-T01 (agregadas a `catalog/issues.json`, que pasa de 206 a 214): límite de 13 m entre calle y avenida (glosario PDF 5–6), pictogramas de PDF 23 y 29, horario de la calle prioridad peatón (PDF 26 y 29), edad de 12 años en veredas (PDF 33), picadas como contravención (PDF 45), balizas en doble sentido (manual PDF 51 frente a guía PDF 8) y documentos a intercambiar (manual PDF 53 frente a guía PDF 7). Ninguna pregunta depende de ellas. F05-T03 agrega 3 más (229): ABS «no obligatorio» (PDF 107), el paréntesis de PDF 100 y el orden de luz de giro y velocidad de PDF 110 frente a PDF 75. F05-T02 agrega 12 (226 en total): banquina en PDF 60, mínimos de PDF 73, señal de ciclovía de PDF 32 frente a PDF 185, oblea de PDF 87, cheurones de niebla (PDF 79), diagramas de PDF 77, contracurva y curva en «S» (PDF 187), fondo azul de fin de prescripción (PDF 186 frente a 61), luz amarilla (PDF 64 frente a 197), carril de emergencia (PDF 63 frente a 196), erratas de PDF 195–196 y semáforos de PDF 197.
 
 ## Cobertura por tarea
 
 | Tarea | Secciones | Unidades | Probadas | De consulta | Actividades nuevas | Figuras |
 |---|---|---:|---:|---:|---:|---:|
 | F05-T01 | Presentación, glosario, introducción, cap. 1–2 y guía de siniestros | 260 | 254 | 6 | 105 (351 variantes) | 23 |
+| F05-T02 | Cap. 3 y anexo IV, con el catálogo visual de señales | 153 | 151 | 2 | 128 (573 variantes) | 28 |
+| F05-T03 | Cap. 4–5 y anexo I, con la inspección del auto («Mi garaje») | 107 | 106 | 1 | 59 (192 variantes) | 17 |
+
+Señales (F05-T02): 354 de las 355 recortadas de su página y revisadas (`name`, `meaning` solo cuando la fuente lo da, y `visual`, que es el texto alternativo y no delata la respuesta); 350 `tested` por actividades de identificación y 4 de consulta (las tres luces intermitentes, que un dibujo fijo no distingue de la luz fija, y «Barreras ferroviarias», incompleta en el PDF). La restante (PDF 91, ícono de principiante de la tabla de alcohol) se recortó y practica en F05-T03: las 355 tienen recorte y tratamiento.
 
 Además, en F05-T01 se revisaron contra sus páginas las 14 unidades (cap. 1, 3 y anexo IV) y las 4 señales que practican las 8 actividades de la fase 2; quedan `tested`.
 
@@ -89,6 +135,6 @@ Además, en F05-T01 se revisaron contra sus páginas las 14 unidades (cap. 1, 3 
 ```bash
 npm run validate:content                              # esquemas, referencias, figuras y estados de tratamiento
 npx vitest run src/content                            # validadores, recorrido del catálogo y política de contenido
-node scripts/crop-figures.ts [id …]                   # regenera los recortes (poppler e ImageMagick)
+node scripts/crop-figures.ts [id …]                   # regenera recortes de figuras y señales (poppler e ImageMagick)
 ```
 

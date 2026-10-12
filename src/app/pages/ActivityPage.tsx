@@ -32,7 +32,10 @@ function focusTitle(): void {
   document.getElementById('page-title')?.focus();
 }
 
-/** Plays one activity. The seed lives in the URL (?semilla=) so a variant can be reproduced or shared. */
+/**
+ * Plays one activity. The seed lives in the URL (?semilla=) so a variant can be reproduced or shared; ?variante= asks
+ * for one variant (the sign catalog links to the variant of each sign).
+ */
 export function ActivityPage() {
   const { id = '' } = useParams();
   const [params, setParams] = useSearchParams();
@@ -41,8 +44,19 @@ export function ActivityPage() {
   const validSeed = /^\d{1,10}$/.test(rawSeed) && Number(rawSeed) < SEED_LIMIT;
   const seed = validSeed ? Number(rawSeed) : 0;
 
+  const requestedVariant = params.get('variante') ?? undefined;
+
   useEffect(() => {
-    if (!validSeed) setParams({ semilla: String(randomSeed()) }, { replace: true });
+    if (validSeed) return;
+    // Keeps ?variante= while choosing the seed.
+    setParams(
+      (current) => {
+        const next = new URLSearchParams(current);
+        next.set('semilla', String(randomSeed()));
+        return next;
+      },
+      { replace: true },
+    );
   }, [validSeed, setParams]);
 
   return (
@@ -50,19 +64,24 @@ export function ActivityPage() {
       {(content) => {
         const activity = content.activities.find((item) => item.id === id);
         if (!activity) return <NotFoundPage />;
+        const variantId = activity.variants.some((variant) => variant.id === requestedVariant)
+          ? requestedVariant
+          : undefined;
         // The title stays mounted while the seed is normalised or changed, so the layout's focus stays on it.
         return (
           <>
             <PageTitle>{activity.title}</PageTitle>
             {validSeed && (
               <ActivityPlayer
-                key={`${activity.id}:${seed}`}
+                key={`${activity.id}:${seed}:${variantId ?? ''}`}
                 activity={activity}
                 content={content}
                 seed={seed}
+                variantId={variantId}
                 onAnotherVariant={() => {
                   focusTitle();
-                  setParams({ semilla: String(nextDistinctSeed(activity, seed)) });
+                  // Another variant drops the requested one.
+                  setParams({ semilla: String(nextDistinctSeed(activity, seed, variantId)) });
                 }}
               />
             )}
@@ -77,14 +96,15 @@ interface ActivityPlayerProps {
   activity: Activity;
   content: Content;
   seed: number;
+  variantId: string | undefined;
   onAnotherVariant: () => void;
 }
 
-function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityPlayerProps) {
+function ActivityPlayer({ activity, content, seed, variantId, onAnotherVariant }: ActivityPlayerProps) {
   const home = activitiesBySection([activity], content.units).keys().next().value;
   const backTo = home === undefined ? '/actividades' : `/actividades?seccion=${home}`;
   const record = useContext(ActivityResultContext);
-  const [presentation] = useState(() => presentActivity(activity, seed));
+  const [presentation] = useState(() => presentActivity(activity, seed, variantId));
   const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
   const [saveOutcome, setSaveOutcome] = useState<SaveOutcome | null>(null);
 
@@ -108,7 +128,11 @@ function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityP
       <p className="badge">{ACTIVITY_TYPE_LABELS[activity.type]}</p>
       {sign && (
         <figure className="sign-figure">
-          <SignGraphic signId={sign.id} description={`${ACTIVITY_COPY.signToIdentify}: ${sign.visual}`} />
+          <SignGraphic
+            signId={sign.id}
+            description={`${ACTIVITY_COPY.signToIdentify}: ${sign.visual}`}
+            hasCrop={sign.box !== undefined}
+          />
         </figure>
       )}
       {presentation.kind === 'choice' && (
