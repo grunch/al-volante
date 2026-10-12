@@ -15,6 +15,7 @@ describe('DrivingCanvas', () => {
   beforeEach(() => {
     callbacks = [];
     clock = 0;
+    localStorage.clear();
     vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => callbacks.push(callback));
     vi.stubGlobal('cancelAnimationFrame', vi.fn());
   });
@@ -206,5 +207,91 @@ describe('DrivingCanvas', () => {
 
     expect(screen.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'unavailable');
     expect(screen.getByRole('status')).toHaveTextContent('Sin WebGL');
+  });
+  it('operates cabin switches and returns observations to the front', () => {
+    const { surface, press } = renderCanvas('manual');
+    press('KeyC');
+    expect(screen.getByText('Cinturón abrochado')).toBeVisible();
+    press('KeyJ');
+    expect(surface).toHaveAttribute('data-look-yaw', '1.3');
+    press('KeyL');
+    expect(surface).toHaveAttribute('data-look-yaw', '-1.3');
+    press('KeyB');
+    expect(surface).toHaveAttribute('data-look-yaw', '2.35');
+    press('KeyI');
+    expect(surface).toHaveAttribute('data-look-yaw', '0');
+    press('KeyH');
+    expect(screen.getByText(/Bocina activada/)).toBeVisible();
+    fireEvent.blur(window);
+    expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
+    for (const code of ['KeyO', 'KeyZ', 'KeyX', 'KeyV', 'KeyF']) press(code);
+    expect(screen.getByRole('button', { name: /Balizas/, pressed: true })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('allows keyboard pedals outside the canvas and releases them on blur', () => {
+    const { surface } = renderCanvas('manual');
+    const key = screen.getByRole('button', { name: 'Accionar llave' });
+    fireEvent.click(key);
+    runFrames(0.1);
+    fireEvent.click(key);
+    runFrames(0.1);
+    const throttle = screen.getByRole('button', { name: 'Acelerar' });
+    fireEvent.keyDown(throttle, { code: 'Space' });
+    runFrames(1);
+    const rpm = Number(surface.dataset.rpm);
+    expect(rpm).toBeGreaterThan(1000);
+    fireEvent.blur(throttle);
+    runFrames(2);
+    expect(Number(surface.dataset.rpm)).toBeLessThan(rpm);
+  });
+  it('renders a horn tap released between frames and clears it on the following frame', () => {
+    renderCanvas('manual');
+    vi.stubGlobal('PointerEvent', MouseEvent);
+    const horn = screen.getByRole('button', { name: 'Bocina' });
+    horn.setPointerCapture = vi.fn();
+
+    fireEvent.pointerDown(horn, { button: 0 });
+    fireEvent.pointerUp(horn, { button: 0 });
+    runFrames(1 / 60);
+
+    expect(screen.getByText(/Bocina activada/)).toBeVisible();
+    runFrames(1 / 60);
+    expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
+  });
+
+  it('discards an unsampled tap when the window loses focus', () => {
+    const { surface } = renderCanvas('manual');
+    fireEvent.keyDown(surface, { code: 'KeyH' });
+    fireEvent.keyUp(surface, { code: 'KeyH' });
+    fireEvent.blur(window);
+    runFrames(1 / 60);
+    expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
+  });
+  it('accepts a semantic click without pointer or keyboard events', () => {
+    renderCanvas('manual');
+    const horn = screen.getByRole('button', { name: 'Bocina' });
+
+    fireEvent.click(horn, { detail: 0 });
+    runFrames(1 / 60);
+
+    expect(screen.getByText(/Bocina activada/)).toBeVisible();
+    runFrames(1 / 60);
+    expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
+  });
+
+  it('does not add a pulse for the click following a pointer activation', () => {
+    renderCanvas('manual');
+    vi.stubGlobal('PointerEvent', MouseEvent);
+    const horn = screen.getByRole('button', { name: 'Bocina' });
+    horn.setPointerCapture = vi.fn();
+    fireEvent.pointerDown(horn, { button: 0 });
+    runFrames(1 / 60);
+    expect(screen.getByText(/Bocina activada/)).toBeVisible();
+
+    fireEvent.pointerUp(horn, { button: 0 });
+    fireEvent.click(horn, { detail: 1 });
+    runFrames(1 / 60);
+
+    expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
   });
 });

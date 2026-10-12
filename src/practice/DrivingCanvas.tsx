@@ -1,11 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import * as THREE from 'three';
+import { HeldInput } from './heldInput.ts';
 import { KEY_BINDINGS } from './controls.ts';
 import { driveFrame, startDriving } from './drivingLoop.ts';
 import { gearLabel } from './telemetry.ts';
 import type { Telemetry } from './telemetry.ts';
-import { createTrackScene } from '../scene/trackScene.ts';
+import { createCockpitScene } from '../scene/cockpitScene.ts';
+import { CockpitControls } from './CockpitControls.tsx';
+import { commandCockpit, initialCockpit } from './cockpit.ts';
+import type { CockpitCommand } from './cockpit.ts';
+import {
+  DEFAULT_BINDINGS,
+  BINDINGS_STORAGE_KEY,
+  HOLD_ACTIONS,
+  DRIVE_COMMANDS,
+  actionForCode,
+  drivingKeys,
+  parseBindings,
+  rebind,
+} from './bindings.ts';
+import type { Action, Bindings } from './bindings.ts';
+import { COCKPIT_COPY as copy } from '../i18n/es-AR.ts';
 import type { RendererFactory, SceneRenderer } from '../scene/SceneCanvas.tsx';
 import { EXAM_SPECS } from '../sim/car.ts';
 import type { CarEvent } from '../sim/car.ts';
@@ -14,21 +30,12 @@ import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { interpolateVehicle } from '../sim/vehicle.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
 import type { World } from '../sim/world.ts';
-import { usePrefersReducedMotion } from '../ui/usePrefersReducedMotion.ts';
 
 /** How often the page gets telemetry for its readouts; the canvas itself updates every frame. */
 const TELEMETRY_INTERVAL_S = 0.1;
 /** Frames longer than this (a background tab, a breakpoint) count as this long. */
 const MAX_FRAME_S = 0.25;
 const MAX_PIXEL_RATIO = 2;
-const BOUND_KEYS: ReadonlySet<string> = new Set(Object.values(KEY_BINDINGS).flat());
-const COMMAND_KEYS: ReadonlySet<string> = new Set([
-  ...KEY_BINDINGS.key,
-  ...KEY_BINDINGS.handbrake,
-  ...KEY_BINDINGS.gearUp,
-  ...KEY_BINDINGS.gearDown,
-]);
-
 export type DrivingState = 'loading' | 'ready' | 'unavailable';
 
 interface DrivingCanvasProps {
@@ -65,12 +72,90 @@ export function DrivingCanvas({
   resetCount = 0,
 }: DrivingCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const keysRef = useRef(new Set<string>());
+  const heldRef = useRef(new HeldInput());
+  const [cockpit, setCockpit] = useState(initialCockpit);
+  const cockpitRef = useRef(cockpit);
+  const [bindings, setBindings] = useState<Bindings>(() => {
+    try {
+      return parseBindings(localStorage.getItem(BINDINGS_STORAGE_KEY));
+    } catch {
+      return DEFAULT_BINDINGS;
+    }
+  });
+  const [storageError, setStorageError] = useState(false);
+  const [readout, setReadout] = useState({ speed: 0, rpm: 0, gear: transmission === 'manual' ? 'N' : 'P' });
+  const dragRef = useRef<{ id: number; x: number; y: number } | null>(null);
+  const command = (value: CockpitCommand) => {
+    cockpitRef.current = commandCockpit(cockpitRef.current, value);
+    setCockpit(cockpitRef.current);
+  };
+  const release = () => {
+    heldRef.current.clear();
+    pendingRef.current.length = 0;
+    dragRef.current = null;
+    command({ type: 'horn', value: false });
+  };
+  const startAction = (action: Action, source: string) => {
+    if (HOLD_ACTIONS.has(action)) {
+      heldRef.current.press(source, action);
+      if (action === 'horn') command({ type: 'horn', value: true });
+    } else if (DRIVE_COMMANDS.has(action)) {
+      pendingRef.current.push(KEY_BINDINGS[action as keyof typeof KEY_BINDINGS][0]);
+    } else {
+      const current = cockpitRef.current;
+      switch (action) {
+        case 'lookLeft':
+          command({ type: 'look', yaw: 1.3, pitch: 0 });
+          break;
+        case 'lookRight':
+          command({ type: 'look', yaw: -1.3, pitch: 0 });
+          break;
+        case 'lookBack':
+          command({ type: 'look', yaw: 2.35, pitch: 0 });
+          break;
+        case 'lookCenter':
+          command({ type: 'look', yaw: 0, pitch: 0 });
+          break;
+        case 'belt':
+        case 'hazards':
+        case 'wipers':
+          command({ type: 'toggle', control: action });
+          break;
+        case 'lights': {
+          const sequence = ['off', 'position', 'low', 'high'] as const;
+          command({
+            type: 'lights',
+            value: sequence[(sequence.indexOf(current.lights) + 1) % sequence.length] ?? 'off',
+          });
+          break;
+        }
+        case 'signalLeft':
+        case 'signalRight': {
+          const value = action === 'signalLeft' ? 'left' : 'right';
+          command({ type: 'signal', value: current.signal === value ? 'off' : value });
+          break;
+        }
+      }
+    }
+  };
+  const stopAction = (source: string) => {
+    heldRef.current.release(source);
+    if (!heldRef.current.peek().has('horn') && cockpitRef.current.horn) command({ type: 'horn', value: false });
+  };
+  const saveBindings = (next: Bindings) => {
+    release();
+    setBindings(next);
+    try {
+      localStorage.setItem(BINDINGS_STORAGE_KEY, JSON.stringify(next));
+      setStorageError(false);
+    } catch {
+      setStorageError(true);
+    }
+  };
   const pendingRef = useRef<string[]>([]);
   const resetRef = useRef(resetCount);
   const telemetryRef = useRef(onTelemetry);
   const [state, setState] = useState<DrivingState>('loading');
-  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     resetRef.current = resetCount;
@@ -88,7 +173,7 @@ export function DrivingCanvas({
       const pending = requestAnimationFrame(() => setState('unavailable'));
       return () => cancelAnimationFrame(pending);
     }
-    const track = createTrackScene(world, EXAM_SPECS.vehicle, { reducedMotion });
+    const track = createCockpitScene(world, EXAM_SPECS.vehicle);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO));
     renderer.domElement.setAttribute('aria-hidden', 'true');
     container.appendChild(renderer.domElement);
@@ -98,10 +183,17 @@ export function DrivingCanvas({
       track.resize(container.clientWidth, container.clientHeight);
     };
     resize();
+    if (typeof ResizeObserver !== 'function') window.addEventListener('resize', resize);
     const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(resize) : null;
     observer?.observe(container);
     // Switching tab or app may not blur the view itself, and the key-up never arrives: release everything.
-    const releaseKeys = () => keysRef.current.clear();
+    const releaseKeys = () => {
+      heldRef.current.clear();
+      pendingRef.current.length = 0;
+      dragRef.current = null;
+      cockpitRef.current = commandCockpit(cockpitRef.current, { type: 'horn', value: false });
+      setCockpit(cockpitRef.current);
+    };
     window.addEventListener('blur', releaseKeys);
     document.addEventListener('visibilitychange', releaseKeys);
 
@@ -120,13 +212,38 @@ export function DrivingCanvas({
         appliedReset = resetRef.current;
         driving = startDriving(start, transmission);
         lastEvent = null;
+        releaseKeys();
+        cockpitRef.current = initialCockpit();
+        setCockpit(cockpitRef.current);
       }
-      driving = driveFrame(world, driving, keysRef.current, pendingRef.current.splice(0), frameS);
+      let hornSampled = false;
+      driving = driveFrame(
+        world,
+        driving,
+        () => {
+          const actions = heldRef.current.sample();
+          hornSampled ||= actions.has('horn');
+          return drivingKeys(actions);
+        },
+        pendingRef.current.splice(0),
+        frameS,
+      );
+      // Keep a short horn press visible for the frame that consumes it.
+      const horn = hornSampled || heldRef.current.peek().has('horn');
+      if (horn !== cockpitRef.current.horn) {
+        cockpitRef.current = commandCockpit(cockpitRef.current, { type: 'horn', value: horn });
+        setCockpit(cockpitRef.current);
+      }
       const { stepper, events } = driving;
       const car = stepper.state;
-      track.update(interpolateVehicle(stepper.previous.world.vehicle, car.world.vehicle, driving.alpha));
-      renderer.render(track.scene, track.camera);
       const rpm = radSToRpm(car.powertrain.engineRadS);
+      track.update(
+        interpolateVehicle(stepper.previous.world.vehicle, car.world.vehicle, driving.alpha),
+        cockpitRef.current,
+        rpm,
+        car.world.timeS,
+      );
+      renderer.render(track.scene, track.camera);
       container.dataset.speedKmh = (car.world.vehicle.speedMps * 3.6).toFixed(1);
       container.dataset.odometerM = car.world.vehicle.odometerM.toFixed(2);
       container.dataset.timeS = car.world.timeS.toFixed(4);
@@ -138,6 +255,7 @@ export function DrivingCanvas({
       sinceTelemetryS += frameS;
       if (notable || sinceTelemetryS >= TELEMETRY_INTERVAL_S) {
         sinceTelemetryS = 0;
+        setReadout({ speed: Math.abs(car.world.vehicle.speedMps * 3.6), rpm, gear: gearLabel(car.powertrain) });
         telemetryRef.current?.({
           speedKmh: car.world.vehicle.speedMps * 3.6,
           odometerM: car.world.vehicle.odometerM,
@@ -157,43 +275,118 @@ export function DrivingCanvas({
     return () => {
       cancelAnimationFrame(frame);
       observer?.disconnect();
+      window.removeEventListener('resize', resize);
       window.removeEventListener('blur', releaseKeys);
       document.removeEventListener('visibilitychange', releaseKeys);
       track.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [createRenderer, world, start, transmission, reducedMotion]);
+  }, [createRenderer, world, start, transmission]);
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (!BOUND_KEYS.has(event.code)) return;
+    if (event.ctrlKey || event.altKey || event.metaKey) return;
+    const action = actionForCode(bindings, event.code);
+    if (!action) return;
     event.preventDefault();
-    if (COMMAND_KEYS.has(event.code)) {
-      if (!event.repeat) pendingRef.current.push(event.code);
-      return;
-    }
-    keysRef.current.add(event.code);
+    if (!event.repeat) startAction(action, `key-${event.code}`);
   };
 
   return (
-    <div
-      className="scene-canvas driving-canvas"
-      ref={containerRef}
-      data-state={state}
-      data-testid="driving-canvas"
-      tabIndex={0}
-      onKeyDown={onKeyDown}
-      onKeyUp={(event) => keysRef.current.delete(event.code)}
-      // Letting go of the view releases every key, so the car never keeps accelerating unattended.
-      onBlur={() => keysRef.current.clear()}
-      {...(state === 'unavailable' ? {} : { role: 'application', 'aria-label': label })}
-    >
-      {state === 'loading' && <p className="scene-canvas__status">{loadingText}</p>}
-      {state === 'unavailable' && (
-        <p className="scene-canvas__status" role="status">
-          {unavailableText}
-        </p>
+    <section className="cockpit-shell" aria-label={copy.title}>
+      <div className="cockpit-heading">
+        <span>{copy.subtitle}</span>
+        <strong>{cockpit.belt ? copy.beltOn : copy.beltOff}</strong>
+      </div>
+      <p className="cockpit-help">{copy.help}</p>
+      <div className="cockpit-viewport">
+        <div
+          className="scene-canvas driving-canvas"
+          ref={containerRef}
+          data-state={state}
+          data-testid="driving-canvas"
+          data-look-yaw={cockpit.lookYaw}
+          tabIndex={0}
+          onKeyDown={onKeyDown}
+          onKeyUp={(event) => {
+            if (actionForCode(bindings, event.code)) event.preventDefault();
+            stopAction(`key-${event.code}`);
+          }}
+          onBlur={release}
+          onPointerDown={(event) => {
+            if (event.button !== 0) return;
+            event.currentTarget.focus();
+            event.currentTarget.setPointerCapture(event.pointerId);
+            dragRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY };
+          }}
+          onPointerMove={(event) => {
+            const drag = dragRef.current;
+            if (!drag || drag.id !== event.pointerId) return;
+            command({
+              type: 'look',
+              yaw: cockpitRef.current.lookYaw - (event.clientX - drag.x) * 0.006,
+              pitch: cockpitRef.current.lookPitch + (event.clientY - drag.y) * 0.006,
+            });
+            dragRef.current = { id: event.pointerId, x: event.clientX, y: event.clientY };
+          }}
+          onPointerUp={() => {
+            dragRef.current = null;
+          }}
+          onPointerCancel={() => {
+            dragRef.current = null;
+          }}
+          onLostPointerCapture={() => {
+            dragRef.current = null;
+          }}
+          {...(state === 'unavailable' ? {} : { role: 'application', 'aria-label': label })}
+        >
+          {state === 'loading' && <p className="scene-canvas__status">{loadingText}</p>}
+          {state === 'unavailable' && (
+            <p className="scene-canvas__status" role="status">
+              {unavailableText}
+            </p>
+          )}
+        </div>
+        {state === 'ready' && (
+          <div className="cockpit-digital" aria-label={copy.title}>
+            <span>
+              <b>{readout.speed.toFixed(0)}</b> {copy.speed}
+            </span>
+            <strong>{readout.gear}</strong>
+            <span>
+              {readout.rpm.toFixed(0)} {copy.rpm}
+            </span>
+            <span className="cockpit-indicator">{copy.lightNames[cockpit.lights]}</span>
+            <span className="cockpit-indicator">
+              {cockpit.hazards
+                ? copy.toggles.hazards
+                : cockpit.signal === 'left'
+                  ? '←'
+                  : cockpit.signal === 'right'
+                    ? '→'
+                    : ''}
+            </span>
+          </div>
+        )}
+      </div>
+      {state === 'ready' && (
+        <CockpitControls
+          state={cockpit}
+          command={command}
+          start={startAction}
+          stop={stopAction}
+          bindings={bindings}
+          bind={(action, code) => {
+            const next = rebind(bindings, action, code);
+            if (!next) return false;
+            saveBindings(next);
+            return true;
+          }}
+          restore={() => saveBindings(DEFAULT_BINDINGS)}
+          storageError={storageError}
+          automatic={transmission === 'automatic'}
+        />
       )}
-    </div>
+    </section>
   );
 }

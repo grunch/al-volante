@@ -45,7 +45,7 @@ describe('practice yard page', () => {
     // Assert
     expect(readout(TRACK_COPY.key)).toHaveTextContent(TRACK_COPY.keyStates.on);
     expect(readout(TRACK_COPY.engine)).toHaveTextContent('rpm');
-    expect(screen.getByRole('status')).toHaveTextContent(TRACK_COPY.events['engine-started']);
+    expect(screen.getByText(TRACK_COPY.events['engine-started'])).toHaveAttribute('role', 'status');
   });
 
   it('switches between manual and automatic, with the controls of each, and goes back to the start', async () => {

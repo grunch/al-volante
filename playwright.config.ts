@@ -5,6 +5,8 @@ const PORT = 4173;
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
+  // Live mirror rendering competes for the runner CPU/GPU; keep CI browsers sequential.
+  workers: process.env.CI ? 1 : undefined,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
