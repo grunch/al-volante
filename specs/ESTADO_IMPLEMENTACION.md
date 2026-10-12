@@ -13,6 +13,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 5 — Todo el contenido y simulacros teóricos: tareas fusionadas.** F05-T05 ([#33](https://github.com/grunch/al-volante/pull/33)) se integró en `main` con `9dd6d9e`. Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
 - **F04-T01-FIX02 — experiencia de conducción:** rama `f04-t01-fix02-driving-realism`, base `main` actualizada a `9dd6d9e`, worktree independiente; [#34](https://github.com/grunch/al-volante/pull/34), implementación `404ea74`, validación local previa aprobada; integración de #33 verificada localmente, CI y CodeRabbit pendientes. Pedido puntual posterior a #31; no inicia fase 6.
 - **F04-T01-FIX01 — referencias visuales, fusionado en `9bc0257`:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
+- **F04-T01-FIX04 — E2E con margen para WebGL por software:** rama `f04-t01-fix04-e2e-budgets`, desde `main` (`f3d2f60`). Repara la CI roja de `main` tras #34 (tiempos de reloj justos, sin error de código); #35 y #36 lo integran.
 - Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -439,6 +440,22 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisión independiente local: completada sobre el diff de implementación. Finding P3: las manijas sobresalían 1–2,5 cm de la caja de los vehículos; corregido desplazándolas hacia adentro. Pruebas de contorno de auto, colectivo, emergencia, peatón y bicicleta aprobadas. Seguimiento independiente del diff final completado sin findings pendientes. Codex GitHub: completada sin observaciones sobre `404ea74` (2026-10-12 20:02 UTC) en [#34](https://github.com/grunch/al-volante/pull/34). CodeRabbit: solicitada automáticamente, pendiente por límite horario de revisiones; el check «Review rate limited» no cuenta como revisión completada.
 - Verificación local: `npm run check` aprobado (Node 24.21.0): 1.350 pruebas en 68 archivos; cobertura de líneas 96,51 %, ramas 90,30 %; lint, formato, tipos, contenido y build aprobados. La suite general se inició antes de la última optimización de agrupación de actores; las 24 regresiones afectadas y de pantalla completa se ejecutaron después y pasaron. 32 E2E de ciudad, cabina, examen y pista aprobados en Chromium con GPU (escritorio y móvil). Capturas y condiciones de rendimiento en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md#comparación-visual). CI de `edce114`: lint, tipos, unitarias, catálogo y build aprobados; E2E cancelado.
 - Actualización de base (2026-10-12): se incorpora `main` (`9dd6d9e`, #33) mediante merge, sin reescribir historia. Conflictos solo en este registro, resueltos conservando F05-T05 y F04-T01-FIX02; los textos del teórico y la conducción se integran sin conflictos. Validación de integración aprobada: lint, formato, tipos, build, catálogo y 51 pruebas focalizadas de aplicación, teórico, controles y cabina. Se comprobó que cada archivo conserva los cambios de su rama de origen y que el archivo compartido de textos contiene ambas incorporaciones. CI completa pendiente sobre el merge.
+
+## Correctivo F04-T01-FIX04 — E2E con margen para WebGL por software
+
+- Pedido del usuario (2026-10-12): «revisa los comentarios en los PRs, resuelve conflictos si los hay, y si falla ci checks arregla». Rama `f04-t01-fix04-e2e-budgets`, desde `main` (`f3d2f60`).
+- Problema: la CI de `main` después de fusionar #34 (`f3d2f60`) y la de #35 cancelaron el E2E. Fallaron tres pruebas:
+  - `city.spec.ts`, «drives from a route entry…»: no llegaba a 3 m en 20 s;
+  - `cockpit.spec.ts`, «prepares the cabin…»: superó los 30 s por defecto;
+  - `exam.spec.ts`, «offers the four modes…»: superó los 120 s.
+
+  Con los reintentos, el job pasó sus 20 min y se canceló. No es un error de código: el árbol de `f3d2f60` es idéntico al de `12434c0`, cuya corrida del PR #34 pasó las 66 pruebas sin reintentos en 13,4 min, en paralelo con la que falló. Son presupuestos de reloj justos para el render por software, y fallan con un runner más lento.
+- Medición local (Chromium de Playwright, WebGL por software):
+  - unos 600–700 ms por cuadro, igual antes (`9dd6d9e`) y después de #34, así que #34 no encareció el render;
+  - recorrer los 3 m lleva 2,2 s simulados y 14,8 s de reloj, de los 20 s;
+  - «offers the four modes…» tarda unos 72 s, de los 120 s.
+- Arreglo: los mismos asertos con más tiempo de reloj. 60 s para los 3 m, 90 s por prueba del habitáculo (y 30 s para que la vista esté lista, como en las demás specs), 240 s para el bloque del examen y 30 min para el job E2E.
+- Siguiente: integrar este correctivo en #35 y #36, cuyas CI dependen de él.
 
 ## Correctivo F04-T01-FIX01 — Entorno basado en referencias
 
