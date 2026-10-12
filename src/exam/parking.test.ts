@@ -19,6 +19,7 @@ import {
   judgeParkingStep,
   kerbDistancesCm,
   noteDescentLook,
+  noteHazards,
   noteParkingLook,
 } from './parking.ts';
 import type { Parking } from './parking.ts';
@@ -74,14 +75,19 @@ const alignment = (seconds = 4) => [
   ...Array.from({ length: Math.round(seconds * 10) }, () => ({ car: carAt(5, 3.3, 2) })),
   { car: carAt(5, 3.3, 0) },
 ];
+/** Reversing with a glance at the right mirror once moving back, so the reverse is checked (high p is tested apart). */
 const reversing = (count: number, leftM = 3.3, alongM = 2) =>
-  Array.from({ length: count }, () => ({ car: carAt(alongM, leftM, -0.8) }));
+  Array.from({ length: count }, (_, index) => ({
+    car: carAt(alongM, leftM, -0.8),
+    ...(index === 1 ? { look: -MIRROR.min } : {}),
+  }));
+const reversingBlind = (count: number) => Array.from({ length: count }, () => ({ car: carAt(2, 3.3, -0.8) }));
 const forwards = (count: number, leftM = 0) => Array.from({ length: count }, () => ({ car: carAt(-0.5, leftM, 0.8) }));
 const stillInBay = { car: carAt(0, 0, 0) };
 /** The alignment stop with a glance at the right mirror, so the reverse is checked (high p is tested apart). */
 const aligned = (seconds = 4) => [...alignment(seconds), { car: carAt(5, 3.3, 0), look: -MIRROR.min }];
 /** Already aligned in double file, hazards judged: only what follows is reported. */
-const started: Parking = { ...createParking(), startedAtS: 0, manoeuvres: 1, attempts: 1, looked: true };
+const started: Parking = { ...createParking(), startedAtS: 0, manoeuvres: 1, attempts: 1, lookedBeforeReverse: true };
 
 describe('the parking thresholds come from the rule catalog (REGLAS.md §6)', () => {
   const parameters = (id: string) => REAL_RULES.find((rule) => rule.id === id)!.parameters as Record<string, number>;
@@ -120,6 +126,21 @@ describe('hazards before stopping in double file (rule.low.i; protocolo PDF 13, 
       cockpit: index === 20 ? initialCockpit() : HAZARDS,
     }));
     expect(play(flicker).rules).toEqual(['rule.low.i-no-hazards-before-parking']);
+  });
+
+  it('counts the hazards from when they came on before the parking phase: the notice comes on the last leg', () => {
+    // On 2,5 s before stage III began, and the double-file stop 1 s into it: 3,5 s before stopping.
+    const onSinceTheLastLeg = noteHazards(createParking(), true, -2.5);
+    expect(play(alignment(1), onSinceTheLastLeg).rules).toEqual([]);
+    expect(play(alignment(1)).rules).toEqual(['rule.low.i-no-hazards-before-parking']);
+    expect(noteHazards(onSinceTheLastLeg, false, 0).hazardsSinceS).toBeNull();
+  });
+
+  it('stopping in the bay itself, driving in forwards, is not the double-file alignment and begins nothing', () => {
+    const forwardsIn = [...Array.from({ length: 40 }, () => ({ car: carAt(0, 0, 2) })), { car: carAt(0, 0, 0) }];
+    const { parking } = play(forwardsIn);
+    expect(parking.startedAtS).toBeNull();
+    expect(parking.manoeuvres).toBe(0);
   });
 
   it('a stop outside the parking zone (far before the bay) does not begin the manoeuvre', () => {
@@ -191,6 +212,22 @@ describe('mirrors or a head turn while reversing (rule.high.p; protocolo PDF 13,
     expect(early.rules).toEqual(['rule.high.p-no-mirror-check-parking']);
     const short = play([...alignment(), { car: carAt(5, 3.3, 0), look: 0.1 }, ...reversing(5), ...forwards(2)]);
     expect(short.rules).toEqual(['rule.high.p-no-mirror-check-parking']);
+  });
+
+  it('asks for both moments: at the double-file stop and while reversing; a look after the reverse does not count', () => {
+    const atStopOnly = play([...aligned(), ...reversingBlind(5), ...forwards(2)]);
+    expect(atStopOnly.rules).toEqual(['rule.high.p-no-mirror-check-parking']);
+    const inReverseOnly = play([...alignment(), ...reversing(5), ...forwards(2)]);
+    expect(inReverseOnly.rules).toEqual(['rule.high.p-no-mirror-check-parking']);
+    const both = play([...aligned(), ...reversing(5), ...forwards(2)]);
+    expect(both.rules).toEqual([]);
+    const tooLate = play([
+      ...aligned(),
+      ...reversingBlind(5),
+      { car: carAt(-0.5, 0, 0.8) },
+      { car: carAt(-0.5, 0, 0.8), look: -MIRROR.min },
+    ]);
+    expect(tooLate.rules).toEqual(['rule.high.p-no-mirror-check-parking']);
   });
 
   it('is judged at the end of the manoeuvre when the driver says so straight after reversing', () => {

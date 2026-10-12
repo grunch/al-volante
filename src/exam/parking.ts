@@ -60,8 +60,12 @@ export interface Parking {
   direction: -1 | 0 | 1;
   reversed: boolean;
   wasInBay: boolean;
-  /** A mirror glance or a look back since the alignment, in this attempt (high p). */
-  looked: boolean;
+  /**
+   * The mirrors checked at the double-file stop, before the reverse begins, and again while reversing: a glance at a
+   * side mirror or a look back at each moment, in this attempt (high p; protocolo PDF 13, 29).
+   */
+  lookedBeforeReverse: boolean;
+  lookedInReverse: boolean;
   mirrorJudged: boolean;
   /** Which end lines the body overlaps now, so each new overlap is reported once. */
   touching: readonly boolean[];
@@ -85,7 +89,8 @@ export function createParking(): Parking {
     direction: 0,
     reversed: false,
     wasInBay: false,
-    looked: false,
+    lookedBeforeReverse: false,
+    lookedInReverse: false,
     mirrorJudged: false,
     touching: [],
     kerb: null,
@@ -122,11 +127,28 @@ export interface ParkingVerdict {
   reports: Report[];
 }
 
-/** Notes a look during the manoeuvre: a side-mirror glance (D4) or a look back counts as checking (high p). */
+/**
+ * Notes a look during the manoeuvre: a side-mirror glance (D4) or a look back counts as checking (high p), at the
+ * double-file stop and before reversing, or while reversing. Once this attempt's reverse is judged, looks no longer
+ * count.
+ */
 export function noteParkingLook(parking: Parking, yaw: number, mirrorRange: { min: number; max: number }): Parking {
   const glance = Math.abs(yaw) >= mirrorRange.min && Math.abs(yaw) <= mirrorRange.max;
   const back = Math.abs(yaw) >= PARKING.lookBackYawRad;
-  return parking.startedAtS !== null && (glance || back) ? { ...parking, looked: true } : parking;
+  if (parking.startedAtS === null || parking.mirrorJudged || !(glance || back)) return parking;
+  return parking.direction === -1 ? { ...parking, lookedInReverse: true } : { ...parking, lookedBeforeReverse: true };
+}
+
+/** Whether the mirrors were checked at both moments the protocol asks for (protocolo PDF 13). */
+const mirrorsChecked = (parking: Parking) => parking.lookedBeforeReverse && parking.lookedInReverse;
+
+/**
+ * Keeps since when the hazards are on, step by step from the last leg on: the notice to park comes before the
+ * parking phase, and the hazards count from when they were switched on (rule.low.i, protocolo PDF 13, 27).
+ */
+export function noteHazards(parking: Parking, hazards: boolean, timeS: number): Parking {
+  const hazardsSinceS = hazards ? (parking.hazardsSinceS ?? timeS) : null;
+  return hazardsSinceS === parking.hazardsSinceS ? parking : { ...parking, hazardsSinceS };
 }
 
 /** Notes a look before opening the door: only the left mirror counts (rule.low.j; discrepancy X7). */
@@ -149,7 +171,7 @@ export function judgeParkingStep(
   const stopped = speed === 0;
   const direction: -1 | 0 | 1 = Math.abs(speed) > PARKING.motionMps ? (speed > 0 ? 1 : -1) : 0;
   const reports: Report[] = [];
-  let next: Parking = { ...parking, hazardsSinceS: cockpit.hazards ? (parking.hazardsSinceS ?? timeS) : null };
+  let next: Parking = noteHazards(parking, cockpit.hazards, timeS);
   const inZone =
     centre.alongM >= PARKING.zoneAlongM.min &&
     centre.alongM <= PARKING.zoneAlongM.max &&
@@ -160,8 +182,9 @@ export function judgeParkingStep(
   const doubleFile = inZone && centre.leftM >= PARKING.doubleFileLeftM;
   const frontAheadM = bay.halfLengthM - (centre.alongM + body.halfLengthM);
   next = { ...next, aheadM: next.startedAtS === null && frontAheadM > 0 ? frontAheadM : null };
-  if (next.startedAtS === null && stopped && inZone) {
-    // The alignment stop in double file: the hazards had to be on for 3 s before it (rule.low.i).
+  if (next.startedAtS === null && stopped && doubleFile) {
+    // The alignment stop in double file: the hazards had to be on for 3 s before it (rule.low.i). Stopping in the
+    // bay itself (driving in forwards) is not the alignment and does not begin the parallel parking.
     next = { ...next, startedAtS: timeS, manoeuvres: 1, attempts: 1, direction: 0 };
     const since = next.hazardsSinceS;
     if (since === null || timeS - since < PARKING.hazardsBeforeStopS)
@@ -172,10 +195,10 @@ export function judgeParkingStep(
       // Moving forward before the first reverse is still aligning; from the reverse on, each change is a manoeuvre.
       const counts = direction === -1 || next.reversed;
       const manoeuvres = counts ? next.manoeuvres + 1 : next.manoeuvres;
-      // The reverse ended: the mirrors or the head had to check behind during it (high p).
+      // The reverse ended: the mirrors had to be checked before it and during it (high p).
       if (next.direction === -1 && !next.mirrorJudged) {
         next = { ...next, mirrorJudged: true };
-        if (!next.looked)
+        if (!mirrorsChecked(next))
           reports.push({ ruleId: 'rule.high.p-no-mirror-check-parking', episode: `attempt-${next.attempts}` });
       }
       next = { ...next, direction, manoeuvres, reversed: next.reversed || direction === -1 };
@@ -186,7 +209,14 @@ export function judgeParkingStep(
     if (next.wasInBay && doubleFile) {
       // Out of the bay and aligned in the lane again: another attempt (rule.eliminatory.q).
       const attempts = next.attempts + 1;
-      next = { ...next, attempts, wasInBay: false, looked: false, mirrorJudged: false };
+      next = {
+        ...next,
+        attempts,
+        wasInBay: false,
+        lookedBeforeReverse: false,
+        lookedInReverse: false,
+        mirrorJudged: false,
+      };
       if (attempts > PARKING.maxAttempts) reports.push({ ruleId: 'rule.eliminatory.q-parking-over-two-attempts' });
     }
   }
@@ -241,7 +271,7 @@ export function judgeFinalPosition(
   let next: Parking = { ...parking, kerb, final: { ...kerb, alongM }, endRequested: false };
   if (next.reversed && !next.mirrorJudged) {
     next = { ...next, mirrorJudged: true };
-    if (!next.looked)
+    if (!mirrorsChecked(next))
       reports.push({ ruleId: 'rule.high.p-no-mirror-check-parking', episode: `attempt-${next.attempts}` });
   }
   return { parking: next, reports };
