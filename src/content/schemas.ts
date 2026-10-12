@@ -381,6 +381,24 @@ export const ActivitySchema = z.discriminatedUnion('type', [
 export type Activity = z.infer<typeof ActivitySchema>;
 export const ActivityCatalogSchema = z.array(ActivitySchema);
 
+// --- Theoretical mock exam (F05-T05, REGLAS.md §8) -----------------------------------------
+
+export const THEORY_PARAMETERS = ['questions', 'options', 'pass', 'time'] as const;
+export const TheoryExamConfigSchema = z.strictObject({
+  version: isoDate,
+  questions: positiveInt,
+  passCorrect: positiveInt,
+  optionsPerQuestion: z.int().min(2),
+  timeMinutes: z.strictObject({ default: positiveInt, alternatives: z.array(positiveInt) }),
+  /** Source sections (`<source>-<section>`) the questions come from: the material of licence B. */
+  sections: z.array(z.string().regex(/^[a-z]+-[a-z0-9]+$/)).min(1),
+  sources: z
+    .array(z.strictObject({ parameter: z.enum(THEORY_PARAMETERS), text: nonEmpty, reference: nonEmpty, url: z.url() }))
+    .min(1),
+  notes: z.string(),
+});
+export type TheoryExamConfig = z.infer<typeof TheoryExamConfigSchema>;
+
 // --- Scenario and attempt contracts (driving uses them from phase 3) ------------------------
 
 export const ScenarioSchema = z.strictObject({

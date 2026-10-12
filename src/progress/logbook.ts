@@ -180,3 +180,31 @@ export function drivingLog(attempts: readonly Attempt[]): DrivingRow[] {
       };
     });
 }
+
+export interface TheoryRow {
+  attempt: Attempt;
+  correct: number;
+  total: number;
+  passed: boolean;
+  at: string;
+}
+
+/** The `finished` event a mock exam stores (createTheoryAttempt); anything else is read as unknown. */
+const TheoryFinishedSchema = z.object({
+  correct: z.int().nonnegative(),
+  total: z.int().nonnegative(),
+  passed: z.boolean(),
+});
+
+/** Mock theory exams, newest first, for the logbook. */
+export function theoryLog(attempts: readonly Attempt[]): TheoryRow[] {
+  return attempts
+    .filter((attempt) => attempt.kind === 'activity' && attempt.subjectId === 'theory.mock')
+    .sort((a, b) => attemptTime(b) - attemptTime(a))
+    .flatMap((attempt) => {
+      const finished = attempt.events.find((event) => event.type === 'finished');
+      const payload = finished ? TheoryFinishedSchema.safeParse(finished.payload) : null;
+      if (!payload?.success) return [];
+      return [{ attempt, ...payload.data, at: attempt.finishedAt ?? attempt.startedAt }];
+    });
+}

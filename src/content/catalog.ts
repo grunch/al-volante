@@ -17,7 +17,7 @@ async function loadActivityFiles(): Promise<Record<string, unknown>> {
  * Bundled data is also validated in CI; checking again here keeps a broken build from rendering wrong content.
  */
 export async function loadContent(): Promise<ContentResult> {
-  const [manifest, pages, units, signs, issues, rules, route, figures, activities] = await Promise.all([
+  const [manifest, pages, units, signs, issues, rules, route, figures, theoryExam, activities] = await Promise.all([
     import('../../specs/fuentes/manifest.json'),
     import('../../specs/catalog/pages.json'),
     import('../../specs/catalog/units.json'),
@@ -26,6 +26,7 @@ export async function loadContent(): Promise<ContentResult> {
     import('../../specs/catalog/rules.json'),
     import('../../specs/route/comuna13-a.json'),
     import('../../specs/catalog/figures.json'),
+    import('../../specs/catalog/theory-exam.json'),
     loadActivityFiles(),
   ]);
   return validateContent({
@@ -37,6 +38,7 @@ export async function loadContent(): Promise<ContentResult> {
     rules: rules.default,
     route: route.default,
     figures: figures.default,
+    theoryExam: theoryExam.default,
     activities,
   });
 }

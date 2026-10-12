@@ -32,7 +32,9 @@ describe('layout and home', () => {
       'Sala de examen',
       'Mi bitácora',
     ]);
-    expect(within(spaces).getAllByText(esAR.comingSoon)).toHaveLength(3);
+    // Only the road lab and Ruta 13 are still to come.
+    expect(within(spaces).getAllByText(esAR.comingSoon)).toHaveLength(2);
+    expect(within(spaces).getByRole('link', { name: 'Sala de examen' })).toHaveAttribute('href', '/teorico');
     expect(within(spaces).getByRole('link', { name: 'Mi garaje' })).toHaveAttribute('href', '/garaje');
     expect(within(spaces).getByRole('link', { name: 'La ciudad te pregunta' })).toHaveAttribute('href', '/actividades');
     expect(within(spaces).getByRole('link', { name: 'Mi bitácora' })).toHaveAttribute('href', '/bitacora');

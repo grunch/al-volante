@@ -166,6 +166,48 @@ export const SEVERITY_LABELS: Record<string, string> = {
   eliminatory: 'Eliminatoria',
 };
 
+export const THEORY_COPY = {
+  heading: 'Sala de examen',
+  introHeading: 'Simulacro del examen teórico',
+  introSummary: (questions: number, pass: number, options: number, minutes: number) =>
+    `${questions} preguntas de opción múltiple con ${options} opciones y una sola correcta, tomadas de todo el material de la licencia B y repartidas por tema. Aprobás con ${pass} correctas. Tenés ${minutes} minutos.`,
+  notOfficial:
+    'Es un simulacro propio, armado con las actividades revisadas del juego: no es el banco oficial. La cantidad de preguntas, el puntaje y el tiempo siguen la normativa citada abajo.',
+  timeLegend: 'Tiempo',
+  timeDefault: (minutes: number) => `${minutes} minutos (el de la normativa vigente)`,
+  timeShort: (minutes: number) => `${minutes} minutos (más exigente)`,
+  shortBank: (available: number, questions: number) =>
+    `Por ahora hay ${available} preguntas disponibles de las ${questions} del examen: este simulacro no puede aprobarse.`,
+  start: 'Empezar el simulacro',
+  another: 'Otro simulacro',
+  sourcesHeading: 'Fuentes de los parámetros',
+  runningHeading: 'Respondé las preguntas',
+  timeLeft: 'Tiempo restante',
+  progress: (answered: number, total: number) => `Respondiste ${answered} de ${total}`,
+  signLabel: 'Señal',
+  handIn: 'Entregar',
+  passed: 'Aprobado',
+  failed: 'No aprobado',
+  score: (correct: number, total: number, pass: number) =>
+    `${correct} de ${total} respuestas correctas (se necesitan ${pass}).`,
+  timedOut: 'Se terminó el tiempo: el examen se entregó solo.',
+  unanswered: (count: number) => `Sin responder: ${count} (cuentan como incorrectas).`,
+  notSaved: 'No pudimos guardar este simulacro en tu bitácora; el resto de tu progreso está intacto.',
+  bySectionHeading: 'Resultado por tema',
+  sectionColumn: 'Tema',
+  correctColumn: 'Correctas',
+  reviewHeading: 'Para repasar',
+  wrongHeading: 'Preguntas que fallaste',
+  notAnswered: 'No la respondiste.',
+  yourAnswer: 'Tu respuesta',
+  rightAnswer: 'Respuesta correcta',
+  practise: 'Practicar esta actividad',
+  logbookHeading: 'Simulacros del teórico',
+  logbookEmpty: 'Todavía no hiciste ningún simulacro.',
+  logbookRow: (correct: number, total: number, passed: boolean) =>
+    `${correct} de ${total} · ${passed ? 'Aprobado' : 'No aprobado'}`,
+} as const;
+
 export const GARAGE_COPY = {
   heading: 'Mi garaje',
   intro:
