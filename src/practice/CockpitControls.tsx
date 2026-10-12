@@ -23,6 +23,13 @@ function HoldButton({ action, start, stop }: Pick<Props, 'start' | 'stop'> & { a
     <button
       type="button"
       className="cockpit-hold"
+      onClick={(event) => {
+        // Semantic activations have no pointer sequence. Pointer clicks already use the hold handlers.
+        if (event.detail !== 0) return;
+        const source = `click-${action}`;
+        start(action, source);
+        stop(source);
+      }}
       onPointerDown={(event) => {
         if (event.button !== 0) return;
         event.preventDefault();

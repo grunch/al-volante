@@ -267,4 +267,31 @@ describe('DrivingCanvas', () => {
     runFrames(1 / 60);
     expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
   });
+  it('accepts a semantic click without pointer or keyboard events', () => {
+    renderCanvas('manual');
+    const horn = screen.getByRole('button', { name: 'Bocina' });
+
+    fireEvent.click(horn, { detail: 0 });
+    runFrames(1 / 60);
+
+    expect(screen.getByText(/Bocina activada/)).toBeVisible();
+    runFrames(1 / 60);
+    expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
+  });
+
+  it('does not add a pulse for the click following a pointer activation', () => {
+    renderCanvas('manual');
+    vi.stubGlobal('PointerEvent', MouseEvent);
+    const horn = screen.getByRole('button', { name: 'Bocina' });
+    horn.setPointerCapture = vi.fn();
+    fireEvent.pointerDown(horn, { button: 0 });
+    runFrames(1 / 60);
+    expect(screen.getByText(/Bocina activada/)).toBeVisible();
+
+    fireEvent.pointerUp(horn, { button: 0 });
+    fireEvent.click(horn, { detail: 1 });
+    runFrames(1 / 60);
+
+    expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
+  });
 });
