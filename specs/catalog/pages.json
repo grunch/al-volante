@@ -4394,7 +4394,8 @@
     "kind": "instructional",
     "summary": "Consideraciones generales: organismos a cargo, vehículo con doble comando, requisitos del aspirante, luces bajas, uso del doble comando e interrupciones del examen.",
     "units": [
-      "protocolo.general.general-considerations"
+      "protocolo.general.general-considerations",
+      "protocolo.general.fail-or-interrupt"
     ],
     "figures": [],
     "notes": ""
@@ -4408,7 +4409,9 @@
     "kind": "instructional",
     "summary": "Reglas de cumplimiento obligatorio para aspirantes: indicaciones, terceros no autorizados, dispositivos, luces bajas, límite de examen de 30 km/h en calles y 45 km/h en avenidas, pedido de interrupción e inicio y fin de la evaluación.",
     "units": [
-      "protocolo.general.candidate-rules"
+      "protocolo.general.candidate-rules",
+      "protocolo.general.exam-speed-limits",
+      "protocolo.general.fail-or-interrupt"
     ],
     "figures": [],
     "notes": ""
@@ -4679,7 +4682,8 @@
     "kind": "instructional",
     "summary": "Fallas leves l–r: velocidad mínima, bocina, reductores de velocidad, velocidad precautoria, carril, carril de giro a menos de 30 m y estacionar en más de 3 maniobras.",
     "units": [
-      "protocolo.annex2.minor-faults"
+      "protocolo.annex2.minor-faults",
+      "protocolo.annex2.parking-maneuvers-and-attempts"
     ],
     "figures": [],
     "notes": ""
@@ -4765,7 +4769,8 @@
     "summary": "Final de la deficiente alta p y fallas eliminatorias a–d: pedalera, caja de cambios, cinturón y subirse al cordón o golpear la delimitación.",
     "units": [
       "protocolo.annex2.high-faults",
-      "protocolo.annex2.eliminatory-faults"
+      "protocolo.annex2.eliminatory-faults",
+      "protocolo.annex2.belt-and-red-light"
     ],
     "figures": [],
     "notes": ""
@@ -4793,7 +4798,8 @@
     "kind": "instructional",
     "summary": "Fallas eliminatorias i–o: maniobras temerarias, vías y sentidos no permitidos, semáforo en rojo, velocidad máxima, dispositivos, vehículos de emergencia y comienzo de la línea continua.",
     "units": [
-      "protocolo.annex2.eliminatory-faults"
+      "protocolo.annex2.eliminatory-faults",
+      "protocolo.annex2.belt-and-red-light"
     ],
     "figures": [],
     "notes": "La eliminatoria m habla de dispositivos «durante la conducción», más acotado que PDF 8 (REGLAS.md §7, X4)."
@@ -4807,7 +4813,8 @@
     "kind": "instructional",
     "summary": "Fallas eliminatorias o–r (línea continua, sobrepaso, más de dos intentos de estacionamiento, fuera de la segunda delimitación) y lista de las eliminatorias que interrumpen el examen (a–k y q).",
     "units": [
-      "protocolo.annex2.eliminatory-faults"
+      "protocolo.annex2.eliminatory-faults",
+      "protocolo.annex2.parking-maneuvers-and-attempts"
     ],
     "figures": [],
     "notes": "La columna derecha termina con el párrafo final; el resto de la página queda en blanco."

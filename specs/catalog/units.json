@@ -14450,8 +14450,9 @@
       "En toda interrupción, el/la examinador/a toma el control total del vehículo."
     ],
     "figureBased": false,
-    "status": "tested",
-    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 7. Las actividades evalúan el uso del doble comando como causa de interrupción; no preguntan por organismos, edades ni artículos."
+    "status": "implemented",
+    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 7. Las actividades evalúan el uso del doble comando como causa de interrupción; no preguntan por organismos, edades ni artículos. Consulta desde la revisión de #32: las reglas que se practican tienen su propia unidad.",
+    "consultationReason": "Son las condiciones generales del examen; se practican al manejar en el examen práctico del juego."
   },
   {
     "id": "protocolo.general.candidate-rules",
@@ -14475,8 +14476,9 @@
       "Inicia y termina la evaluación cuando lo indica el/la examinador/a."
     ],
     "figureBased": false,
-    "status": "tested",
-    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 8. La prohibición de dispositivos aun con el vehículo detenido es más amplia que la eliminatoria m (PDF 32, «durante la conducción»): ver REGLAS.md §7, X4; las actividades no preguntan por ese caso."
+    "status": "implemented",
+    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 8. La prohibición de dispositivos aun con el vehículo detenido es más amplia que la eliminatoria m (PDF 32, «durante la conducción»): ver REGLAS.md §7, X4; las actividades no preguntan por ese caso. Consulta desde la revisión de #32: las reglas que se practican tienen su propia unidad.",
+    "consultationReason": "Son las pautas para quien rinde; se practican al manejar en el examen práctico del juego."
   },
   {
     "id": "protocolo.stages.stage-1-prior-checks",
@@ -14529,8 +14531,9 @@
       "La evaluación solo termina antes por fallas eliminatorias con interrupción; entonces el/la examinador/a continúa la conducción."
     ],
     "figureBased": false,
-    "status": "tested",
-    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 10. Las actividades evalúan el corte de 8 puntos y el límite de velocidad del examen."
+    "status": "implemented",
+    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 10. Las actividades evalúan el corte de 8 puntos y el límite de velocidad del examen. Consulta desde la revisión de #32: las reglas que se practican tienen su propia unidad.",
+    "consultationReason": "Es el desarrollo de la etapa II; se practica al manejar en el examen práctico del juego."
   },
   {
     "id": "protocolo.stages.stage-2-maneuverability",
@@ -14612,8 +14615,9 @@
       "Bajar con precaución, mirando por el espejo retrovisor antes de abrir la puerta."
     ],
     "figureBased": false,
-    "status": "tested",
-    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 13. Las actividades evalúan las tres maniobras y su orden."
+    "status": "implemented",
+    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 13. Las actividades evalúan las tres maniobras y su orden. Consulta desde la revisión de #32: las reglas que se practican tienen su propia unidad.",
+    "consultationReason": "Es el desarrollo de la etapa III; se practica al manejar en el examen práctico del juego."
   },
   {
     "id": "protocolo.evaluation.scoring-and-result",
@@ -14803,8 +14807,9 @@
       "v, w, x, y: no apagar las luces bajas, no dejar en punto neutro o P, no accionar el freno de mano y no apagar el motor, quitar la llave y bloquear la dirección (esto último, una sola falla)."
     ],
     "figureBased": false,
-    "status": "tested",
-    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 22–25; las 25 leves coinciden con specs/catalog/rules.json. Las actividades evalúan la falla r (más de 3 maniobras)."
+    "status": "implemented",
+    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 22–25; las 25 leves coinciden con specs/catalog/rules.json. Las actividades evalúan la falla r (más de 3 maniobras). Consulta desde la revisión de #32: las reglas que se practican tienen su propia unidad.",
+    "consultationReason": "Se practican al manejar: el examen práctico del juego consigna estas fallas en la etapa en que ocurren."
   },
   {
     "id": "protocolo.annex2.low-faults",
@@ -14865,8 +14870,9 @@
       "p: no chequear los espejos al detenerse junto al cajón y durante la marcha atrás; si el/la examinador/a frena, pasa a eliminatoria y se interrumpe."
     ],
     "figureBased": false,
-    "status": "tested",
-    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 27–30. El cuerpo del ítem n dice «falla eliminatoria», aunque la ficha y el encabezado la ubican como deficiente alta: ver REGLAS.md §7, X2. Las actividades evalúan la falla f (superar la velocidad de examen)."
+    "status": "implemented",
+    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 27–30. El cuerpo del ítem n dice «falla eliminatoria», aunque la ficha y el encabezado la ubican como deficiente alta: ver REGLAS.md §7, X2. Las actividades evalúan la falla f (superar la velocidad de examen). Consulta desde la revisión de #32: las reglas que se practican tienen su propia unidad.",
+    "consultationReason": "Se practican al manejar: el examen práctico del juego consigna estas fallas en la etapa en que ocurren."
   },
   {
     "id": "protocolo.annex2.eliminatory-faults",
@@ -14898,8 +14904,9 @@
       "r: una o las dos ruedas derechas a más de 50 cm del cordón; el/la examinador/a baja a verificar la posición final."
     ],
     "figureBased": false,
-    "status": "tested",
-    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 30–33; las 18 eliminatorias y la lista de las que interrumpen (PDF 33) coinciden con specs/catalog/rules.json. El título de g dice «primera cuadra» y el texto, 100 m (REGLAS.md §7, X5). Las actividades evalúan qué eliminatorias interrumpen, el cinturón, el cambio a rojo con el cruce iniciado y los intentos de estacionamiento."
+    "status": "implemented",
+    "notes": "Creada en F05-T04 (lote S) desde la imagen y el texto de PDF 30–33; las 18 eliminatorias y la lista de las que interrumpen (PDF 33) coinciden con specs/catalog/rules.json. El título de g dice «primera cuadra» y el texto, 100 m (REGLAS.md §7, X5). Las actividades evalúan qué eliminatorias interrumpen, el cinturón, el cambio a rojo con el cruce iniciado y los intentos de estacionamiento. Consulta desde la revisión de #32: las reglas que se practican tienen su propia unidad.",
+    "consultationReason": "Se practican al manejar: el examen práctico del juego consigna estas fallas en la etapa en que ocurren."
   },
   {
     "id": "recorridos.intro.document-purpose",
@@ -15467,5 +15474,90 @@
     "status": "implemented",
     "notes": "Transcripta desde la imagen de protocolo PDF 40 (F05-T04): las láminas no tienen capa de texto. La comuna 15: diferencias con los recorridos de 2026. Comuna 15 (recorridos PDF 18): la misma secuencia que el recorrido A de 2026; el inicio pasa de Bonpland al 1200 a Bonpland al 1263.",
     "consultationReason": "Es el circuito publicado en la edición 2023 del protocolo y se muestra como antecedente: para consultar los circuitos se usa el documento de recorridos de 2026. El juego reconstruye solo el recorrido A de la Comuna 13."
+  },
+  {
+    "id": "protocolo.general.exam-speed-limits",
+    "source": "protocolo",
+    "section": "general",
+    "pages": [
+      8
+    ],
+    "title": "Velocidad del examen: 30 km/h en calles y 45 km/h en avenidas",
+    "category": "exam",
+    "type": "rule",
+    "summary": "Durante el examen rige un límite propio: 30 km/h en calles y 45 km/h en avenidas. Donde la señalética o la normativa fijan un límite más restrictivo, rige ese límite. El anexo II califica cómo se evalúa superarlo.",
+    "keyFacts": [
+      "Límite de velocidad del examen: 30 km/h en calles y 45 km/h en avenidas.",
+      "Donde la señalética o la normativa fijan un límite más restrictivo, rige ese límite."
+    ],
+    "figureBased": false,
+    "status": "tested",
+    "notes": "Creada en F05-T04 (revisión de #32) para que el progreso cuente solo la regla que se practica."
+  },
+  {
+    "id": "protocolo.general.fail-or-interrupt",
+    "source": "protocolo",
+    "section": "general",
+    "pages": [
+      7,
+      8
+    ],
+    "title": "Desaprobar e interrumpir el examen",
+    "category": "exam",
+    "type": "rule",
+    "summary": "Algunas situaciones desaprueban el examen y además lo interrumpen: el uso del doble comando por parte del/la examinador/a, las conductas riesgosas por inseguridad, miedo o pánico y el pedido de interrumpirlo, en cualquier etapa. En toda interrupción, el/la examinador/a toma el control del vehículo. El anexo II detalla qué fallas eliminatorias interrumpen el examen.",
+    "keyFacts": [
+      "El doble comando se usa solo en emergencias o para evitar una colisión o un atropello; si se usa, la prueba se interrumpe y queda desaprobada.",
+      "Actitudes y conductas riesgosas por inseguridad, miedo o pánico al conducir: el examen se interrumpe y se considera desaprobado.",
+      "Pedir la interrupción del examen, en cualquier etapa, implica desaprobarlo.",
+      "En toda interrupción, el/la examinador/a toma el control total del vehículo.",
+      "Las fallas eliminatorias que implican interrumpir el examen están detalladas en el anexo II."
+    ],
+    "figureBased": false,
+    "status": "tested",
+    "notes": "Creada en F05-T04 (revisión de #32) para que el progreso cuente solo la regla que se practica."
+  },
+  {
+    "id": "protocolo.annex2.belt-and-red-light",
+    "source": "protocolo",
+    "section": "annex2",
+    "pages": [
+      30,
+      32
+    ],
+    "title": "Cinturón y semáforo en rojo durante el examen",
+    "category": "exam",
+    "type": "rule",
+    "summary": "No colocarse el cinturón o quitárselo durante el examen es una falla eliminatoria que lo interrumpe (c): se usa desde que el vehículo empieza a moverse hasta apagar el motor y entregar la llave, y para quitárselo hay que avisar y esperar indicaciones detenido en un lugar seguro. Cruzar en rojo también es eliminatoria e interrumpe (k), pero si el semáforo cambia a rojo con el cruce ya iniciado, se termina con precaución y no es falla.",
+    "keyFacts": [
+      "c: no colocarse el cinturón o quitárselo durante el examen es eliminatoria e interrumpe el examen.",
+      "c: el cinturón se usa desde que el vehículo empieza a moverse hasta apagar el motor y entregar la llave; para quitárselo hay que avisar y esperar indicaciones detenido en un lugar seguro.",
+      "k: cruzar en rojo es trasponer con luz roja la línea de detención, la senda o la encrucijada; es eliminatoria e interrumpe el examen.",
+      "k: si el semáforo cambia a rojo con el cruce ya iniciado, se termina con precaución y no es falla."
+    ],
+    "figureBased": false,
+    "status": "tested",
+    "notes": "Creada en F05-T04 (revisión de #32) para que el progreso cuente solo la regla que se practica."
+  },
+  {
+    "id": "protocolo.annex2.parking-maneuvers-and-attempts",
+    "source": "protocolo",
+    "section": "annex2",
+    "pages": [
+      24,
+      33
+    ],
+    "title": "Estacionamiento paralelo: maniobras e intentos",
+    "category": "exam",
+    "type": "rule",
+    "summary": "El estacionamiento paralelo admite hasta tres maniobras (1 alinearse, 2 girar y retroceder, 3 posicionamiento); estacionar en más de tres es una falla leve (r). Se permiten hasta dos intentos; un intento es cada vez que se desplaza el vehículo del lugar reservado para alinearlo de nuevo, y no lograrlo en dos intentos es una falla eliminatoria (q).",
+    "keyFacts": [
+      "r: estacionar en más de 3 maniobras (1 alinearse, 2 girar y retroceder, 3 posicionamiento) es falla leve.",
+      "q: se permiten hasta dos intentos; no lograrlo en dos intentos es falla eliminatoria.",
+      "q: un intento es cada vez que se desplaza el vehículo del lugar reservado para alinearlo de nuevo."
+    ],
+    "figureBased": false,
+    "status": "tested",
+    "notes": "Creada en F05-T04 (revisión de #32) para que el progreso cuente solo la regla que se practica."
   }
 ]

@@ -1616,6 +1616,111 @@
     ]
   },
   {
+    "id": "fig.protocolo-p34-comunas-2-3-routes",
+    "source": "protocolo",
+    "page": 34,
+    "box": {
+      "x": 0.075,
+      "y": 0.2,
+      "width": 0.87,
+      "height": 0.735
+    },
+    "alt": "Lámina del anexo III (edición 2023) con el mapa de cada circuito, sus pasos numerados y una E en el estacionamiento donde empieza y termina. Comuna 2 (Recoleta): subsede comunal en Vicente López 2050; estacionamiento en Vicente López al 2000 (entre Junín y Uriburu); recorrido: Vicente López → Azcuénaga → Pacheco de Melo → Junín → Juncal → Arenales → Paraná → Vicente López. Comuna 3 (Balvanera): subsede comunal en Adolfo Alsina 2304; estacionamiento en Moreno del 2320 al 2350 (entre Pichincha y Matheu); recorrido: Moreno → Matheu → Av. Belgrano → Pichincha → Hipólito Yrigoyen → Rincón → Moreno.",
+    "unitIds": [
+      "protocolo.annex3.comunas-2-3"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p35-comunas-4-5-routes",
+    "source": "protocolo",
+    "page": 35,
+    "box": {
+      "x": 0.075,
+      "y": 0.2,
+      "width": 0.87,
+      "height": 0.735
+    },
+    "alt": "Lámina del anexo III (edición 2023) con el mapa de cada circuito, sus pasos numerados y una E en el estacionamiento donde empieza y termina. Comuna 4 (Barracas): subsede comunal en Av. Martín García 464; estacionamiento en Ruy Díaz de Guzmán al 50 (entre Liberti y Av. Martín García); recorrido: Ruy Díaz de Guzmán → Piedras → Ituzaingó → Tacuarí → Azara → Wenceslao Villafañe → Jovellanos → Espinosa → Ruy Díaz de Guzmán. Comuna 5 (Boedo): sede comunal en Carlos Calvo 3307; estacionamiento en Sanchez de Loria al 1100 (entre Carlos Calvo y Humberto 1°); recorrido: Sanchez de Loria → Av. Pavón → 24 de Noviembre → Carlos Calvo → Sanchez de Loria.",
+    "unitIds": [
+      "protocolo.annex3.comunas-4-5"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p36-comunas-6-7-routes",
+    "source": "protocolo",
+    "page": 36,
+    "box": {
+      "x": 0.075,
+      "y": 0.2,
+      "width": 0.87,
+      "height": 0.735
+    },
+    "alt": "Lámina del anexo III (edición 2023) con el mapa de cada circuito, sus pasos numerados y una E en el estacionamiento donde empieza y termina. Comuna 6 (Caballito): sede comunal en Av. Patricias Argentinas 277; estacionamiento en Cangallo al 100 (entre Ramos Mejía y Av. Patricias Argentinas); recorrido: Cangallo → Av. Patricias Argentinas → Franklin → Río de Janeiro → Dr. Juan Felipe de Aranguren → Portugal → Arturo Jauretche → Eduardo Acevedo → Av. Díaz Vélez → Yatay → Tte. Gral. Juan Domingo Perón → Cangallo. Comuna 7 (Parque Chacabuco): subsede comunal en Emilio Mitre 981; estacionamiento en Tejedor 1100 (entre Emilio Mitre y De las Ciencias); recorrido de lunes a jueves: Tejedor → Del Barco Centenera → Salas → Cachimayo → Av. Asamblea → Emilio Mitre → Tejedor. Comuna 7, recorrido alternativo de los viernes: Tejedor → Del Barco Centenera → Salas → Cachimayo → Av. Asamblea → Del Buen Orden (5b) → Estrada (5c) → Emilio Mitre → Tejedor.",
+    "unitIds": [
+      "protocolo.annex3.comunas-6-7"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p37-comunas-9-10-routes",
+    "source": "protocolo",
+    "page": 37,
+    "box": {
+      "x": 0.075,
+      "y": 0.2,
+      "width": 0.87,
+      "height": 0.735
+    },
+    "alt": "Lámina del anexo III (edición 2023) con el mapa de cada circuito, sus pasos numerados y una E en el estacionamiento donde empieza y termina. Comuna 9 (Parque Avellaneda): subsede comunal en Av. Directorio 4360; estacionamiento en Moreto 700 (entre Chascomús y Rodó); recorrido: Moreto → Rodó → Av. Escalada → Tapalqué → Mozart → Av. Directorio → Moreto. Comuna 10 (Floresta): sede comunal en Bacacay 3968; estacionamiento en Mercedes al 200 (entre Bacacay y Bogotá); recorrido: Mercedes → Morón → Bahía Blanca → Felipe Vallese → Av. Chivilcoy → Bacacay → Mercedes.",
+    "unitIds": [
+      "protocolo.annex3.comunas-9-10"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p38-comunas-11-12-routes",
+    "source": "protocolo",
+    "page": 38,
+    "box": {
+      "x": 0.075,
+      "y": 0.2,
+      "width": 0.87,
+      "height": 0.735
+    },
+    "alt": "Lámina del anexo III (edición 2023) con el mapa de cada circuito, sus pasos numerados y una E en el estacionamiento donde empieza y termina. Comuna 11 (Villa Devoto): sede comunal en Av. Francisco Beiro 4580; estacionamiento en Allende 3300 (entre José Pedro Varela y Simbron); recorrido: Allende → Nogoyá → Benito Juarez → Navarro → Allende. Comuna 12 (Villa Urquiza): sede comunal en Holmberg 2548; estacionamiento en Av. Monroe al 4200 (entre Holmberg y Donado); recorrido: Av. Monroe → Donado → Blanco Encalada → Lugones → Mendoza → Tronador → Blanco Encalada → Holmberg → Av. Monroe.",
+    "unitIds": [
+      "protocolo.annex3.comunas-11-12"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p39-comunas-13-14-routes",
+    "source": "protocolo",
+    "page": 39,
+    "box": {
+      "x": 0.075,
+      "y": 0.2,
+      "width": 0.87,
+      "height": 0.735
+    },
+    "alt": "Lámina del anexo III (edición 2023) con el mapa de cada circuito, sus pasos numerados y una E en el estacionamiento donde empieza y termina. Comuna 13 (Nuñez): sede comunal en Av. Cabildo 3067; estacionamiento en Quesada al 2300 (entre Vuelta de Obligado y Av. Cabildo); recorrido: Quesada → Av. Cabildo → Guayra → Cuba → Quesada → Cuba → Manuel Ugarte → Vuelta de Obligado → Quesada. Comuna 14 (Palermo): sede comunal en Beruti 3345; estacionamiento en Beruti al 3300 (entre Av. Cnel. Díaz y Bulnes); recorrido: Beruti → Aráoz → Juncal → Julián Álvarez → Arenales → Austria → Beruti.",
+    "unitIds": [
+      "protocolo.annex3.comunas-13-14"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p40-comuna-15-routes",
+    "source": "protocolo",
+    "page": 40,
+    "box": {
+      "x": 0.075,
+      "y": 0.2,
+      "width": 0.87,
+      "height": 0.375
+    },
+    "alt": "Lámina del anexo III (edición 2023) con el mapa de cada circuito, sus pasos numerados y una E en el estacionamiento donde empieza y termina. Comuna 15 (Chacarita): sede comunal en Av. Córdoba 5690; estacionamiento en Bonpland al 1200 (entre Castillo y Av. Córdoba); recorrido: Bonpland → Gorriti → Fitz Roy → Ramírez de Velasco → Bonpland.",
+    "unitIds": [
+      "protocolo.annex3.comuna-15"
+    ]
+  },
+  {
     "id": "fig.recorridos-p6-comuna-2-routes",
     "source": "recorridos",
     "page": 6,

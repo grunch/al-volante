@@ -162,8 +162,7 @@
     "type": "single-choice",
     "title": "¿Aprobado o desaprobado?",
     "unitIds": [
-      "protocolo.evaluation.scoring-and-result",
-      "protocolo.stages.stage-2-circulation"
+      "protocolo.evaluation.scoring-and-result"
     ],
     "refs": [
       {

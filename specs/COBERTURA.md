@@ -9,7 +9,7 @@ Define qué hay que enseñar: cada página del manual teórico (200 páginas) y 
 | Archivo | Contenido |
 |---|---|
 | `catalog/pages.json` | 224 páginas en F01-T02 (285 desde F05-T04, con las 42 del protocolo y las 19 de los recorridos): fuente, página PDF, página impresa, sección, categoría, tipo, resumen, unidades y figuras (con los datos de cada infografía transcriptos). |
-| `catalog/units.json` | 705 unidades de conocimiento en F01-T02 (749 desde F05-T04): id estable, páginas, título, categoría, tipo, resumen fiel con cifras exactas y datos atómicos (`keyFacts`). |
+| `catalog/units.json` | 705 unidades de conocimiento en F01-T02 (753 desde F05-T04): id estable, páginas, título, categoría, tipo, resumen fiel con cifras exactas y datos atómicos (`keyFacts`). |
 | `catalog/signs.json` | 355 señales individuales: página, grupo, rótulo, significado si la fuente lo da, descripción visual y código impreso. |
 | `catalog/issues.json` | 206 observaciones de F01-T02 (más las que agrega la revisión de la fase 5; ver CONTENIDO.md): discrepancias, datos posiblemente desactualizados, ambigüedades, erratas, fallas de extracción e ilegibles. |
 | `../src/content/` | Esquemas y validadores en TypeScript (ver «Cómo validar»); desde F02-T02 reemplazan al script original de la fase 1. |
@@ -81,11 +81,11 @@ Categoría `exam`. Las unidades del protocolo son de consulta salvo las reglas g
 | Fuente | Sección | Páginas PDF | Páginas | Instructivas | Unidades |
 |---|---|---|---:|---:|---:|
 | Protocolo (42) | Tapa, reverso, créditos e índice | 1–4 | 4 | 0 | 0 |
-| | Presentación y condiciones | 5–8 | 4 | 4 | 4 |
+| | Presentación y condiciones | 5–8 | 4 | 4 | 6 |
 | | Las tres etapas | 9–13 | 5 | 5 | 5 |
 | | Forma de evaluación y ficha | 14–17 | 4 | 4 | 2 |
 | | Anexo I (gráficos) | 18–21 | 4 | 4 | 4 |
-| | Anexo II (fallas) | 22–33 | 12 | 12 | 4 |
+| | Anexo II (fallas) | 22–33 | 12 | 12 | 6 |
 | | Anexo III (circuitos 2023) | 34–40 | 7 | 7 | 7 |
 | | Contratapa | 41–42 | 2 | 0 | 0 |
 | Recorridos (19) | Tapa, autoridades e índice | 1–3 | 3 | 0 | 0 |

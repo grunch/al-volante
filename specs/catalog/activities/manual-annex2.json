@@ -54,7 +54,7 @@
             "id": "21",
             "text": "21 años",
             "correct": true,
-            "feedback": "¡Bien! Uno de los requisitos es tener una edad mínima de 21 años."
+            "feedback": "¡Bien! Según el manual, uno de los requisitos es tener una edad mínima de 21 años."
           },
           {
             "id": "17",
@@ -66,7 +66,7 @@
             "id": "18",
             "text": "18 años",
             "correct": false,
-            "feedback": "No. El mínimo para una licencia profesional es de 21 años."
+            "feedback": "No. El manual fija un mínimo de 21 años para una licencia profesional."
           },
           {
             "id": "25",
@@ -78,13 +78,13 @@
       },
       {
         "id": "experience",
-        "prompt": "¿Qué experiencia previa hay que acreditar para obtener una licencia profesional?",
+        "prompt": "Según el manual, ¿qué experiencia previa hay que acreditar para obtener una licencia profesional?",
         "options": [
           {
             "id": "one-year",
             "text": "Más de 1 año de antigüedad en la clase B",
             "correct": true,
-            "feedback": "¡Correcto! Hay que acreditar experiencia en la conducción con una antigüedad mayor a 1 año en la clase B."
+            "feedback": "¡Correcto! Según el manual, hay que acreditar experiencia en la conducción con una antigüedad mayor a 1 año en la clase B."
           },
           {
             "id": "five-years",
@@ -96,13 +96,13 @@
             "id": "course",
             "text": "Ninguna, si se aprueba el curso de capacitación",
             "correct": false,
-            "feedback": "No. Se exige experiencia previa: una antigüedad mayor a 1 año en la clase B."
+            "feedback": "No. El manual pide experiencia previa: una antigüedad mayor a 1 año en la clase B."
           },
           {
             "id": "c-license",
             "text": "Haber tenido antes una licencia de categoría C",
             "correct": false,
-            "feedback": "No. Lo que se acredita es una antigüedad mayor a 1 año en la clase B."
+            "feedback": "No. Según el manual, lo que se acredita es una antigüedad mayor a 1 año en la clase B."
           }
         ]
       },

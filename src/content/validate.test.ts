@@ -147,9 +147,9 @@ describe('real content (integration)', () => {
 
     if (!result.ok) throw new Error(result.errors.join('\n'));
     const { content } = result;
-    // F05-T04 classifies the 42 pages of the protocol and the 19 of the circuits, with 44 new units.
+    // F05-T04 classifies the 42 pages of the protocol and the 19 of the circuits, with 48 new units.
     expect(content.pages).toHaveLength(285);
-    expect(content.units).toHaveLength(749);
+    expect(content.units).toHaveLength(753);
     expect(content.signs).toHaveLength(355);
     // 206 observations from F01-T02, plus those found in phase 5: 8 (F05-T01), 12 (T02), 3 (T03) and 14 (T04).
     expect(content.issues).toHaveLength(243);
