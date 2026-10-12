@@ -61,3 +61,14 @@ it('announces the loading status and becomes an image only once the view is read
   expect(screen.getByRole('img', { name: copy.canvasLabel })).toBeInTheDocument();
   expect(screen.queryByRole('status')).not.toBeInTheDocument();
 });
+
+it('goes back to loading while it rebuilds for another leg, and is an image again once drawn', () => {
+  const view = render(<CityPreview city={city} leg={1} whole={false} createRenderer={() => createFakeRenderer()} />);
+  act(() => frame?.(0));
+  expect(screen.getByRole('img', { name: copy.canvasLabel })).toBeInTheDocument();
+  view.rerender(<CityPreview city={city} leg={2} whole={false} createRenderer={() => createFakeRenderer()} />);
+  expect(screen.getByRole('status')).toHaveTextContent(copy.loading);
+  expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  act(() => frame?.(0));
+  expect(screen.getByRole('img', { name: copy.canvasLabel })).toBeInTheDocument();
+});

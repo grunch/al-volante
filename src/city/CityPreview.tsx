@@ -81,6 +81,8 @@ export function CityPreview({
     observer?.observe(container);
     if (!observer) window.addEventListener('resize', resize);
     return () => {
+      // A rebuild (another leg, the whole route, another renderer) is loading again until its first frame.
+      setState('loading');
       cancelAnimationFrame(frame);
       observer?.disconnect();
       if (!observer) window.removeEventListener('resize', resize);
