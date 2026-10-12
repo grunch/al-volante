@@ -2,6 +2,10 @@ import * as THREE from 'three';
 import type { CityControl } from './model.ts';
 import { CITY_COLORS as c } from './palette.ts';
 import { CITY_COPY } from '../i18n/es-AR.ts';
+import type { LightState } from '../sim/scenario.ts';
+
+const LAMP_STATES: readonly LightState[] = ['red', 'yellow', 'green'];
+const LAMP_COLORS: Record<LightState, string> = { red: '#e03b2e', yellow: '#f2c230', green: '#2ec46a' };
 
 /** Canvas text is original content; DOM text in the route panel supplies its accessible equivalent. */
 function label(text: string, width: number, height: number, background: string): THREE.Mesh {
@@ -26,13 +30,26 @@ function label(text: string, width: number, height: number, background: string):
   );
 }
 
+/** Lights the lens of `state` on a signal head created by `createControl`; `null` switches all lenses off. */
+export function lightControl(group: THREE.Object3D, state: LightState | null): void {
+  for (const lamp of LAMP_STATES) {
+    const lens = group.getObjectByName(`lens-${lamp}`);
+    if (!(lens instanceof THREE.Mesh) || !(lens.material instanceof THREE.MeshBasicMaterial)) continue;
+    lens.material.color.set(lamp === state ? LAMP_COLORS[lamp] : c.inactive);
+  }
+}
+
+/** Controls drawn as a signal head: corner lights and signalled crosswalks, which carry their own vehicle light. */
+export const isSignalControl = (type: string): boolean =>
+  type === 'traffic_signals' || type === 'crossing-traffic_signals';
+
 export function createControl(control: CityControl): THREE.Group {
   const group = new THREE.Group();
   group.name = control.id;
   group.userData = { type: control.type, status: control.status, sourcePosition: control.sourcePosition };
   group.position.set(control.position.x, 0, control.position.z);
   group.rotation.y = control.road.headingRad;
-  if (control.type !== 'stop' && control.type !== 'traffic_signals') return group;
+  if (control.type !== 'stop' && !isSignalControl(control.type)) return group;
   const pole = new THREE.Mesh(
     new THREE.CylinderGeometry(0.055, 0.055, 3, 8),
     new THREE.MeshStandardMaterial({ color: c.steel }),
@@ -63,15 +80,16 @@ export function createControl(control: CityControl): THREE.Group {
     );
     housing.position.set(0, 2.65, -0.1);
     group.add(housing);
-    // Unlit heads intentionally carry no permission to proceed. Signal cycles belong to F04-T02.
-    for (const y of [2.34, 2.65, 2.96]) {
+    // Lenses start unlit; `lightControl` lights one of them from the traffic state (F04-T02).
+    LAMP_STATES.forEach((state, index) => {
       const lens = new THREE.Mesh(
         new THREE.CircleGeometry(0.12, 12),
         new THREE.MeshBasicMaterial({ color: c.inactive, side: THREE.DoubleSide }),
       );
-      lens.position.set(0, y, -0.23);
+      lens.name = `lens-${state}`;
+      lens.position.set(0, 2.96 - index * 0.31, -0.23);
       group.add(lens);
-    }
+    });
   }
   const street = label(control.road.street, 2.2, 0.42, c.steel);
   street.position.set(0, 3.35, 0);

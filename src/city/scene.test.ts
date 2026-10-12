@@ -3,8 +3,10 @@ import routeData from '../../specs/route/comuna13-a.json';
 import { RouteSchema } from '../content/schemas.ts';
 import { buildCity, sampleLeg } from './model.ts';
 import { attachCity, cityCockpitFactory } from './scene.ts';
-import { EXAM_CAR } from '../sim/vehicle.ts';
+import { EXAM_CAR, bodyBox } from '../sim/vehicle.ts';
+import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import { initialCockpit } from '../practice/cockpit.ts';
+import { createTrafficSource } from '../traffic/traffic.ts';
 
 const city = buildCity(RouteSchema.parse(routeData));
 
@@ -71,5 +73,59 @@ describe('streamed city renderer', () => {
       cockpit.camera.position.distanceTo(new THREE.Vector3(city.start.pose.x, 1.4, city.start.pose.z)),
     ).toBeLessThan(3);
     cockpit.dispose();
+  });
+
+  it('draws the traffic actors by kind and lights the lamp of each signal from the traffic state', () => {
+    const scene = new THREE.Scene();
+    const view = attachCity(scene, city);
+    const source = createTrafficSource(city, 1);
+    const pose = sampleLeg(city, 1, 100);
+    view.update(pose);
+    let state = source.create();
+    for (let step = 1; step <= 240; step++)
+      state = source.step(state, bodyBox(EXAM_CAR, pose), step * SIM_STEP_S, SIM_STEP_S);
+    view.updateTraffic(state);
+    expect(state.poses.length).toBeGreaterThan(0);
+    expect(scene.userData.activeActors).toBe(state.poses.filter((item) => item.active).length);
+    for (const actor of state.poses) {
+      const mesh = scene.getObjectByName(`actor-${actor.id}`);
+      expect(mesh).toBeInstanceOf(THREE.Mesh);
+      expect(mesh?.position.x).toBeCloseTo(actor.x, 6);
+      expect(mesh?.position.z).toBeCloseTo(actor.z, 6);
+      expect(mesh?.visible).toBe(actor.active);
+    }
+    const kinds = new Set(state.poses.map((item) => item.kind));
+    expect(kinds.has('vehicle')).toBe(true);
+    const litLens = (controlId: string) => {
+      const head = scene.getObjectByName(controlId);
+      expect(head).toBeDefined();
+      return (['red', 'yellow', 'green'] as const).filter((lamp) => {
+        const lens = head?.getObjectByName(`lens-${lamp}`);
+        return (
+          lens instanceof THREE.Mesh && (lens.material as THREE.MeshBasicMaterial).color.getHexString() !== '1d282b'
+        );
+      });
+    };
+    expect(litLens('control-0')).toEqual([state.lights['control-0']]);
+    // Signalled crosswalks on Cabildo carry their own head, lit from the same traffic state.
+    const crossings = city.controls.filter((control) => control.type === 'crossing-traffic_signals');
+    expect(crossings.length).toBeGreaterThan(0);
+    view.update(crossings[0]!.position, true);
+    view.updateTraffic(state);
+    for (const control of crossings) {
+      expect(state.lights[control.id]).toBeDefined();
+      expect(litLens(control.id)).toEqual([state.lights[control.id]]);
+    }
+    // Actors that leave the snapshot release their meshes; the lamps go off without traffic.
+    const [kept, ...gone] = state.poses;
+    view.updateTraffic({ ...state, poses: [kept!] });
+    expect(scene.getObjectByName(`actor-${kept!.id}`)).toBeDefined();
+    for (const actor of gone) expect(scene.getObjectByName(`actor-${actor.id}`)).toBeUndefined();
+    view.updateTraffic(null);
+    for (const actor of state.poses) expect(scene.getObjectByName(`actor-${actor.id}`)).toBeUndefined();
+    expect(litLens('control-0')).toEqual([]);
+    expect(scene.userData.activeActors).toBe(0);
+    view.dispose();
+    expect(scene.getObjectByName('traffic')).toBeUndefined();
   });
 });

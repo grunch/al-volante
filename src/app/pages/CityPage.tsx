@@ -15,6 +15,10 @@ const CityPreview = lazy(() =>
 );
 const CityDrive = lazy(() => import('../../city/CityDrive.tsx').then((module) => ({ default: module.CityDrive })));
 
+/** Seed 1 is the documented default scenario; any non-negative integer replays its own traffic. */
+const DEFAULT_SEED = 1;
+const MAX_SEED = 999999;
+
 function CityExplorer({ route }: { route: Route }) {
   const city = useMemo(() => buildCity(route), [route]);
   const createRenderer = useContext(RendererContext);
@@ -23,6 +27,9 @@ function CityExplorer({ route }: { route: Route }) {
   const [whole, setWhole] = useState(false);
   const [transmission, setTransmission] = useState<TransmissionKind>('automatic');
   const [resetCount, setResetCount] = useState(0);
+  const [seed, setSeed] = useState(DEFAULT_SEED);
+  // What the field shows while editing: it may be empty, but only a valid integer becomes the seed.
+  const [seedText, setSeedText] = useState(String(DEFAULT_SEED));
   const selected = city.legs.find((item) => item.number === leg);
   return (
     <>
@@ -48,6 +55,29 @@ function CityExplorer({ route }: { route: Route }) {
             ))}
           </select>
           <p>{selected?.turn === 'left' ? copy.nextLeft : copy.nextRight}</p>
+          <label htmlFor="city-seed">{copy.seed}</label>
+          <input
+            id="city-seed"
+            type="number"
+            inputMode="numeric"
+            min={0}
+            max={MAX_SEED}
+            step={1}
+            value={seedText}
+            onChange={(event) => {
+              const text = event.target.value;
+              if (text.trim() === '') {
+                setSeedText('');
+                return;
+              }
+              const value = Number(text);
+              if (!Number.isInteger(value) || value < 0 || value > MAX_SEED) return;
+              setSeedText(text);
+              setSeed(value);
+            }}
+            onBlur={() => setSeedText(String(seed))}
+          />
+          <p className="city-hint">{copy.seedHelp}</p>
           <fieldset className="choice">
             <legend>{TRACK_COPY.transmission}</legend>
             {(['automatic', 'manual'] as const).map((kind) => (
@@ -97,6 +127,7 @@ function CityExplorer({ route }: { route: Route }) {
                 leg={leg}
                 transmission={transmission}
                 resetCount={resetCount}
+                seed={seed}
                 createRenderer={createRenderer}
               />
             )}

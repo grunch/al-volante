@@ -6,7 +6,7 @@ import { MIRROR_IDS } from '../practice/cockpit.ts';
 import type { CockpitCommand, CockpitState, MirrorId } from '../practice/cockpit.ts';
 import type { CarEvent, CarState } from '../sim/car.ts';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
-import type { ScenarioState } from '../sim/scenario.ts';
+import type { TrafficSnapshot } from '../sim/scenario.ts';
 import type { OrientedBox } from '../sim/collision.ts';
 import { overlaps } from '../sim/collision.ts';
 import { EXAM_CAR, bodyBox, forwardOf, restingVehicle } from '../sim/vehicle.ts';
@@ -98,7 +98,7 @@ export type Observation =
       cockpit: CockpitState;
       events: readonly CarEvent[];
       dt: number;
-      scenario?: ScenarioState | null;
+      scenario?: TrafficSnapshot | null;
     }
   | { type: 'ready' }
   | { type: 'request-stop' };
@@ -502,7 +502,7 @@ function onApproachStep(
   session: Session,
   car: CarState,
   cockpit: CockpitState,
-  scenario: ScenarioState | null,
+  scenario: TrafficSnapshot | null,
   course: Course,
   dt: number,
 ): Session {
@@ -638,7 +638,7 @@ function onStep(
   cockpit: CockpitState,
   events: readonly CarEvent[],
   dt: number,
-  scenario?: ScenarioState | null,
+  scenario?: TrafficSnapshot | null,
 ): Session {
   let next = onPedals({ ...session, timeS: session.timeS + dt }, car);
   for (const event of events) {

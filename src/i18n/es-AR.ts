@@ -549,7 +549,9 @@ export const CITY_COPY = {
   canvasLabel: 'Vista tridimensional del recorrido A',
   unavailable: 'No se pudo iniciar la vista 3D. Podés consultar el mapa y las fuentes del recorrido.',
   scope:
-    'Exploración del trazado: los semáforos están apagados y todavía no hay tránsito ni evaluación del examen completo.',
+    'Exploración con tránsito: autos, colectivos, bicis y peatones circulan según la semilla y los semáforos tienen ciclo. La evaluación del circuito completo llega en las próximas tareas; acá no se puntúa nada.',
+  seed: 'Semilla del tránsito',
+  seedHelp: 'La misma semilla repite el mismo tránsito y los mismos ciclos de semáforo.',
   approximation:
     'Anchos, veredas, fachadas y posición de entrada son aproximaciones. PARE, carriles y máximas viales conservan la evidencia de OSM; falta un relevamiento en calle. No uses esta escena como guía de circulación actual.',
   sources: 'Fuentes y verificación',

@@ -18,7 +18,8 @@ export interface TrafficLight {
   stopLineZ: number;
 }
 
-export type ActorKind = 'pedestrian' | 'vehicle';
+/** `vehicle` is a car; buses and bicycles arrive with the city traffic (F04-T02). */
+export type ActorKind = 'pedestrian' | 'vehicle' | 'bus' | 'bicycle';
 
 /**
  * A scripted actor moves in a straight line from `from` to `to` at a constant speed. It starts when its trigger
@@ -53,18 +54,37 @@ export interface ActorPose {
   inside(zone: OrientedBox): boolean;
 }
 
-export interface ScenarioState {
+/**
+ * What any traffic exposes after each step: the examiner reads the lights and poses, the driving loop reports the
+ * contacts. The scripted scenario below and the seeded city traffic (`src/traffic/`) both produce it.
+ */
+export interface TrafficSnapshot {
   timeS: number;
+  /** The light the car faces next in its direction of travel; green where none applies. */
   light: LightState;
+  /** Light state per control id, for the lamps of the scene and for rules about a given crossing. */
+  lights: Readonly<Record<string, LightState>>;
   poses: readonly ActorPose[];
+  /** Actors the car body started overlapping during this step. */
+  contacts: readonly ActorKind[];
+}
+
+/** A traffic implementation the driving loop can step beside the car, one fixed step at a time. */
+export interface TrafficSource<S extends TrafficSnapshot = TrafficSnapshot> {
+  create(): S;
+  step(state: S, carBody: OrientedBox, timeS: number, dt: number): S;
+}
+
+/** The scripted scenario's one light, keyed for `lights`. */
+export const SCENARIO_LIGHT_ID = 'scenario-light';
+
+export interface ScenarioState extends TrafficSnapshot {
   /** When each actor last started, or null if it never did. */
   started: Readonly<Record<string, number | null>>;
   /** The light cycle each cycle-bound actor last ran in, so it runs once per cycle. */
   startedCycle: Readonly<Record<string, number | null>>;
   /** Actors the car body overlaps, so a contact is reported once per overlap episode. */
   touching: readonly string[];
-  /** Actors the car body started overlapping during this step. */
-  contacts: readonly ActorKind[];
 }
 
 const periodOf = (cycle: LightCycle) => cycle.greenS + cycle.yellowS + cycle.redS;
@@ -112,9 +132,11 @@ function poseOf(actor: Actor, startedS: number | null, timeS: number): ActorPose
 }
 
 export function createScenarioState(scenario: Scenario): ScenarioState {
+  const light = lightAt(scenario.light.cycle, 0);
   return {
     timeS: 0,
-    light: lightAt(scenario.light.cycle, 0),
+    light,
+    lights: { [SCENARIO_LIGHT_ID]: light },
     poses: scenario.actors.map((actor) => poseOf(actor, null, 0)),
     started: Object.fromEntries(scenario.actors.map((actor) => [actor.id, null])),
     startedCycle: Object.fromEntries(scenario.actors.map((actor) => [actor.id, null])),
@@ -159,5 +181,22 @@ export function stepScenario(
   });
   const overlapping = poses.filter((pose) => pose.active && overlaps(pose.box, carBody));
   const contacts = overlapping.filter((pose) => !state.touching.includes(pose.id)).map((pose) => pose.kind);
-  return { timeS, light, poses, started, startedCycle, touching: overlapping.map((pose) => pose.id), contacts };
+  return {
+    timeS,
+    light,
+    lights: { [SCENARIO_LIGHT_ID]: light },
+    poses,
+    started,
+    startedCycle,
+    touching: overlapping.map((pose) => pose.id),
+    contacts,
+  };
+}
+
+/** The scripted scenario as a traffic source for the driving loop. */
+export function scenarioSource(scenario: Scenario): TrafficSource<ScenarioState> {
+  return {
+    create: () => createScenarioState(scenario),
+    step: (state, carBody, timeS) => stepScenario(scenario, state, carBody, timeS),
+  };
 }
