@@ -140,6 +140,8 @@ export interface Session {
     /** Over the exam limit right now, and how many such episodes there were: correcting it ends one (D3). */
     speeding: boolean;
     speedEpisodes: number;
+    /** The speed episode that already scored the road maximum: no exam-speed fault in it (D2). */
+    roadMaxEpisode: number | null;
   };
   queue: readonly RecognitionTarget[];
   /** Stage I adjustments made since the recognition began; all three mirrors must be checked (protocolo PDF 9). */
@@ -237,6 +239,7 @@ export function createSession(
       wasStopped: false,
       speeding: false,
       speedEpisodes: 0,
+      roadMaxEpisode: null,
     },
     queue: recognitionQueue(kind, seed),
     adjusted: { seat: false, headrest: false, mirrors: [] },
@@ -454,11 +457,14 @@ function judgeSpeed(session: Session, car: CarState, roadKmh: number, examKmh: n
   if (!over && next.street.speeding) next = { ...next, street: { ...next.street, speeding: false } };
   const episode = `speed-${next.street.speedEpisodes}`;
   if (kmh > roadKmh + tolerance) {
-    // One episode, the more severe rule only (D2): the exam-speed fault of this episode is withdrawn.
+    // One episode, the more severe rule only (D2): the exam-speed fault of this episode is withdrawn, and not
+    // scored again while the episode goes on below the road maximum.
     const ledger = withdrawFault(next.ledger, 'rule.high.f-exam-speed-exceeded', episode);
-    return fault({ ...next, ledger }, 'rule.eliminatory.l-road-speed-limit-exceeded');
+    const marked: Session = { ...next, ledger, street: { ...next.street, roadMaxEpisode: next.street.speedEpisodes } };
+    return fault(marked, 'rule.eliminatory.l-road-speed-limit-exceeded');
   }
-  if (over) return fault(next, 'rule.high.f-exam-speed-exceeded', episode);
+  if (over && next.street.roadMaxEpisode !== next.street.speedEpisodes)
+    return fault(next, 'rule.high.f-exam-speed-exceeded', episode);
   return next;
 }
 

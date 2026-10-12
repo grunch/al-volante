@@ -319,6 +319,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Exceso que llega a la máxima vial (P2): la alta f del episodio se retira (`withdrawFault`) y queda solo la eliminatoria l (D2).
   - Episodios de velocidad (P2): corregir el exceso cierra el episodio y volver a exceder abre otro (`speed-n`, D3).
   - Suelo y grilla (P2): la escena los dimensiona y centra según los obstáculos y marcas del mundo (mínimo 200 m, margen de 60 m), así el cruce de Av. Cabildo tiene pavimento.
+- Revisión de Codex sobre `ef2ad7e` (1 finding, aplicado con prueba): tras superar la máxima vial, bajar a 35 km/h sin salir del exceso volvía a registrar la alta f del mismo episodio; ahora la sesión recuerda el episodio que recibió la eliminatoria y no vuelve a puntuar f en él (D2).
 - Verificación: `npm run check` con 347 pruebas (cobertura 95,3 % / 88,9 %), contenido OK, build OK; E2E del examen.
 
 ## Pila y orden de fusión

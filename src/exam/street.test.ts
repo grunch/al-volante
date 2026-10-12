@@ -237,6 +237,12 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
 
     expect(driver.faults).toEqual(['rule.high.f-exam-speed-exceeded', 'rule.eliminatory.l-road-speed-limit-exceeded']);
     expect(driver.session.ledger.points).toBe(11);
+
+    // Easing off to 35 km/h is still the same episode: the exam-speed fault does not come back.
+    laneKeeping(driver, { ...IDLE, brake: 0.3 }, (car) => car.world.vehicle.speedMps * 3.6 < 36, 20);
+    laneKeeping(driver, { ...IDLE, throttle: 0.3 }, (_, t) => t > 1, 5);
+
+    expect(driver.faults).toEqual(['rule.high.f-exam-speed-exceeded', 'rule.eliminatory.l-road-speed-limit-exceeded']);
   });
 
   it('driving onto the crosswalk while the pedestrian is on it does not yield; hitting them is eliminatory', () => {
