@@ -31,6 +31,7 @@ export const esAR = {
   mapCampaignB: 'Campaña licencia B',
   mapReference: 'Consulta',
   mapComplementary: 'Material complementario',
+  mapPractical: 'Examen práctico: protocolo y recorridos',
   unitsCount: 'unidades',
   unitsWithActivities: 'con actividades',
   unitsForConsultation: 'de consulta',
@@ -40,7 +41,7 @@ export const esAR = {
   unitPracticedIn: 'Practicala en',
   unitConsultation: 'Material de consulta',
   sectionUnitsHeading: 'Unidades de conocimiento',
-  sectionPages: 'Páginas del manual',
+  sectionPages: 'Páginas',
   figureBased: 'Contenido en figura',
   seeSourcePage: 'Ver página',
   libraryHeading: 'Biblioteca',
@@ -63,7 +64,6 @@ export const esAR = {
   pageSigns: 'Señales',
   pageIssues: 'Observaciones sobre la fuente',
   pageRules: 'Reglas del examen que citan esta página',
-  pageNotCatalogued: 'Esta fuente no tiene un catálogo por página; se muestra el texto extraído.',
   extractedText: 'Texto extraído automáticamente',
   extractedTextLoading: 'Cargando el texto…',
   extractedTextEmpty: 'Esta página no tiene texto extraíble (puede ser solo imagen).',
@@ -107,6 +107,22 @@ export const SECTION_LABELS: Record<string, Record<string, string>> = {
     s3: 'Pasos posteriores al siniestro',
     back: 'Contratapa',
   },
+  protocolo: {
+    front: 'Tapa e índice',
+    general: 'Presentación y condiciones del examen',
+    stages: 'Las tres etapas del examen',
+    evaluation: 'Forma de evaluación y ficha',
+    annex1: 'Anexo I · Gráficos de la preparación y del cajón',
+    annex2: 'Anexo II · Las fallas y cómo se evalúan',
+    annex3: 'Anexo III · Circuitos de examen (2023)',
+    back: 'Contratapa',
+  },
+  recorridos: {
+    front: 'Tapa, autoridades e índice',
+    intro: 'Presentación',
+    circuits: 'Circuitos de examen por comuna',
+    back: 'Contratapa',
+  },
 };
 
 export const CATEGORY_LABELS: Record<string, string> = {
@@ -115,6 +131,7 @@ export const CATEGORY_LABELS: Record<string, string> = {
   D: 'Complementario: transporte de pasajeros/as',
   'C-E': 'Complementario: transporte de carga',
   guide: 'Guía de siniestros',
+  exam: 'Examen práctico (consulta)',
 };
 
 export const PAGE_KIND_LABELS: Record<string, string> = {

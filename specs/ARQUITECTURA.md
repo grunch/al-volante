@@ -82,7 +82,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 | Ruta | Pantalla |
 |---|---|
 | `#/` | Inicio, «Mi garaje»: escena 3D y los seis espacios de la propuesta (los que todavía no existen se marcan «Próximamente»). |
-| `#/mapa` | Mapa de aprendizaje: campaña B en el orden del «Material a estudiar» (manual PDF 3), consulta (glosario) y material complementario por separado. |
+| `#/mapa` | Mapa de aprendizaje: campaña B en el orden del «Material a estudiar» (manual PDF 3), consulta (glosario), material complementario por separado y, desde F05-T04, el examen práctico (protocolo y circuitos por comuna, de consulta). |
 | `#/mapa/:fuente/:sección` | Unidades de una sección, con datos clave, figuras, enlaces a sus páginas, las actividades que practican cada unidad o el motivo por el que es de consulta, y el acceso a las actividades de la sección (F05-T01). |
 | `#/actividades` | «La ciudad te pregunta»: secciones del recorrido de aprendizaje con su cantidad de actividades; `?seccion=<fuente>-<sección>` abre las de una sección (F05-T01). |
 | `#/actividad/:id?semilla=n` | Una actividad; la semilla en la URL reproduce la misma variante y el mismo orden. |
@@ -91,7 +91,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 | `#/biblioteca` | Las cuatro fuentes oficiales, con edición, cantidad de páginas y PDF oficial. |
 | `#/garaje` | «Mi garaje» (F05-T03): la práctica de la etapa I y la pista de prueba para regular asiento, apoyacabezas, espejos y cinturón, y las actividades de revisión del auto del anexo I. Enlazado desde el espacio del inicio. |
 | `#/senales` | Catálogo visual de señales (F05-T02): todas las del manual por familia y grupo, con su recorte, nombre, significado si la fuente lo da, página y la actividad donde se practican. Enlazado desde la biblioteca y desde las páginas con señales. |
-| `#/biblioteca/:fuente/:página` | Una página física: clasificación, resumen, unidades, figuras, señales, observaciones, reglas del examen que la citan (protocolo), texto extraído y enlace al PDF oficial en esa página. |
+| `#/biblioteca/:fuente/:página` | Una página física (las cuatro fuentes están clasificadas desde F05-T04): clasificación, resumen, unidades, figuras, señales, observaciones, reglas del examen que la citan (protocolo), texto extraído y enlace al PDF oficial en esa página. |
 
 - **URLs con hash:** funcionan en cualquier hosting estático y sin conexión, sin reescrituras del servidor.
 - **Carga del contenido:** `ContentProvider` carga y valida el contenido una sola vez; `ContentGate` muestra los estados de carga y de error (con reintento y detalle técnico).

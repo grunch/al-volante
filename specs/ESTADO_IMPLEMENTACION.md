@@ -11,7 +11,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
 - **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
 - **Fase 5 — Todo el contenido y simulacros teóricos: etapa A en curso.** Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
-- **F04-T01-FIX01 — referencias visuales:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `8a6b51a` para resolver conflictos documentales y conservar #27–#30; no toca el worktree de Opus.
+- **F04-T01-FIX01 — referencias visuales:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
 - Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -433,7 +433,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ## Correctivo F04-T01-FIX01 — Entorno basado en referencias
 
-- Pedido: incorporar las imágenes cronológicas del recorrido y trabajar en un worktree para preservar la fase 5 de Opus. Base `main` (`b36fe55`), rama `f04-t01-fix01-street-reference`; [#31](https://github.com/grunch/al-volante/pull/31), implementación `5f8f226`. Correcciones de revisión en `42fc914`, que incorpora `main` (`78b5cee`, #27–#28). Segunda actualización con `8a6b51a` (#29–#30) al volver a avanzar la base; todos los conflictos eran documentales.
+- Pedido: incorporar las imágenes cronológicas del recorrido y trabajar en un worktree para preservar la fase 5 de Opus. Base `main` (`b36fe55`), rama `f04-t01-fix01-street-reference`; [#31](https://github.com/grunch/al-volante/pull/31), implementación `5f8f226`. Correcciones de revisión en `42fc914`, que incorpora `main` (`78b5cee`, #27–#28). Segunda actualización con `8a6b51a` (#29–#30) al volver a avanzar la base; todos los conflictos eran documentales. Tercera actualización con `693f692` (#32) al avanzar nuevamente la base.
 - Entrega: fachadas diferenciadas por tramo, balcones y plantas bajas, casas y esquinas bajas, arboleda, refugios/barandas del Metrobús, placas de calles, vallas del cajón, materiales y luz de día. Las 35 referencias están inventariadas en [REFERENCIAS_VISUALES.md](REFERENCIAS_VISUALES.md). No se redistribuyen las capturas originales ni se cambian física, reglas o catálogo.
 - Pruebas antes de incorporar `78b5cee`: lint, formato, tipos, validador de contenido y build aprobados. Suite general con Node 24.21.0 y dos workers: **500 aprobadas y 17 fallidas**, en `street.test.ts` y `parkingStreet.test.ts`; fallan la vuelta completa (`condition not met in 600 s`) y sus preparaciones de estacionamiento, incluida una falta de prioridad. No declarar `npm run check` aprobado. La prueba de vuelta completa reproduce el mismo error sobre `main` (`b36fe55`), sin cambios gráficos, con Node 24.21.0: 1 fallida y 16 omitidas por el filtro (142,8 s).
 - Revisión Codex independiente local con GPT-6.1 Sol, esfuerzo high: completada sobre el diff de trabajo; 8 pruebas focalizadas aprobadas, sin findings iniciales. La suite final de ciudad pasa sus 21 pruebas. Se amplió después la comprobación visual del pavimento de Quesada y se ajustó el plano de fondo para no ocultarlo. El seguimiento independiente de fondo, sombras y tejados dio conformidad. Codex GitHub: completada sobre `5f8f226`, revisión [5494732545](https://github.com/grunch/al-volante/pull/31#pullrequestreview-5494732545); la respuesta inicial de configuración quedó superada por esa revisión. CodeRabbit: solicitada automáticamente, pendiente por límite de revisiones incluidas (respuesta del 2026-10-12 18:35 UTC, próxima revisión en 34 minutos). No se presenta el límite de CodeRabbit como una revisión completada.
@@ -448,6 +448,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | fusionado (`78b5cee`); Codex sin observaciones (`ef44c0b`); CodeRabbit pendiente por cuota |
 | F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | [#29](https://github.com/grunch/al-volante/pull/29) | fusionado (`77a46dc`); historial de implementación abajo |
 | F05-T03 | `f05-t03-garage` | `f05-t02-signs` (#29) | [#30](https://github.com/grunch/al-volante/pull/30) | fusionado (`8a6b51a`); historial de implementación abajo |
+| F05-T04 | `f05-t04-complement` | `f05-t03-garage` (#30) | [#32](https://github.com/grunch/al-volante/pull/32) | fusionado (`693f692`); historial de implementación abajo |
 
 ### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
 
@@ -479,11 +480,22 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - **Decisiones:** D-T03-1 a D-T03-13 en `CONTENIDO.md` (alcohol: solo se evalúa el 0,0 g/l de principiantes y profesionales, porque no se pudo confirmar si en la Ciudad rige la ley nacional de alcohol cero o la Ley 2148; búsqueda del 12/10/2026). 3 observaciones nuevas (229). La prueba de política de contenido controla que ninguna respuesta correcta use los límites de 0,5 o 0,2 g/l.
 - Método: tres lotes por páginas con la guía común y la de la tarea; revisión del autor con heurísticas sobre todas las variantes.
 
+### F05-T04 — Anexos II–III, protocolo y recorridos
+
+- PR [#32](https://github.com/grunch/al-volante/pull/32), apilado sobre `f05-t03-garage` (#30). Orden: #27 → #28 → #29 → #30 → #32.
+- Alcance:
+  - **Anexos II y III (material complementario):** las 185 unidades revisadas contra la imagen (17 correcciones), 82 actividades nuevas y 47 figuras. 177 unidades `tested` y 8 de consulta (tablas de autopistas, mapa de hospitales, tarifas y los avisos del Paseo del Bajo que solo lista el anexo III).
+  - **Protocolo y recorridos:** pasan a estar clasificados página por página (42 y 19 páginas, categoría `exam`), con 48 unidades nuevas. 9 de ellas tienen actividad: las reglas generales del examen, cada una en su propia unidad y con los datos de `REGLAS.md`, y la presentación de los recorridos. Las otras 39 son de consulta: lo que se practica al volante (las etapas y las listas de fallas), los gráficos del anexo I y los 14 circuitos de 2026 y 7 de 2023, con una figura por lámina. 12 actividades nuevas y 13 figuras del protocolo.
+  - **Mapa de aprendizaje:** nuevo grupo «Examen práctico: protocolo y recorridos». La página de cada fuente muestra su clasificación también en el protocolo y los recorridos.
+  - **Validación:** las cuatro fuentes son auditadas: toda página clasificada una vez.
+  - **Decisiones:** D-T04-1 a D-T04-17 en `CONTENIDO.md`, con la comparación de circuitos de 2023 y 2026. 14 observaciones nuevas (243).
+- Método: seis lotes por páginas (O–R anexos, S protocolo, T recorridos) con la guía común y la de la tarea; revisión del autor (resúmenes de figuras de PDF 158 y 166 corregidos tras mirar las imágenes).
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) y F05-T01 ([#28](https://github.com/grunch/al-volante/pull/28)) también están fusionados (`367b484`, `78b5cee`).
 
-Fase 5, etapa A a cargo de Opus: #27 y F05-T01–T03 (#28–#30) ya integrados; F05-T04 y F05-T05 conservan su orden de apilado. El correctivo visual #31 apunta a `main` y conserva ese avance; no incorpora trabajo sin publicar del otro worktree.
+Fase 5, etapa A a cargo de Opus: #27 y F05-T01–T04 (#28–#30 y #32) ya integrados; F05-T05 conservan su orden de apilado. El correctivo visual #31 apunta a `main` y conserva ese avance; no incorpora trabajo sin publicar del otro worktree.
 
 ## Bloqueos
 
@@ -491,7 +503,7 @@ La base inicial `b36fe55` tenía los 17 fallos indicados arriba. `main` incorpor
 
 ## Siguiente acción
 
-Correctivo visual #31: publicar la integración de `main` hasta `8a6b51a`, cerrar comprobaciones y seguimiento de las dos correcciones de Codex. Fase 5 a cargo de Opus: F05-T01–T03 ya integradas; continúa con F05-T04 (anexos II–III, protocolo y recorridos de consulta) y F05-T05 (simulacros teóricos y auditoría global). Este correctivo no modifica su worktree ni inicia otra fase.
+Correctivo visual #31: terminar comprobaciones y seguimiento de las dos correcciones de Codex; integración de `main` actualizada hasta `693f692`. Fase 5 a cargo de Opus: F05-T01–T04 ya integradas; continúa con F05-T05 (simulacros teóricos y auditoría global). Este correctivo no modifica su worktree ni inicia otra fase.
 
 ### Cierre de la fase 4 contra el plan
 

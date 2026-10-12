@@ -1,0 +1,298 @@
+[
+  {
+    "id": "act.protocol-exam-situations",
+    "type": "decision",
+    "title": "Situaciones durante el examen",
+    "unitIds": [
+      "protocolo.annex2.belt-and-red-light"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 30
+      },
+      {
+        "source": "protocolo",
+        "page": 32
+      },
+      {
+        "source": "protocolo",
+        "page": 28
+      },
+      {
+        "source": "protocolo",
+        "page": 29
+      }
+    ],
+    "explanation": "Si el semáforo cambia a rojo cuando ya iniciaste el cruce, lo terminás con precaución y no se consigna falla; cruzar con la luz roja ya encendida, en cambio, es eliminatoria (protocolo PDF 32). El cinturón se usa desde que el auto empieza a moverse hasta apagar el motor y entregar la llave: para quitártelo avisás al examinador y esperás sus indicaciones detenido en un lugar seguro, porque quitártelo sin aviso es una falla eliminatoria que interrumpe el examen (PDF 30).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "light-change",
+        "start": "crossing",
+        "nodes": {
+          "crossing": {
+            "text": "Entrás a la bocacalle con el semáforo en verde y, con el cruce ya iniciado, la luz pasa a rojo.",
+            "choices": [
+              {
+                "id": "finish",
+                "text": "Termino el cruce con precaución",
+                "outcome": "good"
+              },
+              {
+                "id": "stop",
+                "text": "Freno y espero en medio de la intersección",
+                "outcome": "blocking"
+              },
+              {
+                "id": "back",
+                "text": "Retrocedo hasta antes de la línea de detención",
+                "outcome": "reverse"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Si el semáforo cambia a rojo con el cruce ya iniciado, lo terminás con precaución y no se consigna falla (protocolo PDF 32)."
+          },
+          "blocking": {
+            "correct": false,
+            "feedback": "Quedarte detenido en la intersección puede bloquear la encrucijada, que es una falla deficiente alta (protocolo PDF 28–29). Con el cruce iniciado, terminalo con precaución (PDF 32)."
+          },
+          "reverse": {
+            "correct": false,
+            "feedback": "Volver marcha atrás en plena intersección no es lo que pide el protocolo: con el cruce iniciado, se termina con precaución y no es falla (protocolo PDF 32)."
+          }
+        }
+      },
+      {
+        "id": "seatbelt",
+        "start": "belt",
+        "nodes": {
+          "belt": {
+            "text": "Vas circulando en la etapa II y sentís que el cinturón te queda incómodo; querés acomodártelo.",
+            "choices": [
+              {
+                "id": "tell",
+                "text": "Le aviso al examinador y espero sus indicaciones, detenido en un lugar seguro",
+                "outcome": "good"
+              },
+              {
+                "id": "unbuckle",
+                "text": "Me lo desabrocho un segundo para acomodarlo, sin detenerme",
+                "outcome": "unbuckled"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Si necesitás quitártelo por cualquier motivo, avisás al examinador y esperás sus indicaciones detenido en un lugar seguro (protocolo PDF 30)."
+          },
+          "unbuckled": {
+            "correct": false,
+            "feedback": "Quitarte el cinturón durante el examen sin aviso es una falla eliminatoria y el examen se interrumpe. Se usa desde que el auto empieza a moverse hasta que apagás el motor y entregás la llave (protocolo PDF 30)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.protocol-parking-maneuvers-attempts",
+    "type": "single-choice",
+    "title": "Maniobras e intentos de estacionamiento",
+    "unitIds": [
+      "protocolo.annex2.parking-maneuvers-and-attempts"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 13
+      },
+      {
+        "source": "protocolo",
+        "page": 24
+      },
+      {
+        "source": "protocolo",
+        "page": 25
+      },
+      {
+        "source": "protocolo",
+        "page": 33
+      },
+      {
+        "source": "protocolo",
+        "page": 11
+      }
+    ],
+    "explanation": "El estacionamiento paralelo contempla hasta tres maniobras: alinearse deteniéndose en doble fila, girar y retroceder para entrar, y posicionarse avanzando (protocolo PDF 13). Estacionar en más de tres maniobras es una falla leve, 1 punto (PDF 24–25). Un intento es cada vez que desplazás el vehículo del lugar reservado para alinearlo de nuevo: se permiten hasta dos, y si no lográs estacionar después de dos intentos es una falla eliminatoria que interrumpe el examen (PDF 33).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "max-maneuvers",
+        "prompt": "En la etapa III, ¿cuántas maniobras contempla el protocolo para considerar fluido el estacionamiento paralelo?",
+        "options": [
+          {
+            "id": "two",
+            "text": "Hasta dos",
+            "correct": false,
+            "feedback": "Dos son las maniobras contempladas para salir del cajón en la etapa II. Para estacionar se contemplan hasta tres."
+          },
+          {
+            "id": "three",
+            "text": "Hasta tres",
+            "correct": true,
+            "feedback": "¡Bien! Alinearse, girar y retroceder, y posicionarse: hasta tres maniobras para un estacionamiento fluido."
+          },
+          {
+            "id": "four",
+            "text": "Hasta cuatro",
+            "correct": false,
+            "feedback": "Una cuarta maniobra ya es falla leve: el protocolo contempla hasta tres."
+          },
+          {
+            "id": "five",
+            "text": "Hasta cinco",
+            "correct": false,
+            "feedback": "Son menos: hasta tres maniobras (alinearse, girar y retroceder, posicionarse)."
+          }
+        ]
+      },
+      {
+        "id": "fourth-maneuver",
+        "prompt": "Sin sacar el auto del lugar reservado, terminás de estacionar bien ubicado, pero usaste cuatro maniobras. ¿Cómo se califica?",
+        "options": [
+          {
+            "id": "minor",
+            "text": "Falla leve: 1 punto",
+            "correct": true,
+            "feedback": "¡Correcto! Estacionar en más de tres maniobras es una falla leve, aunque el auto quede bien ubicado."
+          },
+          {
+            "id": "eliminatory",
+            "text": "Falla eliminatoria: 8 puntos",
+            "correct": false,
+            "feedback": "La eliminatoria es por no lograrlo en dos intentos, no por pasarse de tres maniobras: esto es una falla leve."
+          },
+          {
+            "id": "high",
+            "text": "Falla deficiente alta: 3 puntos",
+            "correct": false,
+            "feedback": "Es menos grave: pasarse de tres maniobras es una falla leve, 1 punto."
+          },
+          {
+            "id": "none",
+            "text": "No es falla si quedó bien ubicado",
+            "correct": false,
+            "feedback": "Igual es falla: se contemplan hasta tres maniobras y la cuarta suma una falla leve."
+          }
+        ]
+      },
+      {
+        "id": "two-attempts",
+        "prompt": "Ya hiciste dos intentos de estacionamiento y en ninguno lograste dejar el auto en el cajón. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "eliminatory",
+            "text": "Falla eliminatoria y se interrumpe el examen",
+            "correct": true,
+            "feedback": "¡Exacto! Se permiten hasta dos intentos; si no lográs estacionar, es eliminatoria y el examinador toma el control."
+          },
+          {
+            "id": "minor",
+            "text": "Falla leve y probás una vez más",
+            "correct": false,
+            "feedback": "No hay tercer intento: después de dos intentos sin lograrlo, la falla es eliminatoria e interrumpe el examen."
+          },
+          {
+            "id": "high",
+            "text": "Falla deficiente alta y seguís con el descenso",
+            "correct": false,
+            "feedback": "Es más grave: no estacionar en dos intentos es eliminatoria y el examen se interrumpe."
+          }
+        ]
+      },
+      {
+        "id": "what-is-attempt",
+        "prompt": "Según el protocolo, ¿qué cuenta como un nuevo intento de estacionamiento?",
+        "options": [
+          {
+            "id": "leave-bay",
+            "text": "Salir del lugar reservado para alinearte de nuevo",
+            "correct": true,
+            "feedback": "¡Bien! Un intento es cada vez que desplazás el vehículo del lugar reservado con el fin de alinearlo nuevamente."
+          },
+          {
+            "id": "direction",
+            "text": "Cada cambio entre marcha atrás y adelante",
+            "correct": false,
+            "feedback": "Cambiar de sentido dentro del cajón no es un nuevo intento. Un intento nuevo es sacar el auto del lugar reservado para volver a alinearlo."
+          },
+          {
+            "id": "brake",
+            "text": "Cada vez que frenás durante la maniobra",
+            "correct": false,
+            "feedback": "Frenar no cuenta como intento. Lo que cuenta es desplazar el auto del lugar reservado para alinearlo de nuevo."
+          },
+          {
+            "id": "steer",
+            "text": "Cada corrección del volante dentro del cajón",
+            "correct": false,
+            "feedback": "Corregir con el volante no es un nuevo intento: lo es sacar el auto del lugar reservado para alinearlo otra vez."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.protocol-parking-maneuvers-order",
+    "type": "ordering",
+    "title": "Las tres maniobras del estacionamiento paralelo",
+    "unitIds": [
+      "protocolo.annex2.parking-maneuvers-and-attempts"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 13
+      },
+      {
+        "source": "protocolo",
+        "page": 24
+      },
+      {
+        "source": "protocolo",
+        "page": 25
+      }
+    ],
+    "explanation": "Para un estacionamiento fluido, el protocolo contempla hasta tres maniobras: alinearse deteniéndose en doble fila, retroceder girando a la derecha para ingresar y maniobrar a la izquierda para ubicar el auto, y posicionarlo avanzando hasta dejarlo centrado y paralelo, a unos 20 cm del cordón (protocolo PDF 13 y 24–25). Usar más de tres maniobras es una falla leve (PDF 25).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "maneuvers",
+        "prompt": "Ordená las maniobras del estacionamiento paralelo de la etapa III.",
+        "items": [
+          {
+            "id": "align",
+            "text": "Alinearte y detenerte en doble fila junto al cajón",
+            "reason": "1.ª maniobra: después de avisar con balizas al menos 3 segundos antes, te detenés en doble fila en el carril contiguo al cajón."
+          },
+          {
+            "id": "reverse",
+            "text": "Retroceder girando a la derecha y maniobrar a la izquierda para entrar",
+            "reason": "2.ª maniobra: retrocedés lo suficiente, girás a la derecha siguiendo el retroceso para ingresar y maniobrás a la izquierda para ubicar el auto en el cajón."
+          },
+          {
+            "id": "position",
+            "text": "Avanzar lo necesario para dejarlo centrado y paralelo",
+            "reason": "3.ª maniobra: posicionás el auto avanzando hasta dejarlo centrado y paralelo, a unos 20 cm del cordón."
+          }
+        ]
+      }
+    ]
+  }
+]

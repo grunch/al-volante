@@ -60,10 +60,17 @@ export function sign(overrides: Partial<Sign> & Pick<Sign, 'id'>): Sign {
   };
 }
 
-/** Two manual pages and one guide page: a cover, a page with one unit, and a guide cover. */
+/** One page record per page of an exam document: every source is classified page by page since F05-T04. */
+function examPages(id: 'protocolo' | 'recorridos', pages: number): Page[] {
+  return Array.from({ length: pages }, (_, index) =>
+    page({ source: id, page: index + 1, category: 'exam', kind: 'other', summary: 'Página' }),
+  );
+}
+
+/** Two manual pages and one guide page (a cover, a page with one unit, and a guide cover), plus the exam documents. */
 export function catalog() {
   return {
-    manifest: [source('manual', 2), source('siniestros', 1), source('protocolo', 42)],
+    manifest: [source('manual', 2), source('siniestros', 1), source('protocolo', 42), source('recorridos', 19)],
     pages: [
       page({ source: 'manual', page: 1 }),
       page({
@@ -76,6 +83,8 @@ export function catalog() {
         units: ['manual.ch3.roundabout-priority'],
       }),
       page({ source: 'siniestros', page: 1, category: 'guide' }),
+      ...examPages('protocolo', 42),
+      ...examPages('recorridos', 19),
     ],
     units: [unit({ id: 'manual.ch3.roundabout-priority' })],
     signs: [] as Sign[],

@@ -269,10 +269,10 @@ describe('library', () => {
     expect(screen.getByText('PARE')).toBeInTheDocument();
   });
 
-  it('shows exam rules on protocol pages, which have no page catalog', async () => {
+  it('shows the page summary and the exam rules on protocol pages', async () => {
     renderApp('/biblioteca/protocolo/32');
 
-    expect(await screen.findByText(esAR.pageNotCatalogued)).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { level: 2, name: esAR.pageSummary })).toBeInTheDocument();
     expect(screen.getByText('Cruza con el semáforo en rojo', { exact: false })).toBeInTheDocument();
   });
 

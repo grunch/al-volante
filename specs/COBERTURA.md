@@ -2,14 +2,14 @@
 
 Entregable de F01-T02. Fecha: 2026-10-11. Estado: **inventario completo.** Desde la fase 5 (2026-10-12) las unidades pasan a `reviewed`, `implemented` y `tested` a medida que se revisan y se convierten en actividades; el método, el avance por tarea y las decisiones sobre discrepancias están en [CONTENIDO.md](CONTENIDO.md).
 
-Define qué hay que enseñar: cada página del manual teórico (200 páginas) y de la guía práctica de siniestros viales (24 páginas) está clasificada, y cada contenido instructivo está registrado como unidad de conocimiento o como señal, con su página. El protocolo de examen y el documento de recorridos se tratan en F01-T03 (`REGLAS.md`) y F01-T04 (`RECORRIDO.md`).
+Define qué hay que enseñar: cada página del manual teórico (200 páginas) y de la guía práctica de siniestros viales (24 páginas) está clasificada, y cada contenido instructivo está registrado como unidad de conocimiento o como señal, con su página. El protocolo de examen y el documento de recorridos se tratan en F01-T03 (`REGLAS.md`) y F01-T04 (`RECORRIDO.md`); desde F05-T04 también están clasificados página por página, con sus unidades de consulta (ver «Documentos del examen»).
 
 ## Archivos
 
 | Archivo | Contenido |
 |---|---|
-| `catalog/pages.json` | 224 páginas: fuente, página PDF, página impresa, sección, categoría, tipo, resumen, unidades y figuras (con los datos de cada infografía transcriptos). |
-| `catalog/units.json` | 705 unidades de conocimiento: id estable, páginas, título, categoría, tipo, resumen fiel con cifras exactas y datos atómicos (`keyFacts`). |
+| `catalog/pages.json` | 224 páginas en F01-T02 (285 desde F05-T04, con las 42 del protocolo y las 19 de los recorridos): fuente, página PDF, página impresa, sección, categoría, tipo, resumen, unidades y figuras (con los datos de cada infografía transcriptos). |
+| `catalog/units.json` | 705 unidades de conocimiento en F01-T02 (753 desde F05-T04): id estable, páginas, título, categoría, tipo, resumen fiel con cifras exactas y datos atómicos (`keyFacts`). |
 | `catalog/signs.json` | 355 señales individuales: página, grupo, rótulo, significado si la fuente lo da, descripción visual y código impreso. |
 | `catalog/issues.json` | 206 observaciones de F01-T02 (más las que agrega la revisión de la fase 5; ver CONTENIDO.md): discrepancias, datos posiblemente desactualizados, ambigüedades, erratas, fallas de extracción e ilegibles. |
 | `../src/content/` | Esquemas y validadores en TypeScript (ver «Cómo validar»); desde F02-T02 reemplazan al script original de la fase 1. |
@@ -74,12 +74,34 @@ Campaña B (introducción, cap. 1–5, anexos I y IV): 412 unidades y 355 señal
 | Contratapa | 24 | 1 | 0 | 0 |
 | **Total** | | **24** | **16** | **31** |
 
+### Documentos del examen (desde F05-T04)
+
+Categoría `exam`. Las unidades del protocolo son de consulta salvo las reglas generales del examen, y las de circuitos son todas de consulta (CONTENIDO.md, D-T04-16 y D-T04-17).
+
+| Fuente | Sección | Páginas PDF | Páginas | Instructivas | Unidades |
+|---|---|---|---:|---:|---:|
+| Protocolo (42) | Tapa, reverso, créditos e índice | 1–4 | 4 | 0 | 0 |
+| | Presentación y condiciones | 5–8 | 4 | 4 | 6 |
+| | Las tres etapas | 9–13 | 5 | 5 | 5 |
+| | Forma de evaluación y ficha | 14–17 | 4 | 4 | 2 |
+| | Anexo I (gráficos) | 18–21 | 4 | 4 | 4 |
+| | Anexo II (fallas) | 22–33 | 12 | 12 | 6 |
+| | Anexo III (circuitos 2023) | 34–40 | 7 | 7 | 7 |
+| | Contratapa | 41–42 | 2 | 0 | 0 |
+| Recorridos (19) | Tapa, autoridades e índice | 1–3 | 3 | 0 | 0 |
+| | Presentación | 4–5 | 2 | 2 | 4 |
+| | Circuitos por comuna | 6–19 | 14 | 14 | 14 |
+
+El documento de recorridos no tiene contratapa: PDF 19 es la lámina de ACA Libertador.
+
 ### Páginas no instructivas
 
 Están clasificadas explícitamente en `pages.json`, con resumen:
 
 - **Manual:** tapa (1); índice (12–13); portadas de sección (14, 21, 43, 57, 89, 98, 104, 123, 152, 184); frases de cierre (20, 42, 56, 88, 97, 103, 122, 151, 183, 198); ilustración decorativa de contratapa (199) y contratapa (200).
 - **Guía:** tapa (1), índice (2), autoridades (3), portadas de sección (4, 6, 13, 16) y contratapa (24).
+- **Protocolo:** tapa (1), reverso ilustrado (2), créditos (3), índice (4), ilustración de contratapa (41) y contratapa (42).
+- **Recorridos:** tapa (1), autoridades (2) e índice (3).
 
 Las frases de cierre repiten mensajes que ya están cubiertos en unidades del capítulo; ninguna aporta una norma nueva. Las páginas 199–200, pendientes de revisión visual según la propuesta, quedan revisadas: no tienen contenido instructivo.
 

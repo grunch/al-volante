@@ -11,6 +11,7 @@ Entregable de la fase 5 (iniciada el 2026-10-12). Define cómo se convierten las
 | `../public/figures/*.png` | Imágenes de esos recortes, generadas con `node scripts/crop-figures.ts` (requiere poppler e ImageMagick). Se versionan porque la aplicación estática las sirve. |
 | `catalog/signs.json` (`box`) y `../public/signs/*.png` | Recorte de cada señal en su página, sin el rótulo impreso que la nombra (desde F05-T02); el mismo script genera las imágenes. Una señal que no admite pregunta lleva `consultationReason`. |
 | `catalog/units.json` | Las unidades, con su estado y, si son de consulta, `consultationReason`. Las correcciones de la revisión quedan en el propio registro y se anotan en `notes`. |
+| `catalog/pages.json` y `units.json` del protocolo y los recorridos | Desde F05-T04, las cuatro fuentes están clasificadas página por página (categoría `exam`), con unidades `protocolo.*` y `recorridos.*`. |
 
 Las figuras recortan el mismo material oficial que el repositorio ya incluye en `fuentes/pdf/` para estudio (ver README): no son material propio ni oficial del proyecto.
 
@@ -116,7 +117,49 @@ Citas: «manual PDF n» y «guía PDF n» son páginas físicas de `fuentes/pdf/
 - **D-T03-12 Cuarta de enganche** (PDF 121): se evalúa que en la Ciudad un vehículo particular no puede remolcar a otro.
 - **D-T03-13 Tercera fila del SRI** (PDF 116): no se evalúa.
 
-Observaciones nuevas de F05-T01 (agregadas a `catalog/issues.json`, que pasa de 206 a 214): límite de 13 m entre calle y avenida (glosario PDF 5–6), pictogramas de PDF 23 y 29, horario de la calle prioridad peatón (PDF 26 y 29), edad de 12 años en veredas (PDF 33), picadas como contravención (PDF 45), balizas en doble sentido (manual PDF 51 frente a guía PDF 8) y documentos a intercambiar (manual PDF 53 frente a guía PDF 7). Ninguna pregunta depende de ellas. F05-T03 agrega 3 más (229): ABS «no obligatorio» (PDF 107), el paréntesis de PDF 100 y el orden de luz de giro y velocidad de PDF 110 frente a PDF 75. F05-T02 agrega 12 (226 en total): banquina en PDF 60, mínimos de PDF 73, señal de ciclovía de PDF 32 frente a PDF 185, oblea de PDF 87, cheurones de niebla (PDF 79), diagramas de PDF 77, contracurva y curva en «S» (PDF 187), fondo azul de fin de prescripción (PDF 186 frente a 61), luz amarilla (PDF 64 frente a 197), carril de emergencia (PDF 63 frente a 196), erratas de PDF 195–196 y semáforos de PDF 197.
+### F05-T04
+
+Los anexos II (transporte de pasajeros/as, categoría D) y III (carga, categorías C/E) son **material complementario**: no forman parte del material de la licencia B (manual PDF 3) y su progreso se muestra aparte. Cada `explanation` aclara que es contenido para profesionales cuando la regla no aplica a un auto.
+
+- **D-T04-1 Diferencias con el anexo I** (frenos cada 6 meses o una vez al año, carga de neumáticos, 2 mm en gran porte, recapados, espejos, cinturón, apoyacabeza, cristales, matafuegos, botiquín; issues 142–156): se evalúa lo que el anexo II o III dice para su categoría, atribuyéndolo («en vehículos de transporte de pasajeros…»); no se pregunta qué anexo tiene razón ni se usa la regla de un anexo para otra categoría.
+- **D-T04-2 Fecha del neumático** (PDF 127, «tercera semana de abril»): como D-T03-6, solo cómo se lee el código.
+- **D-T04-3 Espejo 10 %** (PDF 130): no se evalúa la cifra para gran porte.
+- **D-T04-4 Postura, cadera bajo las rodillas** (PDF 139 y 161): sentido dudoso; no se evalúa.
+- **D-T04-5 Paseo del Bajo** (PDF 149 frente a 168 y al glosario; 12 t «superior» o «igual o mayor»; 5 o 9 puntos): se evalúa que es de circulación exclusiva y obligatoria para tránsito pesado y ómnibus de larga distancia; no los umbrales ni la lista de puntos.
+- **D-T04-6 Mapa de hospitales** (PDF 150, rótulo dudoso): no se evalúa.
+- **D-T04-7 Camión N1 frente a «más de 3.500 kg»** (PDF 153–154): no se evalúa el peso que define un camión.
+- **D-T04-8 Red de tránsito pesado** (PDF 168: kilómetros, calles, barrios, Ley 6401): cifras sin vigencia comprobada; no se evalúan. Sí qué es la red y que el tránsito pesado debe circular por ella.
+- **D-T04-9 Espejo interno del camión** (PDF 173 frente a 174): no se evalúa si existe.
+- **D-T04-10 Airbag «no obligatorio»** (PDF 178): no se evalúa.
+- **D-T04-11 Carga y descarga sin horarios** (PDF 166): no se evalúan franjas.
+- **D-T04-12 Datos de colectivos y taxis** (PDF 141–142: horarios de detención fuera de parada, asientos reservados, edades): referencias normativas sin vigencia comprobada; se evalúan solo las conductas de seguridad (no los números).
+- Teléfonos, URLs y normas citadas: no se evalúan (consulta).
+
+- **D-T04-13 Lectura de D-T04-5:** «la lista de puntos» es la lista (cuántos puntos y cuáles). Se evalúan las reglas sueltas que los dos anexos comparten, citando su página: no detenerse, avisar a AUSA si el vehículo queda averiado, desvío solo ante una contingencia que impide circular, y los 60 km/h (que coinciden con el capítulo 3, PDF 72). Los avisos 5 a 8, que solo están en la lista del anexo III (sustancias peligrosas, cargas excepcionales, acompañantes y área del Bajo), quedan como consulta.
+- **D-T04-14 Airbag «no obligatorio»:** D-T04-10 alcanza también a PDF 114 (anexo I) y 133 (anexo II), que repiten la frase.
+- **D-T04-15 Requisitos de la licencia profesional** (PDF 125: 21 años, más de 1 año en la clase B, mayores de 65; LINTI para servicios interjurisdiccionales): se evalúan atribuidos al manual («el manual indica…»), como contenido para profesionales, sin afirmar vigencia.
+- **D-T04-16 Protocolo:** su contenido se practica al volante en el examen del juego (`#/examen`, con las reglas de `REGLAS.md`). Por eso sus unidades son de consulta, salvo las reglas generales que conviene saber de memoria: velocidades de examen (30 y 45 km/h), puntos por tipo de falla, aprobado con hasta 7 puntos y las tres etapas completas, diferencia entre desaprobar e interrumpir, y maniobras frente a intentos de estacionamiento. Esas se evalúan con los datos de `REGLAS.md`, citando la página del protocolo, y cada una tiene su propia unidad (`protocolo.general.exam-speed-limits`, `protocolo.general.fail-or-interrupt`, `protocolo.annex2.belt-and-red-light`, `protocolo.annex2.parking-maneuvers-and-attempts` y `protocolo.evaluation.scoring-and-result`): las unidades que reúnen todas las fallas de un tipo o toda una etapa son de consulta, para que el progreso no dé por dominado lo que no se practicó.
+- **D-T04-17 Circuitos:** todas las unidades de circuitos son de consulta (el juego reconstruye solo el recorrido A de la Comuna 13). Vale la edición 2026 de los recorridos; el anexo III del protocolo (2023) se muestra como antecedente. Las secuencias se transcribieron desde la imagen, porque el texto extraído invierte A y B en las comunas 2, 10, 11 y 13. Comuna 13 A coincide con `RECORRIDO.md`. Los nombres de calles se copian como los escribe cada lámina.
+
+#### Circuitos: protocolo 2023 frente a recorridos 2026
+
+En todas las láminas, el «Estacionamiento» de 2023 pasa a llamarse «Inicio de examen práctico» en 2026. En 2023 había un solo recorrido numerado por comuna; en 2026 hay A y B. ACA Libertador solo existe en 2026.
+
+| Comuna | Páginas (2023 → 2026) | Qué cambia |
+|---|---|---|
+| 2 | PDF 34 → 6 | Después de Juncal, 2023 sigue por Arenales y Paraná; 2026 va por Av. Callao. |
+| 3 | PDF 34 → 7 | Mismo circuito; el inicio pasa de Moreno del 2320 al 2350 a Pichincha 338. |
+| 4 | PDF 35 → 8 | 2023 pasaba por Wenceslao Villafañe y Jovellanos; 2026 va directo a Arzobispo Espinosa. La sede pasa a «Punto de Atención Ciudadana 4». |
+| 5 | PDF 35 → 9 | Sin cambios en el recorrido A. |
+| 6 | PDF 36 → 10 | Portugal pasa a «E. Acevedo»; después de Yatay, 2023 sigue por Tte. Gral. Juan Domingo Perón y 2026 por Potosí y Ramos Mejía. |
+| 7 | PDF 36 → 11 | Subsede de Emilio Mitre 981 a 956 e inicio de Tejedor 1100 a 1084. El alternativo de los viernes de 2023 no existe en 2026. |
+| 9 | PDF 37 → 12 | Mismo circuito; el inicio pasa de Moreto 700 a Mozart 850. |
+| 10 | PDF 37 → 13 | Mismo circuito; el inicio pasa de Mercedes al 200 a Bacacay 3993. |
+| 11 | PDF 38 → 14 | Sede de Av. Francisco Beiró 4580 a «Sede Licencias», Av. Francisco Beiró 4629; después de Benito Juárez, 2023 sigue por Navarro y 2026 por Simbrón, Desaguadero y José Pedro Varela. |
+| 12 | PDF 38 → 15 | 2026 elimina el tramo Blanco Encalada – Lugones; el inicio pasa de Av. Monroe al 4200 a Av. Monroe 4237. |
+| 13, 14 y 15 | PDF 39–40 → 16–18 | Misma secuencia; solo cambia el rótulo del inicio. |
+
+Observaciones nuevas de F05-T01 (agregadas a `catalog/issues.json`, que pasa de 206 a 214): límite de 13 m entre calle y avenida (glosario PDF 5–6), pictogramas de PDF 23 y 29, horario de la calle prioridad peatón (PDF 26 y 29), edad de 12 años en veredas (PDF 33), picadas como contravención (PDF 45), balizas en doble sentido (manual PDF 51 frente a guía PDF 8) y documentos a intercambiar (manual PDF 53 frente a guía PDF 7). Ninguna pregunta depende de ellas. F05-T04 agrega 14 (243): clases de distancia superpuestas (PDF 125), la coma de PDF 128, requisitos del transporte escolar (PDF 143), «Pi y Margal» (PDF 150), el orden de las acciones antes de maniobrar (PDF 173), las repeticiones de PDF 178 y 180, y en los documentos del examen la nota sin llamada (protocolo PDF 6), la cota casi ilegible (PDF 21), el selector sin «L» (PDF 30 frente a 19) y cuatro de los recorridos (tapa, Comuna 12, Comuna 14 y ACA Libertador). F05-T03 agrega 3 más (229): ABS «no obligatorio» (PDF 107), el paréntesis de PDF 100 y el orden de luz de giro y velocidad de PDF 110 frente a PDF 75. F05-T02 agrega 12 (226 en total): banquina en PDF 60, mínimos de PDF 73, señal de ciclovía de PDF 32 frente a PDF 185, oblea de PDF 87, cheurones de niebla (PDF 79), diagramas de PDF 77, contracurva y curva en «S» (PDF 187), fondo azul de fin de prescripción (PDF 186 frente a 61), luz amarilla (PDF 64 frente a 197), carril de emergencia (PDF 63 frente a 196), erratas de PDF 195–196 y semáforos de PDF 197.
 
 ## Cobertura por tarea
 
@@ -125,8 +168,11 @@ Observaciones nuevas de F05-T01 (agregadas a `catalog/issues.json`, que pasa de 
 | F05-T01 | Presentación, glosario, introducción, cap. 1–2 y guía de siniestros | 260 | 254 | 6 | 105 (351 variantes) | 23 |
 | F05-T02 | Cap. 3 y anexo IV, con el catálogo visual de señales | 153 | 151 | 2 | 128 (573 variantes) | 28 |
 | F05-T03 | Cap. 4–5 y anexo I, con la inspección del auto («Mi garaje») | 107 | 106 | 1 | 59 (192 variantes) | 17 |
+| F05-T04 | Anexos II–III (complementario), protocolo y recorridos (consulta) | 233 | 186 | 47 | 94 (308 variantes) | 60 |
 
 Señales (F05-T02): 354 de las 355 recortadas de su página y revisadas (`name`, `meaning` solo cuando la fuente lo da, y `visual`, que es el texto alternativo y no delata la respuesta); 350 `tested` por actividades de identificación y 4 de consulta (las tres luces intermitentes, que un dibujo fijo no distingue de la luz fija, y «Barreras ferroviarias», incompleta en el PDF). La restante (PDF 91, ícono de principiante de la tabla de alcohol) se recortó y practica en F05-T03: las 355 tienen recorte y tratamiento.
+
+En F05-T04, de las 185 unidades de los anexos II y III se revisaron todas contra la imagen (17 correcciones; 177 probadas y 8 de consulta), y el protocolo (42 páginas) y los recorridos (19) pasan a estar clasificados página por página, con 48 unidades nuevas (9 probadas y 39 de consulta) y una figura por lámina de circuito, de 2026 y de 2023.
 
 Además, en F05-T01 se revisaron contra sus páginas las 14 unidades (cap. 1, 3 y anexo IV) y las 4 señales que practican las 8 actividades de la fase 2; quedan `tested`.
 
