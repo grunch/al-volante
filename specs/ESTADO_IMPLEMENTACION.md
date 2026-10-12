@@ -436,7 +436,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|
 | F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | abierto; Codex sin observaciones (`ef44c0b`); CodeRabbit pendiente por cuota |
 | F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | [#29](https://github.com/grunch/al-volante/pull/29) | abierto; Codex solicitado, CodeRabbit automático |
-| F05-T03 | `f05-t03-garage` | `f05-t02-signs` (#29) | (se completa al crear el PR) | implementada; revisiones pendientes |
+| F05-T03 | `f05-t03-garage` | `f05-t02-signs` (#29) | [#30](https://github.com/grunch/al-volante/pull/30) | abierto; Codex solicitado, CodeRabbit automático |
 
 ### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
 
@@ -460,7 +460,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ### F05-T03 — Capítulos 4–5, anexo I e inspección del auto («Mi garaje»)
 
-- Apilada sobre `f05-t02-signs` (#29). Orden: #27 → #28 → #29 → este PR.
+- PR [#30](https://github.com/grunch/al-volante/pull/30), apilado sobre `f05-t02-signs` (#29). Orden: #27 → #28 → #29 → #30.
 - Alcance:
   - **Contenido:** las 107 unidades de los capítulos 4 (capacidad natural) y 5 (actitud) y del anexo I (automóviles particulares) revisadas contra la imagen (17 correcciones), 59 actividades nuevas (30 de opción única, 25 escenas, 3 de ordenar y 1 de identificación; 192 variantes) y 17 figuras. 106 unidades `tested` y 1 de consulta: el límite general de alcohol de 0,5 g/l (D-T03-1). La señal de PDF 91 (ícono de principiante de la tabla de alcohol) recortada y practicada: las 355 señales tienen recorte y tratamiento.
   - **Inspección del auto:** escenas de revisión antes de salir (neumáticos, frenos, luces, espejos, cinturones, sillitas, elementos de seguridad, equipaje y mascotas) en el anexo I.
