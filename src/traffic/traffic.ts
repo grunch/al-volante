@@ -50,6 +50,8 @@ const STOP_TOLERANCE_M = 0.6;
 /** Vehicles approaching a crossing within this distance, or this many seconds at their speed, count for yields. */
 const YIELD_LOOKAHEAD_M = 20;
 const YIELD_LOOKAHEAD_S = 4;
+/** The car counts as crossing a pavement it is on once it has turned this far from the approach (mid-turn). */
+const CAR_TURNING_RAD = Math.PI / 8;
 /** A right-hand vehicle that has stopped this long loses its priority (manual.pdf PDF 64, exception 4). */
 const PRIORITY_STOPPED_S = 1.5;
 /**
@@ -409,8 +411,8 @@ function holdersAt(
     (remainingM <= YIELD_LOOKAHEAD_M || remainingM <= speedMps * YIELD_LOOKAHEAD_S) &&
     (speedMps > 0.5 || stoppedS < PRIORITY_STOPPED_S);
   // Anyone crossing the pavement ahead is let through; parallel traffic beside the vehicle is not a conflict.
-  const crossingInside = (box: OrientedBox) =>
-    Math.abs(headingDifference(box.headingRad, approach.headingRad)) > Math.PI / 4 &&
+  const crossingInside = (box: OrientedBox, minAngleRad = Math.PI / 4) =>
+    Math.abs(headingDifference(box.headingRad, approach.headingRad)) > minAngleRad &&
     approach.conflicts.some((conflict) => overlaps(box, conflict));
   const holders: Holder[] = [];
   for (const other of others) {
@@ -429,7 +431,8 @@ function holdersAt(
     const relation = carApproach(other, car);
     return relation !== null && arriving(relation.distanceM, car.speedMps, car.stoppedS);
   });
-  if (carWithPriority || crossingInside(car.body)) holders.push('car');
+  // The car standing mid-turn on the pavement is already crossing, though still closer to the approach's heading.
+  if (carWithPriority || crossingInside(car.body, CAR_TURNING_RAD)) holders.push('car');
   return holders;
 }
 

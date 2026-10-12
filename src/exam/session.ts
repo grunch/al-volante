@@ -41,6 +41,8 @@ export const GAME_PARAMETERS = {
 
 /** The first 100 m after leaving the box (protocolo PDF 11, 31). */
 const FIRST_METRES_M = 100;
+/** The instructed maximum over the whole first 100 m, whatever the road they end on (protocolo PDF 11, 31). */
+const FIRST_METRES_KMH = 30;
 
 /** Rear axle in the middle of the yard's parking box (practiceYard.ts), facing +z with the kerb on the right. */
 export const EXAM_START = restingVehicle({ x: -5.15, z: 11.65, headingRad: 0 });
@@ -474,7 +476,7 @@ function onExitStep(session: Session, car: CarState, cockpit: CockpitState): Ses
 const kmhOf = (car: CarState) => Math.abs(car.world.vehicle.speedMps) * 3.6;
 
 /** First 100 m: at most 30 km/h in second (manual) or D (automatic); otherwise the instruction is not followed. */
-function onFirstMetresStep(session: Session, car: CarState, examKmh: number): Session {
+function onFirstMetresStep(session: Session, car: CarState): Session {
   const kmh = kmhOf(car);
   const { powertrain } = car;
   const topKmh = Math.max(session.measurements.firstMetresTopKmh ?? 0, kmh);
@@ -482,7 +484,7 @@ function onFirstMetresStep(session: Session, car: CarState, examKmh: number): Se
   const wrongGear =
     kmh > GAME_PARAMETERS.firstMetresGearSpeedKmh &&
     (powertrain.kind === 'manual' ? powertrain.manualGear !== '2' : powertrain.lever !== 'D');
-  if (kmh > examKmh + GAME_PARAMETERS.speedToleranceKmh || wrongGear)
+  if (kmh > FIRST_METRES_KMH + GAME_PARAMETERS.speedToleranceKmh || wrongGear)
     next = fault(next, 'rule.eliminatory.g-first-block-instruction');
   if (next.phase === 'finished') return next;
   const start = next.street.odometerStartM ?? car.world.vehicle.odometerM;
@@ -501,7 +503,7 @@ function onCirculationStep(
   const firstMetres = session.phase === 'firstMetres';
   const verdict = judgeCirculation(session.street, circuit, car, cockpit, scenario, dt, session.timeS, firstMetres);
   let next: Session = { ...session, street: verdict.street };
-  if (firstMetres) next = onFirstMetresStep(next, car, next.street.road?.examKmh ?? 30);
+  if (firstMetres) next = onFirstMetresStep(next, car);
   if (next.phase === 'finished') return next;
   return settleCirculation(next, verdict);
 }

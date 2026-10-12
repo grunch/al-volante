@@ -136,6 +136,15 @@ describe('the whole circuit (RECORRIDO.md §4; protocolo PDF 10–12)', () => {
     expect(fast.driver.session.ledger.interruption?.cause).toBe('fault');
   }, 90000);
 
+  it('keeps the 30 km/h instruction for the whole first 100 m, even once they reach Av. Cabildo (45 km/h)', () => {
+    const exam = outOfTheBox();
+    placeOnLeg(exam, 2, 20);
+    expect(exam.driver.phase).toBe('firstMetres');
+    cruise(exam, { until: (driver) => kmh(driver) > 34, maxS: 30, speed: () => 10, slowAtCorners: false });
+    expect(exam.driver.session.street.road?.examKmh).toBe(45);
+    expect(exam.driver.faults).toEqual(['rule.eliminatory.g-first-block-instruction']);
+  }, 90000);
+
   it('manual: staying in first above 15 km/h in the first 100 m ignores the instruction to drive in second', () => {
     const exam = cityExam('manual', 1);
     throughTheBox(exam.driver, { secondGear: false });

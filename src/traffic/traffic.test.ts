@@ -326,6 +326,31 @@ describe('seeded traffic', () => {
     expect(frontOf(traffic, released, 'vehicle-0')).toBeGreaterThan(stop.atS + 1);
   });
 
+  it('a cyclist waits at its line for the car standing mid-turn on the corner, and rides on once it is clear', () => {
+    const track = base.network.paths.find((path) => path.id === 'cycle-leg-4-0:forward')!;
+    const stop = track.stops.find((item) => item.approach.road.id === 'leg-4-1')!;
+    // The car turning left into Quesada, halfway through the turn (about 32° off Cuba), waiting on the pavement.
+    const midTurn = carAt(137, -91, 1.1);
+    const bicycle = ACTOR_SIZES.bicycle;
+    const traffic = only([
+      car({
+        id: 'bicycle-0',
+        kind: 'bicycle',
+        pathId: track.id,
+        startS: stop.atS - 30,
+        halfLengthM: bicycle.lengthM / 2,
+        halfWidthM: bicycle.widthM / 2,
+      }),
+    ]);
+    const held = run(traffic, midTurn, 15, (state) => {
+      expect(frontOf(traffic, state, 'bicycle-0')).toBeLessThanOrEqual(stop.atS + 0.3);
+      expect(state.contacts).toEqual([]);
+    });
+    expect(vehicle(held, 'bicycle-0').speedMps).toBe(0);
+    const released = run(traffic, FAR_AWAY, 10, undefined, held);
+    expect(frontOf(traffic, released, 'bicycle-0')).toBeGreaterThan(stop.atS + 1);
+  });
+
   it('lets pedestrians cross a signalled crosswalk only on its walk phase', () => {
     const crosswalk = base.network.crosswalks.find((item) => item.controlId === 'control-1')!;
     const body = carAt(40, -25, -1);
