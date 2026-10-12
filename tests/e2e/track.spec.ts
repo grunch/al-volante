@@ -11,12 +11,21 @@ async function openYard(page: Page): Promise<Locator> {
   return canvas;
 }
 
-async function press(page: Page, key: string) {
+async function waitForSimulation(canvas: Locator, seconds: number) {
+  const started = Number(await canvas.getAttribute('data-time-s'));
+  await expect
+    .poll(async () => Number(await canvas.getAttribute('data-time-s')), { timeout: 15_000 })
+    .toBeGreaterThanOrEqual(started + seconds);
+}
+
+async function press(page: Page, canvas: Locator, key: string) {
   await page.keyboard.press(key);
-  await page.waitForTimeout(80);
+  // Commands are consumed by the render loop; do not assume a particular wall-clock frame duration.
+  await waitForSimulation(canvas, 0.01);
 }
 
 test.describe('practice yard', () => {
+  test.describe.configure({ timeout: 60_000 });
   test('automatic: starts in P, goes to D with the brake held and creeps off once the brake is released', async ({
     page,
   }) => {
@@ -26,15 +35,15 @@ test.describe('practice yard', () => {
     await expect(canvas).toHaveAttribute('data-state', 'ready');
     await canvas.focus();
 
-    await press(page, 'k');
-    await press(page, 'k');
+    await press(page, canvas, 'k');
+    await press(page, canvas, 'k');
     await expect(canvas).toHaveAttribute('data-engine', 'running');
     await page.keyboard.down('ArrowDown');
-    await page.waitForTimeout(500);
-    await press(page, 'e');
-    await press(page, 'e');
-    await press(page, 'e');
-    await press(page, 'Space');
+    await waitForSimulation(canvas, 0.5);
+    await press(page, canvas, 'e');
+    await press(page, canvas, 'e');
+    await press(page, canvas, 'e');
+    await press(page, canvas, 'Space');
     await page.keyboard.up('ArrowDown');
 
     await expect(canvas).toHaveAttribute('data-gear', 'D1');
@@ -51,12 +60,13 @@ test.describe('practice yard', () => {
     await canvas.focus();
 
     await page.keyboard.down('Shift');
-    await page.waitForTimeout(400);
-    await press(page, 'k');
-    await press(page, 'k');
-    await press(page, 'e');
-    await press(page, 'Space');
+    await waitForSimulation(canvas, 0.4);
+    await press(page, canvas, 'k');
+    await press(page, canvas, 'k');
+    await press(page, canvas, 'e');
+    await press(page, canvas, 'Space');
     await page.keyboard.down('ArrowUp');
+    await waitForSimulation(canvas, 0.2);
     await page.keyboard.up('Shift');
 
     await expect
@@ -69,12 +79,13 @@ test.describe('practice yard', () => {
     await page.keyboard.down('Shift');
     await page.keyboard.down('ArrowDown');
     await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh')), { timeout: 5000 }).toBe(0);
-    await press(page, 'Space');
-    await press(page, 'q');
+    await waitForSimulation(canvas, 0.3);
+    await press(page, canvas, 'Space');
+    await press(page, canvas, 'q');
     await page.keyboard.up('ArrowDown');
     await page.keyboard.up('Shift');
-    await press(page, 'k');
-    await press(page, 'k');
+    await press(page, canvas, 'k');
+    await press(page, canvas, 'k');
     await expect(canvas).toHaveAttribute('data-gear', 'N');
     await expect(readout(page, 'Llave')).toHaveText('Afuera');
     await expect(readout(page, 'Freno de mano')).toHaveText('Puesto');

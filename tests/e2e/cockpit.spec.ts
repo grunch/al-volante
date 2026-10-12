@@ -8,27 +8,6 @@ test('prepares the cabin, observes and restores the initial state', async ({ pag
   await expect(view).toHaveAttribute('data-state', 'ready');
   await view.scrollIntoViewIfNeeded();
   await view.screenshot({ path: testInfo.outputPath('cockpit-front.png') });
-  const timing = await page.evaluate(async () => {
-    const samples: number[] = [];
-    let previous = performance.now();
-    for (let index = 0; index < 60; index++) {
-      const now = await new Promise<number>((resolve) => requestAnimationFrame(resolve));
-      samples.push(now - previous);
-      previous = now;
-    }
-    samples.sort((a, b) => a - b);
-    return {
-      frames: samples.length,
-      meanMs: samples.reduce((sum, value) => sum + value, 0) / samples.length,
-      p95Ms: samples[56],
-      userAgent: navigator.userAgent,
-      dpr: devicePixelRatio,
-      width: innerWidth,
-      height: innerHeight,
-    };
-  });
-  await testInfo.attach('frame-timing', { body: JSON.stringify(timing), contentType: 'application/json' });
-
   await page.getByRole('button', { name: 'Cinturón', exact: false }).first().click();
   await expect(page.getByText('Cinturón abrochado', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Mirar a la izquierda', exact: true }).click();
@@ -63,4 +42,36 @@ test('rebinds the key command and retains it after reload', async ({ page }) => 
   await page.keyboard.press('Digit1');
   await page.keyboard.press('Digit1');
   await expect(view).toHaveAttribute('data-engine', 'running');
+});
+
+test('records frame timing within a bounded sample window', async ({ page }, testInfo) => {
+  await page.goto('/#/pista');
+  const view = page.getByTestId('driving-canvas');
+  await expect(view).toHaveAttribute('data-state', 'ready');
+  await view.scrollIntoViewIfNeeded();
+  const timing = await page.evaluate(async () => {
+    const samples: number[] = [];
+    const started = performance.now();
+    let previous = started;
+    for (let index = 0; index < 60 && performance.now() - started < 5000; index++) {
+      const now = await new Promise<number>((resolve) => requestAnimationFrame(resolve));
+      samples.push(now - previous);
+      previous = now;
+    }
+    samples.sort((a, b) => a - b);
+    return {
+      frames: samples.length,
+      elapsedMs: performance.now() - started,
+      sampleBudgetMs: 5000,
+      meanMs: samples.reduce((sum, value) => sum + value, 0) / samples.length,
+      p95Ms: samples[Math.ceil(samples.length * 0.95) - 1],
+      userAgent: navigator.userAgent,
+      dpr: devicePixelRatio,
+      width: innerWidth,
+      height: innerHeight,
+    };
+  });
+  await testInfo.attach('frame-timing', { body: JSON.stringify(timing), contentType: 'application/json' });
+  expect(timing.frames).toBeGreaterThan(0);
+  expect(timing.meanMs).toBeGreaterThan(0);
 });
