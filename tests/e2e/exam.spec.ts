@@ -57,3 +57,65 @@ test.describe('practical exam on the circuit', () => {
     expect(errors).toEqual([]);
   });
 });
+
+test.describe('exam modes (F04-T05)', () => {
+  test('offers the four modes and hides every aid in the exam mode, keeping what the examiner says', async ({
+    page,
+  }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.goto('./#/examen');
+    const view = page.getByTestId('driving-canvas');
+    await expect(view).toHaveAttribute('data-state', 'ready');
+    const modes = page.getByRole('group', { name: 'Modo' });
+    await expect(modes.getByRole('radio')).toHaveCount(4);
+    await expect(modes.getByRole('radio', { name: 'Recorrer' })).toBeChecked();
+    await expect(page.getByTestId('exam-points')).toHaveText('0');
+
+    await modes.getByRole('radio', { name: 'Rendir' }).click();
+    await expect(page).toHaveURL(/modo=rendir/);
+    await expect(page.getByTestId('exam-hud')).toHaveAttribute('data-aids', '');
+    await expect(page.getByTestId('exam-points')).toHaveCount(0);
+    await expect(page.getByTestId('exam-notice')).toHaveCount(0);
+    await expect(page.getByTestId('exam-limits')).toHaveCount(0);
+    await expect(page.getByTestId('exam-light')).toHaveCount(0);
+    await expect(page.getByTestId('exam-parking')).toHaveCount(0);
+    await expect(page.getByTestId('exam-no-aids')).toContainText('se informan al final');
+    await expect(page.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'familiarisation');
+    await expect(page.getByTestId('exam-instruction')).toHaveText(
+      'En la próxima esquina, doblá a la derecha, por Av. Cabildo.',
+    );
+
+    await page.getByRole('button', { name: 'Pedir que se interrumpa el examen' }).click();
+    const card = page.getByTestId('exam-card');
+    await expect(card.getByTestId('exam-result')).toContainText('Desaprobado');
+    await expect(card.getByTestId('exam-card-stage-I')).toContainText('incompleta');
+    await expect(card.getByTestId('exam-card-total')).toContainText('Total: 0 puntos');
+    await expect(page.getByTestId('exam-saved')).toHaveAttribute('data-save', 'saved');
+    expect(errors).toEqual([]);
+  });
+
+  test('practises stage III from leg 8 and explains the rules in the learning mode', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.goto('./#/examen?modo=practicar&etapa=3');
+    const view = page.getByTestId('driving-canvas');
+    await expect(view).toHaveAttribute('data-state', 'ready');
+    await expect(view).toHaveAttribute('data-engine', 'running');
+    await expect(page.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'circulation');
+    await expect(page.getByTestId('exam-leg')).toHaveText('Tramo 8 · Vuelta de Obligado');
+
+    await page.goto('./#/examen?modo=aprender');
+    await expect(page.getByTestId('examiner-says')).toHaveAttribute('data-mode', 'learn');
+    await expect(page.getByTestId('exam-hints')).toContainText('Qué se evalúa ahora');
+    expect(errors).toEqual([]);
+  });
+});
+
+test('can leave the exam page through the navigation while the drive is running', async ({ page }) => {
+  // The readouts update every frame; as urgent updates they used to starve the navigation's transition.
+  await page.goto('./#/examen');
+  await expect(page.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'ready');
+  await page.getByRole('link', { name: 'Mi bitácora' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mi bitácora');
+});

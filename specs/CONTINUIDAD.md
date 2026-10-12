@@ -1,6 +1,6 @@
 # Continuidad del proyecto
 
-Actualizado: 2026-10-12. Estado: fases 1–3 fusionadas; fase 4 en etapa A (T01–T03 con PR, T04 siguiente). Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
+Actualizado: 2026-10-12. Estado: fases 1–3 fusionadas; fase 4 con sus cinco PRs creados (etapa A completa), etapa B de revisión pendiente. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
 ## Pedido y alcance de esta etapa
 
@@ -170,3 +170,17 @@ Apilada sobre `f04-t03-examiner` (#24) por el mismo pedido («ya está el pr de 
 - No hubo revisión visual en navegador más allá de los E2E; el cajón sigue sin vallas físicas y sin relevamiento.
 
 **Interfaz para F04-T05.** Un modo que no exija todas las etapas debe crear la sesión directamente en la fase deseada (`enter`) con `completedStages` vacío, así `resultOf` queda `pending` y la ficha no finge un examen completo; «rendir» usa el flujo completo (`createSession(rules, kind, seed, circuit, bands)`). Los datos por etapa viven en la sesión: etapa I en `measurements` (reverseCm, forwardCm, exitManoeuvres, firstMetresTopKmh); etapa II en `street` (tramo, episodios, `legsEntered`); etapa III en `parking` (`manoeuvres`, `attempts`, `kerb`, `final` con frontCm/rearCm/alongM, `leftMirrorChecked`, `doorOpened`); cada falla del `ledger` lleva `atS` y se asigna a su etapa por el instante de cada cambio de fase (registrarlos en la sesión si la ficha los necesita). Para persistir un intento de manejo, el contrato `Attempt` admite `kind: 'driving'` (PROPUESTA §8; `src/progress/model.ts`, `createAttempt`): todavía no se conecta. PR de T04: [#25](https://github.com/grunch/al-volante/pull/25) (`0e8c677`), apilado sobre #24; Codex solicitado con `@codex review` y CodeRabbit automática, resultados pendientes (revisión pendiente).
+
+
+## F04-T05: modos, recorrido entero y ficha por etapa
+
+Apilada sobre `f04-t04-parking` (#25), última tarea de la fase 4 (mismo pedido: «haz el resto de tareas de esta fase»). Decisiones de T05 que no deben reinterpretarse:
+
+- Los modos son los del contrato `Attempt` menos `review`: `learn` (aprender), `practice` (practicar), `run` (recorrer), `exam` (rendir), elegidos por la consulta del hash (`?modo=`, `?etapa=`); sin parámetro rige recorrer. La sesión es la misma en los cuatro: las ayudas se ocultan en la interfaz (`aidsOf`, D15), nunca en la evaluación. Lo que el examinador dice (consigna, próxima esquina, aviso de los 100 m) y el tramo actual se ven siempre.
+- `Fault.stage` se asigna al consignar la falla por la fase actual; no deducir la etapa por `atS` (las fallas de la preparación comparten el instante del paso a `unlock`, y los comandos tienen `dt` 0). `Session.transitions` da inicio y fin de cada etapa; `Session.scope` dice qué etapas corre la sesión y `completeStage` solo marca las del alcance.
+- Una práctica (`createPracticeSession`) empieza en la primera fase de su etapa con `completedStages` vacío: el resultado queda `pending` y la ficha nunca aprueba. Etapa II: en el cajón, motor apagado, llave puesta. Etapa III: `entryPose(city, 8)`, motor en marcha, `movedOff`, primera detención ya juzgada; el aspirante pone la marcha y suelta el freno de mano.
+- El intento de manejo (`createDrivingAttempt`) usa `subjectId` `route.<id>`, `startedAt` del reloj de pared al empezar y `finishedAt` de la hora monótona del almacén; todos los instantes se acotan al intervalo. Aprender no se guarda; abandonar la página no guarda. `recordAttempt` del proveedor no entrena conceptos.
+- Las lecturas del `DrivingCanvas` (velocímetro, telemetría) se emiten con `startTransition`: como actualizaciones urgentes cada cuadro impedían que React Router completara cualquier navegación mientras el 3D corría (no se podía salir del examen ni del recorrido por el menú). No volver a hacerlas urgentes; si se agrega otra actualización periódica desde el bucle, que sea también una transición.
+- La ficha (`buildCard`) decide el veredicto en este orden: aprobado (tres etapas y ≤ 7), pendiente (faltan etapas o la sesión no terminó), interrupción (causa y regla), eliminatoria sin interrupción, 8 puntos o más.
+
+**Interfaz para la fase 5 y F06-T01.** La fase 5 (contenido y simulacros teóricos) no toca el examen práctico. Para la repetición y el reintento (F06-T01): la sesión viva está en `sessionRef` de `ExamPage` y se guarda solo al terminar, como `Attempt` `driving` con eventos de fase, etapas, interrupción y resultado, y las fallas con su instante; no hay grabación de entradas ni de estados por paso, así que F06-T01 debe agregarla (auto, cabina, `TrafficState` del tránsito y `Session` son valores inmutables por paso: un `Driver.clone()` de los tests muestra cómo ramificar). Un reintento desde un estado debe crear la sesión con `enter` en la fase deseada y restaurar los cuatro estados a la vez; el modo rendir debe conservar sus restricciones (D15) también al reintentar. PR de T05: el PR de T05 (en creación), apilado sobre #25; Codex solicitado con `@codex review` y CodeRabbit automática, resultados pendientes (revisión pendiente).

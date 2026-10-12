@@ -8,20 +8,27 @@ const points = (state: Ledger) => state.faults.reduce((sum, fault) => sum + faul
 
 describe('fault ledger (REGLAS.md §4–§5)', () => {
   it('scores a fault with the points of its rule', () => {
-    const after = recordFault(ledger(), { ruleId: 'rule.minor.a-lights-recognition', atS: 1 });
+    const after = recordFault(ledger(), { ruleId: 'rule.minor.a-lights-recognition', atS: 1, stage: 'I' });
 
     expect(after.faults).toEqual([
-      { ruleId: 'rule.minor.a-lights-recognition', points: 1, atS: 1, escalated: false, episode: undefined },
+      {
+        ruleId: 'rule.minor.a-lights-recognition',
+        points: 1,
+        atS: 1,
+        stage: 'I',
+        escalated: false,
+        episode: undefined,
+      },
     ]);
     expect(after.points).toBe(1);
   });
 
   it('counts a once-only rule a single time no matter how many errors', () => {
     let state = ledger();
-    state = recordFault(state, { ruleId: 'rule.minor.a-lights-recognition', atS: 1 });
-    state = recordFault(state, { ruleId: 'rule.minor.a-lights-recognition', atS: 2 });
-    state = recordFault(state, { ruleId: 'rule.high.b-reverse-30cm-fail', atS: 3 });
-    state = recordFault(state, { ruleId: 'rule.high.b-reverse-30cm-fail', atS: 4 });
+    state = recordFault(state, { ruleId: 'rule.minor.a-lights-recognition', atS: 1, stage: 'I' });
+    state = recordFault(state, { ruleId: 'rule.minor.a-lights-recognition', atS: 2, stage: 'I' });
+    state = recordFault(state, { ruleId: 'rule.high.b-reverse-30cm-fail', atS: 3, stage: 'I' });
+    state = recordFault(state, { ruleId: 'rule.high.b-reverse-30cm-fail', atS: 4, stage: 'I' });
 
     expect(state.faults.map((fault) => fault.ruleId)).toEqual([
       'rule.minor.a-lights-recognition',
@@ -31,26 +38,30 @@ describe('fault ledger (REGLAS.md §4–§5)', () => {
 
   it('counts a per-occurrence rule every time', () => {
     let state = ledger();
-    state = recordFault(state, { ruleId: 'rule.low.d-engine-stall', atS: 1 });
-    state = recordFault(state, { ruleId: 'rule.low.d-engine-stall', atS: 2 });
+    state = recordFault(state, { ruleId: 'rule.low.d-engine-stall', atS: 1, stage: 'I' });
+    state = recordFault(state, { ruleId: 'rule.low.d-engine-stall', atS: 2, stage: 'I' });
 
     expect(points(state)).toBe(4);
   });
 
   it('counts per-episode and unspecified rules once per episode (decision D3)', () => {
     let state = ledger();
-    state = recordFault(state, { ruleId: 'rule.minor.f-handbrake-on-start', atS: 1, episode: 'a' });
-    state = recordFault(state, { ruleId: 'rule.minor.f-handbrake-on-start', atS: 2, episode: 'a' });
-    state = recordFault(state, { ruleId: 'rule.minor.f-handbrake-on-start', atS: 3, episode: 'b' });
-    state = recordFault(state, { ruleId: 'rule.minor.k-unnecessary-stop', atS: 4, episode: 'block-1' });
-    state = recordFault(state, { ruleId: 'rule.minor.k-unnecessary-stop', atS: 5, episode: 'block-1' });
+    state = recordFault(state, { ruleId: 'rule.minor.f-handbrake-on-start', atS: 1, stage: 'I', episode: 'a' });
+    state = recordFault(state, { ruleId: 'rule.minor.f-handbrake-on-start', atS: 2, stage: 'I', episode: 'a' });
+    state = recordFault(state, { ruleId: 'rule.minor.f-handbrake-on-start', atS: 3, stage: 'I', episode: 'b' });
+    state = recordFault(state, { ruleId: 'rule.minor.k-unnecessary-stop', atS: 4, stage: 'I', episode: 'block-1' });
+    state = recordFault(state, { ruleId: 'rule.minor.k-unnecessary-stop', atS: 5, stage: 'I', episode: 'block-1' });
 
     expect(state.faults.map((fault) => fault.episode)).toEqual(['a', 'b', 'block-1']);
   });
 
   it('interrupts the exam on an eliminatory fault that interrupts, and keeps going on one that does not', () => {
-    const interrupted = recordFault(ledger(), { ruleId: 'rule.eliminatory.c-no-seatbelt', atS: 1 });
-    const reported = recordFault(ledger(), { ruleId: 'rule.eliminatory.l-road-speed-limit-exceeded', atS: 1 });
+    const interrupted = recordFault(ledger(), { ruleId: 'rule.eliminatory.c-no-seatbelt', atS: 1, stage: 'I' });
+    const reported = recordFault(ledger(), {
+      ruleId: 'rule.eliminatory.l-road-speed-limit-exceeded',
+      atS: 1,
+      stage: 'I',
+    });
 
     expect(interrupted.interruption).toEqual({ ruleId: 'rule.eliminatory.c-no-seatbelt', atS: 1, cause: 'fault' });
     expect(reported.interruption).toBeNull();
@@ -58,25 +69,32 @@ describe('fault ledger (REGLAS.md §4–§5)', () => {
   });
 
   it('escalates a high fault to an eliminatory one when the examiner has to intervene', () => {
-    const state = recordFault(ledger(), { ruleId: 'rule.high.e-no-mirror-check-leaving-box', atS: 1, escalate: true });
+    const state = recordFault(ledger(), {
+      ruleId: 'rule.high.e-no-mirror-check-leaving-box',
+      atS: 1,
+      stage: 'I',
+      escalate: true,
+    });
 
     expect(state.faults[0]).toMatchObject({ points: 8, escalated: true });
     // The escalation is the examiner's intervention with the dual controls (protocolo PDF 7).
     expect(state.interruption?.cause).toBe('examiner');
-    expect(() => recordFault(ledger(), { ruleId: 'rule.minor.a-lights-recognition', atS: 1, escalate: true })).toThrow(
-      /cannot escalate/,
-    );
+    expect(() =>
+      recordFault(ledger(), { ruleId: 'rule.minor.a-lights-recognition', atS: 1, stage: 'I', escalate: true }),
+    ).toThrow(/cannot escalate/);
   });
 
   it('raises an already scored episode to its escalation instead of adding a second fault', () => {
     let state = recordFault(ledger(), {
       ruleId: 'rule.high.l-yield-to-pedestrians-cyclists',
       atS: 1,
+      stage: 'II',
       episode: 'crosswalk',
     });
     state = recordFault(state, {
       ruleId: 'rule.high.l-yield-to-pedestrians-cyclists',
       atS: 2,
+      stage: 'II',
       episode: 'crosswalk',
       escalate: true,
     });
@@ -91,6 +109,7 @@ describe('fault ledger (REGLAS.md §4–§5)', () => {
     const state = recordFault(ledger(), {
       ruleId: 'rule.eliminatory.l-road-speed-limit-exceeded',
       atS: 3,
+      stage: 'II',
       cause: 'examiner',
     });
 
@@ -102,9 +121,14 @@ describe('fault ledger (REGLAS.md §4–§5)', () => {
   });
 
   it('withdraws a fault of an episode that a more severe rule now covers (decision D2)', () => {
-    let state = recordFault(ledger(), { ruleId: 'rule.high.f-exam-speed-exceeded', atS: 1, episode: 'speed-1' });
+    let state = recordFault(ledger(), {
+      ruleId: 'rule.high.f-exam-speed-exceeded',
+      atS: 1,
+      stage: 'I',
+      episode: 'speed-1',
+    });
     state = withdrawFault(state, 'rule.high.f-exam-speed-exceeded', 'speed-1');
-    state = recordFault(state, { ruleId: 'rule.eliminatory.l-road-speed-limit-exceeded', atS: 2 });
+    state = recordFault(state, { ruleId: 'rule.eliminatory.l-road-speed-limit-exceeded', atS: 2, stage: 'I' });
 
     expect(state.faults.map((fault) => fault.ruleId)).toEqual(['rule.eliminatory.l-road-speed-limit-exceeded']);
     expect(state.points).toBe(8);
@@ -112,20 +136,20 @@ describe('fault ledger (REGLAS.md §4–§5)', () => {
   });
 
   it('rejects unknown rules instead of scoring them', () => {
-    expect(() => recordFault(ledger(), { ruleId: 'rule.minor.z-made-up', atS: 0 })).toThrow(/unknown rule/);
+    expect(() => recordFault(ledger(), { ruleId: 'rule.minor.z-made-up', atS: 0, stage: 'I' })).toThrow(/unknown rule/);
     expect(ruleById(REAL_RULES, 'rule.minor.a-lights-recognition').points).toBe(1);
   });
 
   it('approves only when the three stages are completed with 7 points or less', () => {
     let state = ledger();
     for (let i = 0; i < 7; i += 1)
-      state = recordFault(state, { ruleId: 'rule.minor.i-curb-scrape', atS: i, episode: String(i) });
+      state = recordFault(state, { ruleId: 'rule.minor.i-curb-scrape', atS: i, stage: 'II', episode: String(i) });
 
     expect(resultOf(state, ['I', 'II', 'III'])).toBe('approved');
     expect(resultOf(state, ['I', 'II'])).toBe('pending');
-    expect(resultOf(recordFault(state, { ruleId: 'rule.minor.i-curb-scrape', atS: 9 }), ['I', 'II', 'III'])).toBe(
-      'disapproved',
-    );
+    expect(
+      resultOf(recordFault(state, { ruleId: 'rule.minor.i-curb-scrape', atS: 9, stage: 'I' }), ['I', 'II', 'III']),
+    ).toBe('disapproved');
   });
 
   it('records a cutoff or a request as an interruption without a rule, only once', () => {

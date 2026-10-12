@@ -2,6 +2,7 @@ import { Suspense, lazy, useContext } from 'react';
 import { Link } from 'react-router';
 import { RendererContext } from '../../scene/RendererContext.ts';
 import { PageTitle } from '../../ui/PageTitle.tsx';
+import { DRIVING_MODES, slugOfMode } from '../../exam/modes.ts';
 import { EXAM_COPY, HOME_SPACES, TRACK_COPY, CITY_COPY, t } from '../../i18n/es-AR.ts';
 import type { HomeSpaceId } from '../../i18n/es-AR.ts';
 
@@ -44,16 +45,30 @@ export function HomePage() {
         <Link className="button button--secondary" to="/biblioteca">
           {t('navLibrary')}
         </Link>{' '}
-        <Link className="button button--secondary" to="/pista">
-          {TRACK_COPY.homeLink}
-        </Link>{' '}
-        <Link className="button button--secondary" to="/examen">
-          {EXAM_COPY.homeLink}
-        </Link>{' '}
-        <Link className="button button--secondary" to="/recorrido">
-          {CITY_COPY.homeLink}
-        </Link>
       </p>
+      <section aria-labelledby="driving-heading" data-testid="home-driving">
+        <h2 id="driving-heading">{EXAM_COPY.homeDriving}</h2>
+        <p>{EXAM_COPY.homeDrivingIntro}</p>
+        <p>
+          <Link className="button button--secondary" to="/pista">
+            {TRACK_COPY.homeLink}
+          </Link>{' '}
+          <Link className="button button--secondary" to="/recorrido">
+            {CITY_COPY.homeLink}
+          </Link>{' '}
+          <Link className="button" to="/examen">
+            {EXAM_COPY.homeLink}
+          </Link>
+        </p>
+        <ul className="home-modes">
+          {DRIVING_MODES.map((mode) => (
+            <li key={mode}>
+              <Link to={`/examen?modo=${slugOfMode(mode)}`}>{EXAM_COPY.homeModes[mode]}</Link>:{' '}
+              {EXAM_COPY.modeHelp[mode]}
+            </li>
+          ))}
+        </ul>
+      </section>
       <section aria-labelledby="spaces-heading">
         <h2 id="spaces-heading">{t('spacesHeading')}</h2>
         <ul className="card-grid">

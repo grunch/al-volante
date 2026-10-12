@@ -271,6 +271,15 @@ export const LOGBOOK_COPY = {
     unreadable: 'No pudimos leer el archivo.',
   },
   unchanged: 'Tu progreso actual no cambió.',
+  drivingHeading: 'Manejos registrados',
+  drivingEmpty: 'Todavía no registraste ningún recorrido ni examen práctico.',
+  drivingLink: 'Ir al examen práctico',
+  drivingModes: { learn: 'Aprender', practice: 'Práctica', review: 'Repaso', run: 'Recorrido', exam: 'Examen' },
+  drivingStages: (stages: readonly string[]) =>
+    stages.length === 0 ? 'ninguna etapa completa' : `etapas completas: ${stages.join(', ')}`,
+  drivingPoints: (points: number | null) =>
+    points === null ? 'sin puntaje' : `${points} ${points === 1 ? 'punto' : 'puntos'}`,
+  drivingResults: { approved: 'Aprobado', disapproved: 'Desaprobado', pending: 'Pendiente' },
 } as const;
 
 const DATE_FORMAT = new Intl.DateTimeFormat('es-AR', { dateStyle: 'medium' });
@@ -575,6 +584,127 @@ export const EXAM_COPY = {
   source:
     'Protocolo: etapa I (PDF 9–10), maniobrabilidad y salida del cajón (PDF 11), circulación (PDF 12), estacionamiento y descenso (PDF 13, 21), puntaje (PDF 14), anexo II (PDF 22–33). Máximas de la vía: OpenStreetMap, sin relevamiento en calle.',
   homeLink: 'Examen práctico',
+  /** Modes of the exam page (F04-T05; REGLAS.md §7, D15). */
+  mode: 'Modo',
+  modes: { learn: 'Aprender', practice: 'Practicar', run: 'Recorrer', exam: 'Rendir' },
+  modeHelp: {
+    learn:
+      'Guiado: en cada paso ves qué regla se evalúa, con qué umbral y qué tecla usar; cada falla se explica en el momento. Lo que hagas acá no se guarda en la bitácora.',
+    practice:
+      'Una sola etapa, con todas las ayudas del tablero. El resultado queda pendiente: no es un examen completo.',
+    run: 'Las tres etapas seguidas con las ayudas del tablero y el puntaje a la vista. Se guarda en la bitácora.',
+    exam: 'Como el examen real: solo lo que dice el examinador. Puntos, fallas y ficha recién al final. Se guarda en la bitácora.',
+  },
+  stage: 'Etapa a practicar',
+  stageNames: { I: 'Etapa I', II: 'Etapa II', III: 'Etapa III' },
+  stageTitles: {
+    I: 'Etapa I · reconocimiento y preparación',
+    II: 'Etapa II · 30 cm, salida del cajón y circulación',
+    III: 'Etapa III · estacionamiento y descenso',
+  },
+  practiceStart: {
+    I: 'Practicás la etapa I completa; termina cuando avisás que estás listo/a para salir.',
+    II: 'Empezás en el cajón con el motor apagado y la llave puesta; termina al volver a Quesada tras los ocho tramos.',
+    III: 'Empezás sobre Vuelta de Obligado (tramo 8) con el motor en marcha, antes del aviso de los 100 m; termina al bajar del auto.',
+  },
+  examNoAids: 'Modo rendir: los puntos y las fallas se informan al final, como en el examen real (protocolo, PDF 14).',
+  /** Guided learning (mode "aprender"): what each phase checks, in plain words, and what to do. */
+  learnChecks: 'Qué se evalúa ahora',
+  learnHow: 'Cómo hacerlo',
+  learnHints: {
+    familiarisation: {
+      checks: 'Nada todavía: podés probar todos los mandos sin consecuencias.',
+      hint: 'Probá las teclas: flechas o WASD para manejar, Shift embrague, Q/E cambios, K llave, O luces, Z/X direccionales, V balizas, C cinturón, J/L mirar a los lados, U/P espejos, G puerta.',
+    },
+    recognition: {
+      checks:
+        'Pedales y caja: no reconocerlos es eliminatorio (8 puntos). Luces e instrumentos: 1 punto cada familia, una sola vez. Un mando de otra familia no cuenta como respuesta.',
+      hint: 'Respondé con el mando que te pide: flechas para los pedales, Shift y Q/E para la caja (freno para salir de P en la automática), O luces, Z/X direccionales, V balizas, F limpiaparabrisas, H bocina.',
+    },
+    preparation: {
+      checks:
+        'Al avisar que estás listo/a: asiento y apoyacabezas sin regular, 1 punto cada uno; no chequear los tres espejos, 3 puntos. Con 8 puntos o más antes de salir, el examen se interrumpe.',
+      hint: 'Usá el panel del habitáculo para regular el asiento, el apoyacabezas y los tres espejos; abrochate el cinturón (C) y dejá las luces bajas (O).',
+    },
+    unlock: {
+      checks:
+        'Arrancar con un cambio puesto (o sin verificar el punto muerto) es 1 punto; arrancar con el motor ya en marcha, 1 punto por vez.',
+      hint: 'Caja en N (P en la automática): Q/E con Shift pisado. Después K para arrancar.',
+    },
+    reverse: {
+      checks:
+        'Retroceder 30 cm (±10 cm, aproximación del juego) sin mover el volante, en una sola maniobra y con la técnica pedida: 3 puntos si falla.',
+      hint: 'Marcha atrás (R) y freno de mano suelto (Espacio). Manual: regulá solo con el embrague (Shift), sin acelerar; frenar vale solo al final. Automática: regulá solo con el freno.',
+    },
+    forward: {
+      checks:
+        'Avanzar 30 cm (±10 cm) sin girar el volante y en una sola maniobra, en primera o en D: 3 puntos si falla.',
+      hint: 'Primera (o D) y adelante despacio; parate del todo y esperá medio segundo para que se mida.',
+    },
+    exit: {
+      checks:
+        'Al arrancar: sin direccional izquierda, 1 punto; sin mirar los espejos, 3 puntos. Sin cinturón al moverte, eliminatorio. Tocar un poste despacio son 3 puntos; derribarlo (a 1 m/s o más), eliminatorio.',
+      hint: 'Z para la direccional izquierda, U o J para mirar el espejo izquierdo, y salí con un giro suave hacia la calle.',
+    },
+    firstMetres: {
+      checks:
+        'Primeros 100 m: más de 30 km/h, o por encima de 15 km/h sin estar en segunda (D en la automática), es eliminatorio (indicación de marcha). Las reglas de la esquina rigen igual.',
+      hint: 'Manual: pasá a segunda (E con Shift) apenas puedas. Mirá el velocímetro del tablero.',
+    },
+    circulation: {
+      checks:
+        'Semáforo en rojo, carriles exclusivos, línea continua, sobrepasos indebidos, emergencia sin ceder: eliminatorios. Velocidad: más de 30 km/h (45 en Cabildo) son 3 puntos; más que la máxima de la vía, eliminatorio. Esquinas: PARE sin detención, prioridad, reducir, carril de giro, sendas con peatones: 3 puntos. Direccional ausente, 2 puntos; a menos de 30 m, 1 punto.',
+      hint: 'Mirá «Adelante» y «Velocidad» en el tablero; Z/X 30 m antes de doblar; U/P para los espejos antes de cambiar de carril; detenete del todo en el PARE a menos de 3 m de la línea.',
+    },
+    parking: {
+      checks:
+        'Balizas 3 s o más antes de parar en doble fila: si no, 2 puntos. Espejos antes de retroceder: 3 puntos si no. Cuarta maniobra: 1 punto. Tercer intento: eliminatorio. Pisar una línea del cajón despacio, 3 puntos; a 1 m/s o más, eliminatorio. Posición final: menos de 15 cm, 1 punto; entre 25 y 50 cm, 1 punto; más de 50 cm, eliminatorio; inclinada o descentrada más de 0,5 m, 1 punto.',
+      hint: 'V balizas, parate junto al cajón a más de 1,2 m de su línea, P o B para mirar, R y dos arcos a tope. Mirá «Estacionamiento» y «Distancia al cordón». Cuando estés, con el auto parado, tocá «Terminé de estacionar».',
+    },
+    leaving: {
+      checks:
+        'Al abrir la puerta: caja fuera de N (P en la automática), sin freno de mano, luces bajas encendidas, motor en marcha o llave puesta: 1 punto cada una. Sin mirar el espejo izquierdo: 2 puntos.',
+      hint: 'N o P, Espacio para el freno de mano, O hasta apagar las luces, K para apagar y sacar la llave, U o J para el espejo izquierdo, y G para abrir la puerta.',
+    },
+    finished: {
+      checks: 'El examen terminó: revisá la ficha.',
+      hint: 'Mirá cada falla, su página del protocolo, y volvé a intentarlo.',
+    },
+  },
+  lastFault: 'Última falla',
+  /** The card per stage (F04-T05). */
+  card: 'Ficha por etapa',
+  cardIntro:
+    'Una sección por etapa, como la ficha del protocolo (PDF 15–17): fallas con su regla, puntos, momento y condición evaluada, y el total.',
+  stageCompleted: 'completada',
+  stageIncomplete: 'incompleta',
+  stageOutOfScope: 'no se rindió en este modo',
+  stageDuration: (seconds: number) => `${formatNumber(seconds, 0)} s`,
+  faultAt: (seconds: number) => `a los ${formatNumber(seconds, 0)} s`,
+  subtotal: (points: number) => `Subtotal: ${points} ${points === 1 ? 'punto' : 'puntos'}`,
+  total: (points: number) => `Total: ${points} ${points === 1 ? 'punto' : 'puntos'}`,
+  verdicts: {
+    approved: (points: number) =>
+      `Aprobado con ${points} ${points === 1 ? 'punto' : 'puntos'}: tres etapas completas y 7 puntos o menos (protocolo, PDF 14).`,
+    interruption: 'Desaprobado: el examen se interrumpió.',
+    eliminatory: (rule: string) =>
+      `Desaprobado por una falla eliminatoria que no interrumpe: ${rule} (protocolo, PDF 32–33).`,
+    overPoints: (points: number) =>
+      `Desaprobado: ${points} puntos; con 8 o más el examen está desaprobado (protocolo, PDF 14).`,
+    pending: 'Resultado pendiente: no se rindieron las tres etapas completas, así que no hay aprobado ni desaprobado.',
+  },
+  approximationsHeading: 'Aproximaciones del juego que pudieron influir',
+  saved: 'Este intento quedó guardado en tu bitácora.',
+  saveFailed: 'No pudimos guardar este intento en la bitácora; el resto de tu progreso está intacto.',
+  notSaved: 'El modo aprender no se guarda en la bitácora.',
+  homeModes: {
+    learn: 'Aprender el examen',
+    practice: 'Practicar una etapa',
+    run: 'Recorrer las tres etapas',
+    exam: 'Rendir el examen',
+  },
+  homeDriving: 'Al volante',
+  homeDrivingIntro: 'Pista de prueba, recorrido libre y el examen práctico en sus cuatro modos.',
 } as const;
 export const CITY_COPY = {
   drivingSubtitle: 'COMUNA 13 · HABITÁCULO',

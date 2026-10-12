@@ -1,10 +1,15 @@
 import type { Rule } from '../content/schemas.ts';
 
-/** One scored fault. `atS` is simulation time; `episode` tells repeated episodes of the same rule apart. */
+/**
+ * One scored fault. `atS` is simulation time; `episode` tells repeated episodes of the same rule apart; `stage` is
+ * the stage of the exam it was scored in (the ficha is laid out per stage, protocolo PDF 15–17). The stage is
+ * recorded with the fault, not derived from its time: a stage can end at the very instant a fault is scored.
+ */
 export interface Fault {
   ruleId: string;
   points: number;
   atS: number;
+  stage: Stage;
   episode: string | undefined;
   /** A high fault raised to an eliminatory one because the examiner had to intervene (protocolo PDF 7). */
   escalated: boolean;
@@ -44,6 +49,7 @@ export function ruleById(rules: readonly Rule[], ruleId: string): Rule {
 export interface FaultReport {
   ruleId: string;
   atS: number;
+  stage: Stage;
   episode?: string;
   /** The examiner used the dual controls: the rule's escalation applies and the interruption is theirs. */
   escalate?: boolean;
@@ -96,6 +102,7 @@ export function recordFault(ledger: Ledger, report: FaultReport): Ledger {
     ruleId: rule.id,
     points: escalated ? (rule.escalation?.points ?? rule.points) : rule.points,
     atS: report.atS,
+    stage: report.stage,
     episode: report.episode,
     escalated,
   };

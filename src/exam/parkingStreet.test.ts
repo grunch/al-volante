@@ -13,6 +13,11 @@ import {
 } from '../test/circuitDriver.ts';
 import type { CityExam } from '../test/circuitDriver.ts';
 import { IDLE } from '../test/examDriver.ts';
+import { AttemptSchema } from '../content/schemas.ts';
+import { attemptErrors } from '../content/validateAttempt.ts';
+import { createDrivingAttempt } from '../progress/model.ts';
+import { REAL_RULE_CATALOG } from '../test/realRules.ts';
+import { buildCard } from './card.ts';
 import { bayFrame } from './parking.ts';
 import { resultOf } from './scoring.ts';
 
@@ -80,6 +85,49 @@ describe('the whole exam: lap, parking and descent (protocolo PDF 13–14)', () 
       expect(result(exam)).toBe('approved');
     },
     300000,
+  );
+
+  it.each(['run', 'exam'] as const)(
+    'the card of the clean exam shows the three stages completed and approved, and its %s attempt stores that',
+    (mode) => {
+      const exam = atTheCorner('automatic');
+      stopInDoubleFile(exam);
+      parkInTheBay(exam);
+      descend(exam.driver);
+      const { session } = exam.driver;
+
+      const card = buildCard(session);
+      const attempt = createDrivingAttempt(
+        { session, mode, subjectId: 'route.comuna13-a' },
+        {
+          id: `drive-${mode}`,
+          contentVersion: 'deadbeef',
+          startedAt: '2026-10-12T10:00:00.000Z',
+          finishedAt: '2026-10-12T10:08:00.000Z',
+        },
+      );
+
+      expect(card.verdict).toEqual({ kind: 'approved', points: 0 });
+      expect(card.stages.map((stage) => [stage.stage, stage.completed, stage.points])).toEqual([
+        ['I', true, 0],
+        ['II', true, 0],
+        ['III', true, 0],
+      ]);
+      // Stage I ends when stage II begins, stage II when the parking begins, stage III at the end.
+      const [one, two, three] = card.stages;
+      expect(one?.endedAtS).toBe(two?.startedAtS);
+      expect(two?.endedAtS).toBe(three?.startedAtS);
+      expect(three?.endedAtS).toBe(session.timeS);
+      expect(attempt).toMatchObject({ kind: 'driving', mode, result: { correct: true, points: 0, score: null } });
+      expect(attempt.events.filter((event) => event.type === 'stage-completed').map((event) => event.payload)).toEqual([
+        { stage: 'I' },
+        { stage: 'II' },
+        { stage: 'III' },
+      ]);
+      expect(AttemptSchema.safeParse(attempt).success).toBe(true);
+      expect(attemptErrors(attempt, REAL_RULE_CATALOG)).toEqual([]);
+    },
+    60000,
   );
 
   it('announces the parking 100 m before the bay, on the last leg, and keeps it in the HUD until the corner', () => {

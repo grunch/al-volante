@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { startTransition, useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import * as THREE from 'three';
 import { HeldInput } from './heldInput.ts';
@@ -316,13 +316,17 @@ export function DrivingCanvas({
       sinceTelemetryS += frameS;
       if (notable || sinceTelemetryS >= TELEMETRY_INTERVAL_S) {
         sinceTelemetryS = 0;
-        setReadout({ speed: Math.abs(car.world.vehicle.speedMps * 3.6), rpm, gear: gearLabel(car.powertrain) });
-        telemetryRef.current?.({
-          speedKmh: car.world.vehicle.speedMps * 3.6,
-          odometerM: car.world.vehicle.odometerM,
-          rpm,
-          powertrain: car.powertrain,
-          lastEvent,
+        // Readouts are low priority: as urgent updates, arriving every frame, they would keep interrupting a
+        // navigation (React Router renders it in a transition) and the page could never leave the drive.
+        startTransition(() => {
+          setReadout({ speed: Math.abs(car.world.vehicle.speedMps * 3.6), rpm, gear: gearLabel(car.powertrain) });
+          telemetryRef.current?.({
+            speedKmh: car.world.vehicle.speedMps * 3.6,
+            odometerM: car.world.vehicle.odometerM,
+            rpm,
+            powertrain: car.powertrain,
+            lastEvent,
+          });
         });
       }
       if (first) {

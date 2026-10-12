@@ -4,7 +4,9 @@ import type { City } from '../city/model.ts';
 import { RouteSchema } from '../content/schemas.ts';
 import { buildCircuit, distanceAlong, legAt } from '../exam/circuit.ts';
 import type { Circuit, ParkingBay } from '../exam/circuit.ts';
+import { startPoseFor } from '../exam/modes.ts';
 import { bayFrame } from '../exam/parking.ts';
+import type { Stage } from '../exam/scoring.ts';
 import type { CarControls, CarState } from '../sim/car.ts';
 import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
@@ -55,12 +57,17 @@ export interface CityExam {
 const isTrafficState = (snapshot: unknown): snapshot is TrafficState =>
   typeof snapshot === 'object' && snapshot !== null && 'vehicles' in snapshot;
 
-export function cityExam(kind: TransmissionKind, seed = 1, options: { emergency?: boolean } = {}): CityExam {
+export function cityExam(
+  kind: TransmissionKind,
+  seed = 1,
+  options: { emergency?: boolean; practice?: Stage } = {},
+): CityExam {
   const seeded = createTraffic(CITY, seed);
   const traffic: Traffic = options.emergency === false ? { ...seeded, emergency: null } : seeded;
   const world = { ...CITY.world, traffic: trafficSourceOf(traffic) };
   const circuit = buildCircuit(CITY, traffic);
-  const driver = new Driver(kind, seed, world, CITY.start.pose, circuit);
+  const practice = options.practice ?? null;
+  const driver = new Driver(kind, seed, world, startPoseFor(CITY, practice), circuit, practice);
   return { driver, circuit, traffic };
 }
 

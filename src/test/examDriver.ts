@@ -1,13 +1,15 @@
 import { commandCockpit, initialCockpit } from '../practice/cockpit.ts';
 import type { CockpitCommand, CockpitState } from '../practice/cockpit.ts';
 import type { Circuit } from '../exam/circuit.ts';
-import { EXAM_START, createSession, observe } from '../exam/session.ts';
+import type { Stage } from '../exam/scoring.ts';
+import { EXAM_START, createPracticeSession, createSession, observe } from '../exam/session.ts';
 import type { Observation, Session } from '../exam/session.ts';
 import { command, initialCarState, stepCar } from '../sim/car.ts';
 import type { CarControls, CarEvent, CarState } from '../sim/car.ts';
 import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import type { AutomaticLever, ManualGear, PowertrainCommand, TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import type { TrafficSnapshot, TrafficSource } from '../sim/scenario.ts';
+import { preparedFor } from '../exam/modes.ts';
 import { PRACTICE_YARD } from '../sim/tracks/practiceYard.ts';
 import { EXAM_CAR, bodyBox } from '../sim/vehicle.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
@@ -34,14 +36,19 @@ export class Driver {
     readonly world: World = PRACTICE_YARD,
     start: VehicleState = EXAM_START,
     circuit: Circuit | null = null,
+    /** One stage practised alone (F04-T05), instead of the whole exam. */
+    practice: Stage | null = null,
   ) {
     this.start = start;
-    this.session = createSession(REAL_RULES, kind, seed, circuit, REAL_BANDS);
+    this.session = practice
+      ? createPracticeSession(REAL_RULES, kind, seed, circuit, REAL_BANDS, practice)
+      : createSession(REAL_RULES, kind, seed, circuit, REAL_BANDS);
     this.car = initialCarState(start, kind);
     this.traffic = trafficOf(world) ?? null;
     this.scenario = this.traffic ? this.traffic.create() : null;
-    // Stage I starts with the key in contact (protocolo PDF 9), as the exam page does.
-    this.drive({ type: 'insert-key' }, { type: 'turn-key', to: 'on' });
+    // Stage I starts with the key in contact (protocolo PDF 9), as the exam page does; a practice of stage III
+    // arrives with the engine running.
+    this.drive(...preparedFor(practice));
   }
 
   /** A copy to branch a scenario from: every field is an immutable value, so sharing them is safe. */

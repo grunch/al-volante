@@ -1,6 +1,9 @@
 import { z } from 'zod';
 import type { ActivityResponse } from '../activities/engine.ts';
 import type { Attempt } from '../content/schemas.ts';
+import { buildCard } from '../exam/card.ts';
+import type { DrivingMode } from '../exam/modes.ts';
+import type { Session } from '../exam/session.ts';
 
 /** Leitner boxes: box n is reviewed after LEITNER_INTERVALS_DAYS[n - 1] days. */
 export const LEITNER_INTERVALS_DAYS = [1, 3, 7, 14, 30] as const;
@@ -121,5 +124,65 @@ export function createAttempt(
     ],
     faults: [],
     result: { correct: answer.correct, score: answer.score, points: null },
+  };
+}
+
+export interface DrivingOutcome {
+  /** The session as it ended (`finished`), whole exam or one practised stage. */
+  session: Session;
+  mode: DrivingMode;
+  /** What was driven: the route of the city (`route.<id>`). */
+  subjectId: string;
+}
+
+export interface DrivingContext {
+  id: string;
+  contentVersion: string;
+  /** Wall-clock start and end of the attempt; the end is the stored (monotonic) time. */
+  startedAt: string;
+  finishedAt: string;
+}
+
+/**
+ * Builds the stored attempt of a drive (the Attempt contract of PROPUESTA §8, `kind: 'driving'`): the session's
+ * faults with their points, the phases entered, the stages completed, the interruption and the verdict of the
+ * card. Simulation times become wall-clock times from the start, clamped to the attempt so a slow tab or a
+ * corrected clock never puts a fault outside it. Approved is correct, disapproved incorrect, pending null.
+ */
+export function createDrivingAttempt(outcome: DrivingOutcome, context: DrivingContext): Attempt {
+  const { session } = outcome;
+  const card = buildCard(session);
+  const endMs = Date.parse(context.finishedAt);
+  const startMs = Math.min(Date.parse(context.startedAt), endMs);
+  const startedAt = new Date(startMs).toISOString();
+  const at = (atS: number) => new Date(Math.min(endMs, Math.max(startMs, startMs + atS * 1000))).toISOString();
+  const event = (atS: number, type: string, payload: Record<string, unknown>) => ({ at: at(atS), type, payload });
+  const { interruption } = session.ledger;
+  const correct = card.result === 'approved' ? true : card.result === 'disapproved' ? false : null;
+  return {
+    id: context.id,
+    kind: 'driving',
+    subjectId: outcome.subjectId,
+    contentVersion: context.contentVersion,
+    mode: outcome.mode,
+    startedAt,
+    finishedAt: context.finishedAt,
+    events: [
+      event(0, 'start', { transmission: session.kind, seed: session.seed, scope: session.scope }),
+      ...session.transitions.map((item) => event(item.atS, 'phase', { phase: item.phase })),
+      ...card.stages
+        .filter((stage) => stage.completed)
+        .map((stage) => event(stage.endedAtS ?? session.timeS, 'stage-completed', { stage: stage.stage })),
+      ...(interruption
+        ? [event(interruption.atS, 'interruption', { cause: interruption.cause, ruleId: interruption.ruleId })]
+        : []),
+      event(session.timeS, 'finished', {
+        result: card.result,
+        points: card.points,
+        completedStages: [...session.completedStages],
+      }),
+    ],
+    faults: session.ledger.faults.map((fault) => ({ ruleId: fault.ruleId, at: at(fault.atS), points: fault.points })),
+    result: { correct, score: null, points: card.points },
   };
 }
