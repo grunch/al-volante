@@ -5,16 +5,14 @@ import { computeContentVersion, validateContent } from './validate.ts';
 import type { RawContent } from './validate.ts';
 import { loadContent } from './catalog.ts';
 import { computeCoverage } from './coverage.ts';
-import { catalog, choiceActivity, route, ruleCatalog, source } from './testing/fixtures.ts';
+import { catalog, choiceActivity, route, ruleCatalog } from './testing/fixtures.ts';
 
 function rawFixture(): RawContent {
   const data = catalog();
-  // The route cites recorridos PDF 16, so the manifest needs that source too.
   return {
     ...data,
     // The activity practices the only unit, so the unit is tested (validateTreatment).
     units: data.units.map((unit) => ({ ...unit, status: 'tested' })),
-    manifest: [...data.manifest, source('recorridos', 19)],
     rules: ruleCatalog([]),
     route: route(),
     figures: [],
@@ -73,7 +71,7 @@ describe('validateContent', () => {
   });
 
   it('rejects route citations of sources missing from the manifest', () => {
-    const raw = { ...rawFixture(), manifest: catalog().manifest };
+    const raw = { ...rawFixture(), manifest: catalog().manifest.filter((source) => source.id !== 'recorridos') };
 
     const result = validateContent(raw);
 
@@ -149,11 +147,12 @@ describe('real content (integration)', () => {
 
     if (!result.ok) throw new Error(result.errors.join('\n'));
     const { content } = result;
-    expect(content.pages).toHaveLength(224);
-    expect(content.units).toHaveLength(705);
+    // F05-T04 classifies the 42 pages of the protocol and the 19 of the circuits, with 48 new units.
+    expect(content.pages).toHaveLength(285);
+    expect(content.units).toHaveLength(753);
     expect(content.signs).toHaveLength(355);
-    // 206 observations from F01-T02, plus 8 found while reviewing units in F05-T01, 12 in F05-T02 and 3 in F05-T03.
-    expect(content.issues).toHaveLength(229);
+    // 206 observations from F01-T02, plus those found in phase 5: 8 (F05-T01), 12 (T02), 3 (T03) and 14 (T04).
+    expect(content.issues).toHaveLength(243);
     expect(content.rules.rules).toHaveLength(69);
     expect(content.route.legs).toHaveLength(8);
     expect(content.manifest.map((source) => source.id)).toEqual(['manual', 'protocolo', 'recorridos', 'siniestros']);
@@ -171,7 +170,17 @@ const TREATED_SECTIONS = [
   'manual-ch4',
   'manual-ch5',
   'manual-annex1',
+  'manual-annex2',
+  'manual-annex3',
   'manual-annex4',
+  'protocolo-general',
+  'protocolo-stages',
+  'protocolo-evaluation',
+  'protocolo-annex1',
+  'protocolo-annex2',
+  'protocolo-annex3',
+  'recorridos-intro',
+  'recorridos-circuits',
   'siniestros-intro',
   'siniestros-s1',
   'siniestros-s2',
@@ -223,8 +232,9 @@ describe('computeCoverage', () => {
 
   it('counts pages, units and units with activities per section', () => {
     const data = catalog();
+    const pages = data.pages.filter((page) => page.category !== 'exam');
 
-    const rows = computeCoverage({ pages: data.pages, units: data.units, activities: [choiceActivity()] });
+    const rows = computeCoverage({ pages, units: data.units, activities: [choiceActivity()] });
 
     expect(rows).toEqual([
       {

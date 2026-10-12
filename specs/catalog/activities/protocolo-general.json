@@ -1,0 +1,338 @@
+[
+  {
+    "id": "act.protocol-fail-or-interrupt",
+    "type": "single-choice",
+    "title": "¿Se interrumpe el examen?",
+    "unitIds": [
+      "protocolo.general.fail-or-interrupt"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 7
+      },
+      {
+        "source": "protocolo",
+        "page": 8
+      },
+      {
+        "source": "protocolo",
+        "page": 32
+      },
+      {
+        "source": "protocolo",
+        "page": 33
+      }
+    ],
+    "explanation": "Toda falla eliminatoria desaprueba, pero no todas interrumpen el examen. Se interrumpe, y el examinador toma el control, ante eliminatorias como cruzar en rojo o subirse al cordón, cuando tiene que usar el doble comando por una emergencia o para evitar una colisión o un atropello, y cuando la persona pide interrumpirlo, lo que implica desaprobar (protocolo PDF 7, 8 y 33). Superar la velocidad máxima, usar el celular, no ceder el paso a vehículos de emergencia, no respetar la línea continua, sobrepasar por la derecha o terminar el estacionamiento por fuera de la segunda delimitación desaprueban sin interrumpir: se informa al terminar (PDF 32–33).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "red-light",
+        "prompt": "Durante el examen cruzás un semáforo con la luz roja ya encendida. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": true,
+            "feedback": "¡Correcto! Cruzar en rojo es una falla eliminatoria que interrumpe el examen; el examinador toma el control del vehículo."
+          },
+          {
+            "id": "continue",
+            "text": "Sigue hasta el final, pero queda desaprobado",
+            "correct": false,
+            "feedback": "Cruzar en rojo no solo desaprueba: es de las eliminatorias que interrumpen el examen en el momento."
+          },
+          {
+            "id": "points",
+            "text": "Suma 3 puntos y el examen sigue normalmente",
+            "correct": false,
+            "feedback": "No es una deficiente alta: cruzar en rojo es eliminatoria, 8 puntos, e interrumpe el examen."
+          }
+        ]
+      },
+      {
+        "id": "max-speed",
+        "prompt": "En una avenida del circuito superás la velocidad máxima de la vía. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": false,
+            "feedback": "Es eliminatoria, pero de las que no interrumpen: seguís hasta el final y te informan la descalificación al terminar."
+          },
+          {
+            "id": "continue",
+            "text": "Sigue hasta el final, pero queda desaprobado",
+            "correct": true,
+            "feedback": "¡Exacto! Superar la máxima es eliminatoria, pero el examen no se interrumpe: la descalificación se informa al final del recorrido."
+          },
+          {
+            "id": "points",
+            "text": "Suma 3 puntos y el examen sigue normalmente",
+            "correct": false,
+            "feedback": "Los 3 puntos corresponden a superar la velocidad de examen. Superar la máxima de la vía es eliminatoria y desaprueba."
+          }
+        ]
+      },
+      {
+        "id": "dual-control",
+        "prompt": "El examinador tiene que usar el doble comando para evitar que choques con otro auto. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": true,
+            "feedback": "¡Bien! Si el examinador usa el doble comando por una emergencia o para evitar una colisión o un atropello, la prueba se interrumpe y queda desaprobada."
+          },
+          {
+            "id": "continue",
+            "text": "Sigue hasta el final, pero queda desaprobado",
+            "correct": false,
+            "feedback": "Cuando interviene el doble comando la prueba no sigue: se interrumpe y el examinador toma el control total del vehículo."
+          },
+          {
+            "id": "points",
+            "text": "Suma 3 puntos y el examen sigue normalmente",
+            "correct": false,
+            "feedback": "No se resuelve con puntos: usar el doble comando para evitar una colisión interrumpe la prueba y la desaprueba."
+          }
+        ]
+      },
+      {
+        "id": "ask-stop",
+        "prompt": "En plena etapa II los nervios te superan y le pedís al examinador interrumpir el examen. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": true,
+            "feedback": "¡Correcto! Podés pedir la interrupción en cualquier etapa, sabiendo que esa decisión implica desaprobar."
+          },
+          {
+            "id": "pause",
+            "text": "Se interrumpe y lo terminás otro día sin desaprobar",
+            "correct": false,
+            "feedback": "No hay pausas: pedir la interrupción implica la desaprobación del examen."
+          },
+          {
+            "id": "refuse",
+            "text": "No se puede interrumpir: tenés que terminarlo",
+            "correct": false,
+            "feedback": "Sí se puede pedir en cualquier etapa, pero hacerlo implica desaprobar."
+          }
+        ]
+      },
+      {
+        "id": "emergency-vehicle",
+        "prompt": "Una ambulancia con sirena se acerca por detrás y no hacés ninguna maniobra para cederle el paso. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": false,
+            "feedback": "Es eliminatoria, pero no interrumpe: el examen sigue y la descalificación se informa al terminar."
+          },
+          {
+            "id": "continue",
+            "text": "Sigue hasta el final, pero queda desaprobado",
+            "correct": true,
+            "feedback": "¡Correcto! No ceder el paso a un vehículo en emergencia es eliminatoria; el examinador la comunica y te informa la descalificación al final del recorrido."
+          },
+          {
+            "id": "points",
+            "text": "Suma 3 puntos y el examen sigue normalmente",
+            "correct": false,
+            "feedback": "Es más grave que una deficiente alta: no ceder el paso a un vehículo en emergencia es eliminatoria y desaprueba."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.protocol-exam-speed-limit",
+    "type": "single-choice",
+    "title": "Velocidad máxima durante el examen práctico",
+    "unitIds": [
+      "protocolo.general.exam-speed-limits"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 8
+      },
+      {
+        "source": "protocolo",
+        "page": 10
+      },
+      {
+        "source": "protocolo",
+        "page": 28
+      },
+      {
+        "source": "protocolo",
+        "page": 32
+      }
+    ],
+    "explanation": "Durante el examen práctico el límite es 30 km/h en calles y 45 km/h en avenidas, salvo en los tramos donde la señalización o la normativa fijen uno más restrictivo (protocolo PDF 8 y 10). Ese límite es más bajo que la máxima de la vía: superarlo es una falla deficiente alta, 3 puntos (PDF 28), y superar la velocidad máxima de la vía es una falla eliminatoria (PDF 32).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "street",
+        "prompt": "Durante el examen práctico circulás por una calle sin carteles de velocidad. ¿Qué velocidad no tenés que superar?",
+        "options": [
+          {
+            "id": "20",
+            "text": "20 km/h",
+            "correct": false,
+            "feedback": "Es menos de lo necesario: sin un cartel o una norma que fije un límite menor, en las calles del examen podés llegar a 30 km/h."
+          },
+          {
+            "id": "30",
+            "text": "30 km/h",
+            "correct": true,
+            "feedback": "¡Bien! En el examen el límite en calles es 30 km/h, más bajo que la máxima general de la calle."
+          },
+          {
+            "id": "40",
+            "text": "40 km/h",
+            "correct": false,
+            "feedback": "Es la máxima general de las calles, pero durante el examen rige un límite menor: 30 km/h."
+          },
+          {
+            "id": "45",
+            "text": "45 km/h",
+            "correct": false,
+            "feedback": "Ese es el límite del examen en avenidas. En calles es 30 km/h."
+          }
+        ]
+      },
+      {
+        "id": "avenue",
+        "prompt": "Durante el examen pasás a una avenida con el tránsito libre y sin carteles de velocidad. ¿Hasta qué velocidad podés ir?",
+        "options": [
+          {
+            "id": "30",
+            "text": "30 km/h",
+            "correct": false,
+            "feedback": "Ese es el límite del examen en calles. En avenidas podés llegar a 45 km/h si no hay un límite menor."
+          },
+          {
+            "id": "45",
+            "text": "45 km/h",
+            "correct": true,
+            "feedback": "¡Correcto! Es el límite del examen en avenidas, aunque la máxima de la avenida sea mayor."
+          },
+          {
+            "id": "60",
+            "text": "60 km/h",
+            "correct": false,
+            "feedback": "Es la máxima general de las avenidas, pero en el examen el límite es 45 km/h; superarlo suma una falla deficiente alta."
+          }
+        ]
+      },
+      {
+        "id": "over-exam-limit",
+        "prompt": "En una avenida del circuito, cuya máxima es 60 km/h, el examinador ve que vas a 55 km/h. ¿Cómo se califica?",
+        "options": [
+          {
+            "id": "high",
+            "text": "Falla deficiente alta: 3 puntos",
+            "correct": true,
+            "feedback": "¡Exacto! Superaste la velocidad de examen (45 km/h en avenidas) sin pasar la máxima de la vía: es una falla deficiente alta, que el examinador te comunica para que corrijas."
+          },
+          {
+            "id": "eliminatory",
+            "text": "Falla eliminatoria: 8 puntos",
+            "correct": false,
+            "feedback": "La eliminatoria es para quien supera la velocidad máxima de la vía, acá 60 km/h. A 55 km/h superás solo la velocidad de examen: deficiente alta, 3 puntos."
+          },
+          {
+            "id": "minor",
+            "text": "Falla leve: 1 punto",
+            "correct": false,
+            "feedback": "Es más grave: superar la velocidad de examen es una falla deficiente alta, 3 puntos."
+          },
+          {
+            "id": "none",
+            "text": "No es falla: no superaste la máxima de la vía",
+            "correct": false,
+            "feedback": "Durante el examen rige un límite propio, 45 km/h en avenidas. Superarlo es una falla deficiente alta aunque no pases la máxima de la vía."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.protocol-speed-scene",
+    "type": "decision",
+    "title": "Un cartel más restrictivo en el circuito",
+    "unitIds": [
+      "protocolo.general.exam-speed-limits"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 8
+      },
+      {
+        "source": "protocolo",
+        "page": 28
+      }
+    ],
+    "explanation": "El límite del examen, 30 km/h en calles y 45 km/h en avenidas, cede ante uno más restrictivo fijado por la señalización o la normativa, que pasa a ser el máximo a respetar (protocolo PDF 8 y 28). En una avenida sin otro límite, el máximo del examen es 45 km/h aunque la vía permita 60; superarlo es una falla deficiente alta (PDF 28).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "work-zone",
+        "start": "street",
+        "nodes": {
+          "street": {
+            "text": "Durante el examen vas por una calle del circuito a 28 km/h. Más adelante, un cartel de obra fija una máxima de 20 km/h para ese tramo.",
+            "choices": [
+              {
+                "id": "slow",
+                "text": "Reduzco a 20 km/h o menos antes de llegar al cartel",
+                "next": "avenue"
+              },
+              {
+                "id": "keep",
+                "text": "Sigo a 28 km/h: en calles el límite del examen es 30",
+                "outcome": "ignored-sign"
+              }
+            ]
+          },
+          "avenue": {
+            "text": "Pasada la obra, doblás a una avenida sin carteles y con el tránsito libre. La máxima de esa avenida es 60 km/h.",
+            "choices": [
+              {
+                "id": "exam-limit",
+                "text": "Acelero de a poco, sin pasar de 45 km/h",
+                "outcome": "good"
+              },
+              {
+                "id": "road-limit",
+                "text": "Acelero hasta 60 km/h, la máxima de la avenida",
+                "outcome": "over-exam"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Respetaste el cartel de la obra, que era más restrictivo, y en la avenida el límite del examen de 45 km/h (protocolo PDF 8 y 28)."
+          },
+          "ignored-sign": {
+            "correct": false,
+            "feedback": "Los 30 km/h en calles valen salvo que la señalización o la normativa fijen un límite menor: con el cartel de 20 km/h, ese es tu máximo en el tramo (protocolo PDF 8 y 28)."
+          },
+          "over-exam": {
+            "correct": false,
+            "feedback": "Durante el examen el límite en avenidas es 45 km/h aunque la vía permita 60. Superarlo es una falla deficiente alta, 3 puntos (protocolo PDF 28)."
+          }
+        }
+      }
+    ]
+  }
+]
