@@ -1,8 +1,8 @@
-import type { Category } from './schemas.ts';
+import type { AuditedSourceId, Category } from './schemas.ts';
 import type { Content } from './validate.ts';
 
 export interface SectionCoverage {
-  source: 'manual' | 'siniestros';
+  source: AuditedSourceId;
   section: string;
   category: Category;
   pages: number;

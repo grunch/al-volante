@@ -30,6 +30,20 @@ test.describe('navigation and library', () => {
     await expect(page).toHaveURL(/#\/actividad\/act\.(car|safety)-/);
   });
 
+  test('consults the exam circuits of every comuna and the protocol pages from the learning map', async ({ page }) => {
+    await page.goto('./#/mapa');
+    const practical = page.getByRole('region', { name: 'Examen práctico: protocolo y recorridos' });
+    await practical.getByRole('link', { name: 'Circuitos de examen por comuna' }).click();
+
+    await expect(page.getByRole('heading', { level: 1, name: 'Circuitos de examen por comuna' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Comuna 13 (Núñez): recorridos A y B' })).toBeVisible();
+    await expect(page.locator('figure.source-figure img')).toHaveCount(14);
+    await page.getByRole('link', { name: 'Ver página 16' }).first().click();
+
+    await expect(page.getByRole('heading', { level: 1, name: /^Página 16 · / })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 2, name: 'Resumen' })).toBeVisible();
+  });
+
   test('goes from the learning map to a unit and to its source page with text and official PDF', async ({ page }) => {
     await page.goto('./#/mapa');
     const campaign = page.getByRole('region', { name: 'Campaña licencia B' });

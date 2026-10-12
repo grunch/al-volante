@@ -17,7 +17,7 @@ import {
 } from '../../i18n/es-AR.ts';
 import { NotFoundPage } from './NotFoundPage.tsx';
 
-/** One physical page of an official source: catalog data when available, extracted text and the original PDF. */
+/** One physical page of an official source: its catalog data, extracted text and the original PDF. */
 export function SourcePage() {
   const params = useParams();
   return (
@@ -68,7 +68,8 @@ function SourcePageView({ content, source, page }: { content: Content; source: S
         documentTitle={`${source.title}, ${t('pageLabel').toLowerCase()} ${page}`}
       >{`${t('pageLabel')} ${page} · ${source.title}`}</PageTitle>
       <PageNavigation source={source} page={page} />
-      {catalogPage ? (
+      {/* Every page of every source is classified since F05-T04 (validateCatalog). */}
+      {catalogPage && (
         <section aria-labelledby="page-summary">
           <h2 id="page-summary">{t('pageSummary')}</h2>
           <p className="card__meta">
@@ -78,8 +79,6 @@ function SourcePageView({ content, source, page }: { content: Content; source: S
           </p>
           <p>{catalogPage.summary}</p>
         </section>
-      ) : (
-        <p className="note">{t('pageNotCatalogued')}</p>
       )}
       {units.length > 0 && (
         <section aria-labelledby="page-units">

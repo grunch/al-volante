@@ -4,7 +4,12 @@ import { z } from 'zod';
 // Cross-record references (pages ↔ units, rule items, route continuity…) are checked in validate.ts.
 
 export const SOURCE_IDS = ['manual', 'protocolo', 'recorridos', 'siniestros'] as const;
-export const AUDITED_SOURCE_IDS = ['manual', 'siniestros'] as const;
+/**
+ * Sources catalogued page by page (every physical page classified exactly once in pages.json) and with knowledge
+ * units; the exam documents join in F05-T04.
+ */
+export const AUDITED_SOURCE_IDS = ['manual', 'siniestros', 'protocolo', 'recorridos'] as const;
+export type AuditedSourceId = (typeof AUDITED_SOURCE_IDS)[number];
 export const SourceIdSchema = z.enum(SOURCE_IDS);
 export type SourceId = z.infer<typeof SourceIdSchema>;
 
@@ -31,7 +36,7 @@ export const SourceSchema = z.strictObject({
 export type Source = z.infer<typeof SourceSchema>;
 export const ManifestSchema = z.array(SourceSchema).min(1);
 
-export const CATEGORIES = ['B', 'common', 'D', 'C-E', 'guide'] as const;
+export const CATEGORIES = ['B', 'common', 'D', 'C-E', 'guide', 'exam'] as const;
 export const PAGE_KINDS = [
   'instructional',
   'chapter-cover',
@@ -71,7 +76,7 @@ export const PageSchema = z.strictObject({
 });
 export type Page = z.infer<typeof PageSchema>;
 
-export const UNIT_ID_PATTERN = /^(manual|siniestros)\.[a-z0-9]+\.[a-z0-9]+(-[a-z0-9]+)*$/;
+export const UNIT_ID_PATTERN = /^(manual|siniestros|protocolo|recorridos)\.[a-z0-9]+\.[a-z0-9]+(-[a-z0-9]+)*$/;
 export const KnowledgeUnitSchema = z.strictObject({
   id: z.string().regex(UNIT_ID_PATTERN),
   source: z.enum(AUDITED_SOURCE_IDS),

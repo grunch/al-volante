@@ -1,13 +1,13 @@
-import type { Category } from '../content/schemas.ts';
+import type { AuditedSourceId, Category } from '../content/schemas.ts';
 import { t } from '../i18n/es-AR.ts';
 
 export interface PathSection {
-  source: 'manual' | 'siniestros';
+  source: AuditedSourceId;
   section: string;
 }
 
 export interface PathGroup {
-  id: 'campaign-b' | 'reference' | 'complementary';
+  id: 'campaign-b' | 'reference' | 'complementary' | 'practical';
   sections: PathSection[];
 }
 
@@ -38,6 +38,17 @@ export const LEARNING_PATH: PathGroup[] = [
       ...['intro', 's1', 's2', 's3'].map((section) => ({ source: 'siniestros' as const, section })),
     ],
   },
+  {
+    // The practical exam documents (F05-T04): what the driving exam evaluates and the circuits of every comuna.
+    id: 'practical',
+    sections: [
+      ...['general', 'stages', 'evaluation', 'annex1', 'annex2', 'annex3'].map((section) => ({
+        source: 'protocolo' as const,
+        section,
+      })),
+      ...['intro', 'circuits'].map((section) => ({ source: 'recorridos' as const, section })),
+    ],
+  },
 ];
 
 /** Categories that count towards campaign B progress. */
@@ -48,4 +59,5 @@ export const GROUP_TITLES: Record<PathGroup['id'], string> = {
   'campaign-b': t('mapCampaignB'),
   reference: t('mapReference'),
   complementary: t('mapComplementary'),
+  practical: t('mapPractical'),
 };
