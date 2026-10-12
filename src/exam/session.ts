@@ -137,8 +137,8 @@ export interface Session {
     blockedS: number;
     stops: number;
     wasStopped: boolean;
-    /** Over the exam limit right now, and how many such episodes there were: correcting it ends one (D3). */
-    speeding: boolean;
+    /** Phase of the current speed episode, or null when under the limit: correcting it or changing context ends one (D3). */
+    speedingIn: Phase | null;
     speedEpisodes: number;
     /** The speed episode that already scored the road maximum: no exam-speed fault in it (D2). */
     roadMaxEpisode: number | null;
@@ -237,7 +237,7 @@ export function createSession(
       blockedS: 0,
       stops: 0,
       wasStopped: false,
-      speeding: false,
+      speedingIn: null,
       speedEpisodes: 0,
       roadMaxEpisode: null,
     },
@@ -452,9 +452,13 @@ function judgeSpeed(session: Session, car: CarState, roadKmh: number, examKmh: n
   const tolerance = GAME_PARAMETERS.speedToleranceKmh;
   const over = kmh > examKmh + tolerance;
   let next = session;
-  if (over && !next.street.speeding)
-    next = { ...next, street: { ...next.street, speeding: true, speedEpisodes: next.street.speedEpisodes + 1 } };
-  if (!over && next.street.speeding) next = { ...next, street: { ...next.street, speeding: false } };
+  // A new episode starts when the limit is exceeded again, or when the road context changes while over it (D3).
+  if (over && next.street.speedingIn !== next.phase)
+    next = {
+      ...next,
+      street: { ...next.street, speedingIn: next.phase, speedEpisodes: next.street.speedEpisodes + 1 },
+    };
+  if (!over && next.street.speedingIn !== null) next = { ...next, street: { ...next.street, speedingIn: null } };
   const episode = `speed-${next.street.speedEpisodes}`;
   if (kmh > roadKmh + tolerance) {
     // One episode, the more severe rule only (D2): the exam-speed fault of this episode is withdrawn, and not

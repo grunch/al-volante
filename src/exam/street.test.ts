@@ -241,8 +241,24 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
     // Easing off to 35 km/h is still the same episode: the exam-speed fault does not come back.
     laneKeeping(driver, { ...IDLE, brake: 0.3 }, (car) => car.world.vehicle.speedMps * 3.6 < 36, 20);
     laneKeeping(driver, { ...IDLE, throttle: 0.3 }, (_, t) => t > 1, 5);
-
     expect(driver.faults).toEqual(['rule.high.f-exam-speed-exceeded', 'rule.eliminatory.l-road-speed-limit-exceeded']);
+
+    // Still over the limit on reaching the corner (signalled in time): another road context, another episode (D3).
+    driver.cabin({ type: 'signal', value: 'right' });
+    const kmh = () => driver.car.world.vehicle.speedMps * 3.6;
+    // Held between the exam limit and the road maximum (about 34 km/h) all the way into the turn.
+    for (let guard = 0; guard < 400 && driver.phase !== 'turn'; guard += 1)
+      laneKeeping(driver, { ...IDLE, throttle: kmh() < 34 ? 0.5 : 0.05 }, (_, t) => t >= 0.25, 1);
+    laneKeeping(driver, { ...IDLE, throttle: kmh() < 34 ? 0.5 : 0.05 }, (_, t) => t > 0.5, 5);
+    expect(driver.phase).toBe('turn');
+    expect(kmh()).toBeGreaterThan(31);
+    expect(kmh()).toBeLessThan(40);
+
+    expect(driver.faults).toEqual([
+      'rule.high.f-exam-speed-exceeded',
+      'rule.eliminatory.l-road-speed-limit-exceeded',
+      'rule.high.f-exam-speed-exceeded',
+    ]);
   });
 
   it('driving onto the crosswalk while the pedestrian is on it does not yield; hitting them is eliminatory', () => {
