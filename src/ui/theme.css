@@ -644,6 +644,42 @@ a {
   padding: 0 1.25rem;
   color: #c8dadd;
 }
+.cockpit-view-options {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-right: 1rem;
+}
+.cockpit-view-options .cockpit-help {
+  flex: 1 1 22rem;
+}
+.cockpit-view-options > button {
+  margin: 0 0 0.5rem 1rem;
+}
+.cockpit-shell:fullscreen {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+.cockpit-shell:fullscreen .cockpit-viewport {
+  flex: 1;
+  min-height: 0;
+}
+.cockpit-shell:fullscreen .driving-canvas {
+  height: 100%;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+.cockpit-shell:fullscreen .cockpit-controls {
+  max-height: 28vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
 .cockpit-viewport {
   position: relative;
 }
@@ -659,8 +695,7 @@ a {
   position: absolute;
   pointer-events: none;
   bottom: 0.65rem;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 0.8rem;
   display: flex;
   align-items: center;
   gap: 1.1rem;

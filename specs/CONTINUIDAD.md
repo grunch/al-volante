@@ -2,15 +2,13 @@
 
 Actualizado: 2026-10-12. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el correctivo F04-T04-FIX01, [#27](https://github.com/grunch/al-volante/pull/27), repara las vueltas guionadas que quedaron rojas en `main`); fase 5 (todo el contenido y simulacros teóricos) iniciada por el usuario, etapa A en curso. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
-## Trabajo puntual activo — F04-T01-FIX01
+## Trabajo puntual activo — F04-T01-FIX02
 
-El usuario aportó 35 capturas cronológicas de Street View y pidió mejorar los gráficos sin pisar la fase 5 que implementa Opus. Rama `f04-t01-fix01-street-reference`, base `main` (`b36fe55`), trabajo aislado. No iniciar la fase 6. El inventario y la interpretación de las fotos están en [REFERENCIAS_VISUALES.md](REFERENCIAS_VISUALES.md); las dimensiones siguen siendo aproximadas y el material original no se redistribuye.
+El usuario confirmó la fusión de [#31](https://github.com/grunch/al-volante/pull/31), merge `9bc0257`, y pidió un manejo más real apoyado nuevamente en las fotos de `recursos/`. Rama `f04-t01-fix02-driving-realism`, base `9bc0257`, worktree independiente. No inicia fase 6; fase 5 continúa a cargo de Opus, con [#33](https://github.com/grunch/al-volante/pull/33) abierto al consultar.
 
-Implementados edificios y balcones por tramo, plantas bajas, arboleda, refugios del Metrobús, carteles, vallas, materiales e iluminación. Los cambios visuales no alteran el modelo vial, las colisiones ni las reglas. [PR #31](https://github.com/grunch/al-volante/pull/31), implementación `5f8f226`: 21 pruebas de ciudad y 20 E2E aprobadas.
+Implementados dirección dosificada según velocidad, inercia visual amortiguada con movimiento reducido, habitáculo nuevo con diales legibles, pantalla completa, asfalto/veredas, copas con hojas y actores reconocibles. Geometría vial, física y evaluación mantienen sus parámetros. Alcance, aproximaciones, procedencia y verificación en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md).
 
-La base inicial `b36fe55` tenía 17 fallos de simulación (500 pruebas aprobadas); la vuelta completa reprodujo el fallo sin los cambios gráficos. Después se incorporó `main` (`78b5cee`) con el correctivo de vueltas #27 y F05-T01 (#28), conservando sus registros. La rama volvió a actualizarse con `8a6b51a` (#29–#30) después de que avanzara la base; los nuevos conflictos documentales conservan F05-T01–T03. Se incorporó también `693f692` (#32, F05-T04) al volver a avanzar `main`. Revalidación de cobertura y navegador en curso; no declarar todavía aprobada la suite general.
-
-Revisión independiente local completada. Codex GitHub [5494732545](https://github.com/grunch/al-volante/pull/31#pullrequestreview-5494732545): sus dos findings aplican y se corrigieron (timeout global de casos WebGL y despeje de luminarias desplazadas). La prueba de luminarias falla antes de la corrección con seis piezas sobre Iberá/Cuba y pasa después; 9 pruebas de entorno/escena aprobadas. CodeRabbit pendiente por cuota. Siguiente paso: registrar la revalidación, publicar la resolución de conflictos y solicitar seguimiento. Conservar cualquier avance posterior de fase 5 al actualizar la base.
+Revisión independiente local: una observación sobre manijas fuera del contorno del auto, corregida; prueba nueva cubre contorno y liberación de recursos de los cinco tipos de actor. 32 E2E de ciudad, cabina, examen y pista aprobados en Chromium con GPU, escritorio y móvil. Lint, formato, tipos, catálogo y build aprobados; cobertura general en curso. Próximo paso: terminar validación, publicar el PR correctivo y solicitar Codex y CodeRabbit. Conservar cualquier avance posterior de fase 5 al actualizar la base.
 
 ## Pedido y alcance de esta etapa
 

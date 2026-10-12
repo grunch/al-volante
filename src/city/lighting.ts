@@ -4,14 +4,16 @@ import type { Point } from '../sim/collision.ts';
 /** A static local shadow map is shared by the windshield and mirrors; it updates only as the city streams. */
 export function createCityRenderer(): THREE.WebGLRenderer {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
   return renderer;
 }
 
 export function createCityLighting(scene: THREE.Scene) {
-  const sun = new THREE.DirectionalLight('#fff2db', 2.6);
-  const ambient = new THREE.HemisphereLight('#dce9f3', '#8a8172', 1.25);
+  const sun = new THREE.DirectionalLight('#fff2db', 3.0);
+  const ambient = new THREE.HemisphereLight('#dce9f3', '#8a8172', 1.5);
   sun.name = 'city-sun';
   sun.castShadow = true;
   sun.shadow.mapSize.set(1024, 1024);

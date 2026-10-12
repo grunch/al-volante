@@ -307,6 +307,8 @@ function addTree(point: Point, heading: number, variation: number, canopy: boole
     const radius = i === 0 ? 0 : canopy ? 2.2 : 1.7;
     add({
       shape: 'sphere',
+      surface: 'foliage',
+      heading: angle,
       color: [c.foliage, c.foliageLight, c.foliageDark][i % 3] ?? c.foliage,
       position: [point.x + Math.cos(angle) * radius, height + 0.9 + (i % 2) * 0.8, point.z + Math.sin(angle) * radius],
       size: [canopy ? 5.8 : 4.2, 3.3, canopy ? 5.8 : 4.2],

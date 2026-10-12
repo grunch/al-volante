@@ -11,7 +11,8 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
 - **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
 - **Fase 5 — Todo el contenido y simulacros teóricos: etapa A en curso.** Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
-- **F04-T01-FIX01 — referencias visuales:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
+- **F04-T01-FIX02 — experiencia de conducción:** rama `f04-t01-fix02-driving-realism`, base `main` (`9bc0257`), worktree independiente; implementación y validación en curso. Pedido puntual posterior a #31; no inicia fase 6.
+- **F04-T01-FIX01 — referencias visuales, fusionado en `9bc0257`:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
 - Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -431,6 +432,13 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - CI sobre `83562c4`: el E2E «offers the four modes…» agotó sus 30 s en el runner sin un error de la página. La traza muestra cada comprobación a ~1,3 s por el render por software y el pedido de interrupción empezando a los 26 s. El bloque de modos tiene ahora 120 s, como el E2E de manejo de la ciudad; local: 12 E2E de `exam.spec.ts` aprobados (escritorio y Pixel 7 emulado).
 - Para la fase 5 y F06-T01: la sesión terminada queda en `sessionRef` de `ExamPage` y se persiste como `Attempt` `driving` con `events` (`phase`, `stage-completed`, `interruption`, `finished`) y `faults`; no se graban entradas ni estados por paso, así que la repetición (F06-T01) necesita su propia grabación. Los modos se eligen por URL; un reintento desde un estado intermedio debe crear la sesión con `enter` en la fase deseada y restaurar auto, cabina, tránsito (`TrafficState`) y `Session` completos.
 
+## Correctivo F04-T01-FIX02 — Experiencia de conducción
+
+- Pedido: conducción más real tras fusionar #31; revisar otra vez las fotos, con Blender disponible si fuera necesario. Rama `f04-t01-fix02-driving-realism`, base `9bc0257`, worktree independiente. Alcance en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md); se resolvió con geometría y texturas originales generadas desde código, sin dependencias nuevas.
+- Implementación: entrada de volante sensible a velocidad, cámara amortiguada y movimiento reducido, cabina e instrumental, pantalla completa, materiales de calle y vegetación, siluetas de tránsito. Sin cambiar reglas, tolerancias ni parámetros físicos del vehículo.
+- Revisión independiente local: completada sobre el diff de implementación. Finding P3: las manijas sobresalían 1–2,5 cm de la caja de los vehículos; corregido desplazándolas hacia adentro. Pruebas de contorno de auto, colectivo, emergencia, peatón y bicicleta aprobadas. Codex GitHub y CodeRabbit: pendientes de solicitar al crear el PR.
+- Verificación parcial: 90 pruebas focalizadas aprobadas; después de agrupar los actores y completar la prueba de pantalla completa, 24 regresiones aprobadas. 32 E2E de ciudad, cabina, examen y pista aprobados en Chromium con GPU (escritorio y móvil); lint, formato, tipos, validación de contenido y build aprobados. Cobertura general en ejecución; no se declara aún aprobado el check completo.
+
 ## Correctivo F04-T01-FIX01 — Entorno basado en referencias
 
 - Pedido: incorporar las imágenes cronológicas del recorrido y trabajar en un worktree para preservar la fase 5 de Opus. Base `main` (`b36fe55`), rama `f04-t01-fix01-street-reference`; [#31](https://github.com/grunch/al-volante/pull/31), implementación `5f8f226`. Correcciones de revisión en `42fc914`, que incorpora `main` (`78b5cee`, #27–#28). Segunda actualización con `8a6b51a` (#29–#30) al volver a avanzar la base; todos los conflictos eran documentales. Tercera actualización con `693f692` (#32) al avanzar nuevamente la base.
@@ -499,11 +507,11 @@ Fase 5, etapa A a cargo de Opus: #27 y F05-T01–T04 (#28–#30 y #32) ya integr
 
 ## Bloqueos
 
-La base inicial `b36fe55` tenía los 17 fallos indicados arriba. `main` incorporó su correctivo #27 mientras se trabajaba: se revalida después de actualizar la rama. Codex remoto completó su revisión y sus dos findings están corregidos; falta seguimiento. CodeRabbit sigue pendiente por cuota. La revisión independiente local está completada. No fusionar sin checks aprobados y findings revisados con el usuario.
+El correctivo #31 ya fue fusionado por el usuario en `9bc0257`. F04-T01-FIX02: cobertura general y revisiones remotas pendientes; no fusionar sin checks aprobados y findings resueltos. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31.
 
 ## Siguiente acción
 
-Correctivo visual #31: terminar comprobaciones y seguimiento de las dos correcciones de Codex; integración de `main` actualizada hasta `693f692`. Fase 5 a cargo de Opus: F05-T01–T04 ya integradas; continúa con F05-T05 (simulacros teóricos y auditoría global). Este correctivo no modifica su worktree ni inicia otra fase.
+Correctivo #31 fusionado en `9bc0257`. Correctivo F04-T01-FIX02: terminar validación, crear PR y solicitar ambas revisiones. Fase 5 a cargo de Opus: F05-T01–T04 ya integradas; continúa con F05-T05 (simulacros teóricos y auditoría global). Este correctivo no modifica su worktree ni inicia otra fase.
 
 ### Cierre de la fase 4 contra el plan
 

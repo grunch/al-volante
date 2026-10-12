@@ -59,6 +59,38 @@ describe('DrivingCanvas', () => {
     return { ...utils, renderer, surface, press, props };
   }
 
+  it('enters and exits fullscreen without restarting the driving session and reports unsupported browsers', async () => {
+    const { surface, press } = renderCanvas('automatic');
+    press('KeyK');
+    press('KeyK');
+    const shell = screen.getByRole('region', { name: 'Al volante' });
+    const enter = vi.fn(async () => {
+      Object.defineProperty(document, 'fullscreenElement', { configurable: true, value: shell });
+      document.dispatchEvent(new Event('fullscreenchange'));
+    });
+    const leave = vi.fn(async () => {
+      Object.defineProperty(document, 'fullscreenElement', { configurable: true, value: null });
+      document.dispatchEvent(new Event('fullscreenchange'));
+    });
+    Object.defineProperty(shell, 'requestFullscreen', { configurable: true, value: enter });
+    Object.defineProperty(document, 'exitFullscreen', { configurable: true, value: leave });
+    try {
+      await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Pantalla completa' })));
+      expect(enter).toHaveBeenCalledOnce();
+      expect(surface).toHaveFocus();
+      runFrames(0.1);
+      expect(surface).toHaveAttribute('data-engine', 'running');
+      await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Salir de pantalla completa' })));
+      expect(leave).toHaveBeenCalledOnce();
+      Object.defineProperty(shell, 'requestFullscreen', { value: undefined });
+      await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Pantalla completa' })));
+      expect(screen.getByText(/Este navegador no pudo abrir la pantalla completa/)).toHaveAttribute('role', 'status');
+    } finally {
+      Reflect.deleteProperty(document, 'fullscreenElement');
+      Reflect.deleteProperty(document, 'exitFullscreen');
+    }
+  });
+
   it('starts the automatic, selects D and creeps forward when the brake is released', () => {
     // Arrange
     const telemetry: Telemetry[] = [];

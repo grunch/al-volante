@@ -37,3 +37,7 @@ Las fotos muestran detalles que todavía difieren del modelo: el pintado verde d
 ## Verificación
 
 `src/city/environment.test.ts` comprueba reproducibilidad sin mutar las calles, despeje de calzadas y ciclovías por las fachadas, refugios fuera de carriles, colores y transformaciones del agrupamiento por instancias y actualización/liberación de sombras. Las pruebas de ciudad existentes conservan la transitabilidad del circuito y la liberación de sectores, materiales y espejos. El registro operativo y el PR documentan los resultados de la suite, capturas y mediciones del navegador; no se considera certificada la meta de 60 FPS.
+
+## Revisión de experiencia — F04-T01-FIX02
+
+Después de fusionar #31, el usuario pidió mejorar también el manejo. Se volvió a observar la colección y se añadió asfalto con grano, veredas con juntas, copas con huecos y siluetas reconocibles para los actores existentes. La cabina, cámara y asistencia de teclado se describen en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md). Todas sus magnitudes son ajustes de presentación o de interfaz, no mediciones obtenidas de estas imágenes.
