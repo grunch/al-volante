@@ -434,7 +434,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
-| F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | abierto; Codex solicitado, CodeRabbit automático |
+| F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | abierto; Codex sin observaciones (`ef44c0b`); CodeRabbit pendiente por cuota |
+| F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | (se completa al crear el PR) | implementada; revisiones pendientes |
 
 ### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
 
@@ -445,6 +446,16 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - **Contenido:** las 260 unidades de presentación, glosario, introducción, capítulos 1–2 y guía de siniestros revisadas contra la imagen de su página (22 correcciones), 105 actividades nuevas (77 de opción única, 22 escenas de decisión y 6 de ordenar; 351 variantes) y 23 figuras. 254 unidades quedan `tested` y 6 de consulta (`implemented`). Las 14 unidades y 4 señales que usaban las 8 actividades de la fase 2 se revisaron contra sus páginas y quedan `tested`.
   - **Decisiones:** D-T01-1 a D-T01-18 en `CONTENIDO.md` (verificaciones del 12/10/2026: 107 SAME y 911 Policía en el sitio oficial; scoring de 20 puntos; régimen cambiante de la VTV). 8 observaciones nuevas en `issues.json` (214 en total).
 - Método: cinco lotes por páginas escritos por subagentes con una guía común, sin tocar el repositorio; el autor los integró, reequilibró 28 variantes cuya opción correcta se delataba por su largo, reescribió los motivos de consulta para quien juega y revisó por muestreo los datos contra el texto y la imagen de las páginas (PDF 26, 29, 33, 38, 45–47, 53 y las de los recortes).
+
+### F05-T02 — Capítulo 3 y anexo IV, con el catálogo visual de señales
+
+- Apilada sobre `f05-t01-content` (#28). Orden: #27 → #28 → este PR.
+- Alcance:
+  - **Señales:** `box` y `consultationReason` en `signs.json`; `scripts/crop-figures.ts` recorta también las señales (`public/signs/`, 180 ppp, sin metadatos para que los recortes sean reproducibles); `SignGraphic` muestra el recorte cuando no hay dibujo vectorial; validadores de recortes de señales y de tratamiento de señales de consulta; página `#/senales` (catálogo visual por familia y grupo) enlazada desde la biblioteca y las páginas con señales.
+  - **Contenido:** las 153 unidades del capítulo 3 y del anexo IV revisadas contra la imagen (21 correcciones), 354 señales recortadas y revisadas, 128 actividades nuevas (59 de identificación de señales, 35 de opción única, 25 escenas y 9 de ordenar; 573 variantes) y 28 figuras. 151 unidades `tested` y 2 de consulta (excepciones de velocidad por avenida, chat de estacionamiento); 350 señales `tested` y 4 de consulta (tres luces intermitentes y «Barreras ferroviarias»).
+  - **Decisiones:** D-T02-1 a D-T02-18 en `CONTENIDO.md`; 12 observaciones nuevas en `issues.json` (226). Tres variantes de la fase 2 reequilibradas (la correcta se delataba por el largo), la variante de luz amarilla rehecha según D-T02-18 y la descripción de una figura de PDF 61 corregida en `pages.json`.
+  - **Pruebas:** la de recorrido del catálogo comprueba la estructura de lo que se muestra (sin claves que revelen la respuesta) en lugar de buscar texto; la de política de contenido distingue el cordón amarillo permitido (prohíbe estacionar) del no resuelto (detenerse, 24 horas); prueba de cobertura de señales.
+- Método: seis lotes por páginas (tres del capítulo 3 y tres del anexo IV) con guía común y detector de señales por segmentación de imagen; revisión del autor con heurísticas sobre todas las variantes y hojas de contacto rotuladas de recortes.
 
 ## Pila y orden de fusión
 
@@ -458,7 +469,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: crear F05-T02 (capítulo 3 y anexo IV, con el catálogo visual de señales) apilada sobre F05-T01, y seguir con T03–T05 sin esperar revisiones. Después, etapa B con el usuario.
+La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: abrir el PR de F05-T02 y seguir con F05-T03 (capítulos 4–5, anexo I e inspección del auto; habilita «Mi garaje»), T04 y T05 sin esperar revisiones. Después, etapa B con el usuario.
 
 ### Cierre de la fase 4 contra el plan
 
