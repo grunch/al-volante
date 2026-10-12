@@ -333,7 +333,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F04-T03 | `f04-t03-examiner` | `main` | [#24](https://github.com/grunch/al-volante/pull/24) | fusionada en `main` (`d919f98`); findings de `f4d7c6f`, `eaf60ce` y `cf9d690` corregidos |
 | F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | fusionada en `main` (`cefe7b2`); findings de `f2624a4`, `b551baa` y siguientes corregidos |
 | F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | fusionada en `main` (`b36fe55`); findings de `f7b9398` y siguientes corregidos |
-| F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | abierto; corrige la vuelta guionada que fallaba en `main`; Codex solicitado, CodeRabbit automático |
+| F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | abierto; findings de Codex (`3327a92`, `bbea36a`, `7c010ff`) y CodeRabbit (`e048648`) resueltos; revisión de seguimiento pendiente |
 
 ### F04-T01 — Ciudad y recorrido completo
 
@@ -405,7 +405,12 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Causas:
   - **Espera mutua con el auto:** el auto quedaba detenido con el frente en la línea de Cuba ante Quesada esperando a una bicicleta de la ciclovía que ya doblaba dentro del cruce; la bicicleta tomaba al auto como obstáculo en su corredor y lo esperaba a él. Entre actores esa espera ya estaba resuelta (`waitsAtLineFor`); faltaba para el auto. `carWaitsAtLineFor` (`src/traffic/traffic.ts`): el auto quieto con el frente en su línea (tolerancia de la línea) de un cruce que el actor ya atraviesa no es su obstáculo, porque lo espera; salvo que su carrocería esté sobre la trayectoria real del actor en los próximos metros (curvas incluidas), en cuyo caso el actor no avanza hacia él.
   - **Conductor de prueba que no cede a ciclistas:** con caja manual, el auto doblaba a la izquierda hacia Quesada y alcanzaba a una bicicleta que seguía derecho por la ciclovía de su izquierda (contacto, eliminatoria por la falla l escalada: no ceder el paso a ciclistas que cruzan al girar, `protocolo.pdf`, PDF 12, 16, 17 y 29; prioridad del ciclista, `manual.pdf`, PDF 35). El conductor de `src/test/circuitDriver.ts` ahora espera en la línea, antes de doblar, a los ciclistas que vienen por el lado del giro y a los que van a cruzar el pavimento que va a atravesar. Las distancias que usa para reconocerlos (hasta 25 m detrás, a menos de 8 m hacia el lado del giro, proyección de hasta 3 s) son **heurísticas del guion de pruebas**, no umbrales del protocolo ni de la evaluación, que no cambian.
-- Pruebas: nueva `traffic.test.ts` «rides on across the corner past the car standing at its own line…», que falla sin el cambio (la bicicleta no avanza) y pasa con él; `street.test.ts`, `parkingStreet.test.ts`, `practice.test.ts` y `src/traffic` aprobadas (72 pruebas en 8 archivos).
+- Pruebas: nueva `traffic.test.ts` «rides on across the corner past the car standing at its own line…», que falla sin el cambio (la bicicleta no avanza) y pasa con él; `street.test.ts`, `parkingStreet.test.ts`, `practice.test.ts` y `src/traffic` aprobadas (73 pruebas en 8 archivos).
+
+- Revisiones (etapa de correcciones del PR):
+  - Codex sobre `3327a92`: el lado del giro no tenía distancia lateral máxima → corregido en `ba64169` (`CYCLIST_LATERAL_M`, 8 m).
+  - CodeRabbit sobre `e048648`, 3 findings: heurísticas sin fuente en este registro → corregido en `ba64169`; cesión tras el PARE → retirado por CodeRabbit (la condición es la misma de `main` y el PARE ya exige vía libre antes de salir); limitar `carWaitsAtLineFor` con `corridorGap` → no se aplicó tal cual porque recrea la espera mutua (la prueba nueva falla con ese cambio); se atendió la preocupación de fondo con `carOnPathAhead` en `ba64169`, y CodeRabbit lo aceptó.
+  - Codex sobre `bbea36a`: la fase 4 seguía como pendiente en este registro → corregido en `bbea36a`; sobre `7c010ff`: faltaba la contraparte en `CONTINUIDAD.md` → corregido en `7c010ff`; registrar estas rondas y el total de 73 pruebas → corregido en el commit siguiente.
 
 ### F04-T05 — Modos, recorrido entero y ficha por etapa
 
