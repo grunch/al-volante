@@ -333,7 +333,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F04-T03 | `f04-t03-examiner` | `main` | [#24](https://github.com/grunch/al-volante/pull/24) | fusionada en `main` (`d919f98`); findings de `f4d7c6f`, `eaf60ce` y `cf9d690` corregidos |
 | F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | implementada; findings de `f2624a4` y `b551baa` corregidos; CI y revisión de seguimiento del último push pendientes |
 | F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | implementada; findings de `f7b9398` corregidos; CI de `83562c4` corregida (presupuesto del E2E); CodeRabbit y revisión de seguimiento pendientes |
-| F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | (se completa al crear el PR) | implementada; corrige la vuelta guionada que fallaba en `main` |
+| F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | abierto; corrige la vuelta guionada que fallaba en `main`; Codex solicitado, CodeRabbit automático |
 
 ### F04-T01 — Ciudad y recorrido completo
 
