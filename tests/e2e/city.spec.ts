@@ -40,7 +40,8 @@ test('explores all eight legs, opens sources and preserves the geographic overvi
 
 test('drives from a route entry with the keyboard and restores the parked state', async ({ page }, testInfo) => {
   // Software WebGL draws the detailed city, traffic and three mirrors; allow the keyboard scenario to complete.
-  test.setTimeout(180000);
+  // It takes 1.8 min locally on main and 2.9 min with the Blender detail (#35); CI runners are slower still.
+  test.setTimeout(360000);
   await page.goto('/#/recorrido');
   await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await page.getByRole('button', { name: 'Conducir este tramo', exact: true }).click();
@@ -66,8 +67,10 @@ test('drives from a route entry with the keyboard and restores the parked state'
   await page.keyboard.press('Space');
   await page.keyboard.up('ArrowDown');
   await page.keyboard.down('ArrowUp');
+  // 3 m take ~2 s of simulation, but software WebGL renders ~1.5 frames a second: 14.8 s of wall clock locally,
+  // more on a slower runner. The wall-clock budget leaves room for that; the distance asserted is the same.
   await expect
-    .poll(async () => Number(await view.getAttribute('data-odometer-m')), { timeout: 20000 })
+    .poll(async () => Number(await view.getAttribute('data-odometer-m')), { timeout: 60000 })
     .toBeGreaterThan(3);
   await page.keyboard.up('ArrowUp');
   await page.getByRole('button', { name: 'Volver al punto de entrada', exact: true }).click();

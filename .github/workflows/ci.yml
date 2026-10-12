@@ -37,7 +37,8 @@ jobs:
   e2e:
     name: End-to-end (Playwright, Chromium)
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    # Passing runs take 13–15 min on software WebGL; one retry of a slow test on a slower runner went past 20.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:

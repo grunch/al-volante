@@ -1,8 +1,10 @@
 # Continuidad del proyecto
 
-Actualizado: 2026-10-12. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el correctivo F04-T04-FIX01, [#27](https://github.com/grunch/al-volante/pull/27), repara las vueltas guionadas que quedaron rojas en `main`); fase 5 (todo el contenido y simulacros teóricos) fusionada, incluido #33 en `9dd6d9e`. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
+Actualizado: 2026-10-12. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el correctivo F04-T04-FIX01, [#27](https://github.com/grunch/al-volante/pull/27), repara las vueltas guionadas que quedaron rojas en `main`); fase 5 (todo el contenido y simulacros teóricos) fusionada, incluido #33 en `9dd6d9e`; correctivos #34 y #36 fusionados (`f3d2f60`, `c71a289`); #37 (E2E de `main`) y #35 abiertos. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
-## Trabajo puntual activo — F04-T01-FIX02
+## Correctivo fusionado — F04-T01-FIX02
+
+Fusionado por el usuario en `main` (`f3d2f60`). La CI de `main` posterior canceló el E2E por presupuestos de reloj justos con WebGL por software, no por un error de código; lo corrige F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37), sección más abajo). Lo que sigue es el registro de cuando estaba en curso.
 
 El usuario confirmó la fusión de [#31](https://github.com/grunch/al-volante/pull/31), merge `9bc0257`, y pidió un manejo más real apoyado nuevamente en las fotos de `recursos/`. Rama `f04-t01-fix02-driving-realism`, base inicial `9bc0257`, actualizada con `main` (`9dd6d9e`, [#33](https://github.com/grunch/al-volante/pull/33) fusionado), worktree independiente. No inicia fase 6 ni modifica el worktree de Opus.
 
@@ -210,6 +212,19 @@ Pedido puntual del usuario (2026-10-12): «incluye intrucciones clara para el ma
 - **Espejos:** solo las teclas de mirada corta (`glanceLeft` y `glanceRight`, 0,5 rad) cuentan como mirar un espejo (D4). Girar la cabeza (`lookLeft` y `lookRight`, 1,3 rad) no cuenta (X6), aunque mirar atrás sí vale al estacionar marcha atrás. `guide.test.ts` impide indicar el espejo con el giro de cabeza.
 - **Cada paso describe lo que juzga la sesión** (`session.ts`, `parking.ts`, `circulation.ts`). Si cambia una regla o un umbral, revisar el texto del paso correspondiente.
 - **Limitación abierta, a decisión del usuario:** en manual, los 30 cm son casi imposibles con el teclado. El embrague sube a 0,6/s y la mordida útil dura unos 0,05 s: volver a pisar Shift 0,1 s después de que el auto se mueve da 7–8 cm, 0,2 s da 35–74 cm y 0,3 s cala el motor. En la automática, frenar 0,65–0,8 s después da 20–40 cm. Las cifras completas están en `ESTADO_IMPLEMENTACION.md`. Arreglarlo exige cambiar los controles (por ejemplo, un embrague que sostenga el punto de acople) o mostrar la distancia en vivo; no hacerlo sin pedido del usuario.
+
+## F04-T01-FIX04: E2E con margen para WebGL por software
+
+Desde #34, el E2E de `main` se cancelaba aunque el mismo árbol pasaba en la corrida de su PR: los presupuestos de reloj eran justos para el render por software del runner. PR [#37](https://github.com/grunch/al-volante/pull/37). Decisiones que no deben reinterpretarse:
+
+- En los E2E de manejo, el tiempo de reloj no mide la simulación. Con WebGL por software, el runner dibuja cerca de 1,5 cuadros por segundo; en local, recorrer 3 m (2,2 s simulados) lleva 14,8 s de reloj. Dimensionar las esperas con al menos el triple de lo medido en local y no achicarlas para acelerar la suite. Los asertos (distancias, estados, textos) no se relajan.
+- Presupuestos vigentes:
+  - 60 s para los 3 m de `city.spec.ts` y 360 s para toda esa prueba (1,8 min en local sobre `main`; 2,9 min con el detalle de #35);
+  - 90 s por prueba de `cockpit.spec.ts`;
+  - 240 s para el bloque de `exam.spec.ts`;
+  - 30 min para el job E2E (las corridas que pasan usan 13–15 min).
+
+  Si un cambio visual agrega costo de render, medir el tiempo por cuadro antes y después (como se hizo con `9dd6d9e` frente a #34) en vez de subir los márgenes a ciegas.
 
 ## Fase 5: todo el contenido y simulacros teóricos
 
