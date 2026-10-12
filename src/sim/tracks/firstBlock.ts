@@ -6,7 +6,8 @@ import type { World } from '../world.ts';
 
 /**
  * Leg 1 of route A (RECORRIDO.md): Quesada, one way, 127 m from the parking box to Av. Cabildo, exam limit
- * 30 km/h, a traffic light at the corner and a right turn onto the avenue (45 km/h). Heading 0 runs along Quesada
+ * 30 km/h (road maximum 40, from OSM), a traffic light at the corner and a right turn onto the avenue (45 km/h for
+ * the exam, 60 on the road). Heading 0 runs along Quesada
  * (+z); +x is the driver's left, so the right turn heads towards -x. The street is 10 m wide between kerbs and the
  * avenue 24 m: game approximations, as are the building fronts and the crosswalk; the length, the limits, the
  * light and the turn come from the route data.
@@ -58,7 +59,11 @@ export const FIRST_BLOCK_ZONES = {
   intersection,
   /** The right turn is done once the car is on the avenue, heading -x, past this x. */
   turnDoneX: -30,
-  limits: { examKmh: 30, roadKmh: 30, avenueKmh: 45 },
+  /**
+   * Exam limits (REGLAS.md §6: 30 km/h in streets, 45 in avenues) and the roads' own maxima from OSM (RECORRIDO.md
+   * §4: 40 for Quesada, 60 for Cabildo), which fix the eliminatory l and are still to be confirmed in F04-T01.
+   */
+  limits: { examKmh: 30, roadKmh: 40, avenueExamKmh: 45, avenueRoadKmh: 60 },
 } as const;
 
 const scenario: Scenario = {

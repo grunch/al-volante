@@ -59,17 +59,26 @@ export interface ScenarioState {
   poses: readonly ActorPose[];
   /** When each actor last started, or null if it never did. */
   started: Readonly<Record<string, number | null>>;
+  /** The light cycle each cycle-bound actor last ran in, so it runs once per cycle. */
+  startedCycle: Readonly<Record<string, number | null>>;
   /** Actors the car body overlaps, so a contact is reported once per overlap episode. */
   touching: readonly string[];
   /** Actors the car body started overlapping during this step. */
   contacts: readonly ActorKind[];
 }
 
+const periodOf = (cycle: LightCycle) => cycle.greenS + cycle.yellowS + cycle.redS;
+
 export function lightAt(cycle: LightCycle, timeS: number): LightState {
-  const period = cycle.greenS + cycle.yellowS + cycle.redS;
+  const period = periodOf(cycle);
   const phase = (((timeS + cycle.offsetS) % period) + period) % period;
   if (phase < cycle.greenS) return 'green';
   return phase < cycle.greenS + cycle.yellowS ? 'yellow' : 'red';
+}
+
+/** Which repetition of the cycle `timeS` falls in, so a cycle-bound actor runs at most once per cycle. */
+export function cycleIndexAt(cycle: LightCycle, timeS: number): number {
+  return Math.floor((timeS + cycle.offsetS) / periodOf(cycle));
 }
 
 const pathLength = (actor: Actor) => Math.hypot(actor.to.x - actor.from.x, actor.to.z - actor.from.z);
@@ -108,6 +117,7 @@ export function createScenarioState(scenario: Scenario): ScenarioState {
     light: lightAt(scenario.light.cycle, 0),
     poses: scenario.actors.map((actor) => poseOf(actor, null, 0)),
     started: Object.fromEntries(scenario.actors.map((actor) => [actor.id, null])),
+    startedCycle: Object.fromEntries(scenario.actors.map((actor) => [actor.id, null])),
     touching: [],
     contacts: [],
   };
@@ -116,15 +126,16 @@ export function createScenarioState(scenario: Scenario): ScenarioState {
 function shouldStart(
   actor: Actor,
   startedS: number | null,
+  startedCycle: number | null,
   carBody: OrientedBox,
   light: LightState,
-  timeS: number,
+  cycle: number,
 ): boolean {
   if ('carZAtLeast' in actor.trigger) return startedS === null && carBody.centerZ >= actor.trigger.carZAtLeast;
   if (light !== actor.trigger.lightPhase) return false;
   if (startedS === null) return true;
-  // Once per cycle: start again only after the previous run is over, on a later phase of that kind.
-  return actor.trigger.everyCycle && timeS - startedS > pathLength(actor) / actor.speedMps;
+  // Once per cycle: a new run needs a later cycle of the light, never the same phase it already ran in.
+  return actor.trigger.everyCycle && startedCycle !== cycle;
 }
 
 /** Advances the light and the actors to `timeS`, and reports actors the car body just started to overlap. */
@@ -135,13 +146,18 @@ export function stepScenario(
   timeS: number,
 ): ScenarioState {
   const light = lightAt(scenario.light.cycle, timeS);
+  const cycle = cycleIndexAt(scenario.light.cycle, timeS);
   const started = { ...state.started };
+  const startedCycle = { ...state.startedCycle };
   const poses = scenario.actors.map((actor) => {
     const previous = started[actor.id] ?? null;
-    if (shouldStart(actor, previous, carBody, light, timeS)) started[actor.id] = timeS;
+    if (shouldStart(actor, previous, startedCycle[actor.id] ?? null, carBody, light, cycle)) {
+      started[actor.id] = timeS;
+      startedCycle[actor.id] = cycle;
+    }
     return poseOf(actor, started[actor.id] ?? null, timeS);
   });
   const overlapping = poses.filter((pose) => pose.active && overlaps(pose.box, carBody));
   const contacts = overlapping.filter((pose) => !state.touching.includes(pose.id)).map((pose) => pose.kind);
-  return { timeS, light, poses, started, touching: overlapping.map((pose) => pose.id), contacts };
+  return { timeS, light, poses, started, startedCycle, touching: overlapping.map((pose) => pose.id), contacts };
 }

@@ -90,6 +90,17 @@ describe('scripted actors', () => {
     expect(poseOf(state, 'bus')).toMatchObject({ x: 0, z: 60, active: true });
   });
 
+  it('does not run a cycle-bound actor twice in the same phase, even once its path is done', () => {
+    // The bus crosses in 10 s; the red lasts 12 s: it must not set off again during the same red.
+    let state = createScenarioState(scenario);
+    state = stepScenario(scenario, state, carAt(0, 0), 13);
+    state = stepScenario(scenario, state, carAt(0, 0), 23.5);
+    expect(poseOf(state, 'bus')).toMatchObject({ x: -40, active: false });
+
+    state = stepScenario(scenario, state, carAt(0, 0), 24.5);
+    expect(poseOf(state, 'bus')).toMatchObject({ x: -40, active: false });
+  });
+
   it('reports a contact with an active actor the car body overlaps, once per overlap episode', () => {
     let state = createScenarioState(scenario);
     state = stepScenario(scenario, state, carAt(0, 20), 1);

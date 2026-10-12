@@ -47,7 +47,8 @@ export interface Course {
   crosswalk: OrientedBox;
   intersection: OrientedBox;
   turnDoneX: number;
-  limits: { examKmh: number; roadKmh: number; avenueKmh: number };
+  /** Exam limits (REGLAS.md §6) and the roads' own maxima, which fix the eliminatory l (decision D2). */
+  limits: { examKmh: number; roadKmh: number; avenueExamKmh: number; avenueRoadKmh: number };
 }
 
 /** The first 100 m after leaving the box (protocolo PDF 11, 31). */
@@ -462,9 +463,12 @@ function onFirstMetresStep(session: Session, car: CarState, course: Course): Ses
   return car.world.vehicle.odometerM - start >= FIRST_METRES_M ? enter(next, 'approach') : next;
 }
 
-/** The turn signal is noted from the moment it goes on, wherever the car is along the block. */
+/** Where the current right-signal episode began; switching it off or to the left forgets it. */
 function noteSignal(session: Session, car: CarState, cockpit: CockpitState): Session {
-  if (session.street.signalledAtZ !== null || cockpit.signal !== 'right') return session;
+  const { signalledAtZ } = session.street;
+  if (cockpit.signal !== 'right')
+    return signalledAtZ === null ? session : { ...session, street: { ...session.street, signalledAtZ: null } };
+  if (signalledAtZ !== null) return session;
   return { ...session, street: { ...session.street, signalledAtZ: car.world.vehicle.z } };
 }
 
@@ -525,8 +529,13 @@ function onApproachStep(
 function onTurnStep(session: Session, car: CarState, course: Course): Session {
   const vehicle = car.world.vehicle;
   const turned = vehicle.headingRad <= GAME_PARAMETERS.turnDoneHeadingRad;
-  const limitKmh = turned ? course.limits.avenueKmh : course.limits.roadKmh;
-  let next = judgeSpeed(session, car, limitKmh, turned ? course.limits.avenueKmh : course.limits.examKmh);
+  const { limits } = course;
+  let next = judgeSpeed(
+    session,
+    car,
+    turned ? limits.avenueRoadKmh : limits.roadKmh,
+    turned ? limits.avenueExamKmh : limits.examKmh,
+  );
   if (next.phase === 'finished') return next;
   // Past the middle of the avenue still heading along the street: the car did not turn.
   if (vehicle.z > course.intersection.centerZ + 2 && vehicle.headingRad > -0.5)

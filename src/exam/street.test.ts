@@ -176,6 +176,34 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
     expect(late.faults).toEqual(['rule.minor.q-turn-lane-late']);
   });
 
+  it('a signal switched off before the corner counts as no signal', () => {
+    const driver = inTheLane('automatic');
+    cruiseTo(driver, 60);
+    driver.cabin({ type: 'signal', value: 'right' });
+    cruiseTo(driver, stopLineZ - 40);
+    driver.cabin({ type: 'signal', value: 'off' });
+    cruiseTo(driver, stopLineZ - 12, 0.12);
+    stopNow(driver);
+    waitForGreen(driver);
+
+    laneKeeping(driver, { ...IDLE, throttle: 0.12 }, () => frontZ(driver) >= stopLineZ + 0.5, 20);
+
+    expect(driver.faults).toEqual(['rule.low.g-no-turn-signal']);
+  });
+
+  it('after the first 100 m, over 30 km/h but under the road maximum is the exam-speed fault, not the eliminatory one', () => {
+    const driver = inTheLane('automatic');
+    cruiseTo(driver, 60);
+    cruiseTo(driver, 106);
+    expect(driver.phase).toBe('approach');
+
+    laneKeeping(driver, { ...IDLE, throttle: 1 }, (car) => car.world.vehicle.speedMps * 3.6 > 33, 20);
+    stopNow(driver);
+
+    expect(driver.faults[0]).toBe('rule.high.f-exam-speed-exceeded');
+    expect(driver.faults).not.toContain('rule.eliminatory.l-road-speed-limit-exceeded');
+  });
+
   it('driving onto the crosswalk while the pedestrian is on it does not yield; hitting them is eliminatory', () => {
     // Wait for the green just before the pedestrian's trigger, then go: the pedestrian steps off as the car moves.
     const driver = inTheLane('automatic');

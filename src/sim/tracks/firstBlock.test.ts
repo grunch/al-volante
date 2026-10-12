@@ -17,7 +17,7 @@ describe('first block: Quesada from the box to Av. Cabildo (RECORRIDO.md, leg 1)
     const { stopLineZ, crosswalk, intersection, blockLengthM, limits } = FIRST_BLOCK_ZONES;
 
     expect(blockLengthM).toBe(127);
-    expect(limits).toEqual({ examKmh: 30, roadKmh: 30, avenueKmh: 45 });
+    expect(limits).toEqual({ examKmh: 30, roadKmh: 40, avenueExamKmh: 45, avenueRoadKmh: 60 });
     expect(stopLineZ).toBeLessThan(crosswalk.centerZ - crosswalk.halfLengthM);
     expect(crosswalk.centerZ + crosswalk.halfLengthM).toBeLessThanOrEqual(
       intersection.centerZ - intersection.halfLengthM,

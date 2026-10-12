@@ -303,6 +303,11 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Aproximaciones declaradas (ARQUITECTURA; `GAME_PARAMETERS`): margen de 1 km/h, marcha exigida por encima de 15 km/h, 2 s para bloquear el cruce, 70° para dar el giro por hecho, ciclo del semáforo y actores del guion.
 - Verificación local: `npm run check` con 323 pruebas (cobertura 95,0 % sentencias / 88,6 % ramas), contenido OK y build OK; `npx playwright test --workers=1` con 36 E2E.
 - Revisiones: Codex y CodeRabbit solicitados al abrir el PR; se registran al llegar.
+- Revisión de Codex sobre `25101d8` (3 findings, todos aplicados con prueba):
+  - Máxima vial y límite de examen (P1): eran iguales, así que 35 km/h en Quesada desaprobaba por l. Ahora el tramo lleva el límite de examen (30/45) y la máxima propia de la vía (40/60 según OSM, a confirmar en F04-T01); por encima del límite pero bajo la máxima es la alta f.
+  - Actor por ciclo (P1): el auto que cruza volvía a salir dentro del mismo rojo al terminar su recorrido; ahora recuerda el ciclo en que corrió y sale una vez por ciclo.
+  - Direccional (P2): apagarla o cambiarla de lado olvida el episodio; al cruzar la línea se exige que siga encendida y que su episodio haya empezado 30 m antes.
+- Re-apilado sobre #19 después de sus correcciones y del avance de #18.
 
 ## Pila y orden de fusión
 
