@@ -11,6 +11,7 @@ import {
   ISSUE_TYPE_LABELS,
   PAGE_KIND_LABELS,
   SEVERITY_LABELS,
+  SIGN_COPY,
   sectionLabel,
   t,
 } from '../../i18n/es-AR.ts';
@@ -115,6 +116,9 @@ function SourcePageView({ content, source, page }: { content: Content; source: S
               </li>
             ))}
           </ul>
+          <p>
+            <Link to="/senales">{SIGN_COPY.libraryLink}</Link>
+          </p>
         </section>
       )}
       {rules.length > 0 && (

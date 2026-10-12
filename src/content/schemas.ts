@@ -94,6 +94,15 @@ export const KnowledgeUnitSchema = z.strictObject({
 export type KnowledgeUnit = z.infer<typeof KnowledgeUnitSchema>;
 
 export const SIGN_ID_PATTERN = /^sign\.[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)+$/;
+const pageFraction = z.number().min(0).max(1);
+/** A crop of a physical page as fractions of its width and height, origin at the top left corner. */
+export const PageBoxSchema = z.strictObject({
+  x: pageFraction,
+  y: pageFraction,
+  width: pageFraction.positive(),
+  height: pageFraction.positive(),
+});
+export type PageBox = z.infer<typeof PageBoxSchema>;
 export const SignSchema = z.strictObject({
   id: z.string().regex(SIGN_ID_PATTERN),
   page: positiveInt,
@@ -104,6 +113,10 @@ export const SignSchema = z.strictObject({
   printedCode: z.string().nullable(),
   status: ContentStatusSchema,
   notes: z.string(),
+  /** Crop of the sign on its manual page, without the printed name (F05-T02); shown as the sign's image. */
+  box: PageBoxSchema.optional(),
+  /** Why the sign is shown for reference instead of being asked about (e.g. incomplete in the PDF). */
+  consultationReason: nonEmpty.optional(),
 });
 export type Sign = z.infer<typeof SignSchema>;
 
@@ -278,13 +291,11 @@ export type Route = z.infer<typeof RouteSchema>;
 // --- Figures (crops of the official PDFs, CONTENIDO.md) --------------------------------------
 
 export const FIGURE_ID_PATTERN = /^fig\.[a-z0-9]+(-[a-z0-9]+)*$/;
-const fraction = z.number().min(0).max(1);
 export const FigureSchema = z.strictObject({
   id: z.string().regex(FIGURE_ID_PATTERN),
   source: SourceIdSchema,
   page: positiveInt,
-  /** Crop of the physical page as fractions of its width and height, origin at the top left corner. */
-  box: z.strictObject({ x: fraction, y: fraction, width: fraction.positive(), height: fraction.positive() }),
+  box: PageBoxSchema,
   /** Accessible description: what the figure shows, with the data a sighted reader would get from it. */
   alt: nonEmpty,
   unitIds: z.array(z.string().regex(UNIT_ID_PATTERN)).min(1),

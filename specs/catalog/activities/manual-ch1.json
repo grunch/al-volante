@@ -5217,5 +5217,448 @@
         ]
       }
     ]
+  },
+  {
+    "id": "act.road-cycling-circular-signs",
+    "type": "sign-identification",
+    "title": "Señales circulares para ciclistas",
+    "unitIds": [
+      "manual.ch1.cyclist-traffic-signs"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 32
+      }
+    ],
+    "explanation": "Quien conduce una bicicleta respeta las normas de tránsito como cualquier persona que usa la vía pública, y conocer y cumplir las señales ayuda a disminuir los riesgos (manual PDF 32). Entre las señales circulares que muestra el manual: el círculo azul con una bicicleta blanca indica circulación exclusiva para bicicletas; si además muestra peatones separados por una línea, es una vereda de convivencia con peatones. Con borde rojo y fondo blanco están la bicicleta tachada (prohibido circular en bicicleta), el «30» (velocidad máxima 30 km/h), las dos flechas opuestas (comienzo de doble mano) y la «E» cruzada por un aspa (prohibido estacionar y detenerse sobre la ciclovía).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "bicycles-only",
+        "signId": "sign.ch1-cycling.bicycles-only",
+        "prompt": "¿Qué indica esta señal?",
+        "options": [
+          {
+            "id": "exclusive",
+            "text": "Circulación exclusiva para bicicletas",
+            "correct": true,
+            "feedback": "¡Correcto! El círculo azul con la bicicleta blanca marca circulación exclusiva para bicicletas."
+          },
+          {
+            "id": "shared",
+            "text": "Vereda de convivencia con peatones",
+            "correct": false,
+            "feedback": "No. Esa señal también es azul, pero muestra una bicicleta y peatones separados por una línea."
+          },
+          {
+            "id": "forbidden",
+            "text": "Prohibido circular en bicicleta",
+            "correct": false,
+            "feedback": "No. La prohibición es un círculo blanco con borde rojo y la bicicleta tachada."
+          },
+          {
+            "id": "two-way",
+            "text": "Comienzo de doble mano",
+            "correct": false,
+            "feedback": "No. El comienzo de doble mano muestra dos flechas en sentidos opuestos."
+          }
+        ]
+      },
+      {
+        "id": "shared-sidewalk",
+        "signId": "sign.ch1-cycling.shared-sidewalk-with-pedestrians",
+        "prompt": "¿Qué indica esta señal?",
+        "options": [
+          {
+            "id": "shared",
+            "text": "Vereda de convivencia con peatones",
+            "correct": true,
+            "feedback": "¡Bien! La bicicleta y los peatones, separados por una línea sobre fondo azul, indican una vereda de convivencia con peatones."
+          },
+          {
+            "id": "exclusive",
+            "text": "Circulación exclusiva para bicicletas",
+            "correct": false,
+            "feedback": "No. La circulación exclusiva muestra solo la bicicleta. Con peatones al lado, es vereda de convivencia."
+          },
+          {
+            "id": "crossing",
+            "text": "Cruce de peatones",
+            "correct": false,
+            "feedback": "No. El cruce de peatones es un triángulo con borde rojo y un peatón sobre la senda."
+          },
+          {
+            "id": "forbidden",
+            "text": "Prohibido circular en bicicleta",
+            "correct": false,
+            "feedback": "No. La prohibición lleva la bicicleta tachada sobre fondo blanco."
+          }
+        ]
+      },
+      {
+        "id": "no-bicycles",
+        "signId": "sign.ch1-cycling.no-bicycles",
+        "prompt": "¿Qué indica esta señal?",
+        "options": [
+          {
+            "id": "forbidden",
+            "text": "Prohibido circular en bicicleta",
+            "correct": true,
+            "feedback": "¡Exacto! La barra roja sobre la bicicleta indica que está prohibido circular en bici."
+          },
+          {
+            "id": "exclusive",
+            "text": "Circulación exclusiva para bicicletas",
+            "correct": false,
+            "feedback": "Al revés: la circulación exclusiva es el círculo azul con la bicicleta blanca."
+          },
+          {
+            "id": "no-stopping",
+            "text": "Prohibido estacionar y detenerse",
+            "correct": false,
+            "feedback": "No. Esa señal muestra una «E» cruzada por un aspa roja. La bicicleta tachada prohíbe circular en bici."
+          },
+          {
+            "id": "speed",
+            "text": "Velocidad máxima 30 km/h",
+            "correct": false,
+            "feedback": "No. La velocidad máxima se indica con el número dentro del círculo."
+          }
+        ]
+      },
+      {
+        "id": "max-speed-30",
+        "signId": "sign.ch1-cycling.max-speed-30",
+        "prompt": "Vas por una calle donde está esta señal. ¿Qué indica?",
+        "options": [
+          {
+            "id": "max",
+            "text": "Velocidad máxima 30 km/h",
+            "correct": true,
+            "feedback": "¡Correcto! El número en el círculo blanco con borde rojo indica la velocidad máxima: 30 km/h."
+          },
+          {
+            "id": "two-way",
+            "text": "Comienzo de doble mano",
+            "correct": false,
+            "feedback": "No. El comienzo de doble mano muestra dos flechas opuestas, no un número."
+          },
+          {
+            "id": "lane-ends",
+            "text": "Finalización de la ciclovía",
+            "correct": false,
+            "feedback": "No. El fin de la ciclovía se anuncia con un cartel rectangular: «ATENCIÓN Fin de ciclovía a 50 mts»."
+          },
+          {
+            "id": "forbidden",
+            "text": "Prohibido circular en bicicleta",
+            "correct": false,
+            "feedback": "No. Esa prohibición muestra una bicicleta tachada."
+          }
+        ]
+      },
+      {
+        "id": "two-way",
+        "signId": "sign.ch1-cycling.two-way-traffic-begins",
+        "prompt": "¿Qué te anuncia esta señal?",
+        "options": [
+          {
+            "id": "two-way",
+            "text": "Comienzo de doble mano",
+            "correct": true,
+            "feedback": "¡Bien! Las dos flechas en sentidos opuestos indican el comienzo de doble mano."
+          },
+          {
+            "id": "crossing",
+            "text": "Cruce de ciclistas",
+            "correct": false,
+            "feedback": "No. El cruce de ciclistas es un rombo amarillo con una bicicleta y flechas debajo."
+          },
+          {
+            "id": "speed",
+            "text": "Velocidad máxima 30 km/h",
+            "correct": false,
+            "feedback": "No. Esa señal muestra el número 30. Las flechas opuestas son comienzo de doble mano."
+          },
+          {
+            "id": "forbidden",
+            "text": "Prohibido circular en bicicleta",
+            "correct": false,
+            "feedback": "No. La prohibición muestra la bicicleta tachada."
+          }
+        ]
+      },
+      {
+        "id": "no-stopping",
+        "signId": "sign.ch1-cycling.no-stopping-on-bike-lane",
+        "prompt": "Ves esta señal junto a una ciclovía. ¿Qué indica?",
+        "options": [
+          {
+            "id": "no-stopping",
+            "text": "Prohibido estacionar y detenerse",
+            "correct": true,
+            "feedback": "¡Correcto! El manual la presenta como prohibido estacionar y detenerse sobre la ciclovía, todos los días, las 24 horas."
+          },
+          {
+            "id": "forbidden",
+            "text": "Prohibido circular en bicicleta",
+            "correct": false,
+            "feedback": "No. Esa prohibición muestra una bicicleta tachada. La «E» cruzada por un aspa prohíbe estacionar y detenerse."
+          },
+          {
+            "id": "exclusive",
+            "text": "Circulación exclusiva para bicicletas",
+            "correct": false,
+            "feedback": "No. Esa señal es azul con una bicicleta blanca."
+          },
+          {
+            "id": "two-way",
+            "text": "Comienzo de doble mano",
+            "correct": false,
+            "feedback": "No. Esa señal muestra dos flechas en sentidos opuestos."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.road-cycling-priority-info-signs",
+    "type": "sign-identification",
+    "title": "Prioridad, advertencia e información para ciclistas",
+    "unitIds": [
+      "manual.ch1.cyclist-traffic-signs"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 32
+      },
+      {
+        "source": "manual",
+        "page": 64
+      }
+    ],
+    "explanation": "PARE y CEDA EL PASO indican que se pierde la prioridad en una bocacalle sin semáforo: ante PARE hay que frenar a cero antes de la senda peatonal; ante CEDA EL PASO la detención total solo es obligatoria si hace falta para dejar pasar (manual PDF 64). El manual también muestra, para ciclistas, el rombo amarillo de cruce de ciclistas, el triángulo de cruce de peatones, la señal «Descienda de la bicicleta», el cartel de finalización de la ciclovía y el direccionador en ciclovía (PDF 32).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "stop",
+        "signId": "sign.ch1-cycling.stop",
+        "prompt": "Llegás en bici a una esquina sin semáforo con esta señal. ¿Qué tenés que hacer?",
+        "options": [
+          {
+            "id": "stop",
+            "text": "Frenar por completo antes de la senda y ceder el paso",
+            "correct": true,
+            "feedback": "¡Correcto! Es la señal de «Deténgase por completo»: ante PARE hay que frenar a cero antes de la senda peatonal y ceder el paso."
+          },
+          {
+            "id": "yield",
+            "text": "Ceder el paso, frenando del todo solo si hace falta",
+            "correct": false,
+            "feedback": "Eso es CEDA EL PASO, el triángulo invertido. Ante PARE la detención total es obligatoria."
+          },
+          {
+            "id": "priority",
+            "text": "Seguir con precaución: tenés prioridad de paso",
+            "correct": false,
+            "feedback": "No. PARE indica que perdés la prioridad: tenés que frenar a cero y ceder el paso."
+          },
+          {
+            "id": "dismount",
+            "text": "Bajarte de la bici y cruzar caminando",
+            "correct": false,
+            "feedback": "No. Bajarse lo pide la señal «Descienda de la bicicleta». PARE obliga a detenerse por completo antes de la senda."
+          }
+        ]
+      },
+      {
+        "id": "yield",
+        "signId": "sign.ch1-cycling.yield",
+        "prompt": "Llegás a una esquina sin semáforo con esta señal. ¿Qué tenés que hacer?",
+        "options": [
+          {
+            "id": "yield",
+            "text": "Ceder el paso; frenar del todo solo si hace falta",
+            "correct": true,
+            "feedback": "¡Bien! Ante CEDA EL PASO perdés la prioridad, pero la detención total solo es obligatoria si hace falta para dejar pasar a quien tiene preferencia."
+          },
+          {
+            "id": "stop",
+            "text": "Frenar a cero siempre antes de la senda peatonal",
+            "correct": false,
+            "feedback": "Eso es lo que exige PARE. Con CEDA EL PASO, la detención total solo es obligatoria si hace falta."
+          },
+          {
+            "id": "priority",
+            "text": "Seguir: tenés prioridad sobre la otra calle",
+            "correct": false,
+            "feedback": "No. CEDA EL PASO indica que perdés la prioridad en esa bocacalle."
+          },
+          {
+            "id": "dismount",
+            "text": "Bajarte de la bici y cruzar caminando",
+            "correct": false,
+            "feedback": "No. Esa conducta la pide «Descienda de la bicicleta». Esta señal es CEDA EL PASO."
+          }
+        ]
+      },
+      {
+        "id": "cyclist-crossing",
+        "signId": "sign.ch1-cycling.cyclist-crossing",
+        "prompt": "¿Qué anuncia esta señal?",
+        "options": [
+          {
+            "id": "crossing",
+            "text": "Cruce de ciclistas",
+            "correct": true,
+            "feedback": "¡Correcto! El rombo amarillo con la bicicleta anuncia un cruce de ciclistas; las flechas indican que pueden venir de ambos lados."
+          },
+          {
+            "id": "two-way",
+            "text": "Comienzo de doble mano",
+            "correct": false,
+            "feedback": "No. El comienzo de doble mano es un círculo con borde rojo y dos flechas, sin bicicleta."
+          },
+          {
+            "id": "exclusive",
+            "text": "Circulación exclusiva para bicicletas",
+            "correct": false,
+            "feedback": "No. Esa es la señal circular azul con la bicicleta blanca."
+          },
+          {
+            "id": "lane-ends",
+            "text": "Finalización de la ciclovía",
+            "correct": false,
+            "feedback": "No. El fin de la ciclovía se anuncia con un cartel rectangular blanco con la palabra «ATENCIÓN»."
+          }
+        ]
+      },
+      {
+        "id": "pedestrian-crossing",
+        "signId": "sign.ch1-cycling.pedestrian-crossing",
+        "prompt": "¿Qué anuncia esta señal?",
+        "options": [
+          {
+            "id": "crossing",
+            "text": "Cruce de peatones",
+            "correct": true,
+            "feedback": "¡Bien! El triángulo con borde rojo y un peatón sobre la senda anuncia un cruce de peatones."
+          },
+          {
+            "id": "shared",
+            "text": "Vereda de convivencia con peatones",
+            "correct": false,
+            "feedback": "No. La vereda de convivencia es un círculo azul con una bicicleta y peatones."
+          },
+          {
+            "id": "cyclists",
+            "text": "Cruce de ciclistas",
+            "correct": false,
+            "feedback": "No. El cruce de ciclistas es un rombo amarillo con una bicicleta."
+          },
+          {
+            "id": "yield",
+            "text": "Ceda el paso",
+            "correct": false,
+            "feedback": "No. CEDA EL PASO es un triángulo con el vértice hacia abajo y la leyenda escrita."
+          }
+        ]
+      },
+      {
+        "id": "dismount",
+        "signId": "sign.ch1-cycling.dismount",
+        "prompt": "Vas en bici y aparece esta señal. ¿Qué tenés que hacer?",
+        "options": [
+          {
+            "id": "walk",
+            "text": "Bajarte y seguir caminando con la bici",
+            "correct": true,
+            "feedback": "¡Correcto! Es la señal «Descienda de la bicicleta»: la placa pide caminar con la bicicleta."
+          },
+          {
+            "id": "stop",
+            "text": "Frenar por completo y seguir pedaleando",
+            "correct": false,
+            "feedback": "No. Frenar por completo es lo que pide PARE. Esta señal pide bajarte y caminar con la bici."
+          },
+          {
+            "id": "shared",
+            "text": "Seguir pedaleando por la vereda de convivencia",
+            "correct": false,
+            "feedback": "No. La placa pide descender y caminar con la bicicleta."
+          },
+          {
+            "id": "lane-ends",
+            "text": "Salir de la ciclovía, que se termina",
+            "correct": false,
+            "feedback": "No. El fin de la ciclovía tiene su propio cartel. Esta señal pide bajarte y caminar con la bici."
+          }
+        ]
+      },
+      {
+        "id": "lane-ends",
+        "signId": "sign.ch1-cycling.bike-lane-ends",
+        "prompt": "Vas por una ciclovía y ves este cartel. ¿Qué te anticipa?",
+        "options": [
+          {
+            "id": "ends",
+            "text": "Que la ciclovía termina más adelante",
+            "correct": true,
+            "feedback": "¡Bien! Es la señal de finalización de la ciclovía: avisa con anticipación que se termina."
+          },
+          {
+            "id": "dismount",
+            "text": "Que tenés que bajarte de la bici",
+            "correct": false,
+            "feedback": "No. Bajarse lo pide la señal «Descienda de la bicicleta». Este cartel anuncia el fin de la ciclovía."
+          },
+          {
+            "id": "two-way",
+            "text": "Que empieza un tramo de doble mano",
+            "correct": false,
+            "feedback": "No. El comienzo de doble mano tiene su propia señal, con dos flechas opuestas."
+          },
+          {
+            "id": "crossing",
+            "text": "Que se acerca un cruce de peatones",
+            "correct": false,
+            "feedback": "No. El cruce de peatones se anuncia con un triángulo con un peatón. Este cartel anuncia el fin de la ciclovía."
+          }
+        ]
+      },
+      {
+        "id": "wayfinding",
+        "signId": "sign.ch1-cycling.bike-lane-wayfinding",
+        "prompt": "¿Cómo se llama este cartel que aparece en las ciclovías?",
+        "options": [
+          {
+            "id": "wayfinding",
+            "text": "Direccionador en ciclovía",
+            "correct": true,
+            "feedback": "¡Correcto! Es el direccionador en ciclovía: el cartel verde con la flecha, el destino «Centro» y una bicicleta."
+          },
+          {
+            "id": "lane-ends",
+            "text": "Finalización de la ciclovía",
+            "correct": false,
+            "feedback": "No. El fin de la ciclovía se anuncia con un cartel blanco con la palabra «ATENCIÓN»."
+          },
+          {
+            "id": "exclusive",
+            "text": "Circulación exclusiva para bicicletas",
+            "correct": false,
+            "feedback": "No. Esa es la señal circular azul con una bicicleta blanca."
+          },
+          {
+            "id": "crossing",
+            "text": "Cruce de ciclistas",
+            "correct": false,
+            "feedback": "No. El cruce de ciclistas es un rombo amarillo con una bicicleta."
+          }
+        ]
+      }
+    ]
   }
 ]

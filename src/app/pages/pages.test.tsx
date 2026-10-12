@@ -2,8 +2,8 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
-import { rule, ruleCatalog } from '../../content/testing/fixtures.ts';
-import { ACTIVITY_COPY, esAR } from '../../i18n/es-AR.ts';
+import { choiceActivity, rule, ruleCatalog, sign } from '../../content/testing/fixtures.ts';
+import { ACTIVITY_COPY, SIGN_COPY, esAR } from '../../i18n/es-AR.ts';
 import { loadPageText, splitPages } from '../../content/sourceText.ts';
 import type * as SourceTextModule from '../../content/sourceText.ts';
 
@@ -105,6 +105,93 @@ describe('learning map', () => {
     renderApp('/mapa/manual/ch9');
 
     expect(await screen.findByRole('heading', { level: 1, name: esAR.notFoundHeading })).toBeInTheDocument();
+  });
+});
+
+describe('sign catalog', () => {
+  it('groups the signs by family with their image, name, meaning, page and practice link', async () => {
+    const content = testContent();
+    content.signs = content.signs.map((item) => ({ ...item, box: { x: 0.1, y: 0.1, width: 0.1, height: 0.1 } }));
+    content.activities = [
+      {
+        ...choiceActivity(),
+        id: 'act.stop-sign',
+        type: 'sign-identification',
+        variants: [{ ...choiceActivity().variants[0]!, signId: 'sign.regulatory.stop' }],
+      },
+    ];
+    renderApp('/senales', readyContent(content));
+
+    content.signs = [
+      ...content.signs,
+      sign({
+        id: 'sign.light-signals.red',
+        page: 3,
+        group: 'Señalamiento luminoso / Significado de las luces',
+        name: 'ROJO',
+      }),
+    ];
+    const family = await screen.findByRole('region', { name: 'Reglamentarias' });
+    // A family with spaces in its name still names its region (aria-labelledby is a list of ids).
+    expect(screen.getByRole('region', { name: 'Señalamiento luminoso' })).toBeInTheDocument();
+    expect(within(family).getByText('PARE')).toBeInTheDocument();
+    expect(within(family).getByText('Detención obligatoria')).toBeInTheDocument();
+    expect(within(family).getByRole('img', { name: 'Círculo rojo' }).getAttribute('src')).toMatch(
+      /signs\/regulatory\.stop\.png$/,
+    );
+    expect(within(family).getByRole('link', { name: `${SIGN_COPY.page} 3` })).toHaveAttribute(
+      'href',
+      '/biblioteca/manual/3',
+    );
+    // The activity may practise several signs: the link asks for the variant of this one.
+    expect(within(family).getByRole('link', { name: SIGN_COPY.practise })).toHaveAttribute(
+      'href',
+      '/actividad/act.stop-sign?variante=v1',
+    );
+  });
+
+  it('opens the variant asked for in the URL and keeps it while choosing a seed', async () => {
+    const content = testContent();
+    content.activities = [
+      choiceActivity({
+        id: 'act.two-questions',
+        variants: [
+          {
+            id: 'first',
+            prompt: 'Primera pregunta',
+            options: [
+              { id: 'a', text: 'Sí', correct: true, feedback: 'Bien' },
+              { id: 'b', text: 'No', correct: false, feedback: 'No' },
+            ],
+          },
+          {
+            id: 'second',
+            prompt: 'Segunda pregunta',
+            options: [
+              { id: 'a', text: 'Sí', correct: true, feedback: 'Bien' },
+              { id: 'b', text: 'No', correct: false, feedback: 'No' },
+            ],
+          },
+        ],
+      }),
+    ];
+    const { router } = renderApp('/actividad/act.two-questions?variante=second', readyContent(content));
+
+    expect(await screen.findByText('Segunda pregunta')).toBeInTheDocument();
+    expect(router.state.location.search).toMatch(/^\?variante=second&semilla=\d+$/);
+  });
+
+  it('marks signs kept for reference and is linked from the library', async () => {
+    const user = userEvent.setup();
+    const content = testContent();
+    content.signs = content.signs.map((item) => ({ ...item, consultationReason: 'Dibujo incompleto en el PDF.' }));
+    renderApp('/biblioteca', readyContent(content));
+
+    await user.click(await screen.findByRole('link', { name: SIGN_COPY.libraryLink }));
+
+    expect(await screen.findByText('Dibujo incompleto en el PDF.')).toBeInTheDocument();
+    expect(screen.getByText(SIGN_COPY.consultation)).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: SIGN_COPY.practise })).not.toBeInTheDocument();
   });
 });
 

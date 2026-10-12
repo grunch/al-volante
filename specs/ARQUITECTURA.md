@@ -59,7 +59,7 @@ Los catálogos viven en `specs/` (fuentes, páginas, unidades, señales, observa
    - `validateRules`: los 69 ítems exactos del anexo II, puntos por severidad, citas dentro del protocolo (incluidas las del puntaje) y partición de franjas de estacionamiento, sin dos límites del mismo lado en una franja;
    - `validateRoute`: secuencia oficial, continuidad, proyección, longitudes, giros, controles y citas de la fuente del recorrido;
    - `validateActivities`: conceptos y citas existentes, una sola opción correcta, señales conocidas y grafos de decisión sin ciclos ni nodos o desenlaces inalcanzables, con al menos un desenlace correcto alcanzable; `activityFileErrors`: cada actividad vive en el archivo de la sección de su primera unidad (F05-T01).
-   - `validateFigures` (F05-T01): recortes dentro de la página, unidades que están en esa página y actividades que citan la página de la figura que muestran.
+   - `validateFigures` (F05-T01): recortes dentro de la página, unidades que están en esa página y actividades que citan la página de la figura que muestran; desde F05-T02, también que el recorte de cada señal quede dentro de su página y que toda señal de una actividad de identificación tenga recorte.
    - `validateTreatment` (F05-T01): el estado de cada unidad y señal coincide con su tratamiento (revisada, implementada como actividad o consulta, probada) y cada actividad cita al menos una página de cada unidad que practica. Detalle en `CONTENIDO.md`.
    - Toda cita (`refs.ts`) debe nombrar una fuente del manifiesto y una página dentro de su rango.
    - El catálogo de reglas declara la edición y el `sha256` del protocolo del que salió; ambos tienen que coincidir con el manifiesto.
@@ -72,6 +72,7 @@ Además:
 - `catalog.ts` carga los catálogos en forma diferida y los valida antes de usarlos. Las actividades son un archivo por sección (`specs/catalog/activities/<fuente>-<sección>.json`, F05-T01), cargados con `import.meta.glob` en trozos paralelos; la versión de contenido los recorre ordenados por nombre.
 - `src/content/catalogPlaythrough.test.ts` responde bien y mal cada variante de cada actividad del catálogo con el motor; es lo que habilita el estado `tested` de las unidades.
 - Figuras (F05-T01): `specs/catalog/figures.json` describe recortes de páginas de los PDF oficiales; `node scripts/crop-figures.ts` los genera en `public/figures/` y `validate:content` falla si falta alguno.
+- Señales (F05-T02): cada señal de `signs.json` lleva `box`, su recorte en la página sin el rótulo que la nombra; el mismo script las genera en `public/signs/` (180 ppp, paleta de 256 colores y sin metadatos, así el mismo recorte da siempre el mismo archivo). `consultationReason` marca las que no admiten pregunta.
 - La misma validación corre en la CI (`npm run validate:content`) y en la prueba de integración con los datos reales.
 
 Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus casos de prueba se portaron a Vitest.
@@ -88,6 +89,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 | `#/pista` | Pista de prueba de la simulación (F03-T01): predio cerrado con cajón, cordón y paredes; teclado, velocidad, recorrido y contactos. Provisional hasta el habitáculo (F03-T03). |
 | `#/bitacora` | «Mi bitácora»: repaso recomendado, errores recientes, progreso por concepto (campaña B separada del complemento) y respaldo (F02-T05). |
 | `#/biblioteca` | Las cuatro fuentes oficiales, con edición, cantidad de páginas y PDF oficial. |
+| `#/senales` | Catálogo visual de señales (F05-T02): todas las del manual por familia y grupo, con su recorte, nombre, significado si la fuente lo da, página y la actividad donde se practican. Enlazado desde la biblioteca y desde las páginas con señales. |
 | `#/biblioteca/:fuente/:página` | Una página física: clasificación, resumen, unidades, figuras, señales, observaciones, reglas del examen que la citan (protocolo), texto extraído y enlace al PDF oficial en esa página. |
 
 - **URLs con hash:** funcionan en cualquier hosting estático y sin conexión, sin reescrituras del servidor.
@@ -103,7 +105,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
   - Al cambiar o completar la semilla, el título de la actividad sigue montado y recibe el foco.
   - `evaluateResponse` puntúa: elección y señales, 0/1; ordenar, crédito parcial por posición; decisión, recorre el grafo hasta el desenlace. Devuelve devolución específica, respuesta correcta, explicación y citas.
   - Una respuesta imposible lanza un error en lugar de puntuarse.
-- **Tipos:** `single-choice`, `sign-identification` (señal dibujada en SVG con formas y colores reglamentarios, descripta para lectores de pantalla), `ordering` (botones subir/bajar, sin arrastrar) y `decision` (escena ramificada).
+- **Tipos:** `single-choice`, `sign-identification` (la señal se muestra con su dibujo vectorial si lo tiene o, desde F05-T02, con su recorte del manual; su `visual` es el texto alternativo), `ordering` (botones subir/bajar, sin arrastrar) y `decision` (escena ramificada).
 - **Resultados:** `ActivityResultContext` recibe cada intento terminado; F02-T05 lo usa para registrar el progreso.
 - **Contenido:** `specs/catalog/activities/<fuente>-<sección>.json` (desde F05-T01; antes, `activities.json`). Cada actividad cita conceptos (`unitIds`) y páginas (`refs`), puede mostrar figuras con la devolución (`figureIds`) y se valida con `validateActivities`. Solo se escriben preguntas sobre datos sin discrepancias abiertas; el método de autoría y revisión y las decisiones sobre discrepancias están en `CONTENIDO.md`.
 

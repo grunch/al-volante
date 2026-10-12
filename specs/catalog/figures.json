@@ -332,6 +332,447 @@
     ]
   },
   {
+    "id": "fig.manual-p58-agent-signals",
+    "source": "manual",
+    "page": 58,
+    "box": {
+      "x": 0.1,
+      "y": 0.714,
+      "width": 0.81,
+      "height": 0.162
+    },
+    "alt": "Cuatro fotos de un agente de tránsito con chaleco celeste haciendo señas. «Seguir a la derecha»: de frente, brazo extendido en horizontal hacia la derecha de quien mira. «Avanzar»: de perfil, el antebrazo va y viene entre extendido hacia adelante y levantado, con una flecha curva de doble punta que marca el gesto de hacer pasar. «Detenerse»: brazo levantado en vertical, con la palma abierta. «Seguir a la izquierda»: de frente, brazo extendido en horizontal hacia la izquierda de quien mira.",
+    "unitIds": [
+      "manual.ch3.traffic-agent-hand-signals",
+      "manual.ch3.traffic-authority-orders"
+    ]
+  },
+  {
+    "id": "fig.manual-p58-normative-priority",
+    "source": "manual",
+    "page": 58,
+    "box": {
+      "x": 0.1,
+      "y": 0.265,
+      "width": 0.81,
+      "height": 0.165
+    },
+    "alt": "Infografía del orden de prioridad normativo, de izquierda a derecha: 1° Señales u órdenes de la autoridad de control (ícono de un agente con el brazo extendido); 2° Señales transitorias (ícono de un cono); 3° Semáforos; 4° Señal vertical y demarcación horizontal (ícono de una señal octogonal y marcas en el piso); 5° Normas legales de carácter general (ícono de un documento con tilde).",
+    "unitIds": [
+      "manual.ch3.normative-priority-order"
+    ]
+  },
+  {
+    "id": "fig.manual-p60-longitudinal-lines",
+    "source": "manual",
+    "page": 60,
+    "box": {
+      "x": 0.105,
+      "y": 0.092,
+      "width": 0.8,
+      "height": 0.305
+    },
+    "alt": "Ilustración de una ruta con autos en ambos sentidos y globos de texto. Doble línea continua (dos líneas amarillas en el centro): se encuentra prohibido el sobrepaso para ambos sentidos de circulación. Doble línea mixta (una amarilla continua y una blanca discontinua): del lado de la línea discontinua está permitido el sobrepaso; del sector con línea continua está prohibido. Línea discontinua (blanca a trazos): está permitido el sobrepaso para ambos sentidos de circulación. Simple línea continua: línea de borde. Banquina: no se puede circular por ella.",
+    "unitIds": [
+      "manual.ch3.longitudinal-line-types"
+    ]
+  },
+  {
+    "id": "fig.manual-p61-vertical-signage",
+    "source": "manual",
+    "page": 61,
+    "box": {
+      "x": 0.083,
+      "y": 0.135,
+      "width": 0.835,
+      "height": 0.76
+    },
+    "alt": "Infografía de una intersección con las cuatro categorías de señalización vertical. Preventivas (ejemplo: rombo amarillo con un niño o niña escolar): advierten la proximidad de una circunstancia o variación de la normalidad de la vía que puede resultar sorpresiva o peligrosa; no imparten directivas, pero ante una advertencia se debe adoptar una conducta adecuada; suelen ser cuadradas, con una diagonal en vertical, amarillas con borde y símbolo negros; las de máximo peligro son triángulos con la base hacia abajo, blancos con borde rojo; las especiales tienen formas variadas. Reglamentarias (ejemplo: círculo blanco con borde rojo y el número 20): transmiten órdenes específicas de cumplimiento obligatorio; suelen ser circulares con fondo blanco, borde rojo y símbolo negro; con fondo azul son de restricción; excepciones: Pare, Ceda el paso y Contramano. Transitorias (ejemplo: rombo naranja con dos trabajadores y placa «PERSONAS TRABAJANDO»): señalizan trabajos de construcción y mantenimiento en la vía o cerca de ella; suelen ser un rombo o rectángulo naranja con símbolo o leyenda en negro. Informativas (ejemplo: rectángulo azul con cruz roja y leyenda «HOSPITAL»): identifican, orientan y hacen referencia a servicios o lugares; suelen ser rectangulares, con fondo verde, azul, blanco o negro según la información.",
+    "unitIds": [
+      "manual.ch3.vertical-signage-definition",
+      "manual.ch3.preventive-signs",
+      "manual.ch3.regulatory-signs",
+      "manual.ch3.transitory-vertical-signs",
+      "manual.ch3.informative-signs"
+    ]
+  },
+  {
+    "id": "fig.manual-p63-emergency-lanes",
+    "source": "manual",
+    "page": 63,
+    "box": {
+      "x": 0.092,
+      "y": 0.11,
+      "width": 0.8,
+      "height": 0.655
+    },
+    "alt": "Infografía «Cómo darle prioridad de paso a un vehículo en emergencia», con una ambulancia en cada caso. En vías de doble sentido: los vehículos deben apartarse hacia la derecha. En vías de dos carriles por sentido: los que circulan por el carril derecho se apartan hacia la derecha y los del izquierdo, hacia la izquierda. En vías de tres carriles por sentido: los del carril derecho y del centro se apartan hacia la derecha y los del izquierdo, hacia la izquierda; el carril central lleva pintado un rombo con una E, el símbolo de carril de emergencia, que indica que el carril debe ser liberado por completo cuando se aproxima un vehículo de emergencia. Con cruz roja: no ubicarse ni por delante ni inmediatamente por detrás de un vehículo en emergencia, porque aumentaría las posibilidades de un siniestro vial.",
+    "unitIds": [
+      "manual.ch3.yielding-to-emergency-vehicles-by-lanes",
+      "manual.ch3.emergency-lane-symbol"
+    ]
+  },
+  {
+    "id": "fig.manual-p65-roundabout",
+    "source": "manual",
+    "page": 65,
+    "box": {
+      "x": 0.08,
+      "y": 0.055,
+      "width": 0.84,
+      "height": 0.71
+    },
+    "alt": "Infografía «Cómo circular por una rotonda» de dos carriles, con autos A, B y C. A, si se va a continuar recto: se debe acceder por el carril derecho y mantenerse en él (tilde verde); no debe cruzarse de carril (cruz roja). B, al ingresar o salir: se debe utilizar el carril derecho y señalizar la maniobra con anticipación (tilde verde); no tomar la salida por el carril interno (cruz roja). C, para recorrer toda la rotonda y retomar el sentido contrario: ingresar por el carril derecho, ir pasando paulatinamente al de la izquierda hasta el carril interno y luego volver con precaución al carril derecho para tomar la salida, señalizando correctamente las maniobras.",
+    "unitIds": [
+      "manual.ch3.roundabout-lane-use"
+    ]
+  },
+  {
+    "id": "fig.manual-p67-front-lights",
+    "source": "manual",
+    "page": 67,
+    "box": {
+      "x": 0.08,
+      "y": 0.345,
+      "width": 0.86,
+      "height": 0.555
+    },
+    "alt": "Infografía «Luces delanteras» sobre la foto del frente de un auto. Luces altas: área de iluminación más extensa; solo en rutas poco iluminadas o como luz de guiñada en la Ciudad; se cambian por bajas al cruzar a otro vehículo o antes de sobrepasar; ante un vehículo de frente con altas, hacer una guiñada, mirar al borde del camino, bajar la velocidad y aumentar la distancia; en zonas urbanas está prohibido circular con altas. Luces de posición: indican el sentido de marcha y el ancho (blancas o amarillas de frente, sentido contrario; rojas, mismo sentido). Rompeniebla: refuerzo con lluvia intensa, nevada, niebla espesa o humo o polvo densos; no obligatorias. Luces bajas: con poca luminosidad, las 24 h en rutas, autopistas y en Av. Intendente Cantilo, Av. Leopoldo Lugones y Av. Gral. Paz, y las 24 h en motos; regular su altura: el encandilamiento ciega entre 4 y 7 segundos.",
+    "unitIds": [
+      "manual.ch3.low-beams",
+      "manual.ch3.high-beams",
+      "manual.ch3.fog-lights",
+      "manual.ch3.position-lights"
+    ]
+  },
+  {
+    "id": "fig.manual-p68-rear-lights",
+    "source": "manual",
+    "page": 68,
+    "box": {
+      "x": 0.08,
+      "y": 0.225,
+      "width": 0.86,
+      "height": 0.61
+    },
+    "alt": "Infografía «Luces traseras» sobre la foto de la parte trasera de un auto. Intermitentes: anticipar las maniobras en orden RSM (Retrovisión, Señal, Maniobra); el giro se acciona al menos 5 segundos antes de cambiar de carril o 30 metros antes de incorporarse a otra vía; las balizas indican que el vehículo está detenido o por detenerse, estacionar, entrar a garajes o estaciones de servicio, o en emergencia. Luz de freno: roja, más intensa que la de posición, se enciende al frenar antes de que el freno actúe, sin parpadear. Luces de retroceso: una o dos luces blancas que se encienden al engranar la marcha atrás. Luz de la placa de dominio: permite identificar la patente y se acciona con la luz de posición. También se rotulan las luces de posición y la tercera luz de freno.",
+    "unitIds": [
+      "manual.ch3.turn-signals-rsm",
+      "manual.ch3.hazard-lights",
+      "manual.ch3.brake-lights",
+      "manual.ch3.reverse-lights",
+      "manual.ch3.license-plate-light",
+      "manual.ch3.position-lights"
+    ]
+  },
+  {
+    "id": "fig.manual-p69-field-of-vision",
+    "source": "manual",
+    "page": 69,
+    "box": {
+      "x": 0.2,
+      "y": 0.675,
+      "width": 0.62,
+      "height": 0.29
+    },
+    "alt": "Campo de visión de quien conduce según la velocidad, dibujado como un cono sobre cada auto: 104° a 35 km/h, 70° a 65 km/h, 42° a 100 km/h, 30° a 130 km/h y 18° a 150 km/h. Leyenda: «A mayor velocidad, menor campo de visión».",
+    "unitIds": [
+      "manual.ch3.speed-and-field-of-vision"
+    ]
+  },
+  {
+    "id": "fig.manual-p69-impact-survival",
+    "source": "manual",
+    "page": 69,
+    "box": {
+      "x": 0.19,
+      "y": 0.335,
+      "width": 0.63,
+      "height": 0.21
+    },
+    "alt": "Infografía «Impacto a» con diez personas a pie por fila: a 30 km/h sobreviven 9 de cada 10 (90 %) y muere 1 (10 %); a 45 km/h sobreviven 6 (60 %) y mueren 4 (40 %); a 60 km/h sobreviven 2 (20 %) y mueren 8 (80 %).",
+    "unitIds": [
+      "manual.ch3.speed-and-injury-severity"
+    ]
+  },
+  {
+    "id": "fig.manual-p70-stopping-distance-chart",
+    "source": "manual",
+    "page": 70,
+    "box": {
+      "x": 0.08,
+      "y": 0.455,
+      "width": 0.85,
+      "height": 0.345
+    },
+    "alt": "Gráfico «Distancia de detención» (distancia de reacción + distancia de frenado) en asfalto seco y mojado. A 50 km/h: seco 14 + 10 = 24 m; mojado 14 + 20 = 34 m. A 90 km/h: seco 25 + 32 = 57 m; mojado 25 + 64 = 89 m. A 120 km/h: seco 33 + 57 = 90 m; mojado 33 + 113 = 146 m. Valen las cifras rotuladas; el largo de las barras no está a escala.",
+    "unitIds": [
+      "manual.ch3.stopping-distance-table"
+    ]
+  },
+  {
+    "id": "fig.manual-p70-stopping-phases",
+    "source": "manual",
+    "page": 70,
+    "box": {
+      "x": 0.15,
+      "y": 0.13,
+      "width": 0.7,
+      "height": 0.27
+    },
+    "alt": "Esquema de una calle: el auto percibe un obstáculo y recorre la distancia de reacción hasta que frena; desde que frena recorre la distancia de frenado hasta que se detiene totalmente, antes de la senda peatonal donde cruza una persona. Las dos distancias juntas forman la distancia de detención.",
+    "unitIds": [
+      "manual.ch3.stopping-distance-phases"
+    ]
+  },
+  {
+    "id": "fig.manual-p71-safety-distance",
+    "source": "manual",
+    "page": 71,
+    "box": {
+      "x": 0.08,
+      "y": 0.51,
+      "width": 0.83,
+      "height": 0.355
+    },
+    "alt": "Infografía «Calcular distancia de seguridad» con un semáforo como punto de referencia: 1) tomar un punto de referencia externo fijo, como un semáforo o un poste; 2) cuando el vehículo de adelante pasa por ese punto, empezar a contar desde 0; 3) recién al llegar al segundo 2 el vehículo de atrás debería pasar por ese punto; si el paragolpe delantero pasa antes, hay que bajar la velocidad y tomar más distancia. Viñetas: 0, 1 y 2 segundos.",
+    "unitIds": [
+      "manual.ch3.safety-distance-calculation",
+      "manual.ch3.safety-distance"
+    ]
+  },
+  {
+    "id": "fig.manual-p72-avenue-exceptions",
+    "source": "manual",
+    "page": 72,
+    "box": {
+      "x": 0.6,
+      "y": 0.235,
+      "width": 0.305,
+      "height": 0.295
+    },
+    "alt": "Recuadro «Excepciones en algunas avenidas»: 40 km/h en Av. Corrientes entre Junín y Libertad; 60 km/h en las calzadas para tránsito pesado de Av. Gral. Paz entre la Au Ingeniero Pascual Palazzo (Acceso Norte) y Av. del Libertador; 70 km/h en Av. Figueroa Alcorta, Av. del Libertador, Av. 27 de Febrero, Av. Brig. Gral. Juan Facundo Quiroga y Av. Costanera Rafael Obligado; 80 km/h en Av. Gral. Paz entre la Au Palazzo y Av. 27 de Febrero (calzada central); 100 km/h en Av. Intendente Cantilo, Av. Leopoldo Lugones, Av. Tte. Gral. Luis J. Dellepiane (calzada central) y Av. Gral. Paz entre Av. Leopoldo Lugones y la Au Palazzo (calzada central). La autoridad puede modificar estos límites por tramos.",
+    "unitIds": [
+      "manual.ch3.max-speeds-avenue-exceptions"
+    ]
+  },
+  {
+    "id": "fig.manual-p72-caba-max-speeds",
+    "source": "manual",
+    "page": 72,
+    "box": {
+      "x": 0.08,
+      "y": 0.2135,
+      "width": 0.514,
+      "height": 0.3165
+    },
+    "alt": "Velocímetro de velocidades máximas en CABA para vehículos de hasta 3500 kg de peso: 20 km/h en pasajes y calles de convivencia; 40 km/h en calles y colectoras de vías rápidas; 60 km/h en avenidas; 100 km/h en autopistas de CABA.",
+    "unitIds": [
+      "manual.ch3.max-speeds-light-vehicles"
+    ]
+  },
+  {
+    "id": "fig.manual-p72-special-max-speeds",
+    "source": "manual",
+    "page": 72,
+    "box": {
+      "x": 0.08,
+      "y": 0.555,
+      "width": 0.8,
+      "height": 0.355
+    },
+    "alt": "Velocímetro «Velocidades máximas especiales en CABA para transporte de pasajeros/as y de carga de más de 3500 kg»: 30 km/h en calles y avenidas para maquinaria especial; 40 km/h en calles para camiones, escolares, transporte colectivo de pasajeros/as y movilidad reducida; 45 km/h en avenidas para movilidad reducida y escolares; 50 km/h en avenidas para camiones y transporte colectivo de pasajeros/as; 60 km/h en autopistas y otras vías rápidas de CABA para camiones, escolares, transporte colectivo y movilidad reducida; 60 km/h en el Paseo del Bajo para tránsito pesado y ómnibus de larga distancia.",
+    "unitIds": [
+      "manual.ch3.max-speeds-heavy-and-passenger"
+    ]
+  },
+  {
+    "id": "fig.manual-p73-minimum-speeds",
+    "source": "manual",
+    "page": 73,
+    "box": {
+      "x": 0.08,
+      "y": 0.64,
+      "width": 0.75,
+      "height": 0.235
+    },
+    "alt": "Velocímetro «Límites mínimos especiales», con señales circulares azules de borde rojo: 40 km/h en semiautopistas y rutas; 60 km/h en autopistas.",
+    "unitIds": [
+      "manual.ch3.special-minimum-speeds"
+    ]
+  },
+  {
+    "id": "fig.manual-p73-outside-caba",
+    "source": "manual",
+    "page": 73,
+    "box": {
+      "x": 0.08,
+      "y": 0.06,
+      "width": 0.8,
+      "height": 0.31
+    },
+    "alt": "Velocímetro «Velocidades máximas fuera de CABA de acuerdo al tipo de vía y vehículo»: 60 km/h para todos los vehículos en ruta que atraviesa el área urbana; 80 km/h para camiones, transporte de sustancias peligrosas y automotores con casa rodante acoplada en ruta, semiautopista y autopistas nacionales; 90 km/h para ómnibus, casa rodante motorizada y microbús en ruta y semiautopista, y 100 km/h en autopistas nacionales; 110 km/h para camionetas en ruta, semiautopistas y autopistas nacionales; motocicletas y automóviles: 110 km/h en ruta, 120 km/h en semiautopistas y 130 km/h en autopistas nacionales.",
+    "unitIds": [
+      "manual.ch3.max-speeds-outside-caba"
+    ]
+  },
+  {
+    "id": "fig.manual-p74-precautionary-limits",
+    "source": "manual",
+    "page": 74,
+    "box": {
+      "x": 0.08,
+      "y": 0.333,
+      "width": 0.74,
+      "height": 0.247
+    },
+    "alt": "Velocímetro «Límites máximos especiales de velocidad precautoria»: 20 km/h en cruce a nivel ferroviario; 30 km/h en bocacalles sin semáforos circulando por la calle; 40 km/h en bocacalles sin semáforos circulando por avenida; «velocidad mínima de la arteria» en la proximidad de establecimientos escolares, deportivos y de gran afluencia de público, durante los horarios de ingreso y egreso.",
+    "unitIds": [
+      "manual.ch3.special-precautionary-max-speeds"
+    ]
+  },
+  {
+    "id": "fig.manual-p75-turns",
+    "source": "manual",
+    "page": 75,
+    "box": {
+      "x": 0.1,
+      "y": 0.115,
+      "width": 0.81,
+      "height": 0.525
+    },
+    "alt": "Cuatro diagramas de giros. Circular, como mínimo, 30 metros antes por el carril más cercano al lado del giro: giro hacia ambos lados en arterias de sentido único y giro a la derecha en arterias de doble sentido. Colocarse en el carril cercano al eje de la calzada, sin invadir el sentido contrario, y girar en la intersección, no antes: giro a la izquierda en una vía de doble sentido sin semáforos y con semáforo de giro; si el semáforo no tiene giro, está prohibido hacer esta maniobra.",
+    "unitIds": [
+      "manual.ch3.left-turn-two-way-street",
+      "manual.ch3.turn-lane-positioning"
+    ]
+  },
+  {
+    "id": "fig.manual-p76-overtaking",
+    "source": "manual",
+    "page": 76,
+    "box": {
+      "x": 0.1,
+      "y": 0.11,
+      "width": 0.81,
+      "height": 0.355
+    },
+    "alt": "Diagrama de adelantamiento (pasar a otro vehículo sin cambiar de carril) y sobrepaso (pasarlo cambiando de carril). Uso del carril: ambas maniobras siempre por la izquierda del vehículo; por la derecha solo cuando el de adelante indica claramente que va a girar o detenerse a la izquierda, o en un embotellamiento en que la fila de la izquierda no avanza o va más lenta. Al terminar, volver al carril derecho si está libre, de forma gradual y sin obstaculizar.",
+    "unitIds": [
+      "manual.ch3.overtaking-definition",
+      "manual.ch3.passing-definition",
+      "manual.ch3.overtaking-lane-use"
+    ]
+  },
+  {
+    "id": "fig.manual-p76-safe-passing",
+    "source": "manual",
+    "page": 76,
+    "box": {
+      "x": 0.08,
+      "y": 0.497,
+      "width": 0.85,
+      "height": 0.36
+    },
+    "alt": "«Sobrepaso seguro»: diagrama correcto sobre línea discontinua con los pasos 1) verificar que nadie te esté sobrepasando y que la izquierda esté libre con distancia suficiente; 2) avisar con destellos de luces frontales y poner el giro izquierdo hasta terminar el desplazamiento lateral; 3) sobrepasar sin demoras y sin superar la máxima, y volver a la derecha con el giro derecho sin interferir al sobrepasado. Diagrama incorrecto sobre línea continua. Recuadro: no sobrepasar con carriles de trazo continuo ni cerca de encrucijada, curva, puente, túnel, paso a nivel o lugar peligroso, y no ocupar el lugar de quien está sobrepasando hasta que termine.",
+    "unitIds": [
+      "manual.ch3.safe-passing-steps",
+      "manual.ch3.passing-prohibitions"
+    ]
+  },
+  {
+    "id": "fig.manual-p77-passing-turn-signals",
+    "source": "manual",
+    "page": 77,
+    "box": {
+      "x": 0.09,
+      "y": 0.485,
+      "width": 0.82,
+      "height": 0.33
+    },
+    "alt": "Dos esquemas de una calle de doble mano con un camión (A) seguido por un auto (B). «Luz de giro izquierda»: el vehículo A le indica al vehículo B que NO intente sobrepasarlo, porque el vehículo C viene en sentido contrario. «Luz de giro derecha»: el vehículo A le indica al vehículo B que PUEDE sobrepasarlo, porque no viene ningún vehículo en sentido contrario.",
+    "unitIds": [
+      "manual.ch3.turn-signal-passing-indication"
+    ]
+  },
+  {
+    "id": "fig.manual-p78-highway-lanes",
+    "source": "manual",
+    "page": 78,
+    "box": {
+      "x": 0.085,
+      "y": 0.385,
+      "width": 0.83,
+      "height": 0.28
+    },
+    "alt": "Esquema de una autopista vista desde arriba, con dos sentidos de circulación separados por un cantero central: en un extremo, el ramal de ingreso señalado como «Carriles de aceleración»; junto al cantero central, los «Carriles de sobrepaso»; en el otro extremo, el ramal de salida señalado como «Carriles de desaceleración».",
+    "unitIds": [
+      "manual.ch3.highway-entry",
+      "manual.ch3.highway-exit",
+      "manual.ch3.highway-lane-use"
+    ]
+  },
+  {
+    "id": "fig.manual-p80-aquaplaning",
+    "source": "manual",
+    "page": 80,
+    "box": {
+      "x": 0.635,
+      "y": 0.538,
+      "width": 0.26,
+      "height": 0.139
+    },
+    "alt": "«Efecto aquaplaning»: dos ruedas comparadas. «Contacto total»: el neumático apoya sobre el pavimento. «Aquaplaning»: una capa de agua queda entre el neumático y el pavimento y se pierde el contacto.",
+    "unitIds": [
+      "manual.ch3.aquaplaning"
+    ]
+  },
+  {
+    "id": "fig.manual-p84-three-parking-rules",
+    "source": "manual",
+    "page": 84,
+    "box": {
+      "x": 0.135,
+      "y": 0.59,
+      "width": 0.73,
+      "height": 0.205
+    },
+    "alt": "Infografía «Ahora en la Ciudad solo hay 3 reglas para estacionar»: 1, CALLES: permitido las 24 horas. 2, AVENIDAS: permitido de 21 a 7 horas los días hábiles y fines de semana y feriados las 24 horas. 3, PASAJES: prohibido las 24 horas (tampoco se podrá estacionar en calles con Metrobus ni al lado de las ciclovías). El texto de la misma página limita la prohibición a los pasajes con calzada de hasta 4,5 m de ancho.",
+    "unitIds": [
+      "manual.ch3.general-parking-rules"
+    ]
+  },
+  {
+    "id": "fig.manual-p86-hill-parking",
+    "source": "manual",
+    "page": 86,
+    "box": {
+      "x": 0.088,
+      "y": 0.228,
+      "width": 0.395,
+      "height": 0.305
+    },
+    "alt": "Dos autos estacionados en pendiente, cada uno con el detalle de las manos girando el volante. Arriba, en subida: las ruedas delanteras se orientan hacia el centro de la calzada. Abajo, en bajada: las ruedas delanteras se orientan hacia el cordón.",
+    "unitIds": [
+      "manual.ch3.hill-parking"
+    ]
+  },
+  {
+    "id": "fig.manual-p87-blue-loading-bay",
+    "source": "manual",
+    "page": 87,
+    "box": {
+      "x": 0.095,
+      "y": 0.592,
+      "width": 0.81,
+      "height": 0.315
+    },
+    "alt": "Un camión descarga mercadería dentro de un cajón azul demarcado con líneas azules sobre la calzada, junto a la señal «Espacio exclusivo carga y descarga las 24 horas». Rótulos: «Cajones azules: lugares específicos para la carga y descarga»; «Otros vehículos: no pueden estacionar en los cajones azules»; «Tiempo de uso: 30 minutos por vehículos».",
+    "unitIds": [
+      "manual.ch3.blue-loading-bays"
+    ]
+  },
+  {
     "id": "fig.siniestros-p8-beacons",
     "source": "siniestros",
     "page": 8,

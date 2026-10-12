@@ -17,7 +17,8 @@ const atLeast = (status: Status, minimum: Status) => RANK[status] >= RANK[minimu
  * - `reviewed`: checked against the image of its page;
  * - `implemented`: reviewed and covered, by a reviewed activity or as consultation material (`consultationReason`);
  * - `tested`: covered by reviewed activities, which the catalog playthrough test answers right and wrong.
- * Signs follow the same scale through sign-identification activities. Draft activities cover nothing.
+ * Signs follow the same scale through sign-identification activities (or a consultation reason). Draft activities
+ * cover nothing.
  */
 export function validateTreatment({ units, signs, activities }: TreatmentData): string[] {
   const errors: string[] = [];
@@ -43,10 +44,14 @@ export function validateTreatment({ units, signs, activities }: TreatmentData): 
 
   for (const sign of signs) {
     const practiced = practicedSigns.has(sign.id);
+    const consulted = sign.consultationReason !== undefined;
     if (practiced && !atLeast(sign.status, 'implemented'))
       errors.push(`${sign.id}: used by an activity but its status is ${sign.status}`);
-    if (atLeast(sign.status, 'implemented') && !practiced)
-      errors.push(`${sign.id}: status ${sign.status} needs a sign-identification activity`);
+    if (atLeast(sign.status, 'implemented') && !practiced && !consulted)
+      errors.push(`${sign.id}: status ${sign.status} needs a sign-identification activity or a consultation reason`);
+    if (sign.status === 'tested' && !practiced) errors.push(`${sign.id}: only activities can make a sign tested`);
+    if (consulted && !atLeast(sign.status, 'reviewed'))
+      errors.push(`${sign.id}: consultation needs a reviewed sign (status ${sign.status})`);
   }
 
   // Traceability: the feedback cites, for every concept practiced, at least one page where the source teaches it.

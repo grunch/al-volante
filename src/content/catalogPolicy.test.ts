@@ -51,8 +51,13 @@ const UNSETTLED: Array<{ decision: string; settles: (right: RightAnswer) => bool
     settles: ({ question, answer }) =>
       /VTV|verificaci[oó]n t[eé]cnica/i.test(`${question} ${answer}`) && /\b\d+\s?(años?|meses|km)\b/i.test(answer),
   },
-  // Cordón amarillo (manual PDF 60 vs 196) and the general alcohol limit (PDF 91) are decided in later tasks.
-  { decision: 'cordón amarillo', settles: ({ answer }) => /cord[oó]n amarillo/i.test(answer) },
+  // Cordón amarillo (manual PDF 60 vs 196): both say no parking; whether one may stop, or all day, is unsettled.
+  {
+    decision: 'D-T02-1',
+    settles: ({ question, answer }) =>
+      /cord[oó]n amarillo/i.test(`${question} ${answer}`) && /deten|24\s?h/i.test(answer),
+  },
+  // The general alcohol limits (PDF 91) are not evaluated (F05-T03).
   { decision: 'alcohol general', settles: ({ answer }) => /0[,.]5\s?g/i.test(answer) },
 ];
 
@@ -73,7 +78,8 @@ describe('catalog content policy', () => {
     expect(settlesAny('¿Velocidad máxima en una calle de convivencia?', '20 km/h')).toEqual(['D-T01-1']);
     expect(settlesAny('¿Velocidad máxima en un pasaje?', '20 km/h')).toEqual([]);
     expect(settlesAny('¿Cuándo vence la VTV?', 'A los 4 años')).toEqual(['D-T01-12']);
-    expect(settlesAny('¿Dónde se estaciona?', 'Junto al cordón amarillo')).toEqual(['cordón amarillo']);
+    expect(settlesAny('¿Qué indica el cordón amarillo?', 'Se puede detener, pero no estacionar')).toEqual(['D-T02-1']);
+    expect(settlesAny('¿Qué indica el cordón amarillo?', 'Prohíbe estacionar')).toEqual([]);
   });
 
   it('shows no web addresses or e-mails: contact data is consultation material', () => {
