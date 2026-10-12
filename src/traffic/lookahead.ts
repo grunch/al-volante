@@ -2,7 +2,7 @@ import { overlaps } from '../sim/collision.ts';
 import type { OrientedBox } from '../sim/collision.ts';
 import type { ActorPose, LightState } from '../sim/scenario.ts';
 import { intersectionLight } from './lights.ts';
-import { locateOnPath } from './network.ts';
+import { headingDifference, locateOnPath, pointAlong } from './network.ts';
 import type { Path } from './network.ts';
 import type { Traffic, TrafficState } from './traffic.ts';
 
@@ -11,6 +11,10 @@ const ROUTE_LATERAL_M = 6;
 /** A vehicle within this lateral distance of the car's own line is ahead of it, not beside it. */
 const LEADER_LATERAL_M = 2.3;
 const LEADER_LOOKAHEAD_M = 60;
+/**
+ * Largest heading difference between a leader and the way it is compared with (the route's or the car's).
+ */
+const LEADER_MAX_TURN_RAD = Math.PI / 3;
 export const LOOKAHEAD_M = 80;
 
 export interface SignalAhead {
@@ -123,7 +127,20 @@ export function lookAhead(traffic: Traffic, state: TrafficState, carBody: Orient
   const lap = lapOf(traffic);
   const front = lap ? frontS(lap, carBody) : null;
   const empty: DriverView = { routeS: null, signal: null, crossing: null, crosswalk: null, leader: null };
-  const leader = leaderAhead(state.poses, carBody);
+  // Through a corner the car's heading lags: the way the route takes over the next 20 m also counts.
+  const route: LeaderRoute | undefined =
+    lap && front !== null
+      ? {
+          ways: [0, 5, 10, 15, 20].map((aheadM) => pointAlong(lap, front + aheadM).headingRad),
+          locate: (point) => {
+            const located = locateOnPath(lap, point, LEADER_LATERAL_M);
+            return located
+              ? { aheadM: aheadOnLap(lap, front, located.s), headingRad: pointAlong(lap, located.s).headingRad }
+              : null;
+          },
+        }
+      : undefined;
+  const leader = leaderAhead(state.poses, carBody, route);
   if (!lap || front === null) return { ...empty, leader };
   let crossing: CrossingAhead | null = null;
   for (const stop of lap.stops) {
@@ -160,19 +177,52 @@ export function lookAhead(traffic: Traffic, state: TrafficState, carBody: Orient
 }
 
 /** The nearest vehicle ahead on the car's own line. */
-export function leaderAhead(poses: readonly ActorPose[], carBody: OrientedBox): LeaderAhead | null {
+/** The route the car follows, for leaders: its way over the next metres and its heading where an actor stands. */
+export interface LeaderRoute {
+  /** The route's headings over the next 20 m ahead of the bumper, a corner included. */
+  ways: readonly number[];
+  /** Where an actor stands on the route's line: metres ahead of the bumper along it, and the route's heading there. */
+  locate(point: { x: number; z: number }): { aheadM: number; headingRad: number } | null;
+}
+
+/** An actor's half extent along a heading `turn` away from its own. */
+const reach = (pose: ActorPose, turn: number) =>
+  Math.abs(Math.cos(turn)) * pose.box.halfLengthM + Math.abs(Math.sin(turn)) * pose.box.halfWidthM;
+
+/**
+ * The vehicle ahead. On the route's line it is followed along the route, as the actors follow each other, so a
+ * vehicle turning ahead at a corner is still the leader before the car turns. Off the line, it must be straight ahead
+ * of the car within its corridor and travel the car's way or the route's way over the next metres. Crossing or
+ * oncoming traffic is a conflict, never a leader.
+ */
+export function leaderAhead(
+  poses: readonly ActorPose[],
+  carBody: OrientedBox,
+  route?: LeaderRoute,
+): LeaderAhead | null {
   const forward = { x: Math.sin(carBody.headingRad), z: Math.cos(carBody.headingRad) };
   const left = { x: Math.cos(carBody.headingRad), z: -Math.sin(carBody.headingRad) };
   let best: LeaderAhead | null = null;
+  const consider = (pose: ActorPose, gapM: number) => {
+    const gap = overlaps(pose.box, carBody) ? 0 : Math.max(0, gapM);
+    if (!best || gap < best.gapM) best = { pose, gapM: gap };
+  };
   for (const pose of poses) {
     if (pose.kind === 'pedestrian' || !pose.active) continue;
+    const alongTheWay = (way: number) => Math.abs(headingDifference(pose.headingRad, way)) <= LEADER_MAX_TURN_RAD;
+    const onRoute = route?.locate(pose);
+    if (onRoute && alongTheWay(onRoute.headingRad)) {
+      if (onRoute.aheadM > 0 && onRoute.aheadM <= LEADER_LOOKAHEAD_M)
+        consider(pose, onRoute.aheadM - reach(pose, headingDifference(pose.headingRad, onRoute.headingRad)));
+      continue;
+    }
     const dx = pose.x - carBody.centerX,
       dz = pose.z - carBody.centerZ;
     const along = dx * forward.x + dz * forward.z;
     const lateral = Math.abs(dx * left.x + dz * left.z);
     if (along <= 0 || along > LEADER_LOOKAHEAD_M || lateral > LEADER_LATERAL_M) continue;
-    const gapM = overlaps(pose.box, carBody) ? 0 : along - carBody.halfLengthM - pose.box.halfLengthM;
-    if (!best || gapM < best.gapM) best = { pose, gapM };
+    if (!alongTheWay(carBody.headingRad) && !route?.ways.some(alongTheWay)) continue;
+    consider(pose, along - carBody.halfLengthM - reach(pose, headingDifference(pose.headingRad, carBody.headingRad)));
   }
   return best;
 }
