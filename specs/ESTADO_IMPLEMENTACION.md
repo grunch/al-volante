@@ -194,8 +194,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F03-T01 | `f03-t01-simulation` | `main` | F02 (fusionada, con #15) | #16 | fusionada (`0fce7c2`) |
 | F03-T02 | `f03-t02-transmission` | `f03-t01-simulation` (#16) | T01 (#16) | #17 | fusionada (`e49dc5b`) |
 | F03-T03 | `f03-t03-cockpit` | `main` (`e49dc5b`) | T02 fusionada (#17) | [#18](https://github.com/grunch/al-volante/pull/18) | abierto; revisiones solicitadas |
-| F03-T04 | — | — | T03 | — | pendiente |
-| F03-T05 | — | — | T04 | — | pendiente |
+| F03-T04 | `f03-t04-evaluation` | `f03-t03-cockpit` (#18) | T03 (#18) | [#19](https://github.com/grunch/al-volante/pull/19) | en revisión (etapa A) |
+| F03-T05 | — | `f03-t04-evaluation` | T04 | — | en curso |
 
 ### F03-T01 — Simulación a paso fijo, vehículo, dirección, frenado y colisiones
 
@@ -264,6 +264,34 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Nueva revisión Codex 5485804952 (`5d3a843`): aplicaba la ausencia de activación por click semántico en los mandos sostenidos. Se agregó un pulso para click con `detail=0`; los clics de puntero no duplican su secuencia. La prueba de regresión falló antes del cambio y pasa después; otra prueba verifica que un clic de puntero no agrega un pulso. `npm run check`: 281 pruebas aprobadas, cobertura 95,37 % de sentencias / 89,12 % de ramas. Revalidación de 12 E2E de habitáculo/conducción aprobada en modo CI sin reintentos.
 - Siguiente acción vigente: monitorear #18 y resolver findings aplicables antes de pedir nuevas revisiones. T04 y T05 quedan pendientes de autorización.
 
+### F03-T04 — Motor de evaluación, familiarización, etapa I, 30 cm y salida
+
+- Inicio: pedido del usuario del 2026-10-11, «ya hay un PR del F03 T03, ahora haz T04 en adelante hasta terminar la fase 3». Apilado sobre `f03-t03-cockpit` (#18).
+- Alcance: `src/exam/scoring.ts` (libro de fallas: puntos, repetición, escalamiento, interrupción, resultado) y `src/exam/session.ts` (examinador virtual: familiarización, reconocimiento con semilla, preparación, desbloqueo, retroceso y avance de 30 cm, salida del cajón); observador por paso fijo en `driveFrame`; `DrivingCanvas` con `prepared` y `onObservation`; página `#/examen` con examinador, puntos, mediciones, fallas y resultado parcial. Detalle y límites en ARQUITECTURA, «Evaluación del examen».
+- Aceptación:
+  - **Secuencia completa comprobable:** `session.test.ts` recorre familiarización → reconocimiento → preparación → desbloqueo → 30 cm atrás y adelante → salida, en manual y automática, con el auto y el habitáculo reales paso a paso.
+  - **Reglas de repetición e interrupción:** `scoring.test.ts` cubre una vez, control único, cada vez, por episodio (D3), escalamiento, interrupción por eliminatoria, corte con 8 puntos y pedido del aspirante; `session.test.ts` comprueba el corte antes de moverse, el cinturón, el freno de mano por episodio, el calado, el roce y el derribo de un poste.
+  - **Puntuación verificada para este alcance:** cada falla cita su regla de `rules.json`, con sus puntos; la interfaz muestra el texto de la ficha y la política.
+- Aproximaciones declaradas (REGLAS.md V2 y D4; `GAME_PARAMETERS`): tolerancia de 10 cm, umbrales de volante, roce/derribo, giro de cabeza y movimiento. No son reglas del protocolo y la interfaz lo dice.
+- Verificación local: `npm run check` con 298 pruebas (cobertura 95,2 % sentencias / 88,8 % ramas), contenido OK y build OK; `npx playwright test --workers=1` con 36 E2E (incluye `tests/e2e/exam.spec.ts`).
+- Revisiones: Codex y CodeRabbit solicitados al abrir el PR; se registran al llegar.
+- Revisión de Codex sobre `6d4732e` (5 findings, todos aplicados con prueba):
+  - Caja en el reconocimiento (P1): los controles solo pasan a la posición vecina, así que pedir D desde P puntuaba la R intermedia como error, y faltaban 2.ª–5.ª. Ahora la caja se pide completa y de vuelta a N/P, en orden; una marcha en camino no es respuesta y una que se aleja es la eliminatoria b.
+  - Cordón (P1): todo contacto con el cordón era eliminatorio; ahora, por debajo de 1 m/s es el roce de la rueda (leve i) y por encima, subirse a la vereda (aproximación declarada).
+  - Freno en los 30 cm manuales (P2): frenar antes del final (moverse más de 5 cm después de pisarlo) falla la maniobra.
+  - Espejos (P2): girar del todo la cabeza ya no cuenta; cuenta mirar un espejo lateral (0,25–0,9 rad), con botones y teclas nuevos (U y P), según X6.
+  - Auto al empezar el reconocimiento (P2): la página lo vuelve a poner con motor apagado y llave en contacto.
+- Revisión de CodeRabbit sobre `db1a9d1` (6 findings, todos aplicados):
+  - El corte de 8 puntos «antes de moverse» era una interpretación presentada como regla: ahora es la decisión D5 de REGLAS.md §7, y ARQUITECTURA cita `protocolo.pdf` con páginas.
+  - CONTINUIDAD decía «0,5 rad de giro de cabeza»; ahora dice el rango real (0,25–0,9).
+  - La página mostraba «resultado parcial» con 8 puntos o más sin interrupción; ahora usa `resultOf` y muestra «Desaprobado».
+  - Apagar un instrumento o las balizas contaba como respuesta equivocada; ahora solo cuenta encenderlos.
+  - Faltaban los textos de 2.ª a 5.ª y la consigna de R hablaba de embrague en la automática; ahora cada marcha tiene texto y la ayuda depende de la caja.
+- Segunda revisión de Codex sobre `db1a9d1` (4 findings, todos aplicados con prueba):
+  - Arrancar en cambio con el embrague pisado no registraba la falta de no verificar neutro; ahora `engine-started` también la consigna según la última marcha.
+  - El avance de 30 cm aprobaba en segunda; ahora exige primera (o D) y el retroceso exige R.
+  - Los ajustes hechos en la familiarización sobrevivían al reinicio del habitáculo; ahora se olvidan al empezar el reconocimiento.
+  - Un solo espejo bastaba; ahora hay que regular los tres (PDF 9).
 
 ## Pila y orden de fusión
 
@@ -275,7 +303,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Monitorear revisiones y CI de F03-T03 (#18), autorizado por el usuario. F03-T04 y T05 no se inician con este pedido. Los findings tardíos de #16 se mantienen explícitos en CONTINUIDAD.
+Etapa A de la fase 3 en curso por pedido del usuario (2026-10-11): T04 apilado sobre #18 y T05 apilado sobre T04. Después, etapa B: revisar findings de #18, T04 y T05 con el usuario y fusionar en orden. Los findings tardíos de #16 se mantienen explícitos en CONTINUIDAD.
 
 ## Decisiones que no deben reinterpretarse
 

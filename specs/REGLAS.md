@@ -269,7 +269,7 @@ Políticas de repetición, según el texto del anexo II:
 | Id | Caso | Tratamiento en el juego |
 |---|---|---|
 | V1 | Exactamente 15, 25 o 50 cm del cordón | t: «menos de 15»; u: «más de 25 y menos de 50»; r: «más de 50». Los valores exactos 15 y 25 quedan dentro de la 1.ª línea (correcto). **50 cm exactos no está definido**; se asigna a la 2.ª línea (leve), el resultado menos severo compatible con ambos textos, y se documenta en la devolución. En `rules.json`, `parkingBands` fija la partición: `< 15` t; `[15, 25]` correcto; `(25, 50]` u; `> 50` r. El validador exige que las franjas cubran todas las distancias sin huecos ni solapes. |
-| V2 | Tolerancia de «retroceder/avanzar 30 cm» | El protocolo solo dice «mayor o menor a 30 cm». Se usa un parámetro `displacementToleranceCm`, que se fijará y calibrará en F03-T04 y se mostrará como **aproximación del juego**, no como regla oficial. |
+| V2 | Tolerancia de «retroceder/avanzar 30 cm» | El protocolo solo dice «mayor o menor a 30 cm». Se usa un parámetro `displacementToleranceCm`, fijado en F03-T04 en **10 cm** (`GAME_PARAMETERS`, `src/exam/session.ts`), y se muestra como **aproximación del juego**, no como regla oficial. |
 | V3 | «Descentrado» | Sin umbral numérico. Se usa un parámetro de aproximación igual que V2. |
 | V4 | Salida del cajón con más de 2 maniobras | PDF 11 la define como no fluida, pero no hay falla en la ficha ni en el anexo. No se puntúa; la devolución lo informa como observación. |
 | V5 | Ancho del cajón | El gráfico 4 da 6 m de largo y franjas, pero no el ancho del espacio ni la distancia entre vallas. Se toma de la geometría del circuito en F01-T04 o se registra como aproximación. |
@@ -281,6 +281,7 @@ Políticas de repetición, según el texto del anexo II:
 - **D1.** Una conducta que aparece en varias filas de la ficha es una sola regla; se consigna según el contexto en que ocurre, nunca dos veces por el mismo hecho.
 - **D2.** Un episodio de exceso de velocidad consigna **l** (eliminatoria) si supera la máxima de la vía; si solo supera el límite de examen, consigna **f**. No se suman ambas por el mismo episodio. Como l ya desaprueba, el resultado es el mismo; la decisión solo evita una devolución duplicada.
 - **D3.** Las reglas con repetición «no especifica» se consignan **una vez por episodio distinto**. Un episodio termina cuando la conducta se corrige o cambia el contexto (otra cuadra, otra intersección, otra maniobra). El criterio es configurable y se muestra en la devolución.
+- **D5.** El corte de 8 puntos antes de la circulación (PDF 10, «si al llegar a esta etapa») se aplica en el juego hasta que el auto se mueve por primera vez en la etapa II (0,2 m/s); a partir de ahí los puntos se acumulan y se informan al final (PDF 14). Es una interpretación del proyecto: el protocolo no fija el instante exacto.
 - **D4.** Los parámetros de aproximación (V2, V3) y la interpretación de la observación (mirar espejos o girar la cabeza según la orientación de la cámara y el espejo seleccionado) se presentan como práctica virtual, como establece la propuesta (§4).
 
 ## 8. Examen teórico

@@ -1,0 +1,103 @@
+import type { Rule } from '../content/schemas.ts';
+
+/** One scored fault. `atS` is simulation time; `episode` tells repeated episodes of the same rule apart. */
+export interface Fault {
+  ruleId: string;
+  points: number;
+  atS: number;
+  episode: string | undefined;
+  /** A high fault raised to an eliminatory one because the examiner had to intervene (protocolo PDF 7). */
+  escalated: boolean;
+}
+
+export type InterruptionCause = 'fault' | 'cutoff' | 'driver-request' | 'examiner';
+
+export interface Interruption {
+  ruleId: string | null;
+  atS: number;
+  cause: InterruptionCause;
+}
+
+export interface Ledger {
+  rules: readonly Rule[];
+  faults: readonly Fault[];
+  points: number;
+  interruption: Interruption | null;
+}
+
+export type Stage = 'I' | 'II' | 'III';
+export type ExamResult = 'approved' | 'disapproved' | 'pending';
+
+/** The protocol approves with 7 points or less once the three stages are done (protocolo PDF 14). */
+export const PASS_MAX_POINTS = 7;
+
+export function createLedger(rules: readonly Rule[]): Ledger {
+  return { rules, faults: [], points: 0, interruption: null };
+}
+
+export function ruleById(rules: readonly Rule[], ruleId: string): Rule {
+  const rule = rules.find((candidate) => candidate.id === ruleId);
+  if (!rule) throw new Error(`unknown rule ${ruleId}`);
+  return rule;
+}
+
+export interface FaultReport {
+  ruleId: string;
+  atS: number;
+  episode?: string;
+  /** The examiner used the dual controls: the rule's escalation applies. */
+  escalate?: boolean;
+}
+
+/**
+ * Whether a rule already recorded counts again (REGLAS.md §5): once and single-check rules never repeat;
+ * per-occurrence rules always do; per-episode and unspecified rules repeat only in a different episode (decision D3).
+ */
+function repeats(rule: Rule, previous: readonly Fault[], episode: string | undefined): boolean {
+  if (previous.length === 0) return true;
+  switch (rule.repetition) {
+    case 'once':
+    case 'single-check':
+      return false;
+    case 'per-occurrence':
+      return true;
+    case 'per-episode':
+    case 'unspecified':
+      return previous.every((fault) => fault.episode !== episode);
+  }
+}
+
+/** Records a fault according to its rule's repetition policy, points, escalation and interruption. */
+export function recordFault(ledger: Ledger, report: FaultReport): Ledger {
+  const rule = ruleById(ledger.rules, report.ruleId);
+  if (report.escalate && !rule.escalation) throw new Error(`${rule.id} cannot escalate`);
+  const previous = ledger.faults.filter((fault) => fault.ruleId === rule.id);
+  if (!repeats(rule, previous, report.episode)) return ledger;
+  const escalated = report.escalate === true;
+  const fault: Fault = {
+    ruleId: rule.id,
+    points: escalated ? (rule.escalation?.points ?? rule.points) : rule.points,
+    atS: report.atS,
+    episode: report.episode,
+    escalated,
+  };
+  const interrupts = escalated || rule.interrupts;
+  return {
+    ...ledger,
+    faults: [...ledger.faults, fault],
+    points: ledger.points + fault.points,
+    interruption: ledger.interruption ?? (interrupts ? { ruleId: rule.id, atS: report.atS, cause: 'fault' } : null),
+  };
+}
+
+/** An interruption that is not a fault: the cutoff before circulation, the driver's request or the examiner. */
+export function interrupt(ledger: Ledger, atS: number, cause: Exclude<InterruptionCause, 'fault'>): Ledger {
+  return ledger.interruption ? ledger : { ...ledger, interruption: { ruleId: null, atS, cause } };
+}
+
+/** Approved only with the three stages completed and 7 points or less; interrupted or over 7, disapproved. */
+export function resultOf(ledger: Ledger, completedStages: readonly Stage[]): ExamResult {
+  if (ledger.interruption || ledger.points > PASS_MAX_POINTS) return 'disapproved';
+  const complete = (['I', 'II', 'III'] as const).every((stage) => completedStages.includes(stage));
+  return complete ? 'approved' : 'pending';
+}

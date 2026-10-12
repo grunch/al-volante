@@ -3,7 +3,7 @@ import { EXAM_SPECS, command, initialCarState, stepCar } from '../sim/car.ts';
 import type { CarControls, CarEvent, CarSpecs, CarState } from '../sim/car.ts';
 import { advance, createStepper, SIM_STEP_S } from '../sim/fixedStep.ts';
 import type { Stepper } from '../sim/fixedStep.ts';
-import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
+import type { PowertrainCommand, TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
 import type { World } from '../sim/world.ts';
 
@@ -16,13 +16,24 @@ export interface DrivingFrame {
   alpha: number;
 }
 
-export function startDriving(start: VehicleState, transmission: TransmissionKind): DrivingFrame {
-  return {
-    stepper: createStepper(initialCarState(start, transmission)),
-    controls: NEUTRAL_CONTROLS,
-    events: [],
-    alpha: 0,
-  };
+/** Called after every fixed step and every command, with what the step produced; the exam evaluation listens here. */
+export type StepObserver = (car: CarState, events: readonly CarEvent[], dt: number) => void;
+
+/** A session starts at rest; `prepared` commands (the key in contact for an exam) are applied before any step. */
+export function startDriving(
+  start: VehicleState,
+  transmission: TransmissionKind,
+  prepared: readonly PowertrainCommand[] = [],
+  specs: CarSpecs = EXAM_SPECS,
+): DrivingFrame {
+  let state = initialCarState(start, transmission);
+  const events: CarEvent[] = [];
+  for (const next of prepared) {
+    const result = command(state, next, specs);
+    state = result.state;
+    events.push(...result.events);
+  }
+  return { stepper: createStepper(state), controls: NEUTRAL_CONTROLS, events, alpha: 0 };
 }
 
 /**
@@ -37,6 +48,7 @@ export function driveFrame(
   pressed: readonly string[],
   frameS: number,
   specs: CarSpecs = EXAM_SPECS,
+  observe?: StepObserver,
 ): DrivingFrame {
   const events: CarEvent[] = [];
   let stepper = frame.stepper;
@@ -45,6 +57,7 @@ export function driveFrame(
       const result = command(stepper.state, next, specs);
       stepper = { ...stepper, state: result.state };
       events.push(...result.events);
+      observe?.(result.state, result.events, 0);
     }
   }
   let controls = frame.controls;
@@ -52,6 +65,7 @@ export function driveFrame(
     controls = stepControls(controls, typeof keys === 'function' ? keys() : keys, SIM_STEP_S);
     const next = stepCar(world, current, controls, SIM_STEP_S, specs);
     events.push(...next.events);
+    observe?.(next.state, next.events, SIM_STEP_S);
     return next.state;
   });
   return { stepper: result.stepper, controls, events, alpha: result.alpha };

@@ -56,3 +56,22 @@ describe('driving frame loop', () => {
     expect(contacts).toContain('wall-north');
   });
 });
+
+describe('driving frame observer', () => {
+  it('applies the prepared commands before any step, and reports every command and step', () => {
+    const prepared = startDriving(PRACTICE_YARD_START, 'manual', [
+      { type: 'insert-key' },
+      { type: 'turn-key', to: 'on' },
+    ]);
+    expect(prepared.stepper.state.powertrain.key).toBe('on');
+    expect(prepared.events.map((event) => event.type)).toEqual(['key-inserted']);
+
+    const seen: number[] = [];
+    driveFrame(PRACTICE_YARD, prepared, new Set(), ['Space'], 2 / 120, undefined, (_, events, dt) =>
+      seen.push(dt === 0 ? events.length : -1),
+    );
+
+    // One command (the handbrake event), then two fixed steps.
+    expect(seen).toEqual([1, -1, -1]);
+  });
+});
