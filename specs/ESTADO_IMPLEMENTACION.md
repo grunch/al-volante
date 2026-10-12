@@ -2,7 +2,7 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-12 (integración de #33 en el correctivo #34).
+Última actualización: 2026-10-12 (correctivo gráfico F04-T01-FIX03 con Blender).
 
 ## Fase activa
 
@@ -11,7 +11,8 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
 - **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
 - **Fase 5 — Todo el contenido y simulacros teóricos: tareas fusionadas.** F05-T05 ([#33](https://github.com/grunch/al-volante/pull/33)) se integró en `main` con `9dd6d9e`. Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
-- **F04-T01-FIX02 — experiencia de conducción:** rama `f04-t01-fix02-driving-realism`, base `main` actualizada a `9dd6d9e`, worktree independiente; [#34](https://github.com/grunch/al-volante/pull/34), implementación `404ea74`, validación local previa aprobada; integración de #33 verificada localmente, CI y CodeRabbit pendientes. Pedido puntual posterior a #31; no inicia fase 6.
+- **F04-T01-FIX03 — detalle gráfico con Blender:** rama `f04-t01-fix03-blender-detail`, base `main` en `f3d2f60`, worktree independiente. Implementación y validación local; PR por abrir. Doce familias de modelos originales y superficies generadas con Blender, tras revisar otra vez las 35 referencias. No inicia fase 6.
+- **F04-T01-FIX02 — experiencia de conducción, fusionado:** [#34](https://github.com/grunch/al-volante/pull/34), merge `f3d2f60` del 2026-10-12 20:51 UTC. CI general y E2E aprobadas después de la fusión; CodeRabbit seguía pendiente en la consulta posterior.
 - **F04-T01-FIX01 — referencias visuales, fusionado en `9bc0257`:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
 - Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
@@ -432,6 +433,13 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - CI sobre `83562c4`: el E2E «offers the four modes…» agotó sus 30 s en el runner sin un error de la página. La traza muestra cada comprobación a ~1,3 s por el render por software y el pedido de interrupción empezando a los 26 s. El bloque de modos tiene ahora 120 s, como el E2E de manejo de la ciudad; local: 12 E2E de `exam.spec.ts` aprobados (escritorio y Pixel 7 emulado).
 - Para la fase 5 y F06-T01: la sesión terminada queda en `sessionRef` de `ExamPage` y se persiste como `Attempt` `driving` con `events` (`phase`, `stage-completed`, `interruption`, `finished`) y `faults`; no se graban entradas ni estados por paso, así que la repetición (F06-T01) necesita su propia grabación. Los modos se eligen por URL; un reintento desde un estado intermedio debe crear la sesión con `enter` en la fase deseada y restaurar auto, cabina, tránsito (`TrafficState`) y `Session` completos.
 
+## Correctivo F04-T01-FIX03 — Detalle gráfico con Blender
+
+- Pedido: una nueva revisión de las imágenes y mayor nitidez y detalle de calle, árboles, edificios, semáforos, autos y personas, usando Blender, con un nuevo PR. Rama `f04-t01-fix03-blender-detail`, base `main` (`f3d2f60`), worktree independiente; PR por abrir.
+- Resultado: catálogo de doce familias construido y exportado por Blender 5.2, superficies de 256×256, fachadas y barandas detalladas, árboles con hojas individuales, vehículos y personas con piezas reconocibles y semáforos con lentes dinámicas. Fuente, procedencia, capturas, límites y reproducción en [DETALLE_GRAFICO_BLENDER.md](DETALLE_GRAFICO_BLENDER.md).
+- Revisión independiente local: completada sobre el diff de trabajo. Corregidos el presupuesto del árbol, la compresión del ciclista y las normales de cierre de tubos de pocos lados. Pruebas focalizadas de recursos, contornos y entorno aprobadas. Codex remoto y CodeRabbit: pendientes de solicitud al abrir el PR.
+- Verificación: 32 E2E focalizados aprobados en Chromium con GPU, escritorio y Pixel 7 emulado; inspección de los ocho tramos, cabina, espejos, pantalla completa, teclado, frenado, restauración y móvil sin desborde. `npm run check` aprobado con Node 24.21.0: 1.389 pruebas en 72 archivos, cobertura de líneas 96,31 % y ramas 89,81 %, lint, formato, tipos, catálogo y build. Tras los últimos ajustes visuales y del exportador se repitieron 29 pruebas afectadas, lint y build, aprobados. Dos exportaciones completas de Blender produjeron archivos idénticos. El bloque diferido del habitáculo tiene advertencia de tamaño, documentada junto con la medición de rendimiento.
+
 ## Correctivo F04-T01-FIX02 — Experiencia de conducción
 
 - Pedido: conducción más real tras fusionar #31; revisar otra vez las fotos, con Blender disponible si fuera necesario. Rama `f04-t01-fix02-driving-realism`, base `9bc0257`, worktree independiente. Alcance en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md); se resolvió con geometría y texturas originales generadas desde código, sin dependencias nuevas.
@@ -528,11 +536,11 @@ Fase 5: la pila `main ← F04-T04-FIX01 (#27) ← F05-T01 ← F05-T02 ← F05-T0
 
 ## Bloqueos
 
-El correctivo #31 ya fue fusionado por el usuario en `9bc0257`. F04-T01-FIX02: CI de la base actualizada y CodeRabbit pendientes; no fusionar sin checks aprobados y findings resueltos. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31.
+Los correctivos #31 y #34 fueron fusionados por el usuario en `9bc0257` y `f3d2f60`. Los checks generales y E2E de #34 terminaron aprobados; CodeRabbit seguía pendiente al consultarlo. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31.
 
 ## Siguiente acción
 
-Fase 5 y correctivo #31 fusionados. Correctivo F04-T01-FIX02 ([#34](https://github.com/grunch/al-volante/pull/34)): completar CI y revisión CodeRabbit sobre la integración de `main` (`9dd6d9e`). Codex completó la revisión de la implementación sin observaciones. Fase 6 requiere inicio explícito del usuario; este correctivo no modifica el worktree de Opus.
+Fase 5 y correctivos #31/#34 fusionados. F04-T01-FIX03: abrir el nuevo PR sobre `main`, solicitar Codex y CodeRabbit y comprobar la CI remota. Fase 6 requiere inicio explícito del usuario; este correctivo no modifica el worktree de Opus.
 
 ### Cierre de la fase 4 contra el plan
 

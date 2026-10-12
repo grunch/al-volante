@@ -64,6 +64,29 @@ export function planStreetscape(city: City): CityPlan {
         road.headingRad,
         0.015,
       );
+      if (road.kind === 'route' && i % 3 === 1 && !onOtherRoad(center, road, 10)) {
+        const cover = offsetPoint(center, road.headingRad, road.widthM * 0.18);
+        add({
+          shape: 'box',
+          model: 'manhole',
+          color: '#ffffff',
+          position: [cover.x, 0.036, cover.z],
+          size: [1, 1, 1],
+          heading: road.headingRad,
+        });
+        for (const side of [-1, 1]) {
+          if (road.cycleTrack && side === 1) continue;
+          const drain = offsetPoint(center, road.headingRad, side * (road.widthM / 2 - 0.3));
+          add({
+            shape: 'box',
+            model: 'drain',
+            color: '#ffffff',
+            position: [drain.x, 0.036, drain.z],
+            size: [1, 1, 1],
+            heading: road.headingRad,
+          });
+        }
+      }
       if (road.cycleTrack) {
         const bike = offsetPoint(center, road.headingRad, road.widthM / 2 + 1.3);
         box(bike, 2.6, 0.015, length + 0.03, c.cycle, road.headingRad, 0.04);

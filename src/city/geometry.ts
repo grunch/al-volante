@@ -1,11 +1,14 @@
 import * as THREE from 'three';
 import { createSurfaceTexture } from './surfaceTexture.ts';
 import { createFoliageGeometry } from './foliageGeometry.ts';
+import { createBlenderMeshes } from '../scene/blenderAssets.ts';
+import type { BlenderAssetName } from '../scene/blenderAssets.ts';
 
 export type Shape = 'box' | 'sphere' | 'cylinder';
 export type Surface = 'matte' | 'glass' | 'brick' | 'pavement' | 'sidewalk' | 'foliage';
 export interface Part {
   shape: Shape;
+  model?: BlenderAssetName;
   color: string;
   position: [number, number, number];
   size: [number, number, number];
@@ -19,7 +22,7 @@ export function instantiate(parts: readonly Part[]): THREE.Group {
   const root = new THREE.Group();
   const batches = new Map<string, Part[]>();
   for (const part of parts) {
-    const key = `${part.shape}:${part.surface ?? 'matte'}`;
+    const key = `${part.model ?? part.shape}:${part.surface ?? 'matte'}`;
     const batch = batches.get(key) ?? [];
     batch.push(part);
     batches.set(key, batch);
@@ -28,6 +31,25 @@ export function instantiate(parts: readonly Part[]): THREE.Group {
   for (const batch of batches.values()) {
     const first = batch[0];
     if (!first) continue;
+    if (first.model) {
+      for (const template of createBlenderMeshes(first.model)) {
+        const mesh = new THREE.InstancedMesh(template.geometry, template.material, batch.length);
+        mesh.name = `batch-${template.name}`;
+        mesh.castShadow = template.castShadow;
+        mesh.receiveShadow = template.receiveShadow;
+        batch.forEach((part, index) => {
+          transform.position.set(...part.position);
+          transform.scale.set(...part.size);
+          transform.rotation.set(0, part.heading ?? 0, part.tilt ?? 0, 'YXZ');
+          transform.updateMatrix();
+          mesh.setMatrixAt(index, transform.matrix);
+          mesh.setColorAt(index, new THREE.Color(part.color));
+        });
+        mesh.computeBoundingSphere();
+        root.add(mesh);
+      }
+      continue;
+    }
     const geometry =
       first.shape === 'box'
         ? new THREE.BoxGeometry(1, 1, 1)
@@ -64,7 +86,11 @@ function createMaterial(surface: Surface): THREE.MeshStandardMaterial {
     emissive: surface === 'foliage' ? '#364821' : '#000000',
     emissiveIntensity: surface === 'foliage' ? 0.18 : 0,
   });
-  if (surface === 'pavement' || surface === 'sidewalk') material.map = createSurfaceTexture(surface === 'sidewalk');
+  if (surface === 'pavement' || surface === 'sidewalk') {
+    material.map = createSurfaceTexture(surface === 'sidewalk');
+    material.bumpMap = material.map;
+    material.bumpScale = surface === 'sidewalk' ? 0.012 : 0.003;
+  }
   if (surface === 'brick' || surface === 'pavement' || surface === 'sidewalk' || surface === 'glass') {
     material.customProgramCacheKey = () => surface;
     material.onBeforeCompile = (shader) => {
@@ -80,6 +106,9 @@ function createMaterial(surface: Surface): THREE.MeshStandardMaterial {
         #ifdef USE_MAP
           vMapUv = vCityPosition.xz * ${surface === 'sidewalk' ? '0.625' : '0.8'};
         #endif
+        #ifdef USE_BUMPMAP
+          vBumpMapUv = vCityPosition.xz * ${surface === 'sidewalk' ? '0.625' : '0.8'};
+        #endif
         #include <project_vertex>
       `,
       );
@@ -87,8 +116,11 @@ function createMaterial(surface: Surface): THREE.MeshStandardMaterial {
       const detail =
         surface === 'brick'
           ? `
-        float row = fract(vCityPosition.y / 0.24);
-        float mortar = 1.0 - smoothstep(0.03, 0.08, min(row, 1.0-row));
+        float row = fract(vCityPosition.y / 0.085);
+        float brick = fract((vCityPosition.x + vCityPosition.z) / 0.245 + mod(floor(vCityPosition.y / 0.085), 2.0) * 0.5);
+        float edge = min(min(row, 1.0-row), min(brick, 1.0-brick));
+        float aa = max(fwidth(edge), 0.018);
+        float mortar = 1.0 - smoothstep(0.025, 0.025 + aa, edge);
         diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.38, 0.34, 0.29), mortar * 0.38);
       `
           : surface === 'pavement'
