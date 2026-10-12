@@ -449,7 +449,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | [#29](https://github.com/grunch/al-volante/pull/29) | fusionada en `main` (`77a46dc`); findings de Codex (1) y CodeRabbit (3) corregidos |
 | F05-T03 | `f05-t03-garage` | `f05-t02-signs` (#29) | [#30](https://github.com/grunch/al-volante/pull/30) | fusionada en `main` (`8a6b51a`); finding de Codex corregido; CodeRabbit no llegó a revisar por la cuota |
 | F05-T04 | `f05-t04-complement` | `f05-t03-garage` (#30) | [#32](https://github.com/grunch/al-volante/pull/32) | fusionada en `main` (`693f692`); findings de Codex (3) corregidos en `0b8cdcc`; CodeRabbit no llegó a revisar por la cuota |
-| F05-T05 | `f05-t05-theory` | `main` (`9bc0257`) | (se completa al crear el PR) | implementada; revisiones pendientes |
+| F05-T05 | `f05-t05-theory` | `main` (`9bc0257`) | [#33](https://github.com/grunch/al-volante/pull/33) | abierto; findings de Codex y CodeRabbit corregidos |
 
 ### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
 
@@ -494,7 +494,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ### F05-T05 — Simulacros teóricos y auditoría global
 
-- Rama desde `main` (`9bc0257`), con #27, F05-T01 a T04 y el correctivo #31 ya fusionados.
+- PR [#33](https://github.com/grunch/al-volante/pull/33), desde `main` (`9bc0257`), con #27, F05-T01 a T04 y el correctivo #31 ya fusionados.
 - Alcance:
   - **«Sala de examen»** (`#/teorico`): simulacro del teórico B con la configuración versionada de `catalog/theory-exam.json`: 40 preguntas de tres opciones, 34 para aprobar y 45 minutos (40 como variante más exigente), con fuente por parámetro (`REGLAS.md` §8).
     - La hoja se reparte por tema según las unidades de cada sección y es reproducible por semilla.
@@ -517,7 +517,7 @@ La base inicial `b36fe55` tenía los 17 fallos indicados arriba. `main` incorpor
 
 ## Siguiente acción
 
-La fase 4, el correctivo visual #31 y F05-T01 a T04 están fusionados. Revisar y fusionar F05-T05 (simulacros teóricos y auditoría global); con eso cierra la fase 5 y sigue la fase 6, que requiere orden explícita del usuario.
+La fase 4, el correctivo visual #31 y F05-T01 a T04 están fusionados. Revisar y fusionar F05-T05 ([#33](https://github.com/grunch/al-volante/pull/33), simulacros teóricos y auditoría global); con eso cierra la fase 5 y sigue la fase 6, que requiere orden explícita del usuario.
 
 ### Cierre de la fase 4 contra el plan
 
