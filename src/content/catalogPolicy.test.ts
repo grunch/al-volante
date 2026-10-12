@@ -57,8 +57,8 @@ const UNSETTLED: Array<{ decision: string; settles: (right: RightAnswer) => bool
     settles: ({ question, answer }) =>
       /cord[oó]n amarillo/i.test(`${question} ${answer}`) && /deten|24\s?h/i.test(answer),
   },
-  // The general alcohol limits (PDF 91) are not evaluated (F05-T03).
-  { decision: 'alcohol general', settles: ({ answer }) => /0[,.]5\s?g/i.test(answer) },
+  // The general alcohol limits of the manual (0,5 g/l, 0,2 for motorcyclists; PDF 91) may have changed.
+  { decision: 'D-T03-1', settles: ({ answer }) => /\b0[,.](5|50|2|20)\s?g/i.test(answer) },
 ];
 
 describe('catalog content policy', () => {
@@ -80,6 +80,8 @@ describe('catalog content policy', () => {
     expect(settlesAny('¿Cuándo vence la VTV?', 'A los 4 años')).toEqual(['D-T01-12']);
     expect(settlesAny('¿Qué indica el cordón amarillo?', 'Se puede detener, pero no estacionar')).toEqual(['D-T02-1']);
     expect(settlesAny('¿Qué indica el cordón amarillo?', 'Prohíbe estacionar')).toEqual([]);
+    expect(settlesAny('¿Límite para particulares?', '0,5 g/l')).toEqual(['D-T03-1']);
+    expect(settlesAny('¿Límite para principiantes?', '0,0 g/l')).toEqual([]);
   });
 
   it('shows no web addresses or e-mails: contact data is consultation material', () => {
