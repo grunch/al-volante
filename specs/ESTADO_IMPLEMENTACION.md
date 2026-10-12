@@ -331,7 +331,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
 | F04-T02 | `f04-t02-traffic` | `f04-t01-city` (#22) | [#23](https://github.com/grunch/al-volante/pull/23) | implementada; findings de `a5b9496` y `f53b7f3` corregidos; revisión de seguimiento pendiente |
 | F04-T03 | `f04-t03-examiner` | `f04-t02-traffic` (#23) | [#24](https://github.com/grunch/al-volante/pull/24) | implementada; findings de `f4d7c6f` corregidos en `cf9d690`; revisión de seguimiento pendiente |
-| F04-T04 | `f04-t04-parking` | `f04-t03-examiner` (#24) | pendiente de publicar | implementada; PR y revisiones pendientes |
+| F04-T04 | `f04-t04-parking` | `f04-t03-examiner` (#24) | [#25](https://github.com/grunch/al-volante/pull/25) | implementada; CI y revisiones pendientes |
 | F04-T05 | — | `f04-t04-parking` | — | siguiente |
 
 ### F04-T01 — Ciudad y recorrido completo
@@ -376,7 +376,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ### F04-T04 — Estacionamiento y descenso
 
-- Apilado sobre `f04-t03-examiner` (#24). Orden obligatorio: #22 → #23 → #24 → este PR.
+- Apilado sobre `f04-t03-examiner` (#24). Orden obligatorio: #22 → #23 → #24 → [#25](https://github.com/grunch/al-volante/pull/25).
 - Alcance: `src/exam/parking.ts` (juez puro de la etapa III: balizas, doble fila, maniobras, intentos, mirada en la marcha atrás, marcas del cajón, distancia viva al cordón, posición final por `parkingBands`, inclinación y centrado, descenso), `src/exam/circuit.ts` (`ParkingBay` derivado de la ciudad: centro, cordón, marcas de 1,2 m desde el cordón, distancia de vuelta de la línea delantera), `session.ts` (fases `parking` → `leaving` → `finished`, `Session.parking`, `Session.bands`, eventos del auto en la etapa III, cinturón, miradas, puerta), `circulation.ts`/`street.ts` (aviso de 100 m `parkingAheadM`; excepción de ceder a una senda por distancia recta al doblar), habitáculo (`door` como toggle, tecla `G`, botón «Abrir la puerta y bajar»), `traffic.ts` (8 m detrás de un auto lento junto al cajón, espera si retrocede, ningún peatón delante del auto que arranca a menos de 6 m), `#/examen` (botón «Terminé de estacionar», HUD de estacionamiento, distancia al cordón, lista «Para bajar», resultado aprobado/desaprobado) y la copia en `es-AR.ts`. Detalle en ARQUITECTURA «Estacionamiento y descenso (F04-T04)».
 - Aceptación:
   - **Evaluación de ambas transmisiones:** `src/exam/parkingStreet.test.ts` «a clean exam parks in three manoeuvres within the first band, gets out properly and is approved» corre para `automatic` y `manual` sobre la ciudad con el tránsito de la semilla 1: vuelta completa, estacionamiento en 3 maniobras y 1 intento, ejes entre 15 y 25 cm, centrado, descenso completo, 0 puntos, `completedStages` I/II/III y `resultOf` aprobado. El descenso con omisiones se prueba en manual (w, x, v) y en automática (y, j); el juez puro prueba N y P (`parking.test.ts`).
@@ -384,12 +384,12 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Tabla regla → criterio → fuente PDF → episodio → prueba en ARQUITECTURA; decisiones D10–D14 y V3 en REGLAS.md §7, criterios en §9.
 - Aproximaciones declaradas: zona del cajón y doble fila (D11), cuenta de maniobras e intentos (D12), marcas pintadas como vallas de 1,2 m y mismos umbrales de 1 m/s que la etapa I (D13), fin de la maniobra por aviso, bloqueo de dirección = llave afuera con motor apagado, cinturón permitido después de la posición final, lugar de 8 m detrás del auto y peatones que esperan (D14), descentrado a 0,5 m (V3), excepción de ceder por distancia recta al doblar (`yieldingLinkM`). El cajón sigue sin vallas físicas y sin relevamiento (CIUDAD.md).
 - Verificación local: `npm run check` aprobado con 454 pruebas (cobertura 96,02 % sentencias / 90,56 % ramas / 94,78 % funciones / 96,89 % líneas), contenido OK y build OK. Playwright: suite completa `npx playwright test --workers=1`, 50 E2E aprobados sin reintentos (escritorio y Pixel 7 emulado, 4,2 min), incluido el caso nuevo del HUD de la etapa III y del mando de la puerta. El examen completo con guion tarda unos 35 s reales por transmisión (unos 395 s simulados).
-- PR: pendiente de publicar; Codex (`@codex review`) y CodeRabbit (automática) se solicitan al crearlo. Sin excepción de cuota aplicada.
+- PR [#25](https://github.com/grunch/al-volante/pull/25) abierto con implementación `0e8c677`, apilado sobre #24. Codex solicitado con `@codex review`; CodeRabbit automática. Ambos resultados y la CI remota están pendientes; se registran al llegar. Sin excepción de cuota aplicada.
 - Para F04-T05: la sesión termina en `finished` con `completedStages` I/II/III y `resultOf` aprobado/desaprobado; `Session.parking.final` (frontCm, rearCm, alongM), `parking.manoeuvres/attempts`, `measurements` de la etapa I y `street` dan la ficha por etapa; `ledger.faults` lleva `atS`, así cada falla se puede asignar a su etapa por el instante de cada cambio de fase. Un modo que salte etapas debe crear la sesión en la fase deseada (`enter`) con `completedStages` vacío: `resultOf` quedará `pending`. No se persisten intentos todavía (contrato `Attempt`, `kind: 'driving'`).
 
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) está apilado sobre #22, F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) sobre #23 y F04-T04 (`f04-t04-parking`, PR pendiente de publicar) sobre #24: fusionar #22 primero, después actualizar la base de [#23](https://github.com/grunch/al-volante/pull/23), comprobar su diff y repetir los checks; después lo mismo con [#24](https://github.com/grunch/al-volante/pull/24) y con el PR de T04.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) está apilado sobre #22, F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) sobre #23 y F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) sobre #24: fusionar #22 primero, después actualizar la base de [#23](https://github.com/grunch/al-volante/pull/23), comprobar su diff y repetir los checks; después lo mismo con [#24](https://github.com/grunch/al-volante/pull/24) y con [#25](https://github.com/grunch/al-volante/pull/25).
 
 ## Bloqueos
 
@@ -397,7 +397,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Continuar la etapa A de la fase 4: F04-T05 (modos aprender/practicar/recorrer/rendir, recorrido entero y ficha final por etapa) apilada sobre `f04-t04-parking`. La interfaz que deja T04 está en la sección «F04-T04» de este archivo y en CONTINUIDAD.md. Mientras tanto, atender CI y revisiones de #22, #23, [#24](https://github.com/grunch/al-volante/pull/24) y del PR de T04 cuando lleguen; no fusionar hasta la etapa B.
+Continuar la etapa A de la fase 4: F04-T05 (modos aprender/practicar/recorrer/rendir, recorrido entero y ficha final por etapa) apilada sobre `f04-t04-parking`. La interfaz que deja T04 está en la sección «F04-T04» de este archivo y en CONTINUIDAD.md. Mientras tanto, atender CI y revisiones de #22, #23, [#24](https://github.com/grunch/al-volante/pull/24) y [#25](https://github.com/grunch/al-volante/pull/25) cuando lleguen; no fusionar hasta la etapa B.
 
 ## Decisiones que no deben reinterpretarse
 
