@@ -11,6 +11,9 @@ import type { ProgressStore } from '../../progress/storage.ts';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
 import { REAL_RULES } from '../../test/realRules.ts';
 import { CITY_COPY, EXAM_COPY, LOGBOOK_COPY, TRACK_COPY } from '../../i18n/es-AR.ts';
+import { DRIVING_GUIDE_COPY } from '../../i18n/drivingGuide.ts';
+import { BINDINGS_STORAGE_KEY, DEFAULT_BINDINGS } from '../../practice/bindings.ts';
+import { keyNames } from '../../practice/keyLabels.ts';
 
 /** The fixture content with the real rule catalog and the real route: the exam runs on the city (F04-T03). */
 const content = () => {
@@ -223,7 +226,64 @@ describe('exam modes, card and logbook (F04-T05)', () => {
     runFrames(5);
 
     expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-mode', 'learn');
-    expect(screen.getByTestId('exam-hints')).toHaveTextContent(EXAM_COPY.learnHints.familiarisation.hint);
+    expect(screen.getByTestId('exam-hints')).toHaveTextContent(EXAM_COPY.learnHints.familiarisation.checks);
+    expect(screen.getByTestId('exam-how')).toHaveTextContent(
+      DRIVING_GUIDE_COPY.steps.familiarisation.how(keyNames(DEFAULT_BINDINGS), 'manual'),
+    );
+  });
+
+  it('tells what to do now with the keys, and lists the controls and every step with the current one marked', async () => {
+    // Arrange
+    await openExam('/examen');
+    const keys = keyNames(DEFAULT_BINDINGS);
+
+    // Assert: the current step, next to what the examiner says
+    expect(screen.getByTestId('exam-how')).toHaveTextContent(
+      DRIVING_GUIDE_COPY.steps.familiarisation.how(keys, 'manual'),
+    );
+    const guide = screen.getByTestId('exam-guide');
+    expect(within(guide).getByText(DRIVING_GUIDE_COPY.heading)).toBeInTheDocument();
+    const controls = within(guide).getByTestId('exam-guide-controls');
+    for (const line of DRIVING_GUIDE_COPY.controls(keys, 'manual')) expect(controls).toHaveTextContent(line);
+    const steps = within(within(guide).getByTestId('exam-guide-steps')).getAllByRole('listitem');
+    expect(steps).toHaveLength(11);
+    expect(steps[0]).toHaveAttribute('aria-current', 'step');
+    expect(steps[1]).not.toHaveAttribute('aria-current');
+
+    // Act: the examiner moves on to the recognition
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.ready }));
+
+    // Assert
+    expect(screen.getByTestId('exam-how')).toHaveTextContent(DRIVING_GUIDE_COPY.steps.recognition.how(keys, 'manual'));
+    expect(steps[1]).toHaveAttribute('aria-current', 'step');
+  });
+
+  it('drops the clutch from the guide with the automatic gearbox', async () => {
+    await openExam('/examen');
+
+    await userEvent.click(screen.getByRole('radio', { name: EXAM_COPY.automatic }));
+    runFrames(5);
+
+    const keys = keyNames(DEFAULT_BINDINGS);
+    expect(screen.getByTestId('exam-guide-controls')).not.toHaveTextContent(keys.clutch);
+    expect(screen.getByTestId('exam-how')).toHaveTextContent(
+      DRIVING_GUIDE_COPY.steps.familiarisation.how(keys, 'automatic'),
+    );
+  });
+
+  it('writes the keys the driver configured into the guide', async () => {
+    localStorage.setItem(BINDINGS_STORAGE_KEY, JSON.stringify({ glanceLeft: ['Digit1'] }));
+    try {
+      await openExam('/examen');
+
+      const lines = DRIVING_GUIDE_COPY.controls({ ...keyNames(DEFAULT_BINDINGS), glanceLeft: '1' }, 'manual');
+      await waitFor(() => {
+        const controls = screen.getByTestId('exam-guide-controls');
+        for (const line of lines) expect(controls).toHaveTextContent(line);
+      });
+    } finally {
+      localStorage.removeItem(BINDINGS_STORAGE_KEY);
+    }
   });
 
   it('hides every aid in the exam mode and keeps only what the examiner says', async () => {
@@ -240,6 +300,11 @@ describe('exam modes, card and logbook (F04-T05)', () => {
     expect(screen.getByTestId('examiner-says')).toHaveTextContent(EXAM_COPY.phases.familiarisation);
     expect(screen.getByTestId('exam-instruction')).toHaveTextContent(EXAM_COPY.instruction('right', 'Av. Cabildo'));
     expect(screen.getByTestId('exam-leg')).toHaveTextContent(EXAM_COPY.leg(1, 'Quesada'));
+    // The keys are the game's, not the exam's: they stay; the step-by-step procedure is an aid and goes.
+    expect(screen.getByTestId('exam-guide-controls')).toBeInTheDocument();
+    expect(screen.queryByTestId('exam-guide-steps')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('exam-how')).not.toBeInTheDocument();
+    expect(screen.getByTestId('exam-guide')).toHaveTextContent(DRIVING_GUIDE_COPY.stepsHidden);
   });
 
   it('shows the card per stage at the end and stores the attempt in the logbook', async () => {
