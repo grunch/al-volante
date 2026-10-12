@@ -336,7 +336,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | fusionada en `main` (`cefe7b2`); findings de `f2624a4`, `b551baa` y siguientes corregidos |
 | F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | fusionada en `main` (`b36fe55`); findings de `f7b9398` y siguientes corregidos |
 | F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | fusionado en `main` (`367b484`); findings de Codex (`3327a92`, `bbea36a`, `7c010ff`) y CodeRabbit (`e048648`) resueltos |
-| F04-T05-FIX01 | `f04-t05-fix01-driving-guide` | `main` (`9dd6d9e`) | pendiente de crear | en curso: guía de manejo del examen práctico |
+| F04-T05-FIX01 | `f04-t05-fix01-driving-guide` | `main` (`9dd6d9e`) | [#36](https://github.com/grunch/al-volante/pull/36) | abierto: guía de manejo del examen práctico; revisiones solicitadas |
 
 ### F04-T01 — Ciudad y recorrido completo
 
@@ -456,6 +456,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - `npm run check`: lint, formato, tipos, 1375 de 1375 pruebas (cobertura 96,09 % de sentencias, 90,55 % de ramas, 95,24 % de funciones y 97,09 % de líneas), contenido OK y build OK.
   - `npx playwright test tests/e2e/exam.spec.ts --workers=1`: 12 de 12 E2E (escritorio y Pixel 7 emulado).
   - Navegador (Chromium de Playwright, 1280×900 y 412×915): la guía abierta, «Qué hacer ahora» y el modo rendir sin paso a paso; sin desborde horizontal ni errores de consola.
+- PR [#36](https://github.com/grunch/al-volante/pull/36), implementación `d73a185`. CodeRabbit: automática al abrir el PR. Codex: `@codex review` pedido al abrirlo. Findings: pendientes.
 
 ## Correctivo F04-T01-FIX01 — Entorno basado en referencias
 
@@ -549,7 +550,7 @@ La base inicial `b36fe55` tenía los 17 fallos indicados arriba. `main` incorpor
 
 ## Siguiente acción
 
-La fase 4, el correctivo visual #31 y F05-T01 a T05 están fusionados (#33 en `main`, `9dd6d9e`). En curso: el correctivo F04-T05-FIX01 (guía de manejo del examen práctico), pedido por el usuario. La fase 6 requiere orden explícita del usuario.
+La fase 4, el correctivo visual #31 y F05-T01 a T05 están fusionados (#33 en `main`, `9dd6d9e`). En curso: el correctivo F04-T05-FIX01 ([#36](https://github.com/grunch/al-volante/pull/36), guía de manejo del examen práctico), pedido por el usuario; resolver los findings de Codex y CodeRabbit. La fase 6 requiere orden explícita del usuario.
 
 ### Cierre de la fase 4 contra el plan
 
