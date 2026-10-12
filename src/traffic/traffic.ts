@@ -52,8 +52,11 @@ const YIELD_LOOKAHEAD_M = 20;
 const YIELD_LOOKAHEAD_S = 4;
 /** A right-hand vehicle that has stopped this long loses its priority (manual.pdf PDF 64, exception 4). */
 const PRIORITY_STOPPED_S = 1.5;
-/** A vehicle stuck yielding this long proceeds, so symmetric waits cannot last forever (game approximation). */
-const DEADLOCK_S = 8;
+/**
+ * A vehicle stuck yielding this long proceeds when everyone it waits for also stands at their own line, so mutual
+ * waits cannot last forever (game approximation); it never proceeds over anyone on the crossing or over the car.
+ */
+export const DEADLOCK_S = 8;
 const LOOKAHEAD_M = 60;
 /** Pedestrians: walking speeds, gap before stepping off at unsignalled crossings, and respawn delays. */
 const WALK_MIN_MPS = 1.1;
@@ -106,7 +109,7 @@ export interface VehicleState {
   waitingS: number;
   /** `atS` of the STOP line it has fully stopped at, until it passes it. */
   clearedStopS: number | null;
-  /** `atS` of the crossing it decided to proceed through after waiting DEADLOCK_S, until it passes it. */
+  /** `atS` of the crossing where it breaks a mutual wait (after DEADLOCK_S), until it passes it. */
   forcedStopS: number | null;
   /** When it reappears at the start of a finished path; null while on the road. */
   respawnS: number | null;
@@ -377,8 +380,11 @@ function carApproach(approach: Approach, car: Car): { distanceM: number } | null
   return { distanceM: approach.entryM - travelDistance(road, reverse, car.front) };
 }
 
-/** Whether vehicle `self` on `approach` must wait for someone with priority, or for anyone inside the crossing. */
-function mustYield(
+/** Someone a vehicle waits for at a crossing: another actor, or the car. */
+type Holder = Placed | 'car';
+
+/** Whoever vehicle `self` on `approach` must wait for: anyone inside the crossing, or arriving with priority. */
+function holdersAt(
   traffic: Traffic,
   intersectionId: string,
   approach: Approach,
@@ -386,15 +392,17 @@ function mustYield(
   others: readonly Placed[],
   car: Car,
   carPresent: boolean,
-): boolean {
+): Holder[] {
   const intersection = required(indexOf(traffic).intersections.get(intersectionId), 'intersection');
   const fromRight = (other: Approach) => {
     const difference = headingDifference(other.headingRad, approach.headingRad);
     return difference > Math.PI / 4 && difference < (3 * Math.PI) / 4;
   };
+  // A STOP loses the priority even from the right (manual.pdf PDF 64, exception 1): nobody yields to who arrives at one.
   const hasPriorityOver = (other: Approach) =>
     other.id !== approach.id &&
-    (approach.rule === 'stop' ? other.rule !== 'stop' : approach.rule === 'priority' && fromRight(other));
+    other.rule !== 'stop' &&
+    (approach.rule === 'stop' || (approach.rule === 'priority' && fromRight(other)));
   // Someone counts as arriving when close to the crossing or seconds away from it, unless they have stood still.
   const arriving = (remainingM: number, speedMps: number, stoppedS: number) =>
     remainingM >= -1 &&
@@ -404,23 +412,65 @@ function mustYield(
   const crossingInside = (box: OrientedBox) =>
     Math.abs(headingDifference(box.headingRad, approach.headingRad)) > Math.PI / 4 &&
     approach.conflicts.some((conflict) => overlaps(box, conflict));
+  const holders: Holder[] = [];
   for (const other of others) {
     if (other === self || (self && other.path.id === self.path.id)) continue;
-    if (crossingInside(other.box)) return true;
-    for (const stop of other.path.stops) {
-      if (stop.approach.intersectionId !== intersectionId || !hasPriorityOver(stop.approach)) continue;
-      const remaining = stop.atS - (other.state.s + other.plan.halfLengthM);
-      if (arriving(remaining, other.state.speedMps, other.state.stoppedS)) return true;
-    }
+    const withPriority = other.path.stops.some(
+      (stop) =>
+        stop.approach.intersectionId === intersectionId &&
+        hasPriorityOver(stop.approach) &&
+        arriving(stop.atS - (other.state.s + other.plan.halfLengthM), other.state.speedMps, other.state.stoppedS),
+    );
+    if (withPriority || crossingInside(other.box)) holders.push(other);
   }
-  if (!carPresent) return false;
-  if (crossingInside(car.body)) return true;
-  for (const other of intersection.approaches) {
-    if (!hasPriorityOver(other)) continue;
+  if (!carPresent) return holders;
+  const carWithPriority = intersection.approaches.some((other) => {
+    if (!hasPriorityOver(other)) return false;
     const relation = carApproach(other, car);
-    if (relation && arriving(relation.distanceM, car.speedMps, car.stoppedS)) return true;
-  }
-  return false;
+    return relation !== null && arriving(relation.distanceM, car.speedMps, car.stoppedS);
+  });
+  if (carWithPriority || crossingInside(car.body)) holders.push('car');
+  return holders;
+}
+
+/**
+ * Whether `other` stands still at its line of a crossing `self` is already driving across, so it waits for `self`:
+ * it is not a vehicle ahead of `self` even when it brushes its corridor, or both would wait for each other forever.
+ */
+function waitsAtLineFor(other: Placed, self: Placed): boolean {
+  if (other.state.speedMps > 0 || other.path.id === self.path.id) return false;
+  const front = other.state.s + other.plan.halfLengthM;
+  return other.path.stops.some((stop) => {
+    const remaining = aheadM(other.path, front, stop.atS);
+    return (
+      remaining >= -STOP_TOLERANCE_M &&
+      remaining <= STOP_TOLERANCE_M + 0.5 &&
+      Math.abs(headingDifference(self.headingRad, stop.approach.headingRad)) > Math.PI / 4 &&
+      stop.approach.conflicts.some((conflict) => overlaps(self.box, conflict))
+    );
+  });
+}
+
+/**
+ * Whether the deadlock break may pass `holder`: an actor standing still before its own line at this crossing, so
+ * both wait at the edge and nobody is on the pavement. The car, anyone moving and anyone already past their line
+ * keep holding. Between two stuck vehicles, the one already breaking, then the longer wait, then the lower id goes.
+ */
+function passableInDeadlock(holder: Holder, self: Placed, intersectionId: string, breaking: boolean): boolean {
+  if (holder === 'car' || holder.state.speedMps > 0) return false;
+  const front = holder.state.s + holder.plan.halfLengthM;
+  const line = holder.path.stops.find(
+    (stop) =>
+      stop.approach.intersectionId === intersectionId && aheadM(holder.path, front, stop.atS) >= -STOP_TOLERANCE_M,
+  );
+  if (!line) return false;
+  if (breaking) return true;
+  const { waitingS } = holder.state;
+  const goesFirst =
+    holder.state.forcedStopS === line.atS ||
+    (waitingS >= DEADLOCK_S &&
+      (waitingS > self.state.waitingS || (waitingS === self.state.waitingS && holder.plan.id < self.plan.id)));
+  return !goesFirst;
 }
 
 function pedestrianBoxes(traffic: Traffic, pedestrians: readonly PedestrianState[]): Map<string, OrientedBox> {
@@ -468,7 +518,7 @@ function decide(
   let target = Math.min(limit, speedLimitAhead(path, frontS)) * plan.speedFactor;
   // The vehicle ahead on this path, or anyone standing on it (the car included).
   for (const other of others) {
-    if (other === self) continue;
+    if (other === self || waitsAtLineFor(other, self)) continue;
     let gap: number | null = null;
     if (other.path.id === path.id) {
       const ahead = aheadM(path, state.s, other.state.s);
@@ -518,7 +568,8 @@ function decide(
       }
       continue;
     }
-    if (remaining > LOOKAHEAD_M) break;
+    // Stops are sorted by `atS`, not by distance ahead: near the end of a cyclic path the next ones wrap around.
+    if (remaining > LOOKAHEAD_M) continue;
     const { approach } = stop;
     const intersection = required(indexOf(traffic).intersections.get(approach.intersectionId), 'intersection');
     const light = intersectionLight(traffic.plan, intersection, approach.group, timeS);
@@ -535,14 +586,19 @@ function decide(
         clearedStopS = stop.atS;
       else continue;
     }
-    if (forcedStopS === stop.atS) continue;
-    const blocked = mustYield(traffic, intersection.id, approach, self, others, car, carPresent);
-    if (!blocked) continue;
-    if (state.waitingS >= DEADLOCK_S) forcedStopS = stop.atS;
-    else {
-      target = Math.min(target, speedToStop(remaining));
-      yielding = true;
+    const holders = holdersAt(traffic, intersection.id, approach, self, others, car, carPresent);
+    if (holders.length === 0) continue;
+    // A long wait is broken only when everyone holding it waits at their own line too; an occupied crossing never is.
+    const breaking = forcedStopS === stop.atS;
+    if (
+      (breaking || state.waitingS >= DEADLOCK_S) &&
+      holders.every((holder) => passableInDeadlock(holder, self, intersection.id, breaking))
+    ) {
+      forcedStopS = stop.atS;
+      continue;
     }
+    target = Math.min(target, speedToStop(remaining));
+    yielding = true;
   }
   return { targetMps: target, yielding, clearedStopS, forcedStopS };
 }

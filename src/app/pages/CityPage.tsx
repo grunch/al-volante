@@ -28,6 +28,8 @@ function CityExplorer({ route }: { route: Route }) {
   const [transmission, setTransmission] = useState<TransmissionKind>('automatic');
   const [resetCount, setResetCount] = useState(0);
   const [seed, setSeed] = useState(DEFAULT_SEED);
+  // What the field shows while editing: it may be empty, but only a valid integer becomes the seed.
+  const [seedText, setSeedText] = useState(String(DEFAULT_SEED));
   const selected = city.legs.find((item) => item.number === leg);
   return (
     <>
@@ -61,11 +63,19 @@ function CityExplorer({ route }: { route: Route }) {
             min={0}
             max={MAX_SEED}
             step={1}
-            value={seed}
+            value={seedText}
             onChange={(event) => {
-              const value = Number(event.target.value);
-              if (Number.isInteger(value) && value >= 0 && value <= MAX_SEED) setSeed(value);
+              const text = event.target.value;
+              if (text.trim() === '') {
+                setSeedText('');
+                return;
+              }
+              const value = Number(text);
+              if (!Number.isInteger(value) || value < 0 || value > MAX_SEED) return;
+              setSeedText(text);
+              setSeed(value);
             }}
+            onBlur={() => setSeedText(String(seed))}
           />
           <p className="city-hint">{copy.seedHelp}</p>
           <fieldset className="choice">

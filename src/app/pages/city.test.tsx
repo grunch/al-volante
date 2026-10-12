@@ -81,6 +81,11 @@ it('drives with seeded traffic: the seed input is bounded and the cockpit report
   expect(seed).toHaveValue(1);
   fireEvent.change(seed, { target: { value: '7' } });
   expect(seed).toHaveValue(7);
+  // Clearing the field to type another seed does not apply seed 0; leaving it empty restores the last one.
+  fireEvent.change(seed, { target: { value: '' } });
+  expect(seed).toHaveValue(null);
+  fireEvent.blur(seed);
+  expect(seed).toHaveValue(7);
   expect(screen.getByText(copy.seedHelp)).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: copy.drive }));
   const view = await screen.findByTestId('driving-canvas');
