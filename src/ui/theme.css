@@ -854,6 +854,34 @@ a {
   margin: var(--space-1) 0;
 }
 
+/* The driving guide of the exam page (F04-T05-FIX01): keys and steps, the current step marked. */
+.exam-guide {
+  margin: var(--space-3) 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid #d5dbe7;
+  border-radius: 6px;
+}
+
+.exam-guide summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.exam-guide summary:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.exam-guide li {
+  margin: var(--space-1) 0;
+}
+
+.exam-guide li[aria-current='step'] {
+  padding: var(--space-1) var(--space-2);
+  border-left: 4px solid var(--color-turquoise-text);
+  background: #e8f5f3;
+}
+
 .exam-card {
   margin-top: var(--space-4);
 }

@@ -41,6 +41,11 @@ describe('driving modes (F04-T05, REGLAS.md D15)', () => {
     expect(aidsOf('exam').size).toBe(0);
   });
 
+  it('shows the step-by-step driving guide in every mode but the real exam (F04-T05-FIX01)', () => {
+    for (const mode of ['learn', 'practice', 'run'] as const) expect(aidsOf(mode).has('steps')).toBe(true);
+    expect(aidsOf('exam').has('steps')).toBe(false);
+  });
+
   it('persists runs, exams and practices, not the guided learning', () => {
     expect(isPersisted('learn')).toBe(false);
     expect(isPersisted('practice')).toBe(true);

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import type { Observation } from '../exam/session.ts';
+import type { Bindings } from '../practice/bindings.ts';
 import { DrivingCanvas } from '../practice/DrivingCanvas.tsx';
 import type { Telemetry } from '../practice/telemetry.ts';
 import type { RendererFactory } from '../scene/SceneCanvas.tsx';
@@ -22,6 +23,7 @@ export function ExamDrive({
   onObservation,
   onTelemetry,
   halted,
+  onBindingsChange,
   createRenderer = createCityRenderer,
 }: {
   city: City;
@@ -35,6 +37,8 @@ export function ExamDrive({
   onObservation: (observation: Observation) => void;
   onTelemetry: (telemetry: Telemetry) => void;
   halted: boolean | (() => boolean);
+  /** The keys the driver bound, for the page's driving guide (F04-T05-FIX01). */
+  onBindingsChange?: (bindings: Bindings) => void;
   createRenderer?: RendererFactory;
 }) {
   const createScene = useMemo(() => cityCockpitFactory(city), [city]);
@@ -52,6 +56,7 @@ export function ExamDrive({
       onObservation={onObservation}
       onTelemetry={onTelemetry}
       halted={halted}
+      {...(onBindingsChange ? { onBindingsChange } : {})}
       createScene={createScene}
       createRenderer={createRenderer}
     />

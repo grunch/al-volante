@@ -693,11 +693,11 @@ export const EXAM_COPY = {
   modes: { learn: 'Aprender', practice: 'Practicar', run: 'Recorrer', exam: 'Rendir' },
   modeHelp: {
     learn:
-      'Guiado: en cada paso ves qué regla se evalúa, con qué umbral y qué tecla usar; cada falla se explica en el momento. Lo que hagas acá no se guarda en la bitácora.',
+      'Guiado: además del paso a paso con las teclas, en cada fase ves qué regla se evalúa y con qué umbral, y cada falla se explica en el momento. Lo que hagas acá no se guarda en la bitácora.',
     practice:
-      'Una sola etapa, con todas las ayudas del tablero. El resultado queda pendiente: no es un examen completo.',
-    run: 'Las tres etapas seguidas con las ayudas del tablero y el puntaje a la vista. Se guarda en la bitácora.',
-    exam: 'Como el examen real: solo lo que dice el examinador. Puntos, fallas y ficha recién al final. Se guarda en la bitácora.',
+      'Una sola etapa, con el paso a paso y todas las ayudas del tablero. El resultado queda pendiente: no es un examen completo.',
+    run: 'Las tres etapas seguidas con el paso a paso, las ayudas del tablero y el puntaje a la vista. Se guarda en la bitácora.',
+    exam: 'Como el examen real: solo lo que dice el examinador, sin paso a paso (las teclas siguen a la vista). Puntos, fallas y ficha recién al final. Se guarda en la bitácora.',
   },
   stage: 'Etapa a practicar',
   stageNames: { I: 'Etapa I', II: 'Etapa II', III: 'Etapa III' },
@@ -712,67 +712,54 @@ export const EXAM_COPY = {
     III: 'Empezás sobre Vuelta de Obligado (tramo 8) con el motor en marcha, antes del aviso de los 100 m; termina al bajar del auto.',
   },
   examNoAids: 'Modo rendir: los puntos y las fallas se informan al final, como en el examen real (protocolo, PDF 14).',
-  /** Guided learning (mode "aprender"): what each phase checks, in plain words, and what to do. */
+  /** Guided learning (mode "aprender"): what each phase checks, in plain words; what to do is the driving guide. */
   learnChecks: 'Qué se evalúa ahora',
-  learnHow: 'Cómo hacerlo',
   learnHints: {
     familiarisation: {
       checks: 'Nada todavía: podés probar todos los mandos sin consecuencias.',
-      hint: 'Probá las teclas: flechas o WASD para manejar, Shift embrague, Q/E cambios, K llave, O luces, Z/X direccionales, V balizas, C cinturón, J/L mirar a los lados, U/P espejos, G puerta.',
     },
     recognition: {
       checks:
         'Pedales y caja: no reconocerlos es eliminatorio (8 puntos). Luces e instrumentos: 1 punto cada familia, una sola vez. Un mando de otra familia no cuenta como respuesta.',
-      hint: 'Respondé con el mando que te pide: flechas para los pedales, Shift y Q/E para la caja (freno para salir de P en la automática), O luces, Z/X direccionales, V balizas, F limpiaparabrisas, H bocina.',
     },
     preparation: {
       checks:
         'Al avisar que estás listo/a: asiento y apoyacabezas sin regular, 1 punto cada uno; no chequear los tres espejos, 3 puntos. Con 8 puntos o más antes de salir, el examen se interrumpe.',
-      hint: 'Usá el panel del habitáculo para regular el asiento, el apoyacabezas y los tres espejos; abrochate el cinturón (C) y dejá las luces bajas (O).',
     },
     unlock: {
       checks:
         'Arrancar con un cambio puesto (o sin verificar el punto muerto) es 1 punto; arrancar con el motor ya en marcha, 1 punto por vez.',
-      hint: 'Caja en N (P en la automática): Q/E con Shift pisado. Después K para arrancar.',
     },
     reverse: {
       checks:
         'Retroceder 30 cm (±10 cm, aproximación del juego) sin mover el volante, en una sola maniobra y con la técnica pedida: 3 puntos si falla.',
-      hint: 'Marcha atrás (R) y freno de mano suelto (Espacio). Manual: regulá solo con el embrague (Shift), sin acelerar; frenar vale solo al final. Automática: regulá solo con el freno.',
     },
     forward: {
       checks:
         'Avanzar 30 cm (±10 cm) sin girar el volante y en una sola maniobra, en primera o en D: 3 puntos si falla.',
-      hint: 'Primera (o D) y adelante despacio; parate del todo y esperá medio segundo para que se mida.',
     },
     exit: {
       checks:
         'Al arrancar: sin direccional izquierda, 1 punto; sin mirar los espejos, 3 puntos. Sin cinturón al moverte, eliminatorio. Tocar un poste despacio son 3 puntos; derribarlo (a 1 m/s o más), eliminatorio.',
-      hint: 'Z para la direccional izquierda, U o J para mirar el espejo izquierdo, y salí con un giro suave hacia la calle.',
     },
     firstMetres: {
       checks:
         'Primeros 100 m: más de 30 km/h, o por encima de 15 km/h sin estar en segunda (D en la automática), es eliminatorio (indicación de marcha). Las reglas de la esquina rigen igual.',
-      hint: 'Manual: pasá a segunda (E con Shift) apenas puedas. Mirá el velocímetro del tablero.',
     },
     circulation: {
       checks:
         'Semáforo en rojo, carriles exclusivos, línea continua, sobrepasos indebidos, emergencia sin ceder: eliminatorios. Velocidad: más de 30 km/h (45 en Cabildo) son 3 puntos; más que la máxima de la vía, eliminatorio. Esquinas: PARE sin detención, prioridad, reducir, carril de giro, sendas con peatones: 3 puntos. Direccional ausente, 2 puntos; a menos de 30 m, 1 punto.',
-      hint: 'Mirá «Adelante» y «Velocidad» en el tablero; Z/X 30 m antes de doblar; U/P para los espejos antes de cambiar de carril; detenete del todo en el PARE a menos de 3 m de la línea.',
     },
     parking: {
       checks:
         'Balizas 3 s o más antes de parar en doble fila: si no, 2 puntos. Espejos antes de retroceder: 3 puntos si no. Cuarta maniobra: 1 punto. Tercer intento: eliminatorio. Pisar una línea del cajón despacio, 3 puntos; a 1 m/s o más, eliminatorio. Posición final: menos de 15 cm, 1 punto; entre 25 y 50 cm, 1 punto; más de 50 cm, eliminatorio; inclinada o descentrada más de 0,5 m, 1 punto.',
-      hint: 'V balizas, parate junto al cajón a más de 1,2 m de su línea, P o B para mirar, R y dos arcos a tope. Mirá «Estacionamiento» y «Distancia al cordón». Cuando estés, con el auto parado, tocá «Terminé de estacionar».',
     },
     leaving: {
       checks:
         'Al abrir la puerta: caja fuera de N (P en la automática), sin freno de mano, luces bajas encendidas, motor en marcha o llave puesta: 1 punto cada una. Sin mirar el espejo izquierdo: 2 puntos.',
-      hint: 'N o P, Espacio para el freno de mano, O hasta apagar las luces, K para apagar y sacar la llave, U o J para el espejo izquierdo, y G para abrir la puerta.',
     },
     finished: {
       checks: 'El examen terminó: revisá la ficha.',
-      hint: 'Mirá cada falla, su página del protocolo, y volvé a intentarlo.',
     },
   },
   lastFault: 'Última falla',

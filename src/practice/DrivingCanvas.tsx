@@ -64,6 +64,8 @@ interface DrivingCanvasProps {
    * function is read before every simulation step, so a takeover decided in one step brakes from the next one.
    */
   halted?: boolean | (() => boolean);
+  /** Told the keys in use when the view loads them and after every change, so a guide can name them. */
+  onBindingsChange?: (bindings: Bindings) => void;
 }
 
 const defaultRendererFactory: RendererFactory = () => new THREE.WebGLRenderer({ antialias: true });
@@ -93,6 +95,7 @@ export function DrivingCanvas({
   prepared = EMPTY_COMMANDS,
   onObservation,
   halted = false,
+  onBindingsChange,
 }: DrivingCanvasProps) {
   const shellRef = useRef<HTMLElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
@@ -132,6 +135,9 @@ export function DrivingCanvas({
     }
   });
   const [storageError, setStorageError] = useState(false);
+  useEffect(() => {
+    onBindingsChange?.(bindings);
+  }, [bindings, onBindingsChange]);
   const [readout, setReadout] = useState({ speed: 0, rpm: 0, gear: transmission === 'manual' ? 'N' : 'P' });
   const dragRef = useRef<{ id: number; x: number; y: number } | null>(null);
   const command = (value: CockpitCommand) => {

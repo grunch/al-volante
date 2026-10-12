@@ -39,9 +39,11 @@ export function stageFromSlug(slug: string | null): Stage | null {
  * The aids of the HUD (D15). `hints` and `explanations` are the guided learning: what each prompt checks and the
  * fault explained the moment it happens. The rest are readings the real examiner never gives: live points and
  * faults, the control ahead with its light and distance, the speed limits, the measurements of the box, the
- * traffic light readout, the manoeuvre and attempt counters, the distance to the kerb and the descent checklist.
+ * traffic light readout, the manoeuvre and attempt counters, the distance to the kerb and the descent checklist,
+ * and the step-by-step driving guide (`steps`, F04-T05-FIX01): what to do in each phase, and with which keys.
  */
 export const HUD_AIDS = [
+  'steps',
   'points',
   'faults',
   'notice',
