@@ -9,7 +9,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
-- **Fase 4 — etapa A completa; etapa B en curso.** T01 se inició con «arranca con F04 T01» (autor asignado GPT-6 Astra). El resto de la fase se inició con «ya está el pr de F04 T01, haz el resto de tareas de esta fase»: T01 (#22), T02 (#23) y T03 (#24) están fusionadas en `main`; T04 (#25) apunta a `main` e incorporó esa fusión; T05 (#26) está apilada sobre T04 e incorporó su rama actualizada. Falta fusionar #25 y después #26.
+- **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
 - Fases 5–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -328,11 +328,11 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
-| F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
+| F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | fusionada en `main` (`3c7aca2`); findings de `9dc94d3` y `5b07456` corregidos |
 | F04-T02 | `f04-t02-traffic` | `main` | [#23](https://github.com/grunch/al-volante/pull/23) | fusionada en `main` (`a3c5e15`); findings de `a5b9496`, `f53b7f3`, `50ce70f` y `d2c563a` corregidos |
 | F04-T03 | `f04-t03-examiner` | `main` | [#24](https://github.com/grunch/al-volante/pull/24) | fusionada en `main` (`d919f98`); findings de `f4d7c6f`, `eaf60ce` y `cf9d690` corregidos |
-| F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | implementada; findings de `f2624a4` y `b551baa` corregidos; CI y revisión de seguimiento del último push pendientes |
-| F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | implementada; findings de `f7b9398` corregidos; CI de `83562c4` corregida (presupuesto del E2E); CodeRabbit y revisión de seguimiento pendientes |
+| F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | fusionada en `main` (`cefe7b2`); findings de `f2624a4`, `b551baa` y siguientes corregidos |
+| F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | fusionada en `main` (`b36fe55`); findings de `f7b9398` y siguientes corregidos |
 | F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | abierto; corrige la vuelta guionada que fallaba en `main`; Codex solicitado, CodeRabbit automático |
 
 ### F04-T01 — Ciudad y recorrido completo
@@ -426,7 +426,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) apunta a `main` e incorporó esa fusión; F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) sigue apilada sobre #25 y se fusiona después, actualizando la base y repitiendo los checks.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) parte de `main`.
 
 ## Bloqueos
 
@@ -434,13 +434,13 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-La etapa A de la fase 4 está completa: #22, #23, #24, #25 y [#26](https://github.com/grunch/al-volante/pull/26) creados y apilados. Sigue la etapa B: atender CI y revisiones (Codex y CodeRabbit) de los cinco PRs con el usuario, corregir findings de la base hacia arriba y fusionar en orden. La fase 5 (todo el contenido y simulacros teóricos) no empieza hasta que el usuario la inicie.
+La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama.
 
 ### Cierre de la fase 4 contra el plan
 
 «Examen completo jugable en A, con reglas transcritas implementadas y comprobadas. Los criterios que el juego solo aproxima se explican al usuario.»
 
-- **Examen completo jugable en A:** cumplido en etapa A. Las tres etapas se juegan seguidas en `#/examen` (recorrer y rendir), con tránsito y semáforos por semilla (T02), el examinador y las reglas de circulación (T03), el estacionamiento y el descenso (T04), los modos y la ficha (T05). Pendiente de la etapa B: revisiones, findings y fusión.
+- **Examen completo jugable en A:** cumplido y fusionado (#22–#26). Las tres etapas se juegan seguidas en `#/examen` (recorrer y rendir), con tránsito y semáforos por semilla (T02), el examinador y las reglas de circulación (T03), el estacionamiento y el descenso (T04), los modos y la ficha (T05).
 - **Reglas transcritas implementadas y comprobadas:** cada regla del alcance tiene criterio, fuente y prueba en las tablas de ARQUITECTURA (T03 y T04). No se evalúan, y se dice por qué en REGLAS.md §9: las dos manos en el volante (baja f), los dispositivos (eliminatoria m), la autoridad de tránsito (eliminatoria e), la omisión de bocina, el arranque excedido en tiempo (leve g) y el arranque brusco y la aceleración en vacío (bajas b, c).
 - **Lo que el juego solo aproxima se explica al usuario:** los umbrales sin cifra del protocolo (D6–D14, V2, V3), las ayudas por modo (D15) y las aproximaciones de los modos están en REGLAS.md §7 y §9, en el texto «Aproximaciones del juego» de la página del examen y, al terminar, en la ficha como «aproximaciones que pudieron influir».
 - **Queda aproximado y sin relevamiento** (CIUDAD.md): la posición exacta del cajón, los anchos, PARE, reductor y máximas de la vía (OSM, fuente única). El rendimiento gráfico medido en T01 no acredita 60 FPS por software. Las revisiones visuales en navegador se limitaron a los E2E en T03–T05.
