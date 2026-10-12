@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import type { City } from './model.ts';
+import { createCityLighting } from './lighting.ts';
 import { instantiate, disposeSector } from './geometry.ts';
 import { planStreetscape } from './streetscape.ts';
-import { createControl, isSignalControl, lightControl } from './signage.ts';
+import { createControl, isSignalControl, lightControl, label } from './signage.ts';
 import { sectorKey, SectorSet } from './sectors.ts';
 import { createCockpitScene } from '../scene/cockpitScene.ts';
 import { createActor } from '../scene/trackScene.ts';
@@ -59,13 +60,17 @@ export function attachTraffic(scene: THREE.Scene, signals: ReadonlyMap<string, T
 export function attachCity(scene: THREE.Scene, city: City) {
   const ground = new THREE.Mesh(
     new THREE.PlaneGeometry(1800, 1800),
-    new THREE.MeshStandardMaterial({ color: '#b5bca9', roughness: 1 }),
+    new THREE.MeshStandardMaterial({ color: '#b5bca9', roughness: 1, depthWrite: false }),
   );
   ground.name = 'city-ground';
+  // The background plane fills unmodeled space without hiding thin road paint or pavement.
+  ground.renderOrder = -1;
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = -0.012;
   scene.add(ground);
+  const lighting = createCityLighting(scene);
   const plans = planStreetscape(city);
+  let lightingDirty = true;
   for (const control of city.controls) {
     const key = sectorKey(control.position);
     if (!plans.has(key)) plans.set(key, { parts: [] });
@@ -74,10 +79,18 @@ export function attachCity(scene: THREE.Scene, city: City) {
   /** Signal heads currently loaded, by control id, so the traffic state can light them. */
   const signals = new Map<string, THREE.Object3D>();
   const load = (key: string) => {
+    lightingDirty = true;
     const plan = plans.get(key);
     if (!plan) throw new Error(`Missing sector ${key}`);
     const group = instantiate(plan.parts);
     group.name = `city-sector-${key}`;
+    for (const item of plan.labels ?? []) {
+      const plaque = label(item.text, item.widthM, item.heightM, item.background);
+      plaque.position.set(...item.position);
+      plaque.rotation.y = item.heading;
+      plaque.name = 'street-plaque';
+      group.add(plaque);
+    }
     for (const control of city.controls.filter((item) => sectorKey(item.position) === key)) {
       const head = createControl(control);
       group.add(head);
@@ -87,6 +100,7 @@ export function attachCity(scene: THREE.Scene, city: City) {
     scene.add(group);
   };
   const unload = (key: string) => {
+    lightingDirty = true;
     const group = groups.get(key);
     if (group) disposeSector(group);
     groups.delete(key);
@@ -94,8 +108,8 @@ export function attachCity(scene: THREE.Scene, city: City) {
   };
   const stream = new SectorSet([...plans.keys()], load, unload);
   const traffic = attachTraffic(scene, signals);
-  scene.background = new THREE.Color('#cbdcdd');
-  scene.fog = new THREE.Fog('#cbdcdd', 95, 170);
+  scene.background = new THREE.Color('#c5d6e4');
+  scene.fog = new THREE.Fog('#c5d6e4', 95, 170);
   return {
     stream,
     update(position: Pick<VehicleState, 'x' | 'z'>, whole = false) {
@@ -106,6 +120,8 @@ export function attachCity(scene: THREE.Scene, city: City) {
             stream.active.add(key);
           }
       } else stream.update(position);
+      lighting.update(position, lightingDirty);
+      lightingDirty = false;
       scene.userData.activeSectors = stream.active.size;
       scene.userData.totalSectors = plans.size;
     },
@@ -114,6 +130,7 @@ export function attachCity(scene: THREE.Scene, city: City) {
       traffic.update(snapshot);
     },
     dispose() {
+      lighting.dispose();
       traffic.dispose();
       stream.dispose();
       ground.removeFromParent();
@@ -134,6 +151,9 @@ export function cityCockpitFactory(city: City): typeof createCockpitScene {
         object.geometry.dispose();
         for (const material of Array.isArray(object.material) ? object.material : [object.material]) material.dispose();
       }
+    }
+    for (const light of [...cockpit.scene.children]) {
+      if (light instanceof THREE.DirectionalLight || light instanceof THREE.HemisphereLight) light.removeFromParent();
     }
     const cityView = attachCity(cockpit.scene, city);
     return {

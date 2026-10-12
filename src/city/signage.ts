@@ -8,7 +8,7 @@ const LAMP_STATES: readonly LightState[] = ['red', 'yellow', 'green'];
 const LAMP_COLORS: Record<LightState, string> = { red: '#e03b2e', yellow: '#f2c230', green: '#2ec46a' };
 
 /** Canvas text is original content; DOM text in the route panel supplies its accessible equivalent. */
-function label(text: string, width: number, height: number, background: string): THREE.Mesh {
+export function label(text: string, width: number, height: number, background: string): THREE.Mesh {
   const canvas = document.createElement('canvas');
   canvas.width = 512;
   canvas.height = 128;

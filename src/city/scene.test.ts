@@ -20,6 +20,9 @@ describe('streamed city renderer', () => {
     const scene = new THREE.Scene();
     const view = attachCity(scene, city);
     view.update(city.start.pose, true);
+    const ground = scene.getObjectByName('city-ground') as THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>;
+    expect(ground.material.depthWrite).toBe(false);
+    expect(ground.renderOrder).toBeLessThan(0);
     expect(scene.userData.activeSectors).toBe(scene.userData.totalSectors);
     for (const control of city.controls)
       expect(scene.getObjectByName(control.id)?.userData.status).toBe(control.status);

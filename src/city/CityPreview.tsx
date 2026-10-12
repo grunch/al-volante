@@ -3,10 +3,11 @@ import * as THREE from 'three';
 import type { City } from './model.ts';
 import { sampleLeg, offsetPoint } from './model.ts';
 import { attachCity } from './scene.ts';
+import { createCityRenderer } from './lighting.ts';
 import type { RendererFactory, SceneRenderer } from '../scene/SceneCanvas.tsx';
 import { CITY_COPY as copy } from '../i18n/es-AR.ts';
 
-const defaultFactory: RendererFactory = () => new THREE.WebGLRenderer({ antialias: true });
+const defaultFactory: RendererFactory = createCityRenderer;
 export function CityPreview({
   city,
   leg,
@@ -32,9 +33,6 @@ export function CityPreview({
     }
     const scene = new THREE.Scene();
     const cityView = attachCity(scene, city);
-    const sun = new THREE.DirectionalLight('#fff1d4', 2.4);
-    sun.position.set(-60, 100, -20);
-    scene.add(sun, new THREE.HemisphereLight('#e7f3f4', '#989386', 2));
     const camera = new THREE.PerspectiveCamera(48, 1, 0.1, 1500);
     const length = city.legs.find((item) => item.number === leg)?.lengthM ?? 0;
     const focus = sampleLeg(city, leg, Math.min(length / 2, 55));
@@ -65,7 +63,7 @@ export function CityPreview({
       } else {
         camera.near = 0.5;
         const eye = offsetPoint(focus, focus.headingRad, -28, -35);
-        camera.position.set(eye.x, 35, eye.z);
+        camera.position.set(eye.x, 58, eye.z);
         camera.lookAt(focus.x, 0, focus.z);
       }
       camera.updateProjectionMatrix();

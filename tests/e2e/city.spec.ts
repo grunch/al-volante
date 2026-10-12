@@ -1,5 +1,8 @@
 import { expect, test } from '@playwright/test';
 
+// Cold shader compilation with city shadows and three mirrors needs extra time on software WebGL.
+test.describe.configure({ timeout: 120_000 });
+
 test('explores all eight legs, opens sources and preserves the geographic overview without overflow', async ({
   page,
 }, testInfo) => {
@@ -7,18 +10,18 @@ test('explores all eight legs, opens sources and preserves the geographic overvi
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/#/recorrido');
   const preview = page.getByTestId('city-preview');
-  await expect(preview).toHaveAttribute('data-state', 'ready');
+  await expect(preview).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   const selector = page.getByRole('combobox', { name: 'Punto de entrada' });
   for (let leg = 1; leg <= 8; leg++) {
     await selector.selectOption(String(leg));
-    await expect(preview).toHaveAttribute('data-state', 'ready');
+    await expect(preview).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     expect(Number(await preview.getAttribute('data-sectors'))).toBeGreaterThan(0);
   }
   await selector.selectOption('1');
-  await expect(preview).toHaveAttribute('data-state', 'ready');
+  await expect(preview).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await preview.screenshot({ path: testInfo.outputPath('quesada-block.png') });
   await page.getByRole('button', { name: 'Ver circuito completo', exact: true }).click();
-  await expect(preview).toHaveAttribute('data-state', 'ready');
+  await expect(preview).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await expect
     .poll(async () => preview.getAttribute('data-sectors'))
     .toBe(await preview.getAttribute('data-total-sectors'));
@@ -36,13 +39,13 @@ test('explores all eight legs, opens sources and preserves the geographic overvi
 });
 
 test('drives from a route entry with the keyboard and restores the parked state', async ({ page }, testInfo) => {
-  // The CI browser draws the city in software with traffic and mirrors: a minute was not always enough there.
-  test.setTimeout(120000);
+  // Software WebGL draws the detailed city, traffic and three mirrors; allow the keyboard scenario to complete.
+  test.setTimeout(180000);
   await page.goto('/#/recorrido');
-  await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready');
+  await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await page.getByRole('button', { name: 'Conducir este tramo', exact: true }).click();
   const view = page.getByTestId('driving-canvas');
-  await expect(view).toHaveAttribute('data-state', 'ready');
+  await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   const initialX = await view.getAttribute('data-position-x');
   const initialZ = await view.getAttribute('data-position-z');
   await view.scrollIntoViewIfNeeded();
@@ -76,9 +79,9 @@ test('drives from a route entry with the keyboard and restores the parked state'
 
 test('records cockpit frame timing and renderer environment within a bounded window', async ({ page }, testInfo) => {
   await page.goto('/#/recorrido');
-  await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready');
+  await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await page.getByRole('button', { name: 'Conducir este tramo', exact: true }).click();
-  await expect(page.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'ready');
+  await expect(page.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   const timing = await page.evaluate(async () => {
     const view = document.querySelector<HTMLElement>('[data-testid="driving-canvas"]');
     const gl = view?.querySelector('canvas')?.getContext('webgl2');
@@ -113,13 +116,13 @@ test('runs seeded traffic in the cockpit, with actors active and no page errors'
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/#/recorrido');
-  await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready');
+  await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   const seed = page.getByRole('spinbutton', { name: 'Semilla del tránsito' });
   await expect(seed).toHaveValue('1');
   await seed.fill('5');
   await page.getByRole('button', { name: 'Conducir este tramo', exact: true }).click();
   const view = page.getByTestId('driving-canvas');
-  await expect(view).toHaveAttribute('data-state', 'ready');
+  await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await expect.poll(async () => Number(await view.getAttribute('data-actors')), { timeout: 20000 }).toBeGreaterThan(0);
   await expect(page.getByText('Exploración con tránsito', { exact: false })).toBeVisible();
   expect(errors).toEqual([]);
