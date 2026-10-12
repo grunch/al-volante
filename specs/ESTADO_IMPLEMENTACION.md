@@ -435,7 +435,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
 | F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | abierto; Codex sin observaciones (`ef44c0b`); CodeRabbit pendiente por cuota |
-| F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | (se completa al crear el PR) | implementada; revisiones pendientes |
+| F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | [#29](https://github.com/grunch/al-volante/pull/29) | abierto; Codex solicitado, CodeRabbit automático |
 
 ### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
 
