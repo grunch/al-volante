@@ -330,7 +330,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|
 | F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
 | F04-T02 | `f04-t02-traffic` | `f04-t01-city` (#22) | [#23](https://github.com/grunch/al-volante/pull/23) | implementada; findings de `a5b9496` y `f53b7f3` corregidos; revisión de seguimiento pendiente |
-| F04-T03 | `f04-t03-examiner` | `f04-t02-traffic` (#23) | PR_T03 | implementada; CI y revisiones pendientes |
+| F04-T03 | `f04-t03-examiner` | `f04-t02-traffic` (#23) | [#24](https://github.com/grunch/al-volante/pull/24) | implementada; CI y revisiones pendientes |
 | F04-T04 | — | `f04-t03-examiner` | — | siguiente |
 | F04-T05 | — | — | — | pendiente |
 
@@ -362,7 +362,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ### F04-T03 — Examinador del circuito y reglas de circulación
 
-- Apilado sobre `f04-t02-traffic` (#23). Orden obligatorio: #22 → #23 → PR_T03.
+- Apilado sobre `f04-t02-traffic` (#23). Orden obligatorio: #22 → #23 → [#24](https://github.com/grunch/al-volante/pull/24).
 - Alcance: `src/exam/circuit.ts` (circuito derivado de la ciudad y la red: tramos, esquinas con giro, cruces con regla, sendas, reductor, Metrobús, línea continua), `src/exam/circulation.ts` (juez puro de la etapa II con todas las reglas de circulación, umbrales `CIRCULATION`, avisos e instrucciones), `session.ts` (fases `firstMetres` → `circulation`, salida medida en el marco de la pose inicial, toma de control, contactos con causa `examiner`), `scoring.ts` (`cause` del reporte; todo escalamiento interrumpe como `examiner`), `src/traffic/emergency.ts` (ambulancia por vuelta) y una extensión mínima del tránsito (peatones de sendas semaforizadas no bajan frente al auto), `lookAhead` con tolerancia lateral, `DrivingCanvas` con `halted`, `ExamDrive`, `#/examen` sobre la ciudad con semilla, HUD de tramo/indicación/aviso/límites y devolución con la regla que interrumpe. Detalle en ARQUITECTURA «Examinador del circuito (F04-T03)».
 - Aceptación:
   - **Cada regla del alcance tiene evidencia:** tabla regla → criterio → fuente → episodio → prueba en ARQUITECTURA; `src/exam/circulation.test.ts` (21 casos sintéticos: prioridad, 2 s, sobrepaso, peatones/ciclistas, precautoria, toma de control, bocina, emergencia, cambios de carril, carril, ciclovía, Metrobús, línea continua, contramano, reductor, mínima, detención innecesaria, primeros 100 m sin velocidad), `src/exam/street.test.ts` (16 casos con guion sobre la ciudad con tránsito: vuelta limpia de los ocho tramos, primeros 100 m correctos y con exceso en automática y manual, velocidad f/l con D2 y D3, rojo, línea, bloqueo, direccionales, seguir de largo, PARE, reducir, ambulancia, toma de control, atropello escalado, choque, pérdida de control, HUD), `src/exam/circuit.test.ts` (4 casos de derivación).
@@ -371,11 +371,11 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Lo que no se evalúa (dos manos, dispositivos, autoridad de tránsito, omisión de bocina) y por qué está en REGLAS.md §9 y en ARQUITECTURA.
 - Aproximaciones nuevas (REGLAS.md §7 D6–D9 y §9): umbrales de cada regla, ambulancia (tramo 3, 90 m detrás, 50 km/h, 2,4 m a la izquierda, 6 s de paciencia), toma de control a más de 7 m/s² de frenado necesario, los primeros 100 m terminan unos 3 m después de la línea de Cabildo por la posición del cajón de F04-T01 (D9), el frente del auto decide la detención sobre senda, los actores no reaccionan a la ambulancia.
 - Verificación local: `npm run check` aprobado con 422 pruebas (cobertura 96,03 % sentencias / 90,52 % ramas / 95,27 % funciones / 96,93 % líneas), contenido OK y build OK. Playwright: `exam.spec.ts` y `city.spec.ts` con `--workers=1`, 12 E2E aprobados (escritorio y Pixel 7 emulado), incluido el caso nuevo del HUD del circuito; suite completa `npx playwright test --workers=1`: 48 E2E aprobados sin reintentos. La vuelta limpia con guion tarda unos 33 s reales (359 s simulados).
-- PR_RECORD_T03
+- PR [#24](https://github.com/grunch/al-volante/pull/24) abierto con implementación `e2b683d`, apilado sobre #23. Codex solicitado con `@codex review`; CodeRabbit automático. Ambos resultados y la CI remota están pendientes; se registran al llegar. Sin excepción de cuota aplicada.
 
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) está apilado sobre #22 y F04-T03 (PR_T03) sobre #23: fusionar #22 primero, después actualizar la base de [#23](https://github.com/grunch/al-volante/pull/23), comprobar su diff y repetir los checks; después lo mismo con PR_T03.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) está apilado sobre #22 y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) sobre #23: fusionar #22 primero, después actualizar la base de [#23](https://github.com/grunch/al-volante/pull/23), comprobar su diff y repetir los checks; después lo mismo con [#24](https://github.com/grunch/al-volante/pull/24).
 
 ## Bloqueos
 
@@ -383,7 +383,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Continuar la etapa A de la fase 4: F04-T04 (estacionamiento y descenso, etapa III) apilada sobre `f04-t03-examiner`. La etapa II termina en `onCirculationStep` cuando `verdict.done` (el auto vuelve al tramo 1 tras el 8): ahí T04 debe entrar en una fase `parking` en vez de `finish`, con `completedStages` ya incluyendo `II`; la sesión expone `street` (tramo, límites, avisos), `circuit` (cajón de F04-T01 en `city.start`, marcas en `city.world.markings`) y `recordFault`/`interrupt` para las reglas r–y, baja i/j, alta p y eliminatorias d, q, r. Mientras tanto, atender CI y revisiones de #22, #23 y PR_T03 cuando lleguen; no fusionar hasta la etapa B.
+Continuar la etapa A de la fase 4: F04-T04 (estacionamiento y descenso, etapa III) apilada sobre `f04-t03-examiner`. La etapa II termina en `onCirculationStep` cuando `verdict.done` (el auto vuelve al tramo 1 tras el 8): ahí T04 debe entrar en una fase `parking` en vez de `finish`, con `completedStages` ya incluyendo `II`; la sesión expone `street` (tramo, límites, avisos), `circuit` (cajón de F04-T01 en `city.start`, marcas en `city.world.markings`) y `recordFault`/`interrupt` para las reglas r–y, baja i/j, alta p y eliminatorias d, q, r. Mientras tanto, atender CI y revisiones de #22, #23 y [#24](https://github.com/grunch/al-volante/pull/24) cuando lleguen; no fusionar hasta la etapa B.
 
 ## Decisiones que no deben reinterpretarse
 

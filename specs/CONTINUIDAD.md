@@ -154,5 +154,5 @@ Apilada sobre `f04-t02-traffic` (#23) por el mismo pedido («ya está el pr de F
 - La ambulancia es un actor `emergency` del tránsito (`src/traffic/emergency.ts`), uno por vuelta en Guayra; los demás actores no la ven. Los peatones de sendas semaforizadas tampoco bajan del cordón frente al auto a menos de 15 m (extensión mínima de T02).
 - La etapa II termina al volver al tramo 1 tras el 8 (`verdict.done`): `completedStages` incluye `II` y el resultado queda parcial. F04-T04 debe reemplazar ese `finish` por una fase de estacionamiento y completar la III; F04-T05 integra los modos y la ficha.
 - No se evalúan: dos manos en el volante, dispositivos, autoridad de tránsito, omisión de bocina (REGLAS.md §9).
-- PR_RECORD_T03
+- PR [#24](https://github.com/grunch/al-volante/pull/24) abierto con implementación `e2b683d`, apilado sobre #23. Codex solicitado con `@codex review`; CodeRabbit automático. Ambos resultados y la CI remota están pendientes; se registran al llegar. Sin excepción de cuota aplicada.
 
