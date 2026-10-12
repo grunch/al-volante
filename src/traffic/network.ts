@@ -595,19 +595,20 @@ function pathsOf(city: City, intersections: readonly Intersection[], crosswalks:
   }
   for (const run of runs(route.filter((road) => road.cycleTrack))) {
     const base = required(run[0], 'run').id;
-    const leftM = (road: Road) => road.widthM / 2 + CYCLE_TRACK_WIDTH_M / 2;
+    // Each direction keeps to its own right half of the two-way track: forward next to the road, back outside.
+    const leftM = (road: Road, back: boolean) => road.widthM / 2 + (CYCLE_TRACK_WIDTH_M * (back ? 3 : 1)) / 4;
     const speed = BICYCLE_KMH * KMH_TO_MPS;
     paths.push(
       build(
         `cycle-${base}:forward`,
         'bicycle',
-        run.map((road) => laneOf(road, false, leftM(road), 'cycle-forward', speed)),
+        run.map((road) => laneOf(road, false, leftM(road, false), 'cycle-forward', speed)),
         false,
       ),
       build(
         `cycle-${base}:back`,
         'bicycle',
-        [...run].reverse().map((road) => laneOf(road, true, leftM(road), 'cycle-back', speed)),
+        [...run].reverse().map((road) => laneOf(road, true, leftM(road, true), 'cycle-back', speed)),
         false,
       ),
     );

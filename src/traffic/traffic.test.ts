@@ -312,7 +312,30 @@ describe('seeded traffic', () => {
         expect(distance(pose, left)).toBeLessThan(distance(pose, projectOnRoad(pose, road).point));
       }
     });
-  });
+  }, 30000);
+
+  it('lets bicycles pass an oncoming bicycle standing on the other half of the track', () => {
+    const forward = base.network.paths.find((path) => path.kind === 'bicycle' && path.id.endsWith(':forward'))!;
+    const back = base.network.paths.find((path) => path.id === forward.id.replace(':forward', ':back'))!;
+    const bike = (pathId: string, startS: number, speedFactor: number, index: number): VehiclePlan => ({
+      ...car({ pathId, startS, speedFactor }, index),
+      id: `bicycle-${index}`,
+      kind: 'bicycle',
+      halfLengthM: ACTOR_SIZES.bicycle.lengthM / 2,
+      halfWidthM: ACTOR_SIZES.bicycle.widthM / 2,
+    });
+    // The oncoming bicycle stands still 30 m ahead of the moving one, on its own half of the track.
+    const meeting = pointAlong(forward, 50).point;
+    const standing = locateOnPath(back, meeting, 3)!;
+    const traffic = only([bike(forward.id, 20, 1, 0), bike(back.id, standing.s, 0.0001, 1)]);
+    let overlapped = false;
+    const state = run(traffic, FAR_AWAY, 15, (step) => {
+      const [a, b] = step.poses.filter((pose) => pose.kind === 'bicycle');
+      if (a && b && overlaps(a.box, b.box)) overlapped = true;
+    });
+    expect(overlapped).toBe(false);
+    expect(vehicle(state, 'bicycle-0').s).toBeGreaterThan(60);
+  }, 30000);
 
   it('reports a contact once when the car body overlaps an actor, with the actor kind', () => {
     const traffic = only([car({ pathId: 'lap', startS: 100, speedFactor: 0.0001 })]);

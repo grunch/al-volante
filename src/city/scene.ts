@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import type { City } from './model.ts';
 import { instantiate, disposeSector } from './geometry.ts';
 import { planStreetscape } from './streetscape.ts';
-import { createControl, lightControl } from './signage.ts';
+import { createControl, isSignalControl, lightControl } from './signage.ts';
 import { sectorKey, SectorSet } from './sectors.ts';
 import { createCockpitScene } from '../scene/cockpitScene.ts';
 import { createActor } from '../scene/trackScene.ts';
@@ -10,7 +10,16 @@ import type { TrafficSnapshot } from '../sim/scenario.ts';
 import type { VehicleSpec, VehicleState } from '../sim/vehicle.ts';
 import type { World } from '../sim/world.ts';
 
-/** Actor meshes, one per actor id seen, hidden while the actor is away and lit lamps per control. */
+const disposeMesh = (mesh: THREE.Mesh) => {
+  mesh.removeFromParent();
+  mesh.geometry.dispose();
+  for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) material.dispose();
+};
+
+/**
+ * Actor meshes, one per actor id in the current snapshot, hidden while the actor is inactive, and lit lamps per
+ * control. Every crossing creates a new pedestrian id, so a mesh whose id left the snapshot is released at once.
+ */
 export function attachTraffic(scene: THREE.Scene, signals: ReadonlyMap<string, THREE.Object3D>) {
   const actors = new Map<string, THREE.Mesh>();
   const group = new THREE.Group();
@@ -18,7 +27,12 @@ export function attachTraffic(scene: THREE.Scene, signals: ReadonlyMap<string, T
   scene.add(group);
   return {
     update(snapshot: TrafficSnapshot | null) {
-      for (const mesh of actors.values()) mesh.visible = false;
+      const present = new Set(snapshot?.poses.map((pose) => pose.id));
+      for (const [id, mesh] of actors)
+        if (!present.has(id)) {
+          disposeMesh(mesh);
+          actors.delete(id);
+        }
       for (const pose of snapshot?.poses ?? []) {
         let mesh = actors.get(pose.id);
         if (!mesh) {
@@ -34,10 +48,7 @@ export function attachTraffic(scene: THREE.Scene, signals: ReadonlyMap<string, T
       scene.userData.activeActors = snapshot ? snapshot.poses.filter((pose) => pose.active).length : 0;
     },
     dispose() {
-      for (const mesh of actors.values()) {
-        mesh.geometry.dispose();
-        for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) material.dispose();
-      }
+      for (const mesh of actors.values()) disposeMesh(mesh);
       actors.clear();
       group.removeFromParent();
     },
@@ -70,7 +81,7 @@ export function attachCity(scene: THREE.Scene, city: City) {
     for (const control of city.controls.filter((item) => sectorKey(item.position) === key)) {
       const head = createControl(control);
       group.add(head);
-      if (control.type === 'traffic_signals') signals.set(control.id, head);
+      if (isSignalControl(control.type)) signals.set(control.id, head);
     }
     groups.set(key, group);
     scene.add(group);

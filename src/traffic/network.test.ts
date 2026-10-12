@@ -98,6 +98,14 @@ describe('traffic network', () => {
     expect(cycle?.segments.every((segment) => segment.lane.road.cycleTrack)).toBe(true);
     expect(cycle?.segments.map((segment) => segment.lane.road.leg)).toEqual([4, 4, 5, 5, 6]);
     expect(cycle?.segments[0]?.lane.speedMps).toBeCloseTo(15 / 3.6, 5);
+    // The two directions of the two-way track never share a line: each keeps to its right half.
+    const back = network.paths.find((path) => path.id === cycle?.id.replace(':forward', ':back'));
+    const firstForward = cycle!.segments[0]!.lane;
+    const lastBack = back!.segments.at(-1)!.lane;
+    expect(lastBack.road.id).toBe(firstForward.road.id);
+    const offset = (lane: typeof firstForward) => projectOnRoad(lane.from, lane.road).distanceM;
+    expect(offset(firstForward)).toBeCloseTo(firstForward.road.widthM / 2 + 0.65, 5);
+    expect(offset(lastBack)).toBeCloseTo(firstForward.road.widthM / 2 + 1.95, 5);
     for (const path of network.paths) {
       expect(path.lengthM).toBeGreaterThan(0);
       // Cycle tracks run both ways beside one-way streets (a declared approximation); vehicles never do.

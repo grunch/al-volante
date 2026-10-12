@@ -39,13 +39,17 @@ export function lightControl(group: THREE.Object3D, state: LightState | null): v
   }
 }
 
+/** Controls drawn as a signal head: corner lights and signalled crosswalks, which carry their own vehicle light. */
+export const isSignalControl = (type: string): boolean =>
+  type === 'traffic_signals' || type === 'crossing-traffic_signals';
+
 export function createControl(control: CityControl): THREE.Group {
   const group = new THREE.Group();
   group.name = control.id;
   group.userData = { type: control.type, status: control.status, sourcePosition: control.sourcePosition };
   group.position.set(control.position.x, 0, control.position.z);
   group.rotation.y = control.road.headingRad;
-  if (control.type !== 'stop' && control.type !== 'traffic_signals') return group;
+  if (control.type !== 'stop' && !isSignalControl(control.type)) return group;
   const pole = new THREE.Mesh(
     new THREE.CylinderGeometry(0.055, 0.055, 3, 8),
     new THREE.MeshStandardMaterial({ color: c.steel }),

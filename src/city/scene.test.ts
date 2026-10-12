@@ -107,9 +107,22 @@ describe('streamed city renderer', () => {
       });
     };
     expect(litLens('control-0')).toEqual([state.lights['control-0']]);
-    // Actors away from the car disappear from the poses and their meshes hide; the lamps go off without traffic.
+    // Signalled crosswalks on Cabildo carry their own head, lit from the same traffic state.
+    const crossings = city.controls.filter((control) => control.type === 'crossing-traffic_signals');
+    expect(crossings.length).toBeGreaterThan(0);
+    view.update(crossings[0]!.position, true);
+    view.updateTraffic(state);
+    for (const control of crossings) {
+      expect(state.lights[control.id]).toBeDefined();
+      expect(litLens(control.id)).toEqual([state.lights[control.id]]);
+    }
+    // Actors that leave the snapshot release their meshes; the lamps go off without traffic.
+    const [kept, ...gone] = state.poses;
+    view.updateTraffic({ ...state, poses: [kept!] });
+    expect(scene.getObjectByName(`actor-${kept!.id}`)).toBeDefined();
+    for (const actor of gone) expect(scene.getObjectByName(`actor-${actor.id}`)).toBeUndefined();
     view.updateTraffic(null);
-    for (const actor of state.poses) expect(scene.getObjectByName(`actor-${actor.id}`)?.visible).toBe(false);
+    for (const actor of state.poses) expect(scene.getObjectByName(`actor-${actor.id}`)).toBeUndefined();
     expect(litLens('control-0')).toEqual([]);
     expect(scene.userData.activeActors).toBe(0);
     view.dispose();

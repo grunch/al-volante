@@ -8,7 +8,7 @@
 
 `src/traffic/` deriva de las calles una red de encrucijadas, aproximaciones, sendas y trayectorias, y mueve autos, colectivos (Metrobús), bicicletas (ciclovía) y peatones de forma determinista según una semilla editable en la página (por defecto 1). Los actores respetan semáforos, PARE, prioridad de la derecha, distancia de dos segundos y peatones en la senda; los peatones cruzan en su fase o en brechas. Se activan solo a 250 m del auto, con un tope de 60. Los sentidos de las calles de contexto, el doble sentido del Metrobús, de Congreso y de la ciclovía, las duraciones de los semáforos y las distancias de los actores son aproximaciones declaradas; las fuentes de cada regla y el detalle del diseño están en [ARQUITECTURA.md](ARQUITECTURA.md), «Tránsito del circuito». Las líneas de detención del tránsito son geométricas; en tres semáforos de media cuadra no coinciden con la pintura de F04-T01, pendiente para F04-T03.
 
-El usuario autorizó **solo F04-T01**, con «arranca con F04 T01». No se inicia el resto de la fase con este pedido. La rama parte de `main`; durante la implementación se incorporaron las fusiones de #19–#21, sin modificar sus ramas.
+F04-T01 se inició con «arranca con F04 T01»; el usuario autorizó después F04-T02–T05 («ya está el pr de F04 T01, haz el resto de tareas de esta fase»), registrado en `ESTADO_IMPLEMENTACION.md`. La rama de T01 parte de `main` e incorporó las fusiones de #19–#21 sin modificar sus ramas.
 
 ## Fuentes y geometría
 

@@ -466,7 +466,11 @@ function decide(
     if (other.path.id === path.id) {
       const ahead = aheadM(path, state.s, other.state.s);
       if (ahead > 0 && ahead <= LEADER_LOOKAHEAD_M) gap = ahead - other.plan.halfLengthM - plan.halfLengthM;
-    } else if (distance(other.point, self.point) <= LEADER_LOOKAHEAD_M) {
+    } else if (
+      distance(other.point, self.point) <= LEADER_LOOKAHEAD_M &&
+      // Oncoming traffic beside the path (the other half of a two-way cycle track) is never a leader.
+      Math.abs(headingDifference(other.headingRad, self.headingRad)) < Math.PI / 2
+    ) {
       const located = locateOnPath(path, other.point, LEADER_LATERAL_M);
       if (located) {
         const ahead = aheadM(path, state.s, located.s);
