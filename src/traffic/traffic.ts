@@ -64,6 +64,11 @@ const YIELD_LOOKAHEAD_M = 20;
 const YIELD_LOOKAHEAD_S = 4;
 /** The car counts as crossing a pavement it is on once it has turned this far from the approach (mid-turn). */
 const CAR_TURNING_RAD = Math.PI / 8;
+/** Below this speed the car counts as standing still at its line (it waits for whoever is crossing). */
+const CAR_STILL_MPS = 0.05;
+/** How far along its own path (beyond its body) an actor checks that the waiting car leaves its way free. */
+const PATH_CLEAR_AHEAD_M = 6;
+const PATH_STEP_M = 0.5;
 /** A right-hand vehicle that has stopped this long loses its priority (manual.pdf PDF 64, exception 4). */
 const PRIORITY_STOPPED_S = 1.5;
 /**
@@ -475,6 +480,47 @@ function waitsAtLineFor(other: Placed, self: Placed): boolean {
   });
 }
 
+/** Whether the car's body stands on `self`'s own path just ahead, as the actor will sweep it (curves included). */
+function carOnPathAhead(self: Placed, car: Car): boolean {
+  for (let ahead = 0; ahead <= self.plan.halfLengthM + PATH_CLEAR_AHEAD_M; ahead += PATH_STEP_M) {
+    const { point, headingRad } = pointAlong(self.path, self.state.s + ahead);
+    const swept: OrientedBox = {
+      centerX: point.x,
+      centerZ: point.z,
+      halfLengthM: self.plan.halfLengthM,
+      halfWidthM: self.plan.halfWidthM,
+      headingRad,
+    };
+    if (overlaps(swept, car.body)) return true;
+  }
+  return false;
+}
+
+/**
+ * Whether the car stands still at its line of a crossing `self` is already driving across: like `waitsAtLineFor`,
+ * it waits for `self` and is no obstacle ahead, even when its bonnet brushes the straight-line corridor of an actor
+ * turning past it; otherwise both would wait for each other forever (the car yields to whoever is inside the
+ * crossing). A car standing on the actor's own path is still an obstacle: the actor never drives into it.
+ */
+function carWaitsAtLineFor(traffic: Traffic, car: Car, self: Placed): boolean {
+  if (car.speedMps > CAR_STILL_MPS || carOnPathAhead(self, car)) return false;
+  for (const intersection of indexOf(traffic).intersections.values()) {
+    if (distance(intersection.center, car.center) > LEADER_LOOKAHEAD_M) continue;
+    for (const approach of intersection.approaches) {
+      const relation = carApproach(approach, car);
+      if (
+        relation !== null &&
+        relation.distanceM >= -STOP_TOLERANCE_M &&
+        relation.distanceM <= STOP_TOLERANCE_M + 0.5 &&
+        Math.abs(headingDifference(self.headingRad, approach.headingRad)) > Math.PI / 4 &&
+        approach.conflicts.some((conflict) => overlaps(self.box, conflict))
+      )
+        return true;
+    }
+  }
+  return false;
+}
+
 /**
  * Whether the deadlock break may pass `holder`: an actor standing still before its own line at this crossing, so
  * both wait at the edge and nobody is on the pavement. The car, anyone moving and anyone already past their line
@@ -561,7 +607,7 @@ function decide(
     if (gap === null && distance(other.point, self.point) <= CORRIDOR_M) gap = corridorGap(self, other.box);
     if (gap !== null) target = Math.min(target, speedBehind(Math.max(0, gap), other.state.speedMps));
   }
-  if (carPresent && distance(car.center, self.point) <= LEADER_LOOKAHEAD_M) {
+  if (carPresent && distance(car.center, self.point) <= LEADER_LOOKAHEAD_M && !carWaitsAtLineFor(traffic, car, self)) {
     let gap: number | null = null;
     const located = locateOnPath(path, car.center, LEADER_LATERAL_M);
     if (located) {

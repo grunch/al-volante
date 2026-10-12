@@ -9,7 +9,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
-- **Fase 4 — etapa A completa; etapa B en curso.** T01 se inició con «arranca con F04 T01» (autor asignado GPT-6 Astra). El resto de la fase se inició con «ya está el pr de F04 T01, haz el resto de tareas de esta fase»: T01 (#22), T02 (#23) y T03 (#24) están fusionadas en `main`; T04 (#25) apunta a `main` e incorporó esa fusión; T05 (#26) está apilada sobre T04 e incorporó su rama actualizada. Falta fusionar #25 y después #26.
+- **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
 - Fases 5–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -328,11 +328,12 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
-| F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
+| F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | fusionada en `main` (`3c7aca2`); findings de `9dc94d3` y `5b07456` corregidos |
 | F04-T02 | `f04-t02-traffic` | `main` | [#23](https://github.com/grunch/al-volante/pull/23) | fusionada en `main` (`a3c5e15`); findings de `a5b9496`, `f53b7f3`, `50ce70f` y `d2c563a` corregidos |
 | F04-T03 | `f04-t03-examiner` | `main` | [#24](https://github.com/grunch/al-volante/pull/24) | fusionada en `main` (`d919f98`); findings de `f4d7c6f`, `eaf60ce` y `cf9d690` corregidos |
-| F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | implementada; findings de `f2624a4` y `b551baa` corregidos; CI y revisión de seguimiento del último push pendientes |
-| F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | implementada; findings de `f7b9398` corregidos; CI de `83562c4` corregida (presupuesto del E2E); CodeRabbit y revisión de seguimiento pendientes |
+| F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | fusionada en `main` (`cefe7b2`); findings de `f2624a4`, `b551baa` y siguientes corregidos |
+| F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | fusionada en `main` (`b36fe55`); findings de `f7b9398` y siguientes corregidos |
+| F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | abierto; findings de Codex (`3327a92`, `bbea36a`, `7c010ff`) y CodeRabbit (`e048648`) resueltos; revisión de seguimiento pendiente |
 
 ### F04-T01 — Ciudad y recorrido completo
 
@@ -398,6 +399,19 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisión de Codex sobre `b551baa` (2026-10-12), 4 findings, corregidos: (1) P1, el intento empezaba con cualquier detención en la zona, también dentro del cajón entrando de frente, y el aviso de terminado se aceptaba sin marcha atrás: ahora solo la detención en doble fila empieza la maniobra (D11) y «Terminé» se ignora hasta la marcha atrás de un intento empezado (D14); (2) P1, la antigüedad de las balizas empezaba con la fase de estacionamiento aunque el aviso llega en el tramo 8: `noteHazards` la lleva desde la circulación; (3) P1, una sola mirada en cualquier momento cubría la alta p: ahora se piden la detención en doble fila (antes de retroceder) y la marcha atrás, por separado, y una mirada posterior no cuenta (protocolo PDF 13; D14); el conductor de prueba mira también durante la marcha atrás; (4) P2, ARQUITECTURA decía que calado, arranque con el motor en marcha y freno de mano se juzgan en la etapa III, pero `scoredInPhase` los deja fuera. Pruebas nuevas: en `parking.test.ts`, la detención dentro del cajón, las balizas desde el último tramo y los dos momentos de espejos (las de doble fila y espejos fallan sin su cambio); en `parkingStreet.test.ts`, «Terminé» antes de la marcha atrás y la antigüedad de las balizas al empezar la etapa III. Con #22–#24 ya fusionados, #25 apunta a `main` e incorporó esa fusión con un merge (`a7ca9a0`); los conflictos fueron solo de documentación.
 - Para F04-T05: la sesión termina en `finished` con `completedStages` I/II/III y `resultOf` aprobado/desaprobado; `Session.parking.final` (frontCm, rearCm, alongM), `parking.manoeuvres/attempts`, `measurements` de la etapa I y `street` dan la ficha por etapa; `ledger.faults` lleva `atS`, así cada falla se puede asignar a su etapa por el instante de cada cambio de fase. Un modo que salte etapas debe crear la sesión en la fase deseada (`enter`) con `completedStages` vacío: `resultOf` quedará `pending`. No se persisten intentos todavía (contrato `Attempt`, `kind: 'driving'`).
 
+### F04-T04-FIX01 — Vuelta guionada trabada en Cuba y Quesada
+
+- Hallazgo (2026-10-12, al empezar la fase 5): las CI de `main` después de fusionar #25 (`cefe7b2`) y #26 (`b36fe55`) quedaron canceladas por las fusiones seguidas, y `main` tenía rojas siete pruebas de la vuelta completa: la vuelta legal de `street.test.ts` y los casos de examen completo de `parkingStreet.test.ts`. La falla aparece en `a7ca9a0`, cuando se integró `main` (#22–#24) en la rama de F04-T04: los cambios de tiempos del conductor de prueba de T04 llevaron a la semilla 1 a una situación que las pruebas de #24 no recorrían.
+- Causas:
+  - **Espera mutua con el auto:** el auto quedaba detenido con el frente en la línea de Cuba ante Quesada esperando a una bicicleta de la ciclovía que ya doblaba dentro del cruce; la bicicleta tomaba al auto como obstáculo en su corredor y lo esperaba a él. Entre actores esa espera ya estaba resuelta (`waitsAtLineFor`); faltaba para el auto. `carWaitsAtLineFor` (`src/traffic/traffic.ts`): el auto quieto con el frente en su línea (tolerancia de la línea) de un cruce que el actor ya atraviesa no es su obstáculo, porque lo espera; salvo que su carrocería esté sobre la trayectoria real del actor en los próximos metros (curvas incluidas), en cuyo caso el actor no avanza hacia él.
+  - **Conductor de prueba que no cede a ciclistas:** con caja manual, el auto doblaba a la izquierda hacia Quesada y alcanzaba a una bicicleta que seguía derecho por la ciclovía de su izquierda (contacto, eliminatoria por la falla l escalada: no ceder el paso a ciclistas que cruzan al girar, `protocolo.pdf`, PDF 12, 16, 17 y 29; prioridad del ciclista, `manual.pdf`, PDF 35). El conductor de `src/test/circuitDriver.ts` ahora espera en la línea, antes de doblar, a los ciclistas que vienen por el lado del giro y a los que van a cruzar el pavimento que va a atravesar. Las distancias que usa para reconocerlos (hasta 25 m detrás, a menos de 8 m hacia el lado del giro, proyección de hasta 3 s) son **heurísticas del guion de pruebas**, no umbrales del protocolo ni de la evaluación, que no cambian.
+- Pruebas: nueva `traffic.test.ts` «rides on across the corner past the car standing at its own line…», que falla sin el cambio (la bicicleta no avanza) y pasa con él; `street.test.ts`, `parkingStreet.test.ts`, `practice.test.ts` y `src/traffic` aprobadas (73 pruebas en 8 archivos).
+
+- Revisiones (etapa de correcciones del PR):
+  - Codex sobre `3327a92`: el lado del giro no tenía distancia lateral máxima → corregido en `ba64169` (`CYCLIST_LATERAL_M`, 8 m).
+  - CodeRabbit sobre `e048648`, 3 findings: heurísticas sin fuente en este registro → corregido en `ba64169`; cesión tras el PARE → retirado por CodeRabbit (la condición es la misma de `main` y el PARE ya exige vía libre antes de salir); limitar `carWaitsAtLineFor` con `corridorGap` → no se aplicó tal cual porque recrea la espera mutua (la prueba nueva falla con ese cambio); se atendió la preocupación de fondo con `carOnPathAhead` en `ba64169`, y CodeRabbit lo aceptó.
+  - Codex sobre `bbea36a`: la fase 4 seguía como pendiente en este registro → corregido en `bbea36a`; sobre `7c010ff`: faltaba la contraparte en `CONTINUIDAD.md` → corregido en `7c010ff`; registrar estas rondas y el total de 73 pruebas → corregido en el commit siguiente.
+
 ### F04-T05 — Modos, recorrido entero y ficha por etapa
 
 - Apilado sobre `f04-t04-parking` (#25). Orden obligatorio: #22 → #23 → #24 → #25 → [#26](https://github.com/grunch/al-volante/pull/26).
@@ -417,7 +431,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) apunta a `main` e incorporó esa fusión; F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) sigue apilada sobre #25 y se fusiona después, actualizando la base y repitiendo los checks.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) parte de `main`.
 
 ## Bloqueos
 
@@ -425,13 +439,13 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-La etapa A de la fase 4 está completa: #22, #23, #24, #25 y [#26](https://github.com/grunch/al-volante/pull/26) creados y apilados. Sigue la etapa B: atender CI y revisiones (Codex y CodeRabbit) de los cinco PRs con el usuario, corregir findings de la base hacia arriba y fusionar en orden. La fase 5 (todo el contenido y simulacros teóricos) no empieza hasta que el usuario la inicie.
+La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama.
 
 ### Cierre de la fase 4 contra el plan
 
 «Examen completo jugable en A, con reglas transcritas implementadas y comprobadas. Los criterios que el juego solo aproxima se explican al usuario.»
 
-- **Examen completo jugable en A:** cumplido en etapa A. Las tres etapas se juegan seguidas en `#/examen` (recorrer y rendir), con tránsito y semáforos por semilla (T02), el examinador y las reglas de circulación (T03), el estacionamiento y el descenso (T04), los modos y la ficha (T05). Pendiente de la etapa B: revisiones, findings y fusión.
+- **Examen completo jugable en A:** cumplido y fusionado (#22–#26). Las tres etapas se juegan seguidas en `#/examen` (recorrer y rendir), con tránsito y semáforos por semilla (T02), el examinador y las reglas de circulación (T03), el estacionamiento y el descenso (T04), los modos y la ficha (T05).
 - **Reglas transcritas implementadas y comprobadas:** cada regla del alcance tiene criterio, fuente y prueba en las tablas de ARQUITECTURA (T03 y T04). No se evalúan, y se dice por qué en REGLAS.md §9: las dos manos en el volante (baja f), los dispositivos (eliminatoria m), la autoridad de tránsito (eliminatoria e), la omisión de bocina, el arranque excedido en tiempo (leve g) y el arranque brusco y la aceleración en vacío (bajas b, c).
 - **Lo que el juego solo aproxima se explica al usuario:** los umbrales sin cifra del protocolo (D6–D14, V2, V3), las ayudas por modo (D15) y las aproximaciones de los modos están en REGLAS.md §7 y §9, en el texto «Aproximaciones del juego» de la página del examen y, al terminar, en la ficha como «aproximaciones que pudieron influir».
 - **Queda aproximado y sin relevamiento** (CIUDAD.md): la posición exacta del cajón, los anchos, PARE, reductor y máximas de la vía (OSM, fuente única). El rendimiento gráfico medido en T01 no acredita 60 FPS por software. Las revisiones visuales en navegador se limitaron a los E2E en T03–T05.

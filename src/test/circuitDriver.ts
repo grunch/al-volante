@@ -3,6 +3,7 @@ import { buildCity, distance } from '../city/model.ts';
 import type { City } from '../city/model.ts';
 import { RouteSchema } from '../content/schemas.ts';
 import { buildCircuit, distanceAlong, legAt } from '../exam/circuit.ts';
+import { across } from '../exam/street.ts';
 import type { Circuit, ParkingBay } from '../exam/circuit.ts';
 import { startPoseFor } from '../exam/modes.ts';
 import { bayFrame } from '../exam/parking.ts';
@@ -38,6 +39,15 @@ const PRECAUTION_M = 20;
 const EXIT_CROSSWALK_M = 25;
 const KERB_MARGIN_M = 2;
 const PRECAUTION_MPS = 5;
+/** How far ahead (seconds) the driver projects a cyclist riding towards a crossing it is about to enter. */
+const CYCLIST_HORIZON_S = [0.5, 1, 1.5, 2, 2.5, 3];
+/**
+ * Before turning across the cycle track, the driver lets through cyclists this far behind on the side of the turn,
+ * no farther to that side than the track can be (heuristics of this test driver, not protocol thresholds).
+ */
+const CYCLIST_BEHIND_M = 25;
+const CYCLIST_AHEAD_M = 6;
+const CYCLIST_LATERAL_M = 8;
 /** The manual test driver: first gear from a stop, second above this speed; clutch down under this speed. */
 const MANUAL_SECOND_GEAR_MPS = 3.5;
 const MANUAL_CLUTCH_DOWN_MPS = 2.2;
@@ -142,6 +152,15 @@ function someoneOn(snapshot: TrafficSnapshot, box: OrientedBox): boolean {
   return snapshot.poses.some((pose) => pose.kind === 'pedestrian' && pose.active && overlaps(pose.box, widened));
 }
 
+/** Where a pose would be after riding `metres` straight ahead, with its own footprint. */
+function projected(pose: TrafficSnapshot['poses'][number], metres: number): OrientedBox {
+  return {
+    ...pose.box,
+    centerX: pose.box.centerX + Math.sin(pose.headingRad) * metres,
+    centerZ: pose.box.centerZ + Math.cos(pose.headingRad) * metres,
+  };
+}
+
 /** Drives along the lap one fixed step at a time until `until` holds; throws after `maxS`. */
 export function cruise(exam: CityExam, options: CruiseOptions): void {
   const { driver, circuit } = exam;
@@ -199,17 +218,50 @@ export function cruise(exam: CityExam, options: CruiseOptions): void {
         if (difference <= Math.PI / 4 || difference >= (3 * Math.PI) / 4) return false;
         return distance(pose, crossing.center) < 22 && distance(pose, crossing.center) > 4;
       });
+      // A cyclist riding across the pavement the car is about to enter (the examiner's high l): seen coming, not
+      // only once inside, so the car waits at the line instead of meeting it in the crossing.
+      const cyclistComing = snapshot.poses.some((pose) => {
+        if (pose.kind !== 'bicycle' || !across(pose.headingRad, vehicle.headingRad)) return false;
+        const before = lastSeen.get(pose.id);
+        const speed = before ? distance(before, pose) / SIM_STEP_S : 0;
+        return CYCLIST_HORIZON_S.some((seconds) =>
+          crossing.conflicts.some((box) => overlaps(projected(pose, speed * seconds), box)),
+        );
+      });
+      // Turning across the cycle track: cyclists riding straight on, beside or behind on the side of the turn, go first.
+      const cyclistAlongside =
+        crossing.corner !== null &&
+        snapshot.poses.some((pose) => {
+          if (pose.kind !== 'bicycle' || Math.abs(headingDifference(pose.headingRad, vehicle.headingRad)) > Math.PI / 4)
+            return false;
+          const dx = pose.x - body.centerX;
+          const dz = pose.z - body.centerZ;
+          const along = dx * Math.sin(vehicle.headingRad) + dz * Math.cos(vehicle.headingRad);
+          const left = dx * Math.cos(vehicle.headingRad) - dz * Math.sin(vehicle.headingRad);
+          const side = crossing.corner?.turn === 'left' ? left : -left;
+          const onTurnSide = side > 1 && side < CYCLIST_LATERAL_M;
+          return onTurnSide && along > -CYCLIST_BEHIND_M && along < body.halfLengthM + CYCLIST_AHEAD_M;
+        });
       if (crossing.rule === 'stop' && options.stopAtStops !== false && clearedStop !== crossing.approachId) {
         wanted = Math.min(wanted, toStop(distanceM));
         // The way must be clear before leaving the STOP: nobody crossing and nobody arriving from the right.
-        if (vehicle.speedMps === 0 && distanceM <= 3 && stoppedS >= STOP_WAIT_S && !inside && !fromRight)
+        if (
+          vehicle.speedMps === 0 &&
+          distanceM <= 3 &&
+          stoppedS >= STOP_WAIT_S &&
+          !inside &&
+          !fromRight &&
+          !cyclistComing &&
+          !cyclistAlongside
+        )
           clearedStop = crossing.approachId;
       } else if (
         options.yieldPriority !== false &&
         crossing.rule !== 'signal' &&
         distanceM > -1 &&
         // Past the line, only a vehicle actually crossing stops the car: standing inside blocks the crossing.
-        (inside || (crossing.rule === 'priority' && fromRight && distanceM >= 0))
+        (inside ||
+          (distanceM >= 0 && (cyclistComing || cyclistAlongside || (crossing.rule === 'priority' && fromRight))))
       )
         wanted = Math.min(wanted, toStop(distanceM));
       if (
