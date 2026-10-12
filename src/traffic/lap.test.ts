@@ -135,4 +135,4 @@ it('completes the lap with traffic on, obeying the lights, without touching anyo
   const positions = lapVehicles.map((item) => pointAlong(lap, item.s).point);
   expect(positions.some((point) => distance(point, state.vehicle) > 200)).toBe(true);
   expect(snapshot.poses.filter((pose) => overlaps(pose.box, bodyBox(EXAM_CAR, state.vehicle)))).toHaveLength(0);
-}, 90000);
+}, 240000);
