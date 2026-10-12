@@ -330,7 +330,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|
 | F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
 | F04-T02 | `f04-t02-traffic` | `f04-t01-city` (#22) | [#23](https://github.com/grunch/al-volante/pull/23) | implementada; findings de `a5b9496` y `f53b7f3` corregidos; revisión de seguimiento pendiente |
-| F04-T03 | `f04-t03-examiner` | `f04-t02-traffic` (#23) | [#24](https://github.com/grunch/al-volante/pull/24) | implementada; CI y revisiones pendientes |
+| F04-T03 | `f04-t03-examiner` | `f04-t02-traffic` (#23) | [#24](https://github.com/grunch/al-volante/pull/24) | implementada; findings de `f4d7c6f` corregidos en `cf9d690`; revisión de seguimiento pendiente |
 | F04-T04 | — | `f04-t03-examiner` | — | siguiente |
 | F04-T05 | — | — | — | pendiente |
 
