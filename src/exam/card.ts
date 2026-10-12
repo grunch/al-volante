@@ -1,6 +1,7 @@
 import type { Rule } from '../content/schemas.ts';
 import { resultOf, ruleById } from './scoring.ts';
 import type { ExamResult, Fault, Interruption, Stage } from './scoring.ts';
+import { stageOf } from './session.ts';
 import type { Phase, Session, StageScope } from './session.ts';
 
 /**
@@ -43,29 +44,26 @@ export interface ExamCard {
   finished: boolean;
 }
 
-/** The phase that opens each stage; stage I opens with the familiarisation (not judged, but part of the session). */
-const STAGE_OPENERS: Record<Stage, readonly Phase[]> = {
-  I: ['familiarisation', 'recognition', 'preparation'],
-  II: ['unlock', 'reverse', 'forward', 'exit', 'firstMetres', 'circulation'],
-  III: ['parking', 'leaving'],
-};
-
 const inScope = (stage: Stage, scope: StageScope) =>
   STAGES.indexOf(stage) >= STAGES.indexOf(scope.from) && STAGES.indexOf(stage) <= STAGES.indexOf(scope.to);
 
+/** The stage of a recorded transition, by the session's own mapping (`finished` closes the last one). */
+const transitionStage = (session: Session, phase: Phase): Stage | null =>
+  phase === 'finished' ? null : stageOf(phase, session.scope);
+
 /** When a stage began: the first transition into one of its phases. */
 function startOf(session: Session, stage: Stage): number | null {
-  const first = session.transitions.find((item) => STAGE_OPENERS[stage].includes(item.phase));
+  const first = session.transitions.find((item) => transitionStage(session, item.phase) === stage);
   return first ? first.atS : null;
 }
 
 /** When a stage ended: the first transition after its start into a later stage or into `finished`. */
 function endOf(session: Session, stage: Stage, startedAtS: number): number | null {
-  const later = STAGES.slice(STAGES.indexOf(stage) + 1).flatMap((next) => STAGE_OPENERS[next]);
-  const index = session.transitions.findIndex((item) => STAGE_OPENERS[stage].includes(item.phase));
-  const end = session.transitions
-    .slice(index + 1)
-    .find((item) => item.phase === 'finished' || later.includes(item.phase));
+  const index = session.transitions.findIndex((item) => transitionStage(session, item.phase) === stage);
+  const end = session.transitions.slice(index + 1).find((item) => {
+    const next = transitionStage(session, item.phase);
+    return next === null || STAGES.indexOf(next) > STAGES.indexOf(stage);
+  });
   return end ? Math.max(startedAtS, end.atS) : null;
 }
 
@@ -106,7 +104,9 @@ export function buildCard(session: Session): ExamCard {
   const stages = STAGES.map((stage) => stageCard(session, stage));
   const points = session.ledger.points;
   const finished = session.phase === 'finished';
-  // An exam still running has no verdict yet, even with 8 points: the points are told at the end (PDF 14).
-  const result: ExamResult = finished ? resultOf(session.ledger, session.completedStages) : 'pending';
+  // An exam still running has no verdict yet, even with 8 points: the points are told at the end (PDF 14). A practice
+  // of one stage never approves nor disapproves an exam (D15), whatever ended it.
+  const whole = session.scope.from === 'I' && session.scope.to === 'III';
+  const result: ExamResult = finished && whole ? resultOf(session.ledger, session.completedStages) : 'pending';
   return { stages, points, result, verdict: verdictOf(session, stages, result, points), finished };
 }

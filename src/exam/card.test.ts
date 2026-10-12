@@ -4,7 +4,7 @@ import { Driver, IDLE } from '../test/examDriver.ts';
 import { buildCard, STAGES } from './card.ts';
 import { interrupt, recordFault } from './scoring.ts';
 import type { FaultReport, Stage } from './scoring.ts';
-import { createPracticeSession, createSession } from './session.ts';
+import { createPracticeSession, createSession, stageOf } from './session.ts';
 import type { Session, Transition } from './session.ts';
 
 /** A finished whole exam with the given faults, phase log and completed stages, built by hand. */
@@ -149,6 +149,53 @@ describe('buildCard (protocolo PDF 14–17)', () => {
       [false, false, null, null],
       [false, false, null, null],
     ]);
+  });
+
+  it('keeps a practice pending even when it ends interrupted or over 7 points (D15)', () => {
+    const practice = createPracticeSession(REAL_RULES, 'manual', 1, null, REAL_BANDS, 'II');
+    let ledger = recordFault(practice.ledger, { ruleId: 'rule.eliminatory.k-red-light', atS: 5, stage: 'II' });
+    ledger = interrupt(ledger, 5, 'examiner');
+    const card = buildCard({ ...practice, phase: 'finished', ledger, timeS: 5 });
+
+    expect(card.points).toBe(8);
+    expect(card.result).toBe('pending');
+    expect(card.verdict.kind).toBe('pending');
+  });
+
+  it('counts the last leg driven in a stage III practice as part of stage III', () => {
+    const practice = createPracticeSession(REAL_RULES, 'manual', 1, null, REAL_BANDS, 'I');
+    const session: Session = {
+      ...practice,
+      scope: { from: 'III', to: 'III' },
+      phase: 'finished',
+      completedStages: ['III'],
+      transitions: [
+        { phase: 'circulation', atS: 0 },
+        { phase: 'parking', atS: 40 },
+        { phase: 'finished', atS: 90 },
+      ],
+    };
+
+    const card = buildCard(session);
+
+    expect(card.stages.map((stage) => [stage.inScope, stage.startedAtS, stage.endedAtS])).toEqual([
+      [false, null, null],
+      [false, null, null],
+      [true, 0, 90],
+    ]);
+  });
+
+  it('attributes the phases before a practice’s first stage to that stage', () => {
+    expect(stageOf('circulation', { from: 'III', to: 'III' })).toBe('III');
+    expect(stageOf('circulation', { from: 'I', to: 'III' })).toBe('II');
+    expect(stageOf('recognition', { from: 'II', to: 'II' })).toBe('II');
+    expect(stageOf('parking', { from: 'I', to: 'III' })).toBe('III');
+  });
+
+  it('logs the move to the recognition among the phase transitions', () => {
+    const driver = new Driver('automatic');
+    driver.ready();
+    expect(driver.session.transitions.map((item) => item.phase)).toEqual(['familiarisation', 'recognition']);
   });
 
   it('assigns the faults scored at the instant stage I ends to stage I, and the next one to stage II', () => {

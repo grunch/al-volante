@@ -103,12 +103,18 @@ export interface Transition {
 
 const STAGE_ONE_PHASES: readonly Phase[] = ['familiarisation', 'recognition', 'preparation'];
 
-/** The stage a phase belongs to; `finished` belongs to the last stage of the scope. */
+const STAGE_SEQUENCE: readonly Stage[] = ['I', 'II', 'III'];
+
+/**
+ * The stage a phase belongs to; `finished` belongs to the last stage of the scope. A phase before the scope belongs
+ * to its first stage: practising stage III starts driving the last leg, which is part of that practice.
+ */
 export function stageOf(phase: Phase, scope: StageScope): Stage {
-  if (STAGE_ONE_PHASES.includes(phase)) return 'I';
-  if (STAGE_TWO_PHASES.includes(phase)) return 'II';
-  if (STAGE_THREE_PHASES.includes(phase)) return 'III';
-  return scope.to;
+  let stage: Stage = scope.to;
+  if (STAGE_ONE_PHASES.includes(phase)) stage = 'I';
+  else if (STAGE_TWO_PHASES.includes(phase)) stage = 'II';
+  else if (STAGE_THREE_PHASES.includes(phase)) stage = 'III';
+  return STAGE_SEQUENCE.indexOf(stage) < STAGE_SEQUENCE.indexOf(scope.from) ? scope.from : stage;
 }
 
 export type Observation =
@@ -469,7 +475,7 @@ function onReady(session: Session): Session {
       };
       const first = reset.queue[0];
       return first
-        ? { ...reset, phase: 'recognition', prompt: { kind: 'recognise', target: first } }
+        ? { ...enter(reset, 'recognition'), prompt: { kind: 'recognise', target: first } }
         : enter(reset, 'preparation');
     }
     case 'preparation': {
