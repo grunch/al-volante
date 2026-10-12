@@ -4,7 +4,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { activityKeyOf } from '../src/content/activityFiles.ts';
-import { computeCoverage } from '../src/content/coverage.ts';
+import { auditCoverage, auditGaps, computeCoverage } from '../src/content/coverage.ts';
 import { figureFile, signFile } from '../src/content/figures.ts';
 import { ACTIVITY_DIRECTORY, validateContent } from '../src/content/validate.ts';
 import type { RawContent } from '../src/content/validate.ts';
@@ -21,6 +21,7 @@ const raw: RawContent = {
   rules: read('specs/catalog/rules.json'),
   route: read('specs/route/comuna13-a.json'),
   figures: read('specs/catalog/figures.json'),
+  theoryExam: read('specs/catalog/theory-exam.json'),
   activities: Object.fromEntries(
     readdirSync(join(root, ACTIVITY_DIRECTORY))
       .filter((name) => name.endsWith('.json'))
@@ -57,4 +58,17 @@ for (const row of computeCoverage(content)) {
     `  ${row.source}/${row.section} [${row.category}]: ${row.units} units, ${row.unitsWithActivities} with activities, ` +
       `${row.consultationUnits} for consultation, ${row.reviewedUnits} reviewed`,
   );
+}
+const audit = auditCoverage(content);
+console.log(
+  `Coverage: ${audit.units.total - audit.units.untreated.length}/${audit.units.total} units treated ` +
+    `(${audit.units.practiced} practised, ${audit.units.consultation} for consultation), ` +
+    `${audit.signs.total - audit.signs.untreated.length}/${audit.signs.total} signs treated ` +
+    `(${audit.signs.total - audit.signs.withoutCrop.length} cropped), ` +
+    `${audit.unclassifiedPages.length} unclassified pages.`,
+);
+const gaps = auditGaps(audit);
+if (gaps.length > 0) {
+  console.error(`Coverage audit has gaps:\n- ${gaps.join('\n- ')}`);
+  process.exit(1);
 }

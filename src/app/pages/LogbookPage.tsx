@@ -1,10 +1,11 @@
 import { useContentState } from '../../content/ContentProvider.tsx';
 import type { Content } from '../../content/validate.ts';
-import { drivingLog, progressByGroup, recentErrors, recommendedReview } from '../../progress/logbook.ts';
+import { drivingLog, progressByGroup, recentErrors, recommendedReview, theoryLog } from '../../progress/logbook.ts';
 import { useProgress } from '../../progress/ProgressProvider.tsx';
 import { BackupPanel } from '../../progress/ui/BackupPanel.tsx';
 import { ConceptProgressSection } from '../../progress/ui/ConceptProgressSection.tsx';
 import { DrivingSection } from '../../progress/ui/DrivingSection.tsx';
+import { TheorySection } from '../../progress/ui/TheorySection.tsx';
 import { ReviewSection } from '../../progress/ui/ReviewSection.tsx';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
@@ -68,6 +69,7 @@ function Logbook({ content }: { content: Content }) {
         unitTitles={unitTitles}
       />
       <ConceptProgressSection groups={progressByGroup(content.units, content.activities, concepts, current)} />
+      <TheorySection rows={theoryLog(attempts)} />
       <DrivingSection rows={drivingLog(attempts)} />
       <BackupPanel
         rules={content.rules}

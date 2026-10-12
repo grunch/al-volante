@@ -10,13 +10,26 @@ import {
   RouteSchema,
   RuleCatalogSchema,
   SignSchema,
+  TheoryExamConfigSchema,
 } from './schemas.ts';
-import type { Activity, Figure, Issue, KnowledgeUnit, Page, Route, RuleCatalog, Sign, Source } from './schemas.ts';
+import type {
+  Activity,
+  Figure,
+  Issue,
+  KnowledgeUnit,
+  Page,
+  Route,
+  RuleCatalog,
+  Sign,
+  Source,
+  TheoryExamConfig,
+} from './schemas.ts';
 import { activityFileErrors, validateActivities } from './validateActivities.ts';
 import { validateCatalog } from './validateCatalog.ts';
 import { validateFigures } from './validateFigures.ts';
 import { validateRoute } from './validateRoute.ts';
 import { validateRules } from './validateRules.ts';
+import { validateTheoryExam } from './validateTheoryExam.ts';
 import { validateTreatment } from './validateTreatment.ts';
 
 /** Parsed JSON files as read from disk or bundled by Vite, before any validation. */
@@ -29,6 +42,7 @@ export interface RawContent {
   rules: unknown;
   route: unknown;
   figures: unknown;
+  theoryExam: unknown;
   /** One file per source section, keyed by `<source>-<section>` (specs/catalog/activities/<key>.json). */
   activities: Readonly<Record<string, unknown>>;
 }
@@ -42,6 +56,7 @@ export interface Content {
   rules: RuleCatalog;
   route: Route;
   figures: Figure[];
+  theoryExam: TheoryExamConfig;
   activities: Activity[];
 }
 
@@ -57,6 +72,7 @@ const FILES: Record<Exclude<keyof RawContent, 'activities'>, string> = {
   rules: 'specs/catalog/rules.json',
   route: 'specs/route/comuna13-a.json',
   figures: 'specs/catalog/figures.json',
+  theoryExam: 'specs/catalog/theory-exam.json',
 };
 
 export const ACTIVITY_DIRECTORY = 'specs/catalog/activities';
@@ -115,8 +131,20 @@ export function validateContent(raw: RawContent): ContentResult {
   const rules = parse(RuleCatalogSchema, raw.rules, FILES.rules, errors);
   const route = parse(RouteSchema, raw.route, FILES.route, errors);
   const figures = parse(FigureCatalogSchema, raw.figures, FILES.figures, errors);
+  const theoryExam = parse(TheoryExamConfigSchema, raw.theoryExam, FILES.theoryExam, errors);
   const activityFiles = parseActivityFiles(raw.activities, errors);
-  if (!manifest || !pages || !units || !signs || !issues || !rules || !route || !figures || !activityFiles)
+  if (
+    !manifest ||
+    !pages ||
+    !units ||
+    !signs ||
+    !issues ||
+    !rules ||
+    !route ||
+    !figures ||
+    !theoryExam ||
+    !activityFiles
+  )
     return { ok: false, errors };
   const activities = [...activityFiles.values()].flat();
 
@@ -134,6 +162,7 @@ export function validateContent(raw: RawContent): ContentResult {
     ...activityFileErrors(activityFiles, units).map((error) => `activities: ${error}`),
     ...validateFigures(figures, { manifest, units, activities, signs }).map((error) => `figures: ${error}`),
     ...validateTreatment({ units, signs, activities }).map((error) => `treatment: ${error}`),
+    ...validateTheoryExam(theoryExam, pages).map((error) => `theory exam: ${error}`),
   );
   const protocol = manifest.find((source) => source.id === 'protocolo');
   if (protocol && rules.source.edition !== protocol.edition)
@@ -143,7 +172,7 @@ export function validateContent(raw: RawContent): ContentResult {
   if (errors.length > 0) return { ok: false, errors };
   return {
     ok: true,
-    content: { manifest, pages, units, signs, issues, rules, route, figures, activities },
+    content: { manifest, pages, units, signs, issues, rules, route, figures, theoryExam, activities },
     version: computeContentVersion(raw),
   };
 }

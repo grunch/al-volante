@@ -2,7 +2,7 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-12 (inicio de la fase 5).
+Última actualización: 2026-10-12 (integración de #33 en el correctivo #34).
 
 ## Fase activa
 
@@ -10,8 +10,8 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
 - **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
-- **Fase 5 — Todo el contenido y simulacros teóricos: etapa A en curso.** Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
-- **F04-T01-FIX02 — experiencia de conducción:** rama `f04-t01-fix02-driving-realism`, base `main` (`9bc0257`), worktree independiente; [#34](https://github.com/grunch/al-volante/pull/34), implementación `404ea74`, validación local aprobada y CI/revisiones remotas pendientes. Pedido puntual posterior a #31; no inicia fase 6.
+- **Fase 5 — Todo el contenido y simulacros teóricos: tareas fusionadas.** F05-T05 ([#33](https://github.com/grunch/al-volante/pull/33)) se integró en `main` con `9dd6d9e`. Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
+- **F04-T01-FIX02 — experiencia de conducción:** rama `f04-t01-fix02-driving-realism`, base `main` actualizada a `9dd6d9e`, worktree independiente; [#34](https://github.com/grunch/al-volante/pull/34), implementación `404ea74`, validación local previa aprobada; integración de #33 verificada localmente, CI y CodeRabbit pendientes. Pedido puntual posterior a #31; no inicia fase 6.
 - **F04-T01-FIX01 — referencias visuales, fusionado en `9bc0257`:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
 - Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
@@ -336,7 +336,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F04-T03 | `f04-t03-examiner` | `main` | [#24](https://github.com/grunch/al-volante/pull/24) | fusionada en `main` (`d919f98`); findings de `f4d7c6f`, `eaf60ce` y `cf9d690` corregidos |
 | F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | fusionada en `main` (`cefe7b2`); findings de `f2624a4`, `b551baa` y siguientes corregidos |
 | F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | fusionada en `main` (`b36fe55`); findings de `f7b9398` y siguientes corregidos |
-| F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | fusionado en `main` (`367b484`); findings registrados abajo |
+| F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | fusionado en `main` (`367b484`); findings de Codex (`3327a92`, `bbea36a`, `7c010ff`) y CodeRabbit (`e048648`) resueltos |
 
 ### F04-T01 — Ciudad y recorrido completo
 
@@ -436,8 +436,9 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 - Pedido: conducción más real tras fusionar #31; revisar otra vez las fotos, con Blender disponible si fuera necesario. Rama `f04-t01-fix02-driving-realism`, base `9bc0257`, worktree independiente. Alcance en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md); se resolvió con geometría y texturas originales generadas desde código, sin dependencias nuevas.
 - Implementación: entrada de volante sensible a velocidad, cámara amortiguada y movimiento reducido, cabina e instrumental, pantalla completa, materiales de calle y vegetación, siluetas de tránsito. Sin cambiar reglas, tolerancias ni parámetros físicos del vehículo.
-- Revisión independiente local: completada sobre el diff de implementación. Finding P3: las manijas sobresalían 1–2,5 cm de la caja de los vehículos; corregido desplazándolas hacia adentro. Pruebas de contorno de auto, colectivo, emergencia, peatón y bicicleta aprobadas. Seguimiento independiente del diff final completado sin findings pendientes. Codex GitHub: solicitada en [#34](https://github.com/grunch/al-volante/pull/34) sobre `404ea74`. CodeRabbit: solicitada automáticamente, pendiente por límite horario de revisiones; el check «Review rate limited» no cuenta como revisión completada.
-- Verificación local: `npm run check` aprobado (Node 24.21.0): 1.350 pruebas en 68 archivos; cobertura de líneas 96,51 %, ramas 90,30 %; lint, formato, tipos, contenido y build aprobados. La suite general se inició antes de la última optimización de agrupación de actores; las 24 regresiones afectadas y de pantalla completa se ejecutaron después y pasaron. 32 E2E de ciudad, cabina, examen y pista aprobados en Chromium con GPU (escritorio y móvil). Capturas y condiciones de rendimiento en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md#comparación-visual). CI remota pendiente.
+- Revisión independiente local: completada sobre el diff de implementación. Finding P3: las manijas sobresalían 1–2,5 cm de la caja de los vehículos; corregido desplazándolas hacia adentro. Pruebas de contorno de auto, colectivo, emergencia, peatón y bicicleta aprobadas. Seguimiento independiente del diff final completado sin findings pendientes. Codex GitHub: completada sin observaciones sobre `404ea74` (2026-10-12 20:02 UTC) en [#34](https://github.com/grunch/al-volante/pull/34). CodeRabbit: solicitada automáticamente, pendiente por límite horario de revisiones; el check «Review rate limited» no cuenta como revisión completada.
+- Verificación local: `npm run check` aprobado (Node 24.21.0): 1.350 pruebas en 68 archivos; cobertura de líneas 96,51 %, ramas 90,30 %; lint, formato, tipos, contenido y build aprobados. La suite general se inició antes de la última optimización de agrupación de actores; las 24 regresiones afectadas y de pantalla completa se ejecutaron después y pasaron. 32 E2E de ciudad, cabina, examen y pista aprobados en Chromium con GPU (escritorio y móvil). Capturas y condiciones de rendimiento en [EXPERIENCIA_CONDUCCION.md](EXPERIENCIA_CONDUCCION.md#comparación-visual). CI de `edce114`: lint, tipos, unitarias, catálogo y build aprobados; E2E cancelado.
+- Actualización de base (2026-10-12): se incorpora `main` (`9dd6d9e`, #33) mediante merge, sin reescribir historia. Conflictos solo en este registro, resueltos conservando F05-T05 y F04-T01-FIX02; los textos del teórico y la conducción se integran sin conflictos. Validación de integración aprobada: lint, formato, tipos, build, catálogo y 51 pruebas focalizadas de aplicación, teórico, controles y cabina. Se comprobó que cada archivo conserva los cambios de su rama de origen y que el archivo compartido de textos contiene ambas incorporaciones. CI completa pendiente sobre el merge.
 
 ## Correctivo F04-T01-FIX01 — Entorno basado en referencias
 
@@ -453,10 +454,11 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
-| F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | fusionado (`78b5cee`); Codex sin observaciones (`ef44c0b`); CodeRabbit pendiente por cuota |
-| F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | [#29](https://github.com/grunch/al-volante/pull/29) | fusionado (`77a46dc`); historial de implementación abajo |
-| F05-T03 | `f05-t03-garage` | `f05-t02-signs` (#29) | [#30](https://github.com/grunch/al-volante/pull/30) | fusionado (`8a6b51a`); historial de implementación abajo |
-| F05-T04 | `f05-t04-complement` | `f05-t03-garage` (#30) | [#32](https://github.com/grunch/al-volante/pull/32) | fusionado (`693f692`); historial de implementación abajo |
+| F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | fusionada en `main` (`78b5cee`); Codex sin observaciones; CodeRabbit no llegó a revisar por la cuota |
+| F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | [#29](https://github.com/grunch/al-volante/pull/29) | fusionada en `main` (`77a46dc`); findings de Codex (1) y CodeRabbit (3) corregidos |
+| F05-T03 | `f05-t03-garage` | `f05-t02-signs` (#29) | [#30](https://github.com/grunch/al-volante/pull/30) | fusionada en `main` (`8a6b51a`); finding de Codex corregido; CodeRabbit no llegó a revisar por la cuota |
+| F05-T04 | `f05-t04-complement` | `f05-t03-garage` (#30) | [#32](https://github.com/grunch/al-volante/pull/32) | fusionada en `main` (`693f692`); findings de Codex (3) corregidos en `0b8cdcc`; CodeRabbit no llegó a revisar por la cuota |
+| F05-T05 | `f05-t05-theory` | `main` (`9bc0257`) | [#33](https://github.com/grunch/al-volante/pull/33) | fusionada en `main` (`9dd6d9e`); findings de Codex y CodeRabbit corregidos |
 
 ### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
 
@@ -499,19 +501,38 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - **Decisiones:** D-T04-1 a D-T04-17 en `CONTENIDO.md`, con la comparación de circuitos de 2023 y 2026. 14 observaciones nuevas (243).
 - Método: seis lotes por páginas (O–R anexos, S protocolo, T recorridos) con la guía común y la de la tarea; revisión del autor (resúmenes de figuras de PDF 158 y 166 corregidos tras mirar las imágenes).
 
+### F05-T05 — Simulacros teóricos y auditoría global
+
+- PR [#33](https://github.com/grunch/al-volante/pull/33), fusionado en `main` (`9dd6d9e`, 2026-10-12); partió de `9bc0257`, con #27, F05-T01 a T04 y el correctivo #31 ya fusionados.
+- Alcance:
+  - **«Sala de examen»** (`#/teorico`): simulacro del teórico B con la configuración versionada de `catalog/theory-exam.json`: 40 preguntas de tres opciones, 34 para aprobar y 45 minutos (40 como variante más exigente), con fuente por parámetro (`REGLAS.md` §8).
+    - La hoja se reparte por tema según las unidades de cada sección y es reproducible por semilla.
+    - El temporizador la entrega solo al vencer.
+    - El resultado da el diagnóstico por tema y por concepto, con enlaces para practicar lo fallado.
+    - El espacio del inicio deja de estar «Próximamente».
+  - **Bitácora:** sección de simulacros, con fecha, puntaje y resultado. Los simulacros se guardan como intentos y no entrenan conceptos.
+  - **Auditoría global:** `auditCoverage` y su prueba de integración. Resultado: 753 de 753 unidades tratadas (697 practicadas, 56 de consulta), 355 de 355 señales tratadas y recortadas y ninguna página sin clasificar en las cuatro fuentes. Reemplaza las listas de secciones tratadas de las tareas anteriores.
+- Verificación local, sobre `main` con #31 (`9bc0257`) y los arreglos de las revisiones (`54b0674`):
+  - `npm run check`: lint, formato y tipos aprobados; 1360 de 1361 pruebas. La que falló es `track.test.tsx`, inestable con la CPU cargada; sola pasa (3 de 3).
+  - Como `check` se corta en las pruebas, `validate:content` y el build se corrieron aparte: los dos OK, con la auditoría sin brechas.
+  - La cobertura de esa corrida no se informó por el fallo. La corrida anterior, con 1352 de 1352 pruebas, dio 96,07 % de sentencias, 90,34 % de ramas, 95,11 % de funciones y 97,06 % de líneas.
+  - Playwright: suite completa `npx playwright test --workers=1`, 66 E2E aprobados (14,1 min), incluido el de la sala de examen.
+  - CI sobre `54b0674`: unitarias, catálogo, build y E2E aprobados.
+- Cierre de la fase: cobertura total auditable y simulacros disponibles. El dominio personal (bitácora) se distingue de la disponibilidad del contenido (mapa y auditoría).
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) y F05-T01 ([#28](https://github.com/grunch/al-volante/pull/28)) también están fusionados (`367b484`, `78b5cee`).
 
-Fase 5, etapa A a cargo de Opus: #27 y F05-T01–T04 (#28–#30 y #32) ya integrados; F05-T05 conservan su orden de apilado. El correctivo visual #31 apunta a `main` y conserva ese avance; no incorpora trabajo sin publicar del otro worktree.
+Fase 5: la pila `main ← F04-T04-FIX01 (#27) ← F05-T01 ← F05-T02 ← F05-T03 ← F05-T04` quedó toda en `main` (#27, #28, #29, #30 y #32, fusionados en ese orden el 2026-10-12). El correctivo visual #31 se fusionó después (`9bc0257`) y F05-T05 partió de ese `main`; #33 ya está fusionado en `9dd6d9e`.
 
 ## Bloqueos
 
-El correctivo #31 ya fue fusionado por el usuario en `9bc0257`. F04-T01-FIX02: cobertura general y revisiones remotas pendientes; no fusionar sin checks aprobados y findings resueltos. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31.
+El correctivo #31 ya fue fusionado por el usuario en `9bc0257`. F04-T01-FIX02: CI de la base actualizada y CodeRabbit pendientes; no fusionar sin checks aprobados y findings resueltos. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31.
 
 ## Siguiente acción
 
-Correctivo #31 fusionado en `9bc0257`. Correctivo F04-T01-FIX02 ([#34](https://github.com/grunch/al-volante/pull/34)): completar CI; atender revisión Codex y reintentar CodeRabbit cuando se libere su cupo. Fase 5 a cargo de Opus: F05-T01–T04 ya integradas; continúa con F05-T05 (simulacros teóricos y auditoría global). Este correctivo no modifica su worktree ni inicia otra fase.
+Fase 5 y correctivo #31 fusionados. Correctivo F04-T01-FIX02 ([#34](https://github.com/grunch/al-volante/pull/34)): completar CI y revisión CodeRabbit sobre la integración de `main` (`9dd6d9e`). Codex completó la revisión de la implementación sin observaciones. Fase 6 requiere inicio explícito del usuario; este correctivo no modifica el worktree de Opus.
 
 ### Cierre de la fase 4 contra el plan
 
