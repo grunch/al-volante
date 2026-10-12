@@ -52,3 +52,12 @@ it('renders a static preview, redraws on resize and releases resources on unmoun
   expect(scene.children.every((child) => !child.name.startsWith('city-'))).toBe(true);
   expect(renderer.domElement.isConnected).toBe(false);
 });
+
+it('announces the loading status and becomes an image only once the view is ready', () => {
+  render(<CityPreview city={city} leg={1} whole={false} createRenderer={() => createFakeRenderer()} />);
+  expect(screen.getByRole('status')).toHaveTextContent(copy.loading);
+  expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  act(() => frame?.(0));
+  expect(screen.getByRole('img', { name: copy.canvasLabel })).toBeInTheDocument();
+  expect(screen.queryByRole('status')).not.toBeInTheDocument();
+});

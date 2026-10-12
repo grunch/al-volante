@@ -197,7 +197,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F03-T03 | `f03-t03-cockpit` | `main` (`e49dc5b`) | T02 fusionada (#17) | [#18](https://github.com/grunch/al-volante/pull/18) | fusionada por el usuario (2026-10-12) |
 | F03-T04 | `f03-t04-evaluation` | `f03-t03-cockpit` (#18) | T03 (#18) | [#19](https://github.com/grunch/al-volante/pull/19) | fusionada por el usuario (`7cb9f82`, 2026-10-12) |
 | F03-T05 | `f03-t05-first-block` | `f03-t04-evaluation` (#19) | T04 (#19) | [#20](https://github.com/grunch/al-volante/pull/20) | fusionada por el usuario (`afb3b01`, 2026-10-12) |
-| F03-T05-FIX01 | `f03-t05-fix01` | `main` (`afb3b01`) | #20 (fusionado) | [#21](https://github.com/grunch/al-volante/pull/21) | en revisión |
+| F03-T05-FIX01 | `f03-t05-fix01` | `main` (`afb3b01`) | #20 (fusionado) | [#21](https://github.com/grunch/al-volante/pull/21) | fusionado en `main` (`89791fc`) |
 
 ### F03-T01 — Simulación a paso fijo, vehículo, dirección, frenado y colisiones
 
@@ -330,13 +330,14 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|
 | F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; CI y revisiones pendientes |
 
-- Resultado: explorador de los ocho tramos (1506,8 m), mapa métrico, carga por sectores, componentes visuales reutilizables, carriles/ciclovías según subtramo, controles con evidencia, entrada por tramo y conducción con el habitáculo existente. Detalle en [CIUDAD.md](CIUDAD.md).
+- Resultado: explorador de los ocho tramos (1506,8 m: `loopLengthM` de `route/comuna13-a.json`, verificado en [RECORRIDO.md](RECORRIDO.md) §4 y §6), mapa métrico, carga por sectores, componentes visuales reutilizables, carriles/ciclovías según subtramo, controles con evidencia, entrada por tramo y conducción con el habitáculo existente. Detalle en [CIUDAD.md](CIUDAD.md).
 - Se inspeccionaron en navegador la cuadra, la vista completa y el habitáculo. Se corrigió el parpadeo de superficies en la vista general ajustando la precisión de profundidad.
 - Autoprueba de conducción: el modelo real recorre el circuito con dirección limitada, a 120 Hz, sin contactos con cordones; no acredita circulación legal ni evaluación completa.
 - Validación sobre la base que incluye #21: `npm run check` aprobado con 364 pruebas, cobertura 95,23 % en sentencias / 88,92 % en ramas, catálogo y build. Suite completa de 44 E2E aprobada sin reintentos; después de los ajustes finales, ocho E2E de recorrido/examen aprobados. La prueba unitaria del examen ahora espera el inicio del bucle antes de enviar teclas, evitando la carrera con el montaje diferido.
 - Rendimiento medido en Chromium 153/SwiftShader, Ryzen 7 4800H: media de 178,13 ms por cuadro en escritorio y 138,85 ms en Pixel 7 emulado. No cumple 60 FPS en este entorno por software ni certifica un teléfono real; detalles y condiciones en `CIUDAD.md`.
 - Pendientes explícitos: no hay relevamiento nuevo de PARE, reductor, carriles, máximas o cajón. La pantalla mantiene las evidencias y aproximaciones. Semáforos apagados y sin tránsito/evaluación completa en esta tarea.
 - PR #22 abierto con implementación `ab68fd2`. CodeRabbit se activa automáticamente; Codex se solicita tras publicar este registro. Ambos resultados y la CI remota están pendientes. Sin excepción de cuota aplicada.
+- Revisiones sobre `9dc94d3` (etapa B, 2026-10-12): CI verde (unitarias, catálogo, build y E2E). Codex, 1 finding: la vista en carga tenía `role="img"` y ocultaba el estado vivo «Construyendo el barrio…»; ahora el rol de imagen se aplica solo en `ready`, con prueba que falla sin el cambio. CodeRabbit, 3 findings, todos corregidos: referencias trazables de cada dato en `CIUDAD.md` (catálogo, OSM/GCBA, protocolo) separando dato respaldado de aproximación; fila de #21 sincronizada como fusionada; cita del gráfico 4 (protocolo PDF 21) para los 6 m del cajón en `RECORRIDO.md` §10.
 
 ## Pila y orden de fusión
 

@@ -9,26 +9,28 @@ El usuario autorizó **solo F04-T01**, con «arranca con F04 T01». No se inicia
 ## Fuentes y geometría
 
 - Catálogo de entrada: `route/comuna13-a.json`, validado por `ContentGate`. Conserva todas las coordenadas, ocho tramos, 14 controles y evidencias. Secuencia: `fuentes/pdf/recorridos.pdf`, PDF 16, y `fuentes/pdf/protocolo.pdf`, PDF 39. Se cotejó nuevamente la lámina renderizada con la vista del circuito.
-- Conversión a Three.js: `x = x` del catálogo (este), `z = -y` (norte hacia −z). No se rota, refleja ni comprime el trazado. El circuito conserva 1506,8 m; Cuba–Quesada–Cuba conserva el desplazamiento de unos 66 m y los giros izquierda/derecha.
-- Cada arista mantiene carriles, ciclovía y máxima OSM del subtramo, separados del límite de examen. La ciclovía de Cuba termina en Congreso, según el catálogo; no se propaga a Manuel Ugarte.
+- Conversión a Three.js: `x = x` del catálogo (este), `z = -y` (norte hacia −z). No se rota, refleja ni comprime el trazado. El circuito conserva 1506,8 m (`loopLengthM` del catálogo; verificación geodésica en [RECORRIDO.md](RECORRIDO.md) §6); Cuba–Quesada–Cuba conserva el desplazamiento de unos 66 m (OSM, nodos 180275561 y 92583899; [RECORRIDO.md](RECORRIDO.md) §3) y los giros izquierda/derecha (`fuentes/pdf/recorridos.pdf`, PDF 16).
+- Cada arista mantiene carriles, ciclovía y máxima OSM del subtramo (`legs[].segments` del catálogo; [RECORRIDO.md](RECORRIDO.md) §4), separados del límite de examen (30/45 km/h, `fuentes/pdf/protocolo.pdf`, PDF 8, 10 y 28). La ciclovía de Cuba termina en Congreso, según el catálogo; no se propaga a Manuel Ugarte.
 - Los cruces de Iberá y Congreso, la conexión corta de Quesada y Vuelta de Obligado norte se interpolan entre nodos del catálogo. Las prolongaciones ambientales no pertenecen al itinerario oficial y no tienen sentidos ni máximas inventados.
 - El Metrobús y la calzada opuesta se dibujan a la izquierda de la calzada noreste de Cabildo. Sus separaciones y anchos son aproximaciones, sin evaluación de invasión de carril en esta tarea.
-- Los controles conservan su posición de fuente. La ubicación del poste en la vereda y su retranqueo de hasta 9 m son aproximaciones de representación; no reemplazan la coordenada original ni acreditan la ubicación de una línea real de detención.
+- Los controles conservan su posición de fuente (`controls[]` del catálogo, con evidencia OSM o GCBA por control; [RECORRIDO.md](RECORRIDO.md) §5). La ubicación del poste en la vereda y su retranqueo de hasta 9 m son aproximaciones de representación; no reemplazan la coordenada original ni acreditan la ubicación de una línea real de detención.
 
 ## Aproximaciones que siguen abiertas
 
 No hubo relevamiento en terreno ni se obtuvieron imágenes de calle autorizadas que permitan confirmar PARE, reductor, máximas o cantidad de carriles. La consulta adicional al [dataset oficial de cruces semaforizados](https://data.buenosaires.gob.ar/dataset/cruces-semaforizados) confirma su disponibilidad, pero no resuelve los datos ajenos a ese dataset. Se conserva `single-source` o `discrepancy` donde corresponde; no se elevó ningún estado a `surveyed`.
 
+Cada fila indica qué dato tiene respaldo y qué parte es aproximación del juego. Los datos respaldados vienen del catálogo `route/comuna13-a.json` (OSM y GCBA, ver [RECORRIDO.md](RECORRIDO.md) §1, §4 y §5) o del protocolo; todo lo demás es diseño.
+
 | Elemento | Implementación y límite |
 |---|---|
-| Calzada de Cabildo | 7 m para la calzada del recorrido; dos carriles según OSM. El ancho es aproximado. |
-| Otras calzadas | Al menos 8,8 m; si OSM informa varios carriles, se reserva 3,2 m por carril más espacio lateral. Sin dato, se representa un carril de circulación y se marca como aproximación. |
-| Ciclovía izquierda | Franja visual de 2,6 m, con separadores interrumpidos en cruces; ancho aproximado. |
-| Vereda | Aproximadamente 2,5 m y cordón de 15 cm; se recorta en cruces para no bloquearlos. |
-| Cajón | Se fija una posición reproducible a 20 m del comienzo del tramo 1, sobre el lado derecho. Largo exterior de 6 m (protocolo PDF 21); ancho de 2,4 m y ubicación aproximados. No es un relevamiento de Quesada 2381. |
-| Entrada de otros tramos | A 18 m del comienzo, en carril derecho cuando hay dos. No representa una posición oficial de examen. |
-| Cabildo y Guayra | Se conserva el semáforo indicado por GCBA y el estado de discrepancia con OSM. |
-| Edificios, comercios, árboles | Geometría procedural original, determinista y estilizada. No representa fachadas relevadas. |
+| Calzada de Cabildo | Respaldado: dos carriles (OSM, [RECORRIDO.md](RECORRIDO.md) §4). Aproximación: 7 m de ancho. |
+| Otras calzadas | Respaldado: cantidad de carriles cuando OSM la informa ([RECORRIDO.md](RECORRIDO.md) §4). Aproximación: al menos 8,8 m, 3,2 m por carril más espacio lateral; sin dato, un carril. |
+| Ciclovía izquierda | Respaldado: presencia y lado (OSM `cycleway:left=track`, [RECORRIDO.md](RECORRIDO.md) §3–§4). Aproximación: 2,6 m de ancho y los separadores. |
+| Vereda | Aproximación: unos 2,5 m y cordón de 15 cm, recortada en cruces. Sin fuente. |
+| Cajón | Respaldado: largo exterior de 6 m (gráfico 4, `fuentes/pdf/protocolo.pdf`, PDF 21). Aproximación: posición a 20 m del comienzo del tramo 1, lado derecho y ancho de 2,4 m. No es un relevamiento de Quesada 2381. |
+| Entrada de otros tramos | Aproximación: a 18 m del comienzo, en carril derecho cuando hay dos. No representa una posición oficial de examen. |
+| Cabildo y Guayra | Respaldado: el semáforo del dataset GCBA de cruces semaforizados, con su discrepancia frente a OSM ([RECORRIDO.md](RECORRIDO.md) §5 y §7). |
+| Edificios, comercios, árboles | Aproximación: geometría procedural original, determinista y estilizada. No representa fachadas relevadas. |
 
 Las máximas pendientes no se convierten en señalética oficial ni en reglas nuevas de evaluación. Su confirmación sigue necesaria antes de presentar el circuito como reproducción vigente para rendir. Las licencias y atribuciones se muestran en la pantalla: OpenStreetMap/ODbL y GCBA/CC-BY 2.5 AR. No se incorporaron activos externos ni nuevas dependencias.
 

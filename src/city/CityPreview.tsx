@@ -95,7 +95,8 @@ export function CityPreview({
       className="city-preview"
       data-testid="city-preview"
       data-state={state}
-      {...(state !== 'unavailable' ? { role: 'img', 'aria-label': copy.canvasLabel } : {})}
+      // Only the finished view is an image: while loading, the live status must stay exposed to screen readers.
+      {...(state === 'ready' ? { role: 'img', 'aria-label': copy.canvasLabel } : {})}
     >
       {state !== 'ready' && <p role="status">{state === 'unavailable' ? copy.unavailable : copy.loading}</p>}
     </div>
