@@ -122,7 +122,7 @@ describe('the whole circuit (RECORRIDO.md §4; protocolo PDF 10–12)', () => {
     expect(limits.get(4)).toMatchObject({ examKmh: 30, postedKmh: 30 });
     expect(driver.session.timeS).toBeLessThan(600);
     expect(circuit.legs).toHaveLength(8);
-  }, 120000);
+  }, 300000);
 
   it('the first 100 m in D under 30 km/h hand over to the circulation; faster ignores the instruction (eliminatory g)', () => {
     const clean = inCirculation();

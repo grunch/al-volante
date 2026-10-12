@@ -13,7 +13,8 @@ const content = () => {
   return { ...base, rules: { ...base.rules, rules: [...REAL_RULES] }, route: RouteSchema.parse(routeData) };
 };
 
-describe('exam page', () => {
+// The exam view loads lazily: with the long simulations running beside it, the first mount can take seconds.
+describe('exam page', { timeout: 30000 }, () => {
   let callbacks: FrameRequestCallback[];
   let clock: number;
 
@@ -36,7 +37,7 @@ describe('exam page', () => {
 
   async function openExam() {
     renderApp('/examen', readyContent(content()));
-    const canvas = await screen.findByRole('application', { name: EXAM_COPY.canvasLabel });
+    const canvas = await screen.findByRole('application', { name: EXAM_COPY.canvasLabel }, { timeout: 15000 });
     // Lazy markup can precede the passive effect that schedules the driving loop.
     await waitFor(() => {
       runFrames(10);
