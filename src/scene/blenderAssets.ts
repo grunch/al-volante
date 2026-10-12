@@ -42,6 +42,7 @@ interface DecodedMesh {
 }
 const decoded = new Map<BlenderAssetName, DecodedMesh[]>();
 
+/** Decode a base64 catalog field into a new buffer for typed-array views. */
 function bytes(value: string): ArrayBuffer {
   const binary = atob(value);
   const array = new Uint8Array(binary.length);
@@ -74,6 +75,7 @@ function decode(name: BlenderAssetName): DecodedMesh[] {
   return meshes;
 }
 
+/** Create a vertex-colored material with the exported finish and foliage shading settings. */
 function material(finish: Finish): THREE.MeshStandardMaterial {
   return new THREE.MeshStandardMaterial({
     vertexColors: true,
@@ -105,6 +107,7 @@ export function createBlenderMeshes(
   });
 }
 
+/** Group an asset's meshes with fresh geometry and materials owned and disposed by the caller. */
 export function createBlenderModel(name: BlenderAssetName): THREE.Group {
   const group = new THREE.Group();
   group.name = `blender-${name}`;

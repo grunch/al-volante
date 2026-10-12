@@ -11,6 +11,7 @@ export function createCityRenderer(): THREE.WebGLRenderer {
   return renderer;
 }
 
+/** Add sun and ambient light; return controls to refresh local shadows and release the lights. */
 export function createCityLighting(scene: THREE.Scene) {
   const sun = new THREE.DirectionalLight('#fff2db', 3.0);
   const ambient = new THREE.HemisphereLight('#dce9f3', '#8a8172', 1.5);

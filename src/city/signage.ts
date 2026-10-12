@@ -44,6 +44,7 @@ export function lightControl(group: THREE.Object3D, state: LightState | null): v
 export const isSignalControl = (type: string): boolean =>
   type === 'traffic_signals' || type === 'crossing-traffic_signals';
 
+/** Build a positioned stop sign or signal head with lenses ready for lightControl updates. */
 export function createControl(control: CityControl): THREE.Group {
   const group = new THREE.Group();
   group.name = control.id;

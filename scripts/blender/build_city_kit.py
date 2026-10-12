@@ -23,10 +23,12 @@ materials = {}
 
 
 def point(v):
+    """Convert a game-space (x, y, z) point to Blender coordinates (x, -z, y)."""
     return Vector((v[0], -v[2], v[1]))
 
 
 def material(color, finish='matte'):
+    """Return a cached Blender material for a six-digit sRGB hex color and finish."""
     key = (color, finish)
     if key not in materials:
         m = bpy.data.materials.new(f'{finish}_{color}')
@@ -44,6 +46,7 @@ def material(color, finish='matte'):
 
 
 def tag(obj, color, finish='matte', smooth=False):
+    """Assign the current asset, material and face smoothing to an object; return it."""
     obj['asset'] = asset
     obj.data.materials.append(material(color, finish))
     for polygon in obj.data.polygons:
@@ -52,6 +55,7 @@ def tag(obj, color, finish='matte', smooth=False):
 
 
 def mesh(name, vertices, faces, color, finish='matte', smooth=False):
+    """Create and link a tagged mesh from game-space vertices and indexed faces."""
     data = bpy.data.meshes.new(name)
     data.from_pydata([point(v) for v in vertices], [], faces)
     data.update()
@@ -61,6 +65,9 @@ def mesh(name, vertices, faces, color, finish='matte', smooth=False):
 
 
 def box(name, position, size, color, bevel=0, finish='matte'):
+    """Create a tagged box with game-space center and full sizes in meters.
+
+    Apply scale before adding optional bevel and weighted-normal modifiers."""
     bpy.ops.mesh.primitive_cube_add(size=1, location=point(position))
     obj = bpy.context.object
     obj.name = name
@@ -78,6 +85,7 @@ def box(name, position, size, color, bevel=0, finish='matte'):
 
 
 def ellipsoid(name, center, radius, color, finish='matte', segments=12, rings=8):
+    """Create a smooth tagged sphere scaled by game-space axis radii in meters."""
     bpy.ops.mesh.primitive_uv_sphere_add(segments=segments, ring_count=rings, radius=1, location=point(center))
     obj = bpy.context.object
     obj.name = name
@@ -86,6 +94,9 @@ def ellipsoid(name, center, radius, color, finish='matte', segments=12, rings=8)
 
 
 def tube(name, a, b, radius, color, end_radius=None, finish='matte', sides=8):
+    """Create a tagged tube between game-space endpoints, with flat end caps.
+
+    Radii are in meters; end_radius defaults to radius for a cylindrical tube."""
     a, b = point(a), point(b)
     bpy.ops.mesh.primitive_cone_add(vertices=sides, radius1=radius,
         radius2=radius if end_radius is None else end_radius, depth=(b-a).length, location=(a+b)/2)
@@ -100,6 +111,7 @@ def tube(name, a, b, radius, color, end_radius=None, finish='matte', sides=8):
 
 
 def torus(name, center, major, minor, color, axis='x', finish='matte', segments=20):
+    """Create a smooth tagged torus whose normal follows the given game-space axis."""
     bpy.ops.mesh.primitive_torus_add(major_segments=segments, minor_segments=6,
         location=point(center), major_radius=major, minor_radius=minor)
     obj = bpy.context.object
@@ -111,6 +123,7 @@ def torus(name, center, major, minor, color, axis='x', finish='matte', segments=
 
 
 def wheel(x, y, z, radius):
+    """Add a tire, alloy rim, spokes and hub at a game-space center in meters."""
     torus('Tyre sidewall', (x,y,z), radius*.79, radius*.21, '202225')
     outer = x + math.copysign(.07, x)
     tube('Alloy rim', (outer-.015,y,z), (outer+.015,y,z), radius*.57, '919b9f', finish='metal', sides=16)
@@ -123,6 +136,7 @@ def wheel(x, y, z, radius):
 
 
 def loft(name, stations, color, finish='paint'):
+    """Create a beveled body from (z, half-width, bottom, top) stations in meters."""
     vertices=[]
     # Rounded shoulders, a broad hood and a narrowed sill; no box-shaped passenger car.
     for z,w,bottom,top in stations:
@@ -140,6 +154,7 @@ def loft(name, stations, color, finish='paint'):
 
 
 def car():
+    """Add the passenger-car body, glazing, wheels and trim to the current asset."""
     loft('Sculpted body',[(-2.04,.69,.39,.82),(-1.65,.79,.35,.90),(-.9,.81,.35,.94),
          (.9,.81,.35,.9),(1.70,.75,.40,.80),(2.04,.66,.44,.72)],'849fa9')
     loft('Window belt',[(-1.36,.67,.9,1.03),(-.77,.65,.89,1.43),(.48,.64,.89,1.43),
@@ -167,6 +182,7 @@ def car():
 
 
 def van(bus=False):
+    """Add an emergency van, or a passenger bus when bus is true, to the current asset."""
     length=11.6 if bus else 4.8
     half=length/2
     width=2.36 if bus else 1.94
@@ -200,6 +216,7 @@ def van(bus=False):
 
 
 def person(cyclist=False):
+    """Add a clothed pedestrian, or a posed rider with a bicycle, to the current asset."""
     skin='b89272'; coat='416376' if not cyclist else 'b78132'
     hips=.85 if not cyclist else .91
     torso=ellipsoid('Tailored jacket',(0,hips+.31,-.025),(.21,.29,.115),coat)
@@ -250,6 +267,9 @@ def person(cyclist=False):
 
 
 def tree(seed, sparse=False):
+    """Add a seeded branching tree with individual leaves to the current asset.
+
+    A local random generator keeps the seed reproducible; sparse reduces leaf count."""
     rng=random.Random(seed)
     leaves=[]; leaf_faces=[]
     tips=[]
@@ -284,6 +304,7 @@ def tree(seed, sparse=False):
 
 
 def signal():
+    """Add a signal post, housing, bezels and visors; runtime code supplies the lenses."""
     tube('Signal post',(0,0,0),(0,3.16,0),.058,'4c5757',sides=12)
     tube('Post foot',(0,0,0),(0,.25,0),.095,'555d5b',sides=12)
     box('Yellow signal backplate',(0,2.65,-.075),(.43,1.16,.17),'c39e28',.06,'paint')
@@ -304,6 +325,7 @@ def signal():
 
 
 def facade():
+    """Add a framed window, glazing, curtains and sill with the front facing game +X."""
     # Front points toward +X, so one rotation serves either side of the street.
     box('Window reveal',(0,0,0),(.12,1.9,1.46),'c8c7b9',.025)
     box('Recessed glazing',(.069,0,0),(.025,1.67,1.24),'263d45',.008,'glass')
@@ -316,6 +338,7 @@ def facade():
 
 
 def aircon():
+    """Add a wall-mounted air conditioner with grille and brackets facing game +X."""
     box('Air conditioner casing',(0,0,0),(.40,.48,.72),'bdbfaf',.035)
     for i in range(7): box('Heat exchanger louvre',(.207,-.16+i*.05,.21),(.016,.014,.22),'727e78')
     torus('Fan grille',(.211,0,-.14),.16,.014,'6d7874',finish='metal',segments=20)
@@ -325,12 +348,14 @@ def aircon():
 
 
 def drain():
+    """Add a horizontal drain frame, dark opening and grille to the current asset."""
     box('Drain frame',(0,0,0),(.42,.032,.76),'55584f',.008,'metal')
     box('Dark opening',(0,.02,0),(.34,.012,.68),'202926')
     for i in range(9): box('Drain slat',(0,.03,-.30+i*.075),(.35,.025,.016),'73786b',.004,'metal')
 
 
 def manhole():
+    """Add a circular horizontal cover with an inset and grip bars to the current asset."""
     tube('Manhole frame',(0,0,0),(0,.015,0),.34,'575f59',finish='metal',sides=32)
     tube('Manhole inset',(0,.016,0),(0,.023,0),.30,'747b70',finish='metal',sides=32)
     for z in [-.20,-.10,0,.10,.20]:
@@ -347,6 +372,9 @@ for asset,builder in builders.items():
 
 
 def pack(values,fmt):
+    """Encode numeric values as little-endian struct data and return ASCII base64.
+
+    fmt is the struct element code, such as f, h, B or H, used by the runtime decoder."""
     return base64.b64encode(struct.pack('<'+str(len(values))+fmt,*values)).decode('ascii')
 
 

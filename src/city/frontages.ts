@@ -180,9 +180,11 @@ function facadeBuilder(frontage: Frontage, add: AddPart) {
   };
 }
 
+/** Emit building and facade details, using neighbors to hide shared party-wall windows. */
 function addFacade(frontage: Frontage, neighbors: readonly Frontage[], add: AddPart): void {
   const { floors, widthM: width, depthM, style, color, shops } = frontage;
   const box = facadeBuilder(frontage, add);
+  /** Place a Blender detail in facade coordinates, facing the street and scaled by size. */
   const asset = (model: 'window' | 'aircon', x: number, y: number, z: number, size: [number, number, number]) => {
     const face = offsetPoint(frontage.center, frontage.road.headingRad, (-frontage.side * depthM) / 2);
     const point = offsetPoint(face, frontage.road.headingRad, -frontage.side * x, z);
