@@ -8,8 +8,9 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
-- **Fase 3 — Auto e interior: en curso, etapa A.** Mensaje de inicio (2026-10-11): «ahora comienza la fase 3, pero solo haz solo los dos primeros PRs porque el PR de la t03 es con gpt Astra, no hagas ese, luego de hacer t02 vuelve a t01 y ve si hay findings, haz lo. mismo en t02, pide Review luego». Alcance inicial: F03-T01 y F03-T02. Autorización posterior del usuario: limpiar con `git restore .` e iniciar F03-T03 desde `main`. #16 y #17 están fusionados en `e49dc5b`. F03-T04 y F03-T05 no se inician con este pedido.
-- Fases 4–7: no iniciadas. Cada una requiere indicación manual del usuario.
+- **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
+- **Fase 4 — F04-T01 en curso.** Inicio explícito: «arranca con F04 T01». Alcance autorizado: solo T01, con autor asignado GPT-6 Astra según la estrategia. F04-T02–T05 requieren el siguiente pedido del usuario.
+- Fases 5–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
 ## Repositorio y revisión
@@ -196,7 +197,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F03-T03 | `f03-t03-cockpit` | `main` (`e49dc5b`) | T02 fusionada (#17) | [#18](https://github.com/grunch/al-volante/pull/18) | fusionada por el usuario (2026-10-12) |
 | F03-T04 | `f03-t04-evaluation` | `f03-t03-cockpit` (#18) | T03 (#18) | [#19](https://github.com/grunch/al-volante/pull/19) | fusionada por el usuario (`7cb9f82`, 2026-10-12) |
 | F03-T05 | `f03-t05-first-block` | `f03-t04-evaluation` (#19) | T04 (#19) | [#20](https://github.com/grunch/al-volante/pull/20) | fusionada por el usuario (`afb3b01`, 2026-10-12) |
-| F03-T05-FIX01 | `f03-t05-fix01` | `main` (`afb3b01`) | #20 (fusionado) | [#21](https://github.com/grunch/al-volante/pull/21) | en revisión |
+| F03-T05-FIX01 | `f03-t05-fix01` | `main` (`afb3b01`) | #20 (fusionado) | [#21](https://github.com/grunch/al-volante/pull/21) | fusionado en `main` (`89791fc`) |
 
 ### F03-T01 — Simulación a paso fijo, vehículo, dirección, frenado y colisiones
 
@@ -323,9 +324,25 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisión de Codex sobre `0d6e4fc` (1 finding, aplicado con prueba): un exceso sostenido al pasar de la calle al giro conservaba el episodio; ahora la identidad del episodio incluye la fase, así que cambiar de contexto vial abre otro (D3), y la alta f vuelve a contar en la avenida aunque la calle haya recibido la eliminatoria l.
 - Verificación: `npm run check` con 347 pruebas (cobertura 95,3 % / 88,9 %), contenido OK, build OK; E2E del examen.
 
+## Tarea autorizada de la fase 4
+
+| Tarea | Rama | Base | PR | Estado |
+|---|---|---|---|---|
+| F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
+
+- Resultado: explorador de los ocho tramos (1506,8 m: `loopLengthM` de `route/comuna13-a.json`, calculado sobre la geometría OSM y verificado en [RECORRIDO.md](RECORRIDO.md) §4 y §6; secuencia oficial: `fuentes/pdf/recorridos.pdf`, PDF 16, y `fuentes/pdf/protocolo.pdf`, PDF 39), mapa métrico, carga por sectores, componentes visuales reutilizables, carriles/ciclovías según subtramo, controles con evidencia, entrada por tramo y conducción con el habitáculo existente. Detalle en [CIUDAD.md](CIUDAD.md).
+- Se inspeccionaron en navegador la cuadra, la vista completa y el habitáculo. Se corrigió el parpadeo de superficies en la vista general ajustando la precisión de profundidad.
+- Autoprueba de conducción: el modelo real recorre el circuito con dirección limitada, a 120 Hz, sin contactos con cordones; no acredita circulación legal ni evaluación completa.
+- Validación sobre la base que incluye #21: `npm run check` aprobado con 364 pruebas, cobertura 95,23 % en sentencias / 88,92 % en ramas, catálogo y build. Suite completa de 44 E2E aprobada sin reintentos; después de los ajustes finales, ocho E2E de recorrido/examen aprobados. La prueba unitaria del examen ahora espera el inicio del bucle antes de enviar teclas, evitando la carrera con el montaje diferido.
+- Rendimiento medido en Chromium 153/SwiftShader, Ryzen 7 4800H: media de 178,13 ms por cuadro en escritorio y 138,85 ms en Pixel 7 emulado. No cumple 60 FPS en este entorno por software ni certifica un teléfono real; detalles y condiciones en `CIUDAD.md`.
+- Pendientes explícitos: no hay relevamiento nuevo de PARE, reductor, carriles, máximas o cajón. La pantalla mantiene las evidencias y aproximaciones. Semáforos apagados y sin tránsito/evaluación completa en esta tarea.
+- PR #22 abierto con implementación `ab68fd2` y registro `9dc94d3`; CodeRabbit automático y Codex solicitado. Sin excepción de cuota aplicada.
+- Revisiones sobre `9dc94d3` (etapa B, 2026-10-12): CI verde (unitarias, catálogo, build y E2E). Codex, 1 finding: la vista en carga tenía `role="img"` y ocultaba el estado vivo «Construyendo el barrio…»; ahora el rol de imagen se aplica solo en `ready`, con prueba que falla sin el cambio. CodeRabbit, 3 findings, todos corregidos: referencias trazables de cada dato en `CIUDAD.md` (catálogo, OSM/GCBA, protocolo) separando dato respaldado de aproximación; fila de #21 sincronizada como fusionada; cita del gráfico 4 (protocolo PDF 21) para los 6 m del cajón en `RECORRIDO.md` §10.
+- Revisión de CodeRabbit sobre `5b07456` (CI verde en ese commit), 3 findings, corregidos: la vista vuelve a «cargando» al reconstruirse (otro tramo, circuito completo u otro renderizador) y no conserva `ready`, con prueba que falla sin el cambio; la longitud distingue cálculo OSM y secuencia oficial (recorridos PDF 16, protocolo PDF 39); fila y registro de #22 sin referencias obsoletas. Pendiente: la revisión de seguimiento de Codex y CodeRabbit sobre este commit.
+
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01 y T02 (#16 y #17) están fusionados; T03 parte de `e49dc5b`.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos.
 
 ## Bloqueos
 
@@ -333,7 +350,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-El usuario fusionó #18, #19 y #20 el 2026-10-12: la fase 3 queda implementada. Resta fusionar el correctivo F03-T05-FIX01 y, con eso, cerrar la fase; la fase 4 requiere inicio manual del usuario. Los findings tardíos de #16 se mantienen explícitos en CONTINUIDAD.
+Atender CI y revisiones de [#22](https://github.com/grunch/al-volante/pull/22), resolver findings antes de solicitar otra ronda. No iniciar F04-T02 ni fusionar con este pedido. Ver `CIUDAD.md` para geometría, interfaces y pendientes de relevamiento.
 
 ## Decisiones que no deben reinterpretarse
 

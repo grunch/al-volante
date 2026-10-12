@@ -1,6 +1,6 @@
 # Continuidad del proyecto
 
-Actualizado: 2026-10-11. Estado: fases 1 y 2 fusionadas; F03-T03 en curso. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
+Actualizado: 2026-10-11. Estado: fases 1–3 fusionadas; F04-T01 autorizada y en curso. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
 ## Pedido y alcance de esta etapa
 
@@ -120,3 +120,12 @@ Decisiones de T05 que no deben reinterpretarse:
 - Un exceso en los primeros 100 m consigna la eliminatoria g (la indicación de marcha), no f ni l (D1: un hecho, una regla). Después de los 100 m rige D2.
 - El tránsito que cruza va por la mitad lejana de la avenida, para que solo seguir de largo lo encuentre; el giro a la derecha pega al cordón cercano.
 - Las etapas II y III no se completan en la fase 3: el resultado se muestra como parcial.
+
+
+## Inicio de F04-T01
+
+El usuario indicó «arranca con F04 T01». Solo se ejecuta esa tarea; T02–T05 no se inician. La rama `f04-t01-city` parte de `main` y se actualizó hasta `89791fc`, que incluye #18–#21. El checkout principal conserva sus archivos y `main` limpia.
+
+`#/recorrido` integra exploración por cuadra o circuito completo, mapa métrico, evidencia de fuentes y conducción por los ocho tramos. La geometría sale del catálogo validado sin espejar ni reescalar; los sectores visuales se liberan sin cambiar colisiones. El predio y el primer tramo evaluado mantienen sus pantallas. Arquitectura, límites y fuentes en `CIUDAD.md`.
+
+No confundir circuito geométrico completo con examen completo: tránsito, ciclos de semáforos y evaluación integral siguen en F04-T02–T05. Las máximas, PARE, reductor, anchos y posición exacta del cajón no se certificaron mediante relevamiento; se conservan estados de fuente única, discrepancia o aproximación. Implementación publicada en [#22](https://github.com/grunch/al-volante/pull/22) (`ab68fd2`), con 364 pruebas y 44 E2E aprobados más revalidaciones afectadas. En la etapa B se corrigieron los findings de Codex y CodeRabbit (`5b07456` y siguiente); queda la revisión de seguimiento. El estado vivo está en `ESTADO_IMPLEMENTACION.md`.
