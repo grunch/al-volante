@@ -2,7 +2,9 @@
 
 Actualizado: 2026-10-12. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el correctivo F04-T04-FIX01, [#27](https://github.com/grunch/al-volante/pull/27), repara las vueltas guionadas que quedaron rojas en `main`); fase 5 (todo el contenido y simulacros teóricos) fusionada, incluido #33 en `9dd6d9e`; correctivos #34 y #36 fusionados (`f3d2f60`, `c71a289`); #37 (E2E de `main`) y #35 abiertos. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
-## Trabajo puntual activo — F04-T01-FIX02
+## Correctivo fusionado — F04-T01-FIX02
+
+Fusionado por el usuario en `main` (`f3d2f60`). La CI de `main` posterior canceló el E2E por presupuestos de reloj justos con WebGL por software, no por un error de código; lo corrige F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37), sección más abajo). Lo que sigue es el registro de cuando estaba en curso.
 
 El usuario confirmó la fusión de [#31](https://github.com/grunch/al-volante/pull/31), merge `9bc0257`, y pidió un manejo más real apoyado nuevamente en las fotos de `recursos/`. Rama `f04-t01-fix02-driving-realism`, base inicial `9bc0257`, actualizada con `main` (`9dd6d9e`, [#33](https://github.com/grunch/al-volante/pull/33) fusionado), worktree independiente. No inicia fase 6 ni modifica el worktree de Opus.
 
