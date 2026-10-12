@@ -33,9 +33,10 @@ export function SignsPage() {
             if (activity.type === 'sign-identification' && activity.status === 'reviewed')
               for (const variant of activity.variants)
                 if (!practice.has(variant.signId)) practice.set(variant.signId, activity);
-          return groupSigns(content.signs).map(({ family, groups }) => (
-            <section key={family} aria-labelledby={`signs-${family}`} className="map-group">
-              <h2 id={`signs-${family}`}>{family}</h2>
+          // Families have spaces ("Señalamiento luminoso"): aria-labelledby takes a list of ids, so ids use the index.
+          return groupSigns(content.signs).map(({ family, groups }, index) => (
+            <section key={family} aria-labelledby={`signs-family-${index}`} className="map-group">
+              <h2 id={`signs-family-${index}`}>{family}</h2>
               {groups.map(([group, signs]) => (
                 <div key={group}>
                   {group !== family && <h3>{group.split(' / ').slice(1).join(' / ') || group}</h3>}

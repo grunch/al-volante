@@ -2,7 +2,7 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
-import { choiceActivity, rule, ruleCatalog } from '../../content/testing/fixtures.ts';
+import { choiceActivity, rule, ruleCatalog, sign } from '../../content/testing/fixtures.ts';
 import { ACTIVITY_COPY, SIGN_COPY, esAR } from '../../i18n/es-AR.ts';
 import { loadPageText, splitPages } from '../../content/sourceText.ts';
 import type * as SourceTextModule from '../../content/sourceText.ts';
@@ -122,7 +122,18 @@ describe('sign catalog', () => {
     ];
     renderApp('/senales', readyContent(content));
 
+    content.signs = [
+      ...content.signs,
+      sign({
+        id: 'sign.light-signals.red',
+        page: 3,
+        group: 'Señalamiento luminoso / Significado de las luces',
+        name: 'ROJO',
+      }),
+    ];
     const family = await screen.findByRole('region', { name: 'Reglamentarias' });
+    // A family with spaces in its name still names its region (aria-labelledby is a list of ids).
+    expect(screen.getByRole('region', { name: 'Señalamiento luminoso' })).toBeInTheDocument();
     expect(within(family).getByText('PARE')).toBeInTheDocument();
     expect(within(family).getByText('Detención obligatoria')).toBeInTheDocument();
     expect(within(family).getByRole('img', { name: 'Círculo rojo' }).getAttribute('src')).toMatch(
