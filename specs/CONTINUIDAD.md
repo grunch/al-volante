@@ -1,6 +1,6 @@
 # Continuidad del proyecto
 
-Actualizado: 2026-10-12. Estado: fases 1–4 fusionadas (#22–#26 en `main`); el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) repara las vueltas guionadas que quedaron rojas en `main`. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
+Actualizado: 2026-10-12. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el correctivo F04-T04-FIX01, [#27](https://github.com/grunch/al-volante/pull/27), repara las vueltas guionadas que quedaron rojas en `main`); fase 5 (todo el contenido y simulacros teóricos) iniciada por el usuario, etapa A en curso. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
 ## Pedido y alcance de esta etapa
 
@@ -192,4 +192,14 @@ Las CI de las fusiones de #25 y #26 quedaron canceladas y `main` tenía rojas la
 - **El auto detenido en su línea espera a quien ya cruza** (`carWaitsAtLineFor`, `src/traffic/traffic.ts`): igual que `waitsAtLineFor` entre actores, el auto quieto con el frente en su línea (de 0,6 m pasada a 1,1 m antes) de un cruce que un actor ya atraviesa no es el obstáculo de su corredor recto; sin eso, una bici que dobla dentro del cruce y el auto se esperan para siempre. **Excepción:** si la carrocería del auto está sobre la trayectoria real del actor en los próximos metros (curvas incluidas, `carOnPathAhead`), sigue siendo obstáculo y el actor no avanza hacia él. No usar `corridorGap` para limitar esta excepción: el corredor recto de quien dobla toca el capó aunque su trayectoria no lo haga, y vuelve la espera mutua (comprobado con la prueba «rides on across the corner…»).
 - **El conductor de prueba cede a ciclistas** (`src/test/circuitDriver.ts`): antes de la línea espera a los que vienen por el lado del giro y a los que van a cruzar el pavimento que va a atravesar. Las distancias que usa (hasta 25 m detrás, a menos de 8 m hacia el lado del giro, proyección de hasta 3 s) son heurísticas del guion, no umbrales del protocolo; la obligación de ceder es la falla l (`protocolo.pdf`, PDF 12, 16, 17 y 29; manual PDF 35).
 - Las vueltas guionadas son sensibles a los tiempos: un cambio del conductor de prueba o del tránsito puede llevar a la semilla 1 a situaciones nuevas. Correr `street.test.ts`, `parkingStreet.test.ts` y `src/traffic` antes de fusionar cualquier cambio de esas capas, y no fusionar con la CI cancelada.
+
+## Fase 5: todo el contenido y simulacros teóricos
+
+Iniciada por el usuario el 2026-10-12 con la fase 4 fusionada: «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Etapa A: T01–T05 apiladas, sin esperar revisiones. El método, los estados y las decisiones están en `CONTENIDO.md`; no reinterpretar:
+
+- **Estados con significado verificable** (`validateTreatment`): `reviewed` = contrastada con la imagen de su página; `implemented` = practicada por una actividad revisada o de consulta con motivo; `tested` = practicada por actividades que la prueba de recorrido del catálogo responde bien y mal. Una unidad de consulta nunca llega a `tested`.
+- **Archivos:** una actividad vive en `specs/catalog/activities/<fuente>-<sección>.json` según su primera unidad; las figuras son recortes de los PDF (`figures.json`, `public/figures/`, `scripts/crop-figures.ts`) que se muestran con la devolución.
+- **Discrepancias:** ninguna respuesta correcta depende de un dato no resuelto (`catalogPolicy.test.ts` lo controla para las decisiones con patrón detectable). Las decisiones D-T01-* fijan qué se evalúa en cada caso; los datos de contacto, URLs y estadísticas exactas no se evalúan.
+- **Lotes:** cada tarea reparte el contenido en lotes por páginas escritos por subagentes con una guía común y fuera del repositorio; el autor integra, valida y revisa contra la fuente. La guía condensada está en `CONTENIDO.md` («Reglas de autoría»).
+- **F05-T01** (presentación, glosario, introducción, cap. 1–2 y guía de siniestros): 260 unidades tratadas, 105 actividades y 23 figuras. Estado vivo y PR en `ESTADO_IMPLEMENTACION.md`.
 

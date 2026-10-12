@@ -2,7 +2,7 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from 'vitest';
-import activitiesJson from '../../../specs/catalog/activities.json';
+import { catalogActivities, catalogActivityFiles } from '../../content/testing/catalogActivities.ts';
 import { App } from '../App.tsx';
 import { routes } from '../routes.tsx';
 import { ActivityResultContext } from '../../activities/ActivityResultContext.ts';
@@ -10,12 +10,11 @@ import type { ActivityResult, SaveOutcome } from '../../activities/ActivityResul
 import { presentActivity } from '../../activities/engine.ts';
 import { SignGraphic, hasSignDrawing } from '../../activities/ui/SignGraphic.tsx';
 import { loadContent } from '../../content/catalog.ts';
-import { ActivityCatalogSchema } from '../../content/schemas.ts';
 import type { Activity } from '../../content/schemas.ts';
 import { createFakeRenderer } from '../../test/fakeRenderer.ts';
-import { ACTIVITY_COPY } from '../../i18n/es-AR.ts';
+import { ACTIVITY_COPY, sectionLabel } from '../../i18n/es-AR.ts';
 
-const activities = ActivityCatalogSchema.parse(activitiesJson);
+const activities = catalogActivities;
 const find = (id: string) => activities.find((activity) => activity.id === id) as Activity;
 
 function renderWithRealContent(
@@ -32,15 +31,45 @@ function renderWithRealContent(
 }
 
 describe('activities list', () => {
-  it('lists the sample activities with their type and sources, and says it is a sample', async () => {
-    renderWithRealContent('/actividades');
+  it('groups the activities by section of the learning path and opens one section', async () => {
+    const user = userEvent.setup();
+    const router = renderWithRealContent('/actividades');
 
-    expect(await screen.findByRole('link', { name: 'Velocidades máximas en CABA' })).toHaveAttribute(
+    const campaign = await screen.findByRole('region', { name: 'Campaña licencia B' });
+    const ch3 = within(campaign).getByRole('link', { name: 'Cap. 3 · Normas básicas de conducción' });
+    expect(ch3).toHaveAttribute('href', '/actividades?seccion=manual-ch3');
+    await user.click(ch3);
+
+    expect(router.state.location.search).toBe('?seccion=manual-ch3');
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'Cap. 3 · Normas básicas de conducción' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Velocidades máximas en CABA' })).toHaveAttribute(
       'href',
       '/actividad/act.max-speed-light-vehicles',
     );
-    expect(within(screen.getByRole('main')).getAllByRole('listitem')).toHaveLength(activities.length);
-    expect(screen.getByText(/muestra inicial/)).toBeInTheDocument();
+    const inSection = catalogActivityFiles.get('manual-ch3') ?? [];
+    expect(within(screen.getByRole('main')).getAllByRole('heading', { level: 2 })).toHaveLength(inSection.length);
+    expect(screen.getByRole('link', { name: ACTIVITY_COPY.studySection })).toHaveAttribute('href', '/mapa/manual/ch3');
+  });
+
+  it('counts the activities of every section that has some', async () => {
+    renderWithRealContent('/actividades');
+
+    await screen.findByRole('region', { name: 'Campaña licencia B' });
+    for (const [key, list] of catalogActivityFiles) {
+      const [source = '', section = ''] = key.split('-');
+      const card = screen.getByRole('link', { name: sectionLabel(source, section) }).closest('li') as HTMLElement;
+      const noun = list.length === 1 ? ACTIVITY_COPY.activityOne : ACTIVITY_COPY.activityMany;
+      expect(within(card).getByText(new RegExp(`^${list.length} ${noun} ·`)), key).toBeInTheDocument();
+    }
+  });
+
+  it('says so when the section in the URL does not exist and shows the overview', async () => {
+    renderWithRealContent('/actividades?seccion=manual-ch99');
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(ACTIVITY_COPY.unknownSection);
+    expect(screen.getByRole('heading', { level: 1, name: ACTIVITY_COPY.heading })).toBeInTheDocument();
   });
 });
 
@@ -152,7 +181,7 @@ describe('playing an activity', () => {
 
   it('keeps focus on the activity title while it adds the missing seed', async () => {
     const user = userEvent.setup();
-    const router = renderWithRealContent('/actividades');
+    const router = renderWithRealContent('/actividades?seccion=manual-ch3');
 
     await user.click(await screen.findByRole('link', { name: 'Velocidades máximas en CABA' }));
     await waitFor(() => expect(router.state.location.search).toMatch(/^\?semilla=\d+$/));

@@ -85,6 +85,11 @@ export const KnowledgeUnitSchema = z.strictObject({
   figureBased: z.boolean(),
   status: ContentStatusSchema,
   notes: z.string(),
+  /**
+   * Why the unit is studied as reference material (its section page and source page) instead of being evaluated,
+   * e.g. contact data that may be outdated. Units without it are covered by activities (CONTENIDO.md).
+   */
+  consultationReason: nonEmpty.optional(),
 });
 export type KnowledgeUnit = z.infer<typeof KnowledgeUnitSchema>;
 
@@ -270,6 +275,23 @@ export const RouteSchema = z.strictObject({
 });
 export type Route = z.infer<typeof RouteSchema>;
 
+// --- Figures (crops of the official PDFs, CONTENIDO.md) --------------------------------------
+
+export const FIGURE_ID_PATTERN = /^fig\.[a-z0-9]+(-[a-z0-9]+)*$/;
+const fraction = z.number().min(0).max(1);
+export const FigureSchema = z.strictObject({
+  id: z.string().regex(FIGURE_ID_PATTERN),
+  source: SourceIdSchema,
+  page: positiveInt,
+  /** Crop of the physical page as fractions of its width and height, origin at the top left corner. */
+  box: z.strictObject({ x: fraction, y: fraction, width: fraction.positive(), height: fraction.positive() }),
+  /** Accessible description: what the figure shows, with the data a sighted reader would get from it. */
+  alt: nonEmpty,
+  unitIds: z.array(z.string().regex(UNIT_ID_PATTERN)).min(1),
+});
+export type Figure = z.infer<typeof FigureSchema>;
+export const FigureCatalogSchema = z.array(FigureSchema);
+
 // --- Activities (F02-T04 fills the catalog) -------------------------------------------------
 
 const ActivityBaseSchema = z.strictObject({
@@ -279,6 +301,8 @@ const ActivityBaseSchema = z.strictObject({
   refs: z.array(SourceRefSchema).min(1),
   explanation: nonEmpty,
   status: z.enum(['draft', 'reviewed']),
+  /** Figures shown with the feedback, after answering: they may contain the answer. */
+  figureIds: z.array(z.string().regex(FIGURE_ID_PATTERN)).min(1).optional(),
 });
 
 const ChoiceOptionSchema = z.strictObject({ id: nonEmpty, text: nonEmpty, correct: z.boolean(), feedback: nonEmpty });

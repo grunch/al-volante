@@ -2,7 +2,7 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-12.
+Última actualización: 2026-10-12 (inicio de la fase 5).
 
 ## Fase activa
 
@@ -10,7 +10,8 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
 - **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
-- Fases 5–7: no iniciadas.
+- **Fase 5 — Todo el contenido y simulacros teóricos: etapa A en curso.** Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
+- Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
 ## Repositorio y revisión
@@ -429,9 +430,27 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - CI sobre `83562c4`: el E2E «offers the four modes…» agotó sus 30 s en el runner sin un error de la página. La traza muestra cada comprobación a ~1,3 s por el render por software y el pedido de interrupción empezando a los 26 s. El bloque de modos tiene ahora 120 s, como el E2E de manejo de la ciudad; local: 12 E2E de `exam.spec.ts` aprobados (escritorio y Pixel 7 emulado).
 - Para la fase 5 y F06-T01: la sesión terminada queda en `sessionRef` de `ExamPage` y se persiste como `Attempt` `driving` con `events` (`phase`, `stage-completed`, `interruption`, `finished`) y `faults`; no se graban entradas ni estados por paso, así que la repetición (F06-T01) necesita su propia grabación. Los modos se eligen por URL; un reintento desde un estado intermedio debe crear la sesión con `enter` en la fase deseada y restaurar auto, cabina, tránsito (`TrafficState`) y `Session` completos.
 
+## Tareas de la fase 5
+
+| Tarea | Rama | Base | PR | Estado |
+|---|---|---|---|---|
+| F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | abierto; Codex solicitado, CodeRabbit automático |
+
+### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
+
+- Primera tarea de la fase, apilada sobre F04-T04-FIX01 (#27), que repara la vuelta guionada rota en `main`; sin ese correctivo la CI de esta tarea no puede quedar en verde.
+- Alcance:
+  - **Infraestructura de contenido para toda la fase:** actividades en un archivo por sección (`specs/catalog/activities/<fuente>-<sección>.json`, cargados con `import.meta.glob`), catálogo de figuras (`specs/catalog/figures.json`, recortes en `public/figures/` con `scripts/crop-figures.ts`), `consultationReason` en las unidades, validadores `activityFileErrors`, `validateFigures` y `validateTreatment`, prueba de recorrido de todo el catálogo (`catalogPlaythrough.test.ts`), prueba de política de contenido (`catalogPolicy.test.ts`, que reemplaza la prueba de temas excluidos de la fase 2) y prueba de cobertura de las secciones terminadas.
+  - **Interfaz:** «La ciudad te pregunta» por secciones del recorrido de aprendizaje (`?seccion=`); la página de cada sección muestra sus actividades, las que practican cada unidad, el motivo de las unidades de consulta y las figuras; la devolución muestra las figuras después de responder; la presentación y el material a estudiar entran al grupo de consulta del mapa.
+  - **Contenido:** las 260 unidades de presentación, glosario, introducción, capítulos 1–2 y guía de siniestros revisadas contra la imagen de su página (22 correcciones), 105 actividades nuevas (77 de opción única, 22 escenas de decisión y 6 de ordenar; 351 variantes) y 23 figuras. 254 unidades quedan `tested` y 6 de consulta (`implemented`). Las 14 unidades y 4 señales que usaban las 8 actividades de la fase 2 se revisaron contra sus páginas y quedan `tested`.
+  - **Decisiones:** D-T01-1 a D-T01-18 en `CONTENIDO.md` (verificaciones del 12/10/2026: 107 SAME y 911 Policía en el sitio oficial; scoring de 20 puntos; régimen cambiante de la VTV). 8 observaciones nuevas en `issues.json` (214 en total).
+- Método: cinco lotes por páginas escritos por subagentes con una guía común, sin tocar el repositorio; el autor los integró, reequilibró 28 variantes cuya opción correcta se delataba por su largo, reescribió los motivos de consulta para quien juega y revisó por muestreo los datos contra el texto y la imagen de las páginas (PDF 26, 29, 33, 38, 45–47, 53 y las de los recortes).
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) parte de `main`.
+
+Fase 5, etapa A: `main ← F04-T04-FIX01 (#27) ← F05-T01 ← F05-T02 ← F05-T03 ← F05-T04 ← F05-T05`, cada rama sobre la anterior y fusión en ese orden.
 
 ## Bloqueos
 
@@ -439,7 +458,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama.
+La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: crear F05-T02 (capítulo 3 y anexo IV, con el catálogo visual de señales) apilada sobre F05-T01, y seguir con T03–T05 sin esperar revisiones. Después, etapa B con el usuario.
 
 ### Cierre de la fase 4 contra el plan
 

@@ -1,0 +1,531 @@
+[
+  {
+    "id": "act.guide-civil-process-order",
+    "type": "ordering",
+    "title": "Las etapas del proceso civil",
+    "unitIds": [
+      "siniestros.s3.civil-process",
+      "siniestros.s3.mediation"
+    ],
+    "refs": [
+      {
+        "source": "siniestros",
+        "page": 17
+      },
+      {
+        "source": "siniestros",
+        "page": 18
+      }
+    ],
+    "explanation": "El proceso civil busca una indemnización económica por los daños y perjuicios del siniestro (guía PDF 17). Antes de iniciar acciones civiles hay una etapa previa y obligatoria de mediación, extrajudicial, en la que las partes negocian ante un mediador o mediadora. Aceptar la propuesta de la otra parte no es obligatorio: si no hay acuerdo, se deja constancia en un acta de la falta de conciliación y se interpone la demanda ante los juzgados civiles (guía PDF 18).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "civil",
+        "prompt": "Querés una indemnización por la vía civil y en la mediación no se llega a un acuerdo. Según la guía, ordená las etapas:",
+        "items": [
+          {
+            "id": "mediation",
+            "text": "Audiencia de mediación entre las partes, ante un mediador o mediadora",
+            "reason": "es la etapa previa y obligatoria para iniciar acciones civiles"
+          },
+          {
+            "id": "record",
+            "text": "Constancia en un acta de que no hubo conciliación",
+            "reason": "si no se acepta la propuesta de la otra parte, se deja constancia de la falta de acuerdo"
+          },
+          {
+            "id": "lawsuit",
+            "text": "Demanda ante los juzgados civiles",
+            "reason": "sin acuerdo en la mediación, se interpone la demanda para continuar el proceso"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.guide-civil-claims",
+    "type": "single-choice",
+    "title": "El proceso civil",
+    "unitIds": [
+      "siniestros.s3.legal-orientation",
+      "siniestros.s3.civil-process",
+      "siniestros.s3.mediation",
+      "siniestros.s3.civil-lawsuit"
+    ],
+    "refs": [
+      {
+        "source": "siniestros",
+        "page": 17
+      },
+      {
+        "source": "siniestros",
+        "page": 18
+      },
+      {
+        "source": "siniestros",
+        "page": 19
+      },
+      {
+        "source": "siniestros",
+        "page": 14
+      }
+    ],
+    "explanation": "Las víctimas y sus familiares tienen derecho a acceder a la justicia para pedir la reparación del daño, investigar los hechos y conocer a los responsables (guía PDF 17). El proceso civil busca una indemnización económica; empieza con una mediación obligatoria, en la que no es obligatorio aceptar la propuesta de la otra parte, y sin acuerdo sigue la demanda civil (guía PDF 17–18). La demanda suele comprender daño emergente (lo efectivamente sufrido, como el daño al vehículo), lucro cesante (lo que no se pudo generar al no poder trabajar) y daño moral (la lesión emocional); la interponen la víctima, sus familiares o cualquier perjudicado, a través de abogados matriculados (guía PDF 18–19).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "rights",
+        "prompt": "Según la guía, ¿a qué tienen derecho las víctimas de un siniestro y sus familiares?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A acceder a la justicia para pedir la reparación e investigar los hechos",
+            "correct": true,
+            "feedback": "¡Correcto! Y también a conocer a los responsables (guía PDF 17)."
+          },
+          {
+            "id": "b",
+            "text": "Solo a cobrar lo que ofrezca la aseguradora del responsable",
+            "correct": false,
+            "feedback": "Aceptar el ofrecimiento no es obligatorio: tienen derecho a acceder a la justicia para pedir la reparación e investigar los hechos (guía PDF 14 y 17)."
+          },
+          {
+            "id": "c",
+            "text": "A reclamar únicamente si hubo una víctima fatal",
+            "correct": false,
+            "feedback": "No se limita a víctimas fatales: las víctimas y sus familiares pueden acceder a la justicia para pedir la reparación del daño (guía PDF 17)."
+          },
+          {
+            "id": "d",
+            "text": "A que la policía fije en el lugar el monto de la indemnización",
+            "correct": false,
+            "feedback": "La policía preserva la escena; la reparación se pide accediendo a la justicia (guía PDF 17)."
+          }
+        ]
+      },
+      {
+        "id": "goal",
+        "prompt": "¿Qué busca el proceso civil después de un siniestro?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Una indemnización económica por los daños y perjuicios sufridos",
+            "correct": true,
+            "feedback": "¡Correcto! Así define la guía el proceso civil (PDF 17)."
+          },
+          {
+            "id": "b",
+            "text": "Determinar qué pena le corresponde al responsable del hecho",
+            "correct": false,
+            "feedback": "Eso lo busca el proceso penal (guía PDF 19); el civil busca una indemnización económica (PDF 17)."
+          },
+          {
+            "id": "c",
+            "text": "Descontar puntos de la licencia del responsable",
+            "correct": false,
+            "feedback": "Los puntos dependen de las infracciones de tránsito; el proceso civil busca una indemnización económica (guía PDF 17)."
+          },
+          {
+            "id": "d",
+            "text": "Preservar la escena y las pruebas del siniestro",
+            "correct": false,
+            "feedback": "Eso lo hace la policía en el lugar; el proceso civil busca una indemnización económica por los daños (guía PDF 17)."
+          }
+        ]
+      },
+      {
+        "id": "mediation",
+        "prompt": "En la mediación, la otra parte te hace una propuesta que no te convence. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No estás obligado: se deja constancia en un acta y se puede demandar",
+            "correct": true,
+            "feedback": "¡Correcto! La etapa de mediación es obligatoria, pero aceptar la propuesta no (guía PDF 18)."
+          },
+          {
+            "id": "b",
+            "text": "Tenés que aceptarla, porque la mediación es una etapa obligatoria",
+            "correct": false,
+            "feedback": "Lo obligatorio es la etapa, no la propuesta: si no hay acuerdo, se deja constancia en un acta (guía PDF 18)."
+          },
+          {
+            "id": "c",
+            "text": "Decide el mediador, y su decisión es obligatoria",
+            "correct": false,
+            "feedback": "El mediador facilita que las partes encuentren una solución; no decide por ellas (guía PDF 18)."
+          },
+          {
+            "id": "d",
+            "text": "Se archiva el caso y ya no podés reclamar",
+            "correct": false,
+            "feedback": "Sin acuerdo, se interpone la demanda ante los juzgados civiles para continuar el proceso (guía PDF 18)."
+          }
+        ]
+      },
+      {
+        "id": "lost-earnings",
+        "prompt": "Por las lesiones, una persona no pudo trabajar durante meses. ¿Qué rubro de la demanda civil corresponde a lo que dejó de generar?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Lucro cesante",
+            "correct": true,
+            "feedback": "¡Correcto! Es la pérdida de la posibilidad de generar recursos económicos al no poder trabajar (guía PDF 18)."
+          },
+          {
+            "id": "b",
+            "text": "Daño emergente",
+            "correct": false,
+            "feedback": "El daño emergente son los daños efectivamente sufridos, como los del vehículo; no poder trabajar es lucro cesante (guía PDF 18)."
+          },
+          {
+            "id": "c",
+            "text": "Daño moral",
+            "correct": false,
+            "feedback": "El daño moral es la lesión emocional por el sufrimiento causado; no poder trabajar es lucro cesante (guía PDF 18)."
+          }
+        ]
+      },
+      {
+        "id": "vehicle-damage",
+        "prompt": "¿Qué rubro de la demanda civil corresponde a los daños que sufrió el vehículo?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Daño emergente",
+            "correct": true,
+            "feedback": "¡Correcto! La guía pone como ejemplo de daño emergente los daños efectivamente sufridos en el vehículo (PDF 18)."
+          },
+          {
+            "id": "b",
+            "text": "Lucro cesante",
+            "correct": false,
+            "feedback": "El lucro cesante es lo que se deja de generar al no poder trabajar; el daño al vehículo es daño emergente (guía PDF 18)."
+          },
+          {
+            "id": "c",
+            "text": "Daño moral",
+            "correct": false,
+            "feedback": "El daño moral es la lesión emocional; los daños al vehículo son daño emergente (guía PDF 18)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.guide-criminal-complaint",
+    "type": "single-choice",
+    "title": "El proceso penal y la denuncia",
+    "unitIds": [
+      "siniestros.s3.criminal-process",
+      "siniestros.s3.criminal-complaint"
+    ],
+    "refs": [
+      {
+        "source": "siniestros",
+        "page": 19
+      },
+      {
+        "source": "siniestros",
+        "page": 20
+      },
+      {
+        "source": "siniestros",
+        "page": 14
+      },
+      {
+        "source": "siniestros",
+        "page": 18
+      },
+      {
+        "source": "siniestros",
+        "page": 21
+      }
+    ],
+    "explanation": "El proceso penal se pone en marcha cuando hay indicios de un delito, como una víctima lesionada o fallecida en un siniestro vial, y busca determinar si hubo un responsable y qué pena le corresponde (guía PDF 19). Se inicia con la intervención policial, porque la Policía informa el hecho a la Justicia; si no se la llamó al lugar, hay que formular una denuncia, que es comunicar a la autoridad un hecho que se considera infracción a las leyes. La hace la víctima o, si falleció o no puede hacerla, un familiar que acredite el vínculo (guía PDF 19–20).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "trigger",
+        "prompt": "Según la guía, ¿cuándo se pone en marcha el proceso penal por un siniestro vial?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Cuando hay indicios de un delito, como una víctima lesionada o fallecida",
+            "correct": true,
+            "feedback": "¡Correcto! Y busca determinar si hubo un responsable y qué pena le corresponde (guía PDF 19)."
+          },
+          {
+            "id": "b",
+            "text": "Siempre que haya daños materiales, aunque nadie resulte herido",
+            "correct": false,
+            "feedback": "Los daños materiales solos se reclaman por otras vías; el proceso penal se activa ante indicios de un delito (guía PDF 19)."
+          },
+          {
+            "id": "c",
+            "text": "Solo cuando la aseguradora rechaza el reclamo",
+            "correct": false,
+            "feedback": "No depende de la aseguradora: se activa cuando hay indicios de un delito (guía PDF 19)."
+          },
+          {
+            "id": "d",
+            "text": "Solo cuando fracasa la mediación",
+            "correct": false,
+            "feedback": "La mediación es parte del proceso civil; el penal se activa ante indicios de un delito (guía PDF 18–19)."
+          }
+        ]
+      },
+      {
+        "id": "no-police",
+        "prompt": "Hubo una persona lesionada, pero nadie llamó a la policía al lugar. Según la guía, ¿qué hay que hacer para darle intervención?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Formular una denuncia",
+            "correct": true,
+            "feedback": "¡Correcto! Si no se pidió la presencia policial en el lugar, para darle intervención hay que formular una denuncia (guía PDF 19)."
+          },
+          {
+            "id": "b",
+            "text": "Iniciar una mediación",
+            "correct": false,
+            "feedback": "La mediación es la etapa previa del proceso civil; para que intervenga la policía hay que formular una denuncia (guía PDF 18–19)."
+          },
+          {
+            "id": "c",
+            "text": "Presentar un reclamo administrativo ante la aseguradora",
+            "correct": false,
+            "feedback": "El reclamo administrativo busca la reparación de daños; para que intervenga la policía hay que hacer una denuncia (guía PDF 14 y 19)."
+          },
+          {
+            "id": "d",
+            "text": "Nada: la policía se entera sola",
+            "correct": false,
+            "feedback": "Si no se la llamó al lugar, la policía no interviene sola: hay que formular una denuncia (guía PDF 19)."
+          }
+        ]
+      },
+      {
+        "id": "definition",
+        "prompt": "¿Qué es la denuncia, según la guía?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Comunicar a la autoridad un hecho que se considera infracción a las leyes",
+            "correct": true,
+            "feedback": "¡Correcto! Es el acto por el que se informa a la autoridad competente ese hecho (guía PDF 19)."
+          },
+          {
+            "id": "b",
+            "text": "El reclamo por los daños ante la aseguradora del responsable",
+            "correct": false,
+            "feedback": "Ese es el reclamo administrativo (guía PDF 14); la denuncia comunica a la autoridad un hecho que se considera infracción a las leyes (PDF 19)."
+          },
+          {
+            "id": "c",
+            "text": "La negociación entre las partes ante un mediador",
+            "correct": false,
+            "feedback": "Esa es la mediación del proceso civil (guía PDF 18); la denuncia comunica un hecho a la autoridad (PDF 19)."
+          },
+          {
+            "id": "d",
+            "text": "La forma en que la víctima pasa a ser parte del proceso penal con abogado",
+            "correct": false,
+            "feedback": "Esa es la querella (guía PDF 20–21); la denuncia comunica a la autoridad un hecho que se considera infracción (PDF 19)."
+          }
+        ]
+      },
+      {
+        "id": "who",
+        "prompt": "La víctima de un siniestro falleció. Según la guía, ¿quién puede hacer la denuncia?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Un familiar, acreditando el vínculo",
+            "correct": true,
+            "feedback": "¡Correcto! Con víctimas fatales o que no están en condiciones, puede hacerla un familiar que acredite el vínculo (guía PDF 20)."
+          },
+          {
+            "id": "b",
+            "text": "Nadie: solo la puede hacer la propia víctima",
+            "correct": false,
+            "feedback": "La guía prevé que, si la víctima falleció o no puede, la haga un familiar acreditando el vínculo (PDF 20)."
+          },
+          {
+            "id": "c",
+            "text": "La aseguradora del responsable",
+            "correct": false,
+            "feedback": "No: la denuncia la hace la víctima o, si falleció, un familiar que acredite el vínculo (guía PDF 20)."
+          },
+          {
+            "id": "d",
+            "text": "Solo un testigo presencial del hecho",
+            "correct": false,
+            "feedback": "La guía indica a la víctima o, si falleció o no puede, a un familiar que acredite el vínculo (PDF 20)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.guide-criminal-action",
+    "type": "single-choice",
+    "title": "La acción penal y la querella",
+    "unitIds": [
+      "siniestros.s3.criminal-action",
+      "siniestros.s3.private-prosecution"
+    ],
+    "refs": [
+      {
+        "source": "siniestros",
+        "page": 20
+      },
+      {
+        "source": "siniestros",
+        "page": 21
+      },
+      {
+        "source": "siniestros",
+        "page": 14
+      },
+      {
+        "source": "siniestros",
+        "page": 18
+      },
+      {
+        "source": "siniestros",
+        "page": 19
+      },
+      {
+        "source": "siniestros",
+        "page": 22
+      }
+    ],
+    "explanation": "La acción penal es el pedido a la Justicia para que investigue si hubo responsabilidad criminal. Con víctimas fatales, la Justicia investiga sin que nadie lo pida; con lesiones leves, las víctimas pueden instar (solicitar) la investigación, no necesitan apresurarse a decidirlo y conviene asesorarse antes con profesionales de confianza (guía PDF 20). La querella es la forma en que la víctima, o un familiar directo si falleció, puede ser parte del proceso penal, representada por un abogado o abogada (guía PDF 20–21).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "fatal",
+        "prompt": "En un siniestro hubo una víctima fatal. ¿Hace falta que alguien pida a la Justicia que investigue?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No: la Justicia lo investiga sin que nadie lo pida",
+            "correct": true,
+            "feedback": "¡Correcto! Con víctimas fatales la Justicia investiga sin necesidad de una petición (guía PDF 20)."
+          },
+          {
+            "id": "b",
+            "text": "Sí: si la familia no lo pide, no se investiga",
+            "correct": false,
+            "feedback": "Con víctimas fatales la Justicia investiga sin que nadie haga esa petición (guía PDF 20)."
+          },
+          {
+            "id": "c",
+            "text": "Solo si la aseguradora lo solicita",
+            "correct": false,
+            "feedback": "La aseguradora no interviene en eso: con víctimas fatales la Justicia investiga sola (guía PDF 20)."
+          },
+          {
+            "id": "d",
+            "text": "Solo si hubo testigos del hecho",
+            "correct": false,
+            "feedback": "No depende de los testigos: con víctimas fatales la Justicia investiga sin que nadie lo pida (guía PDF 20)."
+          }
+        ]
+      },
+      {
+        "id": "minor-injuries",
+        "prompt": "Sufriste lesiones leves en un siniestro y dudás si pedir que se investigue al responsable. Según la guía, ¿qué conviene?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Asesorarte con profesionales de confianza, sin apresurarte",
+            "correct": true,
+            "feedback": "¡Correcto! Las víctimas pueden instar la investigación, tienen un plazo para decidirlo y es aconsejable asesorarse antes (guía PDF 20)."
+          },
+          {
+            "id": "b",
+            "text": "Decidirlo en el lugar del siniestro, o perdés el derecho",
+            "correct": false,
+            "feedback": "No es necesario apresurarse: la guía da un plazo para decidirlo y aconseja asesorarse antes (PDF 20)."
+          },
+          {
+            "id": "c",
+            "text": "Nada: con lesiones leves la Justicia nunca investiga",
+            "correct": false,
+            "feedback": "Con lesiones leves, las víctimas pueden instar a la Justicia para que investigue quién fue responsable (guía PDF 20)."
+          },
+          {
+            "id": "d",
+            "text": "Firmar el primer acuerdo que te ofrezcan, para cerrar el tema",
+            "correct": false,
+            "feedback": "La guía aconseja no apresurarse y buscar asesoramiento con profesionales de confianza (PDF 20 y 22)."
+          }
+        ]
+      },
+      {
+        "id": "querella",
+        "prompt": "¿Qué es la querella?",
+        "options": [
+          {
+            "id": "a",
+            "text": "La forma de ser parte del proceso penal como víctima o familiar directo",
+            "correct": true,
+            "feedback": "¡Correcto! La querella permite que la víctima, o un familiar directo si la víctima falleció, sea parte del proceso penal (guía PDF 20–21)."
+          },
+          {
+            "id": "b",
+            "text": "El reclamo por los daños ante la aseguradora del responsable",
+            "correct": false,
+            "feedback": "Ese es el reclamo administrativo (guía PDF 14); la querella permite ser parte del proceso penal (PDF 20–21)."
+          },
+          {
+            "id": "c",
+            "text": "La audiencia de negociación entre las partes ante un mediador",
+            "correct": false,
+            "feedback": "Esa es la mediación del proceso civil (guía PDF 18); la querella es la forma de ser parte del proceso penal (PDF 20–21)."
+          },
+          {
+            "id": "d",
+            "text": "El rubro de la demanda civil por el sufrimiento causado",
+            "correct": false,
+            "feedback": "Ese rubro es el daño moral (guía PDF 18); la querella permite ser parte del proceso penal (PDF 20–21)."
+          }
+        ]
+      },
+      {
+        "id": "querellante",
+        "prompt": "Según la guía, ¿quiénes pueden participar como querellantes?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Las víctimas y/o sus familiares, representados por un abogado",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo indica la guía (PDF 21)."
+          },
+          {
+            "id": "b",
+            "text": "Cualquier persona que haya presenciado el siniestro en la vía pública",
+            "correct": false,
+            "feedback": "Los testigos declaran, pero querellantes pueden ser las víctimas y/o sus familiares, con abogado (guía PDF 21)."
+          },
+          {
+            "id": "c",
+            "text": "Solo la policía que intervino en el lugar del hecho",
+            "correct": false,
+            "feedback": "La policía informa el hecho a la Justicia; querellantes pueden ser las víctimas y/o sus familiares (guía PDF 19 y 21)."
+          },
+          {
+            "id": "d",
+            "text": "La víctima, siempre que se presente sin abogado",
+            "correct": false,
+            "feedback": "La guía exige que las víctimas y/o familiares estén representados por un abogado o abogada (PDF 21)."
+          }
+        ]
+      }
+    ]
+  }
+]

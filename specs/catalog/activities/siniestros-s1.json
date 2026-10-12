@@ -1,0 +1,170 @@
+[
+  {
+    "id": "act.guide-hit-and-run",
+    "type": "single-choice",
+    "title": "Cuando alguien se da a la fuga",
+    "unitIds": [
+      "siniestros.s1.hit-and-run"
+    ],
+    "refs": [
+      {
+        "source": "siniestros",
+        "page": 12
+      },
+      {
+        "source": "manual",
+        "page": 45
+      }
+    ],
+    "explanation": "Si el otro vehículo se da a la fuga, la guía recomienda conseguir testigos que puedan dar información sobre ese vehículo para hacer el reclamo (guía PDF 12). Quien se da a la fuga en un siniestro vial comete una contravención y, si deja a alguien herido, puede ser juzgado por el delito de abandono de persona; el manual dice lo mismo (guía PDF 12; manual PDF 45).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "other-fled",
+        "prompt": "El auto que te chocó se fue sin detenerse. Según la guía, ¿qué conviene hacer para poder reclamar?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Conseguir testigos que puedan dar información sobre el otro vehículo",
+            "correct": true,
+            "feedback": "¡Correcto! Los testigos pueden aportar datos del vehículo que se fugó para hacer el reclamo (guía PDF 12)."
+          },
+          {
+            "id": "b",
+            "text": "Salir a perseguirlo con tu auto",
+            "correct": false,
+            "feedback": "Perseguirlo es peligroso y la guía no lo indica: lo útil es conseguir testigos que den información sobre ese vehículo (PDF 12)."
+          },
+          {
+            "id": "c",
+            "text": "Nada: sin los datos del otro conductor no se puede reclamar",
+            "correct": false,
+            "feedback": "Se puede intentar: la guía recomienda conseguir testigos que aporten información sobre el otro vehículo (PDF 12)."
+          },
+          {
+            "id": "d",
+            "text": "Esperar a que el otro conductor se presente en tu aseguradora",
+            "correct": false,
+            "feedback": "No hay que esperar eso: conviene conseguir testigos que puedan dar información sobre el vehículo (guía PDF 12)."
+          }
+        ]
+      },
+      {
+        "id": "consequence",
+        "prompt": "¿Qué comete quien se da a la fuga después de participar en un siniestro vial?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Una contravención; con un herido, puede ser juzgado por abandono de persona",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo dicen la guía (PDF 12) y el manual (PDF 45)."
+          },
+          {
+            "id": "b",
+            "text": "Nada, si después avisa a su aseguradora y paga los daños",
+            "correct": false,
+            "feedback": "Avisar después no lo cambia: fugarse es una contravención, y con una persona herida puede haber juicio por abandono de persona (guía PDF 12)."
+          },
+          {
+            "id": "c",
+            "text": "Solo una falta administrativa que se paga con el seguro obligatorio",
+            "correct": false,
+            "feedback": "Es una contravención y, si deja a alguien herido, puede ser juzgado por el delito de abandono de persona (manual PDF 45)."
+          },
+          {
+            "id": "d",
+            "text": "Un delito, pero solo si el daño material de los vehículos es grande",
+            "correct": false,
+            "feedback": "No depende del daño material: fugarse es una contravención y dejar a alguien herido puede llevar a juicio por abandono de persona (guía PDF 12)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.guide-safety-kit",
+    "type": "single-choice",
+    "title": "Lo que tiene que haber en el auto",
+    "unitIds": [
+      "siniestros.s1.mandatory-safety-kit"
+    ],
+    "refs": [
+      {
+        "source": "siniestros",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 51
+      },
+      {
+        "source": "manual",
+        "page": 52
+      }
+    ],
+    "explanation": "La guía recuerda que siempre hay que llevar dentro del vehículo balizas reglamentarias y un chaleco reflectante, para ponérselo antes de bajar, y si es posible una linterna para iluminar de noche (guía PDF 9). El manual también pide usar el chaleco reflectante al abandonar el vehículo en un túnel o al bajar en una autopista, para ser visto (manual PDF 51–52).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "kit",
+        "prompt": "Según la guía, ¿qué tenés que llevar siempre dentro del vehículo para una emergencia?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Balizas reglamentarias y un chaleco reflectante",
+            "correct": true,
+            "feedback": "¡Correcto! Y, si es posible, también una linterna para iluminar de noche (guía PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Solo una linterna para la noche",
+            "correct": false,
+            "feedback": "La linterna es un agregado «si es posible»; lo que hay que llevar siempre son balizas reglamentarias y un chaleco reflectante (guía PDF 9)."
+          },
+          {
+            "id": "c",
+            "text": "Solo el chaleco: las balizas del tablero alcanzan",
+            "correct": false,
+            "feedback": "Las balizas del vehículo no reemplazan a las portátiles: hay que llevar balizas reglamentarias y un chaleco reflectante (guía PDF 9)."
+          },
+          {
+            "id": "d",
+            "text": "Nada en especial: la asistencia trae todo",
+            "correct": false,
+            "feedback": "La guía pide llevar siempre balizas reglamentarias y un chaleco reflectante (PDF 9)."
+          }
+        ]
+      },
+      {
+        "id": "vest",
+        "prompt": "Quedaste detenido y tenés que bajar del auto. ¿Cuándo te ponés el chaleco reflectante?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Antes de bajar del vehículo",
+            "correct": true,
+            "feedback": "¡Correcto! La guía pide colocárselo antes de descender (PDF 9), para ser visto (manual PDF 52)."
+          },
+          {
+            "id": "b",
+            "text": "Después de colocar las balizas portátiles",
+            "correct": false,
+            "feedback": "Para colocar las balizas ya tenés que estar a la vista: el chaleco se pone antes de bajar (guía PDF 9)."
+          },
+          {
+            "id": "c",
+            "text": "Solo si es de noche",
+            "correct": false,
+            "feedback": "La guía no lo limita a la noche: el chaleco se pone siempre antes de descender (PDF 9)."
+          },
+          {
+            "id": "d",
+            "text": "Solo si llueve o hay niebla",
+            "correct": false,
+            "feedback": "No depende del clima: el chaleco se pone antes de descender del vehículo (guía PDF 9)."
+          }
+        ]
+      }
+    ]
+  }
+]

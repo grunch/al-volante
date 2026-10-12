@@ -98,3 +98,23 @@ export function validateActivities(
   }
   return errors;
 }
+
+/**
+ * Each activity file holds one source section (`manual-ch1` → specs/catalog/activities/manual-ch1.json): an
+ * activity belongs to the section of its first unit, so the files stay small and reviewable.
+ */
+export function activityFileErrors(
+  files: ReadonlyMap<string, readonly Activity[]>,
+  units: ReadonlyArray<{ id: string; source: string; section: string }>,
+): string[] {
+  const sectionOf = new Map(units.map((unit) => [unit.id, `${unit.source}-${unit.section}`]));
+  const errors: string[] = [];
+  for (const [key, activities] of files) {
+    for (const activity of activities) {
+      const home = sectionOf.get(activity.unitIds[0] ?? '');
+      if (home !== undefined && home !== key)
+        errors.push(`${activity.id}: is in ${key}.json but its first unit belongs to ${home}.json`);
+    }
+  }
+  return errors;
+}

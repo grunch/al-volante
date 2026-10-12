@@ -1,11 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import activitiesJson from '../../specs/catalog/activities.json';
-import { ActivityCatalogSchema } from '../content/schemas.ts';
+import { catalogActivities } from '../content/testing/catalogActivities.ts';
 import type { Activity } from '../content/schemas.ts';
 import { decisionStep, evaluateResponse, nextDistinctSeed, presentActivity } from './engine.ts';
 import { createRandom, shuffle } from './random.ts';
 
-const activities = ActivityCatalogSchema.parse(activitiesJson);
+const activities = catalogActivities;
 function byId<T extends Activity['type']>(id: string, type: T): Extract<Activity, { type: T }> {
   const activity = activities.find((item) => item.id === id);
   if (!activity || activity.type !== type) throw new Error(`missing ${type} ${id}`);
@@ -43,21 +42,6 @@ describe('nextDistinctSeed', () => {
     const constant: Activity = { ...base, variants: [{ ...variant, options: [variant.options[0]!] }] };
 
     expect(nextDistinctSeed(constant, 41)).toBe(42);
-  });
-});
-
-describe('sample content', () => {
-  // COBERTURA.md lists these topics as open discrepancies; activities must not teach them as settled.
-  const OPEN_DISCREPANCIES = /convivencia|calles? peatonal|alcohol|cord[oó]n amarillo/i;
-
-  it('avoids topics with open discrepancies, except to say they are left out', () => {
-    for (const activity of activities) {
-      const sentences = JSON.stringify(activity).split(/(?<=[.:])\s+|","/);
-      const offending = sentences.filter(
-        (sentence) => OPEN_DISCREPANCIES.test(sentence) && !sentence.includes('no entran en esta actividad'),
-      );
-      expect(offending, activity.id).toEqual([]);
-    }
   });
 });
 

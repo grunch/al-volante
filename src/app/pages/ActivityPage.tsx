@@ -15,6 +15,7 @@ import { DecisionQuestion } from '../../activities/ui/DecisionQuestion.tsx';
 import { FeedbackPanel } from '../../activities/ui/FeedbackPanel.tsx';
 import { OrderingQuestion } from '../../activities/ui/OrderingQuestion.tsx';
 import { SignGraphic } from '../../activities/ui/SignGraphic.tsx';
+import { activitiesBySection } from '../../activities/sections.ts';
 import type { Activity } from '../../content/schemas.ts';
 import type { Content } from '../../content/validate.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
@@ -80,6 +81,8 @@ interface ActivityPlayerProps {
 }
 
 function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityPlayerProps) {
+  const home = activitiesBySection([activity], content.units).keys().next().value;
+  const backTo = home === undefined ? '/actividades' : `/actividades?seccion=${home}`;
   const record = useContext(ActivityResultContext);
   const [presentation] = useState(() => presentActivity(activity, seed));
   const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
@@ -92,6 +95,9 @@ function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityP
     void record({ activity, presentation, response, evaluation: result }).then(setSaveOutcome);
   };
 
+  const figures = (activity.figureIds ?? []).flatMap((figureId) =>
+    content.figures.filter((figure) => figure.id === figureId),
+  );
   const sign =
     presentation.kind === 'choice' && presentation.signId
       ? content.signs.find((item) => item.id === presentation.signId)
@@ -130,7 +136,7 @@ function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityP
           onAnswer={(choiceIds) => answer({ kind: 'decision', choiceIds })}
         />
       )}
-      <div aria-live="polite">{evaluation && <FeedbackPanel evaluation={evaluation} />}</div>
+      <div aria-live="polite">{evaluation && <FeedbackPanel evaluation={evaluation} figures={figures} />}</div>
       {saveOutcome === 'failed' && (
         <p className="status-message status-message--error" role="alert">
           {ACTIVITY_COPY.notSaved}
@@ -142,7 +148,7 @@ function ActivityPlayer({ activity, content, seed, onAnotherVariant }: ActivityP
             {ACTIVITY_COPY.anotherVariant}
           </button>
         )}{' '}
-        <Link to="/actividades">{ACTIVITY_COPY.backToList}</Link>
+        <Link to={backTo}>{ACTIVITY_COPY.backToList}</Link>
       </p>
     </>
   );
