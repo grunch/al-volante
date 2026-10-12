@@ -58,7 +58,9 @@ Los catálogos viven en `specs/` (fuentes, páginas, unidades, señales, observa
    - `validateCatalog`: páginas ↔ unidades en ambos sentidos, herencia de sección y categoría, ids únicos y páginas de observaciones;
    - `validateRules`: los 69 ítems exactos del anexo II, puntos por severidad, citas dentro del protocolo (incluidas las del puntaje) y partición de franjas de estacionamiento, sin dos límites del mismo lado en una franja;
    - `validateRoute`: secuencia oficial, continuidad, proyección, longitudes, giros, controles y citas de la fuente del recorrido;
-   - `validateActivities`: conceptos y citas existentes, una sola opción correcta, señales conocidas y grafos de decisión sin ciclos ni nodos o desenlaces inalcanzables, con al menos un desenlace correcto alcanzable.
+   - `validateActivities`: conceptos y citas existentes, una sola opción correcta, señales conocidas y grafos de decisión sin ciclos ni nodos o desenlaces inalcanzables, con al menos un desenlace correcto alcanzable; `activityFileErrors`: cada actividad vive en el archivo de la sección de su primera unidad (F05-T01).
+   - `validateFigures` (F05-T01): recortes dentro de la página, unidades que están en esa página y actividades que citan la página de la figura que muestran.
+   - `validateTreatment` (F05-T01): el estado de cada unidad y señal coincide con su tratamiento (revisada, implementada como actividad o consulta, probada) y cada actividad cita al menos una página de cada unidad que practica. Detalle en `CONTENIDO.md`.
    - Toda cita (`refs.ts`) debe nombrar una fuente del manifiesto y una página dentro de su rango.
    - El catálogo de reglas declara la edición y el `sha256` del protocolo del que salió; ambos tienen que coincidir con el manifiesto.
    - `attemptErrors` (`validateAttempt.ts`) valida un intento contra las reglas: faltas de reglas conocidas con sus puntos (o los de su escalada eliminatoria), sin repetir reglas que cuentan una sola vez, total coherente y ninguna falta en intentos de actividades.
@@ -66,8 +68,10 @@ Los catálogos viven en `specs/` (fuentes, páginas, unidades, señales, observa
 Además:
 
 - `validate.ts` coordina ambos niveles y calcula la **versión de contenido**: un hash FNV-1a de todos los catálogos, que acompañará a cada intento para saber con qué contenido se respondió.
-- `coverage.ts` resume por sección cuántas unidades tienen actividades.
-- `catalog.ts` carga los catálogos en forma diferida y los valida antes de usarlos.
+- `coverage.ts` resume por sección cuántas unidades tienen actividades, cuántas son de consulta y cuántas están revisadas.
+- `catalog.ts` carga los catálogos en forma diferida y los valida antes de usarlos. Las actividades son un archivo por sección (`specs/catalog/activities/<fuente>-<sección>.json`, F05-T01), cargados con `import.meta.glob` en trozos paralelos; la versión de contenido los recorre ordenados por nombre.
+- `src/content/catalogPlaythrough.test.ts` responde bien y mal cada variante de cada actividad del catálogo con el motor; es lo que habilita el estado `tested` de las unidades.
+- Figuras (F05-T01): `specs/catalog/figures.json` describe recortes de páginas de los PDF oficiales; `node scripts/crop-figures.ts` los genera en `public/figures/` y `validate:content` falla si falta alguno.
 - La misma validación corre en la CI (`npm run validate:content`) y en la prueba de integración con los datos reales.
 
 Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus casos de prueba se portaron a Vitest.
@@ -78,8 +82,8 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 |---|---|
 | `#/` | Inicio, «Mi garaje»: escena 3D y los seis espacios de la propuesta (los que todavía no existen se marcan «Próximamente»). |
 | `#/mapa` | Mapa de aprendizaje: campaña B en el orden del «Material a estudiar» (manual PDF 3), consulta (glosario) y material complementario por separado. |
-| `#/mapa/:fuente/:sección` | Unidades de una sección, con datos clave y enlaces a sus páginas. |
-| `#/actividades` | «La ciudad te pregunta»: muestra de actividades (F02-T04). |
+| `#/mapa/:fuente/:sección` | Unidades de una sección, con datos clave, figuras, enlaces a sus páginas, las actividades que practican cada unidad o el motivo por el que es de consulta, y el acceso a las actividades de la sección (F05-T01). |
+| `#/actividades` | «La ciudad te pregunta»: secciones del recorrido de aprendizaje con su cantidad de actividades; `?seccion=<fuente>-<sección>` abre las de una sección (F05-T01). |
 | `#/actividad/:id?semilla=n` | Una actividad; la semilla en la URL reproduce la misma variante y el mismo orden. |
 | `#/pista` | Pista de prueba de la simulación (F03-T01): predio cerrado con cajón, cordón y paredes; teclado, velocidad, recorrido y contactos. Provisional hasta el habitáculo (F03-T03). |
 | `#/bitacora` | «Mi bitácora»: repaso recomendado, errores recientes, progreso por concepto (campaña B separada del complemento) y respaldo (F02-T05). |
@@ -101,7 +105,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
   - Una respuesta imposible lanza un error en lugar de puntuarse.
 - **Tipos:** `single-choice`, `sign-identification` (señal dibujada en SVG con formas y colores reglamentarios, descripta para lectores de pantalla), `ordering` (botones subir/bajar, sin arrastrar) y `decision` (escena ramificada).
 - **Resultados:** `ActivityResultContext` recibe cada intento terminado; F02-T05 lo usa para registrar el progreso.
-- **Contenido:** `specs/catalog/activities.json`. Cada actividad cita conceptos (`unitIds`) y páginas (`refs`) y se valida con `validateActivities`. Solo se escriben preguntas sobre datos sin discrepancias abiertas (COBERTURA.md).
+- **Contenido:** `specs/catalog/activities/<fuente>-<sección>.json` (desde F05-T01; antes, `activities.json`). Cada actividad cita conceptos (`unitIds`) y páginas (`refs`), puede mostrar figuras con la devolución (`figureIds`) y se valida con `validateActivities`. Solo se escriben preguntas sobre datos sin discrepancias abiertas; el método de autoría y revisión y las decisiones sobre discrepancias están en `CONTENIDO.md`.
 
 ## Progreso y bitácora (F02-T05)
 

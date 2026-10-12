@@ -1,6 +1,6 @@
 # Cobertura del manual y de la guía de siniestros
 
-Entregable de F01-T02. Fecha: 2026-10-11. Estado: **inventario completo, contenido en estado `transcribed` (transcrito).**
+Entregable de F01-T02. Fecha: 2026-10-11. Estado: **inventario completo.** Desde la fase 5 (2026-10-12) las unidades pasan a `reviewed`, `implemented` y `tested` a medida que se revisan y se convierten en actividades; el método, el avance por tarea y las decisiones sobre discrepancias están en [CONTENIDO.md](CONTENIDO.md).
 
 Define qué hay que enseñar: cada página del manual teórico (200 páginas) y de la guía práctica de siniestros viales (24 páginas) está clasificada, y cada contenido instructivo está registrado como unidad de conocimiento o como señal, con su página. El protocolo de examen y el documento de recorridos se tratan en F01-T03 (`REGLAS.md`) y F01-T04 (`RECORRIDO.md`).
 
@@ -11,7 +11,7 @@ Define qué hay que enseñar: cada página del manual teórico (200 páginas) y 
 | `catalog/pages.json` | 224 páginas: fuente, página PDF, página impresa, sección, categoría, tipo, resumen, unidades y figuras (con los datos de cada infografía transcriptos). |
 | `catalog/units.json` | 705 unidades de conocimiento: id estable, páginas, título, categoría, tipo, resumen fiel con cifras exactas y datos atómicos (`keyFacts`). |
 | `catalog/signs.json` | 355 señales individuales: página, grupo, rótulo, significado si la fuente lo da, descripción visual y código impreso. |
-| `catalog/issues.json` | 206 observaciones: discrepancias, datos posiblemente desactualizados, ambigüedades, erratas, fallas de extracción e ilegibles. |
+| `catalog/issues.json` | 206 observaciones de F01-T02 (más las que agrega la revisión de la fase 5; ver CONTENIDO.md): discrepancias, datos posiblemente desactualizados, ambigüedades, erratas, fallas de extracción e ilegibles. |
 | `../src/content/` | Esquemas y validadores en TypeScript (ver «Cómo validar»); desde F02-T02 reemplazan al script original de la fase 1. |
 
 Las claves y los ids están en inglés; títulos, resúmenes y descripciones, en español, fieles a la fuente. Las referencias de página son siempre **páginas físicas del PDF** (en el manual, la página impresa suele ser PDF − 1).
@@ -36,7 +36,7 @@ Las claves y los ids están en inglés; títulos, resúmenes y descripciones, en
 
 **Tipo de página:** `instructional`, `chapter-cover`, `closing-quote`, `toc`, `cover`, `credits` y `other`.
 
-**Estado de cada unidad o señal** (escala común del proyecto; los valores de `status` en los catálogos están en inglés, como el resto del código): `pending` (pendiente) → `transcribed` (transcrito) → `reviewed` (revisado) → `implemented` (implementado) → `tested` (probado). Todo el catálogo está en `transcribed`: el contenido está extraído y citado, pero no fue revisado contra la fuente unidad por unidad. Pasa a `reviewed` cuando F05 lo revise antes de convertirlo en actividad; las cuatro páginas verificadas por muestreo no cambian ese estado global.
+**Estado de cada unidad o señal** (escala común del proyecto; los valores de `status` en los catálogos están en inglés, como el resto del código): `pending` (pendiente) → `transcribed` (transcrito) → `reviewed` (revisado) → `implemented` (implementado) → `tested` (probado). Al cerrar F01-T02 todo el catálogo estaba en `transcribed`: el contenido estaba extraído y citado, pero no revisado contra la fuente unidad por unidad. La fase 5 lo revisa sección por sección antes de convertirlo en actividad; el significado verificable de cada estado y las reglas que lo controlan están en CONTENIDO.md.
 
 ## Cobertura por sección
 
