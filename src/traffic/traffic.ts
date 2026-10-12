@@ -391,9 +391,11 @@ function holdersAt(
     const difference = headingDifference(other.headingRad, approach.headingRad);
     return difference > Math.PI / 4 && difference < (3 * Math.PI) / 4;
   };
+  // A STOP loses the priority even from the right (manual.pdf PDF 64, exception 1): nobody yields to who arrives at one.
   const hasPriorityOver = (other: Approach) =>
     other.id !== approach.id &&
-    (approach.rule === 'stop' ? other.rule !== 'stop' : approach.rule === 'priority' && fromRight(other));
+    other.rule !== 'stop' &&
+    (approach.rule === 'stop' || (approach.rule === 'priority' && fromRight(other)));
   // Someone counts as arriving when close to the crossing or seconds away from it, unless they have stood still.
   const arriving = (remainingM: number, speedMps: number, stoppedS: number) =>
     remainingM >= -1 &&
@@ -559,7 +561,8 @@ function decide(
       }
       continue;
     }
-    if (remaining > LOOKAHEAD_M) break;
+    // Stops are sorted by `atS`, not by distance ahead: near the end of a cyclic path the next ones wrap around.
+    if (remaining > LOOKAHEAD_M) continue;
     const { approach } = stop;
     const intersection = required(indexOf(traffic).intersections.get(approach.intersectionId), 'intersection');
     const light = intersectionLight(traffic.plan, intersection, approach.group, timeS);

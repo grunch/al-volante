@@ -7,7 +7,7 @@ import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import { EXAM_CAR, bodyBox, restingVehicle } from '../sim/vehicle.ts';
 import { CYCLE_PERIOD_S, intersectionLight } from './lights.ts';
 import { locateOnPath, pointAlong } from './network.ts';
-import type { Path } from './network.ts';
+import type { Approach, Path } from './network.ts';
 import {
   ACTIVE_RADIUS_M,
   ACTOR_SIZES,
@@ -159,6 +159,21 @@ describe('seeded traffic', () => {
     expect(stop.atS - stoppedFront).toBeLessThanOrEqual(1.2);
   });
 
+  it('also stops at the STOP just before the lap closes, where the next stops wrap around', () => {
+    const stop = lap.stops.at(-1)!;
+    expect(stop.approach.rule).toBe('stop');
+    const traffic = only([car({ pathId: 'lap', startS: stop.atS - 40 })]);
+    let stoppedS = 0;
+    let passedAt: number | null = null;
+    run(traffic, FAR_AWAY, 20, (state, timeS) => {
+      const wrapped = vehicle(state, 'vehicle-0').s < stop.atS - 100;
+      if (passedAt === null && (wrapped || frontOf(traffic, state, 'vehicle-0') > stop.atS + 0.3)) passedAt = timeS;
+      if (passedAt === null && vehicle(state, 'vehicle-0').speedMps === 0) stoppedS += SIM_STEP_S;
+    });
+    expect(passedAt).not.toBeNull();
+    expect(stoppedS).toBeGreaterThanOrEqual(1);
+  });
+
   it('keeps a following distance behind a slower vehicle instead of overlapping it', () => {
     const traffic = only([
       car({ pathId: 'lap', startS: 40, speedFactor: 0.4, id: 'vehicle-0' }),
@@ -266,6 +281,33 @@ describe('seeded traffic', () => {
     expect(end.contacts).toEqual([]);
   });
 
+  it('does not yield to the car arriving at a STOP from its right: the STOP loses the priority', () => {
+    const stop = lap.stops.find((item) => item.approach.road.id === 'leg-4-1')!;
+    const link = city.roads.find((road) => road.id === 'quesada-link')!;
+    // The same corner with a STOP sign on the Quesada link, which arrives from the lap's right.
+    const withStop = (approach: Approach): Approach =>
+      approach.road.id === link.id ? { ...approach, rule: 'stop' } : approach;
+    const network = {
+      ...base.network,
+      intersections: base.network.intersections.map((item) => ({ ...item, approaches: item.approaches.map(withStop) })),
+      paths: base.network.paths.map((path) => ({
+        ...path,
+        stops: path.stops.map((item) => ({ ...item, approach: withStop(item.approach) })),
+      })),
+    };
+    const traffic: Traffic = { ...only([car({ pathId: 'lap', startS: stop.atS - 25 })]), network };
+    const creeping = (timeS: number) => {
+      const along = 2 + 6 * Math.min(timeS, 1.5) + 0.6 * Math.max(0, timeS - 1.5);
+      const point = offsetPoint(link.a, link.headingRad, 0, along);
+      return carAt(point.x, point.z, link.headingRad);
+    };
+    let passedAt: number | null = null;
+    run(traffic, creeping, 10, (state, timeS) => {
+      if (passedAt === null && frontOf(traffic, state, 'vehicle-0') > stop.atS + 0.3) passedAt = timeS;
+    });
+    expect(passedAt).not.toBeNull();
+  });
+
   it('waits at its line while the car stands on the crossing, past the deadlock wait, and goes once it is clear', () => {
     const stop = lap.stops.find((item) => item.approach.road.id === 'leg-4-1')!;
     const link = city.roads.find((road) => road.id === 'quesada-link')!;
@@ -299,14 +341,22 @@ describe('seeded traffic', () => {
   });
 
   it('lets pedestrians step off an unsignalled crosswalk only in a gap, and vehicles stop for them', () => {
-    const crosswalk = base.network.crosswalks.find(
-      (item) => item.road.id === 'leg-3-2' && item.intersectionId === null,
+    // The exit crosswalk of Cuba onto Quesada: unsignalled, with no stop line just before it.
+    const crossing = lap.crosswalks.find(
+      (item) => item.crosswalk.road.id === 'leg-3-1' && item.crosswalk.intersectionId === null,
     )!;
-    const traffic = {
-      ...base,
-      vehicles: [car({ pathId: 'lap', startS: stopOn(lap, 'leg-3-2').atS - 90, speedFactor: 1 })],
-    };
+    const { crosswalk } = crossing;
+    expect(lap.stops.some((stop) => stop.atS < crossing.atS && stop.atS > crossing.atS - 10)).toBe(false);
+    const vehicles = [car({ pathId: 'lap', startS: crossing.atS - 90, speedFactor: 1 })];
     const body = carAt(crosswalk.center.x - 80, crosswalk.center.z + 60, 0);
+    // The first walk starts when the vehicle is 25 m away: a gap for the walker, too close to pass before it.
+    const alone = only(vehicles);
+    let gapAtS = 0;
+    run(alone, body, 30, (state, timeS) => {
+      if (gapAtS === 0 && crossing.atS - frontOf(alone, state, 'vehicle-0') <= 25) gapAtS = timeS;
+    });
+    expect(gapAtS).toBeGreaterThan(0);
+    const traffic = { ...base, vehicles, walks: { [crosswalk.id]: { ...base.walks[crosswalk.id]!, firstS: gapAtS } } };
     let started = 0;
     let stoppedForWalker = false;
     let previous = new Set<string>();
@@ -323,14 +373,17 @@ describe('seeded traffic', () => {
                 vehicle(state, 'vehicle-0').speedMps <= 1,
             ).toBe(true);
         }
-        if (walker.inside(crosswalk.box) && vehicle(state, 'vehicle-0').speedMps === 0) stoppedForWalker = true;
+        const front = frontOf(traffic, state, 'vehicle-0');
+        const beforeCrosswalk = front <= crossing.atS && front > crossing.atS - 6;
+        if (walker.inside(crosswalk.box) && vehicle(state, 'vehicle-0').speedMps === 0 && beforeCrosswalk)
+          stoppedForWalker = true;
         const actorBox = state.poses.find((pose) => pose.id === 'vehicle-0')?.box;
         if (actorBox) expect(overlaps(actorBox, walker.box)).toBe(false);
       }
       previous = new Set(walkers.map((walker) => walker.id));
     });
     expect(started).toBeGreaterThan(0);
-    expect(stoppedForWalker || started > 0).toBe(true);
+    expect(stoppedForWalker).toBe(true);
   });
 
   it('keeps bicycles on the cycle track beside the road', () => {
