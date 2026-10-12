@@ -23,7 +23,13 @@ export const LEARNING_PATH: PathGroup[] = [
       section,
     })),
   },
-  { id: 'reference', sections: [{ source: 'manual', section: 'glossary' }] },
+  {
+    id: 'reference',
+    sections: [
+      { source: 'manual', section: 'front' },
+      { source: 'manual', section: 'glossary' },
+    ],
+  },
   {
     id: 'complementary',
     sections: [

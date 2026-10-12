@@ -3,6 +3,8 @@ import { expect, test } from '@playwright/test';
 test.describe('activities', () => {
   test('answers a sign activity with the keyboard and follows its source to the library', async ({ page }) => {
     await page.goto('./#/actividades');
+    await page.getByRole('link', { name: 'Anexo IV · Señales viales' }).click();
+    await expect(page).toHaveURL(/#\/actividades\?seccion=manual-annex4$/);
     await page.getByRole('link', { name: 'Señales reglamentarias' }).click();
     await expect(page).toHaveURL(/#\/actividad\/act\.regulatory-signs\?semilla=\d+$/);
     await expect(page.getByRole('img', { name: /^Señal a identificar: / })).toBeVisible();
@@ -18,6 +20,20 @@ test.describe('activities', () => {
     await expect(source).toBeVisible();
     await source.click();
     await expect(page.getByRole('heading', { level: 1, name: /^Página 186 · Manual teórico/ })).toBeVisible();
+  });
+
+  test('shows the figure of the official manual with the feedback, loaded from the static build', async ({ page }) => {
+    await page.goto('./#/actividad/act.mobility-cycling-signs?semilla=0');
+    const figure = page.getByRole('img', { name: /^Catálogo de 13 señales/ });
+    await expect(figure).toHaveCount(0);
+
+    await page.getByRole('radio').first().check();
+    await page.getByRole('button', { name: 'Responder' }).click();
+
+    await expect(figure).toBeVisible();
+    // A broken path would still render the alt text: check that the image really decoded.
+    expect(await figure.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+    await expect(page.locator('figure.source-figure figcaption')).toHaveText('Manual, PDF 32');
   });
 
   test('plays a decision scene to the end and offers another variant', async ({ page }) => {

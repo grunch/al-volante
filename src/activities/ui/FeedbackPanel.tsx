@@ -1,9 +1,14 @@
 import { Link } from 'react-router';
 import type { Evaluation } from '../engine.ts';
+import type { Figure } from '../../content/schemas.ts';
+import { FigureView } from '../../ui/FigureView.tsx';
 import { ACTIVITY_COPY, SOURCE_SHORT_LABELS } from '../../i18n/es-AR.ts';
 
-/** Result first in words (never colour alone), then the specific feedback, the right answer and the cited pages. */
-export function FeedbackPanel({ evaluation }: { evaluation: Evaluation }) {
+/**
+ * Result first in words (never colour alone), then the specific feedback, the right answer, the explanation with
+ * the source figures (only now: they may show the answer) and the cited pages.
+ */
+export function FeedbackPanel({ evaluation, figures = [] }: { evaluation: Evaluation; figures?: readonly Figure[] }) {
   const verdict = evaluation.correct
     ? ACTIVITY_COPY.correct
     : evaluation.score > 0
@@ -33,6 +38,9 @@ export function FeedbackPanel({ evaluation }: { evaluation: Evaluation }) {
       )}
       <h3>{ACTIVITY_COPY.explanation}</h3>
       <p>{evaluation.explanation}</p>
+      {figures.map((figure) => (
+        <FigureView key={figure.id} figure={figure} />
+      ))}
       <h3>{ACTIVITY_COPY.sources}</h3>
       <ul className="inline-list">
         {evaluation.refs.map((ref) => (

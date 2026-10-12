@@ -48,6 +48,7 @@ export function testContent(): Content {
       }),
     ]),
     route: route(),
+    figures: [],
     activities: [choiceActivity()],
   };
 }

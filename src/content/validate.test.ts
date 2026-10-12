@@ -12,10 +12,13 @@ function rawFixture(): RawContent {
   // The route cites recorridos PDF 16, so the manifest needs that source too.
   return {
     ...data,
+    // The activity practices the only unit, so the unit is tested (validateTreatment).
+    units: data.units.map((unit) => ({ ...unit, status: 'tested' })),
     manifest: [...data.manifest, source('recorridos', 19)],
     rules: ruleCatalog([]),
     route: route(),
-    activities: [choiceActivity()],
+    figures: [],
+    activities: { 'manual-ch3': [choiceActivity()] },
   };
 }
 
@@ -43,6 +46,30 @@ describe('validateContent', () => {
     expect(result.ok).toBe(false);
     if (result.ok) return;
     expect(result.errors.every((error) => error.startsWith('rules: missing annex item'))).toBe(true);
+  });
+
+  it('reports activity errors with the file of their section', () => {
+    const raw = rawFixture();
+    raw.activities = { 'manual-ch3': [{ id: 'act.broken' }], 'manual-ch1': [choiceActivity({ id: 'act.misplaced' })] };
+
+    const result = validateContent(raw);
+
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.errors.some((error) => error.startsWith('specs/catalog/activities/manual-ch3.json[0].'))).toBe(true);
+  });
+
+  it('keeps each activity in the file of its first unit section', () => {
+    const raw = rawFixture();
+    raw.activities = { 'manual-ch1': [choiceActivity()] };
+
+    const result = validateContent(raw);
+
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.errors).toContain(
+      'activities: act.speed-street: is in manual-ch1.json but its first unit belongs to manual-ch3.json',
+    );
   });
 
   it('rejects route citations of sources missing from the manifest', () => {
@@ -102,16 +129,22 @@ describe('validateContent', () => {
     const raw = rawFixture();
     const same = rawFixture();
     const changed = rawFixture();
-    changed.activities = [];
+    changed.activities = {};
+    const reordered = rawFixture();
+    reordered.activities = { 'manual-ch1': [], 'manual-ch3': [choiceActivity()] };
+    const listedBackwards = rawFixture();
+    listedBackwards.activities = { 'manual-ch3': [choiceActivity()], 'manual-ch1': [] };
 
     expect(computeContentVersion(raw)).toMatch(/^[0-9a-f]{8}$/);
     expect(computeContentVersion(raw)).toBe(computeContentVersion(same));
     expect(computeContentVersion(raw)).not.toBe(computeContentVersion(changed));
+    // The loader may list files in any order: the version only depends on their names and contents.
+    expect(computeContentVersion(reordered)).toBe(computeContentVersion(listedBackwards));
   });
 });
 
 describe('real content (integration)', () => {
-  it('loads and validates every bundled catalog with the phase 1 totals', async () => {
+  it('loads and validates every bundled catalog with the phase 1 totals and the observations added since', async () => {
     const result = await loadContent();
 
     if (!result.ok) throw new Error(result.errors.join('\n'));
@@ -119,14 +152,54 @@ describe('real content (integration)', () => {
     expect(content.pages).toHaveLength(224);
     expect(content.units).toHaveLength(705);
     expect(content.signs).toHaveLength(355);
-    expect(content.issues).toHaveLength(206);
+    // 206 observations from F01-T02 plus 8 found while reviewing units in F05-T01.
+    expect(content.issues).toHaveLength(214);
     expect(content.rules.rules).toHaveLength(69);
     expect(content.route.legs).toHaveLength(8);
     expect(content.manifest.map((source) => source.id)).toEqual(['manual', 'protocolo', 'recorridos', 'siniestros']);
   });
 });
 
+/** Sections whose units phase 5 has already reviewed and treated (CONTENIDO.md, coverage by task). */
+const TREATED_SECTIONS = [
+  'manual-front',
+  'manual-glossary',
+  'manual-intro',
+  'manual-ch1',
+  'manual-ch2',
+  'siniestros-intro',
+  'siniestros-s1',
+  'siniestros-s2',
+  'siniestros-s3',
+];
+
+describe('content coverage (integration)', () => {
+  it('treats every unit of the finished sections, by activity or as consultation', async () => {
+    const result = await loadContent();
+
+    if (!result.ok) throw new Error(result.errors.join('\n'));
+    const untreated = result.content.units
+      .filter((unit) => TREATED_SECTIONS.includes(`${unit.source}-${unit.section}`))
+      .filter((unit) => unit.status !== 'implemented' && unit.status !== 'tested')
+      .map((unit) => unit.id);
+    expect(untreated).toEqual([]);
+  });
+});
+
 describe('computeCoverage', () => {
+  it('counts consultation and reviewed units, and ignores draft activities', () => {
+    const data = catalog();
+    const units = data.units.map((unit) => ({ ...unit, status: 'reviewed' as const, consultationReason: 'Datos.' }));
+
+    const rows = computeCoverage({
+      pages: data.pages,
+      units,
+      activities: [choiceActivity({ status: 'draft' })],
+    });
+
+    expect(rows[1]).toMatchObject({ unitsWithActivities: 0, consultationUnits: 1, reviewedUnits: 1 });
+  });
+
   it('counts pages, units and units with activities per section', () => {
     const data = catalog();
 
@@ -142,6 +215,8 @@ describe('computeCoverage', () => {
         units: 0,
         figureBasedUnits: 0,
         unitsWithActivities: 0,
+        consultationUnits: 0,
+        reviewedUnits: 0,
       },
       {
         source: 'manual',
@@ -152,6 +227,8 @@ describe('computeCoverage', () => {
         units: 1,
         figureBasedUnits: 0,
         unitsWithActivities: 1,
+        consultationUnits: 0,
+        reviewedUnits: 0,
       },
       {
         source: 'siniestros',
@@ -162,6 +239,8 @@ describe('computeCoverage', () => {
         units: 0,
         figureBasedUnits: 0,
         unitsWithActivities: 0,
+        consultationUnits: 0,
+        reviewedUnits: 0,
       },
     ]);
   });

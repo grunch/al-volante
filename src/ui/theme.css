@@ -223,6 +223,30 @@ a {
   margin-right: var(--space-3);
 }
 
+.unit__practice {
+  margin: var(--space-2) 0 0;
+}
+
+/* Crops of the official PDFs: never wider than the column, with the source page underneath. */
+.source-figure {
+  margin: var(--space-3) 0;
+}
+
+.source-figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--color-ivory-strong);
+  border-radius: calc(var(--radius) / 2);
+  background: #ffffff;
+}
+
+.source-figure figcaption {
+  margin-top: var(--space-1);
+  color: #44516a;
+  font-size: 0.875rem;
+}
+
 .page-nav {
   display: flex;
   flex-wrap: wrap;
