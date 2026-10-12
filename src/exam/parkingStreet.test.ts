@@ -138,25 +138,30 @@ describe('the whole exam: lap, parking and descent (protocolo PDF 13–14)', () 
     expect(firstNotice?.distanceM).toBeGreaterThan(97);
     expect(exam.driver.session.street.parkingAheadM).toBeLessThan(30);
     expect(exam.driver.session.parking.aheadM).toBeNull();
+    // Stage III just began: the hazards, on from the last leg, are timed from then, not from now.
+    const { hazardsSinceS } = exam.driver.session.parking;
+    expect(hazardsSinceS).not.toBeNull();
+    expect(hazardsSinceS!).toBeLessThan(exam.driver.session.timeS - 1);
   }, 120000);
 
-  it('ignores "I am done" while the car is still moving, and takes it once stopped', () => {
+  it('ignores "I am done" while moving and before the reverse into the bay, and takes it once parked', () => {
     const exam = atTheCorner('automatic');
     const { driver } = exam;
     driver.ready();
     cruise(exam, { until: (_, t) => t > 0.5, maxS: 5, speed: () => 2 });
     expect(driver.phase).toBe('parking');
     expect(driver.session.parking.endRequested).toBe(false);
+    // Stopped in double file, the parallel parking has not been done yet: still parking, nothing measured.
     stopInDoubleFile(exam);
+    driver.ready();
+    driver.hold({ ...IDLE, brake: 1 }, (_, t) => t > 0.2);
+    expect(driver.phase).toBe('parking');
+    expect(driver.session.parking.final).toBeNull();
+    parkInTheBay(exam);
     descend(driver);
-    // Said in double file: outside the second band, off-centre, and the descent still judged.
-    expect(driver.faults).toEqual([
-      'rule.eliminatory.r-parking-outside-second-band',
-      'rule.minor.s-parking-off-center-or-tilted',
-    ]);
-    expect(driver.session.ledger.interruption).toBeNull();
+    expect(driver.faults).toEqual([]);
     expect(driver.session.completedStages).toEqual(['I', 'II', 'III']);
-    expect(result(exam)).toBe('disapproved');
+    expect(result(exam)).toBe('approved');
   }, 120000);
 });
 

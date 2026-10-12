@@ -327,7 +327,7 @@ export function placeOnLeg(exam: CityExam, leg: number, distanceM: number, later
 export interface ParkingOptions {
   /** Hazards on from the corner (lawful), switched on only 1 s before the stop, or never. */
   hazards?: 'early' | 'late' | 'never';
-  /** Glance at the right mirror before reversing (lawful) or not at all. */
+  /** Glance at the right mirror at the double-file stop and while reversing (lawful), or not at the stop. */
   look?: boolean;
   /** Lateral target of the body's centre in the bay's frame: 0 lands at 20 cm from the kerb. */
   targetLeftM?: number;
@@ -428,7 +428,10 @@ function reverseIn(driver: Driver, bay: ParkingBay, targetLeftM: number, abortAt
   const swing = Math.acos(Math.max(-1, 1 - lateral / (2 * LOCK_RADIUS_M)));
   engage(driver, 'R');
   creep(driver, -1, (car) => headingDifference(car.world.vehicle.headingRad, heading0) >= swing);
-  // A pause in the same direction is not a manoeuvre: the wheel goes to the other lock while standing still.
+  // A pause in the same direction is not a manoeuvre: the wheel goes to the other lock while standing still, and the
+  // driver checks the right mirror again during the reverse (protocolo PDF 13).
+  driver.cabin({ type: 'look', yaw: -0.5, pitch: 0 });
+  driver.cabin({ type: 'look', yaw: 0, pitch: 0 });
   driver.hold(
     { ...IDLE, brake: 1, clutch: 1, steer: 1 },
     (car, t) => car.world.vehicle.speedMps === 0 && t > RELOCK_S,

@@ -11,6 +11,7 @@ import {
   judgeFinalPosition,
   judgeParkingStep,
   noteDescentLook,
+  noteHazards,
   noteParkingLook,
 } from './parking.ts';
 import type { Parking } from './parking.ts';
@@ -618,7 +619,9 @@ function onCirculationStep(
 ): Session {
   const firstMetres = session.phase === 'firstMetres';
   const verdict = judgeCirculation(session.street, circuit, car, cockpit, scenario, dt, session.timeS, firstMetres);
-  let next: Session = { ...session, street: verdict.street };
+  // The hazards are timed from the street on: the notice to park comes on the last leg, before stage III begins.
+  const parking = noteHazards(session.parking, cockpit.hazards, session.timeS);
+  let next: Session = { ...session, street: verdict.street, parking };
   if (firstMetres) next = onFirstMetresStep(next, car);
   if (next.phase === 'finished') return next;
   return settleCirculation(next, verdict);
@@ -652,8 +655,11 @@ function onParkingStep(session: Session, car: CarState, cockpit: CockpitState, c
   const verdict = judgeParkingStep(session.parking, bay, car, cockpit, session.timeS);
   let next = applyReports({ ...session, parking: verdict.parking }, verdict.reports);
   if (next.phase === 'finished' || !next.parking.endRequested) return next;
-  // Said while moving, the request is dropped: the manoeuvre ends with the car stopped (protocolo PDF 13).
-  if (car.world.vehicle.speedMps !== 0) return { ...next, parking: { ...next.parking, endRequested: false } };
+  // Said while moving, or before the parallel parking began in double file and reversed, the request is dropped: the
+  // manoeuvre ends with the car stopped, once it was done (protocolo PDF 13).
+  const { startedAtS, reversed } = next.parking;
+  if (car.world.vehicle.speedMps !== 0 || startedAtS === null || !reversed)
+    return { ...next, parking: { ...next.parking, endRequested: false } };
   const final = judgeFinalPosition(next.parking, bay, car, next.bands);
   next = applyReports({ ...next, parking: final.parking }, final.reports);
   return next.phase === 'finished' ? next : enter(next, 'leaving');
