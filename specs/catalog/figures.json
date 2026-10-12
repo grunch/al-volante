@@ -1028,6 +1028,804 @@
     ]
   },
   {
+    "id": "fig.manual-p125-service-types",
+    "source": "manual",
+    "page": 125,
+    "box": {
+      "x": 0.083,
+      "y": 0.055,
+      "width": 0.837,
+      "height": 0.323
+    },
+    "alt": "Infografía «Tipo de servicio» con un colectivo amarillo. Urbano: los recorridos se efectúan dentro de la Ciudad. Interurbano: presentan recorridos fuera de las ciudades, uniendo localidades que no pertenecen a un mismo conglomerado. Corta distancia: recorre menos de 30 km. Media distancia: recorre de 30 a 100 km. Media-larga distancia: recorre de 100 a 200 km. Larga distancia: supera los 200 km. Si es interjurisdiccional, se necesita poseer la Licencia Nacional de Transporte Interjurisdiccional (LINTI).",
+    "unitIds": [
+      "manual.annex2.service-types",
+      "manual.annex2.linti-interjurisdictional-license"
+    ]
+  },
+  {
+    "id": "fig.manual-p126-active-safety",
+    "source": "manual",
+    "page": 126,
+    "box": {
+      "x": 0.083,
+      "y": 0.055,
+      "width": 0.837,
+      "height": 0.453
+    },
+    "alt": "Infografía «Elementos de seguridad activa» sobre un taxi negro y amarillo. Texto: contribuyen a evitar que ocurra un siniestro, mejorando la eficacia y estabilidad, y garantizando el correcto funcionamiento del vehículo en movimiento. Íconos rotulados: luces, sistema de dirección, espejos, neumáticos, frenos y sistema de suspensión.",
+    "unitIds": [
+      "manual.annex2.active-vs-passive-safety"
+    ]
+  },
+  {
+    "id": "fig.manual-p127-tire-date",
+    "source": "manual",
+    "page": 127,
+    "box": {
+      "x": 0.083,
+      "y": 0.7012,
+      "width": 0.419,
+      "height": 0.2274
+    },
+    "alt": "Neumático con el código de fabricación grabado en el lateral y ampliado en un recuadro: SEMANA 17, AÑO 16. Los dos primeros dígitos indican la semana y los dos últimos, el año de fabricación.",
+    "unitIds": [
+      "manual.annex2.tire-manufacture-date"
+    ]
+  },
+  {
+    "id": "fig.manual-p127-tread-life",
+    "source": "manual",
+    "page": 127,
+    "box": {
+      "x": 0.505,
+      "y": 0.587,
+      "width": 0.413,
+      "height": 0.344
+    },
+    "alt": "Tabla «Vida útil de los neumáticos» con fotos del dibujo, por profundidad y vida útil restante. Seguros (verde): 8 mm, 100 %; 7 mm, 85 %; 6 mm, 69 %. Atención (amarillo): 5 mm, 53 %; 4 mm, 38 %; 3 mm, 22 %. Peligro (rojo): 2,5 mm, 14 %; 2,3 mm, 9 %; 2,0 mm, 6 %; 1,6 mm, 0 %.",
+    "unitIds": [
+      "manual.annex2.tire-tread-life-table"
+    ]
+  },
+  {
+    "id": "fig.manual-p128-tire-pressure",
+    "source": "manual",
+    "page": 128,
+    "box": {
+      "x": 0.255,
+      "y": 0.429,
+      "width": 0.497,
+      "height": 0.186
+    },
+    "alt": "Tres neumáticos, cada uno con el dibujo de su banda de rodamiento y el corte de su perfil. Falta de presión: el perfil se ve aplastado y ensanchado. Presión excesiva: el perfil se ve abombado, con la banda curvada. Presión adecuada: el perfil tiene los costados rectos y la banda plana.",
+    "unitIds": [
+      "manual.annex2.tire-pressure"
+    ]
+  },
+  {
+    "id": "fig.manual-p129-blind-spots",
+    "source": "manual",
+    "page": 129,
+    "box": {
+      "x": 0.083,
+      "y": 0.347,
+      "width": 0.837,
+      "height": 0.358
+    },
+    "alt": "Ilustración de dos calzadas con zonas rojas de punto ciego alrededor de autos, motos y un colectivo. Rótulos: punto ciego autos, punto ciego motos y camiones y colectivos; las zonas del colectivo son mucho más grandes. Frase destacada: «Cuanto más grande es el vehículo, mayor es el punto ciego».",
+    "unitIds": [
+      "manual.annex2.blind-spot-definition"
+    ]
+  },
+  {
+    "id": "fig.manual-p130-mirror-adjustment",
+    "source": "manual",
+    "page": 130,
+    "box": {
+      "x": 0.083,
+      "y": 0.2735,
+      "width": 0.83,
+      "height": 0.266
+    },
+    "alt": "Dos fotos del espejo retrovisor lateral de un auto. Con tilde verde (correcto): el espejo muestra la calle y apenas el costado del propio vehículo. Con cruz roja (incorrecto): el espejo muestra una gran parte del costado del propio vehículo. Frase: «Sólo debe reflejarse como máximo el 10 % de la parte trasera del vehículo».",
+    "unitIds": [
+      "manual.annex2.mirror-adjustment-10-percent"
+    ]
+  },
+  {
+    "id": "fig.manual-p130-passive-safety",
+    "source": "manual",
+    "page": 130,
+    "box": {
+      "x": 0.083,
+      "y": 0.565,
+      "width": 0.837,
+      "height": 0.382
+    },
+    "alt": "Infografía «Elementos de seguridad pasiva» sobre un colectivo amarillo. Texto: minimizan las consecuencias de un siniestro una vez que este ya ocurrió. Íconos rotulados: apoyacabeza, cinturón de seguridad, airbag, cristales y paragolpe.",
+    "unitIds": [
+      "manual.annex2.active-vs-passive-safety"
+    ]
+  },
+  {
+    "id": "fig.manual-p131-seat-belt",
+    "source": "manual",
+    "page": 131,
+    "box": {
+      "x": 0.083,
+      "y": 0.332,
+      "width": 0.837,
+      "height": 0.399
+    },
+    "alt": "«Uso correcto» del cinturón de seguridad, dos fotos de un conductor. Con tilde verde (correcto): la banda diagonal pasa por la clavícula y baja por el centro del pecho, y la banda inferior va sobre la cadera. Con cruz roja (incorrecto): la banda diagonal pasa pegada al cuello y la inferior queda más arriba, sobre el abdomen.",
+    "unitIds": [
+      "manual.annex2.seat-belt-correct-use"
+    ]
+  },
+  {
+    "id": "fig.manual-p132-headrest",
+    "source": "manual",
+    "page": 132,
+    "box": {
+      "x": 0.083,
+      "y": 0.511,
+      "width": 0.837,
+      "height": 0.446
+    },
+    "alt": "Infografía «Posición del apoyacabeza». Altura: líneas rotuladas de arriba hacia abajo Bueno, Aceptable, Regular y Malo; lo bueno es que el borde superior del apoyacabeza quede a la altura de la parte superior de la cabeza. Distancia: líneas rotuladas Bueno, Aceptable, Regular y Malo según la separación con la nuca; cuanto más cerca, mejor. Abajo, un apoyacabeza regulable en altura con el «botón de desbloqueo».",
+    "unitIds": [
+      "manual.annex2.headrest"
+    ]
+  },
+  {
+    "id": "fig.manual-p137-driving-factors",
+    "source": "manual",
+    "page": 137,
+    "box": {
+      "x": 0.08,
+      "y": 0.264,
+      "width": 0.84,
+      "height": 0.237
+    },
+    "alt": "Cuatro íconos de los factores que la conducción preventiva profesional debe tener en cuenta: paradas de descanso, postura corporal, alimentación e interacción con pasajeros/as. Frase destacada: «El exceso de confianza expone las habilidades de quien conduce al límite y promueve la realización de maniobras temerarias que no son percibidas como riesgosas».",
+    "unitIds": [
+      "manual.annex2.overconfidence-driving-factors"
+    ]
+  },
+  {
+    "id": "fig.manual-p139-driving-posture",
+    "source": "manual",
+    "page": 139,
+    "box": {
+      "x": 0.08,
+      "y": 0.195,
+      "width": 0.84,
+      "height": 0.375
+    },
+    "alt": "Foto de una conductora al volante de un vehículo grande con cuatro recuadros sobre la postura corporal. Brazos: deben estar a una altura del volante que permita maniobrar con libertad, pero lo suficientemente cerca para que estén relajados, sin tensionar los hombros. Piernas: no deben estar completamente rectas, sino con un margen de movimiento, y se tiene que poder llegar a los pedales sin despegar la espalda del asiento; la cadera debería poder quedar por debajo de la articulación de las rodillas. Cabeza y espalda: mantener en todo momento la columna apoyada hasta la altura de los omóplatos, sin colocar elementos adicionales como almohadones; la cabeza debe ir separada del apoyacabeza, cuyo uso se limita a la prevención de lesiones en caso de incidente. El asiento: adecuarlo a lo que el cuerpo necesita; su altura tendría que ser de al menos 30 cm del suelo.",
+    "unitIds": [
+      "manual.annex2.driving-posture"
+    ]
+  },
+  {
+    "id": "fig.manual-p145-curve",
+    "source": "manual",
+    "page": 145,
+    "box": {
+      "x": 0.08,
+      "y": 0.265,
+      "width": 0.84,
+      "height": 0.275
+    },
+    "alt": "Ilustración de un colectivo visto desde arriba tomando una curva, con el recuadro «Curva»: si se ingresa a una curva acelerando, el peso del vehículo recaerá sobre el eje trasero, con lo que se perderá direccionalidad. Es necesario acercarse a las curvas con cuidado, particularmente cuando la ruta está resbalosa debido a la lluvia, barro, nieve, hojas mojadas, etc.",
+    "unitIds": [
+      "manual.annex2.curves"
+    ]
+  },
+  {
+    "id": "fig.manual-p145-uphill",
+    "source": "manual",
+    "page": 145,
+    "box": {
+      "x": 0.08,
+      "y": 0.58,
+      "width": 0.84,
+      "height": 0.31
+    },
+    "alt": "Ilustración de un colectivo subiendo una pendiente, con el recuadro «Pendiente ascendente»: la fuerza de la gravedad trabaja en contra y es probable que se necesite acelerar o cambiar a una marcha más baja para mantener la velocidad. Prestar atención a los vehículos que circulan detrás, que pueden acercarse demasiado si no se logra mantener la velocidad al subir. Utilizar el carril derecho si se conduce más lento que el resto del tránsito.",
+    "unitIds": [
+      "manual.annex2.uphill-driving"
+    ]
+  },
+  {
+    "id": "fig.manual-p146-downhill",
+    "source": "manual",
+    "page": 146,
+    "box": {
+      "x": 0.08,
+      "y": 0.065,
+      "width": 0.84,
+      "height": 0.365
+    },
+    "alt": "Ilustración de un colectivo bajando una pendiente, con el recuadro «Pendiente descendente»: la gravedad hace que se circule más rápido y aumenta la distancia de detención, por lo que hay que reducir la velocidad. En pendientes largas y pronunciadas, frenar demasiado (presionando constantemente el pedal del freno) puede generar fallas en los frenos; es mejor usar el motor para disminuir la velocidad cambiando a una marcha más baja antes de comenzar a descender. Aun así puede necesitarse el freno, pero bajar la velocidad reduce su uso.",
+    "unitIds": [
+      "manual.annex2.downhill-driving"
+    ]
+  },
+  {
+    "id": "fig.manual-p147-cyclist-overtaking",
+    "source": "manual",
+    "page": 147,
+    "box": {
+      "x": 0.1,
+      "y": 0.065,
+      "width": 0.7,
+      "height": 0.315
+    },
+    "alt": "Ilustración de colectivos que sobrepasan a ciclistas en una calzada: la flecha muestra que el colectivo se abre para pasar dejando «1,5 metros de distancia» respecto de quienes van en bicicleta. Un recuadro con el detalle de la luz de giro encendida indica: «Para realizar la maniobra, poner la luz de giro».",
+    "unitIds": [
+      "manual.annex2.cyclist-safety-distance"
+    ]
+  },
+  {
+    "id": "fig.manual-p147-off-tracking",
+    "source": "manual",
+    "page": 147,
+    "box": {
+      "x": 0.11,
+      "y": 0.665,
+      "width": 0.745,
+      "height": 0.255
+    },
+    "alt": "Dos ilustraciones de off-tracking: un colectivo dobla a la derecha en una esquina, con la luz de giro encendida, y su lateral derecho pasa sobre la senda peatonal. En la primera, una peatona con una valija que cruza por la senda queda pegada al lateral, a la altura de la rueda trasera; en la segunda, una persona en bicicleta que cruza queda en la misma posición.",
+    "unitIds": [
+      "manual.annex2.off-tracking"
+    ]
+  },
+  {
+    "id": "fig.manual-p148-intersection-blocking",
+    "source": "manual",
+    "page": 148,
+    "box": {
+      "x": 0.135,
+      "y": 0.32,
+      "width": 0.725,
+      "height": 0.28
+    },
+    "alt": "Dos ilustraciones de una intersección vista desde arriba. Con tilde verde: el colectivo espera detenido antes de la línea de detención y de la senda peatonal, sin entrar a la bocacalle, y la intersección queda libre para el auto que cruza por la transversal. Con cruz roja: la cuadra siguiente está ocupada por autos, el colectivo quedó detenido sobre la senda peatonal del otro lado de la intersección con el semáforo en rojo, un peatón tiene que rodearlo para cruzar y un auto de la transversal queda frenado.",
+    "unitIds": [
+      "manual.annex2.do-not-block-intersection"
+    ]
+  },
+  {
+    "id": "fig.manual-p149-highways",
+    "source": "manual",
+    "page": 149,
+    "box": {
+      "x": 0.145,
+      "y": 0.105,
+      "width": 0.715,
+      "height": 0.39
+    },
+    "alt": "Tabla «Autopistas», con su recorrido desde y hasta. 9 de Julio Sur: desde Av. 9 de Julio y Av. San Juan hasta Nuevo Puente Pueyrredón (Avellaneda). Presidente Cámpora: desde Au. Dellepiane hasta Av. 27 de Febrero. Dellepiane: desde Au. 25 de Mayo y Pte. Cámpora hasta Av. Gral. Paz y Ricchieri. Perito Moreno: desde Au. 25 de Mayo hasta Av. Gral. Paz y Acceso Oeste. 25 de Mayo: desde Au. Dellepiane y Au. Perito Moreno hasta Au. Bs. As. - La Plata. Illia al Norte: desde Av. 9 de Julio hasta Av. Cantilo. Illia al Centro: desde Av. Lugones hasta Av. 9 de Julio. Av. Lugones: desde Av. Gral. Paz hasta Au. Illia. Av. Cantilo: desde Au. Illia hasta Av. Gral. Paz.",
+    "unitIds": [
+      "manual.annex2.highways-table"
+    ]
+  },
+  {
+    "id": "fig.manual-p150-hospitals-map",
+    "source": "manual",
+    "page": 150,
+    "box": {
+      "x": 0.075,
+      "y": 0.055,
+      "width": 0.81,
+      "height": 0.77
+    },
+    "alt": "Mapa de la Ciudad dividido en barrios, con marcadores «H» de colores que ubican los Hospitales Generales de Agudos, y su leyenda: Dr. I. Pirovano, Monroe 3555; A. Zubizarreta, Nueva York 3952; D. Vélez Sarsfield, Pedro Calderón de la Barca 1550; Dr. T. Álvarez (H1), Doctor Juan Felipe Aranguren 2701; P. Piñero (H2), Varela 1301; J. M. Penna, Av. Almafuerte 406; Dr. C. Argerich, Pi y Margal 750; J. M. Ramos Mejía, General Urquiza 609; Dr. E. Tornú, Combatientes de Malvinas 3002; Dr. C. Durand, Díaz Vélez 5044; Dr. J. A. Fernández, Cerviño 3356; B. Rivadavia, Av. General Las Heras 2670; Donación F. Santojanni, Pilar 950; Cecilia Grierson, Av. Gral. Fernández de la Cruz 4402.",
+    "unitIds": [
+      "manual.annex2.general-hospitals-map"
+    ]
+  },
+  {
+    "id": "fig.manual-p157-lifting-posture",
+    "source": "manual",
+    "page": 157,
+    "box": {
+      "x": 0.078,
+      "y": 0.305,
+      "width": 0.827,
+      "height": 0.525
+    },
+    "alt": "Pictogramas de manipulación de la carga. Arriba, cuatro medidas de seguridad: «Estudiar el movimiento a realizar» (persona pensando, con un signo de pregunta), «Levantar la caja en la posición correcta» (agachada con las rodillas flexionadas), «Llevar la carga en la forma correcta» (caja sostenida contra el cuerpo) y «Economizar esfuerzos» (persona empujando una carretilla con cajas). Abajo, «La postura correcta»: con tilde verde, la persona agachada con las rodillas flexionadas junto a la caja, «Esfuerzo menor y menos peligroso. Colocarse lo más cerca posible de la carga»; con cruz roja, la persona que levanta la caja inclinando la espalda con las piernas rectas, «Esfuerzo mayor y peligroso».",
+    "unitIds": [
+      "manual.annex3.manual-handling-posture"
+    ]
+  },
+  {
+    "id": "fig.manual-p158-cargo-placement",
+    "source": "manual",
+    "page": 158,
+    "box": {
+      "x": 0.095,
+      "y": 0.192,
+      "width": 0.805,
+      "height": 0.437
+    },
+    "alt": "Infografía de ubicación de la carga en dos columnas, «INCORRECTA» y «CORRECTA», con cinco filas de camiones sin rótulos. Fila 1: la carga va en el extremo trasero de la caja, frente a la carga ubicada más adelante, hacia el centro. Fila 2: la carga apilada en altura detrás de la cabina, frente a la carga baja y repartida a lo largo de la caja. Fila 3: bultos agrupados en un extremo de la caja (adelante o atrás), frente a bultos distribuidos a lo largo de toda la caja. Fila 4, vista desde atrás: la carga sobresale a los costados del vehículo, frente a la carga dentro de su ancho. Fila 5: dos camiones de caja larga casi iguales; en el incorrecto la caja sobresale levemente por detrás del chasis.",
+    "unitIds": [
+      "manual.annex3.cargo-placement-securing"
+    ]
+  },
+  {
+    "id": "fig.manual-p165-cyclist-distance",
+    "source": "manual",
+    "page": 165,
+    "box": {
+      "x": 0.1,
+      "y": 0.058,
+      "width": 0.795,
+      "height": 0.298
+    },
+    "alt": "Ilustración de una avenida: dos colectivos sobrepasan a ciclistas que circulan por la derecha, con una flecha que marca la maniobra y el rótulo «1,5 metros de distancia» entre el colectivo y la bici. Un recuadro con la luz de giro encendida del colectivo dice: «Para realizar la maniobra, poner la luz de giro».",
+    "unitIds": [
+      "manual.annex3.cyclist-passing-distance"
+    ]
+  },
+  {
+    "id": "fig.manual-p165-off-tracking",
+    "source": "manual",
+    "page": 165,
+    "box": {
+      "x": 0.108,
+      "y": 0.668,
+      "width": 0.785,
+      "height": 0.25
+    },
+    "alt": "Dos ilustraciones de off tracking en una esquina: un colectivo gira y la parte trasera de su lateral se mete sobre la senda peatonal; a la izquierda, junto a una persona que cruza a pie, y a la derecha, junto a una persona en bici que cruza.",
+    "unitIds": [
+      "manual.annex3.off-tracking"
+    ]
+  },
+  {
+    "id": "fig.manual-p166-blocked-intersection",
+    "source": "manual",
+    "page": 166,
+    "box": {
+      "x": 0.138,
+      "y": 0.378,
+      "width": 0.728,
+      "height": 0.277
+    },
+    "alt": "Dos vistas de una intersección con semáforo. Con tilde verde: el colectivo espera antes de la senda peatonal y la bocacalle queda libre, por donde cruza un auto de la calle transversal. Con cruz roja: el colectivo entró detrás de una fila de autos detenidos y quedó parado sobre la senda y el cruce con su semáforo en rojo; un auto de la calle transversal queda trabado y una persona a pie tiene que rodear el colectivo para cruzar.",
+    "unitIds": [
+      "manual.annex3.dont-block-intersection"
+    ]
+  },
+  {
+    "id": "fig.manual-p167-truck-overtaking",
+    "source": "manual",
+    "page": 167,
+    "box": {
+      "x": 0.08,
+      "y": 0.565,
+      "width": 0.84,
+      "height": 0.333
+    },
+    "alt": "Ilustración «Sobrepaso» en una vía de tres carriles por sentido, vista desde arriba. Con tilde verde, dos camiones circulan por el carril derecho; el de atrás enciende la luz de giro y una flecha verde lo lleva al carril de al lado para sobrepasar al de adelante. Con cruz roja, un camión circula por el carril izquierdo sin estar sobrepasando.",
+    "unitIds": [
+      "manual.annex3.truck-lane-highways"
+    ]
+  },
+  {
+    "id": "fig.manual-p172-tire-pressure",
+    "source": "manual",
+    "page": 172,
+    "box": {
+      "x": 0.24,
+      "y": 0.172,
+      "width": 0.53,
+      "height": 0.198
+    },
+    "alt": "Tres neumáticos vistos de frente y en corte. «Falta de presión»: el neumático apoya sobre los laterales y el centro queda hundido. «Presión excesiva»: apoya sobre el centro de la banda, que queda abombada. «Presión adecuada»: apoya de manera uniforme en todo el ancho.",
+    "unitIds": [
+      "manual.annex3.tire-pressure",
+      "manual.annex3.tire-wear-causes"
+    ]
+  },
+  {
+    "id": "fig.manual-p173-blind-spots",
+    "source": "manual",
+    "page": 173,
+    "box": {
+      "x": 0.08,
+      "y": 0.34,
+      "width": 0.85,
+      "height": 0.375
+    },
+    "alt": "Infografía de dos calzadas con zonas rojas que marcan los puntos ciegos: «Punto ciego autos» detrás y a los costados de los autos, «Punto ciego motos» junto a una moto, y «Camiones y colectivos», con zonas mucho más grandes a los lados y detrás de un colectivo. Debajo, la frase: «Cuanto más grande es el vehículo, mayor es el punto ciego».",
+    "unitIds": [
+      "manual.annex3.blind-spot-definition",
+      "manual.annex3.rearview-mirrors"
+    ]
+  },
+  {
+    "id": "fig.manual-p174-mirror-orientation",
+    "source": "manual",
+    "page": 174,
+    "box": {
+      "x": 0.083,
+      "y": 0.438,
+      "width": 0.835,
+      "height": 0.415
+    },
+    "alt": "Dos fotos de un espejo retrovisor exterior. Con tilde verde, el espejo bien orientado muestra sobre todo el entorno y apenas un borde del propio vehículo. Con cruz roja, el espejo mal orientado muestra gran parte del lateral del propio vehículo y poco del entorno.",
+    "unitIds": [
+      "manual.annex3.mirror-adjustment-10-percent"
+    ]
+  },
+  {
+    "id": "fig.manual-p176-seat-belt",
+    "source": "manual",
+    "page": 176,
+    "box": {
+      "x": 0.08,
+      "y": 0.058,
+      "width": 0.8,
+      "height": 0.617
+    },
+    "alt": "«Uso correcto» del cinturón. Con tilde verde, la banda cruza la clavícula y baja por el centro del pecho, y la banda inferior va sobre la cadera: debe pasar por la clavícula, ir sobre los huesos de la cadera por debajo del abdomen y quedar bien ajustada, sin ropa gruesa, sin torceduras y sin objetos duros o frágiles debajo. Con cruz roja, la banda pasa cerca del cuello y queda floja: sobre el cuello o el pecho puede provocar lesiones graves, sobre el abdomen lesiona órganos internos y floja pierde eficacia.",
+    "unitIds": [
+      "manual.annex3.seat-belt-correct-use"
+    ]
+  },
+  {
+    "id": "fig.manual-p177-headrest-position",
+    "source": "manual",
+    "page": 177,
+    "box": {
+      "x": 0.08,
+      "y": 0.355,
+      "width": 0.84,
+      "height": 0.47
+    },
+    "alt": "«Posición del apoyacabeza». En «Altura apoyacabeza», cuatro líneas de arriba hacia abajo respecto de la cabeza: Bueno (a la altura de la parte superior de la cabeza), Aceptable, Regular y Malo (por debajo). En «Distancia del apoyacabeza», cuatro líneas desde la nuca hacia atrás: Bueno (la más cercana), Aceptable, Regular y Malo (la más lejana). Abajo, un apoyacabeza regulable en altura con su «Botón de desbloqueo».",
+    "unitIds": [
+      "manual.annex3.headrest"
+    ]
+  },
+  {
+    "id": "fig.manual-p179-loose-objects-impact",
+    "source": "manual",
+    "page": 179,
+    "box": {
+      "x": 0.08,
+      "y": 0.375,
+      "width": 0.84,
+      "height": 0.29
+    },
+    "alt": "Infografía «Velocidad de impacto 50 km/h» con un camión y cuatro objetos sueltos, su peso original y su fuerza de impacto: ordenador portátil, 2,2 kg y 85 kg; bolso, 4 kg y 158 kg; teléfono móvil, 110 g y 3,9 kg; tablet, 560 g y 23 kg.",
+    "unitIds": [
+      "manual.annex3.cabin-safety"
+    ]
+  },
+  {
+    "id": "fig.manual-p182-highways",
+    "source": "manual",
+    "page": 182,
+    "box": {
+      "x": 0.12,
+      "y": 0.14,
+      "width": 0.76,
+      "height": 0.415
+    },
+    "alt": "Tabla «Autopistas» con su recorrido desde y hasta: 9 de Julio Sur, de Av. 9 de Julio y Av. San Juan al Nuevo Puente Pueyrredón (Avellaneda); Presidente Cámpora, de Au. Dellepiane a Av. 27 de Febrero; Dellepiane, de Au. 25 de Mayo y Pte. Cámpora a Av. Gral. Paz y Ricchieri; Perito Moreno, de Au. 25 de Mayo a Av. Gral. Paz y Acceso Oeste; 25 de Mayo, de Au. Dellepiane y Au. Perito Moreno a Au. Bs. As. - La Plata; Illia al Norte, de Av. 9 de Julio a Av. Cantilo; Illia al Centro, de Av. Lugones a Av. 9 de Julio; Av. Lugones, de Av. Gral. Paz a Au. Illia; Av. Cantilo, de Au. Illia a Av. Gral. Paz.",
+    "unitIds": [
+      "manual.annex3.highways-table"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p14-points-table",
+    "source": "protocolo",
+    "page": 14,
+    "box": {
+      "x": 0.075,
+      "y": 0.818,
+      "width": 0.425,
+      "height": 0.096
+    },
+    "alt": "Tabla «Tipo / Puntaje» de la forma de evaluación: falla leve, 1 punto; falla deficiente baja, 2 puntos; falla deficiente alta, 3 puntos; falla eliminatoria, 8 puntos.",
+    "unitIds": [
+      "protocolo.evaluation.scoring-and-result"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p18-vehicle-controls",
+    "source": "protocolo",
+    "page": 18,
+    "box": {
+      "x": 0.075,
+      "y": 0.163,
+      "width": 0.85,
+      "height": 0.752
+    },
+    "alt": "Gráfico 1, ejemplo de distribución del instrumental del vehículo, en un auto con caja manual y otro con caja automática. Nueve comandos numerados: 1 control de luces (posición, bajas y altas; giros subiendo la palanca para la derecha y bajándola para la izquierda), 2 balizas, 3 panel instrumental (cuentavueltas y velocímetro), 4 consola de AC/CA (calefacción, aire acondicionado y desempañador de parabrisas; en el automático, ventilación, calefacción y aire acondicionado), 5 regulación de espejos retrovisores (perilla manual; en el automático, comando regulador en la puerta del conductor/a), 6 desempañador de luneta (en el automático, de parabrisas y de luneta), 7 limpiaparabrisas (limpiavidrios y lavavidrios), 8 bocina (en el volante) y 9 freno de mano.",
+    "unitIds": [
+      "protocolo.annex1.graphic-1-vehicle-controls"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p19-dashboard-symbols",
+    "source": "protocolo",
+    "page": 19,
+    "box": {
+      "x": 0.075,
+      "y": 0.598,
+      "width": 0.85,
+      "height": 0.317
+    },
+    "alt": "Gráfico 2, ejemplo de tablero del vehículo: «¿Cuál es el significado de los símbolos en el tablero del auto?». En verde, direccionales, faros antiniebla y faros encendidos; en azul, luces altas; en rojo, advertencia de bolsas de aire, advertencia de cinturón, freno de mano puesto, advertencia del sistema ABS, presión baja de las llantas, advertencia de temperatura, puerta abierta e intermitentes; en naranja, nivel mínimo de gasolina, poco líquido limpiaparabrisas, advertencia de motor, precalentamiento del motor diésel, advertencia de batería, nivel bajo de aceite del motor y advertencia de modo invierno.",
+    "unitIds": [
+      "protocolo.annex1.graphic-2-dashboard-symbols"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p19-pedals-gearbox",
+    "source": "protocolo",
+    "page": 19,
+    "box": {
+      "x": 0.075,
+      "y": 0.165,
+      "width": 0.85,
+      "height": 0.428
+    },
+    "alt": "Gráfico 1 (continuación): pedalera y caja. Auto con caja manual: pedalera 1 embrague, 2 freno y 3 acelerador, y palanca de la caja de cambios con R, 1, 3 y 5 arriba y 2 y 4 abajo. Auto con caja automática: pedalera 1 freno y 2 acelerador, y selector con las posiciones P, R, N y D y un modo M con + y −.",
+    "unitIds": [
+      "protocolo.annex1.graphic-1-vehicle-controls"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p20-posture-mirrors-belt",
+    "source": "protocolo",
+    "page": 20,
+    "box": {
+      "x": 0.075,
+      "y": 0.163,
+      "width": 0.85,
+      "height": 0.752
+    },
+    "alt": "Gráfico 3, en tres fotos. Postura corporal: manos, ambas sobre el volante, como las agujas del reloj a las 9:15; brazos semiflexionados, como las agujas a las 10:10 vistos de costado; piernas semiflexionadas, con la butaca a una distancia que, con el embrague a fondo, deje la rodilla algo flexionada; respaldo reclinado de modo que, con la espalda apoyada y la cadera lo más atrás posible, se alcance la posición correcta de los brazos; apoyacabeza con su parte más elevada a la altura superior de la cabeza y la central a la altura de los ojos. Espejos retrovisores: ajustarlos desde la posición de manejo antes de iniciar la marcha; en el lado interno del espejo se debe ver el comienzo del vehículo, reflejándose solo el 10 % de su parte trasera. Cinturón de seguridad: tenso y sin dobleces; banda superior por la clavícula (entre el hombro y el cuello) y por el medio del pecho; banda inferior sobre los huesos de la cadera, por debajo del abdomen.",
+    "unitIds": [
+      "protocolo.annex1.graphic-3-driving-position"
+    ]
+  },
+  {
+    "id": "fig.protocolo-p21-parking-bay",
+    "source": "protocolo",
+    "page": 21,
+    "box": {
+      "x": 0.075,
+      "y": 0.163,
+      "width": 0.85,
+      "height": 0.325
+    },
+    "alt": "Gráfico 4, dimensiones del cajón de estacionamiento paralelo: cajón de 6 m de largo junto al cordón, con vallas en los extremos. Desde el cordón, una 1.ª línea (azul) y una 2.ª línea (franja amarilla), con cotas de 15 cm, 25 cm y 50 cm. Referencias: con falla leve, entre el cordón y la 1.ª línea; correcto, sobre la 1.ª línea; con falla leve, sobre la 2.ª línea; con falla eliminatoria, por fuera de la 2.ª línea.",
+    "unitIds": [
+      "protocolo.annex1.graphic-4-parking-bay"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p6-comuna-2-routes",
+    "source": "recorridos",
+    "page": 6,
+    "box": {
+      "x": 0.336,
+      "y": 0.244,
+      "width": 0.63,
+      "height": 0.579
+    },
+    "alt": "Dos mapas de Recoleta (Comuna 2) con los recorridos marcados con línea punteada y el punto de inicio E en Vicente López al 2000, cerca de la Subsede Comunal 2 y del Panteón de Eva Perón. Mapa izquierdo, recorrido A: Vicente López, Azcuénaga, Pacheco de Melo, Junín, Juncal, Av. Callao, Vicente López. Mapa derecho, recorrido B: Vicente López, Azcuénaga, Pacheco de Melo, Av. Callao, Vicente López. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-2"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p7-comuna-3-routes",
+    "source": "recorridos",
+    "page": 7,
+    "box": {
+      "x": 0.332,
+      "y": 0.242,
+      "width": 0.628,
+      "height": 0.576
+    },
+    "alt": "Dos mapas de Balvanera (Comuna 3) con los recorridos marcados con línea punteada y el punto de inicio E en Pichincha 338, junto a la Subsede Comunal 3, con la Plaza Primero de Mayo dentro del circuito. Mapa izquierdo, recorrido A: Pichincha, Hipolito Yrigoyen, Rincon, Moreno, Matheu, Av. Belgrano, Pichincha. Mapa derecho, recorrido B: Pichincha, Moreno, Matheu, Av. Belgrano, Pichincha. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-3"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p8-comuna-4-routes",
+    "source": "recorridos",
+    "page": 8,
+    "box": {
+      "x": 0.334,
+      "y": 0.24,
+      "width": 0.627,
+      "height": 0.578
+    },
+    "alt": "Dos mapas de Barracas (Comuna 4) con los recorridos marcados con línea punteada y el punto de inicio E en Ruy Díaz Guzmán al 50, cerca de la Sede Comunal 4; el mapa del recorrido B tiene más acercamiento que el del A. Mapa izquierdo, recorrido A: Ruy Diaz de Guzman, Piedras, Ituzaingó, Tacuari, Azara, Arzobispo Espinosa, Ruy Diaz de Guzman. Mapa derecho, recorrido B: Ruy Diaz de Guzman, Piedras, Av. Martin Garcia, Ruy Diaz de Guzman, Pi y Margal, Av. Regimiento de Patricios, Tomás Liberti, Ruy Diaz de Guzman. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-4"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p9-comuna-5-routes",
+    "source": "recorridos",
+    "page": 9,
+    "box": {
+      "x": 0.329,
+      "y": 0.243,
+      "width": 0.628,
+      "height": 0.578
+    },
+    "alt": "Dos mapas de Boedo (Comuna 5) con los recorridos marcados con línea punteada y el punto de inicio E en Sanchez de Loria al 1100, junto a la Sede Comunal 5; el recorrido A cruza por debajo de la Autopista 25 de Mayo. Mapa izquierdo, recorrido A: Sanchez de Loria, Av. Pavon, 24 de Noviembre, Carlos Calvo, Sánchez de Loria. Mapa derecho, recorrido B: Sanchez de Loria, Av. San Juan, 24 de Nov., Carlos Calvo, Sánchez de Loria. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-5"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p10-comuna-6-routes",
+    "source": "recorridos",
+    "page": 10,
+    "box": {
+      "x": 0.333,
+      "y": 0.246,
+      "width": 0.627,
+      "height": 0.574
+    },
+    "alt": "Dos mapas de Caballito (Comuna 6) con los recorridos marcados con línea punteada y el punto de inicio E en Cangallo al 100, junto a la Sede Comunal 6, al lado del Parque Centenario. Mapa izquierdo, recorrido A: Cangallo, Av. Patricias Argentinas, Franklin, Rio de Janeiro, Dr. Juan Felipe de Aranguren, E. Acevedo, Arturo Jauretche, Eduardo Acevedo, Av. Diaz Velez, Yatay, Potosi, Ramos Mejia, Cangallo. Mapa derecho, recorrido B: Cangallo, Av. Patricias Argentinas, Franklin, Rio de Janeiro, Estivao, Ramos Mejia, Cangallo. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-6"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p11-comuna-7-routes",
+    "source": "recorridos",
+    "page": 11,
+    "box": {
+      "x": 0.334,
+      "y": 0.241,
+      "width": 0.628,
+      "height": 0.577
+    },
+    "alt": "Dos mapas de Parque Chacabuco (Comuna 7) con los recorridos marcados con línea punteada y el punto de inicio E en Tejedor 1084, junto a la Subsede Comuna 7, entre la Autopista 25 de Mayo y el Parque Chacabuco. Mapa izquierdo, recorrido A: Tejedor, Del Barco Centenera, Salas, Cachimayo, Av. Asamblea, Emilio Mitre, Tejedor. Mapa derecho, recorrido B: Tejedor, Centenera, Salas, Emilio Mitre, Tejedor. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-7"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p12-comuna-9-routes",
+    "source": "recorridos",
+    "page": 12,
+    "box": {
+      "x": 0.335,
+      "y": 0.243,
+      "width": 0.626,
+      "height": 0.577
+    },
+    "alt": "Dos mapas de Parque Avellaneda (Comuna 9) con los recorridos marcados con línea punteada y el punto de inicio E en Mozart 850, junto a la Subsede Comunal 9 y la Autopista Perito Moreno. Mapa izquierdo, recorrido A: Mozart, Av. Directorio, Moreto, C. Jose E. Rodo, Av. Escalada, Tapalqué, Mozart. Mapa derecho, recorrido B: Mozart, Av. Directorio, Moreto, C. Jose E. Rodo, Damaso Larrañaga, Tapalqué, Mozart. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-9"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p13-comuna-10-routes",
+    "source": "recorridos",
+    "page": 13,
+    "box": {
+      "x": 0.336,
+      "y": 0.244,
+      "width": 0.625,
+      "height": 0.576
+    },
+    "alt": "Dos mapas de Floresta (Comuna 10) con los recorridos marcados con línea punteada y el punto de inicio E en Bacacay 3993, junto a la Sede Comunal 10 (CGP 10), cerca de la Plaza Vélez Sarsfield. Mapa izquierdo, recorrido A: Bacacay, Mercedes, Morón, Bahía Blanca, Felipe Vallese, Av. Chivilcoy, Bacacay. Mapa derecho, recorrido B: Bacacay, Mercedes, Av. Avellaneda, Av. Chivilcoy, Bacacay. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-10"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p14-comuna-11-routes",
+    "source": "recorridos",
+    "page": 14,
+    "box": {
+      "x": 0.332,
+      "y": 0.244,
+      "width": 0.632,
+      "height": 0.581
+    },
+    "alt": "Dos mapas de Villa Devoto (Comuna 11) con los recorridos marcados con línea punteada y el punto de inicio E en Allende al 3300, cerca del Devoto Shopping. Mapa izquierdo, recorrido A: Allende, Nogoyá, Benito Juarez, Simbron, Desaguadero, Jose Pedro Varela, Allende. Mapa derecho, recorrido B: Allende, Tinogasta, Benito Juarez, Simbron, Desaguadero, Jose Pedro Varela, Allende. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-11"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p15-comuna-12-routes",
+    "source": "recorridos",
+    "page": 15,
+    "box": {
+      "x": 0.333,
+      "y": 0.244,
+      "width": 0.631,
+      "height": 0.583
+    },
+    "alt": "Dos mapas de Urquiza (Comuna 12) con los recorridos marcados con línea punteada y el punto de inicio E en Av. Monroe 4237, cerca de la Sede Comunal 12 y de la estación Drago. Mapa izquierdo, recorrido A: Av. Monroe, Donado, Mendoza, Tronador, Blanco Escalada, Holmberg, Av. Monroe. Mapa derecho, recorrido B: Av. Monroe, Donado, Mendoza, Holmberg, Av. Monroe. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-12"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p16-comuna-13-routes",
+    "source": "recorridos",
+    "page": 16,
+    "box": {
+      "x": 0.333,
+      "y": 0.247,
+      "width": 0.628,
+      "height": 0.576
+    },
+    "alt": "Dos mapas de Nuñez (Comuna 13) con los recorridos marcados con línea punteada y el punto de inicio E en Quesada al 2381, junto a la Sede Comunal 13, entre Av. Cabildo y Vuelta de Obligado. Mapa izquierdo, recorrido A: Quesada, Av. Cabildo, Guayra, Cuba, Quesada, Cuba, Manuel Ugarte, Vuelta de Obligado, Quesada. Mapa derecho, recorrido B: Quesada, Av Cabildo, Guayra, Cuba, Quesada. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-13"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p17-comuna-14-routes",
+    "source": "recorridos",
+    "page": 17,
+    "box": {
+      "x": 0.333,
+      "y": 0.246,
+      "width": 0.627,
+      "height": 0.575
+    },
+    "alt": "Dos mapas de Palermo (Comuna 14) con los recorridos marcados con línea punteada y el punto de inicio E en Beruti al 3300, junto a la Sede Comunal 14, cerca del Alto Palermo Shopping. Mapa izquierdo, recorrido A: Beruti, Araoz, Juncal, Julián Alvarez, Arenales, Austria, Beruti. Mapa derecho, recorrido B: Beruti, Araoz, Juncal, Cnel. Diaz, Beruti. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-14"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p18-comuna-15-routes",
+    "source": "recorridos",
+    "page": 18,
+    "box": {
+      "x": 0.332,
+      "y": 0.244,
+      "width": 0.629,
+      "height": 0.576
+    },
+    "alt": "Dos mapas de Chacarita (Comuna 15) con los recorridos marcados con línea punteada y el punto de inicio E en Bonpland al 1263, junto a la Sede Comunal 15. Mapa izquierdo, recorrido A: Bonpland, Gorriti, Fitz Roy, Ramirez de Velasco, Bonpland. Mapa derecho, recorrido B: Bonpland, Niceto Vega, Fitz Roy, Aguirre, Bonpland. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.comuna-15"
+    ]
+  },
+  {
+    "id": "fig.recorridos-p19-aca-libertador-routes",
+    "source": "recorridos",
+    "page": 19,
+    "box": {
+      "x": 0.334,
+      "y": 0.239,
+      "width": 0.627,
+      "height": 0.584
+    },
+    "alt": "Dos mapas de la zona de Plaza Alemania (sede ACA Libertador) con los recorridos marcados con línea punteada y el punto de inicio E en Castex y Av. Casares. Mapa izquierdo, recorrido A: Castex, Av. Casares, Gelly, Cavia, Castex, Jerónimo Salguero, Av. Pres. F. Alcorta, Scalabrini Ortiz y Castex. Mapa derecho, un circuito más corto también rotulado «Recorrido A»: Castex, Av. Casares, Gelly, Cavia y Castex. Debajo de cada mapa, un recuadro repite la secuencia.",
+    "unitIds": [
+      "recorridos.circuits.aca-libertador"
+    ]
+  },
+  {
     "id": "fig.siniestros-p8-beacons",
     "source": "siniestros",
     "page": 8,

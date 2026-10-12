@@ -1,0 +1,303 @@
+[
+  {
+    "id": "act.protocol-fault-points",
+    "type": "single-choice",
+    "title": "Cuántos puntos suma cada falla",
+    "unitIds": [
+      "protocolo.evaluation.scoring-and-result"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 14
+      }
+    ],
+    "figureIds": [
+      "fig.protocolo-p14-points-table"
+    ],
+    "explanation": "Cada falla suma puntos según su tipo: leve 1, deficiente baja 2, deficiente alta 3 y eliminatoria 8. El puntaje se acumula durante todo el examen y se aprueba con 7 puntos o menos al completar las tres etapas, así que una sola eliminatoria alcanza para desaprobar (protocolo PDF 14).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "two-low-one-minor",
+        "prompt": "Terminás el examen con dos fallas deficientes bajas y una falla leve. ¿Cuántos puntos sumaste?",
+        "options": [
+          {
+            "id": "3",
+            "text": "3 puntos",
+            "correct": false,
+            "feedback": "Contaste un punto por falla, pero cada deficiente baja vale 2: 2 + 2 + 1 = 5 puntos."
+          },
+          {
+            "id": "4",
+            "text": "4 puntos",
+            "correct": false,
+            "feedback": "Te falta la leve: las dos deficientes bajas suman 4 y la leve agrega 1, en total 5."
+          },
+          {
+            "id": "5",
+            "text": "5 puntos",
+            "correct": true,
+            "feedback": "¡Bien! Cada deficiente baja suma 2 y la leve, 1: 2 + 2 + 1 = 5 puntos."
+          },
+          {
+            "id": "7",
+            "text": "7 puntos",
+            "correct": false,
+            "feedback": "Es demasiado: con 2 por cada deficiente baja y 1 por la leve, el total es 5 puntos."
+          }
+        ]
+      },
+      {
+        "id": "high-and-low",
+        "prompt": "Durante el examen te consignan una falla deficiente alta y dos deficientes bajas. ¿Cuántos puntos tenés?",
+        "options": [
+          {
+            "id": "5",
+            "text": "5 puntos",
+            "correct": false,
+            "feedback": "La deficiente alta vale 3 y cada deficiente baja, 2: 3 + 2 + 2 = 7 puntos."
+          },
+          {
+            "id": "6",
+            "text": "6 puntos",
+            "correct": false,
+            "feedback": "Revisá la deficiente alta: son 3 puntos, que con 2 + 2 de las bajas dan 7."
+          },
+          {
+            "id": "7",
+            "text": "7 puntos",
+            "correct": true,
+            "feedback": "¡Correcto! 3 de la deficiente alta más 2 y 2 de las bajas: 7 puntos, el máximo con el que todavía se puede aprobar."
+          },
+          {
+            "id": "9",
+            "text": "9 puntos",
+            "correct": false,
+            "feedback": "Sobra: la deficiente alta suma 3 y cada baja suma 2, en total 7."
+          }
+        ]
+      },
+      {
+        "id": "eliminatory",
+        "prompt": "¿Cuántos puntos suma por sí sola una falla eliminatoria?",
+        "options": [
+          {
+            "id": "3",
+            "text": "3 puntos",
+            "correct": false,
+            "feedback": "3 puntos corresponden a la falla deficiente alta. La eliminatoria suma 8."
+          },
+          {
+            "id": "7",
+            "text": "7 puntos",
+            "correct": false,
+            "feedback": "7 es el máximo con el que se aprueba. La eliminatoria suma 8, por eso desaprueba sola."
+          },
+          {
+            "id": "8",
+            "text": "8 puntos",
+            "correct": true,
+            "feedback": "¡Exacto! Suma 8 puntos, más que el máximo de 7 para aprobar: una sola eliminatoria desaprueba."
+          },
+          {
+            "id": "10",
+            "text": "10 puntos",
+            "correct": false,
+            "feedback": "Son menos: la eliminatoria suma 8 puntos, y con eso ya alcanza para desaprobar."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.protocol-fault-severity-order",
+    "type": "ordering",
+    "title": "Tipos de falla, de menor a mayor gravedad",
+    "unitIds": [
+      "protocolo.evaluation.scoring-and-result"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 14
+      }
+    ],
+    "figureIds": [
+      "fig.protocolo-p14-points-table"
+    ],
+    "explanation": "El protocolo clasifica las fallas en cuatro tipos con puntaje creciente: leve (1), deficiente baja (2), deficiente alta (3) y eliminatoria (8). El puntaje acompaña la gravedad, desde un desconocimiento o una falta leve hasta la incapacidad de dominar el vehículo o la falta de apego a las normas que genera peligro (protocolo PDF 14).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "by-points",
+        "prompt": "Ordená los tipos de falla del examen práctico de menor a mayor puntaje.",
+        "items": [
+          {
+            "id": "minor",
+            "text": "Falla leve",
+            "reason": "1 punto: desconocimiento o comportamiento que no incumple las normas, o una falta leve señalada para corregir."
+          },
+          {
+            "id": "low",
+            "text": "Falla deficiente baja",
+            "reason": "2 puntos: manejo incorrecto de los mandos o incumplimiento que obstaculiza a otras personas usuarias de la vía."
+          },
+          {
+            "id": "high",
+            "text": "Falla deficiente alta",
+            "reason": "3 puntos: impericia al maniobrar o incumplimiento que obstaculiza notablemente la circulación, sin llegar a ser eliminatoria."
+          },
+          {
+            "id": "eliminatory",
+            "text": "Falla eliminatoria",
+            "reason": "8 puntos: total incapacidad de dominar el vehículo o falta de apego a las normas que genera un peligro potencial."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.protocol-pass-or-fail",
+    "type": "single-choice",
+    "title": "¿Aprobado o desaprobado?",
+    "unitIds": [
+      "protocolo.evaluation.scoring-and-result",
+      "protocolo.stages.stage-2-circulation"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 14
+      },
+      {
+        "source": "protocolo",
+        "page": 10
+      }
+    ],
+    "explanation": "El puntaje se acumula durante todo el examen, sin importar la etapa, y se aprueba al completar las tres etapas con 7 puntos o menos; con 8 o más se desaprueba (protocolo PDF 14). Si al llegar a la circulación en tránsito ya sumás 8 puntos, no salís a circular: el examen se interrumpe y queda desaprobado (PDF 10). Quien desaprueba vuelve a rendir el examen completo (PDF 14).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "seven",
+        "prompt": "Completás las tres etapas del examen y sumás 7 puntos en total. ¿Cuál es el resultado?",
+        "options": [
+          {
+            "id": "pass",
+            "text": "Aprobado",
+            "correct": true,
+            "feedback": "¡Bien! Con las tres etapas completas, se aprueba con 7 puntos o menos."
+          },
+          {
+            "id": "fail",
+            "text": "Desaprobado",
+            "correct": false,
+            "feedback": "Todavía no: se desaprueba a partir de 8 puntos. Con 7 y las tres etapas completas, aprobás."
+          },
+          {
+            "id": "repeat",
+            "text": "Rendís de nuevo la etapa con más puntos",
+            "correct": false,
+            "feedback": "No se repiten etapas sueltas: con las tres etapas completas y 7 puntos, el examen está aprobado."
+          }
+        ]
+      },
+      {
+        "id": "eight",
+        "prompt": "Completás las tres etapas sin ninguna falla eliminatoria, pero sumás 8 puntos. ¿Cuál es el resultado?",
+        "options": [
+          {
+            "id": "fail",
+            "text": "Desaprobado",
+            "correct": true,
+            "feedback": "¡Correcto! Con 8 puntos o más se desaprueba, aunque ninguna falla haya sido eliminatoria."
+          },
+          {
+            "id": "pass-no-eliminatory",
+            "text": "Aprobado, porque no hubo eliminatorias",
+            "correct": false,
+            "feedback": "Las fallas se suman: con 8 puntos o más el examen queda desaprobado aunque no haya eliminatorias."
+          },
+          {
+            "id": "pass-observed",
+            "text": "Aprobado con una observación",
+            "correct": false,
+            "feedback": "No hay aprobación con observaciones: el máximo para aprobar es 7 puntos."
+          }
+        ]
+      },
+      {
+        "id": "cumulative",
+        "prompt": "Sumaste 4 puntos en la etapa I, ninguno en la etapa II y 4 en la etapa III. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "fail",
+            "text": "Desaprobás: los puntos se suman en todo el examen",
+            "correct": true,
+            "feedback": "¡Exacto! El puntaje es acumulativo durante todo el examen: 4 + 4 = 8, y con 8 se desaprueba."
+          },
+          {
+            "id": "per-stage",
+            "text": "Aprobás: ninguna etapa llegó a 8 puntos",
+            "correct": false,
+            "feedback": "Los puntos no se cuentan por etapa: se acumulan en todo el examen y 4 + 4 = 8 desaprueba."
+          },
+          {
+            "id": "clean-stage",
+            "text": "Aprobás, porque la etapa II no tuvo fallas",
+            "correct": false,
+            "feedback": "Una etapa sin fallas no compensa a las otras: el total de 8 puntos desaprueba."
+          }
+        ]
+      },
+      {
+        "id": "cutoff",
+        "prompt": "Al terminar la etapa I ya sumás 8 puntos entre fallas leves, deficientes bajas y altas. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "stop",
+            "text": "No salís a circular: se interrumpe y desaprobás",
+            "correct": true,
+            "feedback": "¡Bien! Para salir a circular hay que llegar con menos de 8 puntos; si no, el examen se interrumpe y queda desaprobado."
+          },
+          {
+            "id": "drive",
+            "text": "Salís a circular y, si no sumás más, aprobás",
+            "correct": false,
+            "feedback": "Con 8 puntos ya no se puede aprobar: no salís a circular y el examen se interrumpe."
+          },
+          {
+            "id": "report-later",
+            "text": "Seguís el examen y te informan el resultado al final",
+            "correct": false,
+            "feedback": "Con 8 puntos al llegar a la circulación no se sigue: el examen se interrumpe ahí y queda desaprobado."
+          }
+        ]
+      },
+      {
+        "id": "retake",
+        "prompt": "Desaprobaste el examen práctico en la etapa III. ¿Qué tenés que rendir la próxima vez?",
+        "options": [
+          {
+            "id": "all",
+            "text": "Las tres etapas completas",
+            "correct": true,
+            "feedback": "¡Correcto! Aunque el examen tiene tres etapas consecutivas, quien desaprueba vuelve a rendirlo completo."
+          },
+          {
+            "id": "third",
+            "text": "Solo la etapa III",
+            "correct": false,
+            "feedback": "No se guardan las etapas que salieron bien: al volver a rendir, se hacen las tres completas."
+          },
+          {
+            "id": "second-third",
+            "text": "Las etapas II y III",
+            "correct": false,
+            "feedback": "Tampoco: el examen se rinde de manera completa, desde la etapa I."
+          }
+        ]
+      }
+    ]
+  }
+]

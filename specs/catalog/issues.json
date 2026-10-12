@@ -1372,5 +1372,89 @@
     "page": 110,
     "type": "discrepancy",
     "description": "PDF 110 enumera «disminuir la velocidad, colocar la luz de giro, mirar los espejos»; el capítulo 3 (PDF 75) pone la luz de giro 30 m antes y después la reducción de velocidad. No se arma un ordenamiento con eso. (F05-T03)"
+  },
+  {
+    "source": "manual",
+    "page": 125,
+    "type": "discrepancy",
+    "description": "Las clases de distancia se superponen en 100 km: «media (30 a 100)» y «media-larga (100 a 200)». Ninguna pregunta usa un valor límite. (F05-T04)"
+  },
+  {
+    "source": "manual",
+    "page": 128,
+    "type": "ambiguous",
+    "description": "En «ejes delanteros, de camiones y ómnibus de media y larga distancia» no queda claro si «de media y larga distancia» alcanza a los camiones. Solo se evalúa para ómnibus. (F05-T04)"
+  },
+  {
+    "source": "manual",
+    "page": 143,
+    "type": "outdated",
+    "description": "Los requisitos del transporte escolar (acompañante con más de 15 plazas, adulto/a mayor de 21 años, menores de 12 adelante) son referencias normativas sin vigencia comprobada. No se evalúan las cifras. (F05-T04)"
+  },
+  {
+    "source": "manual",
+    "page": 150,
+    "type": "typo",
+    "description": "La leyenda del mapa de hospitales escribe «Pi y Margal 750»; la calle es Pi y Margall. (F05-T04)"
+  },
+  {
+    "source": "manual",
+    "page": 173,
+    "type": "discrepancy",
+    "description": "Antes de una maniobra enumera «disminuir la velocidad, colocar la luz de giro y mirar por los espejos» (igual que PDF 109–110); el capítulo 3 da otro orden (PDF 68 y 75). No se arma un ordenamiento con eso. (F05-T04)"
+  },
+  {
+    "source": "manual",
+    "page": 178,
+    "type": "ambiguous",
+    "description": "Repite la ambigüedad sobre los cristales templados o laminados registrada para PDF 118. No se evalúa. (F05-T04)"
+  },
+  {
+    "source": "manual",
+    "page": 180,
+    "type": "ambiguous",
+    "description": "Repite la ambigüedad sobre dónde va un matafuego de más de 1 kg registrada para PDF 135. No se evalúa. (F05-T04)"
+  },
+  {
+    "source": "protocolo",
+    "page": 6,
+    "type": "typo",
+    "description": "La nota al pie «1.» sobre el clima no tiene llamada visible en el texto. (F05-T04)"
+  },
+  {
+    "source": "protocolo",
+    "page": 21,
+    "type": "illegible",
+    "description": "La cota central del gráfico 4 (25 cm) es casi ilegible; la confirman las fallas t y u de PDF 25. (F05-T04)"
+  },
+  {
+    "source": "protocolo",
+    "page": 30,
+    "type": "discrepancy",
+    "description": "La falla eliminatoria b pide recorrer el selector automático hasta «L», pero el selector de ejemplo de PDF 19 muestra P, R, N, D y M +/−, sin L. Puede ser solo el modelo del ejemplo. (F05-T04)"
+  },
+  {
+    "source": "recorridos",
+    "page": 1,
+    "type": "typo",
+    "description": "«EXÁMEN» con tilde en la tapa. (F05-T04)"
+  },
+  {
+    "source": "recorridos",
+    "page": 15,
+    "type": "discrepancy",
+    "description": "Comuna 12: la secuencia escribe «Blanco Escalada», pero el mapa de la misma lámina rotula «Blanco Encalada», como el protocolo de 2023. (F05-T04)"
+  },
+  {
+    "source": "recorridos",
+    "page": 17,
+    "type": "discrepancy",
+    "description": "Comuna 14: la capa de texto trae «Subsede comunal: Beruti 3345», que no se ve; la imagen dice «Sede comunal». (F05-T04)"
+  },
+  {
+    "source": "recorridos",
+    "page": 19,
+    "type": "discrepancy",
+    "description": "ACA Libertador: los dos recuadros dicen «Recorrido A:»; el inicio «Castex 3300 (esq. Av. Casares)» agrega «(entre Liberti y Av. Martín García)», que es la aclaración de la Comuna 4, y el ícono de la dirección dice «S14». (F05-T04)"
   }
 ]

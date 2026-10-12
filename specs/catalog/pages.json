@@ -3440,7 +3440,7 @@
     ],
     "figures": [
       {
-        "description": "Infografía 'INCORRECTA' vs 'CORRECTA' con cinco filas de camiones: (1) carga concentrada sobre el extremo trasero de la caja vs carga ubicada hacia adelante/centro; (2) carga apilada en altura sobre la parte trasera vs carga baja repartida a lo largo de la caja; (3) bultos agrupados en un extremo dentro de la caja (dos ejemplos) vs bultos distribuidos a lo largo de toda la caja; (4) vista trasera con la carga desplazada/sobresaliendo a un lado vs carga centrada; (5) caja completa alargada en ambos casos (diferencia no rotulada). Sin rótulos por fila.",
+        "description": "Infografía 'INCORRECTA' vs 'CORRECTA' con cinco filas de camiones: (1) carga concentrada sobre el extremo trasero de la caja vs carga ubicada hacia adelante/centro; (2) carga apilada en altura justo detrás de la cabina vs carga baja repartida a lo largo de la caja; (3) bultos agrupados en un extremo dentro de la caja (dos ejemplos) vs bultos distribuidos a lo largo de toda la caja; (4) vista trasera con la carga más ancha que el camión, sobresaliendo a los dos costados, vs carga dentro del ancho; (5) caja que sobresale un poco por detrás del chasis vs caja dentro del chasis. Sin rótulos por fila.",
         "instructional": true
       }
     ],
@@ -3608,7 +3608,7 @@
     ],
     "figures": [
       {
-        "description": "Ilustración comparativa de intersección: con tilde verde, colectivo cruza con semáforo en verde y la bocacalle queda libre; con cruz roja, colectivo queda detenido bloqueando la intersección/senda peatonal con semáforo en rojo, con peatones y autos afectados.",
+        "description": "Ilustración comparativa de intersección: con tilde verde, el colectivo espera antes de la senda peatonal y la bocacalle queda libre; con cruz roja, el colectivo queda trabado detrás de una fila de autos, sobre la senda peatonal y con su semáforo en rojo, bloqueando la intersección.",
         "instructional": true
       }
     ],
@@ -4288,6 +4288,1043 @@
       }
     ],
     "notes": "Revisada visualmente: contratapa sin contenido evaluable; 0 señales. La capa de texto contiene '199' pero ese número no es visible en la imagen."
+  },
+  {
+    "source": "protocolo",
+    "page": 1,
+    "printedPage": null,
+    "section": "front",
+    "category": "exam",
+    "kind": "cover",
+    "summary": "Tapa: Ciudad Autónoma de Buenos Aires, Protocolo de examen práctico de idoneidad conductiva, destinado al aspirante de la licencia de conducir clase B.1.",
+    "units": [],
+    "figures": [
+      {
+        "description": "Ilustración isométrica de ciudad sobre fondo celeste (edificios, vehículos, peatones, ciclistas y señales) con rótulos decorativos; logos «Buenos Aires Ciudad» y «Vamos Buenos Aires».",
+        "instructional": false
+      }
+    ],
+    "notes": "Texto de tapa: «CIUDAD AUTÓNOMA DE BUENOS AIRES / Protocolo de EXAMEN PRÁCTICO DE IDONEIDAD CONDUCTIVA / DESTINADO AL ASPIRANTE DE LA LICENCIA DE CONDUCIR CLASE B.1». La capa de texto también trae los rótulos de la ilustración («SEÑALES», «TRÁNSITO», «MOVILIDAD SUSTENTABLE», «PEATONES»)."
+  },
+  {
+    "source": "protocolo",
+    "page": 2,
+    "printedPage": null,
+    "section": "front",
+    "category": "exam",
+    "kind": "other",
+    "summary": "Reverso de la tapa: solo la ilustración isométrica de ciudad, sin texto.",
+    "units": [],
+    "figures": [
+      {
+        "description": "Ilustración lineal celeste de ciudad con edificios, vehículos, peatones, señales y rótulos «SEÑALES», «TRÁNSITO», «MOVILIDAD SUSTENTABLE» y «PEATONES». Decorativa.",
+        "instructional": false
+      }
+    ],
+    "notes": "La capa de texto solo contiene los rótulos de la ilustración."
+  },
+  {
+    "source": "protocolo",
+    "page": 3,
+    "printedPage": null,
+    "section": "front",
+    "category": "exam",
+    "kind": "credits",
+    "summary": "Autoridades del GCBA responsables del protocolo.",
+    "units": [],
+    "figures": [
+      {
+        "description": "Ilustración isométrica de ciudad en la parte superior. Decorativa.",
+        "instructional": false
+      }
+    ],
+    "notes": "Jefe de Gobierno Horacio Rodríguez Larreta; Secretaria de Transporte y Obras Públicas María Manuela López Menéndez; Subsecretaria Planificación de la Movilidad Lucila Capelli; Directora General de Diseño e Implementación Clara Sanguinetti; Gerente Operativo de Educación y Convivencia Vial Pablo La Spina. Sin número de página visible."
+  },
+  {
+    "source": "protocolo",
+    "page": 4,
+    "printedPage": 2,
+    "section": "front",
+    "category": "exam",
+    "kind": "toc",
+    "summary": "Índice: presentación (Pág. 3), objetivo del examen (4), consideraciones generales (5), reglas para aspirantes (6), etapas del examen y sus criterios de evaluación (7–11), forma de evaluación (12), ficha de evaluación (13) y anexos I (16), II (20) y III (32).",
+    "units": [],
+    "figures": [],
+    "notes": "Las páginas del índice son números impresos (PDF = impreso + 2): presentación → PDF 5, objetivo → 6, consideraciones generales → 7, reglas → 8, etapa I → 9, etapa II → 10, criterios de la etapa II → 11, etapa III → 13, forma de evaluación → 14, ficha → 15, anexo I → 18, anexo II → 22, anexo III → 34. Coinciden con las secciones: front 1–4, general 5–8, stages 9–13, evaluation 14–17, annex1 18–21, annex2 22–33."
+  },
+  {
+    "source": "protocolo",
+    "page": 5,
+    "printedPage": 3,
+    "section": "general",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Presentación: objetivo del documento, examen en vía pública en la Ciudad con circuitos señalizados y vehículos con doble comando, y evaluación de la conducción y de la convivencia vial.",
+    "units": [
+      "protocolo.general.presentation"
+    ],
+    "figures": [
+      {
+        "description": "Ilustración isométrica de ciudad en la mitad superior. Decorativa.",
+        "instructional": false
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 6,
+    "printedPage": 4,
+    "section": "general",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Objetivo del examen práctico en vía pública: aspectos que se evalúan, competencias que debe demostrar quien conduce y suspensión recomendada por clima.",
+    "units": [
+      "protocolo.general.exam-objective"
+    ],
+    "figures": [],
+    "notes": "La nota al pie «1.» (suspensión por clima) no tiene llamada visible en el cuerpo."
+  },
+  {
+    "source": "protocolo",
+    "page": 7,
+    "printedPage": 5,
+    "section": "general",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Consideraciones generales: organismos a cargo, vehículo con doble comando, requisitos del aspirante, luces bajas, uso del doble comando e interrupciones del examen.",
+    "units": [
+      "protocolo.general.general-considerations"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 8,
+    "printedPage": 6,
+    "section": "general",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Reglas de cumplimiento obligatorio para aspirantes: indicaciones, terceros no autorizados, dispositivos, luces bajas, límite de examen de 30 km/h en calles y 45 km/h en avenidas, pedido de interrupción e inicio y fin de la evaluación.",
+    "units": [
+      "protocolo.general.candidate-rules"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 9,
+    "printedPage": 7,
+    "section": "stages",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Etapas del examen. Etapa I, comprobaciones previas: familiarización sin falla, evaluación con el vehículo detenido y criterios de reconocimiento del vehículo y posición de manejo (asiento y apoyacabeza).",
+    "units": [
+      "protocolo.stages.stage-1-prior-checks"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 10,
+    "printedPage": 8,
+    "section": "stages",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fin de la etapa I (espejos, cinturón y desbloqueo) y comienzo de la etapa II, circulación en tránsito: corte por 8 puntos antes de circular, tipos de vías, límite de examen, circuitos de unos 15 minutos y qué se evalúa.",
+    "units": [
+      "protocolo.stages.stage-1-prior-checks",
+      "protocolo.stages.stage-2-circulation"
+    ],
+    "figures": [],
+    "notes": "El párrafo del corte por 8 puntos está en negrita."
+  },
+  {
+    "source": "protocolo",
+    "page": 11,
+    "printedPage": 9,
+    "section": "stages",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Etapa II: pruebas de maniobrabilidad en el cajón (retroceder y avanzar 30 cm), primeros 100 m a no más de 30 km/h, arranque, salida del cajón y comienzo de los criterios durante la circulación.",
+    "units": [
+      "protocolo.stages.stage-2-maneuverability",
+      "protocolo.stages.stage-2-driving-criteria"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 12,
+    "printedPage": 10,
+    "section": "stages",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Etapa II: resto de los criterios durante la circulación, cruce en intersecciones, giros y cambio de carril y sobrepaso.",
+    "units": [
+      "protocolo.stages.stage-2-driving-criteria"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 13,
+    "printedPage": 11,
+    "section": "stages",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Etapa III, estacionamiento paralelo: lugar, criterios de evaluación (balizas, espejos, hasta tres maniobras, posición final a unos 20 cm) y fin de la conducción y descenso.",
+    "units": [
+      "protocolo.stages.stage-3-parallel-parking"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 14,
+    "printedPage": 12,
+    "section": "evaluation",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Forma de evaluación: clasificación de las fallas, puntaje por tipo, aprobación con hasta 7 puntos y las tres etapas, desaprobación con 8 o más, interrupciones, estado emocional y nuevo examen completo.",
+    "units": [
+      "protocolo.evaluation.scoring-and-result"
+    ],
+    "figures": [
+      {
+        "description": "Tabla «Tipo / Puntaje»: falla leve 1, falla deficiente baja 2, falla deficiente alta 3, falla eliminatoria 8.",
+        "instructional": true
+      }
+    ],
+    "notes": "Los párrafos del puntaje acumulativo, la aprobación y el examen completo al volver a rendir están en negrita."
+  },
+  {
+    "source": "protocolo",
+    "page": 15,
+    "printedPage": 13,
+    "section": "evaluation",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Ficha de evaluación (1/3): etapa I completa y etapa II, pruebas de maniobrabilidad, arranque y salida del cajón.",
+    "units": [
+      "protocolo.evaluation.evaluation-sheet"
+    ],
+    "figures": [
+      {
+        "description": "Tabla de la ficha con columnas «Conducta y/o maniobra», «Calificación» y «Puntaje», agrupada por etapa y grupo; las eliminatorias que interrumpen el examen tienen la calificación resaltada en amarillo.",
+        "instructional": true
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 16,
+    "printedPage": 14,
+    "section": "evaluation",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Ficha de evaluación (2/3): etapa II, durante la circulación y cruce en intersecciones.",
+    "units": [
+      "protocolo.evaluation.evaluation-sheet"
+    ],
+    "figures": [
+      {
+        "description": "Continuación de la tabla de la ficha; resaltadas en amarillo las eliminatorias que interrumpen (autoridad de tránsito, indicaciones del evaluador, marcha de la primera cuadra, control del vehículo, maniobras temerarias, vías o sentidos no permitidos, semáforo en rojo).",
+        "instructional": true
+      }
+    ],
+    "notes": "Superar la velocidad máxima, usar celular, auriculares o video y no ceder el paso a vehículos de emergencia son eliminatorias sin resaltar, coherente con el anexo II (PDF 32)."
+  },
+  {
+    "source": "protocolo",
+    "page": 17,
+    "printedPage": 15,
+    "section": "evaluation",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Ficha de evaluación (3/3): etapa II, giros y cambio de carril y sobrepaso; etapa III completa; resultado final (aprobado o desaprobado) y referencia de las eliminatorias que implican interrupción.",
+    "units": [
+      "protocolo.evaluation.evaluation-sheet"
+    ],
+    "figures": [
+      {
+        "description": "Final de la tabla de la ficha y la referencia «Eliminatoria — Implica interrupción del examen» en amarillo; resaltadas «Estaciona en más de 2 intentos» y «Se sube al cordón; golpea o derriba…».",
+        "instructional": true
+      }
+    ],
+    "notes": "La línea continua, el sobrepaso por la derecha y terminar por fuera de la segunda delimitación son eliminatorias sin resaltar, coherente con el anexo II (PDF 33)."
+  },
+  {
+    "source": "protocolo",
+    "page": 18,
+    "printedPage": 16,
+    "section": "annex1",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo I, gráfico 1: ejemplo de distribución del instrumental en un auto manual y uno automático, con nueve comandos numerados.",
+    "units": [
+      "protocolo.annex1.graphic-1-vehicle-controls"
+    ],
+    "figures": [
+      {
+        "description": "Gráfico 1: fotos del puesto de conducción de un auto manual y uno automático con los comandos numerados del 1 al 9 (luces, balizas, panel instrumental, consola de AC/CA, espejos, desempañador, limpiaparabrisas, bocina y freno de mano) y sus detalles rotulados.",
+        "instructional": true
+      }
+    ],
+    "notes": "El texto extraído solo trae los títulos; los rótulos se transcribieron desde la imagen."
+  },
+  {
+    "source": "protocolo",
+    "page": 19,
+    "printedPage": 17,
+    "section": "annex1",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo I: continuación del gráfico 1 (pedalera, palanca de cambios y selector) y gráfico 2, ejemplo de tablero con 19 símbolos rotulados.",
+    "units": [
+      "protocolo.annex1.graphic-1-vehicle-controls",
+      "protocolo.annex1.graphic-2-dashboard-symbols"
+    ],
+    "figures": [
+      {
+        "description": "Gráfico 1 (continuación): pedalera de auto manual (embrague, freno, acelerador) y automático (freno, acelerador), palanca de cambios manual (R, 1, 3, 5 / 2, 4) y selector automático (P, R, N, D, M + −).",
+        "instructional": true
+      },
+      {
+        "description": "Gráfico 2: 19 testigos del tablero con su nombre, en verde, azul, rojo y naranja, sobre la foto de un tablero.",
+        "instructional": true
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 20,
+    "printedPage": 18,
+    "section": "annex1",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo I, gráfico 3: postura corporal (manos, brazos, piernas, respaldo, apoyacabeza), regulación de los espejos y colocación del cinturón.",
+    "units": [
+      "protocolo.annex1.graphic-3-driving-position"
+    ],
+    "figures": [
+      {
+        "description": "Gráfico 3: tres fotos rotuladas de la postura corporal, el espejo lateral y el cinturón de seguridad.",
+        "instructional": true
+      }
+    ],
+    "notes": "El texto extraído trae los rótulos desordenados; se transcribieron desde la imagen."
+  },
+  {
+    "source": "protocolo",
+    "page": 21,
+    "printedPage": 19,
+    "section": "annex1",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo I, gráfico 4: dimensiones del cajón de estacionamiento paralelo (6 m, delimitaciones a 15, 25 y 50 cm del cordón) y calificación según la posición final.",
+    "units": [
+      "protocolo.annex1.graphic-4-parking-bay"
+    ],
+    "figures": [
+      {
+        "description": "Gráfico 4: esquema del cajón junto a la vereda y el cordón, con vallas, 1.ª y 2.ª línea, cotas de 15, 25 y 50 cm, largo de 6 m y referencias de la posición final (leve, correcto, leve, eliminatoria).",
+        "instructional": true
+      }
+    ],
+    "notes": "El texto extraído solo trae el título. La cota central (25 cm) es casi ilegible en la imagen; la confirma el anexo II (PDF 25)."
+  },
+  {
+    "source": "protocolo",
+    "page": 22,
+    "printedPage": 20,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo II: presentación de los cuatro tipos de fallas y fallas leves a–e (iluminación, instrumental, asiento, apoyacabezas, punto neutro).",
+    "units": [
+      "protocolo.annex2.minor-faults"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 23,
+    "printedPage": 21,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas leves e–l: punto neutro, freno de mano, tiempo de arranque, arranque con el motor encendido, roce del cordón, direccional al salir, detención innecesaria y velocidad por debajo de la mínima.",
+    "units": [
+      "protocolo.annex2.minor-faults"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 24,
+    "printedPage": 22,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas leves l–r: velocidad mínima, bocina, reductores de velocidad, velocidad precautoria, carril, carril de giro a menos de 30 m y estacionar en más de 3 maniobras.",
+    "units": [
+      "protocolo.annex2.minor-faults"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 25,
+    "printedPage": 23,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas leves r–y: maniobras de estacionamiento, posición descentrada o inclinada, distancia al cordón (menos de 15 cm; entre 25 y 50 cm) y omisiones al terminar (luces bajas, punto neutro o P, freno de mano, motor, llave y dirección).",
+    "units": [
+      "protocolo.annex2.minor-faults"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 26,
+    "printedPage": 24,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas deficientes bajas a–g: cinturón mal colocado, arranque brusco, aceleración en vacío, apagado del motor, frenada innecesaria, manos en el volante y direccional al girar.",
+    "units": [
+      "protocolo.annex2.low-faults"
+    ],
+    "figures": [],
+    "notes": "El cuerpo del ítem a dice «una (1) falla leve» bajo el encabezado de deficientes bajas (REGLAS.md §7, X1)."
+  },
+  {
+    "source": "protocolo",
+    "page": 27,
+    "printedPage": 25,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas deficientes bajas h–j (direccional al cambiar de carril, balizas al estacionar, mirar antes de bajar) y comienzo de las deficientes altas a–c (espejos, retroceder y avanzar 30 cm).",
+    "units": [
+      "protocolo.annex2.low-faults",
+      "protocolo.annex2.high-faults"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 28,
+    "printedPage": 26,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas deficientes altas c–i: avanzar 30 cm, roce de la demarcación, espejos al salir, velocidad de examen, distancia de 2 segundos, senda y línea de detención y bloqueo de la encrucijada.",
+    "units": [
+      "protocolo.annex2.high-faults"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 29,
+    "printedPage": 27,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas deficientes altas i–p: encrucijada, PARE y CEDA EL PASO, prioridad sin semáforo, peatones y ciclistas, reducir la velocidad, carril para girar, espejos al cambiar de carril y al estacionar.",
+    "units": [
+      "protocolo.annex2.high-faults"
+    ],
+    "figures": [],
+    "notes": "El cuerpo del ítem n dice «falla eliminatoria» bajo el encabezado de deficientes altas (REGLAS.md §7, X2)."
+  },
+  {
+    "source": "protocolo",
+    "page": 30,
+    "printedPage": 28,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Final de la deficiente alta p y fallas eliminatorias a–d: pedalera, caja de cambios, cinturón y subirse al cordón o golpear la delimitación.",
+    "units": [
+      "protocolo.annex2.high-faults",
+      "protocolo.annex2.eliminatory-faults"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "protocolo",
+    "page": 31,
+    "printedPage": 29,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas eliminatorias d–i: cordón y delimitación, autoridad de control, indicaciones del examinador, marcha de los primeros 100 m, control del vehículo y maniobras temerarias.",
+    "units": [
+      "protocolo.annex2.eliminatory-faults"
+    ],
+    "figures": [],
+    "notes": "El título de g dice «primera cuadra» y el texto, cien metros (REGLAS.md §7, X5)."
+  },
+  {
+    "source": "protocolo",
+    "page": 32,
+    "printedPage": 30,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas eliminatorias i–o: maniobras temerarias, vías y sentidos no permitidos, semáforo en rojo, velocidad máxima, dispositivos, vehículos de emergencia y comienzo de la línea continua.",
+    "units": [
+      "protocolo.annex2.eliminatory-faults"
+    ],
+    "figures": [],
+    "notes": "La eliminatoria m habla de dispositivos «durante la conducción», más acotado que PDF 8 (REGLAS.md §7, X4)."
+  },
+  {
+    "source": "protocolo",
+    "page": 33,
+    "printedPage": 31,
+    "section": "annex2",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Fallas eliminatorias o–r (línea continua, sobrepaso, más de dos intentos de estacionamiento, fuera de la segunda delimitación) y lista de las eliminatorias que interrumpen el examen (a–k y q).",
+    "units": [
+      "protocolo.annex2.eliminatory-faults"
+    ],
+    "figures": [],
+    "notes": "La columna derecha termina con el párrafo final; el resto de la página queda en blanco."
+  },
+  {
+    "source": "protocolo",
+    "page": 34,
+    "printedPage": 32,
+    "section": "annex3",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo III, «Circuitos de examen» (edición 2023): láminas de comunas 2 y 3 con sede, estacionamiento y recorrido numerado sobre un mapa.",
+    "units": [
+      "protocolo.annex3.comunas-2-3"
+    ],
+    "figures": [
+      {
+        "description": "Láminas de comunas 2 y 3: sede, estacionamiento y recorrido con pasos numerados, junto a un mapa con el recorrido marcado en celeste.",
+        "instructional": true
+      }
+    ],
+    "notes": "Las láminas son imágenes: `pdftotext` solo devuelve el número de página impreso y el título «ANEXO III / CIRCUITOS DE EXAMEN»."
+  },
+  {
+    "source": "protocolo",
+    "page": 35,
+    "printedPage": 33,
+    "section": "annex3",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo III (2023): láminas de comunas 4 y 5 con sede, estacionamiento y recorrido numerado sobre un mapa.",
+    "units": [
+      "protocolo.annex3.comunas-4-5"
+    ],
+    "figures": [
+      {
+        "description": "Láminas de comunas 4 y 5: sede, estacionamiento y recorrido con pasos numerados, junto a un mapa con el recorrido marcado en celeste.",
+        "instructional": true
+      }
+    ],
+    "notes": "Las láminas son imágenes: `pdftotext` solo devuelve el número de página impreso."
+  },
+  {
+    "source": "protocolo",
+    "page": 36,
+    "printedPage": 34,
+    "section": "annex3",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo III (2023): láminas de comunas 6 y 7 con sede, estacionamiento y recorrido numerado sobre un mapa.",
+    "units": [
+      "protocolo.annex3.comunas-6-7"
+    ],
+    "figures": [
+      {
+        "description": "Láminas de comunas 6 y 7: sede, estacionamiento y recorrido con pasos numerados, junto a un mapa con el recorrido marcado en celeste.",
+        "instructional": true
+      }
+    ],
+    "notes": "Las láminas son imágenes: `pdftotext` solo devuelve el número de página impreso."
+  },
+  {
+    "source": "protocolo",
+    "page": 37,
+    "printedPage": 35,
+    "section": "annex3",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo III (2023): láminas de comunas 9 y 10 con sede, estacionamiento y recorrido numerado sobre un mapa.",
+    "units": [
+      "protocolo.annex3.comunas-9-10"
+    ],
+    "figures": [
+      {
+        "description": "Láminas de comunas 9 y 10: sede, estacionamiento y recorrido con pasos numerados, junto a un mapa con el recorrido marcado en celeste.",
+        "instructional": true
+      }
+    ],
+    "notes": "Las láminas son imágenes: `pdftotext` solo devuelve el número de página impreso."
+  },
+  {
+    "source": "protocolo",
+    "page": 38,
+    "printedPage": 36,
+    "section": "annex3",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo III (2023): láminas de comunas 11 y 12 con sede, estacionamiento y recorrido numerado sobre un mapa.",
+    "units": [
+      "protocolo.annex3.comunas-11-12"
+    ],
+    "figures": [
+      {
+        "description": "Láminas de comunas 11 y 12: sede, estacionamiento y recorrido con pasos numerados, junto a un mapa con el recorrido marcado en celeste.",
+        "instructional": true
+      }
+    ],
+    "notes": "Las láminas son imágenes: `pdftotext` solo devuelve el número de página impreso."
+  },
+  {
+    "source": "protocolo",
+    "page": 39,
+    "printedPage": 37,
+    "section": "annex3",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo III (2023): láminas de comunas 13 y 14 con sede, estacionamiento y recorrido numerado sobre un mapa.",
+    "units": [
+      "protocolo.annex3.comunas-13-14"
+    ],
+    "figures": [
+      {
+        "description": "Láminas de comunas 13 y 14: sede, estacionamiento y recorrido con pasos numerados, junto a un mapa con el recorrido marcado en celeste.",
+        "instructional": true
+      }
+    ],
+    "notes": "Las láminas son imágenes: `pdftotext` solo devuelve el número de página impreso."
+  },
+  {
+    "source": "protocolo",
+    "page": 40,
+    "printedPage": 38,
+    "section": "annex3",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Anexo III (2023): láminas de la comuna 15 con sede, estacionamiento y recorrido numerado sobre un mapa.",
+    "units": [
+      "protocolo.annex3.comuna-15"
+    ],
+    "figures": [
+      {
+        "description": "Lámina de la comuna 15: sede, estacionamiento y recorrido con pasos numerados, junto a un mapa con el recorrido marcado en celeste.",
+        "instructional": true
+      }
+    ],
+    "notes": "Las láminas son imágenes: `pdftotext` solo devuelve el número de página impreso. La mitad inferior de la página está en blanco."
+  },
+  {
+    "source": "protocolo",
+    "page": 41,
+    "printedPage": null,
+    "section": "back",
+    "category": "exam",
+    "kind": "other",
+    "summary": "Página interior de contratapa con una ilustración isométrica decorativa de una ciudad (edificios, vehículos, señales y rótulos «SEÑALES», «TRÁNSITO», «MOVILIDAD SUSTENTABLE», «PEATONES»).",
+    "units": [],
+    "figures": [
+      {
+        "description": "Ilustración lineal celeste de una ciudad con señales, vehículos y peatones. Decorativa.",
+        "instructional": false
+      }
+    ],
+    "notes": "Sin contenido evaluable ni número de página impreso; la capa de texto solo contiene los rótulos de la ilustración."
+  },
+  {
+    "source": "protocolo",
+    "page": 42,
+    "printedPage": null,
+    "section": "back",
+    "category": "exam",
+    "kind": "cover",
+    "summary": "Contratapa: logo «BA Vamos Buenos Aires» sobre la ilustración de ciudad en fondo celeste.",
+    "units": [],
+    "figures": [
+      {
+        "description": "Logo «BA Vamos Buenos Aires» sobre ilustración de ciudad. Decorativo.",
+        "instructional": false
+      }
+    ],
+    "notes": "Sin contenido evaluable ni número de página impreso."
+  },
+  {
+    "source": "recorridos",
+    "page": 1,
+    "printedPage": null,
+    "section": "front",
+    "category": "exam",
+    "kind": "cover",
+    "summary": "Tapa: «Áreas urbanas para el exámen práctico de idoneidad conductiva».",
+    "units": [],
+    "figures": [
+      {
+        "description": "Logo «BA» con corazón y la frase «La ciudad más linda del mundo».",
+        "instructional": false
+      }
+    ],
+    "notes": "Título en mayúsculas, con «EXÁMEN» acentuado en el original. Sin número de página impreso. El documento está en formato apaisado (diapositivas de 1920 × 1080 pt)."
+  },
+  {
+    "source": "recorridos",
+    "page": 2,
+    "printedPage": null,
+    "section": "front",
+    "category": "exam",
+    "kind": "credits",
+    "summary": "Autoridades: Jefe de Gobierno; Secretaría de Gobierno y Vínculo Ciudadano (SECGVC); Subsecretaría Servicios (SSSERV); Dirección General Habilitación a Conductores (DGHC).",
+    "units": [],
+    "figures": [
+      {
+        "description": "Logo «BA» con corazón y la frase «La ciudad más linda del mundo».",
+        "instructional": false
+      }
+    ],
+    "notes": "Autoridades: Jorge Macri; Ezequiel Sabor; Facundo Bargalló Benegas; María Florencia Saavedra."
+  },
+  {
+    "source": "recorridos",
+    "page": 3,
+    "printedPage": null,
+    "section": "front",
+    "category": "exam",
+    "kind": "toc",
+    "summary": "Índice: 1. Presentación; 2. Circuitos de examen.",
+    "units": [],
+    "figures": [
+      {
+        "description": "Logo «BA» con corazón y la frase «La ciudad más linda del mundo».",
+        "instructional": false
+      }
+    ],
+    "notes": "El índice no da números de página: la sección 1 empieza en PDF 4 y la 2 en PDF 5. Sobre el título «Indice» hay un «2.» que no es número de página ni de sección."
+  },
+  {
+    "source": "recorridos",
+    "page": 4,
+    "printedPage": null,
+    "section": "intro",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "1. Presentación: el documento establece los circuitos habilitados para el examen práctico en vía pública de la licencia clase B.1, que se desarrolla en la Ciudad; las áreas urbanas estarán señalizadas y los vehículos tendrán doble comando. Además de capacidades y destrezas, el examen incorpora la perspectiva de la convivencia vial.",
+    "units": [
+      "recorridos.intro.document-purpose",
+      "recorridos.intro.evaluated-skills"
+    ],
+    "figures": [],
+    "notes": ""
+  },
+  {
+    "source": "recorridos",
+    "page": 5,
+    "printedPage": null,
+    "section": "intro",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "2. Circuitos de examen: áreas urbanas habilitadas para la categoría B1 (auto), un circuito por comuna con una duración estimada de quince minutos (recorrido A); ante fuerza mayor, el examinador indica el recorrido a seguir y procura retomar el circuito original (recorrido B).",
+    "units": [
+      "recorridos.intro.circuits-by-comuna",
+      "recorridos.intro.route-b-force-majeure"
+    ],
+    "figures": [],
+    "notes": "Es la portada de la sección 2 y a la vez el texto que explica los recorridos A y B: se clasifica en intro porque fija los criterios de todas las láminas."
+  },
+  {
+    "source": "recorridos",
+    "page": 6,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 2 (Recoleta): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-2"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Recoleta con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. Con `pdftotext -raw` la secuencia corta sale primero y las etiquetas «Recorrido A: Recorrido B:» quedan al final: emparejadas en orden, invierten A y B. La imagen muestra A (larga) en el recuadro izquierdo."
+  },
+  {
+    "source": "recorridos",
+    "page": 7,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 3 (Balvanera): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-3"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Balvanera con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. El texto extraído coincide con la imagen."
+  },
+  {
+    "source": "recorridos",
+    "page": 8,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 4 (Barracas): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-4"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Barracas con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. El texto extraído coincide con la imagen."
+  },
+  {
+    "source": "recorridos",
+    "page": 9,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 5 (Boedo): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-5"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Boedo con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. El texto extraído coincide con la imagen (las etiquetas salen en orden B, A, cada una con su secuencia)."
+  },
+  {
+    "source": "recorridos",
+    "page": 10,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 6 (Caballito): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-6"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Caballito con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. El texto extraído coincide con la imagen. La secuencia A nombra dos veces Acevedo («E. Acevedo» y «Eduardo Acevedo»), antes y después de Arturo Jauretche."
+  },
+  {
+    "source": "recorridos",
+    "page": 11,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 7 (Parque Chacabuco): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-7"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Parque Chacabuco con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. El texto extraído coincide con la imagen."
+  },
+  {
+    "source": "recorridos",
+    "page": 12,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 9 (Parque Avellaneda): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-9"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Parque Avellaneda con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. El texto extraído coincide con la imagen."
+  },
+  {
+    "source": "recorridos",
+    "page": 13,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 10 (Floresta): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-10"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Floresta con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. Con `pdftotext -raw` las etiquetas salen juntas («Recorrido B: Recorrido A:») y luego la secuencia larga y la corta: emparejadas en orden, invierten A y B. La imagen muestra A (larga) en el recuadro izquierdo."
+  },
+  {
+    "source": "recorridos",
+    "page": 14,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 11 (Villa Devoto): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-11"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Villa Devoto con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. Con `pdftotext -raw` las etiquetas salen juntas («Recorrido B: Recorrido A:») y luego la secuencia por Nogoyá y la secuencia por Tinogasta: emparejadas en orden, invierten A y B. La imagen muestra A (por Nogoyá) en el recuadro izquierdo."
+  },
+  {
+    "source": "recorridos",
+    "page": 15,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 12 (Urquiza): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-12"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Urquiza con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. Con `pdftotext -raw` las etiquetas salen juntas («Recorrido B: Recorrido A:») antes de las dos secuencias; la transcripción se hizo desde la imagen. La secuencia escribe «Blanco Escalada», pero el mapa de la misma lámina rotula la calle «Blanco Encalada»."
+  },
+  {
+    "source": "recorridos",
+    "page": 16,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 13 (Nuñez): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-13"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Nuñez con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. Con `pdftotext -raw` cada etiqueta sale con su secuencia; con `-layout` las etiquetas quedan juntas («Recorrido A: Recorrido B:») y la secuencia corta sale primero, lo que invierte A y B. Transcripción desde la imagen: A es la larga (recuadro izquierdo). Coincide con la secuencia verificada en RECORRIDO.md (A: Quesada, Av. Cabildo, Guayra, Cuba, Quesada, Cuba, Manuel Ugarte, Vuelta de Obligado, Quesada). Cuba figura dos veces porque está desplazada en Quesada (RECORRIDO.md §3)."
+  },
+  {
+    "source": "recorridos",
+    "page": 17,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 14 (Palermo): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-14"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Palermo con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. El texto extraído trae las dos secuencias bien etiquetadas, pero también texto que no se ve en la imagen: «Subsede comunal: Beruti 3345», «S14» y una segunda copia de «Sede comunal: Beruti 3345». La imagen muestra «Sede comunal»."
+  },
+  {
+    "source": "recorridos",
+    "page": 18,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la Comuna 15 (Chacarita): sede, inicio del examen práctico y mapas de los recorridos A y B con sus secuencias de calles.",
+    "units": [
+      "recorridos.circuits.comuna-15"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de Chacarita con los recorridos A (izquierda) y B (derecha) marcados con línea punteada desde el punto de inicio E; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "El número grande del encabezado es el de la comuna, no un número de página. Con `pdftotext -raw` las etiquetas salen juntas («Recorrido B: Recorrido A:») antes de las dos secuencias; la transcripción se hizo desde la imagen."
+  },
+  {
+    "source": "recorridos",
+    "page": 19,
+    "printedPage": null,
+    "section": "circuits",
+    "category": "exam",
+    "kind": "instructional",
+    "summary": "Lámina de la sede ACA Libertador: dirección, inicio del examen práctico y dos mapas de recorridos, los dos rotulados «Recorrido A».",
+    "units": [
+      "recorridos.circuits.aca-libertador"
+    ],
+    "figures": [
+      {
+        "description": "Dos mapas de la zona de Plaza Alemania con los recorridos marcados con línea punteada desde el punto de inicio E en Castex y Av. Casares; debajo de cada mapa, la secuencia de calles.",
+        "instructional": true
+      }
+    ],
+    "notes": "Última página del documento: no hay contratapa, así que la sección back de los recorridos queda sin páginas. Con `pdftotext -raw` las dos secuencias salen rotuladas «Recorrido A:», igual que en la imagen."
   },
   {
     "source": "siniestros",

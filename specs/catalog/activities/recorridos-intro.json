@@ -1,0 +1,331 @@
+[
+  {
+    "id": "act.routes-document-purpose",
+    "type": "single-choice",
+    "title": "El documento de recorridos y el examen en vía pública",
+    "unitIds": [
+      "recorridos.intro.document-purpose",
+      "recorridos.intro.evaluated-skills"
+    ],
+    "refs": [
+      {
+        "source": "recorridos",
+        "page": 4
+      },
+      {
+        "source": "recorridos",
+        "page": 5
+      }
+    ],
+    "explanation": "El documento de áreas urbanas establece los circuitos habilitados para el examen práctico en vía pública de la licencia clase B.1, que se rinde en la Ciudad Autónoma de Buenos Aires. Las áreas habilitadas estarán señalizadas y los vehículos, equipados con doble comando. El examen evalúa las capacidades y destrezas para conducir y maniobrar, y además incorpora la perspectiva de una adecuada convivencia vial (recorridos PDF 4).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "purpose",
+        "prompt": "¿Qué establece el documento «Áreas urbanas para el examen práctico de idoneidad conductiva»?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Los circuitos habilitados para el examen práctico en vía pública",
+            "correct": true,
+            "feedback": "¡Correcto! Su objetivo es fijar los circuitos habilitados para rendir el examen práctico en vía pública de la licencia clase B.1 (recorridos PDF 4)."
+          },
+          {
+            "id": "b",
+            "text": "Las preguntas y respuestas del examen teórico de la licencia",
+            "correct": false,
+            "feedback": "No: trata del examen práctico, no del teórico. Establece los circuitos habilitados para rendirlo en vía pública (recorridos PDF 4)."
+          },
+          {
+            "id": "c",
+            "text": "Los requisitos y la documentación para pedir un turno de examen",
+            "correct": false,
+            "feedback": "No habla de turnos ni de trámites: su objetivo es establecer los circuitos donde se rinde el examen práctico en vía pública (PDF 4)."
+          },
+          {
+            "id": "d",
+            "text": "Las multas por manejar sin licencia en la Ciudad",
+            "correct": false,
+            "feedback": "No trata de multas. Fija los circuitos habilitados para el examen práctico de la licencia clase B.1 (recorridos PDF 4)."
+          }
+        ]
+      },
+      {
+        "id": "areas",
+        "prompt": "Según la presentación del documento de recorridos, ¿cómo estarán las áreas urbanas habilitadas para el examen?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Señalizadas",
+            "correct": true,
+            "feedback": "¡Correcto! La presentación dice que las áreas urbanas que se habilitan para el examen se encontrarán señalizadas (recorridos PDF 4)."
+          },
+          {
+            "id": "b",
+            "text": "Cerradas al resto del tránsito",
+            "correct": false,
+            "feedback": "No: el examen se rinde en la vía pública, junto al resto del tránsito. Lo que dice el documento es que esas áreas estarán señalizadas (PDF 4)."
+          },
+          {
+            "id": "c",
+            "text": "Reservadas para autos de autoescuela",
+            "correct": false,
+            "feedback": "El documento no reserva esas calles para nadie: dice que las áreas habilitadas para el examen estarán señalizadas (recorridos PDF 4)."
+          },
+          {
+            "id": "d",
+            "text": "Sin ninguna señalización especial",
+            "correct": false,
+            "feedback": "Es al revés: según la presentación, las áreas urbanas habilitadas para el examen estarán señalizadas (PDF 4)."
+          }
+        ]
+      },
+      {
+        "id": "vehicles",
+        "prompt": "Según la presentación del documento de recorridos, ¿cómo estarán equipados los vehículos del examen?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Con doble comando",
+            "correct": true,
+            "feedback": "¡Correcto! El documento dice que los vehículos que se usen en el examen estarán equipados con doble comando (recorridos PDF 4)."
+          },
+          {
+            "id": "b",
+            "text": "Con caja automática",
+            "correct": false,
+            "feedback": "El documento no habla del tipo de caja: lo que asegura es que los vehículos tendrán doble comando (recorridos PDF 4)."
+          },
+          {
+            "id": "c",
+            "text": "Con un solo juego de pedales",
+            "correct": false,
+            "feedback": "Es lo contrario: los vehículos del examen estarán equipados con doble comando (PDF 4)."
+          },
+          {
+            "id": "d",
+            "text": "Con cámaras en lugar de examinador",
+            "correct": false,
+            "feedback": "No: hay un examinador a cargo, que incluso indica el recorrido si hay un corte (PDF 5). Sobre los vehículos, la presentación dice que tendrán doble comando (PDF 4)."
+          }
+        ]
+      },
+      {
+        "id": "coexistence",
+        "prompt": "Además de las capacidades y destrezas para conducir y maniobrar, ¿qué perspectiva incorpora el examen práctico en vía pública?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Una adecuada convivencia vial",
+            "correct": true,
+            "feedback": "¡Correcto! El documento considera la convivencia vial parte fundamental de la formación de quien va a conducir y de la seguridad vial en general (recorridos PDF 4)."
+          },
+          {
+            "id": "b",
+            "text": "La rapidez para terminar el circuito",
+            "correct": false,
+            "feedback": "No se trata de rapidez: además de las capacidades y destrezas, el examen incorpora la perspectiva de una adecuada convivencia vial (PDF 4)."
+          },
+          {
+            "id": "c",
+            "text": "El conocimiento de la mecánica del motor",
+            "correct": false,
+            "feedback": "La presentación no menciona la mecánica: lo que suma a las destrezas de manejo es la perspectiva de la convivencia vial (recorridos PDF 4)."
+          },
+          {
+            "id": "d",
+            "text": "La habilidad para manejar en ruta",
+            "correct": false,
+            "feedback": "El examen se rinde en áreas urbanas de la Ciudad, no en ruta, y suma a las destrezas la perspectiva de una adecuada convivencia vial (PDF 4)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.routes-circuits-by-comuna",
+    "type": "single-choice",
+    "title": "Los circuitos de examen: recorridos A y B",
+    "unitIds": [
+      "recorridos.intro.circuits-by-comuna",
+      "recorridos.intro.route-b-force-majeure"
+    ],
+    "refs": [
+      {
+        "source": "recorridos",
+        "page": 5
+      }
+    ],
+    "explanation": "La sección 2 del documento de recorridos detalla las áreas urbanas habilitadas para el examen práctico de la categoría B1 (auto). Cada circuito está discriminado por comuna y contempla una duración estimada de quince minutos: es el recorrido A. Ante cortes, desvíos, anegamientos u otra situación de fuerza mayor, el examinador indica el recorrido a seguir y procura retomar cuanto antes el circuito original: es el recorrido B (recorridos PDF 5).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "duration",
+        "prompt": "Según el documento de recorridos, ¿qué duración estimada contempla cada circuito de examen (recorrido A)?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Quince minutos",
+            "correct": true,
+            "feedback": "¡Correcto! Cada circuito contempla una duración estimada de quince minutos: es el recorrido A de cada lámina (recorridos PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "Cinco minutos",
+            "correct": false,
+            "feedback": "Es más largo: el documento estima quince minutos para cada circuito, el recorrido A (PDF 5)."
+          },
+          {
+            "id": "c",
+            "text": "Cuarenta y cinco minutos",
+            "correct": false,
+            "feedback": "Es más corto: cada circuito contempla una duración estimada de quince minutos (recorridos PDF 5)."
+          },
+          {
+            "id": "d",
+            "text": "Una hora y media",
+            "correct": false,
+            "feedback": "Mucho menos: el documento estima quince minutos para el recorrido A de cada comuna (PDF 5)."
+          }
+        ]
+      },
+      {
+        "id": "by-comuna",
+        "prompt": "¿Cómo se organizan los circuitos de examen en el documento de recorridos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Por comuna",
+            "correct": true,
+            "feedback": "¡Correcto! Cada circuito se encuentra discriminado por comuna (recorridos PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "Por día de la semana",
+            "correct": false,
+            "feedback": "El circuito no depende del día: el documento discrimina cada circuito por comuna (PDF 5)."
+          },
+          {
+            "id": "c",
+            "text": "Por horario del turno",
+            "correct": false,
+            "feedback": "El horario no define el circuito: cada uno está discriminado por comuna (recorridos PDF 5)."
+          },
+          {
+            "id": "d",
+            "text": "Por edad de quien rinde",
+            "correct": false,
+            "feedback": "La edad no cambia el circuito: el documento organiza los circuitos por comuna (PDF 5)."
+          }
+        ]
+      },
+      {
+        "id": "route-b",
+        "prompt": "Según la presentación del documento de recorridos, ¿qué es el recorrido B?",
+        "options": [
+          {
+            "id": "a",
+            "text": "El que indica el examinador ante cortes o desvíos por fuerza mayor",
+            "correct": true,
+            "feedback": "¡Correcto! Ante cortes, desvíos, anegamientos u otra situación que impida circular, el examinador indica el recorrido y procura retomar el circuito original (recorridos PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "Un circuito más largo para quien rinde el examen por segunda vez",
+            "correct": false,
+            "feedback": "No tiene que ver con repetir el examen: es el recorrido que indica el examinador cuando una situación de fuerza mayor impide circular por el circuito (PDF 5)."
+          },
+          {
+            "id": "c",
+            "text": "Un recorrido de práctica libre antes de empezar el examen",
+            "correct": false,
+            "feedback": "No es una práctica previa: corresponde a cortes, desvíos o anegamientos, cuando el examinador indica por dónde seguir (recorridos PDF 5)."
+          },
+          {
+            "id": "d",
+            "text": "El circuito que se usa para el examen de la licencia de moto",
+            "correct": false,
+            "feedback": "El documento trata del examen de la categoría B1 (auto). El recorrido B es el que indica el examinador ante una situación de fuerza mayor (PDF 5)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.routes-detour-route-b",
+    "type": "decision",
+    "title": "Un anegamiento en el circuito de examen",
+    "unitIds": [
+      "recorridos.intro.route-b-force-majeure"
+    ],
+    "refs": [
+      {
+        "source": "recorridos",
+        "page": 5
+      }
+    ],
+    "explanation": "Frente a circunstancias de fuerza mayor, como cortes, desvíos o anegamientos que impidan circular por el circuito, el examinador a cargo indica el recorrido a seguir y procura retomar lo antes posible el circuito original. El documento de recorridos llama a esa situación recorrido B (recorridos PDF 5).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "flooded",
+        "start": "street",
+        "nodes": {
+          "street": {
+            "text": "Estás rindiendo el examen práctico por el recorrido A de tu comuna. La calle que sigue en el circuito está anegada y no se puede circular. ¿Qué pasa?",
+            "choices": [
+              {
+                "id": "follow",
+                "text": "Seguís el recorrido que te indica el examinador",
+                "next": "detour"
+              },
+              {
+                "id": "own",
+                "text": "Elegís vos una calle para rodear el anegamiento",
+                "outcome": "own-detour"
+              },
+              {
+                "id": "cross",
+                "text": "Atravesás la calle anegada para no salir del circuito",
+                "outcome": "cross"
+              }
+            ]
+          },
+          "detour": {
+            "text": "El examinador te indica un desvío y lo seguís. ¿Qué procura el examinador mientras circulás por ese desvío?",
+            "choices": [
+              {
+                "id": "return",
+                "text": "Retomar lo antes posible el circuito original",
+                "outcome": "return"
+              },
+              {
+                "id": "finish",
+                "text": "Terminar el examen por el desvío, sin volver al circuito",
+                "outcome": "finish"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "return": {
+            "correct": true,
+            "feedback": "¡Bien! Ante cortes, desvíos o anegamientos, el examinador a cargo indica el recorrido a seguir y procura retomar lo antes posible el circuito original; el documento lo llama recorrido B (recorridos PDF 5)."
+          },
+          "finish": {
+            "correct": false,
+            "feedback": "No: el desvío es transitorio. Según el documento, el examinador procura retomar lo antes posible el circuito original (recorridos PDF 5)."
+          },
+          "own-detour": {
+            "correct": false,
+            "feedback": "El desvío no lo elegís vos: ante una situación de fuerza mayor, el examinador a cargo indica el recorrido a seguir (recorridos PDF 5)."
+          },
+          "cross": {
+            "correct": false,
+            "feedback": "Un anegamiento es justamente una situación de fuerza mayor que impide circular por el circuito: en ese caso, el examinador indica por dónde seguir (recorridos PDF 5)."
+          }
+        }
+      }
+    ]
+  }
+]

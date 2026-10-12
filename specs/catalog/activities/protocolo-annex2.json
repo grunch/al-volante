@@ -1,0 +1,255 @@
+[
+  {
+    "id": "act.protocol-fail-or-interrupt",
+    "type": "single-choice",
+    "title": "¿Se interrumpe el examen?",
+    "unitIds": [
+      "protocolo.annex2.eliminatory-faults",
+      "protocolo.general.general-considerations",
+      "protocolo.general.candidate-rules"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 7
+      },
+      {
+        "source": "protocolo",
+        "page": 8
+      },
+      {
+        "source": "protocolo",
+        "page": 32
+      },
+      {
+        "source": "protocolo",
+        "page": 33
+      }
+    ],
+    "explanation": "Toda falla eliminatoria desaprueba, pero no todas interrumpen el examen. Se interrumpe, y el examinador toma el control, ante eliminatorias como cruzar en rojo o subirse al cordón, cuando tiene que usar el doble comando por una emergencia o para evitar una colisión o un atropello, y cuando la persona pide interrumpirlo, lo que implica desaprobar (protocolo PDF 7, 8 y 33). Superar la velocidad máxima, usar el celular, no ceder el paso a vehículos de emergencia, no respetar la línea continua, sobrepasar por la derecha o terminar el estacionamiento por fuera de la segunda delimitación desaprueban sin interrumpir: se informa al terminar (PDF 32–33).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "red-light",
+        "prompt": "Durante el examen cruzás un semáforo con la luz roja ya encendida. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": true,
+            "feedback": "¡Correcto! Cruzar en rojo es una falla eliminatoria que interrumpe el examen; el examinador toma el control del vehículo."
+          },
+          {
+            "id": "continue",
+            "text": "Sigue hasta el final, pero queda desaprobado",
+            "correct": false,
+            "feedback": "Cruzar en rojo no solo desaprueba: es de las eliminatorias que interrumpen el examen en el momento."
+          },
+          {
+            "id": "points",
+            "text": "Suma 3 puntos y el examen sigue normalmente",
+            "correct": false,
+            "feedback": "No es una deficiente alta: cruzar en rojo es eliminatoria, 8 puntos, e interrumpe el examen."
+          }
+        ]
+      },
+      {
+        "id": "max-speed",
+        "prompt": "En una avenida del circuito superás la velocidad máxima de la vía. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": false,
+            "feedback": "Es eliminatoria, pero de las que no interrumpen: seguís hasta el final y te informan la descalificación al terminar."
+          },
+          {
+            "id": "continue",
+            "text": "Sigue hasta el final, pero queda desaprobado",
+            "correct": true,
+            "feedback": "¡Exacto! Superar la máxima es eliminatoria, pero el examen no se interrumpe: la descalificación se informa al final del recorrido."
+          },
+          {
+            "id": "points",
+            "text": "Suma 3 puntos y el examen sigue normalmente",
+            "correct": false,
+            "feedback": "Los 3 puntos corresponden a superar la velocidad de examen. Superar la máxima de la vía es eliminatoria y desaprueba."
+          }
+        ]
+      },
+      {
+        "id": "dual-control",
+        "prompt": "El examinador tiene que usar el doble comando para evitar que choques con otro auto. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": true,
+            "feedback": "¡Bien! Si el examinador usa el doble comando por una emergencia o para evitar una colisión o un atropello, la prueba se interrumpe y queda desaprobada."
+          },
+          {
+            "id": "continue",
+            "text": "Sigue hasta el final, pero queda desaprobado",
+            "correct": false,
+            "feedback": "Cuando interviene el doble comando la prueba no sigue: se interrumpe y el examinador toma el control total del vehículo."
+          },
+          {
+            "id": "points",
+            "text": "Suma 3 puntos y el examen sigue normalmente",
+            "correct": false,
+            "feedback": "No se resuelve con puntos: usar el doble comando para evitar una colisión interrumpe la prueba y la desaprueba."
+          }
+        ]
+      },
+      {
+        "id": "ask-stop",
+        "prompt": "En plena etapa II los nervios te superan y le pedís al examinador interrumpir el examen. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": true,
+            "feedback": "¡Correcto! Podés pedir la interrupción en cualquier etapa, sabiendo que esa decisión implica desaprobar."
+          },
+          {
+            "id": "pause",
+            "text": "Se interrumpe y lo terminás otro día sin desaprobar",
+            "correct": false,
+            "feedback": "No hay pausas: pedir la interrupción implica la desaprobación del examen."
+          },
+          {
+            "id": "refuse",
+            "text": "No se puede interrumpir: tenés que terminarlo",
+            "correct": false,
+            "feedback": "Sí se puede pedir en cualquier etapa, pero hacerlo implica desaprobar."
+          }
+        ]
+      },
+      {
+        "id": "emergency-vehicle",
+        "prompt": "Una ambulancia con sirena se acerca por detrás y no hacés ninguna maniobra para cederle el paso. ¿Qué pasa?",
+        "options": [
+          {
+            "id": "interrupt",
+            "text": "Se interrumpe y el examen queda desaprobado",
+            "correct": false,
+            "feedback": "Es eliminatoria, pero no interrumpe: el examen sigue y la descalificación se informa al terminar."
+          },
+          {
+            "id": "continue",
+            "text": "Sigue hasta el final, pero queda desaprobado",
+            "correct": true,
+            "feedback": "¡Correcto! No ceder el paso a un vehículo en emergencia es eliminatoria; el examinador la comunica y te informa la descalificación al final del recorrido."
+          },
+          {
+            "id": "points",
+            "text": "Suma 3 puntos y el examen sigue normalmente",
+            "correct": false,
+            "feedback": "Es más grave que una deficiente alta: no ceder el paso a un vehículo en emergencia es eliminatoria y desaprueba."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.protocol-exam-situations",
+    "type": "decision",
+    "title": "Situaciones durante el examen",
+    "unitIds": [
+      "protocolo.annex2.eliminatory-faults"
+    ],
+    "refs": [
+      {
+        "source": "protocolo",
+        "page": 30
+      },
+      {
+        "source": "protocolo",
+        "page": 32
+      },
+      {
+        "source": "protocolo",
+        "page": 28
+      },
+      {
+        "source": "protocolo",
+        "page": 29
+      }
+    ],
+    "explanation": "Si el semáforo cambia a rojo cuando ya iniciaste el cruce, lo terminás con precaución y no se consigna falla; cruzar con la luz roja ya encendida, en cambio, es eliminatoria (protocolo PDF 32). El cinturón se usa desde que el auto empieza a moverse hasta apagar el motor y entregar la llave: para quitártelo avisás al examinador y esperás sus indicaciones detenido en un lugar seguro, porque quitártelo sin aviso es una falla eliminatoria que interrumpe el examen (PDF 30).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "light-change",
+        "start": "crossing",
+        "nodes": {
+          "crossing": {
+            "text": "Entrás a la bocacalle con el semáforo en verde y, con el cruce ya iniciado, la luz pasa a rojo.",
+            "choices": [
+              {
+                "id": "finish",
+                "text": "Termino el cruce con precaución",
+                "outcome": "good"
+              },
+              {
+                "id": "stop",
+                "text": "Freno y espero en medio de la intersección",
+                "outcome": "blocking"
+              },
+              {
+                "id": "back",
+                "text": "Retrocedo hasta antes de la línea de detención",
+                "outcome": "reverse"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Si el semáforo cambia a rojo con el cruce ya iniciado, lo terminás con precaución y no se consigna falla (protocolo PDF 32)."
+          },
+          "blocking": {
+            "correct": false,
+            "feedback": "Quedarte detenido en la intersección puede bloquear la encrucijada, que es una falla deficiente alta (protocolo PDF 28–29). Con el cruce iniciado, terminalo con precaución (PDF 32)."
+          },
+          "reverse": {
+            "correct": false,
+            "feedback": "Volver marcha atrás en plena intersección no es lo que pide el protocolo: con el cruce iniciado, se termina con precaución y no es falla (protocolo PDF 32)."
+          }
+        }
+      },
+      {
+        "id": "seatbelt",
+        "start": "belt",
+        "nodes": {
+          "belt": {
+            "text": "Vas circulando en la etapa II y sentís que el cinturón te queda incómodo; querés acomodártelo.",
+            "choices": [
+              {
+                "id": "tell",
+                "text": "Le aviso al examinador y espero sus indicaciones, detenido en un lugar seguro",
+                "outcome": "good"
+              },
+              {
+                "id": "unbuckle",
+                "text": "Me lo desabrocho un segundo para acomodarlo, sin detenerme",
+                "outcome": "unbuckled"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Si necesitás quitártelo por cualquier motivo, avisás al examinador y esperás sus indicaciones detenido en un lugar seguro (protocolo PDF 30)."
+          },
+          "unbuckled": {
+            "correct": false,
+            "feedback": "Quitarte el cinturón durante el examen sin aviso es una falla eliminatoria y el examen se interrumpe. Se usa desde que el auto empieza a moverse hasta que apagás el motor y entregás la llave (protocolo PDF 30)."
+          }
+        }
+      }
+    ]
+  }
+]
