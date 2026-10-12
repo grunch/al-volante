@@ -254,7 +254,9 @@ export function cruise(exam: CityExam, options: CruiseOptions): void {
     if (ambulance && options.yieldToEmergency !== false) {
       const forward = { x: Math.sin(vehicle.headingRad), z: Math.cos(vehicle.headingRad) };
       const along = (ambulance.x - body.centerX) * forward.x + (ambulance.z - body.centerZ) * forward.z;
-      if (along < 0 && along > -80) wanted = Math.min(wanted, 2.2);
+      // Make way until it has passed the whole body, as the examiner judges it (D6), not only while it is behind.
+      const passedM = body.halfLengthM + ambulance.box.halfLengthM + 1;
+      if (along < passedM && along > -80) wanted = Math.min(wanted, 2.2);
     }
     for (const bump of circuit.bumps) {
       const distanceM = distanceAlong(circuit, frontS, bump.s);

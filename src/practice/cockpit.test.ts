@@ -46,6 +46,16 @@ describe('configurable bindings', () => {
     expect(drivingKeys(['throttle', 'clutch', 'belt'])).toEqual(new Set(['ArrowUp', 'ShiftLeft']));
   });
 
+  it('keeps bindings saved before the door existed, giving the door its default key when it is free', () => {
+    const custom = rebind(DEFAULT_BINDINGS, 'throttle', 'Digit1')!;
+    const beforeTheDoor: Partial<typeof custom> = { ...custom };
+    delete beforeTheDoor.door;
+    expect(parseBindings(JSON.stringify(beforeTheDoor))).toEqual(custom);
+    // A saved action already on the door's default key: the set cannot be completed, the defaults apply.
+    const taken = { ...beforeTheDoor, horn: DEFAULT_BINDINGS.door };
+    expect(parseBindings(JSON.stringify(taken))).toEqual(DEFAULT_BINDINGS);
+  });
+
   it.each([
     '{',
     'null',

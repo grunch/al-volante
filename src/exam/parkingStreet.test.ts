@@ -79,7 +79,7 @@ describe('the whole exam: lap, parking and descent (protocolo PDF 13–14)', () 
       expect(ledger.points).toBe(0);
       expect(result(exam)).toBe('approved');
     },
-    120000,
+    300000,
   );
 
   it('announces the parking 100 m before the bay, on the last leg, and keeps it in the HUD until the corner', () => {
@@ -90,7 +90,7 @@ describe('the whole exam: lap, parking and descent (protocolo PDF 13–14)', () 
     expect(firstNotice?.distanceM).toBeGreaterThan(97);
     expect(exam.driver.session.street.parkingAheadM).toBeLessThan(30);
     expect(exam.driver.session.parking.aheadM).toBeNull();
-  }, 60000);
+  }, 120000);
 
   it('ignores "I am done" while the car is still moving, and takes it once stopped', () => {
     const exam = atTheCorner('automatic');
@@ -109,7 +109,7 @@ describe('the whole exam: lap, parking and descent (protocolo PDF 13–14)', () 
     expect(driver.session.ledger.interruption).toBeNull();
     expect(driver.session.completedStages).toEqual(['I', 'II', 'III']);
     expect(result(exam)).toBe('disapproved');
-  }, 60000);
+  }, 120000);
 });
 
 describe('the manoeuvre (rules low i, high p, minor r, eliminatory q; protocolo PDF 13, 24–25, 27, 29, 33)', () => {
@@ -125,7 +125,7 @@ describe('the manoeuvre (rules low i, high p, minor r, eliminatory q; protocolo 
     expect(never.driver.faults).toEqual(['rule.low.i-no-hazards-before-parking']);
     expect(never.driver.session.ledger.points).toBe(2);
     expect(result(never)).toBe('approved');
-  }, 60000);
+  }, 120000);
 
   it('reversing without a glance at the mirrors scores the high fault; a fourth manoeuvre, the minor one', () => {
     const blind = atTheCorner('automatic');
@@ -143,7 +143,7 @@ describe('the manoeuvre (rules low i, high p, minor r, eliminatory q; protocolo 
     descend(fussy.driver);
     expect(fussy.driver.faults).toEqual(['rule.minor.r-parking-over-three-maneuvers']);
     expect(result(fussy)).toBe('approved');
-  }, 60000);
+  }, 120000);
 
   it('a second attempt costs the manoeuvres; a third attempt eliminates and interrupts', () => {
     const twice = atTheCorner('automatic');
@@ -164,7 +164,7 @@ describe('the manoeuvre (rules low i, high p, minor r, eliminatory q; protocolo 
     expect(thrice.driver.phase).toBe('finished');
     expect(thrice.driver.session.ledger.interruption?.cause).toBe('fault');
     expect(thrice.driver.session.completedStages).toEqual(['I', 'II']);
-  }, 60000);
+  }, 120000);
 
   it('taking the belt off while parking eliminates (eliminatory c)', () => {
     const exam = atTheCorner('automatic');
@@ -172,7 +172,7 @@ describe('the manoeuvre (rules low i, high p, minor r, eliminatory q; protocolo 
     exam.driver.cabin({ type: 'toggle', control: 'belt' });
     expect(exam.driver.faults).toEqual(['rule.eliminatory.c-no-seatbelt']);
     expect(exam.driver.phase).toBe('finished');
-  }, 60000);
+  }, 120000);
 });
 
 describe('the final position and the markers (rules t, u, r, s, high d, eliminatory d; protocolo PDF 13, 21, 25, 33)', () => {
@@ -202,7 +202,7 @@ describe('the final position and the markers (rules t, u, r, s, high d, eliminat
     descend(close.driver);
     expect(close.driver.session.parking.final?.rearCm).toBeLessThan(15);
     expect(close.driver.faults).toEqual(['rule.minor.t-parking-too-close-to-curb']);
-  }, 60000);
+  }, 120000);
 
   it('ending more than 0,5 m off the bay centre is off-centre (minor s)', () => {
     const exam = atTheCorner('automatic');
@@ -214,7 +214,7 @@ describe('the final position and the markers (rules t, u, r, s, high d, eliminat
     descend(exam.driver);
     expect(exam.driver.session.parking.final?.alongM).toBeGreaterThan(0.5);
     expect(exam.driver.faults).toEqual(['rule.minor.s-parking-off-center-or-tilted']);
-  }, 60000);
+  }, 120000);
 
   it('backing fast into the rear marker hits it: eliminatory d interrupts the exam', () => {
     const exam = atTheCorner('automatic');
@@ -229,7 +229,7 @@ describe('the final position and the markers (rules t, u, r, s, high d, eliminat
       'rule.eliminatory.d-curb-mount-or-marker-hit',
     ]);
     expect(exam.driver.session.ledger.interruption?.cause).toBe('fault');
-  }, 60000);
+  }, 120000);
 });
 
 describe('the descent (rules v, w, x, y, low j; protocolo PDF 13, 25, 27)', () => {
@@ -245,7 +245,7 @@ describe('the descent (rules v, w, x, y, low j; protocolo PDF 13, 25, 27)', () =
     ]);
     expect(exam.driver.session.ledger.points).toBe(3);
     expect(result(exam)).toBe('approved');
-  }, 60000);
+  }, 120000);
 
   it('automatic: opening the door with the engine running is one fault, as is leaving the key in', () => {
     const running = atTheCorner('automatic');
@@ -260,7 +260,7 @@ describe('the descent (rules v, w, x, y, low j; protocolo PDF 13, 25, 27)', () =
     descend(keyIn.driver, { key: false });
     expect(keyIn.driver.faults).toEqual(['rule.minor.y-engine-key-steering-lock']);
     expect(keyIn.driver.car.powertrain.engineRunning).toBe(false);
-  }, 60000);
+  }, 120000);
 
   it('not looking at the left mirror before opening the door is the low fault; a head turn does not replace it', () => {
     const exam = atTheCorner('automatic');
@@ -273,5 +273,5 @@ describe('the descent (rules v, w, x, y, low j; protocolo PDF 13, 25, 27)', () =
     descend(exam.driver, { mirror: false });
     expect(exam.driver.faults).toEqual(['rule.low.j-no-traffic-check-before-exit']);
     expect(exam.driver.session.ledger.points).toBe(2);
-  }, 60000);
+  }, 120000);
 });

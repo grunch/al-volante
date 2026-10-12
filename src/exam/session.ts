@@ -1,4 +1,4 @@
-import { createLedger, interrupt, recordFault, withdrawFault } from './scoring.ts';
+import { createLedger, interrupt, recordFault, ruleById, withdrawFault } from './scoring.ts';
 import type { Ledger, Stage } from './scoring.ts';
 import type { Circuit } from './circuit.ts';
 import { createStreet, judgeCirculation, noteGlance } from './circulation.ts';
@@ -584,15 +584,29 @@ function onLeavingStep(session: Session, car: CarState, cockpit: CockpitState): 
   return finish({ ...next, completedStages: [...next.completedStages, 'III'] });
 }
 
+/**
+ * Events of the car score in stage III only for the rules whose ficha lists that stage (protocolo PDF 15–17): a stall
+ * or a refused start while parking is not the stage II fault, nor moving off with the handbrake the stage I one.
+ */
+function scoredInPhase(session: Session, ruleId: string): boolean {
+  if (!STAGE_THREE_PHASES.includes(session.phase)) return true;
+  return ruleById(session.ledger.rules, ruleId).fichaRows.some((row) => row.stage.split('/').includes('III'));
+}
+
+/** A fault from a car event, when the current stage judges that rule. */
+function eventFault(session: Session, ruleId: string, episode?: string): Session {
+  return scoredInPhase(session, ruleId) ? fault(session, ruleId, episode) : session;
+}
+
 function onEvent(session: Session, event: CarEvent): Session {
   if (session.phase === 'recognition') return event.type === 'gear-engaged' ? judgeGear(session, event.gear) : session;
   if (event.type === 'gear-engaged') return { ...session, lastGear: event.gear };
   if (!driving(session)) return session;
   switch (event.type) {
     case 'start-refused':
-      if (event.reason === 'in-gear') return fault(session, 'rule.minor.e-neutral-check-before-start');
+      if (event.reason === 'in-gear') return eventFault(session, 'rule.minor.e-neutral-check-before-start');
       if (event.reason === 'running')
-        return fault(session, 'rule.minor.h-start-while-running', `run-${session.engineStarts}`);
+        return eventFault(session, 'rule.minor.h-start-while-running', `run-${session.engineStarts}`);
       return session;
     case 'engine-started': {
       let next: Session = { ...session, engineStarts: session.engineStarts + 1 };
@@ -605,20 +619,20 @@ function onEvent(session: Session, event: CarEvent): Session {
     case 'handbrake':
       return { ...session, handbrakeEpisodes: session.handbrakeEpisodes + 1 };
     case 'moved-with-handbrake':
-      return fault(session, 'rule.minor.f-handbrake-on-start', `handbrake-${session.handbrakeEpisodes}`);
+      return eventFault(session, 'rule.minor.f-handbrake-on-start', `handbrake-${session.handbrakeEpisodes}`);
     case 'stall':
-      return fault(session, 'rule.low.d-engine-stall');
+      return eventFault(session, 'rule.low.d-engine-stall');
     case 'contact':
       // The collision engine only knows the body touched: speed tells a scrape from a hit (game approximation).
       if (event.kind === 'pole')
-        return fault(
+        return eventFault(
           session,
           event.impactSpeedMps >= GAME_PARAMETERS.markerKnockSpeedMps
             ? 'rule.eliminatory.d-curb-mount-or-marker-hit'
             : 'rule.high.d-box-marker-touch',
         );
       if (event.kind === 'curb')
-        return fault(
+        return eventFault(
           session,
           event.impactSpeedMps >= GAME_PARAMETERS.kerbMountSpeedMps
             ? 'rule.eliminatory.d-curb-mount-or-marker-hit'
@@ -626,6 +640,7 @@ function onEvent(session: Session, event: CarEvent): Session {
         );
       return session;
     case 'actor-contact': {
+      // At any stage: a contact is the examiner's intervention with the dual controls (protocolo PDF 7).
       // Hitting a pedestrian or a cyclist: the examiner intervenes (escalated high l, on the episode already
       // scored when one exists). Hitting a vehicle: a reckless manoeuvre.
       const onFoot = event.actor === 'pedestrian' || event.actor === 'bicycle';

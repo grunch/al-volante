@@ -349,18 +349,18 @@ El protocolo evalúa conductas físicas que el juego solo puede representar: la 
 
 **Etapa III (F04-T04)**, implementada en `src/exam/parking.ts` (`PARKING`) y probada en `src/exam/parking.test.ts` (sintética) y `src/exam/parkingStreet.test.ts` (con guion sobre la ciudad). Decisiones D10–D14 de §7.
 
-| Conducta (ítem) | Criterio del juego | Episodio |
-|---|---|---|
-| Aviso (PDF 24) | 100 m antes de la línea delantera del cajón, en el último tramo (D10) | — |
-| Balizas (baja i) | encendidas sin cortes 3 s o más antes de la primera detención en la zona del cajón (D11) | control único |
-| Maniobras (leve r) | la cuarta maniobra según D12 | una vez |
-| Intentos (eliminatoria q) | el tercer intento según D12 | una vez |
-| Espejos al retroceder (alta p) | sin mirada a un espejo lateral ni giro completo de la cabeza entre la alineación y el fin de la marcha atrás | `attempt-n` |
-| Roce o golpe de la demarcación (alta d, eliminatoria d) | pisar el tramo de la línea pintada junto al cordón, por debajo o por encima de 1 m/s (D13) | cada vez |
-| Cordón (leve i, eliminatoria d) | contacto con el colisionador del cordón por debajo o por encima de 1 m/s, como en la etapa I | cada vez / una vez |
-| Franjas (leve t, leve u, eliminatoria r) | lado derecho a cada eje contra el borde del cordón; `parkingBands` (V1) | una vez cada una |
-| Inclinada o descentrada (leve s) | ejes a más de 30 cm entre sí, o centro a más de 0,5 m del centro del cajón (V3) | una vez |
-| Descenso (leves v, w, x, y; baja j) | al abrir la puerta, según D14 | control único |
+| Conducta (ítem) | Fuente del ítem (`fuentes/pdf/protocolo.pdf`, PDF) | Criterio del juego | Episodio |
+|---|---|---|---|
+| Aviso | 24 | 100 m antes de la línea delantera del cajón, en el último tramo (D10) | — |
+| Balizas (baja i) | 13, 17, 27 | encendidas sin cortes 3 s o más antes de la primera detención en la zona del cajón (D11) | control único |
+| Maniobras (leve r) | 13, 17, 24, 25 | la cuarta maniobra según D12 | una vez |
+| Intentos (eliminatoria q) | 13, 17, 33 | el tercer intento según D12 | una vez |
+| Espejos al retroceder (alta p) | 13, 17, 29, 30 | sin mirada a un espejo lateral ni giro completo de la cabeza entre la alineación y el fin de la marcha atrás | `attempt-n` |
+| Roce o golpe de la demarcación (alta d, eliminatoria d) | 13, 15, 17, 28, 30, 31 | pisar el tramo de la línea pintada junto al cordón, por debajo o por encima de 1 m/s (D13) | cada vez |
+| Cordón (leve i, eliminatoria d) | 13, 15, 17, 23, 30, 31 | contacto con el colisionador del cordón por debajo o por encima de 1 m/s, como en la etapa I | cada vez / una vez |
+| Franjas (leve t, leve u, eliminatoria r) | 13, 17, 21, 25, 33 | lado derecho a cada eje contra el borde del cordón; `parkingBands` (V1) | una vez cada una |
+| Inclinada o descentrada (leve s) | 13, 17, 25 | ejes a más de 30 cm entre sí, o centro a más de 0,5 m del centro del cajón (V3) | una vez |
+| Descenso (leves v, w, x, y; baja j) | 13, 17, 25, 27 | al abrir la puerta, según D14 | control único |
 
 Lo que **no se evalúa** y por qué: las dos manos en el volante (baja f: el volante se maneja con teclas, no hay modelo de manos); el celular, auriculares y reproductores (eliminatoria m: no existen en el habitáculo); la autoridad de control de tránsito (eliminatoria e: no hay agentes en la escena); el arranque excedido en tiempo (leve g) y el arranque brusco y la aceleración en vacío (bajas b, c), que siguen como en F03-T04; la omisión de bocina (parte de la leve m). En la etapa III no se modela el bloqueo de la dirección como mando propio (equivale a retirar la llave, D14), ni el examinador que baja a verificar la distancia (la medición es geométrica), ni que la puerta abierta alcance a un ciclista (solo se exige la mirada al espejo, baja j).
 
