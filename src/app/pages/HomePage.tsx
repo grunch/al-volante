@@ -2,7 +2,7 @@ import { Suspense, lazy, useContext } from 'react';
 import { Link } from 'react-router';
 import { RendererContext } from '../../scene/RendererContext.ts';
 import { PageTitle } from '../../ui/PageTitle.tsx';
-import { HOME_SPACES, TRACK_COPY, t } from '../../i18n/es-AR.ts';
+import { EXAM_COPY, HOME_SPACES, TRACK_COPY, t } from '../../i18n/es-AR.ts';
 import type { HomeSpaceId } from '../../i18n/es-AR.ts';
 
 // Three.js is code-split so the rest of the app never waits for the 3D bundle.
@@ -46,6 +46,9 @@ export function HomePage() {
         </Link>{' '}
         <Link className="button button--secondary" to="/pista">
           {TRACK_COPY.homeLink}
+        </Link>{' '}
+        <Link className="button button--secondary" to="/examen">
+          {EXAM_COPY.homeLink}
         </Link>
       </p>
       <section aria-labelledby="spaces-heading">

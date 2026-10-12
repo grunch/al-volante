@@ -269,7 +269,7 @@ Políticas de repetición, según el texto del anexo II:
 | Id | Caso | Tratamiento en el juego |
 |---|---|---|
 | V1 | Exactamente 15, 25 o 50 cm del cordón | t: «menos de 15»; u: «más de 25 y menos de 50»; r: «más de 50». Los valores exactos 15 y 25 quedan dentro de la 1.ª línea (correcto). **50 cm exactos no está definido**; se asigna a la 2.ª línea (leve), el resultado menos severo compatible con ambos textos, y se documenta en la devolución. En `rules.json`, `parkingBands` fija la partición: `< 15` t; `[15, 25]` correcto; `(25, 50]` u; `> 50` r. El validador exige que las franjas cubran todas las distancias sin huecos ni solapes. |
-| V2 | Tolerancia de «retroceder/avanzar 30 cm» | El protocolo solo dice «mayor o menor a 30 cm». Se usa un parámetro `displacementToleranceCm`, que se fijará y calibrará en F03-T04 y se mostrará como **aproximación del juego**, no como regla oficial. |
+| V2 | Tolerancia de «retroceder/avanzar 30 cm» | El protocolo solo dice «mayor o menor a 30 cm». Se usa un parámetro `displacementToleranceCm`, fijado en F03-T04 en **10 cm** (`GAME_PARAMETERS`, `src/exam/session.ts`), y se muestra como **aproximación del juego**, no como regla oficial. |
 | V3 | «Descentrado» | Sin umbral numérico. Se usa un parámetro de aproximación igual que V2. |
 | V4 | Salida del cajón con más de 2 maniobras | PDF 11 la define como no fluida, pero no hay falla en la ficha ni en el anexo. No se puntúa; la devolución lo informa como observación. |
 | V5 | Ancho del cajón | El gráfico 4 da 6 m de largo y franjas, pero no el ancho del espacio ni la distancia entre vallas. Se toma de la geometría del circuito en F01-T04 o se registra como aproximación. |

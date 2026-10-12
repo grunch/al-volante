@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { to: '/actividades', label: t('navActivities'), end: false },
   { to: '/bitacora', label: t('navLogbook'), end: false },
   { to: '/biblioteca', label: t('navLibrary'), end: false },
+  { to: '/examen', label: t('navExam'), end: false },
 ] as const;
 
 /** Shared chrome: skip link, header navigation, main landmark and footer. */

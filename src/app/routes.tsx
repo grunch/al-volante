@@ -2,6 +2,7 @@ import type { RouteObject } from 'react-router';
 import { Layout } from './Layout.tsx';
 import { ActivitiesPage } from './pages/ActivitiesPage.tsx';
 import { ActivityPage } from './pages/ActivityPage.tsx';
+import { ExamPage } from './pages/ExamPage.tsx';
 import { LogbookPage } from './pages/LogbookPage.tsx';
 import { TrackPage } from './pages/TrackPage.tsx';
 import { HomePage } from './pages/HomePage.tsx';
@@ -23,6 +24,7 @@ export const routes: RouteObject[] = [
       { path: '/actividad/:id', element: <ActivityPage /> },
       { path: '/bitacora', element: <LogbookPage /> },
       { path: '/pista', element: <TrackPage /> },
+      { path: '/examen', element: <ExamPage /> },
       { path: '/biblioteca', element: <LibraryPage /> },
       { path: '/biblioteca/:source/:page', element: <SourcePage /> },
       { path: '*', element: <NotFoundPage /> },

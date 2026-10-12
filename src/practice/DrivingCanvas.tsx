@@ -21,12 +21,13 @@ import {
   rebind,
 } from './bindings.ts';
 import type { Action, Bindings } from './bindings.ts';
+import type { Observation } from '../exam/session.ts';
 import { COCKPIT_COPY as copy } from '../i18n/es-AR.ts';
 import type { RendererFactory, SceneRenderer } from '../scene/SceneCanvas.tsx';
 import { EXAM_SPECS } from '../sim/car.ts';
-import type { CarEvent } from '../sim/car.ts';
+import type { CarEvent, CarState } from '../sim/car.ts';
 import { radSToRpm } from '../sim/powertrain/engine.ts';
-import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
+import type { PowertrainCommand, TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { interpolateVehicle } from '../sim/vehicle.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
 import type { World } from '../sim/world.ts';
@@ -49,9 +50,14 @@ interface DrivingCanvasProps {
   onTelemetry?: (telemetry: Telemetry) => void;
   /** Incrementing it puts the car back at the start, engine off and key out. */
   resetCount?: number;
+  /** Commands applied at the start and on every reset (an exam begins with the key in contact). */
+  prepared?: readonly PowertrainCommand[];
+  /** Receives every cabin command and every simulation step, for the exam evaluation (F03-T04). */
+  onObservation?: (observation: Observation) => void;
 }
 
 const defaultRendererFactory: RendererFactory = () => new THREE.WebGLRenderer({ antialias: true });
+const EMPTY_COMMANDS: readonly PowertrainCommand[] = [];
 
 /** Gear changes are routine: the driver hears about everything else. */
 const isNotable = (event: CarEvent) => event.type !== 'gear-engaged' && event.type !== 'key-inserted';
@@ -70,6 +76,8 @@ export function DrivingCanvas({
   createRenderer = defaultRendererFactory,
   onTelemetry,
   resetCount = 0,
+  prepared = EMPTY_COMMANDS,
+  onObservation,
 }: DrivingCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const heldRef = useRef(new HeldInput());
@@ -86,8 +94,10 @@ export function DrivingCanvas({
   const [readout, setReadout] = useState({ speed: 0, rpm: 0, gear: transmission === 'manual' ? 'N' : 'P' });
   const dragRef = useRef<{ id: number; x: number; y: number } | null>(null);
   const command = (value: CockpitCommand) => {
-    cockpitRef.current = commandCockpit(cockpitRef.current, value);
+    const before = cockpitRef.current;
+    cockpitRef.current = commandCockpit(before, value);
     setCockpit(cockpitRef.current);
+    observationRef.current?.({ type: 'cockpit', command: value, before, after: cockpitRef.current });
   };
   const release = () => {
     heldRef.current.clear();
@@ -155,12 +165,14 @@ export function DrivingCanvas({
   const pendingRef = useRef<string[]>([]);
   const resetRef = useRef(resetCount);
   const telemetryRef = useRef(onTelemetry);
+  const observationRef = useRef(onObservation);
   const [state, setState] = useState<DrivingState>('loading');
 
   useEffect(() => {
     resetRef.current = resetCount;
     telemetryRef.current = onTelemetry;
-  }, [resetCount, onTelemetry]);
+    observationRef.current = onObservation;
+  }, [resetCount, onTelemetry, onObservation]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -197,7 +209,14 @@ export function DrivingCanvas({
     window.addEventListener('blur', releaseKeys);
     document.addEventListener('visibilitychange', releaseKeys);
 
-    let driving = startDriving(start, transmission);
+    const observeStep = (car: CarState, stepEvents: readonly CarEvent[], dt: number) =>
+      observationRef.current?.({ type: 'step', car, cockpit: cockpitRef.current, events: stepEvents, dt });
+    const fresh = () => {
+      const frame = startDriving(start, transmission, prepared);
+      if (prepared.length > 0) observeStep(frame.stepper.state, frame.events, 0);
+      return frame;
+    };
+    let driving = fresh();
     let appliedReset = resetRef.current;
     let lastTime: number | null = null;
     let sinceTelemetryS = TELEMETRY_INTERVAL_S;
@@ -210,7 +229,7 @@ export function DrivingCanvas({
       lastTime = now;
       if (appliedReset !== resetRef.current) {
         appliedReset = resetRef.current;
-        driving = startDriving(start, transmission);
+        driving = fresh();
         lastEvent = null;
         releaseKeys();
         cockpitRef.current = initialCockpit();
@@ -227,6 +246,8 @@ export function DrivingCanvas({
         },
         pendingRef.current.splice(0),
         frameS,
+        EXAM_SPECS,
+        observeStep,
       );
       // Keep a short horn press visible for the frame that consumes it.
       const horn = hornSampled || heldRef.current.peek().has('horn');
@@ -282,7 +303,7 @@ export function DrivingCanvas({
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [createRenderer, world, start, transmission]);
+  }, [createRenderer, world, start, transmission, prepared]);
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.ctrlKey || event.altKey || event.metaKey) return;
