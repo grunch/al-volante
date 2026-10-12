@@ -9,7 +9,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
-- **Fase 4 — etapa A completa; etapa B pendiente.** T01 se inició con «arranca con F04 T01» (autor asignado GPT-6 Astra). El resto de la fase se inició con «ya está el pr de F04 T01, haz el resto de tareas de esta fase»: T02, T03, T04 y T05 están implementadas y apiladas (cada una sobre la anterior). Con los cinco PRs creados empieza la etapa B: revisar los findings con el usuario y fusionar #22 → #23 → #24 → #25 → #PR_T05 en ese orden.
+- **Fase 4 — etapa A completa; etapa B pendiente.** T01 se inició con «arranca con F04 T01» (autor asignado GPT-6 Astra). El resto de la fase se inició con «ya está el pr de F04 T01, haz el resto de tareas de esta fase»: T02, T03, T04 y T05 están implementadas y apiladas (cada una sobre la anterior). Con los cinco PRs creados empieza la etapa B: revisar los findings con el usuario y fusionar #22 → #23 → #24 → #25 → #26 en ese orden.
 - Fases 5–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -332,7 +332,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F04-T02 | `f04-t02-traffic` | `f04-t01-city` (#22) | [#23](https://github.com/grunch/al-volante/pull/23) | implementada; findings de `a5b9496` y `f53b7f3` corregidos; revisión de seguimiento pendiente |
 | F04-T03 | `f04-t03-examiner` | `f04-t02-traffic` (#23) | [#24](https://github.com/grunch/al-volante/pull/24) | implementada; findings de `f4d7c6f` corregidos en `cf9d690`; revisión de seguimiento pendiente |
 | F04-T04 | `f04-t04-parking` | `f04-t03-examiner` (#24) | [#25](https://github.com/grunch/al-volante/pull/25) | implementada; findings de `f2624a4` corregidos; revisión de seguimiento pendiente |
-| F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | el PR de T05 (en creación) | implementada; CI y revisiones pendientes |
+| F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | implementada; CI y revisiones pendientes |
 
 ### F04-T01 — Ciudad y recorrido completo
 
@@ -390,7 +390,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ### F04-T05 — Modos, recorrido entero y ficha por etapa
 
-- Apilado sobre `f04-t04-parking` (#25). Orden obligatorio: #22 → #23 → #24 → #25 → el PR de T05 (en creación).
+- Apilado sobre `f04-t04-parking` (#25). Orden obligatorio: #22 → #23 → #24 → #25 → [#26](https://github.com/grunch/al-volante/pull/26).
 - Alcance: `src/exam/modes.ts` (modos `learn`/`practice`/`run`/`exam` del contrato `Attempt`, slugs de la URL, política de ayudas `aidsOf`, posición y arranque de cada práctica), `session.ts` (`scope`, `transitions`, `createPracticeSession` por etapa, `completeStage` solo dentro del alcance, `Fault.stage` asignada al consignar), `scoring.ts` (`Fault.stage`), `src/exam/card.ts` (`buildCard`: ficha por etapa con fallas, subtotales, total y veredicto), `src/progress/model.ts` (`createDrivingAttempt`), `ProgressProvider` (`recordAttempt`), `logbook.ts` (`drivingLog`) y `DrivingSection.tsx`, `#/examen` (selector de modo y de etapa en la consulta del hash, tablero por ayudas, panel guiado del modo aprender, ficha al terminar, guardado del intento), inicio con la sección «Al volante» y la copia en `es-AR.ts`. Detalle en ARQUITECTURA «Modos, recorrido completo y ficha (F04-T05)».
 - Aceptación:
   - **Tres etapas consecutivas:** `parkingStreet.test.ts` «the card of the clean exam shows the three stages completed and approved, and its run/exam attempt stores that» (sobre el examen limpio ya guionado: etapas I, II y III completas y encadenadas por las transiciones, ficha aprobada con 0 puntos, intento `driving` válido para el esquema y para `attemptErrors`).
@@ -400,12 +400,12 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Hallazgo corregido de paso: con el 3D en marcha no se podía salir de `#/examen` ni de `#/recorrido` por el menú (ni cambiar de modo por la URL): las lecturas del tablero, urgentes y cada cuadro, interrumpían la transición de React Router sin fin. `DrivingCanvas` las emite ahora con `startTransition`; E2E de regresión en `exam.spec.ts`. Es un defecto preexistente de F03-T03/F04-T01 que esta tarea necesitaba resuelto para el selector de modos; se registra acá y no en un correctivo aparte porque la fase sigue en etapa A.
 - Decisiones: D15 (ayudas por modo) y las aproximaciones de los modos en REGLAS.md §9; el modo por defecto es `recorrer`; la práctica de la etapa II empieza en el cajón con el motor apagado, la de la III 18 m dentro de Vuelta de Obligado con el motor en marcha; cada falla lleva su etapa en vez de deducirla por el tiempo (las fallas de la preparación comparten `timeS` con el paso a `unlock`); `subjectId` = `route.comuna13-a`; aprender no se guarda; salir de la página a mitad del examen no guarda nada.
 - Verificación local: `npm run check` aprobado con 486 pruebas (cobertura 95,85 % sentencias / 90,30 % ramas / 94,54 % funciones / 96,77 % líneas), contenido OK y build OK. Playwright: suite completa `npx playwright test --workers=1`, 56 E2E aprobados sin reintentos (escritorio y Pixel 7 emulado, 5,2 min), incluidos los tres casos nuevos (modos y tablero sin ayudas, práctica de la etapa III y modo aprender, salir de la página durante la conducción).
-- PR: en creación; Codex y CodeRabbit se solicitan al crearlo.
+- PR [#26](https://github.com/grunch/al-volante/pull/26) abierto con implementación `6ba3b0d`, apilado sobre #25. Codex solicitado con `@codex review`; CodeRabbit automática. Ambos resultados y la CI remota están pendientes (revisión pendiente); se registran al llegar. Sin excepción de cuota aplicada.
 - Para la fase 5 y F06-T01: la sesión terminada queda en `sessionRef` de `ExamPage` y se persiste como `Attempt` `driving` con `events` (`phase`, `stage-completed`, `interruption`, `finished`) y `faults`; no se graban entradas ni estados por paso, así que la repetición (F06-T01) necesita su propia grabación. Los modos se eligen por URL; un reintento desde un estado intermedio debe crear la sesión con `enter` en la fase deseada y restaurar auto, cabina, tránsito (`TrafficState`) y `Session` completos.
 
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) está apilado sobre #22, F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) sobre #23, F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) sobre #24 y F04-T05 (el PR de T05 (en creación)) sobre #25: fusionar #22 primero, después actualizar la base de [#23](https://github.com/grunch/al-volante/pull/23), comprobar su diff y repetir los checks; después lo mismo con [#24](https://github.com/grunch/al-volante/pull/24), con [#25](https://github.com/grunch/al-volante/pull/25) y con el PR de T05 (en creación).
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) está apilado sobre #22, F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) sobre #23, F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) sobre #24 y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) sobre #25: fusionar #22 primero, después actualizar la base de [#23](https://github.com/grunch/al-volante/pull/23), comprobar su diff y repetir los checks; después lo mismo con [#24](https://github.com/grunch/al-volante/pull/24), con [#25](https://github.com/grunch/al-volante/pull/25) y con [#26](https://github.com/grunch/al-volante/pull/26).
 
 ## Bloqueos
 
@@ -413,7 +413,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-La etapa A de la fase 4 está completa: #22, #23, #24, #25 y el PR de T05 (en creación) creados y apilados. Sigue la etapa B: atender CI y revisiones (Codex y CodeRabbit) de los cinco PRs con el usuario, corregir findings de la base hacia arriba y fusionar en orden. La fase 5 (todo el contenido y simulacros teóricos) no empieza hasta que el usuario la inicie.
+La etapa A de la fase 4 está completa: #22, #23, #24, #25 y [#26](https://github.com/grunch/al-volante/pull/26) creados y apilados. Sigue la etapa B: atender CI y revisiones (Codex y CodeRabbit) de los cinco PRs con el usuario, corregir findings de la base hacia arriba y fusionar en orden. La fase 5 (todo el contenido y simulacros teóricos) no empieza hasta que el usuario la inicie.
 
 ### Cierre de la fase 4 contra el plan
 
