@@ -39,7 +39,8 @@
   font-size: 1.4rem;
   font-weight: 700;
 }
-.city-sidebar select {
+.city-sidebar select,
+.city-sidebar input[type='number'] {
   display: block;
   width: 100%;
   margin-top: 0.5rem;
@@ -48,6 +49,15 @@
   border: 1px solid #839990;
   border-radius: 0.4rem;
   font: inherit;
+}
+.city-sidebar > label {
+  display: block;
+  margin-top: 0.9rem;
+}
+.city-hint {
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+  color: #4b5b57;
 }
 .city-stage {
   min-width: 0;

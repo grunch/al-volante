@@ -107,3 +107,19 @@ test('records cockpit frame timing and renderer environment within a bounded win
   await testInfo.attach('city-frame-timing', { body: JSON.stringify(timing), contentType: 'application/json' });
   expect(timing.frames).toBeGreaterThan(0);
 });
+
+test('runs seeded traffic in the cockpit, with actors active and no page errors', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/#/recorrido');
+  await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready');
+  const seed = page.getByRole('spinbutton', { name: 'Semilla del tránsito' });
+  await expect(seed).toHaveValue('1');
+  await seed.fill('5');
+  await page.getByRole('button', { name: 'Conducir este tramo', exact: true }).click();
+  const view = page.getByTestId('driving-canvas');
+  await expect(view).toHaveAttribute('data-state', 'ready');
+  await expect.poll(async () => Number(await view.getAttribute('data-actors')), { timeout: 20000 }).toBeGreaterThan(0);
+  await expect(page.getByText('Exploración con tránsito', { exact: false })).toBeVisible();
+  expect(errors).toEqual([]);
+});

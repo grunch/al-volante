@@ -129,3 +129,15 @@ El usuario indicó «arranca con F04 T01». Solo se ejecuta esa tarea; T02–T05
 `#/recorrido` integra exploración por cuadra o circuito completo, mapa métrico, evidencia de fuentes y conducción por los ocho tramos. La geometría sale del catálogo validado sin espejar ni reescalar; los sectores visuales se liberan sin cambiar colisiones. El predio y el primer tramo evaluado mantienen sus pantallas. Arquitectura, límites y fuentes en `CIUDAD.md`.
 
 No confundir circuito geométrico completo con examen completo: tránsito, ciclos de semáforos y evaluación integral siguen en F04-T02–T05. Las máximas, PARE, reductor, anchos y posición exacta del cajón no se certificaron mediante relevamiento; se conservan estados de fuente única, discrepancia o aproximación. Implementación publicada en [#22](https://github.com/grunch/al-volante/pull/22) (`ab68fd2`), con 364 pruebas y 44 E2E aprobados más revalidaciones afectadas. En la etapa B se corrigieron los findings de Codex y CodeRabbit (`5b07456` y siguiente); queda la revisión de seguimiento. El estado vivo está en `ESTADO_IMPLEMENTACION.md`.
+
+## F04-T02: tránsito del circuito
+
+El usuario pidió «ya está el pr de F04 T01, haz el resto de tareas de esta fase»: T02 se apila sobre `f04-t01-city` (#22) sin esperar revisiones; T03–T05 siguen en orden. Decisiones de T02 que no deben reinterpretarse:
+
+- El tránsito es una capa pura y determinista (`src/traffic/`), creada con una semilla y avanzada por paso fijo; la aleatoriedad se consume solo al crearla. Misma semilla y mismas entradas, mismo estado. No introducir aleatoriedad en el paso ni dependencias del cuadro.
+- `World.traffic` (fuente genérica) convive con `World.scenario` (guion de F03-T05, adaptado por `scenarioSource`); ambos exponen `TrafficSnapshot`. `#/examen` sigue con el primer tramo guionado; la ciudad no lo reemplaza hasta F04-T03.
+- Las reglas de los actores citan el manual (PDF 64 para semáforos, PARE y prioridad de la derecha con su excepción 4; PDF 71 para los dos segundos). Los tiempos (ciclo 14/3/19 s, 1 s en PARE, 8 s anti-bloqueo, 4 s de llegada, 1,5 s para perder prioridad), las velocidades sin fuente y los sentidos de las calles de contexto son aproximaciones del juego y están declarados en ARQUITECTURA; cambiarlos no cambia el protocolo.
+- Las líneas de detención del tránsito son geométricas, o la pintada cuando queda más atrás. En Cabildo–Iberá, Cuba–Congreso y Obligado–Congreso la pintura de F04-T01 cae dentro de la transversal: F04-T03 debe alinearla cuando defina la detención evaluada, sin mover la coordenada de fuente del control.
+- El examinador de F04-T03 debe leer `lights` (por control) y `lookAhead` (próximo semáforo, cruce con regla y cajas de conflicto, senda y vehículo de adelante); `light` es solo un resumen. Los contactos llegan como `actor-contact` con el tipo de actor (`vehicle`, `bus`, `bicycle`, `pedestrian`).
+- La vuelta legal de `lap.test.ts` acredita que el tránsito no bloquea una conducción válida con la semilla 1 (sin contactos, sin rojo cruzado, sin esperas mayores a un ciclo); no acredita evaluación ni todas las semillas.
+

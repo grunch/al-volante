@@ -5,7 +5,7 @@ import { SCENE_COLORS } from './colors.ts';
 import { bodyBox, forwardOf } from '../sim/vehicle.ts';
 import type { VehicleSpec, VehicleState } from '../sim/vehicle.ts';
 import type { OrientedBox } from '../sim/collision.ts';
-import type { ActorKind, LightState, Scenario, ScenarioState } from '../sim/scenario.ts';
+import type { ActorKind, LightState, Scenario, TrafficSnapshot } from '../sim/scenario.ts';
 import type { Obstacle, ObstacleKind, World } from '../sim/world.ts';
 
 /** Chase camera: behind and above the car, looking a little ahead of it. */
@@ -28,6 +28,8 @@ const OBSTACLE_LOOK: Record<ObstacleKind, { heightM: number; color: THREE.ColorR
 const ACTOR_LOOK: Record<ActorKind, { heightM: number; color: THREE.ColorRepresentation }> = {
   pedestrian: { heightM: 1.7, color: '#2f6fd6' },
   vehicle: { heightM: 1.4, color: '#c94b3b' },
+  bus: { heightM: 3, color: '#e0b43a' },
+  bicycle: { heightM: 1.1, color: '#3aa37a' },
 };
 const LAMP_COLORS: Record<LightState, THREE.ColorRepresentation> = {
   red: '#e03b2e',
@@ -39,7 +41,7 @@ export interface TrackScene {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
   /** Shows the car where the simulation has it, the scenario's actors and light, and moves the camera after it. */
-  update(vehicle: VehicleState, scenario?: ScenarioState | null): void;
+  update(vehicle: VehicleState, scenario?: TrafficSnapshot | null): void;
   resize(widthPx: number, heightPx: number): void;
   dispose(): void;
 }
@@ -97,7 +99,7 @@ function createMarking(marking: OrientedBox, index: number): THREE.Mesh {
 }
 
 /** A scripted actor as a simple box of its kind, named by its id so the update can pose it. */
-function createActor(id: string, kind: ActorKind, halfLengthM: number, halfWidthM: number): THREE.Mesh {
+export function createActor(id: string, kind: ActorKind, halfLengthM: number, halfWidthM: number): THREE.Mesh {
   const { heightM, color } = ACTOR_LOOK[kind];
   const mesh = new THREE.Mesh(
     new THREE.BoxGeometry(halfWidthM * 2, heightM, halfLengthM * 2),

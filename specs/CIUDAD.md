@@ -1,8 +1,12 @@
-# Ciudad 3D — F04-T01
+# Ciudad 3D — F04-T01 y tránsito F04-T02
 
 ## Alcance
 
-`#/recorrido` permite explorar las ocho partes del recorrido A o conducir desde una entrada de cada tramo, con caja manual o automática. La vista aérea muestra una cuadra o el circuito completo; el mapa conserva norte arriba y una escala de 100 m. El habitáculo y sus tres espejos usan el mismo mundo 3D. La página informa que no hay tránsito ni evaluación del circuito completo y que los semáforos están apagados: esos comportamientos corresponden a F04-T02–T05. `#/examen` conserva el primer tramo evaluado de F03.
+`#/recorrido` permite explorar las ocho partes del recorrido A o conducir desde una entrada de cada tramo, con caja manual o automática. La vista aérea muestra una cuadra o el circuito completo; el mapa conserva norte arriba y una escala de 100 m. El habitáculo y sus tres espejos usan el mismo mundo 3D. Desde F04-T02 la conducción lleva tránsito por semilla y semáforos con ciclo; la página informa que la evaluación del circuito completo corresponde a F04-T03–T05 y que nada se puntúa. `#/examen` conserva el primer tramo evaluado de F03.
+
+## Tránsito (F04-T02)
+
+`src/traffic/` deriva de las calles una red de encrucijadas, aproximaciones, sendas y trayectorias, y mueve autos, colectivos (Metrobús), bicicletas (ciclovía) y peatones de forma determinista según una semilla editable en la página (por defecto 1). Los actores respetan semáforos, PARE, prioridad de la derecha, distancia de dos segundos y peatones en la senda; los peatones cruzan en su fase o en brechas. Se activan solo a 250 m del auto, con un tope de 60. Los sentidos de las calles de contexto, el doble sentido del Metrobús, de Congreso y de la ciclovía, las duraciones de los semáforos y las distancias de los actores son aproximaciones declaradas; las fuentes de cada regla y el detalle del diseño están en [ARQUITECTURA.md](ARQUITECTURA.md), «Tránsito del circuito». Las líneas de detención del tránsito son geométricas; en tres semáforos de media cuadra no coinciden con la pintura de F04-T01, pendiente para F04-T03.
 
 El usuario autorizó **solo F04-T01**, con «arranca con F04 T01». No se inicia el resto de la fase con este pedido. La rama parte de `main`; durante la implementación se incorporaron las fusiones de #19–#21, sin modificar sus ramas.
 

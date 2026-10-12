@@ -3,6 +3,7 @@ import { driveFrame, startDriving } from './drivingLoop.ts';
 import type { DrivingFrame } from './drivingLoop.ts';
 import * as FIRST from '../sim/tracks/firstBlock.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../sim/tracks/practiceYard.ts';
+import { scenarioSource } from '../sim/scenario.ts';
 
 /** Automatic, engine running, in D with the handbrake off: K K, then E E E with the brake held, then Space. */
 function readyInD(start = PRACTICE_YARD_START): DrivingFrame {
@@ -82,7 +83,7 @@ describe('driving frame scenario', () => {
     const { FIRST_BLOCK, FIRST_BLOCK_START, FIRST_BLOCK_ZONES } = FIRST;
     // Place the car on the crosswalk and send the pedestrian across it.
     const start = { ...FIRST_BLOCK_START, x: -1.5, z: FIRST_BLOCK_ZONES.crosswalk.centerZ - 1.7 };
-    let frame = startDriving(start, 'automatic', [], undefined, FIRST_BLOCK.scenario);
+    let frame = startDriving(start, 'automatic', [], undefined, scenarioSource(FIRST_BLOCK.scenario!));
     expect(frame.scenario?.light).toBe('green');
     const touched: string[] = [];
     for (let i = 0; i < 600 && touched.length === 0; i += 1) {

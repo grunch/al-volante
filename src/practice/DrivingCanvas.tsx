@@ -26,11 +26,12 @@ import { COCKPIT_COPY as copy } from '../i18n/es-AR.ts';
 import type { RendererFactory, SceneRenderer } from '../scene/SceneCanvas.tsx';
 import { EXAM_SPECS } from '../sim/car.ts';
 import type { CarEvent, CarState } from '../sim/car.ts';
-import type { ScenarioState } from '../sim/scenario.ts';
+import type { TrafficSnapshot } from '../sim/scenario.ts';
 import { radSToRpm } from '../sim/powertrain/engine.ts';
 import type { PowertrainCommand, TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { interpolateVehicle } from '../sim/vehicle.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
+import { trafficOf } from '../sim/world.ts';
 import type { World } from '../sim/world.ts';
 
 /** How often the page gets telemetry for its readouts; the canvas itself updates every frame. */
@@ -221,10 +222,14 @@ export function DrivingCanvas({
     window.addEventListener('blur', releaseKeys);
     document.addEventListener('visibilitychange', releaseKeys);
 
-    const observeStep = (car: CarState, stepEvents: readonly CarEvent[], dt: number, scenario: ScenarioState | null) =>
-      observationRef.current?.({ type: 'step', car, cockpit: cockpitRef.current, events: stepEvents, dt, scenario });
+    const observeStep = (
+      car: CarState,
+      stepEvents: readonly CarEvent[],
+      dt: number,
+      scenario: TrafficSnapshot | null,
+    ) => observationRef.current?.({ type: 'step', car, cockpit: cockpitRef.current, events: stepEvents, dt, scenario });
     const fresh = () => {
-      const frame = startDriving(start, transmission, prepared, EXAM_SPECS, world.scenario);
+      const frame = startDriving(start, transmission, prepared, EXAM_SPECS, trafficOf(world));
       if (prepared.length > 0) observeStep(frame.stepper.state, frame.events, 0, frame.scenario);
       return frame;
     };
@@ -287,6 +292,7 @@ export function DrivingCanvas({
       container.dataset.positionX = car.world.vehicle.x.toFixed(2);
       container.dataset.positionZ = car.world.vehicle.z.toFixed(2);
       container.dataset.sectors = String(track.scene.userData.activeSectors ?? 0);
+      container.dataset.actors = String(driving.scenario?.poses.filter((pose) => pose.active).length ?? 0);
       const notable = events.filter(isNotable).at(-1);
       if (notable) lastEvent = notable;
       sinceTelemetryS += frameS;

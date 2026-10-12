@@ -9,7 +9,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
-- **Fase 4 — F04-T01 en curso.** Inicio explícito: «arranca con F04 T01». Alcance autorizado: solo T01, con autor asignado GPT-6 Astra según la estrategia. F04-T02–T05 requieren el siguiente pedido del usuario.
+- **Fase 4 — etapa A en curso.** T01 se inició con «arranca con F04 T01» (autor asignado GPT-6 Astra). El resto de la fase se inició con «ya está el pr de F04 T01, haz el resto de tareas de esta fase»: T02 está implementada y apilada sobre T01; T03–T05 siguen en orden, apiladas, sin esperar revisiones ni fusiones.
 - Fases 5–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -324,11 +324,17 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisión de Codex sobre `0d6e4fc` (1 finding, aplicado con prueba): un exceso sostenido al pasar de la calle al giro conservaba el episodio; ahora la identidad del episodio incluye la fase, así que cambiar de contexto vial abre otro (D3), y la alta f vuelve a contar en la avenida aunque la calle haya recibido la eliminatoria l.
 - Verificación: `npm run check` con 347 pruebas (cobertura 95,3 % / 88,9 %), contenido OK, build OK; E2E del examen.
 
-## Tarea autorizada de la fase 4
+## Tareas de la fase 4
 
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
 | F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
+| F04-T02 | `f04-t02-traffic` | `f04-t01-city` (#22) | PR_F04_T02 | implementada; CI y revisiones pendientes |
+| F04-T03 | — | `f04-t02-traffic` | — | siguiente |
+| F04-T04 | — | — | — | pendiente |
+| F04-T05 | — | — | — | pendiente |
+
+### F04-T01 — Ciudad y recorrido completo
 
 - Resultado: explorador de los ocho tramos (1506,8 m: `loopLengthM` de `route/comuna13-a.json`, calculado sobre la geometría OSM y verificado en [RECORRIDO.md](RECORRIDO.md) §4 y §6; secuencia oficial: `fuentes/pdf/recorridos.pdf`, PDF 16, y `fuentes/pdf/protocolo.pdf`, PDF 39), mapa métrico, carga por sectores, componentes visuales reutilizables, carriles/ciclovías según subtramo, controles con evidencia, entrada por tramo y conducción con el habitáculo existente. Detalle en [CIUDAD.md](CIUDAD.md).
 - Se inspeccionaron en navegador la cuadra, la vista completa y el habitáculo. Se corrigió el parpadeo de superficies en la vista general ajustando la precisión de profundidad.
@@ -340,9 +346,21 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisiones sobre `9dc94d3` (etapa B, 2026-10-12): CI verde (unitarias, catálogo, build y E2E). Codex, 1 finding: la vista en carga tenía `role="img"` y ocultaba el estado vivo «Construyendo el barrio…»; ahora el rol de imagen se aplica solo en `ready`, con prueba que falla sin el cambio. CodeRabbit, 3 findings, todos corregidos: referencias trazables de cada dato en `CIUDAD.md` (catálogo, OSM/GCBA, protocolo) separando dato respaldado de aproximación; fila de #21 sincronizada como fusionada; cita del gráfico 4 (protocolo PDF 21) para los 6 m del cajón en `RECORRIDO.md` §10.
 - Revisión de CodeRabbit sobre `5b07456` (CI verde en ese commit), 3 findings, corregidos: la vista vuelve a «cargando» al reconstruirse (otro tramo, circuito completo u otro renderizador) y no conserva `ready`, con prueba que falla sin el cambio; la longitud distingue cálculo OSM y secuencia oficial (recorridos PDF 16, protocolo PDF 39); fila y registro de #22 sin referencias obsoletas. Pendiente: la revisión de seguimiento de Codex y CodeRabbit sobre este commit.
 
+### F04-T02 — Tránsito del circuito
+
+- Apilado sobre `f04-t01-city` (#22), por el pedido «ya está el pr de F04 T01, haz el resto de tareas de esta fase». Orden obligatorio: #22 → PR_F04_T02.
+- Alcance: `src/traffic/` (red de encrucijadas, aproximaciones, sendas y trayectorias; planes de semáforo por semilla; autos, colectivos, bicicletas y peatones con seguimiento, semáforos, PARE, prioridad de la derecha y peatones; `lookAhead` para el examinador y los conductores de prueba), `TrafficSnapshot`/`TrafficSource` en `scenario.ts` con `World.traffic` y `trafficOf`, bucle de manejo genérico, lámparas encendidas y actores en la escena de la ciudad, semilla en `#/recorrido`. Detalle en ARQUITECTURA, «Tránsito del circuito».
+- Aceptación:
+  - **Actores interactúan coherentemente:** pruebas `stops at a red light before the line and goes on green`, `comes to a full stop at a STOP sign, waits, then goes`, `keeps a following distance behind a slower vehicle`, `follows the car itself`, `yields to a vehicle crossing from the right … and goes when it has priority`, `yields to the car when it comes from the right, and proceeds once the car has stopped and lost priority`, `lets pedestrians cross a signalled crosswalk only on its walk phase`, `lets pedestrians step off an unsignalled crosswalk only in a gap, and vehicles stop for them`, `keeps bicycles on the cycle track`, `keeps every vehicle at or below the speed of its lane`, `reports a contact once`, `never shows green to both streets`.
+  - **Cruces y tránsito no bloquean indefinidamente una conducción válida:** `completes the lap with traffic on, obeying the lights, without touching anyone and never waiting a full cycle` (`src/traffic/lap.test.ts`): la vuelta completa con la semilla 1, sin contactos, sin cruzar en rojo, con detenciones en rojo y ninguna espera mayor a 36 s; `is reproducible` para la semilla.
+- Aproximaciones declaradas (ARQUITECTURA): ciclo 14/3/19 s con 1 s de todo rojo; espera de 1 s en PARE; 20 m o 4 s para considerar que alguien llega; 1,5 s detenido para perder la prioridad (excepción 4 del manual, PDF 64); 8 s anti-bloqueo; aceleraciones y frenados de los actores; velocidades de contexto, Metrobús y bicicleta; densidad de un vehículo cada 120 m; fase peatonal = rojo de su calle; brecha peatonal de 15 m; sentidos de las calles de contexto, doble mano del Metrobús, Congreso y ciclovía; prolongaciones de 15 m; líneas de detención geométricas (la pintura de tres semáforos de media cuadra queda para F04-T03).
+- Verificación local: `npm run check` aprobado con 391 pruebas (cobertura 95,95 % sentencias / 90,72 % ramas), contenido OK y build OK. Playwright: `npx playwright test --workers=1` con 46 E2E aprobados (escritorio y Pixel 7 emulado), incluido el caso nuevo de tránsito; ciudad y examen aprobados también por separado (10).
+- Revisiones: Codex y CodeRabbit solicitados al abrir el PR; se registran al llegar. Sin excepción de cuota aplicada.
+- Para F04-T03: consumir `TrafficSnapshot.lights` (estado por control), `lookAhead` (semáforo, cruce, senda y vehículo de adelante con distancias y cajas de conflicto), `poses` con `inside(zona)` y los eventos `actor-contact` de cualquier tipo de actor; `Approach.rule`/`group` dan la regla de cada cruce. `light` solo resume la luz que el auto enfrenta en el recorrido.
+
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 (PR_F04_T02) está apilado sobre #22: fusionar #22 primero, después actualizar la base de PR_F04_T02, comprobar su diff y repetir los checks.
 
 ## Bloqueos
 
@@ -350,7 +368,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Atender CI y revisiones de [#22](https://github.com/grunch/al-volante/pull/22), resolver findings antes de solicitar otra ronda. No iniciar F04-T02 ni fusionar con este pedido. Ver `CIUDAD.md` para geometría, interfaces y pendientes de relevamiento.
+Continuar la etapa A de la fase 4: F04-T03 (examinador y reglas de circulación del circuito) apilada sobre `f04-t02-traffic`, consumiendo las interfaces de tránsito registradas arriba. Mientras tanto, atender CI y revisiones de [#22](https://github.com/grunch/al-volante/pull/22) y de PR_F04_T02 cuando lleguen; no fusionar hasta la etapa B. Ver `CIUDAD.md` y ARQUITECTURA «Tránsito del circuito» para interfaces y aproximaciones.
 
 ## Decisiones que no deben reinterpretarse
 

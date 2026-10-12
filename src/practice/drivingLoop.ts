@@ -4,8 +4,7 @@ import type { CarControls, CarEvent, CarSpecs, CarState } from '../sim/car.ts';
 import { advance, createStepper, SIM_STEP_S } from '../sim/fixedStep.ts';
 import type { Stepper } from '../sim/fixedStep.ts';
 import type { PowertrainCommand, TransmissionKind } from '../sim/powertrain/powertrain.ts';
-import { createScenarioState, stepScenario } from '../sim/scenario.ts';
-import type { Scenario, ScenarioState } from '../sim/scenario.ts';
+import type { TrafficSnapshot, TrafficSource } from '../sim/scenario.ts';
 import { bodyBox } from '../sim/vehicle.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
 import type { World } from '../sim/world.ts';
@@ -17,8 +16,10 @@ export interface DrivingFrame {
   events: CarEvent[];
   /** Fraction of the next step elapsed, to interpolate the view. */
   alpha: number;
-  /** The world's traffic light and actors, stepped beside the car; null in a world without a scenario. */
-  scenario: ScenarioState | null;
+  /** The traffic stepped beside the car; null in a world without any. */
+  traffic: TrafficSource | null;
+  /** The traffic's lights and actors after the last step; null in a world without traffic. */
+  scenario: TrafficSnapshot | null;
 }
 
 /** Called after every fixed step and every command, with what the step produced; the exam evaluation listens here. */
@@ -26,7 +27,7 @@ export type StepObserver = (
   car: CarState,
   events: readonly CarEvent[],
   dt: number,
-  scenario: ScenarioState | null,
+  scenario: TrafficSnapshot | null,
 ) => void;
 
 /** A session starts at rest; `prepared` commands (the key in contact for an exam) are applied before any step. */
@@ -35,7 +36,7 @@ export function startDriving(
   transmission: TransmissionKind,
   prepared: readonly PowertrainCommand[] = [],
   specs: CarSpecs = EXAM_SPECS,
-  scenario?: Scenario,
+  traffic?: TrafficSource,
 ): DrivingFrame {
   let state = initialCarState(start, transmission);
   const events: CarEvent[] = [];
@@ -49,7 +50,8 @@ export function startDriving(
     controls: NEUTRAL_CONTROLS,
     events,
     alpha: 0,
-    scenario: scenario ? createScenarioState(scenario) : null,
+    traffic: traffic ?? null,
+    scenario: traffic ? traffic.create() : null,
   };
 }
 
@@ -83,14 +85,14 @@ export function driveFrame(
     controls = stepControls(controls, typeof keys === 'function' ? keys() : keys, SIM_STEP_S);
     const next = stepCar(world, current, controls, SIM_STEP_S, specs);
     const stepEvents: CarEvent[] = [...next.events];
-    if (world.scenario && scenario) {
+    if (frame.traffic && scenario) {
       const { vehicle, timeS } = next.state.world;
-      scenario = stepScenario(world.scenario, scenario, bodyBox(specs.vehicle, vehicle), timeS);
+      scenario = frame.traffic.step(scenario, bodyBox(specs.vehicle, vehicle), timeS, SIM_STEP_S);
       stepEvents.push(...scenario.contacts.map((actor) => ({ type: 'actor-contact' as const, actor })));
     }
     events.push(...stepEvents);
     observe?.(next.state, stepEvents, SIM_STEP_S, scenario);
     return next.state;
   });
-  return { stepper: result.stepper, controls, events, alpha: result.alpha, scenario };
+  return { stepper: result.stepper, controls, events, alpha: result.alpha, traffic: frame.traffic, scenario };
 }

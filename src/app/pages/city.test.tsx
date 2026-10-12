@@ -25,10 +25,12 @@ afterEach(() => {
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
-const runFrames = () =>
+let now = 100;
+const runFrames = (elapsedMs = 0) =>
   act(() => {
+    now += elapsedMs;
     const pending = callbacks.splice(0);
-    pending.forEach((callback) => callback(100));
+    pending.forEach((callback) => callback(now));
   });
 const content = () => readyContent({ ...testContent(), route: RouteSchema.parse(routeData) });
 
@@ -68,4 +70,26 @@ it('keeps the content load error visible instead of constructing an unvalidated 
 it('links the explorer from the garage', () => {
   renderApp('/');
   expect(screen.getByRole('link', { name: copy.homeLink })).toHaveAttribute('href', '/recorrido');
+});
+
+it('drives with seeded traffic: the seed input is bounded and the cockpit reports active actors', async () => {
+  renderApp('/recorrido', content());
+  await screen.findByTestId('city-preview');
+  const seed = screen.getByRole('spinbutton', { name: copy.seed });
+  expect(seed).toHaveValue(1);
+  fireEvent.change(seed, { target: { value: '-3' } });
+  expect(seed).toHaveValue(1);
+  fireEvent.change(seed, { target: { value: '7' } });
+  expect(seed).toHaveValue(7);
+  expect(screen.getByText(copy.seedHelp)).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: copy.drive }));
+  const view = await screen.findByTestId('driving-canvas');
+  await waitFor(() => {
+    runFrames(50);
+    expect(view).toHaveAttribute('data-state', 'ready');
+  });
+  // Half a second of simulation activates the actors near the entry.
+  for (let frame = 0; frame < 12; frame++) runFrames(50);
+  expect(Number(view.dataset.actors)).toBeGreaterThan(0);
+  expect(screen.getByText(copy.scope)).toBeInTheDocument();
 });

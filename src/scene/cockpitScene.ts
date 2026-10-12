@@ -5,7 +5,7 @@ import type { CockpitState } from '../practice/cockpit.ts';
 import { MIRROR_IDS } from '../practice/cockpit.ts';
 import type { VehicleSpec, VehicleState } from '../sim/vehicle.ts';
 import { bodyBox } from '../sim/vehicle.ts';
-import type { ScenarioState } from '../sim/scenario.ts';
+import type { TrafficSnapshot } from '../sim/scenario.ts';
 import type { World } from '../sim/world.ts';
 
 /** All cabin dimensions are visual approximations in metres, not exam tolerances. +x is driver left. */
@@ -167,7 +167,7 @@ export function createCockpitScene(world: World, spec: VehicleSpec) {
     camera,
     mirrors,
     resize: track.resize,
-    update(vehicle: VehicleState, state: CockpitState, rpm: number, timeS: number, scenario?: ScenarioState | null) {
+    update(vehicle: VehicleState, state: CockpitState, rpm: number, timeS: number, scenario?: TrafficSnapshot | null) {
       track.update(vehicle, scenario);
       const body = bodyBox(spec, vehicle);
       cabin.position.set(body.centerX, 0, body.centerZ);
