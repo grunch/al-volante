@@ -125,7 +125,10 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
     const tick = () => {
       const left = deadline - Date.now();
       setRemainingMs(left);
-      if (left <= 0) timeUp();
+      if (left > 0) return;
+      // Stops before handing in: another tick could run before React re-renders and store the paper twice.
+      window.clearInterval(timer);
+      timeUp();
     };
     const timer = window.setInterval(tick, 1000);
     return () => window.clearInterval(timer);
@@ -277,8 +280,8 @@ function Results({
           {THEORY_COPY.notSaved}
         </p>
       )}
-      <h3>{THEORY_COPY.bySectionHeading}</h3>
-      <table>
+      <h3 id="theory-by-section">{THEORY_COPY.bySectionHeading}</h3>
+      <table aria-labelledby="theory-by-section">
         <thead>
           <tr>
             <th scope="col">{THEORY_COPY.sectionColumn}</th>

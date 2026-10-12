@@ -4,7 +4,7 @@ import { VERIFICATION_STATUSES } from './schemas.ts';
 import { computeContentVersion, validateContent } from './validate.ts';
 import type { RawContent } from './validate.ts';
 import { loadContent } from './catalog.ts';
-import { auditCoverage, computeCoverage } from './coverage.ts';
+import { auditCoverage, auditGaps, computeCoverage } from './coverage.ts';
 import { catalog, choiceActivity, route, ruleCatalog, source, theoryExamConfig } from './testing/fixtures.ts';
 
 function rawFixture(): RawContent {
@@ -215,6 +215,42 @@ describe('auditCoverage', () => {
     });
     expect(audit.signs).toMatchObject({ total: 2, practiced: 1, untreated: ['sign.x.b'], withoutCrop: ['sign.x.b'] });
     expect(audit.unclassifiedPages).toEqual([{ source: 'manual', page: 3 }]);
+  });
+});
+
+describe('auditCoverage of a source without classified pages', () => {
+  it('reports every page of an audited source in the manifest that has no page records', () => {
+    const data = catalog();
+    const pages = data.pages.filter((page) => page.source !== 'recorridos');
+
+    const audit = auditCoverage({ manifest: data.manifest, pages, units: data.units, signs: [] });
+
+    expect(audit.unclassifiedPages).toHaveLength(19);
+    expect(audit.unclassifiedPages[0]).toEqual({ source: 'recorridos', page: 1 });
+  });
+});
+
+describe('auditGaps', () => {
+  it('describes each gap of an audit, and nothing when coverage is complete', () => {
+    const complete = {
+      units: { total: 1, practiced: 1, consultation: 0, untreated: [] },
+      signs: { total: 1, practiced: 1, consultation: 0, untreated: [], withoutCrop: [] },
+      unclassifiedPages: [],
+    };
+
+    expect(auditGaps(complete)).toEqual([]);
+    expect(
+      auditGaps({
+        units: { ...complete.units, untreated: ['manual.ch3.a'] },
+        signs: { ...complete.signs, untreated: ['sign.x.b'], withoutCrop: ['sign.x.b'] },
+        unclassifiedPages: [{ source: 'manual', page: 3 }],
+      }),
+    ).toEqual([
+      'untreated units: manual.ch3.a',
+      'untreated signs: sign.x.b',
+      'signs without a crop: sign.x.b',
+      'unclassified pages: manual:3',
+    ]);
   });
 });
 

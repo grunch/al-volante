@@ -4,7 +4,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { activityKeyOf } from '../src/content/activityFiles.ts';
-import { auditCoverage, computeCoverage } from '../src/content/coverage.ts';
+import { auditCoverage, auditGaps, computeCoverage } from '../src/content/coverage.ts';
 import { figureFile, signFile } from '../src/content/figures.ts';
 import { ACTIVITY_DIRECTORY, validateContent } from '../src/content/validate.ts';
 import type { RawContent } from '../src/content/validate.ts';
@@ -67,3 +67,8 @@ console.log(
     `(${audit.signs.total - audit.signs.withoutCrop.length} cropped), ` +
     `${audit.unclassifiedPages.length} unclassified pages.`,
 );
+const gaps = auditGaps(audit);
+if (gaps.length > 0) {
+  console.error(`Coverage audit has gaps:\n- ${gaps.join('\n- ')}`);
+  process.exit(1);
+}

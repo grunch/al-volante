@@ -180,13 +180,13 @@ Además, en F05-T01 se revisaron contra sus páginas las 14 unidades (cap. 1, 3 
 
 - **Banco del simulacro:** las variantes de opción única y de identificación de señales de las secciones de la licencia B (introducción, capítulos 1–5 y anexos I y IV). Para que una variante entre tiene que ofrecer al menos dos opciones incorrectas: el examen muestra tres opciones. Una actividad entra solo si **todas** sus unidades son de esas secciones: las variantes no indican su fuente, así que una actividad que también practica la guía (por ejemplo, las de siniestros del capítulo 2) podría preguntar un dato de fuera del teórico B. El glosario, la guía, los anexos II y III y los documentos del examen no entran, porque no son material del teórico B (manual PDF 3).
 - **Reparto por tema:** proporcional a las unidades de cada sección, con al menos una pregunta por sección. Una prueba de integración compone hojas con el banco real: 40 preguntas, todas las secciones representadas y una sola opción correcta de tres.
-- **Parámetros:** 40 preguntas, 34 para aprobar, 45 minutos (40 como variante), con sus fuentes en `REGLAS.md` §8 y en la propia configuración. La interfaz cita la fuente de cada tiempo (45 en la disposición de 2023, 40 en el informe de gestión de 2024) y no declara vigente a ninguno. La página aclara que el simulacro es propio y no es el banco oficial.
+- **Parámetros:** 40 preguntas, 34 para aprobar, 45 minutos (40 como variante), con sus fuentes en `REGLAS.md` §8 y en la propia configuración (`catalog/theory-exam.json`). Cantidad, formato y umbral: Disposición 860/2023 (DGHC), anexo, p. 96. Tiempo: 45 minutos en esa misma disposición (anexo, p. 96) y en la página oficial de material de estudio; 40 minutos en el informe final de gestión 2024 (IF-2024-05928354-GCABA-AJG), p. 17. Los dos documentos se descargaron del Boletín Oficial y no están versionados en `fuentes/` (ver `REGLAS.md`, tabla de fuentes). La interfaz cita la fuente de cada tiempo y no declara vigente a ninguno.
 - **Auditoría global** (fin de la fase 5): 753 de 753 unidades tratadas (697 practicadas y 56 de consulta), 355 de 355 señales tratadas y recortadas y ninguna página sin clasificar en las cuatro fuentes (285 páginas). `npm run validate:content` imprime este resumen y una prueba de integración lo exige.
 
 ## Cómo validar
 
 ```bash
-npm run validate:content                              # esquemas, referencias, figuras, estados de tratamiento y auditoría global
+npm run validate:content                              # esquemas, referencias, figuras, estados de tratamiento y auditoría global (falla si hay brechas)
 npx vitest run src/content                            # validadores, recorrido del catálogo y política de contenido
 node scripts/crop-figures.ts [id …]                   # regenera recortes de figuras y señales (poppler e ImageMagick)
 ```

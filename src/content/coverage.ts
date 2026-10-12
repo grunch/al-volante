@@ -1,3 +1,4 @@
+import { AUDITED_SOURCE_IDS } from './schemas.ts';
 import type { AuditedSourceId, Category } from './schemas.ts';
 import type { Content } from './validate.ts';
 
@@ -81,7 +82,8 @@ export function auditCoverage({
   const consulted = <T extends { consultationReason?: string | undefined }>(items: readonly T[]) =>
     items.filter((item) => item.consultationReason !== undefined).length;
   const classified = new Set(pages.map((page) => `${page.source}:${page.page}`));
-  const audited = new Set(pages.map((page) => page.source));
+  // Every audited source of the manifest, also one without any page record yet.
+  const audited = new Set<string>(AUDITED_SOURCE_IDS);
   return {
     units: {
       total: units.length,
@@ -104,4 +106,18 @@ export function auditCoverage({
         ),
       ),
   };
+}
+
+/** One line per kind of gap in an audit; empty when coverage is complete (validate:content fails otherwise). */
+export function auditGaps({ units, signs, unclassifiedPages }: CoverageAudit): string[] {
+  const line = (label: string, items: readonly string[]) => (items.length > 0 ? [`${label}: ${items.join(', ')}`] : []);
+  return [
+    ...line('untreated units', units.untreated),
+    ...line('untreated signs', signs.untreated),
+    ...line('signs without a crop', signs.withoutCrop),
+    ...line(
+      'unclassified pages',
+      unclassifiedPages.map(({ source, page }) => `${source}:${page}`),
+    ),
+  ];
 }

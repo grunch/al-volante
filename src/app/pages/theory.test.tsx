@@ -44,6 +44,7 @@ describe('theory mock exam page', () => {
 
     expect(await screen.findByRole('heading', { level: 2, name: THEORY_COPY.passed })).toBeInTheDocument();
     expect(screen.getByText(THEORY_COPY.score(1, 2, 1))).toBeInTheDocument();
+    expect(screen.getByRole('table', { name: THEORY_COPY.bySectionHeading })).toBeInTheDocument();
     const wrong = screen.getByRole('heading', { name: THEORY_COPY.wrongHeading }).nextElementSibling as HTMLElement;
     expect(within(wrong).getByText('Pregunta dos')).toBeInTheDocument();
     expect(within(wrong).getByRole('link', { name: THEORY_COPY.practise })).toHaveAttribute(
@@ -101,14 +102,17 @@ describe('theory mock exam page', () => {
   it('hands the paper in by itself when time runs out, counting the unanswered questions as wrong', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    renderApp('/teorico?semilla=4&minutos=40', readyContent(examContent()));
+    const store = createMemoryStore();
+    renderApp('/teorico?semilla=4&minutos=40', readyContent(examContent()), store);
 
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
-    await act(() => vi.advanceTimersByTimeAsync(40 * 60_000 + 1_000));
+    // Several ticks past the deadline before React re-renders: the paper is still handed in once.
+    await act(() => vi.advanceTimersByTimeAsync(40 * 60_000 + 5_000));
 
     expect(await screen.findByRole('heading', { level: 2, name: THEORY_COPY.failed })).toBeInTheDocument();
     expect(screen.getByText(THEORY_COPY.timedOut)).toBeInTheDocument();
     expect(screen.getByText(THEORY_COPY.unanswered(2))).toBeInTheDocument();
+    await waitFor(async () => expect((await store.load()).snapshot.attempts).toHaveLength(1));
   });
 
   it('cites the source of each time instead of calling one of them the one in force', async () => {
