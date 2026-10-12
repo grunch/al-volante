@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DrivingCanvas } from './DrivingCanvas.tsx';
 import type { Telemetry } from './telemetry.ts';
+import type { Observation } from '../exam/session.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../sim/tracks/practiceYard.ts';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { createFakeRenderer } from '../test/fakeRenderer.ts';
@@ -226,6 +227,58 @@ describe('DrivingCanvas', () => {
     expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
     for (const code of ['KeyO', 'KeyZ', 'KeyX', 'KeyV', 'KeyF']) press(code);
     expect(screen.getByRole('button', { name: /Balizas/, pressed: true })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('applies the examiner’s brake from the step after the takeover, without waiting for a render', () => {
+    // Arrange: the takeover is decided by the observer itself, as the exam page does with its session ref.
+    let takenOver = false;
+    const brakes: number[] = [];
+    let lastSpeed = -1;
+    let takenAt = -1;
+    const onObservation = (observation: Observation) => {
+      if (observation.type !== 'step' || observation.dt === 0) return;
+      brakes.push(observation.car.controls.brake);
+      lastSpeed = observation.car.world.vehicle.speedMps;
+      if (!takenOver && observation.car.world.vehicle.speedMps > 0.3) {
+        takenOver = true;
+        takenAt = brakes.length - 1;
+      }
+    };
+    render(
+      <DrivingCanvas
+        world={PRACTICE_YARD}
+        start={PRACTICE_YARD_START}
+        transmission="automatic"
+        createRenderer={() => createFakeRenderer()}
+        onObservation={onObservation}
+        halted={() => takenOver}
+        {...texts}
+      />,
+    );
+    const surface = screen.getByTestId('driving-canvas');
+    runFrames(0.05);
+    const press = (code: string) => {
+      fireEvent.keyDown(surface, { code });
+      runFrames(0.05);
+    };
+
+    // Act: start, D, brake released; the car creeps until the observer takes over within the same frame.
+    press('KeyK');
+    press('KeyK');
+    fireEvent.keyDown(surface, { code: 'ArrowDown' });
+    runFrames(0.5);
+    press('KeyE');
+    press('KeyE');
+    press('KeyE');
+    press('Space');
+    fireEvent.keyUp(surface, { code: 'ArrowDown' });
+    runFrames(3);
+
+    // Assert: the brake rises on the very next simulation step and the car ends stopped.
+    expect(takenAt).toBeGreaterThan(0);
+    expect(brakes[takenAt]).toBe(0);
+    expect(brakes[takenAt + 1]).toBeGreaterThan(0);
+    expect(lastSpeed).toBe(0);
   });
 
   it('allows keyboard pedals outside the canvas and releases them on blur', () => {

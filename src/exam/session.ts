@@ -1,5 +1,9 @@
 import { createLedger, interrupt, recordFault, withdrawFault } from './scoring.ts';
 import type { Ledger, Stage } from './scoring.ts';
+import type { Circuit } from './circuit.ts';
+import { createStreet, judgeCirculation, noteGlance } from './circulation.ts';
+import { remember } from './street.ts';
+import type { Report, Street, Verdict } from './circulation.ts';
 import { createRandom, shuffle } from '../activities/random.ts';
 import type { Rule } from '../content/schemas.ts';
 import { MIRROR_IDS } from '../practice/cockpit.ts';
@@ -7,9 +11,7 @@ import type { CockpitCommand, CockpitState, MirrorId } from '../practice/cockpit
 import type { CarEvent, CarState } from '../sim/car.ts';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import type { TrafficSnapshot } from '../sim/scenario.ts';
-import type { OrientedBox } from '../sim/collision.ts';
-import { overlaps } from '../sim/collision.ts';
-import { EXAM_CAR, bodyBox, forwardOf, restingVehicle } from '../sim/vehicle.ts';
+import { forwardOf, restingVehicle } from '../sim/vehicle.ts';
 
 /** Game approximations, not protocol values (REGLAS.md §7, V2 and D4). The feedback shows them as such. */
 export const GAME_PARAMETERS = {
@@ -33,26 +35,14 @@ export const GAME_PARAMETERS = {
   speedToleranceKmh: 1,
   /** In the first 100 m, above this speed the manual must be in second and the automatic in D. */
   firstMetresGearSpeedKmh: 15,
-  /** Standing inside the intersection this long with the light red counts as blocking it. */
-  blockIntersectionS: 2,
-  /** The right turn is done once the heading has swung at least this far (about 70°). */
-  turnDoneHeadingRad: -1.2,
-  /** Metres before the corner by which the turn must be signalled (protocolo PDF 12, 24). */
-  signalBeforeCornerM: 30,
+  /** The car has left the box once it is this far to the left of where it was parked (in the lane). */
+  exitLateralM: 2.5,
 } as const;
-
-/** The street after the box: zones and limits of the first block (firstBlock.ts); absent in the closed yard. */
-export interface Course {
-  stopLineZ: number;
-  crosswalk: OrientedBox;
-  intersection: OrientedBox;
-  turnDoneX: number;
-  /** Exam limits (REGLAS.md §6) and the roads' own maxima, which fix the eliminatory l (decision D2). */
-  limits: { examKmh: number; roadKmh: number; avenueExamKmh: number; avenueRoadKmh: number };
-}
 
 /** The first 100 m after leaving the box (protocolo PDF 11, 31). */
 const FIRST_METRES_M = 100;
+/** The instructed maximum over the whole first 100 m, whatever the road they end on (protocolo PDF 11, 31). */
+const FIRST_METRES_KMH = 30;
 
 /** Rear axle in the middle of the yard's parking box (practiceYard.ts), facing +z with the kerb on the right. */
 export const EXAM_START = restingVehicle({ x: -5.15, z: 11.65, headingRad: 0 });
@@ -66,8 +56,7 @@ export type Phase =
   | 'forward'
   | 'exit'
   | 'firstMetres'
-  | 'approach'
-  | 'turn'
+  | 'circulation'
   | 'finished';
 
 /** What the examiner asks to recognise: a pedal, a gear, a light or an instrument (protocolo PDF 9). */
@@ -123,26 +112,16 @@ export interface Session {
   ledger: Ledger;
   completedStages: readonly Stage[];
   timeS: number;
-  course: Course | null;
+  /** The circuit after the box (F04-T03); null in the closed yard, where the exam ends on leaving the box. */
+  circuit: Circuit | null;
   measurements: {
     reverseCm: number | null;
     forwardCm: number | null;
     exitManoeuvres: number;
     firstMetresTopKmh: number | null;
   };
-  street: {
-    odometerStartM: number | null;
-    signalledAtZ: number | null;
-    crossedStopLine: boolean;
-    blockedS: number;
-    stops: number;
-    wasStopped: boolean;
-    /** Phase of the current speed episode, or null when under the limit: correcting it or changing context ends one (D3). */
-    speedingIn: Phase | null;
-    speedEpisodes: number;
-    /** The speed episode that already scored the road maximum: no exam-speed fault in it (D2). */
-    roadMaxEpisode: number | null;
-  };
+  /** Stage II on the street: progress, context and the memory every circulation rule needs (circulation.ts). */
+  street: Street;
   queue: readonly RecognitionTarget[];
   /** Stage I adjustments made since the recognition began; all three mirrors must be checked (protocolo PDF 9). */
   adjusted: { seat: boolean; headrest: boolean; mirrors: readonly MirrorId[] };
@@ -154,12 +133,18 @@ export interface Session {
   /** The car moved in stage II, so the cutoff before circulation no longer applies. */
   movedOff: boolean;
   manoeuvre: Manoeuvre | null;
-  exit: { looked: boolean; direction: number; movedOffChecked: boolean };
+  exit: {
+    looked: boolean;
+    direction: number;
+    movedOffChecked: boolean;
+    /** Where the car stood when the exit began, to measure how far into the lane it has moved. */
+    origin: { x: number; z: number; headingRad: number } | null;
+  };
 }
 
 const PEDALS = ['throttle', 'brake', 'clutch'] as const;
-const STAGE_TWO_PHASES: readonly Phase[] = ['unlock', 'reverse', 'forward', 'exit', 'firstMetres', 'approach', 'turn'];
-const STREET_PHASES: readonly Phase[] = ['firstMetres', 'approach', 'turn'];
+const STAGE_TWO_PHASES: readonly Phase[] = ['unlock', 'reverse', 'forward', 'exit', 'firstMetres', 'circulation'];
+const STREET_PHASES: readonly Phase[] = ['firstMetres', 'circulation'];
 const LIGHT_TARGETS: readonly RecognitionTarget[] = [
   'position',
   'low',
@@ -217,12 +202,12 @@ export function createSession(
   rules: readonly Rule[],
   kind: TransmissionKind,
   seed: number,
-  course: Course | null = null,
+  circuit: Circuit | null = null,
 ): Session {
   return {
     rules,
     kind,
-    course,
+    circuit,
     seed,
     phase: 'familiarisation',
     prompt: { kind: 'say', message: 'familiarisation' },
@@ -230,17 +215,7 @@ export function createSession(
     completedStages: [],
     timeS: 0,
     measurements: { reverseCm: null, forwardCm: null, exitManoeuvres: 0, firstMetresTopKmh: null },
-    street: {
-      odometerStartM: null,
-      signalledAtZ: null,
-      crossedStopLine: false,
-      blockedS: 0,
-      stops: 0,
-      wasStopped: false,
-      speedingIn: null,
-      speedEpisodes: 0,
-      roadMaxEpisode: null,
-    },
+    street: createStreet(circuit),
     queue: recognitionQueue(kind, seed),
     adjusted: { seat: false, headrest: false, mirrors: [] },
     pedalsDown: { throttle: false, brake: false, clutch: false },
@@ -249,7 +224,7 @@ export function createSession(
     handbrakeEpisodes: 0,
     movedOff: false,
     manoeuvre: null,
-    exit: { looked: false, direction: 0, movedOffChecked: false },
+    exit: { looked: false, direction: 0, movedOffChecked: false, origin: null },
   };
 }
 
@@ -258,7 +233,7 @@ const enter = (session: Session, phase: Phase): Session => ({
   phase,
   prompt: { kind: 'say', message: phase },
 });
-const finish = (session: Session): Session => enter(session, 'finished');
+const finish = (session: Session): Session => (session.phase === 'finished' ? session : enter(session, 'finished'));
 const inStageTwo = (session: Session) => STAGE_TWO_PHASES.includes(session.phase);
 
 /** With 8 points or more before circulating, the exam is interrupted (protocolo PDF 10). */
@@ -268,11 +243,47 @@ function cutoff(session: Session): Session {
 }
 
 /** Scores a fault; an interruption ends the exam, except during the recognition round, which is judged whole. */
-function fault(session: Session, ruleId: string, episode?: string, escalate = false): Session {
-  const ledger = recordFault(session.ledger, { ruleId, atS: session.timeS, episode, escalate });
+function fault(
+  session: Session,
+  ruleId: string,
+  episode?: string,
+  escalate = false,
+  cause?: 'fault' | 'examiner',
+): Session {
+  const ledger = recordFault(session.ledger, { ruleId, atS: session.timeS, episode, escalate, cause });
   const next: Session = { ...session, ledger };
   if (ledger.interruption && session.phase !== 'recognition') return finish(next);
   return cutoff(next);
+}
+
+/**
+ * The examiner takes the dual controls (protocolo PDF 7): a recent fault that escalates is raised to eliminatory
+ * (high e, l, n, o); with none to raise, the manoeuvre itself is reckless (eliminatory i). The exam is interrupted.
+ */
+function takeover(session: Session): Session {
+  const marked: Session = { ...session, street: { ...session.street, takeover: true } };
+  const pending = marked.street.escalatable.at(-1);
+  const judged = pending
+    ? fault(marked, pending.ruleId, pending.episode, true)
+    : fault(marked, 'rule.eliminatory.i-reckless-maneuver', undefined, false, 'examiner');
+  return judged.phase === 'finished' ? judged : finish(judged);
+}
+
+/**
+ * Applies what the circulation judge reported, in order, until an interruption ends the exam; with `all`, every
+ * report of the step is recorded even after one interrupts (the examiner took over in that same step).
+ */
+function applyReports(session: Session, reports: readonly Report[], all = false): Session {
+  let next = session;
+  for (const report of reports) {
+    if (next.phase === 'finished' && !all) return next;
+    if (report.withdraw) {
+      next = { ...next, ledger: withdrawFault(next.ledger, report.ruleId, report.episode) };
+      continue;
+    }
+    next = fault(next, report.ruleId, report.episode);
+  }
+  return next;
 }
 
 function nextPrompt(session: Session): Session {
@@ -334,8 +345,10 @@ function onCockpit(session: Session, command: CockpitCommand, after: CockpitStat
     return fault(next, 'rule.eliminatory.c-no-seatbelt');
   const yaw = Math.abs(after.lookYaw);
   const { min, max } = GAME_PARAMETERS.mirrorGlanceYawRad;
-  if (next.phase === 'exit' && command.type === 'look' && yaw >= min && yaw <= max)
-    return { ...next, exit: { ...next.exit, looked: true } };
+  const glance = command.type === 'look' && yaw >= min && yaw <= max;
+  if (next.phase === 'exit' && glance) return { ...next, exit: { ...next.exit, looked: true } };
+  if (STREET_PHASES.includes(next.phase) && glance)
+    return { ...next, street: noteGlance(next.street, after.lookYaw, next.timeS) };
   return next;
 }
 
@@ -420,11 +433,23 @@ function onManoeuvreStep(session: Session, car: CarState, dt: number): Session {
   return judged.phase === 'finished' ? judged : enter(judged, reverse ? 'forward' : 'exit');
 }
 
+/** How far to the left of where the exit began the car now stands (in the frame of the parked car). */
+function exitLateralM(session: Session, car: CarState): number {
+  const origin = session.exit.origin;
+  if (!origin) return 0;
+  const { x, z } = car.world.vehicle;
+  return (x - origin.x) * Math.cos(origin.headingRad) - (z - origin.z) * Math.sin(origin.headingRad);
+}
+
 /** Leaving the box: signal and mirrors at move-off, manoeuvre count, and the car clear of the box. */
 function onExitStep(session: Session, car: CarState, cockpit: CockpitState): Session {
   const speed = car.world.vehicle.speedMps;
   const direction = Math.abs(speed) > 0.05 ? Math.sign(speed) : 0;
   let next = session;
+  if (!next.exit.origin) {
+    const { x, z, headingRad } = car.world.vehicle;
+    next = { ...next, exit: { ...next.exit, origin: { x, z, headingRad } } };
+  }
   if (direction !== 0 && direction !== next.exit.direction)
     next = {
       ...next,
@@ -434,11 +459,15 @@ function onExitStep(session: Session, car: CarState, cockpit: CockpitState): Ses
   if (direction !== 0 && !next.exit.movedOffChecked) {
     next = { ...next, exit: { ...next.exit, movedOffChecked: true } };
     if (cockpit.signal !== 'left') next = fault(next, 'rule.minor.j-no-signal-leaving-box');
-    if (next.phase !== 'finished' && !next.exit.looked) next = fault(next, 'rule.high.e-no-mirror-check-leaving-box');
+    if (next.phase !== 'finished' && !next.exit.looked) {
+      // High e escalates (protocolo PDF 7): a takeover while leaving the box raises it instead of a reckless i.
+      const street = remember(next.street, 'rule.high.e-no-mirror-check-leaving-box', 'exit', next.timeS);
+      next = fault({ ...next, street }, 'rule.high.e-no-mirror-check-leaving-box', 'exit');
+    }
   }
-  // Clear of the box: past the lane-side posts (x = -4) with the whole body.
-  if (next.phase !== 'finished' && car.world.vehicle.x > -2.5) {
-    if (!next.course) return finish(next);
+  // Clear of the box: in the lane, a car's width or more to the left of where it was parked.
+  if (next.phase !== 'finished' && exitLateralM(next, car) >= GAME_PARAMETERS.exitLateralM) {
+    if (!next.circuit) return finish(next);
     return enter({ ...next, street: { ...next.street, odometerStartM: car.world.vehicle.odometerM } }, 'firstMetres');
   }
   return next;
@@ -446,34 +475,8 @@ function onExitStep(session: Session, car: CarState, cockpit: CockpitState): Ses
 
 const kmhOf = (car: CarState) => Math.abs(car.world.vehicle.speedMps) * 3.6;
 
-/** Exam speed against the road's maximum (decision D2: one episode, the more severe rule only). */
-function judgeSpeed(session: Session, car: CarState, roadKmh: number, examKmh: number): Session {
-  const kmh = kmhOf(car);
-  const tolerance = GAME_PARAMETERS.speedToleranceKmh;
-  const over = kmh > examKmh + tolerance;
-  let next = session;
-  // A new episode starts when the limit is exceeded again, or when the road context changes while over it (D3).
-  if (over && next.street.speedingIn !== next.phase)
-    next = {
-      ...next,
-      street: { ...next.street, speedingIn: next.phase, speedEpisodes: next.street.speedEpisodes + 1 },
-    };
-  if (!over && next.street.speedingIn !== null) next = { ...next, street: { ...next.street, speedingIn: null } };
-  const episode = `speed-${next.street.speedEpisodes}`;
-  if (kmh > roadKmh + tolerance) {
-    // One episode, the more severe rule only (D2): the exam-speed fault of this episode is withdrawn, and not
-    // scored again while the episode goes on below the road maximum.
-    const ledger = withdrawFault(next.ledger, 'rule.high.f-exam-speed-exceeded', episode);
-    const marked: Session = { ...next, ledger, street: { ...next.street, roadMaxEpisode: next.street.speedEpisodes } };
-    return fault(marked, 'rule.eliminatory.l-road-speed-limit-exceeded');
-  }
-  if (over && next.street.roadMaxEpisode !== next.street.speedEpisodes)
-    return fault(next, 'rule.high.f-exam-speed-exceeded', episode);
-  return next;
-}
-
 /** First 100 m: at most 30 km/h in second (manual) or D (automatic); otherwise the instruction is not followed. */
-function onFirstMetresStep(session: Session, car: CarState, course: Course): Session {
+function onFirstMetresStep(session: Session, car: CarState): Session {
   const kmh = kmhOf(car);
   const { powertrain } = car;
   const topKmh = Math.max(session.measurements.firstMetresTopKmh ?? 0, kmh);
@@ -481,92 +484,47 @@ function onFirstMetresStep(session: Session, car: CarState, course: Course): Ses
   const wrongGear =
     kmh > GAME_PARAMETERS.firstMetresGearSpeedKmh &&
     (powertrain.kind === 'manual' ? powertrain.manualGear !== '2' : powertrain.lever !== 'D');
-  if (kmh > course.limits.examKmh + GAME_PARAMETERS.speedToleranceKmh || wrongGear)
+  if (kmh > FIRST_METRES_KMH + GAME_PARAMETERS.speedToleranceKmh || wrongGear)
     next = fault(next, 'rule.eliminatory.g-first-block-instruction');
   if (next.phase === 'finished') return next;
   const start = next.street.odometerStartM ?? car.world.vehicle.odometerM;
-  return car.world.vehicle.odometerM - start >= FIRST_METRES_M ? enter(next, 'approach') : next;
+  return car.world.vehicle.odometerM - start >= FIRST_METRES_M ? enter(next, 'circulation') : next;
 }
 
-/** Where the current right-signal episode began; switching it off or to the left forgets it. */
-function noteSignal(session: Session, car: CarState, cockpit: CockpitState): Session {
-  const { signalledAtZ } = session.street;
-  if (cockpit.signal !== 'right')
-    return signalledAtZ === null ? session : { ...session, street: { ...session.street, signalledAtZ: null } };
-  if (signalledAtZ !== null) return session;
-  return { ...session, street: { ...session.street, signalledAtZ: car.world.vehicle.z } };
-}
-
-/** Up to the corner: the light, the stop line, the crosswalk, blocking the intersection and the turn signal. */
-function onApproachStep(
+/** Stage II on the circuit: every circulation rule, the examiner's takeover and the end of the lap. */
+function onCirculationStep(
   session: Session,
   car: CarState,
   cockpit: CockpitState,
   scenario: TrafficSnapshot | null,
-  course: Course,
+  circuit: Circuit,
   dt: number,
 ): Session {
-  let next = judgeSpeed(session, car, course.limits.roadKmh, course.limits.examKmh);
+  const firstMetres = session.phase === 'firstMetres';
+  const verdict = judgeCirculation(session.street, circuit, car, cockpit, scenario, dt, session.timeS, firstMetres);
+  let next: Session = { ...session, street: verdict.street };
+  if (firstMetres) next = onFirstMetresStep(next, car);
   if (next.phase === 'finished') return next;
-  const vehicle = car.world.vehicle;
-  const body = bodyBox(EXAM_CAR, vehicle);
-  const frontZ = body.centerZ + body.halfLengthM;
-  const stopped = vehicle.speedMps === 0;
-  const light = scenario?.light ?? 'green';
-  next = noteSignal(next, car, cockpit);
-  // Stopping past the line or on the crosswalk, once per stop.
-  if (stopped && !next.street.wasStopped) {
-    next = { ...next, street: { ...next.street, wasStopped: true, stops: next.street.stops + 1 } };
-    if (frontZ > course.stopLineZ + 0.1)
-      next = fault(next, 'rule.high.h-stop-over-line-or-crosswalk', `stop-${next.street.stops}`);
-  } else if (!stopped && next.street.wasStopped) next = { ...next, street: { ...next.street, wasStopped: false } };
-  if (next.phase === 'finished') return next;
-  // Entering the crosswalk while a pedestrian is on it.
-  const pedestrianOnCrosswalk = scenario?.poses.some(
-    (pose) => pose.kind === 'pedestrian' && pose.active && pose.inside(course.crosswalk),
-  );
-  if (pedestrianOnCrosswalk && !stopped && overlaps(body, course.crosswalk))
-    next = fault(next, 'rule.high.l-yield-to-pedestrians-cyclists', 'crosswalk');
-  if (next.phase === 'finished') return next;
-  // Standing inside the intersection with the light red.
-  const blockedS = stopped && light === 'red' && overlaps(body, course.intersection) ? next.street.blockedS + dt : 0;
-  next = { ...next, street: { ...next.street, blockedS } };
-  if (blockedS >= GAME_PARAMETERS.blockIntersectionS)
-    next = fault(next, 'rule.high.i-block-intersection', 'intersection');
-  if (next.phase === 'finished') return next;
-  // Crossing the stop line: the red light, and the signal that should have been on 30 m before the corner.
-  if (!next.street.crossedStopLine && frontZ >= course.stopLineZ) {
-    next = { ...next, street: { ...next.street, crossedStopLine: true } };
-    if (light === 'red') next = fault(next, 'rule.eliminatory.k-red-light');
-    if (next.phase === 'finished') return next;
-    const signalledAt = next.street.signalledAtZ;
-    if (signalledAt === null) next = fault(next, 'rule.low.g-no-turn-signal');
-    else if (course.stopLineZ - signalledAt < GAME_PARAMETERS.signalBeforeCornerM)
-      next = fault(next, 'rule.minor.q-turn-lane-late');
-    if (next.phase === 'finished') return next;
-  }
-  // Into the intersection: the turn begins.
-  const nearEdgeZ = course.intersection.centerZ - course.intersection.halfLengthM;
-  return frontZ >= nearEdgeZ ? enter(next, 'turn') : next;
+  return settleCirculation(next, verdict);
 }
 
-/** The right turn onto the avenue: done past the corner heading -x; going straight ignores the examiner. */
-function onTurnStep(session: Session, car: CarState, course: Course): Session {
-  const vehicle = car.world.vehicle;
-  const turned = vehicle.headingRad <= GAME_PARAMETERS.turnDoneHeadingRad;
-  const { limits } = course;
-  let next = judgeSpeed(
-    session,
-    car,
-    turned ? limits.avenueRoadKmh : limits.roadKmh,
-    turned ? limits.avenueExamKmh : limits.examKmh,
-  );
+/**
+ * Applies one step's verdict. When the examiner takes the dual controls in that step, the takeover is applied even
+ * if a fault of the same step already interrupted (crossing on red towards a car): every fault is recorded, the
+ * escalation or the reckless manoeuvre is added, and the interruption is the examiner's (protocolo PDF 7).
+ */
+export function settleCirculation(session: Session, verdict: Pick<Verdict, 'reports' | 'takeover' | 'done'>): Session {
+  if (verdict.takeover) {
+    const taken = takeover(applyReports(session, verdict.reports, true));
+    const interruption = taken.ledger.interruption;
+    if (interruption?.cause !== 'fault' || interruption.atS !== taken.timeS) return taken;
+    return { ...taken, ledger: { ...taken.ledger, interruption: { ...interruption, cause: 'examiner' } } };
+  }
+  const next = applyReports(session, verdict.reports);
   if (next.phase === 'finished') return next;
-  // Past the middle of the avenue still heading along the street: the car did not turn.
-  if (vehicle.z > course.intersection.centerZ + 2 && vehicle.headingRad > -0.5)
-    next = fault(next, 'rule.eliminatory.f-examiner-safety-instruction-ignored');
-  if (next.phase === 'finished') return next;
-  return turned && vehicle.x <= course.turnDoneX ? finish(next) : next;
+  // Back on the first leg after the eighth: stage II is complete. Stage III (parking) is F04-T04.
+  if (verdict.done) return finish({ ...next, completedStages: [...next.completedStages, 'II'] });
+  return next;
 }
 
 function onEvent(session: Session, event: CarEvent): Session {
@@ -610,11 +568,18 @@ function onEvent(session: Session, event: CarEvent): Session {
             : 'rule.minor.i-curb-scrape',
         );
       return session;
-    case 'actor-contact':
-      // Hitting a pedestrian: the examiner intervenes (escalated high l). Hitting a vehicle: a reckless manoeuvre.
-      return event.actor === 'pedestrian'
-        ? fault(session, 'rule.high.l-yield-to-pedestrians-cyclists', 'crosswalk', true)
-        : fault(session, 'rule.eliminatory.i-reckless-maneuver');
+    case 'actor-contact': {
+      // Hitting a pedestrian or a cyclist: the examiner intervenes (escalated high l, on the episode already
+      // scored when one exists). Hitting a vehicle: a reckless manoeuvre.
+      const onFoot = event.actor === 'pedestrian' || event.actor === 'bicycle';
+      const pending = session.street.escalatable.findLast(
+        (item) => item.ruleId === 'rule.high.l-yield-to-pedestrians-cyclists',
+      );
+      const marked: Session = { ...session, street: { ...session.street, takeover: true } };
+      return onFoot
+        ? fault(marked, 'rule.high.l-yield-to-pedestrians-cyclists', pending?.episode ?? 'contact', true)
+        : fault(marked, 'rule.eliminatory.i-reckless-maneuver', undefined, false, 'examiner');
+    }
     default:
       return session;
   }
@@ -658,15 +623,8 @@ function onStep(
   }
   if (next.phase === 'reverse' || next.phase === 'forward') return onManoeuvreStep(next, car, dt);
   if (next.phase === 'exit') return onExitStep(next, car, cockpit);
-  if (next.course && STREET_PHASES.includes(next.phase)) {
-    if (next.phase === 'firstMetres') {
-      // The corner rules also watch a car that reaches the line within its first 100 m.
-      const judged = onFirstMetresStep(noteSignal(next, car, cockpit), car, next.course);
-      return judged.phase === 'firstMetres' ? judged : judged;
-    }
-    if (next.phase === 'approach') return onApproachStep(next, car, cockpit, scenario ?? null, next.course, dt);
-    return onTurnStep(next, car, next.course);
-  }
+  if (next.circuit && STREET_PHASES.includes(next.phase))
+    return onCirculationStep(next, car, cockpit, scenario ?? null, next.circuit, dt);
   return next;
 }
 

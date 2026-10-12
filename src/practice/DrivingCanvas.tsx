@@ -58,10 +58,17 @@ interface DrivingCanvasProps {
   prepared?: readonly PowertrainCommand[];
   /** Receives every cabin command and every simulation step, for the exam evaluation (F03-T04). */
   onObservation?: (observation: Observation) => void;
+  /**
+   * The examiner took the dual controls (F04-T03): the pedals answer to nobody and the car is braked to a stop. A
+   * function is read before every simulation step, so a takeover decided in one step brakes from the next one.
+   */
+  halted?: boolean | (() => boolean);
 }
 
 const defaultRendererFactory: RendererFactory = () => new THREE.WebGLRenderer({ antialias: true });
 const EMPTY_COMMANDS: readonly PowertrainCommand[] = [];
+/** What the examiner's pedals press when they take over: the brake, and the clutch so a manual does not stall. */
+const HALT_KEYS: ReadonlySet<string> = new Set([KEY_BINDINGS.brake[0], KEY_BINDINGS.clutch[0]]);
 
 /** Gear changes are routine: the driver hears about everything else. */
 const isNotable = (event: CarEvent) => event.type !== 'gear-engaged' && event.type !== 'key-inserted';
@@ -84,6 +91,7 @@ export function DrivingCanvas({
   resetCount = 0,
   prepared = EMPTY_COMMANDS,
   onObservation,
+  halted = false,
 }: DrivingCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const heldRef = useRef(new HeldInput());
@@ -179,13 +187,15 @@ export function DrivingCanvas({
   const resetRef = useRef(resetCount);
   const telemetryRef = useRef(onTelemetry);
   const observationRef = useRef(onObservation);
+  const haltedRef = useRef(halted);
   const [state, setState] = useState<DrivingState>('loading');
 
   useEffect(() => {
     resetRef.current = resetCount;
     telemetryRef.current = onTelemetry;
     observationRef.current = onObservation;
-  }, [resetCount, onTelemetry, onObservation]);
+    haltedRef.current = halted;
+  }, [resetCount, onTelemetry, onObservation, halted]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -222,6 +232,10 @@ export function DrivingCanvas({
     window.addEventListener('blur', releaseKeys);
     document.addEventListener('visibilitychange', releaseKeys);
 
+    const isHalted = () => {
+      const halted = haltedRef.current;
+      return typeof halted === 'function' ? halted() : halted;
+    };
     const observeStep = (
       car: CarState,
       stepEvents: readonly CarEvent[],
@@ -253,15 +267,18 @@ export function DrivingCanvas({
         setCockpit(cockpitRef.current);
       }
       let hornSampled = false;
+      const pressed = pendingRef.current.splice(0);
       driving = driveFrame(
         world,
         driving,
         () => {
           const actions = heldRef.current.sample();
           hornSampled ||= actions.has('horn');
+          // The dual controls: brake and clutch down, whatever the driver presses.
+          if (isHalted()) return HALT_KEYS;
           return drivingKeys(actions);
         },
-        pendingRef.current.splice(0),
+        isHalted() ? [] : pressed,
         frameS,
         EXAM_SPECS,
         observeStep,

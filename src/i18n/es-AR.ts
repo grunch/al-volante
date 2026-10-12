@@ -417,14 +417,15 @@ export const COCKPIT_COPY = {
 } as const;
 
 export const EXAM_COPY = {
-  heading: 'Examen práctico: etapa I y primera cuadra',
+  heading: 'Examen práctico: etapas I y II por Comuna 13',
   intro:
-    'Un examinador virtual te guía por las comprobaciones previas, los 30 cm hacia atrás y hacia adelante, la salida del cajón, los primeros 100 m por Quesada y el cruce con semáforo de Av. Cabildo, con las fallas del protocolo oficial. El resto del circuito llega en la fase 4.',
+    'Un examinador virtual te guía por las comprobaciones previas, los 30 cm hacia atrás y hacia adelante, la salida del cajón, los primeros 100 m por Quesada y la circulación completa del recorrido A, con tránsito y semáforos según la semilla y evaluando las fallas de circulación del protocolo que el juego puede medir; las que no (por ejemplo, el celular o las indicaciones de un agente de tránsito) se listan en las aproximaciones del juego. El estacionamiento (etapa III) llega en la próxima tarea.',
   transmission: 'Caja de cambios',
   manual: 'Manual',
   automatic: 'Automática',
-  seed: 'Orden de las preguntas (semilla)',
-  canvasLabel: 'Vista 3D del examen en el cajón. Usá el teclado para manejar.',
+  seed: 'Semilla (preguntas y tránsito)',
+  canvasLabel: 'Vista 3D del examen por Comuna 13. Usá el teclado para manejar.',
+  canvasSubtitle: 'COMUNA 13 · EXAMEN',
   loading: 'Cargando el examen…',
   unavailable:
     'Tu navegador no puede mostrar gráficos 3D (WebGL), así que el examen práctico no está disponible en este dispositivo.',
@@ -449,11 +450,28 @@ export const EXAM_COPY = {
     firstMetres: 'Primeros 100 m: a no más de 30 km/h. Te aviso cuando terminen.',
     firstMetresManual: 'En segunda.',
     firstMetresAutomatic: 'En D.',
-    approach:
-      'Terminaron los 100 m. En la esquina doblá a la derecha, por Av. Cabildo: direccional 30 m antes, respetá el semáforo, la línea de detención y la senda peatonal.',
-    turn: 'Doblá a la derecha y seguí por la avenida.',
+    circulation:
+      'Terminaron los 100 m. Seguí el recorrido: respetá los semáforos, el PARE, las prioridades, las sendas y los límites de velocidad. Te voy indicando cada giro.',
     finished: 'Esta parte del examen terminó.',
   },
+  /** The next turn, announced on entering each leg (protocolo PDF 12: the turn is signalled 30 m before). */
+  instruction: (turn: 'left' | 'right', street: string) =>
+    `En la próxima esquina, doblá a la ${turn === 'left' ? 'izquierda' : 'derecha'}, por ${street}.`,
+  leg: (number: number, street: string) => `Tramo ${number} · ${street}`,
+  currentLeg: 'Tramo',
+  nextInstruction: 'Próxima indicación',
+  notice: 'Adelante',
+  notices: {
+    signal: (distanceM: number) => `Semáforo a ${Math.round(distanceM)} m.`,
+    stop: (distanceM: number) => `PARE a ${Math.round(distanceM)} m: detención completa antes de la línea.`,
+    priority: (distanceM: number) => `Esquina sin semáforo a ${Math.round(distanceM)} m: reducí y mirá a tu derecha.`,
+    bump: (distanceM: number) => `Lomo de burro a ${Math.round(distanceM)} m.`,
+    emergency: () => 'Vehículo de emergencia con sirena: hacele lugar a la derecha o detenete.',
+  },
+  nothingAhead: 'nada por ahora',
+  limits: 'Velocidad',
+  limitsOf: (examKmh: number, postedKmh: number | null) =>
+    `${examKmh} km/h de examen · máxima de la vía ${postedKmh === null ? 'sin dato' : `${postedKmh} km/h`} (OSM, sin confirmar)`,
   prompts: {
     clutch: 'Pisá el embrague.',
     brake: 'Pisá el freno.',
@@ -498,12 +516,14 @@ export const EXAM_COPY = {
     fault: 'Falla eliminatoria que interrumpe el examen.',
     cutoff: 'Con 8 puntos o más no se sale a circular (protocolo, PDF 10).',
     'driver-request': 'Pediste interrumpir el examen: queda desaprobado (protocolo, PDF 8).',
-    examiner: 'El examinador tomó el control.',
+    examiner: 'El examinador tomó el control con el doble comando (protocolo, PDF 7).',
   },
+  interruptedBy: (rule: string) => `Motivo: ${rule}.`,
+  takeover: 'El examinador frenó el auto.',
   results: {
     approved: 'Aprobado',
     disapproved: 'Desaprobado',
-    pending: 'Resultado parcial: faltan la circulación y el estacionamiento.',
+    pending: 'Resultado parcial: etapas I y II completas; falta el estacionamiento (etapa III).',
   },
   overPoints: 'con 8 puntos o más el examen está desaprobado (protocolo, PDF 14).',
   measurements: 'Mediciones',
@@ -514,16 +534,18 @@ export const EXAM_COPY = {
   light: 'Semáforo',
   lightStates: { green: 'Verde', yellow: 'Amarillo', red: 'Rojo' },
   pendingMeasure: 'pendiente',
+  noSignalAhead: 'sin semáforo cerca',
   feedback: 'Devolución',
   feedbackIntro: 'Cada falla cita la conducta de la ficha, qué evalúa el protocolo y las páginas para repasar.',
   feedbackClean:
-    'Sin fallas en esta parte. Repasá igual las páginas del protocolo sobre la salida del cajón y los primeros 100 m (PDF 11 y 31).',
+    'Sin fallas en esta parte. Repasá igual las páginas del protocolo sobre la salida del cajón, los primeros 100 m y la circulación (PDF 11, 12 y 31).',
   whatIsEvaluated: 'Qué evalúa',
   readMore: 'Repasar en el protocolo',
   protocolPage: (page: number) => `PDF ${page}`,
   approximations:
-    'Aproximaciones del juego, no reglas del protocolo: tolerancia de ±10 cm en los 30 cm (V2); un poste tocado a menos de 1 m/s es un roce y a más, un derribo; chequear los espejos se registra al mirar un espejo lateral (un giro corto de la cabeza, D4); girar del todo la cabeza no lo reemplaza (X6); el cordón tocado a menos de 1 m/s es un roce de la rueda y a más, subirse a la vereda; en manual, frenar durante los 30 cm solo vale al final; los límites de velocidad se juzgan con 1 km/h de margen; en los primeros 100 m, la marcha se exige por encima de 15 km/h; bloquear el cruce se cuenta tras 2 s detenido en rojo. Ver REGLAS.md §7.',
-  source: 'Protocolo: etapa I (PDF 9–10), maniobrabilidad y salida del cajón (PDF 11), puntaje (PDF 14).',
+    'Aproximaciones del juego, no reglas del protocolo: tolerancia de ±10 cm en los 30 cm (V2); un poste tocado a menos de 1 m/s es un roce y a más, un derribo; chequear los espejos se registra al mirar un espejo lateral (un giro corto de la cabeza, D4); girar del todo la cabeza no lo reemplaza (X6); el cordón tocado a menos de 1 m/s es un roce de la rueda y a más, subirse a la vereda; en manual, frenar durante los 30 cm solo vale al final; los límites de velocidad se juzgan con 1 km/h de margen; en los primeros 100 m, la marcha se exige por encima de 15 km/h. En la circulación: distancia de 2 s medida contra el vehículo de adelante en movimiento durante más de 1,5 s; reducir antes de girar o de un cruce sin semáforo es ir a 20 km/h o menos a 12 m; el PARE exige detenerse del todo a menos de 3 m de la línea; bloquear el cruce es estar 2 s parado sobre la calzada cruzada; la velocidad precautoria se exige a 20 km/h o menos a 15 m de una senda con peatones; el lomo de burro se pasa a 20 km/h o menos; la mínima es 10 km/h durante 8 s con la vía libre; una detención innecesaria es 1 s parado sin nada a menos de 8 m; la pérdida de control es una aceleración lateral mayor a 6 m/s²; el examinador toma el control cuando frenar ya no alcanza (más de 7 m/s²) para evitar a alguien de frente; al vehículo de emergencia se le cede el paso bajando a 10 km/h o corriéndose 0,7 m a la derecha mientras está a menos de 30 m detrás, hasta que pasa. No se evalúan las dos manos en el volante, el uso de celular ni la autoridad de tránsito. Ver REGLAS.md §7 y §9.',
+  source:
+    'Protocolo: etapa I (PDF 9–10), maniobrabilidad y salida del cajón (PDF 11), circulación (PDF 12), puntaje (PDF 14), anexo II (PDF 22–33). Máximas de la vía: OpenStreetMap, sin relevamiento en calle.',
   homeLink: 'Examen práctico',
 } as const;
 export const CITY_COPY = {

@@ -1,10 +1,10 @@
 import { overlaps } from '../sim/collision.ts';
 import type { OrientedBox } from '../sim/collision.ts';
-import type { ActorPose, LightState } from '../sim/scenario.ts';
+import type { ActorPose, LightState, TrafficSnapshot } from '../sim/scenario.ts';
 import { intersectionLight } from './lights.ts';
 import { headingDifference, locateOnPath, pointAlong } from './network.ts';
 import type { Path } from './network.ts';
-import type { Traffic, TrafficState } from './traffic.ts';
+import type { Traffic } from './traffic.ts';
 
 /** How far the car may stray from the route's lane centre and still be "on the route". */
 const ROUTE_LATERAL_M = 6;
@@ -60,14 +60,15 @@ export interface DriverView {
 
 const lapOf = (traffic: Traffic): Path | undefined => traffic.network.paths.find((path) => path.id === 'lap');
 
-function aheadOnLap(lap: Path, fromS: number, toS: number): number {
+/** Signed distance along the lap from `fromS` to `toS`, the short way round: negative once `toS` is behind. */
+export function aheadOnLap(lap: Path, fromS: number, toS: number): number {
   const delta = toS - fromS;
   const wrapped = ((delta % lap.lengthM) + lap.lengthM) % lap.lengthM;
   return wrapped > lap.lengthM / 2 ? wrapped - lap.lengthM : wrapped;
 }
 
-function frontS(lap: Path, carBody: OrientedBox): number | null {
-  const located = locateOnPath(lap, { x: carBody.centerX, z: carBody.centerZ }, ROUTE_LATERAL_M);
+function frontS(lap: Path, carBody: OrientedBox, maxLateralM = ROUTE_LATERAL_M): number | null {
+  const located = locateOnPath(lap, { x: carBody.centerX, z: carBody.centerZ }, maxLateralM);
   return located ? located.s + carBody.halfLengthM : null;
 }
 
@@ -122,10 +123,18 @@ function signalAhead(
   return best;
 }
 
-/** Everything relevant ahead of the car on the route, from the current traffic state. */
-export function lookAhead(traffic: Traffic, state: TrafficState, carBody: OrientedBox): DriverView {
+/**
+ * Everything relevant ahead of the car on the route, from the current traffic snapshot. `maxLateralM` is how far
+ * from the lap line the car still counts as on the route (the examiner widens it to judge the busway side).
+ */
+export function lookAhead(
+  traffic: Traffic,
+  state: TrafficSnapshot,
+  carBody: OrientedBox,
+  maxLateralM = ROUTE_LATERAL_M,
+): DriverView {
   const lap = lapOf(traffic);
-  const front = lap ? frontS(lap, carBody) : null;
+  const front = lap ? frontS(lap, carBody, maxLateralM) : null;
   const empty: DriverView = { routeS: null, signal: null, crossing: null, crosswalk: null, leader: null };
   // Through a corner the car's heading lags: the way the route takes over the next 20 m also counts.
   const route: LeaderRoute | undefined =
@@ -209,7 +218,7 @@ export function leaderAhead(
     if (!best || gap < best.gapM) best = { pose, gapM: gap };
   };
   for (const pose of poses) {
-    if (pose.kind === 'pedestrian' || !pose.active) continue;
+    if (pose.kind === 'pedestrian' || pose.kind === 'emergency' || !pose.active) continue;
     const alongTheWay = (way: number) => Math.abs(headingDifference(pose.headingRad, way)) <= LEADER_MAX_TURN_RAD;
     const onRoute = route?.locate(pose);
     if (onRoute && alongTheWay(onRoute.headingRad)) {

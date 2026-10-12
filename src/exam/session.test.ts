@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { Driver, IDLE } from '../test/examDriver.ts';
+import { settleCirculation } from './session.ts';
 
 function throughStageOne(kind: TransmissionKind): Driver {
   const driver = new Driver(kind);
@@ -354,6 +355,30 @@ describe('exam session: 30 cm in the box and leaving it (protocolo PDF 11)', () 
     ]);
     expect(driver.phase).toBe('exit');
     expect(driver.session.measurements.exitManoeuvres).toBe(2);
+
+    // High e escalates: a takeover right after raises it to eliminatory instead of adding a reckless manoeuvre.
+    const taken = settleCirculation(driver.session, { reports: [], takeover: true, done: false });
+    expect(taken.ledger.faults.filter((fault) => fault.escalated).map((fault) => fault.ruleId)).toEqual([
+      'rule.high.e-no-mirror-check-leaving-box',
+    ]);
+    expect(taken.ledger.faults.map((fault) => fault.ruleId)).not.toContain('rule.eliminatory.i-reckless-maneuver');
+    expect(taken.ledger.interruption?.cause).toBe('examiner');
+  });
+
+  it('a takeover in the same step as an interrupting fault is still applied, and the interruption is the examiner’s', () => {
+    const driver = new Driver('automatic');
+    const taken = settleCirculation(driver.session, {
+      reports: [{ ruleId: 'rule.eliminatory.k-red-light' }],
+      takeover: true,
+      done: false,
+    });
+    expect(taken.phase).toBe('finished');
+    expect(taken.street.takeover).toBe(true);
+    expect(taken.ledger.faults.map((fault) => fault.ruleId)).toEqual([
+      'rule.eliminatory.k-red-light',
+      'rule.eliminatory.i-reckless-maneuver',
+    ]);
+    expect(taken.ledger.interruption).toMatchObject({ ruleId: 'rule.eliminatory.k-red-light', cause: 'examiner' });
   });
 
   it('manual: regulating the reverse with the brake, instead of braking only to stop, fails it', () => {

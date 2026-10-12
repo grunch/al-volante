@@ -1,26 +1,34 @@
-import { Suspense, lazy, useCallback, useContext, useRef, useState } from 'react';
+import { Suspense, lazy, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
+import { buildCity } from '../../city/model.ts';
 import type { Rule } from '../../content/schemas.ts';
 import type { Content } from '../../content/validate.ts';
+import { buildCircuit } from '../../exam/circuit.ts';
+import type { Notice } from '../../exam/circulation.ts';
 import { resultOf } from '../../exam/scoring.ts';
 import { createSession, observe } from '../../exam/session.ts';
 import type { Observation, Session } from '../../exam/session.ts';
 import { RendererContext } from '../../scene/RendererContext.ts';
 import type { PowertrainCommand, TransmissionKind } from '../../sim/powertrain/powertrain.ts';
-import type { LightState } from '../../sim/scenario.ts';
-import { FIRST_BLOCK, FIRST_BLOCK_START, FIRST_BLOCK_ZONES } from '../../sim/tracks/firstBlock.ts';
+import { createTraffic, trafficSourceOf } from '../../traffic/traffic.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
 import { EXAM_COPY as copy, formatNumber } from '../../i18n/es-AR.ts';
 
 // Three.js stays in its own chunk, as on the home page.
-const DrivingCanvas = lazy(() =>
-  import('../../practice/DrivingCanvas.tsx').then((module) => ({ default: module.DrivingCanvas })),
-);
+const ExamDrive = lazy(() => import('../../city/ExamDrive.tsx').then((module) => ({ default: module.ExamDrive })));
 
 /** Stage I starts with the key in contact and the engine off (protocolo PDF 9). */
 const EXAM_PREPARED: readonly PowertrainCommand[] = [{ type: 'insert-key' }, { type: 'turn-key', to: 'on' }];
+/** Seed 1 is the documented default scenario (recognition order and traffic); any positive integer replays its own. */
 const DEFAULT_SEED = 1;
+const MAX_SEED = 999999;
+
+function noticeText(notice: Notice | null): string {
+  if (!notice) return copy.nothingAhead;
+  const text = copy.notices[notice.kind](notice.distanceM);
+  return notice.light ? `${text} ${copy.lightStates[notice.light]}.` : text;
+}
 
 function examinerSays(session: Session, kind: TransmissionKind): string {
   const { prompt } = session;
@@ -33,7 +41,12 @@ function examinerSays(session: Session, kind: TransmissionKind): string {
     prompt.message === 'reverse' || prompt.message === 'forward' || prompt.message === 'firstMetres'
       ? ` ${copy.phases[`${prompt.message}${kind === 'manual' ? 'Manual' : 'Automatic'}`]}`
       : '';
-  return `${copy.phases[prompt.message]}${detail}`;
+  const { instruction } = session.street;
+  const turn =
+    (prompt.message === 'firstMetres' || prompt.message === 'circulation') && instruction
+      ? ` ${copy.instruction(instruction.turn, instruction.street)}`
+      : '';
+  return `${copy.phases[prompt.message]}${detail}${turn}`;
 }
 
 function FaultList({ session, rules, feedback }: { session: Session; rules: readonly Rule[]; feedback: boolean }) {
@@ -73,16 +86,18 @@ function Exam({ content }: { content: Content }) {
   const [transmission, setTransmission] = useState<TransmissionKind>('manual');
   const [seed, setSeed] = useState(DEFAULT_SEED);
   const [resetCount, setResetCount] = useState(0);
-  const [session, setSession] = useState<Session>(() =>
-    createSession(rules, 'manual', DEFAULT_SEED, FIRST_BLOCK_ZONES),
-  );
-  const [light, setLight] = useState<LightState | null>(null);
+  // The city, its seeded traffic and the circuit the examiner reads; the seed recreates the traffic.
+  const city = useMemo(() => buildCity(content.route), [content.route]);
+  const source = useMemo(() => trafficSourceOf(createTraffic(city, seed)), [city, seed]);
+  const circuit = useMemo(() => buildCircuit(city, source.traffic), [city, source]);
+  const world = useMemo(() => ({ ...city.world, traffic: source }), [city, source]);
+  const [session, setSession] = useState<Session>(() => createSession(rules, 'manual', DEFAULT_SEED, circuit));
   // The latest session, updated 120 times a second by the steps without re-rendering each time.
   const sessionRef = useRef<Session>(session);
 
   const begin = (kind: TransmissionKind, nextSeed: number) => {
-    sessionRef.current = createSession(rules, kind, nextSeed, FIRST_BLOCK_ZONES);
-    setLight(null);
+    const nextCircuit = nextSeed === seed ? circuit : buildCircuit(city, createTraffic(city, nextSeed));
+    sessionRef.current = createSession(rules, kind, nextSeed, nextCircuit);
     setSession(sessionRef.current);
     setTransmission(kind);
     setSeed(nextSeed);
@@ -95,18 +110,21 @@ function Exam({ content }: { content: Content }) {
     if (before === 'familiarisation' && sessionRef.current.phase === 'recognition') setResetCount((count) => count + 1);
     // Steps come 120 times a second: the page refreshes with the telemetry; commands refresh at once.
     if (observation.type !== 'step') setSession(sessionRef.current);
-    else if (observation.scenario) lightRef.current = observation.scenario.light;
   }, []);
-  const lightRef = useRef<LightState | null>(null);
+  // Read by the simulation before every step: the examiner's brake does not wait for the next render.
+  const isHalted = useCallback(() => sessionRef.current.street.takeover, []);
   const onTelemetry = useCallback(() => {
     setSession(sessionRef.current);
-    setLight(lightRef.current);
   }, []);
 
-  const { ledger } = session;
+  const { ledger, street } = session;
   const finished = session.phase === 'finished';
   const result = finished ? resultOf(ledger, session.completedStages) : null;
   const cm = (value: number | null) => (value === null ? copy.pendingMeasure : `${formatNumber(value, 0)} cm`);
+  const interruptingRule = ledger.interruption?.ruleId
+    ? rules.find((rule) => rule.id === ledger.interruption?.ruleId)
+    : undefined;
+  const currentLeg = city.legs.find((leg) => leg.number === street.leg);
   return (
     <>
       <fieldset className="choice">
@@ -128,10 +146,12 @@ function Exam({ content }: { content: Content }) {
           <input
             type="number"
             min={1}
+            max={MAX_SEED}
+            step={1}
             value={seed}
             onChange={(event) => {
               const next = Number.parseInt(event.target.value, 10);
-              if (Number.isInteger(next) && next > 0) begin(transmission, next);
+              if (Number.isInteger(next) && next > 0 && next <= MAX_SEED) begin(transmission, next);
             }}
           />
         </label>
@@ -162,18 +182,16 @@ function Exam({ content }: { content: Content }) {
         </p>
       </section>
       <Suspense fallback={<p className="scene-canvas__status">{copy.loading}</p>}>
-        <DrivingCanvas
+        <ExamDrive
           key={transmission}
-          world={FIRST_BLOCK}
-          start={FIRST_BLOCK_START}
+          city={city}
+          world={world}
           transmission={transmission}
-          label={copy.canvasLabel}
-          loadingText={copy.loading}
-          unavailableText={copy.unavailable}
           prepared={EXAM_PREPARED}
           resetCount={resetCount}
           onObservation={onObservation}
           onTelemetry={onTelemetry}
+          halted={isHalted}
           {...(createRenderer ? { createRenderer } : {})}
         />
       </Suspense>
@@ -181,6 +199,30 @@ function Exam({ content }: { content: Content }) {
         <div>
           <dt>{copy.points}</dt>
           <dd data-testid="exam-points">{ledger.points}</dd>
+        </div>
+        <div>
+          <dt>{copy.currentLeg}</dt>
+          <dd data-testid="exam-leg">
+            {currentLeg ? copy.leg(currentLeg.number, currentLeg.street) : copy.pendingMeasure}
+          </dd>
+        </div>
+        <div>
+          <dt>{copy.nextInstruction}</dt>
+          <dd data-testid="exam-instruction">
+            {street.instruction
+              ? copy.instruction(street.instruction.turn, street.instruction.street)
+              : copy.pendingMeasure}
+          </dd>
+        </div>
+        <div>
+          <dt>{copy.notice}</dt>
+          <dd data-testid="exam-notice">{noticeText(street.notice)}</dd>
+        </div>
+        <div>
+          <dt>{copy.limits}</dt>
+          <dd data-testid="exam-limits">
+            {street.road ? copy.limitsOf(street.road.examKmh, street.road.postedKmh) : copy.pendingMeasure}
+          </dd>
         </div>
         <div>
           <dt>{copy.reverseCm}</dt>
@@ -204,13 +246,22 @@ function Exam({ content }: { content: Content }) {
         </div>
         <div>
           <dt>{copy.light}</dt>
-          <dd data-testid="exam-light">{light ? copy.lightStates[light] : copy.pendingMeasure}</dd>
+          {/* Only a signal ahead has a light to show: elsewhere the traffic reports green by default. */}
+          <dd data-testid="exam-light">
+            {street.notice?.kind === 'signal' && street.notice.light
+              ? copy.lightStates[street.notice.light]
+              : copy.noSignalAhead}
+          </dd>
         </div>
       </dl>
       {finished && (
         <p role="status" data-testid="exam-result">
           {ledger.interruption
-            ? `${copy.interrupted} ${copy.interruptionCauses[ledger.interruption.cause]} ${copy.results.disapproved}.`
+            ? `${copy.interrupted} ${copy.interruptionCauses[ledger.interruption.cause]} ${
+                interruptingRule
+                  ? `${copy.interruptedBy(interruptingRule.fichaRows[0]?.text ?? interruptingRule.id)} `
+                  : ''
+              }${street.takeover ? `${copy.takeover} ` : ''}${copy.results.disapproved}.`
             : result === 'disapproved'
               ? `${copy.results.disapproved}: ${copy.overPoints}`
               : copy.results.pending}
@@ -229,7 +280,10 @@ function Exam({ content }: { content: Content }) {
   );
 }
 
-/** The practical exam with the virtual examiner: stage I and the box (F03-T04), the first block (F03-T05). */
+/**
+ * The practical exam with the virtual examiner: stage I and the box (F03-T04), the first block (F03-T05) and the
+ * whole circulation of route A with its traffic (F04-T03). Stage III, parking, is F04-T04.
+ */
 export function ExamPage() {
   return (
     <>

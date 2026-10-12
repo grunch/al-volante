@@ -61,7 +61,8 @@ describe('fault ledger (REGLAS.md §4–§5)', () => {
     const state = recordFault(ledger(), { ruleId: 'rule.high.e-no-mirror-check-leaving-box', atS: 1, escalate: true });
 
     expect(state.faults[0]).toMatchObject({ points: 8, escalated: true });
-    expect(state.interruption?.cause).toBe('fault');
+    // The escalation is the examiner's intervention with the dual controls (protocolo PDF 7).
+    expect(state.interruption?.cause).toBe('examiner');
     expect(() => recordFault(ledger(), { ruleId: 'rule.minor.a-lights-recognition', atS: 1, escalate: true })).toThrow(
       /cannot escalate/,
     );
@@ -83,7 +84,21 @@ describe('fault ledger (REGLAS.md §4–§5)', () => {
     expect(state.faults).toHaveLength(1);
     expect(state.faults[0]).toMatchObject({ points: 8, escalated: true, atS: 1 });
     expect(state.points).toBe(8);
-    expect(state.interruption?.cause).toBe('fault');
+    expect(state.interruption?.cause).toBe('examiner');
+  });
+
+  it('lets the examiner interrupt on a fault that would not interrupt by itself (a takeover)', () => {
+    const state = recordFault(ledger(), {
+      ruleId: 'rule.eliminatory.l-road-speed-limit-exceeded',
+      atS: 3,
+      cause: 'examiner',
+    });
+
+    expect(state.interruption).toEqual({
+      ruleId: 'rule.eliminatory.l-road-speed-limit-exceeded',
+      atS: 3,
+      cause: 'examiner',
+    });
   });
 
   it('withdraws a fault of an episode that a more severe rule now covers (decision D2)', () => {
