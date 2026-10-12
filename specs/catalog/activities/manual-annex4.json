@@ -1,0 +1,130 @@
+[
+  {
+    "id": "act.regulatory-signs",
+    "type": "sign-identification",
+    "title": "Señales reglamentarias",
+    "unitIds": [
+      "manual.annex4.regulatory-priority",
+      "manual.annex4.regulatory-prohibition",
+      "manual.ch3.stop-vs-yield"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 185
+      },
+      {
+        "source": "manual",
+        "page": 186
+      },
+      {
+        "source": "manual",
+        "page": 64
+      }
+    ],
+    "explanation": "Las señales reglamentarias transmiten órdenes de cumplimiento obligatorio. PARE y CEDA EL PASO indican que se pierde la prioridad en la bocacalle: ante PARE hay que frenar a cero antes de la senda peatonal; ante CEDA EL PASO la detención total solo es obligatoria si hace falta para dejar pasar. CONTRAMANO prohíbe circular en ese sentido, y NO ESTACIONAR prohíbe estacionar (detenerse sí está permitido, a diferencia de NO ESTACIONAR NI DETENERSE).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "stop",
+        "signId": "sign.regulatory.priority.stop",
+        "prompt": "¿Qué significa esta señal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Pare: detenerse por completo y ceder el paso",
+            "correct": true,
+            "feedback": "¡Correcto! Ante PARE hay que frenar a cero antes de la senda peatonal."
+          },
+          {
+            "id": "b",
+            "text": "Ceda el paso: detenerse solo si hace falta",
+            "correct": false,
+            "feedback": "Esa es CEDA EL PASO (triángulo invertido)."
+          },
+          {
+            "id": "c",
+            "text": "Prohibido estacionar",
+            "correct": false,
+            "feedback": "No: el octógono rojo es PARE."
+          }
+        ]
+      },
+      {
+        "id": "yield",
+        "signId": "sign.regulatory.priority.yield",
+        "prompt": "¿Qué significa esta señal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Ceda el paso: detenerse solo si hace falta",
+            "correct": true,
+            "feedback": "¡Correcto! Se pierde la prioridad, pero la detención total no siempre es obligatoria."
+          },
+          {
+            "id": "b",
+            "text": "Pare: detenerse por completo y ceder el paso",
+            "correct": false,
+            "feedback": "Esa es PARE (octógono rojo)."
+          },
+          {
+            "id": "c",
+            "text": "Peligro: cruce de peatones",
+            "correct": false,
+            "feedback": "No: el triángulo invertido blanco con borde rojo es CEDA EL PASO."
+          }
+        ]
+      },
+      {
+        "id": "wrong-way",
+        "signId": "sign.regulatory.prohibition.wrong-way",
+        "prompt": "¿Qué significa esta señal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Contramano: no se puede circular en ese sentido",
+            "correct": true,
+            "feedback": "¡Correcto! Círculo rojo con barra blanca horizontal: contramano."
+          },
+          {
+            "id": "b",
+            "text": "Prohibido estacionar",
+            "correct": false,
+            "feedback": "No: prohibido estacionar es un círculo blanco con borde rojo, barra diagonal y una E."
+          },
+          {
+            "id": "c",
+            "text": "Calle sin salida",
+            "correct": false,
+            "feedback": "No: esa es una señal informativa rectangular."
+          }
+        ]
+      },
+      {
+        "id": "no-parking",
+        "signId": "sign.regulatory.prohibition.no-parking",
+        "prompt": "¿Qué significa esta señal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Prohibido estacionar",
+            "correct": true,
+            "feedback": "¡Correcto! La E tachada prohíbe estacionar; detenerse sí está permitido."
+          },
+          {
+            "id": "b",
+            "text": "Prohibido estacionar y detenerse",
+            "correct": false,
+            "feedback": "Casi: esa variante no lleva la E, sino una figura rectangular tachada."
+          },
+          {
+            "id": "c",
+            "text": "Estacionamiento exclusivo",
+            "correct": false,
+            "feedback": "No: la barra diagonal roja indica prohibición."
+          }
+        ]
+      }
+    ]
+  }
+]

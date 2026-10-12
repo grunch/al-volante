@@ -1234,5 +1234,53 @@
     "page": 22,
     "type": "outdated",
     "description": "Las URLs de OFAVYT (guiajudicial.jusbaires.gob.ar/...) y del Centro de Formación Profesional (jus.gob.ar/...aspx) parecen antiguas y pueden no funcionar."
+  },
+  {
+    "source": "manual",
+    "page": 5,
+    "type": "ambiguous",
+    "description": "Glosario (PDF 5–6): «Calle» tiene calzada «entre 5 y 13 metros» y «Avenida», «por lo menos 13 metros». Con exactamente 13 m valen las dos definiciones. Las actividades no preguntan por ese valor límite (F05-T01)."
+  },
+  {
+    "source": "manual",
+    "page": 23,
+    "type": "extraction",
+    "description": "El pictograma «¿Cuánto espacio necesitan 60 personas para movilizarse?» dibuja 60 autos (10 × 6), aunque la nota de la unidad decía que no indica la cantidad. No se evalúa (F05-T01)."
+  },
+  {
+    "source": "manual",
+    "page": 29,
+    "type": "extraction",
+    "description": "A 250 ppp el pictograma de la señal «Restricción vehículos particulares» es una «E» tachada (prohibido estacionar), no un auto tachado como en la foto de PDF 26; resuelve la ilegibilidad anotada para esta página. No se evalúa (F05-T01)."
+  },
+  {
+    "source": "manual",
+    "page": 29,
+    "type": "ambiguous",
+    "description": "PDF 26 frente a PDF 29: la ficha de la calle prioridad peatón dice «prohibición general, excepto vehículos de emergencias y frentistas», pero la placa de la foto dice «Días hábiles 11 a 16 hs, sólo vehículos autorizados» y en las áreas peatonales circulan transporte público y taxis. No queda claro quién circula fuera de esa franja horaria; las escenas ocurren dentro de ella (F05-T01)."
+  },
+  {
+    "source": "manual",
+    "page": 33,
+    "type": "ambiguous",
+    "description": "Ciclistas: «menos de 12 años» pueden circular por la vereda, «mayor de 12» debe bajarse y «a partir de los 12» circula por la calzada. Con exactamente 12 años no queda claro qué corresponde en la vereda. Las actividades evitan esa edad (F05-T01)."
+  },
+  {
+    "source": "manual",
+    "page": 45,
+    "type": "ambiguous",
+    "description": "Las competencias de velocidad figuran como contravención, pero la nota 20 cita el art. 193 bis del Código Penal sin explicar la relación. No se pregunta en qué tipo de responsabilidad entran (F05-T01)."
+  },
+  {
+    "source": "manual",
+    "page": 51,
+    "type": "discrepancy",
+    "description": "Manual vs guía (balizas en doble sentido): el manual indica, cerca del eje central de una vía de doble sentido, una baliza para cada lado; la guía (PDF 8) sugiere en general «ambas por detrás». No se evalúa (F05-T01)."
+  },
+  {
+    "source": "manual",
+    "page": 53,
+    "type": "discrepancy",
+    "description": "Manual vs guía (documentos a intercambiar): el manual pide intercambiar cédula, seguro y licencia; la guía (PDF 7), solo los datos del seguro y de la licencia. Se evalúa lo que comparten (F05-T01)."
   }
 ]

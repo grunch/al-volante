@@ -1,0 +1,2922 @@
+[
+  {
+    "id": "act.glossary-road-widths",
+    "type": "ordering",
+    "title": "Pasaje, calle y avenida",
+    "unitIds": [
+      "manual.glossary.narrow-passage",
+      "manual.glossary.street",
+      "manual.glossary.avenue"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 5
+      }
+    ],
+    "explanation": "El glosario clasifica las arterias por el ancho de su calzada: el pasaje tiene menos de 5 metros; la calle, en sentido particular, entre 5 y 13 metros; y la avenida, por lo menos 13 metros. También es avenida la arteria con más de 17,32 m entre las líneas de edificación, con dos calzadas separadas por un boulevard o calzadas centrales y laterales con un divisorio físico (manual PDF 5, 6 y 9).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "width",
+        "prompt": "Ordená estas arterias de la calzada más angosta a la más ancha, según el glosario.",
+        "items": [
+          {
+            "id": "passage",
+            "text": "Pasaje",
+            "reason": "Su calzada tiene un ancho inferior a 5 metros (manual PDF 9)."
+          },
+          {
+            "id": "street",
+            "text": "Calle",
+            "reason": "En sentido particular, es la arteria con calzada de entre 5 y 13 metros (manual PDF 6)."
+          },
+          {
+            "id": "avenue",
+            "text": "Avenida",
+            "reason": "Su calzada tiene un ancho total de por lo menos 13 metros (manual PDF 5)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-urban-roads",
+    "type": "single-choice",
+    "title": "Arterias, calles y vía pública",
+    "unitIds": [
+      "manual.glossary.arterial",
+      "manual.glossary.street",
+      "manual.glossary.avenue",
+      "manual.glossary.shared-street",
+      "manual.glossary.public-road"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 11
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 10
+      }
+    ],
+    "explanation": "Una arteria es una vía pública urbana de circulación vehicular y eventualmente peatonal. En sentido general, la calle son las aceras más las calzadas entre las líneas oficiales de las propiedades frentistas, y la vía pública abarca todo espacio afectado al dominio público, desde aceras y calles hasta plazas y parques. La calle de convivencia es preferentemente peatonal, con circulación restringida de vehículos; y una arteria con más de 17,32 m entre líneas de edificación y calzadas separadas por un boulevard o un divisorio físico también es avenida (manual PDF 5, 6 y 11).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "arterial",
+        "prompt": "¿Qué es una arteria según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Vía pública urbana de circulación vehicular y eventualmente peatonal",
+            "correct": true,
+            "feedback": "¡Correcto! Así define el glosario a la arteria (manual PDF 5). Calles, avenidas y pasajes son arterias que se distinguen por el ancho de su calzada."
+          },
+          {
+            "id": "b",
+            "text": "Sector delimitado de la vía pública destinado a la circulación de vehículos",
+            "correct": false,
+            "feedback": "Esa es la definición de calzada (manual PDF 6). La arteria es la vía pública urbana de circulación vehicular y eventualmente peatonal."
+          },
+          {
+            "id": "c",
+            "text": "Banda longitudinal demarcada en la calzada, generalmente para una sola fila de vehículos",
+            "correct": false,
+            "feedback": "Eso define al carril (manual PDF 6), que es una banda dentro de la calzada. Arteria: vía pública urbana de circulación vehicular y eventualmente peatonal."
+          },
+          {
+            "id": "d",
+            "text": "Sector de la vía pública que bordea la calzada y está destinado a los peatones",
+            "correct": false,
+            "feedback": "Así define el glosario a la acera (manual PDF 5). La arteria es una vía de circulación vehicular y eventualmente peatonal."
+          }
+        ]
+      },
+      {
+        "id": "street",
+        "prompt": "En sentido general, ¿qué es una calle según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Las aceras más las calzadas, entre las líneas oficiales de las propiedades frentistas",
+            "correct": true,
+            "feedback": "¡Exacto! En general, calle es aceras más calzadas: la parte de la vía pública entre líneas oficiales de propiedades frentistas o espacios públicos. En particular, es la arteria con calzada de 5 a 13 m (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "La superficie común a dos o más arterias que concurren a una intersección",
+            "correct": false,
+            "feedback": "Esa es la bocacalle (manual PDF 6), el espacio que comparten las arterias que se cruzan. La calle, en general, son las aceras más las calzadas."
+          },
+          {
+            "id": "c",
+            "text": "El sector delimitado de la vía pública destinado a la circulación de vehículos",
+            "correct": false,
+            "feedback": "Eso es solo la calzada (manual PDF 6). La calle, en sentido general, incluye las aceras y las calzadas."
+          },
+          {
+            "id": "d",
+            "text": "Todo espacio afectado al dominio público, incluidos plazas y parques",
+            "correct": false,
+            "feedback": "Eso describe la vía pública (manual PDF 11), que es más amplia: incluye calles, pero también plazas, parques y otros espacios del dominio público."
+          }
+        ]
+      },
+      {
+        "id": "avenue",
+        "prompt": "Una arteria tiene más de 17,32 m entre las líneas de edificación y dos calzadas separadas por un boulevard. ¿Cómo la considera el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Avenida",
+            "correct": true,
+            "feedback": "¡Correcto! Además de las arterias con calzada de 13 m o más, el glosario considera avenida a las que tienen más de 17,32 m entre líneas de edificación, con calzadas separadas por un boulevard o un divisorio físico (manual PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "Calle",
+            "correct": false,
+            "feedback": "No: la calle, en sentido particular, es la arteria con calzada de entre 5 y 13 m (manual PDF 6). Con más de 17,32 m entre líneas de edificación y un boulevard, el glosario la considera avenida."
+          },
+          {
+            "id": "c",
+            "text": "Pasaje",
+            "correct": false,
+            "feedback": "El pasaje es la arteria con calzada de menos de 5 m (manual PDF 9). Esta arteria, por la distancia entre líneas de edificación y el boulevard, es una avenida."
+          },
+          {
+            "id": "d",
+            "text": "Calle de convivencia",
+            "correct": false,
+            "feedback": "La calle de convivencia se define por su uso preferentemente peatonal, no por su ancho (manual PDF 6). La arteria descripta es una avenida."
+          }
+        ]
+      },
+      {
+        "id": "shared-street",
+        "prompt": "¿Qué es una calle de convivencia según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Calle o tramo preferentemente peatonal, con circulación restringida de vehículos",
+            "correct": true,
+            "feedback": "¡Bien! Es una calle o un tramo destinado preferentemente a la circulación peatonal, donde se admite la circulación restringida de vehículos (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "Área de la calzada demarcada y destinada exclusivamente a la circulación peatonal",
+            "correct": false,
+            "feedback": "Esa es la definición de intervenciones peatonales (manual PDF 8): ahí la circulación es solo peatonal. En la calle de convivencia se admite una circulación restringida de vehículos."
+          },
+          {
+            "id": "c",
+            "text": "Sector de la calzada destinado al cruce peatonal, esté demarcado o no",
+            "correct": false,
+            "feedback": "Eso define a la senda peatonal (manual PDF 10), que es un lugar de cruce. La calle de convivencia es un tramo preferentemente peatonal, con circulación restringida de vehículos."
+          },
+          {
+            "id": "d",
+            "text": "Sector de la vía pública que bordea la calzada y está destinado a los peatones",
+            "correct": false,
+            "feedback": "Así se define la acera (manual PDF 5). La calle de convivencia es toda una calle o tramo, preferentemente peatonal, donde también pueden pasar vehículos en forma restringida."
+          }
+        ]
+      },
+      {
+        "id": "public-road",
+        "prompt": "Según el glosario, ¿una plaza o un parque forman parte de la vía pública?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sí: incluye aceras, calles, avenidas, plazas, parques y otros espacios del dominio público",
+            "correct": true,
+            "feedback": "¡Correcto! La vía pública abarca aceras, autopistas, semiautopistas, callejones, pasajes, calles, avenidas, sendas, plazas, parques y cualquier espacio afectado al dominio público o así declarado por la autoridad (manual PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "No: la vía pública es solo el sector destinado a la circulación de vehículos",
+            "correct": false,
+            "feedback": "Eso describe la calzada (manual PDF 6), que es solo una parte de la vía pública. Plazas y parques también son vía pública."
+          },
+          {
+            "id": "c",
+            "text": "No: abarca solo las aceras y calzadas entre las líneas de las propiedades frentistas",
+            "correct": false,
+            "feedback": "Eso es la calle en sentido general (manual PDF 6). La vía pública es más amplia e incluye plazas y parques."
+          },
+          {
+            "id": "d",
+            "text": "No: comprende solo las arterias urbanas de circulación vehicular y eventualmente peatonal",
+            "correct": false,
+            "feedback": "Esa es la definición de arteria (manual PDF 5). La vía pública incluye también plazas, parques y todo espacio afectado al dominio público."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-highways",
+    "type": "single-choice",
+    "title": "Autopistas, colectoras y vías rápidas",
+    "unitIds": [
+      "manual.glossary.highway",
+      "manual.glossary.semi-highway",
+      "manual.glossary.collector-road",
+      "manual.glossary.paseo-del-bajo",
+      "manual.glossary.multilane-arterials",
+      "manual.glossary.expressway"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 10
+      },
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 11
+      },
+      {
+        "source": "manual",
+        "page": 6
+      }
+    ],
+    "explanation": "La autopista es una vía multicarril con calzadas separadas físicamente, sin cruces a nivel, con accesos controlados y sin ingreso directo desde los predios frentistas; la semiautopista tiene algún cruce a nivel y solo limita ese ingreso. La colectora es una calzada lateral y paralela a los carriles centrales de una autopista, que no pertenece a ella y tiene acceso a esos carriles. Avenidas, autopistas y semiautopistas son arterias multicarriles, y esa definición comprende a las vías rápidas, entre ellas el Paseo del Bajo, de circulación exclusiva y obligatoria para tránsito pesado y ómnibus de larga distancia (manual PDF 5, 7, 9, 10 y 11).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "highway",
+        "prompt": "¿Qué es una autopista según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Vía multicarril de calzadas separadas, sin cruces a nivel y sin ingreso directo desde los frentistas",
+            "correct": true,
+            "feedback": "¡Correcto! La autopista tiene calzadas para ambas manos separadas físicamente, no tiene cruces a nivel, sus accesos son controlados y no hay ingreso directo desde los predios frentistas (manual PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "Vía multicarril de calzadas separadas, con algún cruce a nivel e ingreso limitado desde los frentistas",
+            "correct": false,
+            "feedback": "Esa es la semiautopista (manual PDF 10). La autopista no tiene cruces a nivel ni ingreso directo desde los frentistas."
+          },
+          {
+            "id": "c",
+            "text": "Calzada lateral y paralela a una autopista, con acceso a sus carriles centrales y a veces a frentistas",
+            "correct": false,
+            "feedback": "Eso define a la colectora (manual PDF 7), que es una calzada paralela que no pertenece a la autopista."
+          },
+          {
+            "id": "d",
+            "text": "Arteria con calzada de al menos 13 m o con más de 17,32 m entre líneas de edificación",
+            "correct": false,
+            "feedback": "Así define el glosario a la avenida (manual PDF 5), que se clasifica por su ancho. La autopista se define por sus calzadas separadas, sin cruces a nivel y con accesos controlados."
+          }
+        ]
+      },
+      {
+        "id": "semi-highway",
+        "prompt": "¿Cómo se llama la vía multicarril con calzadas para ambas manos separadas físicamente, con algún cruce a nivel y con limitación del ingreso directo desde los predios frentistas?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Semiautopista",
+            "correct": true,
+            "feedback": "¡Exacto! La semiautopista se diferencia de la autopista en que tiene algún cruce a nivel y solo limita el ingreso directo desde los frentistas (manual PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Autopista",
+            "correct": false,
+            "feedback": "La autopista no tiene cruces a nivel y no permite el ingreso directo desde los frentistas (manual PDF 5). Con algún cruce a nivel e ingreso limitado, es una semiautopista."
+          },
+          {
+            "id": "c",
+            "text": "Colectora",
+            "correct": false,
+            "feedback": "La colectora es una calzada lateral y paralela a una autopista, que no pertenece a ella (manual PDF 7). La vía descripta es una semiautopista."
+          },
+          {
+            "id": "d",
+            "text": "Banquina",
+            "correct": false,
+            "feedback": "La banquina es la zona adyacente y paralela a la calzada, provista para mayor seguridad (manual PDF 5); no es una vía multicarril. La respuesta es semiautopista."
+          }
+        ]
+      },
+      {
+        "id": "collector",
+        "prompt": "¿Qué es una colectora según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Calzada lateral y paralela a los carriles centrales de una autopista, que no pertenece a ella",
+            "correct": true,
+            "feedback": "¡Correcto! La colectora tiene acceso a los carriles centrales y eventualmente a los predios frentistas; también se llaman así las arterias paralelas a las vías rápidas (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Zona adyacente y paralela a la calzada de rutas y autopistas, provista para mayor seguridad",
+            "correct": false,
+            "feedback": "Esa es la banquina (manual PDF 5), que no es una calzada para circular. La colectora es una calzada lateral y paralela a una autopista."
+          },
+          {
+            "id": "c",
+            "text": "Banda longitudinal demarcada en la calzada, generalmente para una sola fila de vehículos",
+            "correct": false,
+            "feedback": "Eso define al carril (manual PDF 6). La colectora es toda una calzada, lateral y paralela a los carriles centrales de una autopista."
+          },
+          {
+            "id": "d",
+            "text": "Espacio resguardado en la vía pública para estacionar o detenerse, de al menos 2 m de ancho",
+            "correct": false,
+            "feedback": "Así define el glosario a la dársena de estacionamiento o detención (manual PDF 7). La colectora es una calzada lateral de la autopista."
+          }
+        ]
+      },
+      {
+        "id": "paseo-del-bajo",
+        "prompt": "Según el glosario, ¿para quiénes es exclusiva y obligatoria la circulación por el Paseo del Bajo?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Para el tránsito pesado y los ómnibus de pasajeros de larga distancia",
+            "correct": true,
+            "feedback": "¡Correcto! El Paseo del Bajo conecta la Autopista Illia, al norte, con las autopistas Dr. Ricardo Balbín y 25 de Mayo, al sur, con circulación exclusiva y obligatoria para tránsito pesado y ómnibus de pasajeros de larga distancia (manual PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Para el Metrobus y los demás servicios de transporte público urbano",
+            "correct": false,
+            "feedback": "No. El glosario reserva el Paseo del Bajo para el tránsito pesado y los ómnibus de larga distancia; el Metrobus es otro sistema (manual PDF 9)."
+          },
+          {
+            "id": "c",
+            "text": "Para los automóviles y motovehículos que cruzan la Ciudad de norte a sur",
+            "correct": false,
+            "feedback": "No es para autos ni motos: la circulación por el Paseo del Bajo es exclusiva y obligatoria para tránsito pesado y ómnibus de pasajeros de larga distancia."
+          },
+          {
+            "id": "d",
+            "text": "Para los vehículos de emergencia, que circulan con sus balizas",
+            "correct": false,
+            "feedback": "El glosario no menciona a los vehículos de emergencia en esta definición: el Paseo del Bajo es para tránsito pesado y ómnibus de larga distancia."
+          }
+        ]
+      },
+      {
+        "id": "multilane",
+        "prompt": "Las vías rápidas que enumera el glosario, como la Av. General Paz o el Paseo del Bajo, ¿en qué definición quedan comprendidas?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Arterias multicarriles",
+            "correct": true,
+            "feedback": "¡Exacto! Las arterias multicarriles son las avenidas, autopistas y semiautopistas, y esa definición comprende también a las vías rápidas (manual PDF 5 y 11)."
+          },
+          {
+            "id": "b",
+            "text": "Colectoras",
+            "correct": false,
+            "feedback": "No: las colectoras son las calzadas laterales paralelas a una autopista o a una vía rápida (manual PDF 7), no las vías rápidas mismas. Estas quedan comprendidas en las arterias multicarriles."
+          },
+          {
+            "id": "c",
+            "text": "Calles de convivencia",
+            "correct": false,
+            "feedback": "Las calles de convivencia son preferentemente peatonales (manual PDF 6). Las vías rápidas están comprendidas en la definición de arterias multicarriles."
+          },
+          {
+            "id": "d",
+            "text": "Pasajes",
+            "correct": false,
+            "feedback": "El pasaje es una arteria con calzada de menos de 5 m (manual PDF 9). Las vías rápidas son arterias multicarriles, como las avenidas, autopistas y semiautopistas."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-roadway-parts",
+    "type": "single-choice",
+    "title": "Acera, calzada, carril y mano",
+    "unitIds": [
+      "manual.glossary.sidewalk",
+      "manual.glossary.roadway",
+      "manual.glossary.lane",
+      "manual.glossary.roadway-centerline",
+      "manual.glossary.direction-of-traffic"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 10
+      }
+    ],
+    "explanation": "La acera es el sector de la vía pública que bordea la calzada y está destinado a la circulación de peatones; la calzada es el sector destinado a la circulación de vehículos. El carril es una banda longitudinal demarcada en la calzada, generalmente para una sola fila de vehículos. El eje de calzada, demarcado o no, separa las áreas con sentido de circulación opuesto (si no está demarcado, la divide en dos partes iguales), y la mano es el sentido de circulación que deben conservar los vehículos en una arteria (manual PDF 5, 6, 8 y 9).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "sidewalk",
+        "prompt": "¿Cómo se llama el sector delimitado de la vía pública que bordea la calzada y está destinado a la circulación de peatones?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Acera",
+            "correct": true,
+            "feedback": "¡Correcto! La acera bordea la calzada y es para la circulación de peatones (manual PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "Senda peatonal",
+            "correct": false,
+            "feedback": "La senda peatonal es un sector de la calzada destinado al cruce peatonal (manual PDF 10). El sector que bordea la calzada es la acera."
+          },
+          {
+            "id": "c",
+            "text": "Cordón",
+            "correct": false,
+            "feedback": "El cordón es la elevación al borde de la calzada que la separa de las aceras y forma parte de ellas (manual PDF 7); no es el sector por donde circulan los peatones."
+          },
+          {
+            "id": "d",
+            "text": "Banquina",
+            "correct": false,
+            "feedback": "La banquina es una zona paralela a la calzada de rutas, autopistas y caminos, provista para la seguridad del tránsito de vehículos (manual PDF 5). La respuesta es acera."
+          }
+        ]
+      },
+      {
+        "id": "roadway",
+        "prompt": "¿Qué es la calzada según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sector delimitado de la vía pública destinado a la circulación de vehículos",
+            "correct": true,
+            "feedback": "¡Exacto! La calzada es para los vehículos; la acera, que la bordea, para los peatones (manual PDF 5 y 6)."
+          },
+          {
+            "id": "b",
+            "text": "Vía pública urbana de circulación vehicular y eventualmente peatonal",
+            "correct": false,
+            "feedback": "Esa es la definición de arteria (manual PDF 5). La calzada es el sector de la vía pública destinado a la circulación de vehículos."
+          },
+          {
+            "id": "c",
+            "text": "Desplazamiento y tránsito de peatones y vehículos",
+            "correct": false,
+            "feedback": "Esa es la definición de circulación (manual PDF 7), que es un movimiento, no un sector de la vía. La calzada es el sector destinado a los vehículos."
+          },
+          {
+            "id": "d",
+            "text": "Superficie común a dos o más arterias que concurren a una intersección",
+            "correct": false,
+            "feedback": "Así define el glosario a la bocacalle (manual PDF 6). La calzada es el sector de la vía pública por donde circulan los vehículos."
+          }
+        ]
+      },
+      {
+        "id": "lane",
+        "prompt": "¿Cómo se llama la banda longitudinal demarcada en la calzada, destinada generalmente al tránsito de una sola fila de vehículos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Carril",
+            "correct": true,
+            "feedback": "¡Correcto! El carril ordena la circulación: es una banda demarcada en la calzada, generalmente para una sola fila de vehículos (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "Eje de calzada",
+            "correct": false,
+            "feedback": "El eje de calzada es la línea que separa las áreas con sentido de circulación opuesto (manual PDF 8), no una banda para una fila de vehículos."
+          },
+          {
+            "id": "c",
+            "text": "Mano",
+            "correct": false,
+            "feedback": "La mano es el sentido de circulación que deben conservar los vehículos (manual PDF 9). La banda demarcada para una fila es el carril."
+          },
+          {
+            "id": "d",
+            "text": "Colectora",
+            "correct": false,
+            "feedback": "La colectora es toda una calzada, lateral y paralela a una autopista (manual PDF 7). La banda demarcada para una sola fila es el carril."
+          }
+        ]
+      },
+      {
+        "id": "centerline",
+        "prompt": "En una calzada de doble mano, el eje no está demarcado. Según el glosario, ¿cómo quedan divididas las áreas de cada sentido de circulación?",
+        "options": [
+          {
+            "id": "a",
+            "text": "En dos partes iguales, aunque no haya una línea pintada",
+            "correct": true,
+            "feedback": "¡Correcto! El eje de calzada, demarcado o no, determina las áreas con sentido de circulación opuesto; si no está demarcado, la división es en dos partes iguales (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Según el tránsito: más ancho para la mano más cargada",
+            "correct": false,
+            "feedback": "No: el glosario no reparte la calzada según el tránsito. Si el eje no está demarcado, la división es en dos partes iguales."
+          },
+          {
+            "id": "c",
+            "text": "No quedan divididas hasta que se demarque el eje",
+            "correct": false,
+            "feedback": "Sí quedan divididas: el eje de calzada existe aunque no esté demarcado, y en ese caso divide la calzada en dos partes iguales."
+          }
+        ]
+      },
+      {
+        "id": "direction",
+        "prompt": "¿Qué es la mano según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sentido de circulación que deben conservar los vehículos que transitan por una arteria",
+            "correct": true,
+            "feedback": "¡Bien! La mano es el sentido de circulación que los vehículos deben conservar en una arteria (manual PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Línea longitudinal, demarcada o no, que separa las áreas con sentido de circulación opuesto",
+            "correct": false,
+            "feedback": "Esa es la definición de eje de calzada (manual PDF 8): la línea que separa las manos, no la mano misma."
+          },
+          {
+            "id": "c",
+            "text": "Banda longitudinal demarcada en la calzada, generalmente para una sola fila de vehículos",
+            "correct": false,
+            "feedback": "Así define el glosario al carril (manual PDF 6). La mano es el sentido de circulación que deben conservar los vehículos."
+          },
+          {
+            "id": "d",
+            "text": "Maniobra por la cual el vehículo modifica su dirección para cambiar de arteria",
+            "correct": false,
+            "feedback": "Eso es el giro (manual PDF 8). La mano no es una maniobra sino el sentido de circulación de una arteria."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-intersections",
+    "type": "single-choice",
+    "title": "Bocacalles, rotondas e isletas",
+    "unitIds": [
+      "manual.glossary.intersection-area",
+      "manual.glossary.crossroads",
+      "manual.glossary.roundabout",
+      "manual.glossary.traffic-island"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 10
+      }
+    ],
+    "explanation": "La bocacalle (o encrucijada, su sinónimo) es la superficie de la vía pública común a dos o más arterias que concurren a una intersección, incluidas las sendas peatonales. La rotonda es un emplazamiento vial circular, ubicado en la encrucijada de dos o más arterias, que permite la circulación giratoria. La isleta canaliza corrientes circulatorias: puede ser una plazoleta seca o una zona de la calzada demarcada con líneas paralelas amarillas continuas en diagonal o en V, con delimitación perimetral (manual PDF 6, 8 y 10).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "intersection",
+        "prompt": "¿Qué es una bocacalle según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Superficie común a dos o más arterias que concurren a una intersección",
+            "correct": true,
+            "feedback": "¡Correcto! La bocacalle es esa superficie común e incluye las sendas peatonales (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "Emplazamiento circular en la encrucijada de dos o más arterias, con circulación giratoria",
+            "correct": false,
+            "feedback": "Esa es la rotonda (manual PDF 10), que se ubica en una encrucijada. La bocacalle es la superficie común a las arterias que concurren a la intersección."
+          },
+          {
+            "id": "c",
+            "text": "Sector de la calzada destinado al cruce peatonal, esté demarcado o no",
+            "correct": false,
+            "feedback": "Eso define a la senda peatonal (manual PDF 10), que forma parte de la bocacalle pero no es toda la bocacalle."
+          },
+          {
+            "id": "d",
+            "text": "Plazoleta seca que canaliza las corrientes circulatorias",
+            "correct": false,
+            "feedback": "Así define el glosario a la isleta, en su primera acepción (manual PDF 8). La bocacalle es la superficie común a dos o más arterias que se cruzan."
+          }
+        ]
+      },
+      {
+        "id": "crossroads",
+        "prompt": "En el glosario, «encrucijada» es sinónimo de…",
+        "options": [
+          {
+            "id": "a",
+            "text": "Bocacalle",
+            "correct": true,
+            "feedback": "¡Exacto! El glosario define encrucijada simplemente como «Bocacalle» (manual PDF 8): la superficie común a dos o más arterias que concurren a una intersección (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "Rotonda",
+            "correct": false,
+            "feedback": "No. La rotonda es el emplazamiento circular que se ubica en una encrucijada (manual PDF 10), pero el sinónimo de encrucijada es bocacalle."
+          },
+          {
+            "id": "c",
+            "text": "Isleta",
+            "correct": false,
+            "feedback": "La isleta canaliza corrientes circulatorias (manual PDF 8); no es sinónimo de encrucijada. El glosario define encrucijada como bocacalle."
+          },
+          {
+            "id": "d",
+            "text": "Embotellamiento",
+            "correct": false,
+            "feedback": "El embotellamiento es una acumulación de vehículos que entorpece u obstruye el tránsito (manual PDF 8). Encrucijada es sinónimo de bocacalle."
+          }
+        ]
+      },
+      {
+        "id": "roundabout",
+        "prompt": "¿Cómo se llama el emplazamiento vial circular, ubicado en la encrucijada de dos o más arterias, que permite la circulación giratoria?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Rotonda",
+            "correct": true,
+            "feedback": "¡Correcto! La rotonda distribuye el tránsito en la encrucijada de dos o más arterias con circulación giratoria (manual PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Isleta",
+            "correct": false,
+            "feedback": "La isleta canaliza corrientes circulatorias, pero no se define como un emplazamiento circular con circulación giratoria (manual PDF 8). Eso es la rotonda."
+          },
+          {
+            "id": "c",
+            "text": "Bocacalle",
+            "correct": false,
+            "feedback": "La bocacalle es la superficie común a las arterias que se cruzan (manual PDF 6); la rotonda es el emplazamiento circular que se ubica en ella."
+          },
+          {
+            "id": "d",
+            "text": "Giro",
+            "correct": false,
+            "feedback": "El giro es una maniobra: el vehículo modifica su dirección para cambiar de arteria (manual PDF 8). El emplazamiento circular es la rotonda."
+          }
+        ]
+      },
+      {
+        "id": "island",
+        "prompt": "Según el glosario, ¿qué es una isleta cuando está demarcada sobre la calzada?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Zona con líneas amarillas continuas en diagonal o en V, delimitada, que canaliza la circulación",
+            "correct": true,
+            "feedback": "¡Correcto! Es una zona de la calzada demarcada con líneas paralelas amarillas de trazo continuo en diagonal o en V, con delimitación perimetral, que canaliza corrientes circulatorias; la otra acepción es una plazoleta seca (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Espacio sobre la calzada o la acera, delimitado con carteles y demarcación, para carga y descarga",
+            "correct": false,
+            "feedback": "Ese es el cajón azul (manual PDF 6), destinado exclusivamente a la carga y descarga. La isleta canaliza corrientes circulatorias."
+          },
+          {
+            "id": "c",
+            "text": "Área de la calzada demarcada, destinada exclusivamente a la circulación peatonal",
+            "correct": false,
+            "feedback": "Así se definen las intervenciones peatonales (manual PDF 8). La isleta no es para peatones: canaliza corrientes circulatorias."
+          },
+          {
+            "id": "d",
+            "text": "Área delimitada en la calzada, junto a la parada del transporte de pasajeros/as",
+            "correct": false,
+            "feedback": "Eso es el sector de parada (manual PDF 10). La isleta demarcada lleva líneas amarillas en diagonal o en V y canaliza la circulación."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-road-elements",
+    "type": "single-choice",
+    "title": "Cordones, bolardos, reductores y puentes",
+    "unitIds": [
+      "manual.glossary.curb",
+      "manual.glossary.bollard",
+      "manual.glossary.speed-reducer",
+      "manual.glossary.road-shoulder",
+      "manual.glossary.bridge",
+      "manual.glossary.tunnel"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 10
+      },
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 11
+      },
+      {
+        "source": "manual",
+        "page": 8
+      }
+    ],
+    "explanation": "El cordón es la elevación al borde de la calzada que la separa de las aceras, isletas o plazoletas; el bolardo es un elemento vertical de poca altura, anclado en el pavimento, que limita o impide el paso o el estacionamiento de vehículos. El reductor de velocidad es una sobreelevación transversal de la calzada, de medidas normalizadas y con señalización de prevención, que obliga a reducir la velocidad; también lo es todo dispositivo que angoste el carril hasta no menos de 2,80 m e induzca a bajar la velocidad. La banquina es la zona paralela a la calzada de rutas, autopistas, semiautopistas o caminos, provista para mayor seguridad, y el puente y el túnel permiten pasar por sobre o por debajo del nivel de lo atravesado (manual PDF 5, 6, 7, 9, 10 y 11).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "curb",
+        "prompt": "¿Cómo se llama la elevación construida al borde de la calzada que la separa de las aceras, isletas o plazoletas?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Cordón",
+            "correct": true,
+            "feedback": "¡Correcto! El cordón separa la calzada de las aceras, isletas o plazoletas y forma parte de estas (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Reductor de velocidad",
+            "correct": false,
+            "feedback": "El reductor es una sobreelevación transversal de la calzada, para obligar a reducir la velocidad (manual PDF 10); no está en su borde."
+          },
+          {
+            "id": "c",
+            "text": "Bolardo",
+            "correct": false,
+            "feedback": "El bolardo es un elemento vertical de poca altura que limita el paso o el estacionamiento (manual PDF 6). La elevación del borde de la calzada es el cordón."
+          },
+          {
+            "id": "d",
+            "text": "Banquina",
+            "correct": false,
+            "feedback": "La banquina es una zona paralela a la calzada de rutas y autopistas (manual PDF 5), no una elevación que la separa de la acera."
+          }
+        ]
+      },
+      {
+        "id": "bollard",
+        "prompt": "¿Qué es un bolardo según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Elemento vertical de poca altura, anclado en el pavimento, que limita o impide el paso o el estacionamiento",
+            "correct": true,
+            "feedback": "¡Exacto! El bolardo se ancla en el pavimento y puede ser de piedra, hormigón, acero, aluminio o plástico, entre otros materiales (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "Dispositivo fijo o móvil con luz propia o reflector, usado como marca de advertencia en la vía pública",
+            "correct": false,
+            "feedback": "Esa es una de las acepciones de baliza (manual PDF 5). El bolardo no lleva luz: es un elemento vertical bajo que limita el paso o el estacionamiento."
+          },
+          {
+            "id": "c",
+            "text": "Indicador vertical para el ascenso y descenso de pasajeros de un servicio de transporte",
+            "correct": false,
+            "feedback": "Así define el glosario a la parada (manual PDF 9). El bolardo sirve para limitar o impedir el paso o el estacionamiento de vehículos."
+          },
+          {
+            "id": "d",
+            "text": "Sobreelevación transversal de la calzada, con señalización, que obliga a reducir la velocidad",
+            "correct": false,
+            "feedback": "Eso es un reductor de velocidad (manual PDF 10). El bolardo es un elemento vertical de poca altura."
+          }
+        ]
+      },
+      {
+        "id": "reducer",
+        "prompt": "Además de la sobreelevación transversal de la calzada, ¿qué otro dispositivo considera «reductor de velocidad» el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Todo dispositivo que angoste el carril hasta no menos de 2,80 m e induzca a bajar la velocidad",
+            "correct": true,
+            "feedback": "¡Correcto! También es reductor de velocidad todo dispositivo que, al reducir el ancho del carril hasta una dimensión no menor a 2,80 m, induzca una disminución de la velocidad vehicular (manual PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Todo elemento vertical anclado en el pavimento que impida estacionar junto a la acera",
+            "correct": false,
+            "feedback": "Eso describe a un bolardo (manual PDF 6). El glosario considera reductor al dispositivo que angosta el carril hasta no menos de 2,80 m."
+          },
+          {
+            "id": "c",
+            "text": "Toda zona con líneas amarillas en diagonal o en V que canalice corrientes circulatorias",
+            "correct": false,
+            "feedback": "Así define el glosario a la isleta demarcada (manual PDF 8). El segundo tipo de reductor es el que angosta el carril hasta no menos de 2,80 m."
+          },
+          {
+            "id": "d",
+            "text": "Todo semáforo que asigne en forma alternativa el derecho de paso en un cruce",
+            "correct": false,
+            "feedback": "Esa es la función del semáforo (manual PDF 10). El reductor de velocidad, además de la sobreelevación, puede ser un angostamiento del carril hasta no menos de 2,80 m."
+          }
+        ]
+      },
+      {
+        "id": "shoulder",
+        "prompt": "¿Qué es la banquina según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Zona paralela a la calzada de rutas, autopistas o caminos, provista para mayor seguridad del tránsito",
+            "correct": true,
+            "feedback": "¡Bien! La banquina es adyacente y paralela a la calzada de rutas, autopistas, semiautopistas o caminos, y está provista para mayor seguridad del tránsito de vehículos (manual PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "Calzada lateral y paralela a una autopista, que no le pertenece y tiene acceso a sus carriles",
+            "correct": false,
+            "feedback": "Esa es la colectora (manual PDF 7), una calzada para circular. La banquina es una zona provista para mayor seguridad."
+          },
+          {
+            "id": "c",
+            "text": "Sector de la vía pública que bordea la calzada y está destinado a la circulación de peatones",
+            "correct": false,
+            "feedback": "Así define el glosario a la acera (manual PDF 5). La banquina acompaña la calzada de rutas, autopistas, semiautopistas o caminos."
+          },
+          {
+            "id": "d",
+            "text": "Espacio resguardado en la vía pública para estacionar o detenerse, de al menos 2 m de ancho",
+            "correct": false,
+            "feedback": "Eso es una dársena de estacionamiento o detención (manual PDF 7). La banquina es una zona paralela a la calzada provista para mayor seguridad."
+          }
+        ]
+      },
+      {
+        "id": "bridge-tunnel",
+        "prompt": "Según el glosario, ¿qué distingue a un puente de un túnel?",
+        "options": [
+          {
+            "id": "a",
+            "text": "El puente permite pasar por sobre el nivel de lo atravesado; el túnel, por debajo",
+            "correct": true,
+            "feedback": "¡Correcto! Los dos son construcciones viales para el paso de personas o vehículos: el puente, por sobre el nivel de lo atravesado (manual PDF 9), y el túnel, por debajo (manual PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "El puente es para vehículos; el túnel, solo para el paso de personas",
+            "correct": false,
+            "feedback": "No: los dos permiten el paso de personas o vehículos. La diferencia es el nivel: el puente pasa por sobre lo atravesado y el túnel, por debajo (manual PDF 9 y 11)."
+          },
+          {
+            "id": "c",
+            "text": "El puente cruza cursos de agua; el túnel, calles y vías de tren",
+            "correct": false,
+            "feedback": "El glosario no los distingue por lo que atraviesan sino por el nivel: por sobre (puente) o por debajo (túnel) de lo atravesado."
+          },
+          {
+            "id": "d",
+            "text": "El puente es una construcción vial; el túnel, una obra ferroviaria",
+            "correct": false,
+            "feedback": "Los dos son construcciones viales destinadas al paso de personas o vehículos; cambia el nivel: por sobre o por debajo de lo atravesado."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-pedestrian-spaces",
+    "type": "single-choice",
+    "title": "Sendas y espacios peatonales",
+    "unitIds": [
+      "manual.glossary.crosswalk",
+      "manual.glossary.pedestrian-crossing-pocket",
+      "manual.glossary.pedestrian-interventions"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 10
+      },
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 5
+      }
+    ],
+    "explanation": "La senda peatonal es el sector de la calzada destinado al cruce peatonal; si no está demarcada, coincide con la prolongación longitudinal de la acera sobre la calzada. En algunas intersecciones con intenso tránsito vehicular y peatonal, por seguridad, la senda se demarca sin coincidir con esa prolongación y con señalamiento luminoso (el glosario la define como «Bolsón vehicular o de tránsito», y la definición de senda peatonal la llama «bolsones peatonales»). Las intervenciones peatonales son áreas de la calzada demarcadas y destinadas exclusivamente a la circulación peatonal, que pueden tener mobiliario urbano (manual PDF 6, 8 y 10).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "crosswalk",
+        "prompt": "Según el glosario, si una senda peatonal no está demarcada, ¿dónde está?",
+        "options": [
+          {
+            "id": "a",
+            "text": "En la prolongación longitudinal de la acera sobre la calzada",
+            "correct": true,
+            "feedback": "¡Correcto! La senda peatonal es el sector de la calzada destinado al cruce peatonal; si no está demarcada, coincide con la prolongación longitudinal de la acera, salvo en las intersecciones donde se demarca desplazada (manual PDF 6 y 10)."
+          },
+          {
+            "id": "b",
+            "text": "No existe: solo hay senda peatonal donde está pintada",
+            "correct": false,
+            "feedback": "Sí existe: aunque no esté demarcada, la senda coincide con la prolongación longitudinal de la acera sobre la calzada (manual PDF 10)."
+          },
+          {
+            "id": "c",
+            "text": "Donde haya un semáforo con indicación para peatones",
+            "correct": false,
+            "feedback": "El semáforo no define dónde está la senda. Sin demarcación, la senda es la prolongación de la acera sobre la calzada."
+          },
+          {
+            "id": "d",
+            "text": "A mitad de cuadra, donde el tránsito es más tranquilo",
+            "correct": false,
+            "feedback": "No: el glosario ubica la senda sin demarcar en la prolongación de la acera sobre la calzada, no a mitad de cuadra."
+          }
+        ]
+      },
+      {
+        "id": "pocket",
+        "prompt": "En algunas intersecciones con intenso tránsito vehicular y peatonal, la senda peatonal se demarca sin coincidir con la prolongación de la acera. Según el glosario, ¿qué la acompaña?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Señalamiento luminoso, por razones de seguridad",
+            "correct": true,
+            "feedback": "¡Correcto! Esa senda desplazada va acompañada de señalamiento luminoso y se usa por razones de seguridad en intersecciones con intenso tránsito vehicular y peatonal (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "Un reductor de velocidad antes de la senda",
+            "correct": false,
+            "feedback": "El reductor de velocidad es otro dispositivo (manual PDF 10) y no aparece en esta definición. La senda desplazada va acompañada de señalamiento luminoso."
+          },
+          {
+            "id": "c",
+            "text": "Bolardos que impiden el paso de los vehículos",
+            "correct": false,
+            "feedback": "Los bolardos limitan el paso o el estacionamiento (manual PDF 6), pero no forman parte de esta definición: la senda desplazada va con señalamiento luminoso."
+          },
+          {
+            "id": "d",
+            "text": "Mobiliario urbano, como macetas y anclajes",
+            "correct": false,
+            "feedback": "El mobiliario urbano corresponde a las intervenciones peatonales (manual PDF 8). La senda desplazada en esas intersecciones va con señalamiento luminoso."
+          }
+        ]
+      },
+      {
+        "id": "interventions",
+        "prompt": "¿Qué son las intervenciones peatonales según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Áreas de la calzada demarcadas y destinadas exclusivamente a la circulación peatonal",
+            "correct": true,
+            "feedback": "¡Exacto! Están en la calzada, son solo para peatones y pueden tener mobiliario urbano, como macetas, sillas, mesas o anclajes para bicicletas (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Calles o tramos preferentemente peatonales, con circulación restringida de vehículos",
+            "correct": false,
+            "feedback": "Esa es la calle de convivencia (manual PDF 6), donde se admiten vehículos en forma restringida. En las intervenciones peatonales la circulación es exclusivamente peatonal."
+          },
+          {
+            "id": "c",
+            "text": "Sectores de la vía pública que bordean la calzada y están destinados a los peatones",
+            "correct": false,
+            "feedback": "Así define el glosario a la acera (manual PDF 5), que bordea la calzada. Las intervenciones peatonales son áreas de la propia calzada."
+          },
+          {
+            "id": "d",
+            "text": "Sectores de la calzada destinados al cruce peatonal, estén demarcados o no",
+            "correct": false,
+            "feedback": "Eso es la senda peatonal (manual PDF 10), pensada para cruzar. Las intervenciones peatonales son áreas demarcadas para circular exclusivamente a pie."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-bike-lanes",
+    "type": "single-choice",
+    "title": "Ciclovía, ciclocarril y bicisenda",
+    "unitIds": [
+      "manual.glossary.bike-path",
+      "manual.glossary.cycle-lane",
+      "manual.glossary.segregated-bikeway"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 10
+      }
+    ],
+    "explanation": "Las tres son para ciclorodados y dispositivos de movilidad personal. La ciclovía es un sector de la calzada señalizado con una separación que permite su circulación exclusiva; el ciclocarril es un sector señalizado en la calzada para su circulación con carácter preferente; y la bicisenda es un sector señalizado y acondicionado en aceras y espacios verdes (manual PDF 6 y 7).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "bike-path",
+        "prompt": "¿Qué es una bicisenda según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sector señalizado y acondicionado en aceras y espacios verdes para ciclorodados y dispositivos de movilidad personal",
+            "correct": true,
+            "feedback": "¡Correcto! La bicisenda está en aceras y espacios verdes; la ciclovía y el ciclocarril, en cambio, están en la calzada (manual PDF 6 y 7)."
+          },
+          {
+            "id": "b",
+            "text": "Sector de la calzada con una separación, para la circulación exclusiva de ciclorodados y dispositivos de movilidad personal",
+            "correct": false,
+            "feedback": "Esa es la ciclovía (manual PDF 7), que está en la calzada. La bicisenda está en aceras y espacios verdes."
+          },
+          {
+            "id": "c",
+            "text": "Sector señalizado en la calzada para la circulación preferente de ciclorodados y dispositivos de movilidad personal",
+            "correct": false,
+            "feedback": "Así define el glosario al ciclocarril (manual PDF 7). La bicisenda no está en la calzada sino en aceras y espacios verdes."
+          },
+          {
+            "id": "d",
+            "text": "Sector de la calzada destinado al cruce peatonal que, sin demarcar, sigue la prolongación de la acera",
+            "correct": false,
+            "feedback": "Eso es la senda peatonal (manual PDF 10). La bicisenda es para ciclorodados y dispositivos de movilidad personal, en aceras y espacios verdes."
+          }
+        ]
+      },
+      {
+        "id": "cycle-lane",
+        "prompt": "¿Cómo se llama el sector señalizado en la calzada para la circulación con carácter preferente de ciclorodados y dispositivos de movilidad personal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Ciclocarril",
+            "correct": true,
+            "feedback": "¡Exacto! El ciclocarril está en la calzada y da circulación preferente a ciclorodados y dispositivos de movilidad personal (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Ciclovía",
+            "correct": false,
+            "feedback": "La ciclovía también está en la calzada, pero tiene una separación que permite la circulación exclusiva (manual PDF 7). Con carácter preferente, es un ciclocarril."
+          },
+          {
+            "id": "c",
+            "text": "Bicisenda",
+            "correct": false,
+            "feedback": "La bicisenda está en aceras y espacios verdes (manual PDF 6), no en la calzada. La respuesta es ciclocarril."
+          },
+          {
+            "id": "d",
+            "text": "Carril",
+            "correct": false,
+            "feedback": "El carril es cualquier banda longitudinal demarcada en la calzada, generalmente para una fila de vehículos (manual PDF 6). El sector preferente para ciclorodados es el ciclocarril."
+          }
+        ]
+      },
+      {
+        "id": "segregated",
+        "prompt": "Un sector de la calzada está señalizado con una separación, y por él circulan en forma exclusiva ciclorodados y dispositivos de movilidad personal. Según el glosario, ¿qué es?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Una ciclovía",
+            "correct": true,
+            "feedback": "¡Correcto! La ciclovía es el sector de la calzada señalizado con una separación que permite la circulación exclusiva de ciclorodados y dispositivos de movilidad personal (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Un ciclocarril",
+            "correct": false,
+            "feedback": "El ciclocarril se define por la circulación con carácter preferente (manual PDF 7). Con separación y circulación exclusiva, es una ciclovía."
+          },
+          {
+            "id": "c",
+            "text": "Una bicisenda",
+            "correct": false,
+            "feedback": "La bicisenda está en aceras y espacios verdes (manual PDF 6), no en la calzada."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-human-powered",
+    "type": "single-choice",
+    "title": "Vehículos, ciclorodados y bicicletas",
+    "unitIds": [
+      "manual.glossary.vehicle",
+      "manual.glossary.pedal-cycle",
+      "manual.glossary.bicycle",
+      "manual.glossary.tricycle",
+      "manual.glossary.e-assisted-cycle"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 11
+      },
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 9
+      }
+    ],
+    "explanation": "Vehículo es todo medio por el cual una persona o cosa puede ser transportada por la vía pública. El ciclorodado es un vehículo no motorizado de dos o más ruedas, impulsado por el esfuerzo de quien lo usa: la bicicleta es el ciclorodado de 2 ruedas, y el triciclo, el de tres ruedas no alineadas. El ciclorodado con pedaleo asistido eléctricamente tiene un motor eléctrico auxiliar, pero sigue impulsado por el esfuerzo de quien lo usa (manual PDF 5, 7 y 11).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "vehicle",
+        "prompt": "¿Qué es un vehículo según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Medio por el cual toda persona o cosa puede ser transportada por la vía pública",
+            "correct": true,
+            "feedback": "¡Correcto! Así de amplia es la definición de vehículo (manual PDF 11): incluye desde los ciclorodados hasta los automotores."
+          },
+          {
+            "id": "b",
+            "text": "Medio de transporte que usa como fuerza impulsora la generada por un motor",
+            "correct": false,
+            "feedback": "Esa es la definición de automotor (manual PDF 5), que es solo un tipo de vehículo. Vehículo es todo medio por el cual una persona o cosa puede ser transportada por la vía pública."
+          },
+          {
+            "id": "c",
+            "text": "Movimiento de cosas o personas de un lugar a otro",
+            "correct": false,
+            "feedback": "Así define el glosario al tránsito (manual PDF 11), que es un movimiento. El vehículo es el medio por el cual se transporta a personas o cosas."
+          },
+          {
+            "id": "d",
+            "text": "Medio no motorizado de dos o más ruedas, impulsado por el esfuerzo de quien lo usa",
+            "correct": false,
+            "feedback": "Eso describe al ciclorodado (manual PDF 7), que es un tipo de vehículo. La definición de vehículo no depende de las ruedas ni del motor."
+          }
+        ]
+      },
+      {
+        "id": "pedal-cycle",
+        "prompt": "¿Qué es un ciclorodado según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Vehículo no motorizado de dos o más ruedas, impulsado por el esfuerzo de quien lo utiliza",
+            "correct": true,
+            "feedback": "¡Exacto! El ciclorodado no tiene motor y lo impulsan, mediante mecanismos, quien o quienes lo usan (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Vehículo de dos o más ruedas con motor eléctrico auxiliar, impulsado por el esfuerzo de quien lo usa",
+            "correct": false,
+            "feedback": "Ese es el ciclorodado con pedaleo asistido eléctricamente (manual PDF 7), que tiene un motor auxiliar. El ciclorodado, a secas, no es motorizado."
+          },
+          {
+            "id": "c",
+            "text": "Vehículo de una o más ruedas, con una única plaza, propulsado solo por motores eléctricos",
+            "correct": false,
+            "feedback": "Así define el glosario al dispositivo de movilidad personal (manual PDF 8). El ciclorodado no tiene motor: lo impulsa el esfuerzo de quien lo usa."
+          },
+          {
+            "id": "d",
+            "text": "Vehículo de 2 ruedas con hasta 50 cm³ de cilindrada, que no supera los 50 km/h",
+            "correct": false,
+            "feedback": "Eso es un ciclomotor (manual PDF 7), que tiene motor. El ciclorodado es no motorizado."
+          }
+        ]
+      },
+      {
+        "id": "bicycle",
+        "prompt": "¿Cómo define el glosario a la bicicleta?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Ciclorodado (vehículo no motorizado) de 2 ruedas",
+            "correct": true,
+            "feedback": "¡Correcto! La bicicleta es el ciclorodado de 2 ruedas (manual PDF 5); el de tres ruedas no alineadas es el triciclo (manual PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "Ciclorodado de 3 ruedas no alineadas",
+            "correct": false,
+            "feedback": "Esa es la definición de triciclo (manual PDF 11). La bicicleta es el ciclorodado de 2 ruedas."
+          },
+          {
+            "id": "c",
+            "text": "Vehículo de 2 ruedas con motor de hasta 50 cm³",
+            "correct": false,
+            "feedback": "Eso corresponde al ciclomotor (manual PDF 7), que tiene motor. La bicicleta es un ciclorodado, sin motor, de 2 ruedas."
+          },
+          {
+            "id": "d",
+            "text": "Vehículo de 2 ruedas con motor eléctrico auxiliar",
+            "correct": false,
+            "feedback": "Así se describe el ciclorodado con pedaleo asistido eléctricamente (manual PDF 7). La bicicleta es el ciclorodado de 2 ruedas."
+          }
+        ]
+      },
+      {
+        "id": "tricycle",
+        "prompt": "¿Cómo se llama el ciclorodado de tres ruedas no alineadas?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Triciclo",
+            "correct": true,
+            "feedback": "¡Bien! El triciclo es un ciclorodado, es decir, no motorizado, de tres ruedas no alineadas (manual PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "Triciclo motorizado",
+            "correct": false,
+            "feedback": "El triciclo motorizado es un vehículo motorizado no carrozado (manual PDF 11); el ciclorodado, en cambio, no tiene motor. El de tres ruedas no alineadas es el triciclo."
+          },
+          {
+            "id": "c",
+            "text": "Moto furgón",
+            "correct": false,
+            "feedback": "El moto furgón es un triciclo o cuatriciclo motorizado para transportar cargas (manual PDF 9). Sin motor, el de tres ruedas es el triciclo."
+          },
+          {
+            "id": "d",
+            "text": "Bicicleta",
+            "correct": false,
+            "feedback": "La bicicleta es el ciclorodado de 2 ruedas (manual PDF 5). El de tres ruedas no alineadas es el triciclo."
+          }
+        ]
+      },
+      {
+        "id": "e-assisted",
+        "prompt": "Un vehículo de 2 ruedas tiene pedales y un motor eléctrico auxiliar, pero avanza impulsado por el esfuerzo de quien lo usa. ¿Cómo lo llama el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Ciclorodado con pedaleo asistido eléctricamente",
+            "correct": true,
+            "feedback": "¡Correcto! Es un vehículo de 2 ruedas o más, con motor eléctrico auxiliar, impulsado por el esfuerzo de quien lo utiliza (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Ciclomotor",
+            "correct": false,
+            "feedback": "El ciclomotor se define por su motor: hasta 50 cm³, o hasta 4 kW si es eléctrico, y no más de 50 km/h (manual PDF 7). Con motor auxiliar e impulso de quien pedalea, es un ciclorodado con pedaleo asistido eléctricamente."
+          },
+          {
+            "id": "c",
+            "text": "Dispositivo de movilidad personal",
+            "correct": false,
+            "feedback": "El dispositivo de movilidad personal se propulsa exclusivamente con motores eléctricos (manual PDF 8); este vehículo avanza con el esfuerzo de quien lo usa."
+          },
+          {
+            "id": "d",
+            "text": "Motocicleta",
+            "correct": false,
+            "feedback": "La motocicleta tiene motor a tracción propia de más de 50 cm³, o de más de 4 kW si es eléctrica (manual PDF 9). Este vehículo, con motor solo auxiliar, avanza con el esfuerzo de quien lo usa."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-motor-vehicles",
+    "type": "single-choice",
+    "title": "Automotores, automóviles y movilidad personal",
+    "unitIds": [
+      "manual.glossary.motor-vehicle",
+      "manual.glossary.automobile",
+      "manual.glossary.personal-mobility-device",
+      "manual.glossary.abandoned-vehicle"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 11
+      },
+      {
+        "source": "manual",
+        "page": 7
+      }
+    ],
+    "explanation": "Automotor es el vehículo que usa como fuerza impulsora la generada por un motor; el automóvil es el automotor destinado al transporte de personas, con capacidad para no más de 8 plazas sin contar a quien conduce. El dispositivo de movilidad personal tiene una o más ruedas, una única plaza y propulsión exclusivamente eléctrica, y solo puede tener asiento si cuenta con sistema de autobalance. Un vehículo abandonado es un vehículo, o parte de él, ubicado en lugares de dominio público en estado de deterioro, inmovilidad o abandono (manual PDF 5, 8 y 11).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "motor-vehicle",
+        "prompt": "¿Qué es un automotor según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Vehículo que utiliza como fuerza impulsora la generada por un motor",
+            "correct": true,
+            "feedback": "¡Correcto! Automotor es todo vehículo impulsado por la fuerza que genera un motor (manual PDF 5). El automóvil es un tipo de automotor."
+          },
+          {
+            "id": "b",
+            "text": "Medio por el cual toda persona o cosa puede ser transportada por la vía pública",
+            "correct": false,
+            "feedback": "Esa es la definición de vehículo (manual PDF 11), que es más amplia. El automotor es el vehículo impulsado por un motor."
+          },
+          {
+            "id": "c",
+            "text": "Vehículo con motor para no más de 8 plazas, sin contar a quien conduce, destinado a personas",
+            "correct": false,
+            "feedback": "Así define el glosario al automóvil (manual PDF 5), que es solo un tipo de automotor. Automotor es cualquier vehículo impulsado por un motor."
+          },
+          {
+            "id": "d",
+            "text": "Vehículo no motorizado de dos o más ruedas, impulsado por el esfuerzo de quien lo usa",
+            "correct": false,
+            "feedback": "Eso es un ciclorodado (manual PDF 7): justamente, no tiene motor. El automotor usa la fuerza generada por un motor."
+          }
+        ]
+      },
+      {
+        "id": "automobile",
+        "prompt": "Según el glosario, ¿para cuántas plazas como máximo, sin contar a quien conduce, está hecho un automóvil?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Hasta 4 plazas",
+            "correct": false,
+            "feedback": "Es menos de lo que fija el glosario: el automóvil tiene capacidad para no más de 8 plazas, sin contar a quien conduce (manual PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "Hasta 6 plazas",
+            "correct": false,
+            "feedback": "No. El límite del automóvil es de 8 plazas, excepto quien conduce."
+          },
+          {
+            "id": "c",
+            "text": "Hasta 8 plazas",
+            "correct": true,
+            "feedback": "¡Correcto! El automóvil es un automotor destinado al transporte de personas, con capacidad para no más de 8 plazas sin contar a quien conduce (manual PDF 5)."
+          },
+          {
+            "id": "d",
+            "text": "Hasta 12 plazas",
+            "correct": false,
+            "feedback": "Es más de lo que admite la definición: el automóvil tiene capacidad para no más de 8 plazas, sin contar a quien conduce."
+          }
+        ]
+      },
+      {
+        "id": "pmd",
+        "prompt": "¿Qué es un dispositivo de movilidad personal según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Vehículo de una o más ruedas, con una única plaza y propulsado exclusivamente por motores eléctricos",
+            "correct": true,
+            "feedback": "¡Exacto! Además, solo puede tener asiento si cuenta con sistema de autobalance (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Vehículo de dos o más ruedas con motor eléctrico auxiliar, impulsado por el esfuerzo de quien lo usa",
+            "correct": false,
+            "feedback": "Ese es el ciclorodado con pedaleo asistido eléctricamente (manual PDF 7). El dispositivo de movilidad personal se propulsa exclusivamente con motores eléctricos."
+          },
+          {
+            "id": "c",
+            "text": "Vehículo motorizado no carrozado de cuatro ruedas no alineadas",
+            "correct": false,
+            "feedback": "Así define el glosario al cuatriciclo motorizado (manual PDF 7). El dispositivo de movilidad personal tiene una única plaza y propulsión exclusivamente eléctrica."
+          },
+          {
+            "id": "d",
+            "text": "Vehículo de 2 ruedas, de hasta 4 kW si es eléctrico, que no supera los 50 km/h",
+            "correct": false,
+            "feedback": "Eso describe al ciclomotor eléctrico (manual PDF 7). El dispositivo de movilidad personal se define por su única plaza y su propulsión exclusivamente eléctrica."
+          }
+        ]
+      },
+      {
+        "id": "pmd-seat",
+        "prompt": "Según el glosario, ¿cuándo puede tener asiento un dispositivo de movilidad personal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Solo si tiene sistema de autobalance",
+            "correct": true,
+            "feedback": "¡Correcto! Solo puede estar equipado con un asiento si tiene sistema de autobalance; los vehículos sin auto-balanceo y con asiento quedan excluidos de la definición (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Siempre que tenga una única plaza",
+            "correct": false,
+            "feedback": "La plaza única es parte de la definición, pero no alcanza: para tener asiento necesita sistema de autobalance (manual PDF 8)."
+          },
+          {
+            "id": "c",
+            "text": "Nunca: siempre se usa de pie",
+            "correct": false,
+            "feedback": "Puede tener asiento, siempre que cuente con sistema de autobalance (manual PDF 8)."
+          },
+          {
+            "id": "d",
+            "text": "Solo si es para personas con movilidad reducida",
+            "correct": false,
+            "feedback": "Al revés: los vehículos para personas con movilidad reducida están excluidos de la definición. El asiento solo se admite con sistema de autobalance."
+          }
+        ]
+      },
+      {
+        "id": "abandoned",
+        "prompt": "¿Qué es un vehículo abandonado según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Vehículo o parte de él en lugares de dominio público, en estado de deterioro, inmovilidad o abandono",
+            "correct": true,
+            "feedback": "¡Bien! Puede ser el vehículo entero o una parte, en lugares de dominio público y en estado de deterioro, inmovilidad o abandono (manual PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "Vehículo sin movimiento en la vía pública, con o sin conductor/a, por más tiempo que una detención",
+            "correct": false,
+            "feedback": "Esa es la definición de estacionamiento (manual PDF 8). El vehículo abandonado se define por su estado de deterioro, inmovilidad o abandono."
+          },
+          {
+            "id": "c",
+            "text": "Acumulación de vehículos en una vía pública que entorpece u obstruye el tránsito",
+            "correct": false,
+            "feedback": "Así define el glosario al embotellamiento, atascamiento o congestión (manual PDF 8). El vehículo abandonado es un vehículo, o parte de él, deteriorado, inmóvil o abandonado."
+          },
+          {
+            "id": "d",
+            "text": "Vehículo inmovilizado junto a la acera hasta 2 minutos, sin que lo deje quien conduce",
+            "correct": false,
+            "feedback": "Eso es una detención (manual PDF 7). El vehículo abandonado está en un lugar de dominio público en estado de deterioro, inmovilidad o abandono."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-motorcycles",
+    "type": "single-choice",
+    "title": "Ciclomotores, motocicletas y motovehículos",
+    "unitIds": [
+      "manual.glossary.moped",
+      "manual.glossary.motorcycle",
+      "manual.glossary.motor-two-three-four-wheeler"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 8
+      }
+    ],
+    "explanation": "El ciclomotor es un vehículo de 2 ruedas con hasta 50 cm³ de cilindrada, o hasta 4 kW de potencia máxima continua nominal si es eléctrico, que no puede desarrollar más de 50 km/h. La motocicleta tiene 2 ruedas y motor a tracción propia de más de 50 cm³, o de más de 4 kW si es eléctrica, y puede superar los 50 km/h. Motovehículo es el vehículo motorizado que incluye solo a ciclomotores, triciclos y cuatriciclos motorizados, motocicletas y motofurgones (manual PDF 7 y 9).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "moped",
+        "prompt": "Según el glosario, ¿qué velocidad puede desarrollar como máximo un ciclomotor?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No más de 25 km/h",
+            "correct": false,
+            "feedback": "No: el glosario fija el límite del ciclomotor en 50 km/h (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "No más de 50 km/h",
+            "correct": true,
+            "feedback": "¡Correcto! El ciclomotor tiene 2 ruedas, hasta 50 cm³ de cilindrada (o hasta 4 kW si es eléctrico) y capacidad para no más de 50 km/h (manual PDF 7)."
+          },
+          {
+            "id": "c",
+            "text": "No más de 80 km/h",
+            "correct": false,
+            "feedback": "Es demasiado: el ciclomotor no puede desarrollar más de 50 km/h. La que supera esa velocidad es la motocicleta (manual PDF 9)."
+          },
+          {
+            "id": "d",
+            "text": "No más de 100 km/h",
+            "correct": false,
+            "feedback": "No. El ciclomotor, con hasta 50 cm³ o, si es eléctrico, hasta 4 kW, puede desarrollar no más de 50 km/h (manual PDF 7)."
+          }
+        ]
+      },
+      {
+        "id": "motorcycle",
+        "prompt": "Un vehículo eléctrico de 2 ruedas, que se mueve solo con su motor, tiene 6 kW de potencia máxima continua nominal y supera los 50 km/h. ¿Qué es según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Una motocicleta",
+            "correct": true,
+            "feedback": "¡Exacto! Con motorización eléctrica de más de 4 kW de potencia máxima continua nominal y capacidad para superar los 50 km/h, es una motocicleta (manual PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Un ciclomotor",
+            "correct": false,
+            "feedback": "El ciclomotor eléctrico llega hasta 4 kW y no supera los 50 km/h (manual PDF 7). Con 6 kW y más de 50 km/h, es una motocicleta."
+          },
+          {
+            "id": "c",
+            "text": "Un moto furgón",
+            "correct": false,
+            "feedback": "El moto furgón es un triciclo o cuatriciclo motorizado para cargas (manual PDF 9); este vehículo tiene 2 ruedas."
+          },
+          {
+            "id": "d",
+            "text": "Un ciclorodado con pedaleo asistido eléctricamente",
+            "correct": false,
+            "feedback": "Ese ciclorodado tiene un motor solo auxiliar y lo impulsa el esfuerzo de quien lo usa (manual PDF 7); este vehículo se mueve solo con su motor."
+          }
+        ]
+      },
+      {
+        "id": "motovehicle",
+        "prompt": "Según el glosario, ¿qué vehículos incluye la categoría «motovehículo»?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Solo ciclomotores, triciclos y cuatriciclos motorizados, motocicletas y motofurgones",
+            "correct": true,
+            "feedback": "¡Correcto! Motovehículo es un vehículo motorizado que incluye solo esos tipos (manual PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Todos los vehículos que usan como fuerza impulsora la generada por un motor",
+            "correct": false,
+            "feedback": "Eso define al automotor (manual PDF 5), que es más amplio: incluye, por ejemplo, a los automóviles. El motovehículo abarca solo ciclomotores, triciclos y cuatriciclos motorizados, motocicletas y motofurgones."
+          },
+          {
+            "id": "c",
+            "text": "Los vehículos de una o más ruedas, de una plaza y propulsión exclusivamente eléctrica",
+            "correct": false,
+            "feedback": "Así define el glosario al dispositivo de movilidad personal (manual PDF 8), que no figura en la lista de motovehículos."
+          },
+          {
+            "id": "d",
+            "text": "Los automotores de hasta 8 plazas, sin contar a quien conduce, que transportan personas",
+            "correct": false,
+            "feedback": "Esa es la definición de automóvil (manual PDF 5). Los motovehículos son ciclomotores, triciclos y cuatriciclos motorizados, motocicletas y motofurgones."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-motor-tricycles",
+    "type": "single-choice",
+    "title": "Triciclos, cuatriciclos y motofurgones",
+    "unitIds": [
+      "manual.glossary.motorized-tricycle",
+      "manual.glossary.motorized-quadricycle",
+      "manual.glossary.cargo-motorcycle"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 11
+      },
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 8
+      }
+    ],
+    "explanation": "El triciclo motorizado es un vehículo motorizado no carrozado de tres ruedas no alineadas, y el cuatriciclo motorizado, el de cuatro ruedas no alineadas; no hay que confundirlos con el triciclo, que es un ciclorodado, sin motor. El moto furgón es un triciclo o cuatriciclo motorizado destinado al transporte de cargas. Todos ellos son motovehículos (manual PDF 7, 9 y 11).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "tricycle",
+        "prompt": "¿Cómo se llama el vehículo motorizado no carrozado de tres ruedas no alineadas?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Triciclo motorizado",
+            "correct": true,
+            "feedback": "¡Correcto! El triciclo motorizado es motorizado y no carrozado, con tres ruedas no alineadas (manual PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "Triciclo",
+            "correct": false,
+            "feedback": "El triciclo, a secas, es un ciclorodado de tres ruedas no alineadas: no tiene motor (manual PDF 11)."
+          },
+          {
+            "id": "c",
+            "text": "Cuatriciclo motorizado",
+            "correct": false,
+            "feedback": "El cuatriciclo motorizado tiene cuatro ruedas no alineadas (manual PDF 7). Con tres, es un triciclo motorizado."
+          },
+          {
+            "id": "d",
+            "text": "Ciclomotor",
+            "correct": false,
+            "feedback": "El ciclomotor tiene 2 ruedas (manual PDF 7). El de tres ruedas no alineadas, motorizado y no carrozado, es el triciclo motorizado."
+          }
+        ]
+      },
+      {
+        "id": "quadricycle",
+        "prompt": "¿Qué es un cuatriciclo motorizado según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Vehículo motorizado no carrozado de cuatro ruedas no alineadas",
+            "correct": true,
+            "feedback": "¡Exacto! El cuatriciclo motorizado es motorizado, no carrozado y de cuatro ruedas no alineadas (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Vehículo con motor para hasta 8 plazas sin contar a quien conduce, que lleva personas",
+            "correct": false,
+            "feedback": "Esa es la definición de automóvil (manual PDF 5). El cuatriciclo motorizado es un vehículo no carrozado de cuatro ruedas no alineadas."
+          },
+          {
+            "id": "c",
+            "text": "Ciclorodado, sin motor, de tres ruedas no alineadas",
+            "correct": false,
+            "feedback": "Así define el glosario al triciclo (manual PDF 11). El cuatriciclo motorizado tiene motor y cuatro ruedas."
+          },
+          {
+            "id": "d",
+            "text": "Vehículo de una o más ruedas, de una plaza, propulsado solo por motores eléctricos",
+            "correct": false,
+            "feedback": "Eso es un dispositivo de movilidad personal (manual PDF 8). El cuatriciclo motorizado es no carrozado y tiene cuatro ruedas no alineadas."
+          }
+        ]
+      },
+      {
+        "id": "cargo",
+        "prompt": "¿Qué es un moto furgón según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Triciclo o cuatriciclo motorizado destinado al transporte de cargas",
+            "correct": true,
+            "feedback": "¡Correcto! El moto furgón es un triciclo o cuatriciclo motorizado para cargas (manual PDF 9); en la definición de motovehículo aparece escrito «motofurgones»."
+          },
+          {
+            "id": "b",
+            "text": "Retiro y entrega de paquetería pequeña y mediana en motovehículo o ciclorodado",
+            "correct": false,
+            "feedback": "Esa es la mensajería urbana (manual PDF 9), una actividad. El moto furgón es un vehículo: un triciclo o cuatriciclo motorizado para cargas."
+          },
+          {
+            "id": "c",
+            "text": "Vehículo de 2 ruedas de más de 50 cm³ o más de 4 kW, que supera los 50 km/h",
+            "correct": false,
+            "feedback": "Así define el glosario a la motocicleta (manual PDF 9). El moto furgón tiene tres o cuatro ruedas y transporta cargas."
+          },
+          {
+            "id": "d",
+            "text": "Automotor de hasta 8 plazas, sin contar a quien conduce, que transporta personas",
+            "correct": false,
+            "feedback": "Eso es un automóvil (manual PDF 5), destinado a personas. El moto furgón es un triciclo o cuatriciclo motorizado destinado a cargas."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-maneuvers",
+    "type": "single-choice",
+    "title": "Adelantamiento, sobrepaso, giro y guiñada",
+    "unitIds": [
+      "manual.glossary.overtaking",
+      "manual.glossary.passing",
+      "manual.glossary.turn",
+      "manual.glossary.headlight-flash"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 10
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 9
+      }
+    ],
+    "explanation": "El adelantamiento es sobrepasar la línea de otro vehículo en circulación sin necesidad de cambiar de carril; el sobrepaso es la misma maniobra, pero cambiando de carril. El giro es la maniobra por la cual el vehículo modifica su dirección para cambiar de arteria de circulación. La guiñada es una indicación rápida de quien conduce, encendiendo y apagando la luz alta como señal de advertencia (manual PDF 5, 8 y 10).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "overtaking",
+        "prompt": "¿Qué es el adelantamiento según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sobrepasar la línea de otro vehículo en circulación sin necesidad de cambiar de carril",
+            "correct": true,
+            "feedback": "¡Correcto! Lo que distingue al adelantamiento es que no hace falta cambiar de carril (manual PDF 5); si se cambia de carril, es un sobrepaso (manual PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Sobrepasar la línea de otro vehículo en circulación cambiando de carril",
+            "correct": false,
+            "feedback": "Esa es la definición de sobrepaso (manual PDF 10). En el adelantamiento no es necesario cambiar de carril."
+          },
+          {
+            "id": "c",
+            "text": "Modificar la dirección del vehículo para cambiar de arteria de circulación",
+            "correct": false,
+            "feedback": "Así define el glosario al giro (manual PDF 8). El adelantamiento es pasar la línea de otro vehículo sin necesidad de cambiar de carril."
+          },
+          {
+            "id": "d",
+            "text": "Encender y apagar rápidamente la luz alta como señal de advertencia",
+            "correct": false,
+            "feedback": "Eso es una guiñada (manual PDF 8), una indicación luminosa. El adelantamiento es una maniobra para pasar a otro vehículo sin cambiar de carril."
+          }
+        ]
+      },
+      {
+        "id": "passing",
+        "prompt": "Circulás por una avenida y, para pasar a un vehículo más lento, cambiás al carril de al lado y lo dejás atrás. ¿Cómo llama el glosario a esta maniobra?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sobrepaso",
+            "correct": true,
+            "feedback": "¡Exacto! Sobrepasar la línea de otro vehículo en circulación cambiando de carril es un sobrepaso (manual PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Adelantamiento",
+            "correct": false,
+            "feedback": "El adelantamiento es sobrepasar a otro vehículo sin necesidad de cambiar de carril (manual PDF 5). Como cambiaste de carril, es un sobrepaso."
+          },
+          {
+            "id": "c",
+            "text": "Giro",
+            "correct": false,
+            "feedback": "El giro es cambiar de dirección para pasar a otra arteria (manual PDF 8); vos seguiste por la misma avenida."
+          }
+        ]
+      },
+      {
+        "id": "turn",
+        "prompt": "¿Qué es un giro según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Maniobra por la cual el vehículo modifica su dirección para cambiar de arteria de circulación",
+            "correct": true,
+            "feedback": "¡Correcto! El giro implica pasar a otra arteria modificando la dirección del vehículo (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Maniobra de sobrepasar la línea de otro vehículo en circulación cambiando de carril",
+            "correct": false,
+            "feedback": "Esa es la definición de sobrepaso (manual PDF 10): se sigue por la misma arteria. En el giro el vehículo cambia de arteria."
+          },
+          {
+            "id": "c",
+            "text": "Sentido de circulación que deben conservar los vehículos que transitan por una arteria",
+            "correct": false,
+            "feedback": "Así define el glosario a la mano (manual PDF 9). El giro es una maniobra para cambiar de arteria."
+          },
+          {
+            "id": "d",
+            "text": "Emplazamiento vial circular en una encrucijada, que permite la circulación giratoria",
+            "correct": false,
+            "feedback": "Eso es una rotonda (manual PDF 10), un lugar y no una maniobra. El giro es la maniobra de cambiar de arteria modificando la dirección."
+          }
+        ]
+      },
+      {
+        "id": "flash",
+        "prompt": "¿Qué es una guiñada según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Indicación rápida de quien conduce, encendiendo y apagando la luz alta como advertencia",
+            "correct": true,
+            "feedback": "¡Bien! La guiñada es una señal de advertencia que hace quien conduce encendiendo y apagando la luz alta (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Las luces intermitentes de emergencia que tienen los vehículos en general",
+            "correct": false,
+            "feedback": "Esa es una de las acepciones de baliza (manual PDF 5). La guiñada es encender y apagar rápido la luz alta como advertencia."
+          },
+          {
+            "id": "c",
+            "text": "Dispositivo de señalización luminosa que asigna en forma alternativa el derecho de paso",
+            "correct": false,
+            "feedback": "Así define el glosario al semáforo (manual PDF 10). La guiñada la hace quien conduce con la luz alta."
+          },
+          {
+            "id": "d",
+            "text": "Maniobra de sobrepasar a otro vehículo sin necesidad de cambiar de carril",
+            "correct": false,
+            "feedback": "Eso es el adelantamiento (manual PDF 5), una maniobra. La guiñada es una indicación con la luz alta."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-traffic-flow",
+    "type": "single-choice",
+    "title": "Circulación, tráfico, tránsito y embotellamiento",
+    "unitIds": [
+      "manual.glossary.circulation",
+      "manual.glossary.traffic",
+      "manual.glossary.transit",
+      "manual.glossary.congestion"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 10
+      },
+      {
+        "source": "manual",
+        "page": 11
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 9
+      }
+    ],
+    "explanation": "Para el glosario, la circulación es el desplazamiento y tránsito de peatones y vehículos; el tráfico, la circulación de cosas o personas; y el tránsito, el movimiento de cosas o personas de un lugar a otro. Embotellamiento, atascamiento o congestión es la acumulación de vehículos en una vía pública que entorpece u obstruye el tránsito (manual PDF 7, 8, 10 y 11).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "circulation",
+        "prompt": "¿Cómo define el glosario la circulación?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Desplazamiento y tránsito de peatones y vehículos",
+            "correct": true,
+            "feedback": "¡Correcto! La circulación incluye a peatones y vehículos (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Acumulación de vehículos que entorpece u obstruye el tránsito",
+            "correct": false,
+            "feedback": "Esa es la definición de embotellamiento, atascamiento o congestión (manual PDF 8). La circulación es el desplazamiento y tránsito de peatones y vehículos."
+          },
+          {
+            "id": "c",
+            "text": "Sentido que deben conservar los vehículos en una arteria",
+            "correct": false,
+            "feedback": "Así define el glosario a la mano (manual PDF 9). La circulación es el desplazamiento y tránsito de peatones y vehículos."
+          },
+          {
+            "id": "d",
+            "text": "Maniobra para cambiar de arteria modificando la dirección",
+            "correct": false,
+            "feedback": "Eso es un giro (manual PDF 8). La circulación es el desplazamiento y tránsito de peatones y vehículos."
+          }
+        ]
+      },
+      {
+        "id": "traffic",
+        "prompt": "Según el glosario, ¿qué es el tráfico?",
+        "options": [
+          {
+            "id": "a",
+            "text": "La circulación de cosas o personas",
+            "correct": true,
+            "feedback": "¡Exacto! Para el glosario, tráfico es la circulación de cosas o personas (manual PDF 10); la acumulación de vehículos que obstruye el tránsito es otro término: embotellamiento (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "La acumulación de vehículos que obstruye el tránsito",
+            "correct": false,
+            "feedback": "Esa acumulación es el embotellamiento, atascamiento o congestión (manual PDF 8). El tráfico, para el glosario, es la circulación de cosas o personas."
+          },
+          {
+            "id": "c",
+            "text": "El sentido que deben conservar los vehículos",
+            "correct": false,
+            "feedback": "Así define el glosario a la mano (manual PDF 9). Tráfico es la circulación de cosas o personas."
+          },
+          {
+            "id": "d",
+            "text": "El medio en que se transporta una persona o cosa",
+            "correct": false,
+            "feedback": "Eso es un vehículo (manual PDF 11). El tráfico es la circulación de cosas o personas."
+          }
+        ]
+      },
+      {
+        "id": "transit",
+        "prompt": "¿Cómo define el glosario el tránsito?",
+        "options": [
+          {
+            "id": "a",
+            "text": "El movimiento de cosas o personas de un lugar a otro",
+            "correct": true,
+            "feedback": "¡Correcto! Tránsito es el movimiento de cosas o personas de un lugar a otro (manual PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "La persona que circula o está detenida sin usar un vehículo",
+            "correct": false,
+            "feedback": "Esa es la definición de peatón/a (manual PDF 9). El tránsito es el movimiento de cosas o personas de un lugar a otro."
+          },
+          {
+            "id": "c",
+            "text": "La maniobra de cambiar de dirección para pasar a otra arteria",
+            "correct": false,
+            "feedback": "Así define el glosario al giro (manual PDF 8). El tránsito es el movimiento de cosas o personas."
+          },
+          {
+            "id": "d",
+            "text": "El sentido que deben conservar los vehículos en una arteria",
+            "correct": false,
+            "feedback": "Eso es la mano (manual PDF 9). El tránsito es el movimiento de cosas o personas de un lugar a otro."
+          }
+        ]
+      },
+      {
+        "id": "congestion",
+        "prompt": "¿Cómo se llama la acumulación de vehículos en una vía pública que entorpece u obstruye el tránsito?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Embotellamiento o congestión",
+            "correct": true,
+            "feedback": "¡Correcto! El glosario la llama embotellamiento, atascamiento o congestión (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Tráfico o tránsito",
+            "correct": false,
+            "feedback": "No: para el glosario, el tráfico es la circulación de cosas o personas (manual PDF 10) y el tránsito, su movimiento de un lugar a otro (manual PDF 11). La acumulación que lo obstruye es el embotellamiento."
+          },
+          {
+            "id": "c",
+            "text": "Detención o estacionamiento",
+            "correct": false,
+            "feedback": "La detención y el estacionamiento son la permanencia sin movimiento de un vehículo (manual PDF 7 y 8), no una acumulación que obstruye el tránsito."
+          },
+          {
+            "id": "d",
+            "text": "Encrucijada o bocacalle",
+            "correct": false,
+            "feedback": "Encrucijada y bocacalle son sinónimos, pero nombran la superficie común a arterias que se cruzan (manual PDF 6 y 8), no una acumulación de vehículos."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-stop-or-park",
+    "type": "decision",
+    "title": "¿Detención o estacionamiento?",
+    "unitIds": [
+      "manual.glossary.stopping",
+      "manual.glossary.parking"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 8
+      }
+    ],
+    "explanation": "La detención es la permanencia sin movimiento de un vehículo junto a la acera por el tiempo estrictamente necesario (control de tránsito de la autoridad, ascenso o descenso de pasajeros/as, o carga y descarga), y también toda inmovilización de hasta 2 minutos sin que quien conduce abandone el vehículo. El estacionamiento es la permanencia sin movimiento, con o sin conductor/a, por más tiempo del necesario para ser considerada detención. No es detención la inmovilización accidental motivada por necesidades de la circulación o por causas de fuerza mayor (manual PDF 7 y 8).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "errands",
+        "start": "drop-off",
+        "nodes": {
+          "drop-off": {
+            "text": "Frenás junto a la acera para que baje tu acompañante. No te bajás del auto y al minuto seguís viaje. Según el glosario, ¿qué hiciste?",
+            "choices": [
+              {
+                "id": "stop",
+                "text": "Una detención",
+                "next": "errand"
+              },
+              {
+                "id": "park",
+                "text": "Un estacionamiento",
+                "outcome": "drop-off-wrong"
+              }
+            ]
+          },
+          "errand": {
+            "text": "Más tarde parás junto a la acera, apagás el motor y te bajás veinte minutos a hacer un trámite. ¿Qué es ahora?",
+            "choices": [
+              {
+                "id": "park",
+                "text": "Un estacionamiento",
+                "next": "jam"
+              },
+              {
+                "id": "stop",
+                "text": "Una detención, porque el auto está junto a la acera",
+                "outcome": "errand-wrong"
+              }
+            ]
+          },
+          "jam": {
+            "text": "De vuelta, quedás un minuto quieto en medio de la calzada porque el tránsito de adelante está trabado. ¿Es una detención?",
+            "choices": [
+              {
+                "id": "no",
+                "text": "No: es una inmovilización motivada por las necesidades de la circulación",
+                "outcome": "good"
+              },
+              {
+                "id": "yes",
+                "text": "Sí: toda inmovilización de hasta 2 minutos sin bajarme es una detención",
+                "outcome": "jam-wrong"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Distinguiste los tres casos: bajar a tu acompañante sin dejar el auto es una detención; dejar el auto por más tiempo es un estacionamiento; y quedar quieto por el tránsito no es detención, porque es una inmovilización accidental motivada por las necesidades de la circulación (manual PDF 7 y 8)."
+          },
+          "drop-off-wrong": {
+            "correct": false,
+            "feedback": "No es estacionamiento: frenar junto a la acera el tiempo estrictamente necesario para que baje una persona, sin abandonar el vehículo, es una detención (manual PDF 7)."
+          },
+          "errand-wrong": {
+            "correct": false,
+            "feedback": "Estar junto a la acera no alcanza. La detención dura el tiempo estrictamente necesario, o hasta 2 minutos sin que quien conduce deje el vehículo (manual PDF 7); si te bajás veinte minutos, es un estacionamiento (manual PDF 8)."
+          },
+          "jam-wrong": {
+            "correct": false,
+            "feedback": "El glosario excluye de la detención la inmovilización accidental motivada por necesidades de la circulación o por causas de fuerza mayor (manual PDF 7). Quedar quieto porque el tránsito está trabado no es una detención."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-curbside-stops",
+    "type": "single-choice",
+    "title": "Detención, dársenas y Sube y Baja",
+    "unitIds": [
+      "manual.glossary.stopping",
+      "manual.glossary.parking-bay",
+      "manual.glossary.sube-y-baja"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 10
+      },
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 9
+      }
+    ],
+    "explanation": "La detención junto a la acera, por el tiempo estrictamente necesario, está prevista para el control de tránsito de la autoridad competente, el ascenso o descenso de pasajeros/as y la carga y descarga. La dársena de estacionamiento o detención es un espacio resguardado de la vía pública con un ancho mínimo de 2 metros, salvo que un estudio de composición vehicular demuestre un ancho menor de vehículo. El Sube y Baja ordena el tránsito en los entornos de las instituciones educativas, con demarcación horizontal, señalización vertical y pautas acordadas con cada institución, para agilizar la entrada y salida de alumnos (manual PDF 7 y 10).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "stop-reasons",
+        "prompt": "Según el glosario, ¿para qué casos está prevista la detención junto a la acera por el tiempo estrictamente necesario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Control de tránsito de la autoridad, ascenso o descenso de pasajeros/as, o carga y descarga",
+            "correct": true,
+            "feedback": "¡Correcto! Esos son los casos de detención junto a la acera; también es detención toda inmovilización de hasta 2 minutos sin que quien conduce abandone el vehículo (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Ruptura de cargas y almacenamiento temporal de mercancías para su distribución",
+            "correct": false,
+            "feedback": "Esas actividades se hacen en una microplataforma de distribución urbana (manual PDF 9), no en una detención junto a la acera."
+          },
+          {
+            "id": "c",
+            "text": "Retiro y entrega de paquetería pequeña y mediana, o realización de gestiones",
+            "correct": false,
+            "feedback": "Eso describe la mensajería urbana (manual PDF 9). La detención está prevista para control de tránsito, ascenso o descenso de pasajeros/as, o carga y descarga."
+          },
+          {
+            "id": "d",
+            "text": "Trámites breves fuera del vehículo, siempre que no pasen de veinte minutos",
+            "correct": false,
+            "feedback": "No: si quien conduce deja el vehículo más tiempo del necesario para ser detención, es estacionamiento (manual PDF 8)."
+          }
+        ]
+      },
+      {
+        "id": "bay",
+        "prompt": "Según el glosario, ¿cuál es el ancho mínimo de una dársena de estacionamiento o detención?",
+        "options": [
+          {
+            "id": "a",
+            "text": "1,50 metros",
+            "correct": false,
+            "feedback": "Es menos de lo que fija el glosario: el ancho mínimo es de 2 m, salvo que un estudio de composición vehicular demuestre un ancho menor de vehículo (manual PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "2 metros",
+            "correct": true,
+            "feedback": "¡Correcto! La dársena es un espacio resguardado de la vía pública para estacionar o detenerse, de 2 m de ancho mínimo, salvo estudio de composición vehicular que demuestre un ancho menor de vehículo (manual PDF 7)."
+          },
+          {
+            "id": "c",
+            "text": "2,80 metros",
+            "correct": false,
+            "feedback": "2,80 m es otra cifra del glosario: el ancho mínimo al que un reductor de velocidad puede angostar un carril (manual PDF 10). La dársena tiene un ancho mínimo de 2 m."
+          },
+          {
+            "id": "d",
+            "text": "3,50 metros",
+            "correct": false,
+            "feedback": "No: el glosario fija 2 m como ancho mínimo de la dársena de estacionamiento o detención."
+          }
+        ]
+      },
+      {
+        "id": "sube-y-baja",
+        "prompt": "¿Qué es el sistema «Sube y Baja» según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Ordenamiento del tránsito en los entornos de instituciones educativas, que agiliza la entrada y salida de alumnos",
+            "correct": true,
+            "feedback": "¡Exacto! Busca mejorar la seguridad vial y la convivencia con demarcación horizontal, señalización vertical y pautas de operatoria acordadas con cada institución educativa que lo solicite (manual PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Sistema de transporte público automotor de pasajeros/as, masivo, rápido, diferenciado y en red",
+            "correct": false,
+            "feedback": "Esa es la definición de Metrobus (manual PDF 9). El Sube y Baja ordena el tránsito alrededor de las instituciones educativas."
+          },
+          {
+            "id": "c",
+            "text": "Área delimitada en la calzada, adyacente a la parada del servicio de transporte de pasajeros/as",
+            "correct": false,
+            "feedback": "Así define el glosario al sector de parada (manual PDF 10). El Sube y Baja es un sistema para los entornos escolares."
+          },
+          {
+            "id": "d",
+            "text": "Operación en la que un vehículo queda detenido el tiempo necesario para cargar o descargar materiales",
+            "correct": false,
+            "feedback": "Eso es la carga y descarga (manual PDF 6). El Sube y Baja agiliza la entrada y salida de alumnos en las instituciones educativas."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-public-transport",
+    "type": "single-choice",
+    "title": "Metrobus, paradas y sectores de parada",
+    "unitIds": [
+      "manual.glossary.metrobus",
+      "manual.glossary.transit-stop",
+      "manual.glossary.stop-zone"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 10
+      },
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 8
+      }
+    ],
+    "explanation": "El Metrobus es un sistema de transporte público automotor de pasajeros/as masivo, rápido, diferenciado y en red, dispuesto sobre redes troncales y vías intermedias, que facilita la transferencia intramodal e intermodal del Sistema Integrado de Transporte de la Ciudad. La parada es el indicador vertical para el ascenso y descenso de pasajeros de un servicio de transporte, y el sector de parada es el área delimitada en la calzada, adyacente a esa parada (manual PDF 9 y 10).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "metrobus",
+        "prompt": "¿Qué es el Metrobus según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sistema de transporte público automotor de pasajeros/as, masivo, rápido, diferenciado y en red",
+            "correct": true,
+            "feedback": "¡Correcto! Se dispone sobre redes troncales y vías intermedias y facilita la transferencia intramodal e intermodal del Sistema Integrado de Transporte de la Ciudad (manual PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Corredor vial de circulación exclusiva para tránsito pesado y ómnibus de larga distancia",
+            "correct": false,
+            "feedback": "Ese es el Paseo del Bajo (manual PDF 9). El Metrobus es un sistema de transporte público automotor de pasajeros/as."
+          },
+          {
+            "id": "c",
+            "text": "Sistema que ordena el tránsito en los entornos escolares y agiliza la entrada y salida de alumnos",
+            "correct": false,
+            "feedback": "Así define el glosario al Sube y Baja (manual PDF 10). El Metrobus es transporte público masivo, rápido, diferenciado y en red."
+          },
+          {
+            "id": "d",
+            "text": "Espacio en garajes o playas donde se hace ruptura de cargas y almacenamiento temporal de mercancías",
+            "correct": false,
+            "feedback": "Eso es una microplataforma de distribución urbana (manual PDF 9). El Metrobus transporta pasajeros/as."
+          }
+        ]
+      },
+      {
+        "id": "stop",
+        "prompt": "¿Cómo se llama el indicador vertical para el ascenso y descenso de pasajeros de un servicio de transporte?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Parada",
+            "correct": true,
+            "feedback": "¡Exacto! La parada es el indicador vertical; el área de la calzada que está junto a ella es el sector de parada (manual PDF 9 y 10)."
+          },
+          {
+            "id": "b",
+            "text": "Sector de parada",
+            "correct": false,
+            "feedback": "El sector de parada es el área delimitada en la calzada junto a la parada (manual PDF 10); el indicador vertical es la parada."
+          },
+          {
+            "id": "c",
+            "text": "Dársena de estacionamiento o detención",
+            "correct": false,
+            "feedback": "La dársena es un espacio resguardado para estacionar o detenerse (manual PDF 7), no un indicador vertical."
+          },
+          {
+            "id": "d",
+            "text": "Bolardo",
+            "correct": false,
+            "feedback": "El bolardo es un elemento vertical, pero sirve para limitar o impedir el paso o el estacionamiento (manual PDF 6). El indicador para subir y bajar pasajeros es la parada."
+          }
+        ]
+      },
+      {
+        "id": "stop-zone",
+        "prompt": "¿Qué es el sector de parada según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Área delimitada en la calzada, adyacente a la parada del transporte de pasajeros/as",
+            "correct": true,
+            "feedback": "¡Correcto! El sector de parada está en la calzada, junto a la parada del servicio de transporte de pasajeros/as correspondiente (manual PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Indicador vertical para el ascenso y descenso de pasajeros de un servicio de transporte",
+            "correct": false,
+            "feedback": "Esa es la definición de parada (manual PDF 9). El sector de parada es el área de la calzada junto a ella."
+          },
+          {
+            "id": "c",
+            "text": "Espacio delimitado junto al cordón o sobre la acera, exclusivo para carga y descarga",
+            "correct": false,
+            "feedback": "Así define el glosario al cajón azul (manual PDF 6). El sector de parada es para el transporte de pasajeros/as."
+          },
+          {
+            "id": "d",
+            "text": "Zona de la calzada con líneas amarillas en diagonal o en V que canaliza la circulación",
+            "correct": false,
+            "feedback": "Eso es una isleta demarcada (manual PDF 8). El sector de parada es el área adyacente a la parada del transporte de pasajeros/as."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-urban-logistics",
+    "type": "single-choice",
+    "title": "Carga, descarga y distribución urbana",
+    "unitIds": [
+      "manual.glossary.loading-unloading",
+      "manual.glossary.blue-box",
+      "manual.glossary.cargo-breaking",
+      "manual.glossary.urban-micro-distribution-platform",
+      "manual.glossary.urban-courier"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 10
+      },
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 8
+      }
+    ],
+    "explanation": "Carga y descarga es la operación en la que un vehículo permanece detenido, con o sin conductor/a, junto a la acera o sobre ella en espacios señalizados, o dentro de garajes comerciales o playas de estacionamiento, por el tiempo estrictamente necesario. El cajón azul es el espacio sobre la calzada (junto al cordón) o sobre la acera, delimitado con cartelería y demarcación horizontal, exclusivo para esa operación. La ruptura de cargas es recibir, descargar y clasificar mercancías para redistribuirlas en otros vehículos, y las microplataformas de distribución urbana (en garajes comerciales, playas de estacionamiento y lugares autorizados) son los espacios donde se hacen esa ruptura, la carga y descarga y el almacenamiento temporal de mercancías. La mensajería urbana retira y entrega paquetería pequeña y mediana, o hace gestiones, en motovehículo o ciclorodado (manual PDF 6, 9 y 10).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "loading",
+        "prompt": "¿Qué es la carga y descarga según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Detención del vehículo, con o sin conductor/a, por el tiempo estrictamente necesario para cargar o descargar",
+            "correct": true,
+            "feedback": "¡Correcto! Se hace junto a la acera o sobre ella en espacios señalizados, o en garajes comerciales o playas de estacionamiento, por el tiempo estrictamente necesario (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "Recepción, descarga y clasificación de mercancías para redistribuirlas en otros vehículos",
+            "correct": false,
+            "feedback": "Esa es la ruptura de cargas (manual PDF 10), que incluye clasificar y redistribuir. La carga y descarga es la detención del vehículo para cargar o descargar."
+          },
+          {
+            "id": "c",
+            "text": "Retiro y entrega de paquetería pequeña y mediana para clientes, en motovehículo o ciclorodado",
+            "correct": false,
+            "feedback": "Así define el glosario a la mensajería urbana (manual PDF 9). La carga y descarga es una operación con el vehículo detenido."
+          },
+          {
+            "id": "d",
+            "text": "Permanencia sin movimiento de un vehículo, con o sin conductor/a, por más tiempo que una detención",
+            "correct": false,
+            "feedback": "Eso es un estacionamiento (manual PDF 8). La carga y descarga se hace por el tiempo estrictamente necesario."
+          }
+        ]
+      },
+      {
+        "id": "blue-box",
+        "prompt": "¿Cómo se llama el espacio sobre la calzada, próximo al cordón, o sobre la acera, delimitado con cartelería y demarcación horizontal y destinado exclusivamente a la carga y descarga?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Cajón azul",
+            "correct": true,
+            "feedback": "¡Exacto! El cajón azul es exclusivo para la operación de carga y descarga de los vehículos afectados a esa actividad (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "Dársena de estacionamiento o detención",
+            "correct": false,
+            "feedback": "La dársena es un espacio resguardado destinado a estacionamiento o detención vehicular (manual PDF 7). El espacio exclusivo para carga y descarga es el cajón azul."
+          },
+          {
+            "id": "c",
+            "text": "Microplataforma de distribución urbana",
+            "correct": false,
+            "feedback": "La microplataforma está en garajes comerciales, playas de estacionamiento o lugares autorizados (manual PDF 9), no sobre la calzada ni la acera."
+          },
+          {
+            "id": "d",
+            "text": "Sector de parada",
+            "correct": false,
+            "feedback": "El sector de parada es el área de la calzada junto a la parada del transporte de pasajeros/as (manual PDF 10). La respuesta es cajón azul."
+          }
+        ]
+      },
+      {
+        "id": "cargo-breaking",
+        "prompt": "¿Qué es la ruptura de cargas según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Recepción, descarga y clasificación de mercancías para redistribuirlas en otros vehículos",
+            "correct": true,
+            "feedback": "¡Correcto! Las mercancías se redistribuyen para su distribución final o para su distribución directa a otros establecimientos (manual PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Detención de un vehículo, con o sin conductor/a, el tiempo necesario para cargar o descargar",
+            "correct": false,
+            "feedback": "Esa es la carga y descarga (manual PDF 6). La ruptura de cargas incluye además clasificar las mercancías para redistribuirlas en otros vehículos."
+          },
+          {
+            "id": "c",
+            "text": "Retiro y entrega de paquetería pequeña y mediana para clientes, sin tratamiento ni procesamiento",
+            "correct": false,
+            "feedback": "Así define el glosario a la mensajería urbana (manual PDF 9). La ruptura de cargas es recibir, descargar y clasificar mercancías."
+          },
+          {
+            "id": "d",
+            "text": "Triciclo o cuatriciclo motorizado destinado al transporte de cargas",
+            "correct": false,
+            "feedback": "Eso es un moto furgón (manual PDF 9), un vehículo. La ruptura de cargas es una operación con mercancías."
+          }
+        ]
+      },
+      {
+        "id": "microplatform",
+        "prompt": "Según el glosario, ¿dónde se emplaza una microplataforma de distribución urbana?",
+        "options": [
+          {
+            "id": "a",
+            "text": "En garajes comerciales, playas de estacionamiento y lugares autorizados por la Autoridad de Aplicación",
+            "correct": true,
+            "feedback": "¡Correcto! Allí se hacen la ruptura de cargas, la carga y descarga y el almacenamiento temporal de mercancías para su distribución (manual PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Sobre la calzada junto al cordón, o sobre la acera, delimitada con cartelería y demarcación",
+            "correct": false,
+            "feedback": "Eso describe al cajón azul (manual PDF 6). La microplataforma está en garajes comerciales, playas de estacionamiento o lugares autorizados."
+          },
+          {
+            "id": "c",
+            "text": "En la calzada, en un área delimitada junto a la parada del transporte de pasajeros/as",
+            "correct": false,
+            "feedback": "Así define el glosario al sector de parada (manual PDF 10). La microplataforma está en garajes, playas de estacionamiento o lugares autorizados."
+          },
+          {
+            "id": "d",
+            "text": "En los entornos de las instituciones educativas, con demarcación y señalización propias",
+            "correct": false,
+            "feedback": "Eso corresponde al Sube y Baja (manual PDF 10). La microplataforma se emplaza en garajes comerciales, playas de estacionamiento o lugares autorizados."
+          }
+        ]
+      },
+      {
+        "id": "courier",
+        "prompt": "Según el glosario, ¿con qué medio de transporte se hace la mensajería urbana?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Con un motovehículo o un ciclorodado",
+            "correct": true,
+            "feedback": "¡Correcto! La mensajería urbana retira y entrega paquetería pequeña y mediana, o hace gestiones, para clientes, sin tratamiento ni procesamiento, usando un motovehículo o un ciclorodado (manual PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Solo con automóviles particulares",
+            "correct": false,
+            "feedback": "No: el glosario menciona motovehículos o ciclorodados como medio de transporte de la mensajería urbana."
+          },
+          {
+            "id": "c",
+            "text": "Con vehículos de tránsito pesado",
+            "correct": false,
+            "feedback": "No es así: la mensajería urbana se hace en motovehículo o ciclorodado (manual PDF 9)."
+          },
+          {
+            "id": "d",
+            "text": "Con el Metrobus y otros transportes públicos",
+            "correct": false,
+            "feedback": "El Metrobus transporta pasajeros/as (manual PDF 9). La mensajería urbana usa un motovehículo o un ciclorodado."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-safety-devices",
+    "type": "single-choice",
+    "title": "Balizas, semáforos y chalecos",
+    "unitIds": [
+      "manual.glossary.beacon",
+      "manual.glossary.traffic-light",
+      "manual.glossary.reflective-vest"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 10
+      },
+      {
+        "source": "manual",
+        "page": 6
+      },
+      {
+        "source": "manual",
+        "page": 8
+      }
+    ],
+    "explanation": "El glosario da tres acepciones de baliza: un dispositivo fijo o móvil con luz propia o reflector que se usa como marca de advertencia o para reforzar canalizaciones de tránsito; un dispositivo fijo con luz propia que usan los vehículos de emergencia como señal de advertencia e identificación; y las luces intermitentes de emergencia de los vehículos en general. El semáforo asigna en forma alternativa el derecho de paso a los vehículos que confluyen en un punto de la calzada y, con otras características, también a peatones. El chaleco reflectante es una prenda sin mangas de materiales reflectantes que permite ver a quien lo porta en condiciones de baja visibilidad (manual PDF 5, 6 y 10).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "beacon",
+        "prompt": "El glosario da tres acepciones de «baliza». ¿Cuál de estas es una de ellas?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Las luces intermitentes de emergencia de los vehículos en general",
+            "correct": true,
+            "feedback": "¡Correcto! Es la tercera acepción; las otras dos son un dispositivo con luz propia o reflector para advertir o reforzar canalizaciones de tránsito, y uno con luz propia que identifica a los vehículos de emergencia (manual PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "El encendido y apagado rápido de la luz alta como señal de advertencia",
+            "correct": false,
+            "feedback": "Esa es la guiñada (manual PDF 8). Una de las acepciones de baliza son las luces intermitentes de emergencia de los vehículos."
+          },
+          {
+            "id": "c",
+            "text": "El dispositivo luminoso que asigna en forma alternativa el derecho de paso",
+            "correct": false,
+            "feedback": "Así define el glosario al semáforo (manual PDF 10). La baliza advierte; no asigna el derecho de paso."
+          },
+          {
+            "id": "d",
+            "text": "El elemento vertical de poca altura que impide el paso o el estacionamiento",
+            "correct": false,
+            "feedback": "Eso es un bolardo (manual PDF 6). La baliza tiene luz propia o reflector, o son las luces intermitentes de emergencia."
+          }
+        ]
+      },
+      {
+        "id": "traffic-light",
+        "prompt": "¿Cuál es la función del semáforo según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Asignar en forma alternativa el derecho de paso a vehículos y, con otras características, a peatones",
+            "correct": true,
+            "feedback": "¡Exacto! El semáforo asigna el paso, en forma alternativa, a los vehículos que confluyen en un punto de la calzada y, con otras características, también a peatones (manual PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Obligar a reducir la velocidad en cruces o tramos de arterias considerados peligrosos",
+            "correct": false,
+            "feedback": "Esa es la función del reductor de velocidad (manual PDF 10). El semáforo asigna en forma alternativa el derecho de paso."
+          },
+          {
+            "id": "c",
+            "text": "Canalizar corrientes circulatorias mediante una zona demarcada con líneas amarillas",
+            "correct": false,
+            "feedback": "Así se define la isleta demarcada (manual PDF 8). El semáforo asigna el derecho de paso."
+          },
+          {
+            "id": "d",
+            "text": "Advertir e identificar a los vehículos de emergencia mediante una luz propia fija",
+            "correct": false,
+            "feedback": "Eso es una de las acepciones de baliza (manual PDF 5). El semáforo asigna en forma alternativa el derecho de paso."
+          }
+        ]
+      },
+      {
+        "id": "vest",
+        "prompt": "¿Para qué sirve el chaleco reflectante según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Para que se vea a quien lo lleva puesto en condiciones de baja visibilidad",
+            "correct": true,
+            "feedback": "¡Correcto! Es una prenda sin mangas de materiales reflectantes que permite visualizar a quien la porta con baja visibilidad (manual PDF 6)."
+          },
+          {
+            "id": "b",
+            "text": "Para identificar a los vehículos de emergencia y advertir su presencia",
+            "correct": false,
+            "feedback": "Eso hace una baliza fija con luz propia (manual PDF 5). El chaleco reflectante permite ver a la persona que lo porta."
+          },
+          {
+            "id": "c",
+            "text": "Para reforzar las canalizaciones de tránsito en la vía pública",
+            "correct": false,
+            "feedback": "Esa es una función de la baliza (manual PDF 5). El chaleco reflectante es una prenda para que se vea a quien la lleva."
+          },
+          {
+            "id": "d",
+            "text": "Para limitar o impedir el paso o el estacionamiento de vehículos",
+            "correct": false,
+            "feedback": "Eso hace un bolardo (manual PDF 6). El chaleco reflectante sirve para ser visto con baja visibilidad."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.glossary-road-users",
+    "type": "single-choice",
+    "title": "Conductores, peatones e incidentes",
+    "unitIds": [
+      "manual.glossary.driver",
+      "manual.glossary.pedestrian",
+      "manual.glossary.traffic-accident",
+      "manual.glossary.traffic-incident"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 7
+      },
+      {
+        "source": "manual",
+        "page": 9
+      },
+      {
+        "source": "manual",
+        "page": 5
+      },
+      {
+        "source": "manual",
+        "page": 8
+      },
+      {
+        "source": "manual",
+        "page": 11
+      }
+    ],
+    "explanation": "Conductor/a es la persona a cargo del manejo directo de un vehículo durante su circulación en la vía pública; peatón/a es la persona que, circulando o detenida en la vía pública, prescinde del uso de un vehículo. El glosario sustituye «accidente de tránsito» por «incidente de tránsito» (o incidente vial): el hecho en el que se produce daño a personas o cosas en ocasión de la circulación en la vía pública (manual PDF 5, 7, 8 y 9).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "driver",
+        "prompt": "Tu acompañante es la persona dueña del auto, pero manejás vos. Según el glosario, ¿quién es conductor/a?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Vos, porque estás a cargo del manejo directo del vehículo",
+            "correct": true,
+            "feedback": "¡Correcto! Conductor/a es la persona a cargo del manejo directo de un vehículo durante su circulación en la vía pública (manual PDF 7); la propiedad del auto no cuenta."
+          },
+          {
+            "id": "b",
+            "text": "Tu acompañante, porque es la persona dueña del vehículo",
+            "correct": false,
+            "feedback": "No: el glosario no define a quien conduce por la propiedad del vehículo, sino por estar a cargo de su manejo directo (manual PDF 7)."
+          },
+          {
+            "id": "c",
+            "text": "Los dos, porque viajan juntos en el mismo vehículo",
+            "correct": false,
+            "feedback": "Solo una persona está a cargo del manejo directo: vos. Esa es la definición de conductor/a (manual PDF 7)."
+          }
+        ]
+      },
+      {
+        "id": "pedestrian",
+        "prompt": "Estacionaste, te bajaste del auto y caminás por la acera hasta un comercio. Según el glosario, en ese momento sos…",
+        "options": [
+          {
+            "id": "a",
+            "text": "Peatón/a, porque circulás por la vía pública sin usar un vehículo",
+            "correct": true,
+            "feedback": "¡Correcto! Peatón/a es la persona que, circulando o detenida en la vía pública, prescinde del uso de un vehículo (manual PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Conductor/a, porque seguís teniendo el auto a tu cargo",
+            "correct": false,
+            "feedback": "No: conductor/a es quien está a cargo del manejo directo de un vehículo durante su circulación (manual PDF 7). Caminando por la acera, sos peatón/a."
+          },
+          {
+            "id": "c",
+            "text": "Ni peatón/a ni conductor/a, porque no estás cruzando la calzada",
+            "correct": false,
+            "feedback": "Para ser peatón/a no hace falta cruzar: alcanza con circular o estar detenido en la vía pública sin usar un vehículo (manual PDF 9), y la acera es parte de la vía pública (manual PDF 11)."
+          }
+        ]
+      },
+      {
+        "id": "accident",
+        "prompt": "El glosario dejó de usar la expresión «accidente de tránsito». ¿Por cuál la sustituyó?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Incidente de tránsito",
+            "correct": true,
+            "feedback": "¡Exacto! «Accidente de tránsito» fue sustituido por «incidente de tránsito» (manual PDF 5), también llamado incidente vial (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Infracción de tránsito",
+            "correct": false,
+            "feedback": "No es ese término: el glosario sustituye «accidente de tránsito» por «incidente de tránsito» (manual PDF 5)."
+          },
+          {
+            "id": "c",
+            "text": "Embotellamiento o congestión",
+            "correct": false,
+            "feedback": "El embotellamiento o congestión es una acumulación de vehículos que obstruye el tránsito (manual PDF 8); no reemplaza a «accidente». El término que lo sustituye es «incidente de tránsito»."
+          }
+        ]
+      },
+      {
+        "id": "incident",
+        "prompt": "¿Qué es un incidente de tránsito según el glosario?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Hecho en el que se produce daño a personas o cosas en ocasión de la circulación en la vía pública",
+            "correct": true,
+            "feedback": "¡Correcto! Incidente de tránsito o incidente vial es el hecho en el que se produce daño a personas o cosas en ocasión de la circulación en la vía pública (manual PDF 8)."
+          },
+          {
+            "id": "b",
+            "text": "Acumulación de vehículos en una vía pública que entorpece u obstruye el tránsito",
+            "correct": false,
+            "feedback": "Esa es la definición de embotellamiento, atascamiento o congestión (manual PDF 8). El incidente de tránsito implica daño a personas o cosas."
+          },
+          {
+            "id": "c",
+            "text": "Vehículo o parte de él en lugares de dominio público, en estado de deterioro, inmovilidad o abandono",
+            "correct": false,
+            "feedback": "Así define el glosario al vehículo abandonado (manual PDF 11). El incidente es un hecho con daño a personas o cosas durante la circulación."
+          },
+          {
+            "id": "d",
+            "text": "Inmovilización accidental de un vehículo, motivada por necesidades de la circulación o fuerza mayor",
+            "correct": false,
+            "feedback": "Eso es lo que el glosario excluye de la detención (manual PDF 7). El incidente de tránsito es un hecho en el que se produce daño a personas o cosas."
+          }
+        ]
+      }
+    ]
+  }
+]
