@@ -2,7 +2,8 @@ import { createLedger, interrupt, recordFault } from './scoring.ts';
 import type { Ledger, Stage } from './scoring.ts';
 import { createRandom, shuffle } from '../activities/random.ts';
 import type { Rule } from '../content/schemas.ts';
-import type { CockpitCommand, CockpitState } from '../practice/cockpit.ts';
+import { MIRROR_IDS } from '../practice/cockpit.ts';
+import type { CockpitCommand, CockpitState, MirrorId } from '../practice/cockpit.ts';
 import type { CarEvent, CarState } from '../sim/car.ts';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { forwardOf, restingVehicle } from '../sim/vehicle.ts';
@@ -81,7 +82,8 @@ export interface Session {
   timeS: number;
   measurements: { reverseCm: number | null; forwardCm: number | null; exitManoeuvres: number };
   queue: readonly RecognitionTarget[];
-  adjusted: { seat: boolean; headrest: boolean; mirrors: boolean };
+  /** Stage I adjustments made since the recognition began; all three mirrors must be checked (protocolo PDF 9). */
+  adjusted: { seat: boolean; headrest: boolean; mirrors: readonly MirrorId[] };
   pedalsDown: { throttle: boolean; brake: boolean; clutch: boolean };
   /** Gear or lever position last engaged, to tell a shift towards the asked gear from one away from it. */
   lastGear: string;
@@ -160,7 +162,7 @@ export function createSession(rules: readonly Rule[], kind: TransmissionKind, se
     timeS: 0,
     measurements: { reverseCm: null, forwardCm: null, exitManoeuvres: 0 },
     queue: recognitionQueue(kind, seed),
-    adjusted: { seat: false, headrest: false, mirrors: false },
+    adjusted: { seat: false, headrest: false, mirrors: [] },
     pedalsDown: { throttle: false, brake: false, clutch: false },
     lastGear: kind === 'manual' ? 'N' : 'P',
     engineStarts: 0,
@@ -220,14 +222,16 @@ function judgeGear(session: Session, engaged: string): Session {
   return distance(engaged) > distance(session.lastGear) ? nextPrompt(fault(next, FAMILY_RULES.gears)) : next;
 }
 
-function cockpitAnswer(command: CockpitCommand): RecognitionTarget | null {
+/** The answer a cabin command gives, if any: switching something off answers nothing. */
+function cockpitAnswer(command: CockpitCommand, after: CockpitState): RecognitionTarget | null {
   switch (command.type) {
     case 'lights':
       return command.value === 'off' ? null : command.value;
     case 'signal':
       return command.value === 'off' ? null : command.value === 'left' ? 'signal-left' : 'signal-right';
     case 'toggle':
-      return command.control === 'belt' || command.control === 'heating' ? null : command.control;
+      if (command.control === 'belt' || command.control === 'heating' || !after[command.control]) return null;
+      return command.control;
     case 'horn':
       return command.value ? 'horn' : null;
     default:
@@ -239,9 +243,10 @@ function onCockpit(session: Session, command: CockpitCommand, after: CockpitStat
   let next = session;
   if (command.type === 'adjust')
     next = { ...next, adjusted: { ...next.adjusted, [command.control === 'headrest' ? 'headrest' : 'seat']: true } };
-  if (command.type === 'mirror') next = { ...next, adjusted: { ...next.adjusted, mirrors: true } };
+  if (command.type === 'mirror' && !next.adjusted.mirrors.includes(command.mirror))
+    next = { ...next, adjusted: { ...next.adjusted, mirrors: [...next.adjusted.mirrors, command.mirror] } };
   if (next.phase === 'recognition') {
-    const answered = cockpitAnswer(command);
+    const answered = cockpitAnswer(command, after);
     return answered ? judgeRecognition(next, answered) : next;
   }
   // Taking the belt off during the exam eliminates (eliminatory c).
@@ -262,6 +267,8 @@ function onReady(session: Session): Session {
         ...session,
         pedalsDown: { throttle: false, brake: false, clutch: false },
         lastGear: session.kind === 'manual' ? 'N' : 'P',
+        // The cabin is put back too, so adjustments made while familiarising are gone with it.
+        adjusted: { seat: false, headrest: false, mirrors: [] },
       };
       const first = reset.queue[0];
       return first
@@ -272,7 +279,7 @@ function onReady(session: Session): Session {
       let next = session;
       if (!next.adjusted.seat) next = fault(next, 'rule.minor.c-seat-adjustment');
       if (!next.adjusted.headrest) next = fault(next, 'rule.minor.d-headrest-adjustment');
-      if (!next.adjusted.mirrors) next = fault(next, 'rule.high.a-mirrors-not-checked');
+      if (next.adjusted.mirrors.length < MIRROR_IDS.length) next = fault(next, 'rule.high.a-mirrors-not-checked');
       return cutoff(enter({ ...next, completedStages: [...next.completedStages, 'I'] }, 'unlock'));
     }
     default:
@@ -310,6 +317,10 @@ function onManoeuvreStep(session: Session, car: CarState, dt: number): Session {
       brakedAtM = displacement;
     // The wrong direction, or a second manoeuvre after the first (forward: in one manoeuvre).
     if (reverse ? vehicle.speedMps > 0.01 : vehicle.speedMps < -0.01) violated = true;
+    // Reverse in R; forward in first (manual) or D (automatic), protocolo PDF 11.
+    const gear = car.powertrain.kind === 'manual' ? car.powertrain.manualGear : car.powertrain.lever;
+    const expected = reverse ? 'R' : car.powertrain.kind === 'manual' ? '1' : 'D';
+    if (moving && gear !== expected) violated = true;
   }
   const moved = manoeuvre.moved || Math.abs(displacement) > 0.01;
   const stoppedS = moving ? 0 : manoeuvre.stoppedS + dt;
@@ -361,8 +372,12 @@ function onEvent(session: Session, event: CarEvent): Session {
         return fault(session, 'rule.minor.h-start-while-running', `run-${session.engineStarts}`);
       return session;
     case 'engine-started': {
-      const next = { ...session, engineStarts: session.engineStarts + 1 };
-      return next.phase === 'unlock' ? enter(next, 'reverse') : next;
+      let next: Session = { ...session, engineStarts: session.engineStarts + 1 };
+      // Starting in gear with the clutch down works, but neutral was not checked (protocolo PDF 10).
+      if (next.phase === 'unlock' && !['N', 'P'].includes(next.lastGear))
+        next = fault(next, 'rule.minor.e-neutral-check-before-start');
+      if (next.phase !== 'unlock') return next;
+      return enter(next, 'reverse');
     }
     case 'handbrake':
       return { ...session, handbrakeEpisodes: session.handbrakeEpisodes + 1 };

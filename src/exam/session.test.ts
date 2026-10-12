@@ -107,7 +107,8 @@ class Driver {
   prepareProperly() {
     this.cabin({ type: 'adjust', control: 'seatDistance', value: 0.6 });
     this.cabin({ type: 'adjust', control: 'headrest', value: 0.6 });
-    this.cabin({ type: 'mirror', mirror: 'left', axis: 'yaw', value: 0.1 });
+    for (const mirror of ['left', 'center', 'right'] as const)
+      this.cabin({ type: 'mirror', mirror, axis: 'yaw', value: 0.1 });
     this.cabin({ type: 'toggle', control: 'belt' });
     this.cabin({ type: 'lights', value: 'low' });
     this.ready();
@@ -313,6 +314,35 @@ describe('exam session: familiarisation and stage I (protocolo PDF 9–10)', () 
     expect(driver.phase).toBe('unlock');
   });
 
+  it('needs all three mirrors checked, and forgets adjustments made while familiarising', () => {
+    const driver = new Driver('manual');
+    // Adjusted during the familiarisation: the cabin is put back when the recognition starts.
+    driver.cabin({ type: 'adjust', control: 'seatDistance', value: 0.7 });
+    driver.ready();
+    driver.recognise();
+    driver.cabin({ type: 'adjust', control: 'headrest', value: 0.6 });
+    driver.cabin({ type: 'mirror', mirror: 'left', axis: 'yaw', value: 0.1 });
+    driver.cabin({ type: 'mirror', mirror: 'center', axis: 'pitch', value: 0.1 });
+    driver.cabin({ type: 'toggle', control: 'belt' });
+    driver.ready();
+
+    expect([...driver.faults].sort()).toEqual(['rule.high.a-mirrors-not-checked', 'rule.minor.c-seat-adjustment']);
+  });
+
+  it('switching an instrument off is not an answer to the next question', () => {
+    const driver = new Driver('manual', 3);
+    driver.ready();
+    while (driver.session.prompt.kind === 'recognise' && driver.session.prompt.target !== 'wipers')
+      driver.answer(driver.session.prompt.target);
+    driver.answer('wipers');
+    const next = driver.session.prompt;
+
+    driver.cabin({ type: 'toggle', control: 'wipers' });
+
+    expect(driver.session.prompt).toEqual(next);
+    expect(driver.faults).toEqual([]);
+  });
+
   it('a proper preparation scores nothing, completes stage I and moves on to unlocking the car', () => {
     const driver = throughStageOne('manual');
 
@@ -334,6 +364,18 @@ describe('exam session: unlocking and the engine (protocolo PDF 10, anexo II)', 
     driver.drive({ type: 'turn-key', to: 'start' });
 
     expect(driver.faults).toEqual(['rule.minor.e-neutral-check-before-start', 'rule.minor.h-start-while-running']);
+    expect(driver.phase).toBe('reverse');
+  });
+
+  it('manual: starting in gear with the clutch down works, but neutral was not checked', () => {
+    const driver = throughStageOne('manual');
+    driver.hold({ ...IDLE, clutch: 1 }, (_, t) => t > 0.1);
+    driver.drive({ type: 'shift', to: '1' });
+
+    driver.drive({ type: 'turn-key', to: 'start' });
+
+    expect(driver.car.powertrain.engineRunning).toBe(true);
+    expect(driver.faults).toEqual(['rule.minor.e-neutral-check-before-start']);
     expect(driver.phase).toBe('reverse');
   });
 
@@ -423,6 +465,20 @@ describe('exam session: 30 cm in the box and leaving it (protocolo PDF 11)', () 
     driver.hold(IDLE, (car) => !car.powertrain.engineRunning);
 
     expect(driver.faults).toEqual(['rule.high.b-reverse-30cm-fail', 'rule.low.d-engine-stall']);
+  });
+
+  it('manual: advancing the 30 cm in second instead of first fails the manoeuvre', () => {
+    const driver = throughStageOne('manual');
+    driver.startEngine();
+    driver.moveInBox(-0.3);
+    driver.hold({ ...IDLE, clutch: 1 }, (_, t) => t > 0.1);
+    driver.drive({ type: 'shift', to: '2' });
+    const startZ = driver.car.world.vehicle.z;
+    driver.hold({ ...IDLE, clutch: 0.68, throttle: 0 }, (car) => car.world.vehicle.z > startZ + 0.3, 20);
+    driver.hold({ ...IDLE, clutch: 1, brake: 1 }, (car) => car.world.vehicle.speedMps === 0);
+    driver.hold({ ...IDLE, clutch: 1, brake: 1 }, (_, t) => t > 1);
+
+    expect(driver.faults).toEqual(['rule.high.c-forward-30cm-fail']);
   });
 
   it('leaving the box properly scores nothing and ends this part of the exam', () => {

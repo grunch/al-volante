@@ -1,6 +1,7 @@
 import { Suspense, lazy, useCallback, useContext, useRef, useState } from 'react';
 import type { Rule } from '../../content/schemas.ts';
 import type { Content } from '../../content/validate.ts';
+import { resultOf } from '../../exam/scoring.ts';
 import { EXAM_START, createSession, observe } from '../../exam/session.ts';
 import type { Observation, Session } from '../../exam/session.ts';
 import { RendererContext } from '../../scene/RendererContext.ts';
@@ -21,7 +22,11 @@ const DEFAULT_SEED = 1;
 
 function examinerSays(session: Session, kind: TransmissionKind): string {
   const { prompt } = session;
-  if (prompt.kind === 'recognise') return copy.prompts[prompt.target as keyof typeof copy.prompts] ?? prompt.target;
+  if (prompt.kind === 'recognise') {
+    const text = copy.prompts[prompt.target as keyof typeof copy.prompts] ?? prompt.target;
+    if (!prompt.target.startsWith('gear-')) return text;
+    return `${text} ${kind === 'manual' ? copy.gearHintManual : copy.gearHintAutomatic}`;
+  }
   const detail =
     prompt.message === 'reverse' || prompt.message === 'forward'
       ? ` ${copy.phases[`${prompt.message}${kind === 'manual' ? 'Manual' : 'Automatic'}`]}`
@@ -78,6 +83,7 @@ function Exam({ content }: { content: Content }) {
 
   const { ledger } = session;
   const finished = session.phase === 'finished';
+  const result = finished ? resultOf(ledger, session.completedStages) : null;
   const cm = (value: number | null) => (value === null ? copy.pendingMeasure : `${formatNumber(value, 0)} cm`);
   return (
     <>
@@ -171,7 +177,9 @@ function Exam({ content }: { content: Content }) {
         <p role="status" data-testid="exam-result">
           {ledger.interruption
             ? `${copy.interrupted} ${copy.interruptionCauses[ledger.interruption.cause]} ${copy.results.disapproved}.`
-            : copy.results.pending}
+            : result === 'disapproved'
+              ? `${copy.results.disapproved}: ${copy.overPoints}`
+              : copy.results.pending}
         </p>
       )}
       <h2>{copy.faults}</h2>

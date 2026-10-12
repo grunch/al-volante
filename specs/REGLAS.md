@@ -281,6 +281,7 @@ Políticas de repetición, según el texto del anexo II:
 - **D1.** Una conducta que aparece en varias filas de la ficha es una sola regla; se consigna según el contexto en que ocurre, nunca dos veces por el mismo hecho.
 - **D2.** Un episodio de exceso de velocidad consigna **l** (eliminatoria) si supera la máxima de la vía; si solo supera el límite de examen, consigna **f**. No se suman ambas por el mismo episodio. Como l ya desaprueba, el resultado es el mismo; la decisión solo evita una devolución duplicada.
 - **D3.** Las reglas con repetición «no especifica» se consignan **una vez por episodio distinto**. Un episodio termina cuando la conducta se corrige o cambia el contexto (otra cuadra, otra intersección, otra maniobra). El criterio es configurable y se muestra en la devolución.
+- **D5.** El corte de 8 puntos antes de la circulación (PDF 10, «si al llegar a esta etapa») se aplica en el juego hasta que el auto se mueve por primera vez en la etapa II (0,2 m/s); a partir de ahí los puntos se acumulan y se informan al final (PDF 14). Es una interpretación del proyecto: el protocolo no fija el instante exacto.
 - **D4.** Los parámetros de aproximación (V2, V3) y la interpretación de la observación (mirar espejos o girar la cabeza según la orientación de la cámara y el espejo seleccionado) se presentan como práctica virtual, como establece la propuesta (§4).
 
 ## 8. Examen teórico
