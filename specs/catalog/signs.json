@@ -871,11 +871,17 @@
     "page": 91,
     "group": "Límites de alcohol en sangre (íconos)",
     "name": "PRINCIPIANTE",
-    "meaning": "Identifica al conductor principiante (límite 0,00 g/l).",
-    "visual": "Cuadrado verde de esquinas redondeadas con letra 'P' blanca",
+    "meaning": "En la tabla de límites de alcohol en sangre, identifica a quien conduce como principiante: su límite es 0,00 g/l.",
+    "visual": "Cuadrado verde de esquinas redondeadas con una letra «P» blanca.",
     "printedCode": null,
-    "status": "transcribed",
-    "notes": "Usado como ícono en la tabla de alcoholemia."
+    "status": "tested",
+    "notes": "Usado como ícono en la tabla de alcoholemia. Revisada contra el render de PDF 91 a 300 ppp (F05-T03): nombre, dibujo y valor coinciden; el recorte excluye el rótulo «PRINCIPIANTE» de arriba y el valor «0.00 g/l» de abajo. Es la única señal catalogada de la tabla: los otros íconos (colectivo, moto, dos personas en moto, auto) no están en el catálogo y se usan como distractores por su rótulo, sin sus límites (D-T03-1).",
+    "box": {
+      "x": 0.1463,
+      "y": 0.6325,
+      "width": 0.081,
+      "height": 0.0615
+    }
   },
   {
     "id": "sign.regulatory.prohibition.no-advance",

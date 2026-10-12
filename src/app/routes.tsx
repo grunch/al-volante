@@ -3,6 +3,7 @@ import { Layout } from './Layout.tsx';
 import { ActivitiesPage } from './pages/ActivitiesPage.tsx';
 import { ActivityPage } from './pages/ActivityPage.tsx';
 import { ExamPage } from './pages/ExamPage.tsx';
+import { GaragePage } from './pages/GaragePage.tsx';
 import { LogbookPage } from './pages/LogbookPage.tsx';
 import { TrackPage } from './pages/TrackPage.tsx';
 import { CityPage } from './pages/CityPage.tsx';
@@ -31,6 +32,7 @@ export const routes: RouteObject[] = [
       { path: '/biblioteca', element: <LibraryPage /> },
       { path: '/biblioteca/:source/:page', element: <SourcePage /> },
       { path: '/senales', element: <SignsPage /> },
+      { path: '/garaje', element: <GaragePage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

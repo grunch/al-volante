@@ -152,8 +152,8 @@ describe('real content (integration)', () => {
     expect(content.pages).toHaveLength(224);
     expect(content.units).toHaveLength(705);
     expect(content.signs).toHaveLength(355);
-    // 206 observations from F01-T02, plus 8 found while reviewing units in F05-T01 and 12 in F05-T02.
-    expect(content.issues).toHaveLength(226);
+    // 206 observations from F01-T02, plus 8 found while reviewing units in F05-T01, 12 in F05-T02 and 3 in F05-T03.
+    expect(content.issues).toHaveLength(229);
     expect(content.rules.rules).toHaveLength(69);
     expect(content.route.legs).toHaveLength(8);
     expect(content.manifest.map((source) => source.id)).toEqual(['manual', 'protocolo', 'recorridos', 'siniestros']);
@@ -168,6 +168,9 @@ const TREATED_SECTIONS = [
   'manual-ch1',
   'manual-ch2',
   'manual-ch3',
+  'manual-ch4',
+  'manual-ch5',
+  'manual-annex1',
   'manual-annex4',
   'siniestros-intro',
   'siniestros-s1',
@@ -188,8 +191,8 @@ describe('content coverage (integration)', () => {
   });
 });
 
-/** Pages whose signs phase 5 has not reached yet (chapter 4, F05-T03). */
-const SIGN_PAGES_PENDING = [91];
+/** Pages whose signs phase 5 has not reached yet: none since F05-T03. */
+const SIGN_PAGES_PENDING: number[] = [];
 
 describe('sign coverage (integration)', () => {
   it('crops and treats every sign of the finished pages, by activity or as consultation', async () => {

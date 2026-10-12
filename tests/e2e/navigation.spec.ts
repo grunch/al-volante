@@ -15,6 +15,21 @@ test.describe('navigation and library', () => {
     await expect(page).toHaveTitle('Mapa de aprendizaje · Al volante: Comuna 13');
   });
 
+  test('opens Mi garaje from the home page, with the cockpit practice and the car inspection', async ({ page }) => {
+    await page.goto('./');
+    await page.getByRole('region', { name: 'Espacios' }).getByRole('link', { name: 'Mi garaje' }).click();
+
+    await expect(page).toHaveURL(/#\/garaje$/);
+    await expect(page.getByRole('link', { name: 'Practicar la etapa I del examen' })).toHaveAttribute(
+      'href',
+      '#/examen?modo=practicar&etapa=1',
+    );
+    const inspection = page.getByRole('region', { name: 'Revisión del auto' });
+    await expect(inspection.getByRole('listitem').first()).toBeVisible();
+    await inspection.getByRole('listitem').first().getByRole('link').click();
+    await expect(page).toHaveURL(/#\/actividad\/act\.(car|safety)-/);
+  });
+
   test('goes from the learning map to a unit and to its source page with text and official PDF', async ({ page }) => {
     await page.goto('./#/mapa');
     const campaign = page.getByRole('region', { name: 'Campaña licencia B' });

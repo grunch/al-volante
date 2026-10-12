@@ -1354,5 +1354,23 @@
     "page": 197,
     "type": "extraction",
     "description": "El semáforo principal está dibujado con las tres luces encendidas a la vez y los estados intermitentes no tienen dibujo propio: sus recortes son iguales a los de la luz fija, por eso esas señales quedan de consulta. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 107,
+    "type": "outdated",
+    "description": "«El sistema de frenos ABS (no es obligatorio)»: en vehículos 0 km podría ser exigido desde hace años según normativa nacional posterior; no se confirmó la norma exacta. No se evalúa. (F05-T03)"
+  },
+  {
+    "source": "manual",
+    "page": 100,
+    "type": "ambiguous",
+    "description": "El paréntesis «no lineales (como lo es el trayecto hogar-trabajo-hogar)» parece decir que ese trayecto es no lineal. Ninguna devolución depende de esa lectura. (F05-T03)"
+  },
+  {
+    "source": "manual",
+    "page": 110,
+    "type": "discrepancy",
+    "description": "PDF 110 enumera «disminuir la velocidad, colocar la luz de giro, mirar los espejos»; el capítulo 3 (PDF 75) pone la luz de giro 30 m antes y después la reducción de velocidad. No se arma un ordenamiento con eso. (F05-T03)"
   }
 ]

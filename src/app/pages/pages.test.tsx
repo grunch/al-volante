@@ -2,8 +2,8 @@ import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
-import { choiceActivity, rule, ruleCatalog, sign } from '../../content/testing/fixtures.ts';
-import { ACTIVITY_COPY, SIGN_COPY, esAR } from '../../i18n/es-AR.ts';
+import { choiceActivity, page, rule, ruleCatalog, sign, unit } from '../../content/testing/fixtures.ts';
+import { ACTIVITY_COPY, GARAGE_COPY, SIGN_COPY, esAR } from '../../i18n/es-AR.ts';
 import { loadPageText, splitPages } from '../../content/sourceText.ts';
 import type * as SourceTextModule from '../../content/sourceText.ts';
 
@@ -105,6 +105,39 @@ describe('learning map', () => {
     renderApp('/mapa/manual/ch9');
 
     expect(await screen.findByRole('heading', { level: 1, name: esAR.notFoundHeading })).toBeInTheDocument();
+  });
+});
+
+describe('garage', () => {
+  it('opens the cockpit practice and lists the inspection activities of annex I', async () => {
+    const content = testContent();
+    content.pages = [
+      ...content.pages,
+      page({ source: 'manual', page: 3, section: 'annex1', category: 'B', kind: 'instructional', summary: 'Frenos' }),
+    ];
+    content.units = [...content.units, unit({ id: 'manual.annex1.brakes', section: 'annex1', pages: [3] })];
+    content.activities = [
+      ...content.activities,
+      choiceActivity({ id: 'act.car-brakes', title: 'Revisar los frenos', unitIds: ['manual.annex1.brakes'] }),
+    ];
+    renderApp('/garaje', readyContent(content));
+
+    expect(await screen.findByRole('link', { name: 'Revisar los frenos' })).toHaveAttribute(
+      'href',
+      '/actividad/act.car-brakes',
+    );
+    expect(screen.queryByRole('link', { name: 'Velocidad en calle' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: GARAGE_COPY.stageOne })).toHaveAttribute(
+      'href',
+      '/examen?modo=practicar&etapa=1',
+    );
+    expect(screen.getByRole('link', { name: GARAGE_COPY.yard })).toHaveAttribute('href', '/pista');
+  });
+
+  it('says so when annex I has no activities yet', async () => {
+    renderApp('/garaje');
+
+    expect(await screen.findByText(GARAGE_COPY.noActivities)).toBeInTheDocument();
   });
 });
 

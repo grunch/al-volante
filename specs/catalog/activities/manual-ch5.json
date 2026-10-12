@@ -1,0 +1,1006 @@
+[
+  {
+    "id": "act.attitude-types",
+    "type": "single-choice",
+    "title": "Actitudes al volante",
+    "unitIds": [
+      "manual.ch5.attitude-definition",
+      "manual.ch5.positive-attitudes",
+      "manual.ch5.negative-attitudes"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 99
+      }
+    ],
+    "explanation": "Una buena conducción no depende solo de la aptitud (conocimientos, habilidades y condiciones psicofísicas): interviene un tercer aspecto, la actitud, que es la manera de sentir y de pensar que predispone a realizar determinadas conductas, de manera positiva o negativa (manual PDF 99). Las actitudes positivas son tolerante, solidaria, comprensiva y prudente; las negativas, prepotente, desconsiderada, exhibicionista y transgresora.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "definition",
+        "prompt": "Según el manual, además de la aptitud, ¿qué otro aspecto interviene en una buena conducción?",
+        "options": [
+          {
+            "id": "a",
+            "text": "La actitud: la manera de sentir y pensar que predispone a actuar",
+            "correct": true,
+            "feedback": "¡Correcto! El manual define la actitud como la manera de sentir y de pensar que predispone a realizar determinadas conductas, de manera positiva o negativa (PDF 99)."
+          },
+          {
+            "id": "b",
+            "text": "La experiencia: los años que una persona lleva manejando",
+            "correct": false,
+            "feedback": "No. El manual no habla de años de experiencia: dice que la aptitud no alcanza y que interviene un tercer aspecto, la actitud."
+          },
+          {
+            "id": "c",
+            "text": "El vehículo: la potencia y el equipamiento del auto",
+            "correct": false,
+            "feedback": "No. El tercer aspecto está en la persona, no en el auto: es la actitud, la manera de sentir y de pensar que predispone a ciertas conductas."
+          },
+          {
+            "id": "d",
+            "text": "La memoria: poder recitar de corrido todas las normas",
+            "correct": false,
+            "feedback": "No. Conocer las normas es parte de la aptitud, que según el manual no alcanza: también interviene la actitud."
+          }
+        ]
+      },
+      {
+        "id": "solidarity",
+        "prompt": "Un auto quiere salir de un garaje y vos aflojás la marcha para facilitarle la maniobra. ¿Qué actitud describe el manual con esa conducta?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Solidaria",
+            "correct": true,
+            "feedback": "¡Correcto! La actitud solidaria facilita las maniobras ajenas a través de las propias (manual PDF 99)."
+          },
+          {
+            "id": "b",
+            "text": "Tolerante",
+            "correct": false,
+            "feedback": "No. Tolerante es quien acepta la diversidad de las demás personas y sus equivocaciones; facilitar con tu maniobra la de otra persona es la actitud solidaria."
+          },
+          {
+            "id": "c",
+            "text": "Prudente",
+            "correct": false,
+            "feedback": "No. La actitud prudente evita riesgos innecesarios; facilitar con tu maniobra la de otra persona es la actitud solidaria."
+          },
+          {
+            "id": "d",
+            "text": "Exhibicionista",
+            "correct": false,
+            "feedback": "No. Exhibicionista es una actitud negativa: busca llamar la atención con conductas peligrosas. Lo que hacés vos es ser solidario."
+          }
+        ]
+      },
+      {
+        "id": "tolerance",
+        "prompt": "Delante tuyo, alguien que recién empieza a manejar se equivoca de carril y tarda en corregir. Lo aceptás sin enojarte ni presionarlo. ¿Qué actitud es?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Tolerante",
+            "correct": true,
+            "feedback": "¡Correcto! La actitud tolerante acepta la diversidad de las demás personas que transitan y también sus equivocaciones (manual PDF 99)."
+          },
+          {
+            "id": "b",
+            "text": "Prudente",
+            "correct": false,
+            "feedback": "No. Prudente es quien evita riesgos innecesarios; aceptar la equivocación ajena es, según el manual, la actitud tolerante."
+          },
+          {
+            "id": "c",
+            "text": "Desconsiderada",
+            "correct": false,
+            "feedback": "No. Desconsiderada es una actitud negativa: entorpece la movilidad de los demás priorizándose. Aceptar el error ajeno es ser tolerante."
+          },
+          {
+            "id": "d",
+            "text": "Prepotente",
+            "correct": false,
+            "feedback": "Al contrario: la persona prepotente intenta hacer «justicia» cuando los demás no se mueven según su juicio. Aceptar el error ajeno es ser tolerante."
+          }
+        ]
+      },
+      {
+        "id": "arrogance",
+        "prompt": "A un conductor le parece que el auto de adelante va «demasiado lento»: lo encierra y le frena encima «para que aprenda». ¿Qué actitud negativa describe el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Prepotente",
+            "correct": true,
+            "feedback": "¡Correcto! La actitud prepotente intenta hacer «justicia» al ver que las demás personas no se mueven según su propio juicio (manual PDF 99)."
+          },
+          {
+            "id": "b",
+            "text": "Exhibicionista",
+            "correct": false,
+            "feedback": "No. La persona exhibicionista busca llamar la atención con conductas peligrosas; querer «dar una lección» a otro es prepotencia."
+          },
+          {
+            "id": "c",
+            "text": "Transgresora",
+            "correct": false,
+            "feedback": "No. Transgresora es quien comete infracciones por tener prisa; querer «hacer justicia» con otro conductor es prepotencia."
+          },
+          {
+            "id": "d",
+            "text": "Desconsiderada",
+            "correct": false,
+            "feedback": "No. Desconsiderada es quien entorpece a los demás priorizándose a sí mismo; querer «dar una lección» es la actitud prepotente."
+          }
+        ]
+      },
+      {
+        "id": "hurry",
+        "prompt": "Una persona que llega tarde al trabajo cruza en rojo una esquina vacía «porque no tiene tiempo». ¿Qué actitud negativa es, según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Transgresora",
+            "correct": true,
+            "feedback": "¡Correcto! La actitud transgresora es la de quien comete infracciones por tener prisa (manual PDF 99)."
+          },
+          {
+            "id": "b",
+            "text": "Prepotente",
+            "correct": false,
+            "feedback": "No. La prepotencia es querer hacer «justicia» con los demás; cometer infracciones por apuro es la actitud transgresora."
+          },
+          {
+            "id": "c",
+            "text": "Exhibicionista",
+            "correct": false,
+            "feedback": "No. La persona exhibicionista busca llamar la atención; aquí la infracción se comete por prisa: es la actitud transgresora."
+          },
+          {
+            "id": "d",
+            "text": "Desconsiderada",
+            "correct": false,
+            "feedback": "No. En la esquina vacía no entorpece a nadie: lo que la define es cometer una infracción por apuro, la actitud transgresora."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.attitude-coexistence",
+    "type": "decision",
+    "title": "Convivir en la calle",
+    "unitIds": [
+      "manual.ch5.positive-attitudes",
+      "manual.ch5.negative-attitudes",
+      "manual.ch5.preventive-driving"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 99
+      },
+      {
+        "source": "manual",
+        "page": 101
+      },
+      {
+        "source": "manual",
+        "page": 110
+      }
+    ],
+    "explanation": "El manual describe actitudes positivas (tolerante, solidaria, comprensiva y prudente) y negativas (prepotente, desconsiderada, exhibicionista y transgresora) (PDF 99). La conducción preventiva o anticipada parte de que todas las personas pueden equivocarse aunque conozcan la normativa: por eso se analiza, se piensa y se decide con la premisa «anticiparse a todo, esperar todo, suponer todo» (PDF 101).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "merge",
+        "start": "signal",
+        "nodes": {
+          "signal": {
+            "text": "Vas por una avenida y el auto del carril de al lado pone la luz de giro para pasarse al tuyo. Si aflojás un poco, le queda espacio.",
+            "choices": [
+              {
+                "id": "ease",
+                "text": "Aflojo el acelerador y le dejo el espacio",
+                "outcome": "good"
+              },
+              {
+                "id": "close",
+                "text": "Acelero para cerrarle el hueco: que espere atrás",
+                "outcome": "close"
+              },
+              {
+                "id": "horn",
+                "text": "Le toco bocina para que sepa que el carril es mío",
+                "outcome": "horn"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Facilitar con tu maniobra la de otra persona es la actitud solidaria que describe el manual (PDF 99)."
+          },
+          "close": {
+            "correct": false,
+            "feedback": "Cerrarle el paso para «darle una lección» es una actitud prepotente: querer hacer «justicia» según tu propio juicio (manual PDF 99). Además, provoca un riesgo."
+          },
+          "horn": {
+            "correct": false,
+            "feedback": "La bocina solo se usa para advertir una situación potencialmente peligrosa (manual PDF 110). Lo que propone el manual es la actitud solidaria: facilitar la maniobra ajena."
+          }
+        }
+      },
+      {
+        "id": "late",
+        "start": "red",
+        "nodes": {
+          "red": {
+            "text": "Vas apurado a una entrevista y el semáforo de la esquina se pone en rojo justo cuando llegás.",
+            "choices": [
+              {
+                "id": "stop",
+                "text": "Freno y espero el verde",
+                "next": "honk"
+              },
+              {
+                "id": "cross",
+                "text": "Cruzo igual: llego tarde y la esquina está vacía",
+                "outcome": "transgress"
+              }
+            ]
+          },
+          "honk": {
+            "text": "Mientras esperás, el auto de atrás te toca bocina y te hace señas para que avances.",
+            "choices": [
+              {
+                "id": "calm",
+                "text": "Sigo esperando el verde sin responderle",
+                "outcome": "good"
+              },
+              {
+                "id": "argue",
+                "text": "Me bajo a decirle que el que está mal es él",
+                "outcome": "arrogant"
+              },
+              {
+                "id": "go",
+                "text": "Avanzo en rojo para no complicarlo",
+                "outcome": "pressure"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Esperar el verde sin entrar en la discusión es actuar con prudencia y tolerancia: evitás riesgos innecesarios y aceptás el error ajeno (manual PDF 99)."
+          },
+          "transgress": {
+            "correct": false,
+            "feedback": "Cruzar en rojo por tener prisa es justamente la actitud transgresora que describe el manual: cometer infracciones por apuro (PDF 99)."
+          },
+          "arrogant": {
+            "correct": false,
+            "feedback": "Bajarte a discutir para «hacer justicia» es una actitud prepotente (manual PDF 99) y te expone a un riesgo innecesario."
+          },
+          "pressure": {
+            "correct": false,
+            "feedback": "Pasar en rojo por la presión de otra persona sigue siendo una infracción. La actitud prudente evita riesgos innecesarios (manual PDF 99)."
+          }
+        }
+      },
+      {
+        "id": "anticipate",
+        "start": "phone",
+        "nodes": {
+          "phone": {
+            "text": "Tenés el semáforo en verde y te acercás a la esquina. En la vereda, una persona mira el celular a punto de bajar a la calzada.",
+            "choices": [
+              {
+                "id": "slow",
+                "text": "Levanto el pie y me preparo para frenar: puede bajar sin mirar",
+                "outcome": "good"
+              },
+              {
+                "id": "keep",
+                "text": "Sigo igual: tengo verde y la prioridad es mía",
+                "outcome": "keep"
+              },
+              {
+                "id": "flash",
+                "text": "Le hago luces para que me vea y mantengo la velocidad",
+                "outcome": "flash"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Es conducción preventiva: prevés que cualquiera puede equivocarse aunque conozca la norma y te anticipás («anticiparse a todo, esperar todo, suponer todo», manual PDF 101)."
+          },
+          "keep": {
+            "correct": false,
+            "feedback": "Tener verde no evita que otra persona se equivoque. La conducción preventiva prevé que todas las personas pueden cometer errores y se anticipa a ellos (manual PDF 101)."
+          },
+          "flash": {
+            "correct": false,
+            "feedback": "Aunque avises, si mantenés la velocidad no te queda margen si igual baja. Conducir de forma preventiva es anticiparte al error ajeno y prepararte para frenar (manual PDF 101)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.attitude-gender-perspective",
+    "type": "single-choice",
+    "title": "Una ciudad con perspectiva de género",
+    "unitIds": [
+      "manual.ch5.gender-equal-city",
+      "manual.ch5.women-mobility-caba-stats"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 99
+      },
+      {
+        "source": "manual",
+        "page": 100
+      }
+    ],
+    "explanation": "Las ciudades se pensaron tradicionalmente en función de las necesidades y roles asignados a los varones, sin tener en cuenta a mujeres, niños, personas mayores y personas con movilidad reducida (manual PDF 99). Según el manual, las mujeres hacen más viajes, aunque más cortos, que combinan distintos modos de transporte, en general en horarios no pico y con patrones dispersos y no lineales. Incorporar la perspectiva de género en la planificación implica visibilizar las desigualdades que viven las mujeres al usar el transporte y los espacios públicos, para construir una Ciudad equitativa y accesible (PDF 100).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "planning",
+        "prompt": "Según el manual, ¿en función de qué se pensaron tradicionalmente las ciudades?",
+        "options": [
+          {
+            "id": "a",
+            "text": "De las necesidades y roles sociales asignados a los varones",
+            "correct": true,
+            "feedback": "¡Correcto! Por eso mujeres, niños, personas mayores y con movilidad reducida no fueron tenidos en cuenta al planificar el espacio público y el transporte (manual PDF 99)."
+          },
+          {
+            "id": "b",
+            "text": "De las necesidades de niñas, niños y personas mayores",
+            "correct": false,
+            "feedback": "No. Según el manual, niños y personas mayores justamente no fueron tenidos en cuenta: las ciudades se pensaron según los roles asignados a los varones."
+          },
+          {
+            "id": "c",
+            "text": "De las necesidades de quienes viajan en transporte público",
+            "correct": false,
+            "feedback": "No. El manual dice que las ciudades se pensaron en función de las necesidades y roles asignados a los varones."
+          },
+          {
+            "id": "d",
+            "text": "De las necesidades de las personas con movilidad reducida",
+            "correct": false,
+            "feedback": "No. Las personas con movilidad reducida están entre las que no se tuvieron en cuenta; las ciudades se pensaron según los roles asignados a los varones (PDF 99)."
+          }
+        ]
+      },
+      {
+        "id": "trips",
+        "prompt": "Según el manual, ¿cómo suelen ser los viajes que hacen las mujeres en la Ciudad?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Más numerosos y cortos, combinando modos y en horarios no pico",
+            "correct": true,
+            "feedback": "¡Correcto! El manual agrega que resultan en patrones de movilidad dispersos y no lineales (PDF 100)."
+          },
+          {
+            "id": "b",
+            "text": "Pocos y largos, en un solo medio y en los horarios pico",
+            "correct": false,
+            "feedback": "Al revés: según el manual son más viajes, más cortos, que combinan modos de transporte, en general en horarios no pico."
+          },
+          {
+            "id": "c",
+            "text": "Casi siempre lineales, de la casa al trabajo y de vuelta",
+            "correct": false,
+            "feedback": "No. El manual los describe como dispersos y no lineales: más viajes y más cortos, que combinan modos de transporte."
+          },
+          {
+            "id": "d",
+            "text": "Mayormente en auto particular y en trayectos directos",
+            "correct": false,
+            "feedback": "No. El manual destaca que son más viajes, más cortos y que combinan distintos modos de transporte, en general en horarios no pico."
+          }
+        ]
+      },
+      {
+        "id": "perspective",
+        "prompt": "¿Qué implica incorporar la perspectiva de género en la planificación de la Ciudad, según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Visibilizar las desigualdades de las mujeres en el transporte y el espacio público",
+            "correct": true,
+            "feedback": "¡Correcto! El objetivo es una Ciudad equitativa y accesible para las mujeres, desde niñas a adultas mayores (manual PDF 100)."
+          },
+          {
+            "id": "b",
+            "text": "Planificar el transporte solo a partir del trayecto casa-trabajo-casa",
+            "correct": false,
+            "feedback": "No. El manual no propone planificar a partir de un único tipo de trayecto: la perspectiva de género implica visibilizar las desigualdades que viven las mujeres al usar el transporte y el espacio público."
+          },
+          {
+            "id": "c",
+            "text": "Diseñar los espacios públicos según los roles tradicionales de los varones",
+            "correct": false,
+            "feedback": "No. Así se pensaron tradicionalmente las ciudades; la perspectiva de género busca visibilizar las desigualdades que viven las mujeres."
+          },
+          {
+            "id": "d",
+            "text": "Separar los medios de transporte que usan las mujeres y los varones",
+            "correct": false,
+            "feedback": "No. El manual habla de visibilizar las desigualdades que viven las mujeres en el transporte y los espacios públicos para construir una Ciudad equitativa y accesible."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.attitude-harassment",
+    "type": "decision",
+    "title": "Acoso en el espacio público",
+    "unitIds": [
+      "manual.ch5.harassment-call-911",
+      "manual.ch5.harassment-line-22676"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 100
+      },
+      {
+        "source": "manual",
+        "page": 101
+      }
+    ],
+    "explanation": "Si sos víctima o testigo de una situación de acoso en el espacio público, lo primero es contactar al 911, priorizando la seguridad física de las personas involucradas (manual PDF 100). El manual menciona además una línea de reporte y contención por SMS, disponible las 24 horas, para dejar constancia (lo que ayuda a mapear lugares y horarios) o para pedir que llame una operadora que brinda escucha y contención. Esa línea no deriva llamados al 911: en situaciones de riesgo siempre hay que llamar al 911 (PDF 101).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "witness",
+        "start": "stop",
+        "nodes": {
+          "stop": {
+            "text": "Esperás en una parada de colectivo y ves que un hombre acosa a una chica; él se pone cada vez más agresivo.",
+            "choices": [
+              {
+                "id": "call",
+                "text": "Llamo al 911, priorizando la seguridad física de las personas",
+                "outcome": "good"
+              },
+              {
+                "id": "sms",
+                "text": "Mando un SMS a la línea de reporte para que manden ayuda",
+                "outcome": "sms"
+              },
+              {
+                "id": "leave",
+                "text": "Me alejo: no es asunto mío",
+                "outcome": "leave"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Ante una situación de acoso, en primer lugar se contacta al 911, priorizando la seguridad física de las personas involucradas (manual PDF 100)."
+          },
+          "sms": {
+            "correct": false,
+            "feedback": "La línea de reporte y contención no deriva al 911 para pedir asistencia en el momento: en situaciones de riesgo siempre hay que llamar al 911 (manual PDF 101)."
+          },
+          "leave": {
+            "correct": false,
+            "feedback": "El manual se dirige también a quien es testigo: en primer lugar, contactar al 911, priorizando la seguridad física de las personas involucradas (PDF 100)."
+          }
+        }
+      },
+      {
+        "id": "report",
+        "start": "later",
+        "nodes": {
+          "later": {
+            "text": "Una amiga te cuenta que la semana pasada sufrió acoso en una estación de subte. Ya no está en riesgo, pero quiere dejar constancia y recibir apoyo.",
+            "choices": [
+              {
+                "id": "line",
+                "text": "Le cuento que hay una línea de reporte y contención por SMS",
+                "outcome": "good"
+              },
+              {
+                "id": "useless",
+                "text": "Le digo que no tiene sentido reportarlo si ya pasó",
+                "outcome": "useless"
+              },
+              {
+                "id": "only",
+                "text": "Le digo que esa línea sirve para reportar, no para recibir apoyo",
+                "outcome": "only"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Según el manual, el SMS puede enviarse para reportar (dejar constancia) o para pedir contención: una operadora llama y brinda escucha activa, apoyo y contención psicológica (PDF 101)."
+          },
+          "useless": {
+            "correct": false,
+            "feedback": "Reportar sí sirve: dejar constancia ayuda a identificar y mapear lugares a trabajar, como paradas de colectivo, estaciones de subte o determinados horarios (manual PDF 101)."
+          },
+          "only": {
+            "correct": false,
+            "feedback": "Además del reporte, se puede pedir contención: si se solicita, una operadora llama y ofrece escucha activa, apoyo y contención psicológica (manual PDF 101)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.attitude-efficient-basics",
+    "type": "single-choice",
+    "title": "Conducción eficiente",
+    "unitIds": [
+      "manual.ch5.efficient-driving",
+      "manual.ch5.efficient-driving-air-conditioning",
+      "manual.ch5.efficient-driving-high-gears",
+      "manual.ch5.efficient-driving-savings-fact"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 101
+      },
+      {
+        "source": "manual",
+        "page": 102
+      }
+    ],
+    "explanation": "La conducción eficiente reduce los costos, extiende la vida útil del vehículo, disminuye el consumo de combustible y cuida el ambiente, y a la vez reduce los riesgos y la gravedad de los siniestros (manual PDF 101). Hasta 80 km/h conviene refrescar el habitáculo bajando las ventanillas; a más velocidad, usar el aire acondicionado entre 19 y 24 °C. Con marchas altas y bajas revoluciones el auto consume menos, y el manual destaca que, para un auto que recorre 12.000 km al año, ahorrar un 20 % de combustible puede equivaler al costo del mantenimiento anual en el taller (PDF 102).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "benefits",
+        "prompt": "Según el manual, ¿qué logra la conducción eficiente?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Bajar costos y consumo, alargar la vida del auto y reducir siniestros",
+            "correct": true,
+            "feedback": "¡Correcto! Además cuida el ambiente; y se logra con medidas simples y concretas (manual PDF 101)."
+          },
+          {
+            "id": "b",
+            "text": "Llegar antes a destino gracias a aceleraciones más enérgicas",
+            "correct": false,
+            "feedback": "No. La conducción eficiente evita las aceleraciones bruscas; sus beneficios son menos costos y consumo, más vida útil del auto y menos riesgo de siniestros."
+          },
+          {
+            "id": "c",
+            "text": "Ahorrar combustible, aunque aumente el riesgo de siniestros",
+            "correct": false,
+            "feedback": "No. Según el manual, la conducción eficiente también reduce los riesgos y la gravedad de los siniestros (PDF 101)."
+          },
+          {
+            "id": "d",
+            "text": "Evitar los controles mecánicos periódicos del vehículo",
+            "correct": false,
+            "feedback": "Al contrario: verificar el estado mecánico es una de sus medidas (PDF 102). Sus beneficios son menos costos y consumo, más vida útil y menos siniestros."
+          }
+        ]
+      },
+      {
+        "id": "windows",
+        "prompt": "Un día de calor circulás por la ciudad a 50 km/h. ¿Qué recomienda el manual para refrescar el habitáculo?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Bajar las ventanillas",
+            "correct": true,
+            "feedback": "¡Correcto! Hasta 80 km/h es recomendable mantener fresco el habitáculo bajando las ventanillas (manual PDF 101)."
+          },
+          {
+            "id": "b",
+            "text": "Encender el aire acondicionado entre 19 y 24 °C",
+            "correct": false,
+            "feedback": "No. El aire acondicionado se sugiere a más de 80 km/h; a 50 km/h conviene bajar las ventanillas."
+          },
+          {
+            "id": "c",
+            "text": "Poner el aire acondicionado lo más frío posible",
+            "correct": false,
+            "feedback": "No. Hasta 80 km/h conviene bajar las ventanillas; y cuando se usa el aire, el manual sugiere mantenerlo entre 19 y 24 °C."
+          }
+        ]
+      },
+      {
+        "id": "air",
+        "prompt": "Vas por una autopista a 100 km/h y hace calor. ¿Qué sugiere el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Usar el aire acondicionado entre 19 y 24 °C",
+            "correct": true,
+            "feedback": "¡Correcto! A más de 80 km/h se sugiere el aire acondicionado, manteniendo la temperatura entre 19 y 24 °C (manual PDF 101)."
+          },
+          {
+            "id": "b",
+            "text": "Bajar las ventanillas, igual que en la ciudad",
+            "correct": false,
+            "feedback": "No. Bajar las ventanillas se recomienda hasta 80 km/h; a más velocidad, el manual sugiere el aire acondicionado entre 19 y 24 °C."
+          },
+          {
+            "id": "c",
+            "text": "Usar el aire acondicionado lo más frío posible",
+            "correct": false,
+            "feedback": "No. El manual sugiere mantener la temperatura del aire acondicionado entre 19 y 24 °C."
+          }
+        ]
+      },
+      {
+        "id": "gears",
+        "prompt": "Según el manual, ¿cómo se logra que el auto consuma menos combustible?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Circulando con marchas altas y a bajas revoluciones",
+            "correct": true,
+            "feedback": "¡Correcto! Al conducir con marchas altas y a bajas revoluciones el vehículo consume menos combustible (manual PDF 102)."
+          },
+          {
+            "id": "b",
+            "text": "Circulando con marchas bajas y a altas revoluciones",
+            "correct": false,
+            "feedback": "Al revés: el manual indica marchas altas y bajas revoluciones para consumir menos."
+          },
+          {
+            "id": "c",
+            "text": "Estirando cada marcha hasta que el motor suene alto",
+            "correct": false,
+            "feedback": "No. Llevar el motor revolucionado aumenta el consumo; el manual recomienda marchas altas y bajas revoluciones, y pasar a segunda enseguida después de poner primera."
+          },
+          {
+            "id": "d",
+            "text": "Pasando a segunda recién cuando el auto tomó velocidad",
+            "correct": false,
+            "feedback": "No. El manual recomienda pasar a segunda enseguida después de poner primera, y circular con marchas altas y bajas revoluciones (PDF 102)."
+          }
+        ]
+      },
+      {
+        "id": "savings",
+        "prompt": "Según el manual, para un auto que recorre 12.000 km al año, ¿qué puede significar ahorrar un 20 % de combustible?",
+        "options": [
+          {
+            "id": "a",
+            "text": "El costo del mantenimiento anual en el taller mecánico",
+            "correct": true,
+            "feedback": "¡Correcto! Es el dato que destaca el manual para mostrar cuánto rinde conducir de forma eficiente (PDF 102)."
+          },
+          {
+            "id": "b",
+            "text": "El costo de un juego completo de neumáticos nuevos",
+            "correct": false,
+            "feedback": "No. Según el manual, ese ahorro puede significar el costo del mantenimiento anual en el taller mecánico."
+          },
+          {
+            "id": "c",
+            "text": "El valor anual del seguro obligatorio del vehículo",
+            "correct": false,
+            "feedback": "No. El manual compara ese ahorro con el costo del mantenimiento anual en el taller mecánico."
+          },
+          {
+            "id": "d",
+            "text": "El costo de la próxima verificación técnica del auto",
+            "correct": false,
+            "feedback": "No. El manual dice que ese ahorro puede significar el costo del mantenimiento anual en el taller mecánico."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.attitude-efficient-trip",
+    "type": "decision",
+    "title": "Un viaje eficiente",
+    "unitIds": [
+      "manual.ch5.efficient-driving-trip-planning",
+      "manual.ch5.efficient-driving-engine-start",
+      "manual.ch5.efficient-driving-constant-speed",
+      "manual.ch5.efficient-driving-engine-off-when-stopped"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 102
+      }
+    ],
+    "explanation": "Para conducir de forma eficiente, el manual recomienda verificar antes de salir cuál es la ruta más útil (las aplicaciones de GPS ayudan); en un auto a nafta, iniciar la marcha de inmediato (en un diésel, esperar unos segundos) y, en ambos, pasar a segunda enseguida después de poner primera. También, circular a velocidad constante y precautoria, sin aceleraciones ni frenadas bruscas, y apagar el motor si vas a estar detenido más de 3 minutos (manual PDF 102).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "trip",
+        "start": "plan",
+        "nodes": {
+          "plan": {
+            "text": "Tenés que ir con tu auto a un lugar de la Ciudad que no conocés.",
+            "choices": [
+              {
+                "id": "app",
+                "text": "Antes de salir, busco la ruta más útil con el GPS",
+                "next": "start"
+              },
+              {
+                "id": "improvise",
+                "text": "Salgo y voy eligiendo el camino sobre la marcha",
+                "outcome": "improvise"
+              }
+            ]
+          },
+          "start": {
+            "text": "Tu auto es a nafta. Lo encendés en el garaje.",
+            "choices": [
+              {
+                "id": "go",
+                "text": "Arranco enseguida y paso pronto de primera a segunda",
+                "next": "avenue"
+              },
+              {
+                "id": "warm",
+                "text": "Lo dejo un largo rato en regulación antes de salir",
+                "outcome": "warm"
+              }
+            ]
+          },
+          "avenue": {
+            "text": "Ya en la avenida, el tránsito es fluido.",
+            "choices": [
+              {
+                "id": "steady",
+                "text": "Mantengo una velocidad constante y precautoria",
+                "next": "wait"
+              },
+              {
+                "id": "jerky",
+                "text": "Acelero fuerte entre semáforos y freno al llegar a cada uno",
+                "outcome": "jerky"
+              }
+            ]
+          },
+          "wait": {
+            "text": "Llegás y tenés que esperar a alguien unos diez minutos con el auto parado.",
+            "choices": [
+              {
+                "id": "off",
+                "text": "Apago el motor mientras espero",
+                "outcome": "good"
+              },
+              {
+                "id": "idle",
+                "text": "Lo dejo en marcha: total, estoy parado",
+                "outcome": "idle"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Planificaste la ruta, arrancaste sin demoras, circulaste a velocidad constante y apagaste el motor: si vas a estar parado más de 3 minutos, es lo recomendable (manual PDF 102)."
+          },
+          "improvise": {
+            "correct": false,
+            "feedback": "El manual recomienda verificar antes de iniciar el viaje cuál es la ruta más útil; las aplicaciones vinculadas al GPS son de gran utilidad (PDF 102)."
+          },
+          "warm": {
+            "correct": false,
+            "feedback": "En los vehículos a nafta la marcha puede iniciarse de inmediato; solo los motores diésel necesitan esperar unos segundos (manual PDF 102)."
+          },
+          "jerky": {
+            "correct": false,
+            "feedback": "Para conducir de forma eficiente no hay que hacer aceleraciones ni frenadas bruscas: conviene circular a velocidad constante y precautoria (manual PDF 102)."
+          },
+          "idle": {
+            "correct": false,
+            "feedback": "El manual recomienda apagar el motor si vas a permanecer más de 3 minutos parado (PDF 102)."
+          }
+        }
+      },
+      {
+        "id": "diesel",
+        "start": "ignition",
+        "nodes": {
+          "ignition": {
+            "text": "Usás un auto diésel y acabás de encender el motor.",
+            "choices": [
+              {
+                "id": "seconds",
+                "text": "Espero unos segundos y recién ahí inicio la marcha",
+                "next": "gear"
+              },
+              {
+                "id": "now",
+                "text": "Inicio la marcha en el acto, como en un auto a nafta",
+                "outcome": "now"
+              }
+            ]
+          },
+          "gear": {
+            "text": "Pusiste primera y empezás a avanzar.",
+            "choices": [
+              {
+                "id": "second",
+                "text": "Paso a segunda enseguida",
+                "outcome": "good"
+              },
+              {
+                "id": "hold",
+                "text": "Sigo en primera hasta la esquina siguiente",
+                "outcome": "hold"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! En los motores diésel se esperan unos segundos antes de iniciar la marcha y, como en los de nafta, después de poner primera se pasa a segunda enseguida (manual PDF 102)."
+          },
+          "now": {
+            "correct": false,
+            "feedback": "Los motores diésel necesitan esperar unos segundos antes de iniciar la marcha; los de nafta pueden arrancar de inmediato (manual PDF 102)."
+          },
+          "hold": {
+            "correct": false,
+            "feedback": "En ambos tipos de motor, luego de poner la primera marcha conviene pasar a la segunda enseguida (manual PDF 102)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.attitude-efficient-car-care",
+    "type": "decision",
+    "title": "Un auto que gasta menos",
+    "unitIds": [
+      "manual.ch5.efficient-driving-load-distribution",
+      "manual.ch5.efficient-driving-tyres",
+      "manual.ch5.efficient-driving-mechanical-check"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 102
+      }
+    ],
+    "explanation": "Entre las medidas de conducción eficiente, el manual indica distribuir de manera uniforme el peso transportado y no sobrecargar el auto con peso innecesario (para disminuir la resistencia aerodinámica), adecuar la presión de inflado de los neumáticos a la carga y revisar periódicamente la alineación y el balanceo. También pide verificar el estado mecánico, en especial los frenos y que los filtros de aire, aceite y combustible estén limpios, lo que además reduce las probabilidades de un siniestro (PDF 102).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "load",
+        "start": "trunk",
+        "nodes": {
+          "trunk": {
+            "text": "Mañana salís con el auto cargado. En el baúl hay cajas pesadas que no vas a usar, y el equipaje quedó todo de un lado.",
+            "choices": [
+              {
+                "id": "even",
+                "text": "Saco lo que no hace falta y reparto el peso de forma pareja",
+                "next": "tyres"
+              },
+              {
+                "id": "leave",
+                "text": "Dejo todo así: el peso no cambia lo que gasta el auto",
+                "outcome": "leave"
+              }
+            ]
+          },
+          "tyres": {
+            "text": "¿Y los neumáticos?",
+            "choices": [
+              {
+                "id": "adjust",
+                "text": "Ajusto la presión de inflado a la carga que voy a llevar",
+                "outcome": "good"
+              },
+              {
+                "id": "soft",
+                "text": "Les bajo un poco la presión para que el auto vaya más cómodo",
+                "outcome": "soft"
+              },
+              {
+                "id": "same",
+                "text": "No los toco: la presión no tiene que ver con la carga",
+                "outcome": "same"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Distribuir el peso de forma uniforme, no llevar peso innecesario y adecuar la presión de los neumáticos a la carga son medidas de conducción eficiente (manual PDF 102)."
+          },
+          "leave": {
+            "correct": false,
+            "feedback": "Para conducir de forma eficiente hay que distribuir de manera uniforme el peso transportado y evitar sobrecargar el auto con peso innecesario (manual PDF 102)."
+          },
+          "soft": {
+            "correct": false,
+            "feedback": "La presión no se elige por comodidad: debe adecuarse a la carga del vehículo (manual PDF 102)."
+          },
+          "same": {
+            "correct": false,
+            "feedback": "Sí tiene que ver: según el manual, la presión de inflado debe adecuarse a la carga del vehículo (PDF 102)."
+          }
+        }
+      },
+      {
+        "id": "service",
+        "start": "shop",
+        "nodes": {
+          "shop": {
+            "text": "Llevás el auto al taller para un control.",
+            "choices": [
+              {
+                "id": "full",
+                "text": "Pido revisar los frenos y que los filtros estén limpios",
+                "next": "align"
+              },
+              {
+                "id": "oil",
+                "text": "Solo cambio el aceite: los filtros no influyen en nada",
+                "outcome": "oil"
+              }
+            ]
+          },
+          "align": {
+            "text": "El mecánico te pregunta si querés revisar también la alineación y el balanceo.",
+            "choices": [
+              {
+                "id": "yes",
+                "text": "Sí: conviene revisarlos periódicamente",
+                "outcome": "good"
+              },
+              {
+                "id": "no",
+                "text": "No: eso solo hace falta después de un choque",
+                "outcome": "no"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Revisar los frenos y que los filtros de aire, aceite y combustible estén limpios reduce las probabilidades de un siniestro, y la alineación y el balanceo se revisan periódicamente (manual PDF 102)."
+          },
+          "oil": {
+            "correct": false,
+            "feedback": "El manual pide verificar el estado mecánico: revisar los frenos y que los filtros de aire, aceite y combustible estén limpios (PDF 102)."
+          },
+          "no": {
+            "correct": false,
+            "feedback": "Según el manual, es importante la revisión periódica de la alineación y el balanceo, no solo después de un choque (PDF 102)."
+          }
+        }
+      }
+    ]
+  }
+]
