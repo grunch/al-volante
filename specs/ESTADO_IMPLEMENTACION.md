@@ -491,7 +491,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - unos 600–700 ms por cuadro, igual antes (`9dd6d9e`) y después de #34, así que #34 no encareció el render;
   - recorrer los 3 m lleva 2,2 s simulados y 14,8 s de reloj, de los 20 s;
   - «offers the four modes…» tarda unos 72 s, de los 120 s.
-- Arreglo: los mismos asertos con más tiempo de reloj. 60 s para los 3 m, 90 s por prueba del habitáculo (y 30 s para que la vista esté lista, como en las demás specs), 240 s para el bloque del examen y 30 min para el job E2E.
+- Arreglo: los mismos asertos con más tiempo de reloj. 60 s para los 3 m y 360 s para esa prueba (en local tarda 1,8 min sobre `main` y 2,9 min con el detalle de #35, cerca de los 180 s anteriores), 90 s por prueba del habitáculo (y 30 s para que la vista esté lista, como en las demás specs), 240 s para el bloque del examen y 30 min para el job E2E.
 - PR [#37](https://github.com/grunch/al-volante/pull/37). El usuario fusionó #36 (`c71a289`) mientras se preparaba; este correctivo integra ese `main` por merge, sin conflictos. Siguiente: integrarlo en #35, cuya CI depende de él.
 
 ## Correctivo F04-T01-FIX01 — Entorno basado en referencias
