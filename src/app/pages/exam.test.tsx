@@ -1,4 +1,4 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
@@ -35,7 +35,12 @@ describe('exam page', () => {
   async function openExam() {
     renderApp('/examen', readyContent(content()));
     const canvas = await screen.findByRole('application', { name: EXAM_COPY.canvasLabel });
-    runFrames(10);
+    // Lazy markup can precede the passive effect that schedules the driving loop.
+    await waitFor(() => {
+      runFrames(10);
+      expect(canvas).toHaveAttribute('data-state', 'ready');
+      expect(canvas).toHaveAttribute('data-engine', 'off');
+    });
     return canvas;
   }
 

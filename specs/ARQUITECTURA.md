@@ -263,3 +263,10 @@ Medición local de referencia de esta entrega: CPU AMD Ryzen 7 4800H (16 hilos),
 - **Devolución básica** (`ExamPage`): al terminar, cada falla muestra la conducta de la ficha, qué evalúa el protocolo (`condition` de `rules.json`) y enlaces a las páginas PDF del protocolo en la biblioteca; sin fallas, remite a las páginas de salida y primeros 100 m. El panel muestra además el estado del semáforo y la máxima de los primeros 100 m.
 - **Pruebas** (`street.test.ts`): un conductor con guion recorre el tramo con el auto, el habitáculo y el escenario reales: 100 m correctos y con exceso (automática y manual en primera), parada correcta y espera del verde y del peatón con giro limpio, cruce en rojo, detención pasada la línea, direccional ausente y tardía, senda con peatón y seguir de largo. El conductor mantiene el carril con una corrección proporcional del volante, como un conductor estable.
 - **Límites conocidos**: los actores no frenan ni esquivan; el tránsito real, las prioridades sin semáforo, la distancia de seguimiento y la detención innecesaria llegan en F04; el auto no se detiene físicamente al tocar un actor (la falla interrumpe el examen); el giro se juzga por rumbo y posición, no por carril.
+
+
+## Ciudad y recorrido completo (F04-T01)
+
+El explorador `#/recorrido` construye el barrio desde `ContentGate` y el catálogo de ruta validado. `src/city/` separa modelo métrico y colisiones, planificación de piezas, instancias, señales, sectores y adaptadores de vista. El habitáculo se reutiliza por la propiedad opcional `createScene` de `DrivingCanvas`; el subtítulo también es configurable. Las vistas Three.js siguen cargándose en diferido.
+
+Sectores de 128 m con carga a 220 m y descarga a 270 m, recursos GPU liberados al salir, colisiones persistentes y materiales originales sin dependencias nuevas. La prueba de vuelta completa usa el vehículo real; los E2E cubren exploración, conducción y reinicio. Detalle de ejes, anchos, evidencias, límites y presupuesto en [CIUDAD.md](CIUDAD.md). La evaluación del primer cruce no se extiende automáticamente al circuito.

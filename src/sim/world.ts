@@ -46,7 +46,15 @@ export function initialWorldState(vehicle: VehicleState): WorldState {
 
 function hits(spec: VehicleSpec, world: World, vehicle: VehicleState): Obstacle[] {
   const body = bodyBox(spec, vehicle);
-  return world.obstacles.filter((obstacle) => overlaps(body, obstacle.box));
+  const bodyRadiusM = Math.hypot(body.halfWidthM, body.halfLengthM);
+  return world.obstacles.filter((obstacle) => {
+    const box = obstacle.box;
+    // Conservative circle rejection avoids SAT allocations for distant city sectors.
+    const radiusM = bodyRadiusM + Math.hypot(box.halfWidthM, box.halfLengthM);
+    const dx = body.centerX - box.centerX,
+      dz = body.centerZ - box.centerZ;
+    return dx * dx + dz * dz <= radiusM * radiusM && overlaps(body, box);
+  });
 }
 
 /**

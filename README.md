@@ -2,7 +2,7 @@
 
 Juego web para preparar el examen teórico y práctico de licencia B/B.1 en CABA. Se conduce en 3D (Three.js) desde el interior del auto por el recorrido A de la Comuna 13, y una campaña de aprendizaje cubre el manual y el protocolo de examen.
 
-Estado: **en construcción.** Fase 1 (fuentes, cobertura y recorrido verificado) cerrada; fase 2 (base web, datos y aprendizaje inicial) en curso.
+Estado: **en construcción.** Fases 1–3 integradas; F04-T01 incorpora la geometría completa del recorrido A. El examen completo y el tránsito del circuito siguen pendientes. Ver el [estado operativo](specs/ESTADO_IMPLEMENTACION.md).
 
 ## Arranque
 
@@ -17,6 +17,8 @@ npm run test:e2e       # pruebas de punta a punta en Chromium (escritorio y móv
 ```
 
 Pila, estructura y convenciones: [specs/ARQUITECTURA.md](specs/ARQUITECTURA.md).
+
+Desde el inicio, «Explorar Comuna 13» abre `#/recorrido`: ocho entradas, vista de cuadra o circuito completo y conducción manual/automática. [Fuentes, aproximaciones y rendimiento](specs/CIUDAD.md).
 
 ## Documentación
 

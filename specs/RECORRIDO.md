@@ -111,3 +111,8 @@ npm test                   # pruebas de los validadores (src/content/validateRou
 ```
 
 Los datos se generaron con consultas Overpass sobre la caja `(-34.5585,-58.4690,-34.5500,-58.4570)`: todas las `way["highway"]` con `out body geom`, y los nodos `highway~traffic_signals|stop|give_way|crossing|bus_stop` y `traffic_calming`. El ruteo de cada tramo usa Dijkstra restringido a ways con el nombre de la calle del tramo, respetando `oneway`. Para regenerarlos con una base OSM posterior, repetir las consultas y volver a correr el validador. Cualquier cambio de sentido o de conectividad debe registrarse aquí antes de modificar la escena.
+
+
+## 10. Representación en F04-T01
+
+La escena `#/recorrido` usa las coordenadas y atributos anteriores. [CIUDAD.md](CIUDAD.md) documenta el sistema visual, la carga por sectores, las conexiones ambientales y cada aproximación. Se fija un cajón reproducible dentro del tramo 1, identificado expresamente como aproximación; su largo exterior es 6 m. No se obtuvo nuevo relevamiento que confirme el lado o la posición real, las máximas, los PARE ni el reductor. Esos pendientes de §7 siguen abiertos y no se presentan como verificados. Los controles conservan su evidencia y coordenada de fuente separada de la ubicación aproximada de sus postes en la escena.

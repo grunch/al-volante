@@ -45,9 +45,11 @@ interface DrivingCanvasProps {
   start: VehicleState;
   transmission: TransmissionKind;
   label: string;
+  subtitle?: string;
   loadingText: string;
   unavailableText: string;
   createRenderer?: RendererFactory;
+  createScene?: typeof createCockpitScene;
   onTelemetry?: (telemetry: Telemetry) => void;
   /** Incrementing it puts the car back at the start, engine off and key out. */
   resetCount?: number;
@@ -72,9 +74,11 @@ export function DrivingCanvas({
   start,
   transmission,
   label,
+  subtitle = copy.subtitle,
   loadingText,
   unavailableText,
   createRenderer = defaultRendererFactory,
+  createScene = createCockpitScene,
   onTelemetry,
   resetCount = 0,
   prepared = EMPTY_COMMANDS,
@@ -193,7 +197,7 @@ export function DrivingCanvas({
       const pending = requestAnimationFrame(() => setState('unavailable'));
       return () => cancelAnimationFrame(pending);
     }
-    const track = createCockpitScene(world, EXAM_SPECS.vehicle);
+    const track = createScene(world, EXAM_SPECS.vehicle);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO));
     renderer.domElement.setAttribute('aria-hidden', 'true');
     container.appendChild(renderer.domElement);
@@ -280,6 +284,9 @@ export function DrivingCanvas({
       container.dataset.rpm = rpm.toFixed(0);
       container.dataset.gear = gearLabel(car.powertrain);
       container.dataset.engine = car.powertrain.engineRunning ? 'running' : 'off';
+      container.dataset.positionX = car.world.vehicle.x.toFixed(2);
+      container.dataset.positionZ = car.world.vehicle.z.toFixed(2);
+      container.dataset.sectors = String(track.scene.userData.activeSectors ?? 0);
       const notable = events.filter(isNotable).at(-1);
       if (notable) lastEvent = notable;
       sinceTelemetryS += frameS;
@@ -312,7 +319,7 @@ export function DrivingCanvas({
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [createRenderer, world, start, transmission, prepared]);
+  }, [createRenderer, createScene, world, start, transmission, prepared]);
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.ctrlKey || event.altKey || event.metaKey) return;
@@ -325,7 +332,7 @@ export function DrivingCanvas({
   return (
     <section className="cockpit-shell" aria-label={copy.title}>
       <div className="cockpit-heading">
-        <span>{copy.subtitle}</span>
+        <span>{subtitle}</span>
         <strong>{cockpit.belt ? copy.beltOn : copy.beltOff}</strong>
       </div>
       <p className="cockpit-help">{copy.help}</p>

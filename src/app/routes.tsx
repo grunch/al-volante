@@ -5,6 +5,7 @@ import { ActivityPage } from './pages/ActivityPage.tsx';
 import { ExamPage } from './pages/ExamPage.tsx';
 import { LogbookPage } from './pages/LogbookPage.tsx';
 import { TrackPage } from './pages/TrackPage.tsx';
+import { CityPage } from './pages/CityPage.tsx';
 import { HomePage } from './pages/HomePage.tsx';
 import { LearningMapPage } from './pages/LearningMapPage.tsx';
 import { LibraryPage } from './pages/LibraryPage.tsx';
@@ -25,6 +26,7 @@ export const routes: RouteObject[] = [
       { path: '/bitacora', element: <LogbookPage /> },
       { path: '/pista', element: <TrackPage /> },
       { path: '/examen', element: <ExamPage /> },
+      { path: '/recorrido', element: <CityPage /> },
       { path: '/biblioteca', element: <LibraryPage /> },
       { path: '/biblioteca/:source/:page', element: <SourcePage /> },
       { path: '*', element: <NotFoundPage /> },

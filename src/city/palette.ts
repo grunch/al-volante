@@ -1,0 +1,21 @@
+/** Procedural materials; no external textures or unlicensed assets. */
+export const CITY_COLORS = {
+  asphalt: '#555e62',
+  busway: '#726966',
+  sidewalk: '#c8c1af',
+  curb: '#e5decf',
+  paint: '#f4efe0',
+  cycle: '#47988b',
+  trunk: '#73604c',
+  foliage: '#4f785c',
+  foliageLight: '#72916b',
+  steel: '#34454b',
+  glass: '#385764',
+  facade: '#ddd1b9',
+  brick: '#af7861',
+  sage: '#a9b7a1',
+  awning: '#477e79',
+  trim: '#f2e4ce',
+  red: '#c63632',
+  inactive: '#1d282b',
+} as const;
