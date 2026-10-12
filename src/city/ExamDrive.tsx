@@ -4,6 +4,7 @@ import { DrivingCanvas } from '../practice/DrivingCanvas.tsx';
 import type { Telemetry } from '../practice/telemetry.ts';
 import type { RendererFactory } from '../scene/SceneCanvas.tsx';
 import type { PowertrainCommand, TransmissionKind } from '../sim/powertrain/powertrain.ts';
+import type { VehicleState } from '../sim/vehicle.ts';
 import type { World } from '../sim/world.ts';
 import type { City } from './model.ts';
 import { cityCockpitFactory } from './scene.ts';
@@ -14,6 +15,7 @@ export function ExamDrive({
   city,
   world,
   transmission,
+  start,
   resetCount,
   prepared,
   onObservation,
@@ -25,6 +27,8 @@ export function ExamDrive({
   /** The city's collisions with the seeded traffic of the exam. */
   world: World;
   transmission: TransmissionKind;
+  /** Where the car starts: the box of leg 1, or the last leg when practising stage III alone (F04-T05). */
+  start?: VehicleState;
   resetCount: number;
   prepared: readonly PowertrainCommand[];
   onObservation: (observation: Observation) => void;
@@ -36,7 +40,7 @@ export function ExamDrive({
   return (
     <DrivingCanvas
       world={world}
-      start={city.start.pose}
+      start={start ?? city.start.pose}
       transmission={transmission}
       label={copy.canvasLabel}
       subtitle={copy.canvasSubtitle}

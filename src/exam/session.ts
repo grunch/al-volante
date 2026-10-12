@@ -3,7 +3,8 @@ import type { Ledger, Stage } from './scoring.ts';
 import type { Circuit } from './circuit.ts';
 import { createStreet, judgeCirculation, noteGlance } from './circulation.ts';
 import { remember } from './street.ts';
-import type { Report, Street, Verdict } from './circulation.ts';
+import type { Street } from './street.ts';
+import type { Report, Verdict } from './circulation.ts';
 import {
   createParking,
   judgeDescent,
@@ -91,6 +92,34 @@ export type RecognitionTarget =
 
 export type Prompt = { kind: 'recognise'; target: RecognitionTarget } | { kind: 'say'; message: Phase };
 
+/** Which stages a session runs: the whole exam (I to III) or one stage practised on its own (F04-T05). */
+export interface StageScope {
+  from: Stage;
+  to: Stage;
+}
+
+/** A phase entered at a simulation time; the log gives each stage its start and end for the card. */
+export interface Transition {
+  phase: Phase;
+  atS: number;
+}
+
+const STAGE_ONE_PHASES: readonly Phase[] = ['familiarisation', 'recognition', 'preparation'];
+
+const STAGE_SEQUENCE: readonly Stage[] = ['I', 'II', 'III'];
+
+/**
+ * The stage a phase belongs to; `finished` belongs to the last stage of the scope. A phase before the scope belongs
+ * to its first stage: practising stage III starts driving the last leg, which is part of that practice.
+ */
+export function stageOf(phase: Phase, scope: StageScope): Stage {
+  let stage: Stage = scope.to;
+  if (STAGE_ONE_PHASES.includes(phase)) stage = 'I';
+  else if (STAGE_TWO_PHASES.includes(phase)) stage = 'II';
+  else if (STAGE_THREE_PHASES.includes(phase)) stage = 'III';
+  return STAGE_SEQUENCE.indexOf(stage) < STAGE_SEQUENCE.indexOf(scope.from) ? scope.from : stage;
+}
+
 export type Observation =
   | { type: 'cockpit'; command: CockpitCommand; before: CockpitState; after: CockpitState }
   | {
@@ -125,6 +154,10 @@ export interface Session {
   prompt: Prompt;
   ledger: Ledger;
   completedStages: readonly Stage[];
+  /** The stages this session runs; a practice of one stage ends when that stage is complete (F04-T05). */
+  scope: StageScope;
+  /** Every phase entered, with its simulation time, the first one included. */
+  transitions: readonly Transition[];
   timeS: number;
   /** The circuit after the box (F04-T03); null in the closed yard, where the exam ends on leaving the box. */
   circuit: Circuit | null;
@@ -159,6 +192,7 @@ export interface Session {
 }
 
 const PEDALS = ['throttle', 'brake', 'clutch'] as const;
+const WHOLE_EXAM: StageScope = { from: 'I', to: 'III' };
 const STAGE_TWO_PHASES: readonly Phase[] = ['unlock', 'reverse', 'forward', 'exit', 'firstMetres', 'circulation'];
 const STREET_PHASES: readonly Phase[] = ['firstMetres', 'circulation'];
 const STAGE_THREE_PHASES: readonly Phase[] = ['parking', 'leaving'];
@@ -232,6 +266,8 @@ export function createSession(
     prompt: { kind: 'say', message: 'familiarisation' },
     ledger: createLedger(rules),
     completedStages: [],
+    scope: WHOLE_EXAM,
+    transitions: [{ phase: 'familiarisation', atS: 0 }],
     timeS: 0,
     measurements: { reverseCm: null, forwardCm: null, exitManoeuvres: 0, firstMetresTopKmh: null },
     street: createStreet(circuit),
@@ -252,8 +288,48 @@ const enter = (session: Session, phase: Phase): Session => ({
   ...session,
   phase,
   prompt: { kind: 'say', message: phase },
+  transitions: [...session.transitions, { phase, atS: session.timeS }],
 });
+
+/**
+ * One stage practised on its own (mode "practicar", F04-T05): the session starts in the first phase of that stage
+ * with no stage completed, so `resultOf` stays pending and the card never passes for a whole exam. Stage II starts
+ * in the box with the engine off (the exit is part of the stage); stage III starts on the last leg, before the
+ * parking notice, with the car already moving off in stage II terms (belt check and cutoff do not apply).
+ */
+export function createPracticeSession(
+  rules: readonly Rule[],
+  kind: TransmissionKind,
+  seed: number,
+  circuit: Circuit | null,
+  bands: readonly ParkingBand[],
+  stage: Stage,
+): Session {
+  const base = createSession(rules, kind, seed, circuit, bands);
+  if (stage === 'I') return { ...base, scope: { from: 'I', to: 'I' } };
+  if (stage === 'II') return { ...enter({ ...base, transitions: [] }, 'unlock'), scope: { from: 'II', to: 'II' } };
+  if (!circuit) throw new Error('practising stage III needs the circuit');
+  const last = circuit.legs.at(-1);
+  if (!last) throw new Error('the circuit has no legs');
+  // On the last leg, as if the other seven had been driven: entering leg 1 again ends stage II.
+  const street: Street = {
+    ...createStreet(circuit, last.number),
+    // The car is placed standing still: that first stop is not an unnecessary one.
+    stopJudged: true,
+  };
+  return {
+    ...enter({ ...base, transitions: [], street, movedOff: true }, 'circulation'),
+    scope: { from: 'III', to: 'III' },
+  };
+}
+
 const finish = (session: Session): Session => (session.phase === 'finished' ? session : enter(session, 'finished'));
+const STAGE_ORDER: readonly Stage[] = ['I', 'II', 'III'];
+/** Marks a stage complete, unless the session started after it (a practice of stage III never drove stage II). */
+const completeStage = (session: Session, stage: Stage): Session =>
+  STAGE_ORDER.indexOf(stage) < STAGE_ORDER.indexOf(session.scope.from)
+    ? session
+    : { ...session, completedStages: [...session.completedStages, stage] };
 const inStageTwo = (session: Session) => STAGE_TWO_PHASES.includes(session.phase);
 /** The car is driven in stages II and III: engine, handbrake, stall and contact events are judged. */
 const driving = (session: Session) => inStageTwo(session) || STAGE_THREE_PHASES.includes(session.phase);
@@ -272,7 +348,8 @@ function fault(
   escalate = false,
   cause?: 'fault' | 'examiner',
 ): Session {
-  const ledger = recordFault(session.ledger, { ruleId, atS: session.timeS, episode, escalate, cause });
+  const stage = stageOf(session.phase, session.scope);
+  const ledger = recordFault(session.ledger, { ruleId, atS: session.timeS, stage, episode, escalate, cause });
   const next: Session = { ...session, ledger };
   if (ledger.interruption && session.phase !== 'recognition') return finish(next);
   return cutoff(next);
@@ -401,7 +478,7 @@ function onReady(session: Session): Session {
       };
       const first = reset.queue[0];
       return first
-        ? { ...reset, phase: 'recognition', prompt: { kind: 'recognise', target: first } }
+        ? { ...enter(reset, 'recognition'), prompt: { kind: 'recognise', target: first } }
         : enter(reset, 'preparation');
     }
     case 'preparation': {
@@ -409,7 +486,8 @@ function onReady(session: Session): Session {
       if (!next.adjusted.seat) next = fault(next, 'rule.minor.c-seat-adjustment');
       if (!next.adjusted.headrest) next = fault(next, 'rule.minor.d-headrest-adjustment');
       if (next.adjusted.mirrors.length < MIRROR_IDS.length) next = fault(next, 'rule.high.a-mirrors-not-checked');
-      return cutoff(enter({ ...next, completedStages: [...next.completedStages, 'I'] }, 'unlock'));
+      const done = completeStage(next, 'I');
+      return next.scope.to === 'I' ? finish(done) : cutoff(enter(done, 'unlock'));
     }
     case 'parking':
       // "I am done": the final position is measured at the next step, once the car is known to be stopped.
@@ -564,7 +642,10 @@ export function settleCirculation(session: Session, verdict: Pick<Verdict, 'repo
   const next = applyReports(session, verdict.reports);
   if (next.phase === 'finished') return next;
   // Back on the first leg after the eighth: stage II is complete and the parking of stage III begins.
-  if (verdict.done) return enter({ ...next, completedStages: [...next.completedStages, 'II'] }, 'parking');
+  if (verdict.done) {
+    const done = completeStage(next, 'II');
+    return next.scope.to === 'II' ? finish(done) : enter(done, 'parking');
+  }
   return next;
 }
 
@@ -589,7 +670,7 @@ function onLeavingStep(session: Session, car: CarState, cockpit: CockpitState): 
   if (!session.parking.doorOpened) return session;
   const reports = judgeDescent(session.parking, car, cockpit, session.kind);
   const next = applyReports(session, reports);
-  return finish({ ...next, completedStages: [...next.completedStages, 'III'] });
+  return finish(completeStage(next, 'III'));
 }
 
 /**

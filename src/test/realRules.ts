@@ -6,3 +6,4 @@ import type { ParkingBand, Rule } from '../content/schemas.ts';
 const catalog = RuleCatalogSchema.parse(rulesJson);
 export const REAL_RULES: readonly Rule[] = catalog.rules;
 export const REAL_BANDS: readonly ParkingBand[] = catalog.parkingBands;
+export const REAL_RULE_CATALOG = catalog;

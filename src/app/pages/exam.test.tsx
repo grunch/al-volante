@@ -1,11 +1,16 @@
-import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import routeData from '../../../specs/route/comuna13-a.json';
 import { RouteSchema } from '../../content/schemas.ts';
+import { DRIVING_MODES, slugOfMode } from '../../exam/modes.ts';
+import { createSession } from '../../exam/session.ts';
+import { createDrivingAttempt } from '../../progress/model.ts';
+import { createMemoryStore } from '../../progress/storage.ts';
+import type { ProgressStore } from '../../progress/storage.ts';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
 import { REAL_RULES } from '../../test/realRules.ts';
-import { EXAM_COPY } from '../../i18n/es-AR.ts';
+import { CITY_COPY, EXAM_COPY, LOGBOOK_COPY, TRACK_COPY } from '../../i18n/es-AR.ts';
 
 /** The fixture content with the real rule catalog and the real route: the exam runs on the city (F04-T03). */
 const content = () => {
@@ -168,5 +173,215 @@ describe('exam page', { timeout: 30000 }, () => {
     renderApp('/');
 
     expect(await screen.findByRole('link', { name: EXAM_COPY.homeLink })).toHaveAttribute('href', '/examen');
+  });
+});
+
+describe('exam modes, card and logbook (F04-T05)', () => {
+  let callbacks: FrameRequestCallback[];
+  let clock: number;
+
+  beforeEach(() => {
+    callbacks = [];
+    clock = 0;
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => callbacks.push(callback));
+    vi.stubGlobal('cancelAnimationFrame', vi.fn());
+  });
+
+  afterEach(() => vi.unstubAllGlobals());
+
+  const runFrames = (frames: number) => {
+    for (let i = 0; i < frames; i += 1) {
+      const callback = callbacks.shift();
+      clock += 1000 / 60;
+      act(() => callback?.(clock));
+    }
+  };
+
+  async function openExam(path: string, store?: ProgressStore) {
+    renderApp(path, readyContent(content()), store);
+    const canvas = await screen.findByRole('application', { name: EXAM_COPY.canvasLabel });
+    await waitFor(() => {
+      runFrames(10);
+      expect(canvas).toHaveAttribute('data-state', 'ready');
+    });
+    return canvas;
+  }
+
+  it('offers the four modes, runs the three stages by default, and changes mode through the URL', async () => {
+    await openExam('/examen');
+    const picker = screen.getByRole('group', { name: EXAM_COPY.mode });
+    expect(
+      within(picker)
+        .getAllByRole('radio')
+        .map((radio) => radio.getAttribute('value')),
+    ).toEqual(DRIVING_MODES);
+    expect(within(picker).getByRole('radio', { name: EXAM_COPY.modes.run })).toBeChecked();
+    expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-mode', 'run');
+    expect(screen.queryByTestId('exam-hints')).not.toBeInTheDocument();
+
+    await userEvent.click(within(picker).getByRole('radio', { name: EXAM_COPY.modes.learn }));
+    runFrames(5);
+
+    expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-mode', 'learn');
+    expect(screen.getByTestId('exam-hints')).toHaveTextContent(EXAM_COPY.learnHints.familiarisation.hint);
+  });
+
+  it('hides every aid in the exam mode and keeps only what the examiner says', async () => {
+    await openExam('/examen?modo=rendir');
+
+    expect(screen.getByRole('radio', { name: EXAM_COPY.modes.exam })).toBeChecked();
+    expect(screen.getByTestId('exam-hud')).toHaveAttribute('data-aids', '');
+    expect(screen.getByTestId('exam-no-aids')).toHaveTextContent(EXAM_COPY.examNoAids);
+    for (const aid of ['exam-points', 'exam-notice', 'exam-limits', 'exam-light', 'exam-parking', 'exam-kerb'])
+      expect(screen.queryByTestId(aid)).not.toBeInTheDocument();
+    expect(screen.queryByText(EXAM_COPY.faults)).not.toBeInTheDocument();
+    expect(screen.queryByText(EXAM_COPY.reverseCm)).not.toBeInTheDocument();
+    // What the examiner says stays: the phase prompt and the next turn.
+    expect(screen.getByTestId('examiner-says')).toHaveTextContent(EXAM_COPY.phases.familiarisation);
+    expect(screen.getByTestId('exam-instruction')).toHaveTextContent(EXAM_COPY.instruction('right', 'Av. Cabildo'));
+    expect(screen.getByTestId('exam-leg')).toHaveTextContent(EXAM_COPY.leg(1, 'Quesada'));
+  });
+
+  it('shows the card per stage at the end and stores the attempt in the logbook', async () => {
+    const store = createMemoryStore();
+    await openExam('/examen?modo=rendir', store);
+
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
+    runFrames(5);
+
+    const card = screen.getByTestId('exam-card');
+    expect(within(card).getByTestId('exam-result')).toHaveAttribute('data-result', 'disapproved');
+    expect(within(card).getByTestId('exam-result')).toHaveTextContent(EXAM_COPY.verdicts.interruption);
+    expect(within(card).getByTestId('exam-card-stage-I')).toHaveAttribute('data-completed', 'false');
+    expect(within(card).getByTestId('exam-card-stage-I')).toHaveTextContent(EXAM_COPY.stageIncomplete);
+    expect(within(card).getByTestId('exam-card-stage-II')).toHaveTextContent(EXAM_COPY.stageIncomplete);
+    expect(within(card).getByTestId('exam-card-stage-III')).toHaveTextContent(EXAM_COPY.stageIncomplete);
+    expect(within(card).getByTestId('exam-card-total')).toHaveTextContent(EXAM_COPY.total(0));
+    expect(within(card).getByText(EXAM_COPY.approximationsHeading)).toBeInTheDocument();
+    // The points appear once the exam is over, even in the exam mode.
+    expect(screen.getByTestId('exam-points')).toHaveTextContent('0');
+    await waitFor(() => expect(screen.getByTestId('exam-saved')).toHaveAttribute('data-save', 'saved'));
+
+    const { snapshot } = await store.load();
+    expect(snapshot.attempts).toHaveLength(1);
+    expect(snapshot.attempts[0]).toMatchObject({
+      kind: 'driving',
+      mode: 'exam',
+      subjectId: 'route.comuna13-a',
+      result: { correct: false, points: 0 },
+    });
+    expect(snapshot.attempts[0]?.events.find((event) => event.type === 'interruption')?.payload).toEqual({
+      cause: 'driver-request',
+      ruleId: null,
+    });
+  });
+
+  it('a save still running when the exam restarts does not report on the new exam', async () => {
+    // Arrange: every write waits until the test releases it.
+    const memory = createMemoryStore();
+    const releases: (() => void)[] = [];
+    const store: ProgressStore = {
+      ...memory,
+      record: async (...args) => {
+        await new Promise<void>((resolve) => releases.push(resolve));
+        return memory.record(...args);
+      },
+    };
+    await openExam('/examen?modo=rendir', store);
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
+    runFrames(5);
+    await waitFor(() => expect(releases).toHaveLength(1));
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.restart }));
+    runFrames(5);
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
+    runFrames(5);
+    expect(screen.getByTestId('exam-saved')).toHaveAttribute('data-save', 'saving');
+
+    // Act: the first exam's write ends while the second one's is still pending.
+    act(() => releases[0]?.());
+    await waitFor(() => expect(releases).toHaveLength(2));
+
+    // Assert
+    expect(screen.getByTestId('exam-saved')).toHaveAttribute('data-save', 'saving');
+    act(() => releases[1]?.());
+    await waitFor(() => expect(screen.getByTestId('exam-saved')).toHaveAttribute('data-save', 'saved'));
+    expect((await store.load()).snapshot.attempts).toHaveLength(2);
+  });
+
+  it('does not store the guided learning, and says so', async () => {
+    const store = createMemoryStore();
+    await openExam('/examen?modo=aprender', store);
+
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
+    runFrames(5);
+
+    expect(screen.getByTestId('exam-saved')).toHaveTextContent(EXAM_COPY.notSaved);
+    expect((await store.load()).snapshot.attempts).toHaveLength(0);
+  });
+
+  it('practises stage III from leg 8 with the engine running, and stage I by default', async () => {
+    const canvas = await openExam('/examen?modo=practicar&etapa=3');
+
+    expect(screen.getByRole('radio', { name: EXAM_COPY.modes.practice })).toBeChecked();
+    expect(screen.getByRole('combobox', { name: EXAM_COPY.stage })).toHaveValue('3');
+    expect(screen.getByTestId('exam-stage-help')).toHaveTextContent(EXAM_COPY.practiceStart.III);
+    expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'circulation');
+    expect(screen.getByTestId('exam-leg')).toHaveTextContent(EXAM_COPY.leg(8, 'Vuelta de Obligado'));
+    expect(canvas).toHaveAttribute('data-engine', 'running');
+
+    fireEvent.change(screen.getByRole('combobox', { name: EXAM_COPY.stage }), { target: { value: '1' } });
+    runFrames(5);
+
+    expect(screen.getByTestId('exam-stage-help')).toHaveTextContent(EXAM_COPY.practiceStart.I);
+    expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'familiarisation');
+  });
+
+  it('lists the stored drives in the logbook', async () => {
+    const drive = createDrivingAttempt(
+      {
+        session: {
+          ...createSession(REAL_RULES, 'manual', 1, null, []),
+          phase: 'finished',
+          timeS: 300,
+          completedStages: ['I', 'II', 'III'],
+          transitions: [
+            { phase: 'familiarisation', atS: 0 },
+            { phase: 'unlock', atS: 30 },
+            { phase: 'parking', atS: 250 },
+            { phase: 'finished', atS: 300 },
+          ],
+        },
+        mode: 'run',
+        subjectId: 'route.comuna13-a',
+      },
+      {
+        id: 'drive-1',
+        contentVersion: 'deadbeef',
+        startedAt: '2026-10-12T10:00:00.000Z',
+        finishedAt: '2026-10-12T10:05:00.000Z',
+      },
+    );
+    renderApp('/bitacora', readyContent(content()), createMemoryStore({ attempts: [drive], concepts: [] }));
+
+    const log = await screen.findByTestId('driving-log');
+    const row = within(log).getByRole('listitem');
+    expect(row).toHaveAttribute('data-mode', 'run');
+    expect(row).toHaveAttribute('data-result', 'approved');
+    expect(row).toHaveTextContent(LOGBOOK_COPY.drivingStages(['I', 'II', 'III']));
+    expect(row).toHaveTextContent(LOGBOOK_COPY.drivingPoints(0));
+    expect(row).toHaveTextContent(LOGBOOK_COPY.drivingResults.approved);
+  });
+
+  it('links the four modes from the home page', async () => {
+    renderApp('/');
+
+    const section = await screen.findByTestId('home-driving');
+    for (const mode of DRIVING_MODES)
+      expect(within(section).getByRole('link', { name: EXAM_COPY.homeModes[mode] })).toHaveAttribute(
+        'href',
+        `/examen?modo=${slugOfMode(mode)}`,
+      );
+    expect(within(section).getByRole('link', { name: TRACK_COPY.homeLink })).toHaveAttribute('href', '/pista');
+    expect(within(section).getByRole('link', { name: CITY_COPY.homeLink })).toHaveAttribute('href', '/recorrido');
   });
 });

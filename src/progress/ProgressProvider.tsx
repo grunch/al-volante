@@ -7,7 +7,7 @@ import { useContentState } from '../content/ContentProvider.tsx';
 import { createAttempt, updateConcept } from './model.ts';
 import type { ConceptProgress } from './model.ts';
 import { openProgressStore } from './storage.ts';
-import type { ProgressSnapshot, ProgressStore, RecordResult } from './storage.ts';
+import type { AttemptFactory, ConceptUpdate, ProgressSnapshot, ProgressStore, RecordResult } from './storage.ts';
 
 export interface ProgressData {
   attempts: readonly Attempt[];
@@ -26,10 +26,19 @@ export type ProgressState =
       quarantined: number;
     };
 
+/** What a stored attempt is built with: a fresh id, the stored (monotonic) time and the content version. */
+export interface AttemptContext {
+  id: string;
+  at: string;
+  contentVersion: string;
+}
+
 interface ProgressContextValue {
   state: ProgressState;
   now: () => Date;
   retry: () => void;
+  /** Stores an attempt that trains no concept (a drive, F04-T05); `at` is the time its end is recorded at. */
+  recordAttempt: (build: (context: AttemptContext) => Attempt) => Promise<SaveOutcome>;
   /** Replaces all progress atomically; rejects, leaving progress as it was, when the write fails. */
   replaceAll: (snapshot: ProgressSnapshot) => Promise<void>;
   /** Everything stored right now, other tabs' writes included; what a backup must contain. */
@@ -184,36 +193,16 @@ export function ProgressProvider({
   }, []);
 
   const contentVersion = content.status === 'ready' ? content.version : null;
-  const record = useCallback(
-    (result: ActivityResult): Promise<SaveOutcome> => {
-      void notifyParent(result);
-      if (contentVersion === null) return Promise.resolve('not-recorded');
-      return enqueue(async (): Promise<SaveOutcome> => {
+  /** Writes one attempt (and its concepts) through the queue, then shows what is stored. */
+  const persist = useCallback(
+    (factory: AttemptFactory, unitIds: readonly string[], update: ConceptUpdate): Promise<SaveOutcome> =>
+      enqueue(async (): Promise<SaveOutcome> => {
         const store = storeRef.current;
         // No store means it could not be opened; the logbook shows that error.
         if (!store) return 'not-recorded';
-        const { correct } = result.evaluation;
         let saved: RecordResult;
         try {
-          // The store hands over the latest stored attempt time inside its write transaction.
-          saved = await store.record(
-            (latestAttemptAt) =>
-              createAttempt(
-                {
-                  activityId: result.activity.id,
-                  unitIds: result.activity.unitIds,
-                  variantId: result.evaluation.variantId,
-                  seed: result.presentation.seed,
-                  response: result.response,
-                  correct,
-                  score: result.evaluation.score,
-                  mode: 'practice',
-                },
-                { id: createId(), at: monotonicTime(now(), latestAttemptAt), contentVersion },
-              ),
-            result.activity.unitIds,
-            (unitId, previous, at) => updateConcept(previous, unitId, correct, at),
-          );
+          saved = await store.record(factory, unitIds, update);
         } catch (error) {
           console.error('Could not save the attempt', error);
           setUnsaved((count) => count + 1);
@@ -233,9 +222,52 @@ export function ProgressProvider({
           }
         }
         return 'saved';
-      });
+      }),
+    [enqueue, announce, refresh],
+  );
+
+  const record = useCallback(
+    (result: ActivityResult): Promise<SaveOutcome> => {
+      void notifyParent(result);
+      if (contentVersion === null) return Promise.resolve('not-recorded');
+      const { correct } = result.evaluation;
+      // The store hands over the latest stored attempt time inside its write transaction.
+      return persist(
+        (latestAttemptAt) =>
+          createAttempt(
+            {
+              activityId: result.activity.id,
+              unitIds: result.activity.unitIds,
+              variantId: result.evaluation.variantId,
+              seed: result.presentation.seed,
+              response: result.response,
+              correct,
+              score: result.evaluation.score,
+              mode: 'practice',
+            },
+            { id: createId(), at: monotonicTime(now(), latestAttemptAt), contentVersion },
+          ),
+        result.activity.unitIds,
+        (unitId, previous, at) => updateConcept(previous, unitId, correct, at),
+      );
     },
-    [notifyParent, contentVersion, createId, now, enqueue, announce, refresh],
+    [notifyParent, contentVersion, createId, now, persist],
+  );
+
+  const recordAttempt = useCallback(
+    (build: (context: AttemptContext) => Attempt): Promise<SaveOutcome> => {
+      if (contentVersion === null) return Promise.resolve('not-recorded');
+      return persist(
+        (latestAttemptAt) => build({ id: createId(), at: monotonicTime(now(), latestAttemptAt), contentVersion }),
+        [],
+        (unitId, previous) => {
+          // No concept is trained by a drive; the store never calls this with an empty unit list.
+          if (!previous) throw new Error(`unexpected concept update for ${unitId}`);
+          return previous;
+        },
+      );
+    },
+    [contentVersion, createId, now, persist],
   );
 
   const replaceAll = useCallback(
@@ -265,8 +297,8 @@ export function ProgressProvider({
   const acknowledgeUnsaved = useCallback(() => setUnsaved(0), []);
 
   const value = useMemo(
-    () => ({ state, now, retry, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved }),
-    [state, now, retry, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved],
+    () => ({ state, now, retry, recordAttempt, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved }),
+    [state, now, retry, recordAttempt, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved],
   );
   return (
     <ProgressContext.Provider value={value}>

@@ -3,6 +3,7 @@ import { createMemoryRouter } from 'react-router';
 import { App } from '../app/App.tsx';
 import { routes } from '../app/routes.tsx';
 import type { Content, ContentResult } from '../content/validate.ts';
+import type { ProgressStore } from '../progress/storage.ts';
 import {
   catalog,
   choiceActivity,
@@ -55,10 +56,21 @@ export function readyContent(content: Content = testContent()): () => Promise<Co
   return () => Promise.resolve({ ok: true, content, version: 'deadbeef' });
 }
 
-/** Renders the whole app at `path` with a memory router, a fake renderer and injected content. */
-export function renderApp(path: string, loadContent: () => Promise<ContentResult> = readyContent()) {
+/** Renders the whole app at `path` with a memory router, a fake renderer, injected content and, optionally, a store. */
+export function renderApp(
+  path: string,
+  loadContent: () => Promise<ContentResult> = readyContent(),
+  store?: ProgressStore,
+) {
   const router = createMemoryRouter(routes, { initialEntries: [path] });
-  const utils = render(<App router={router} createRenderer={createFakeRenderer} loadContent={loadContent} />);
+  const utils = render(
+    <App
+      router={router}
+      createRenderer={createFakeRenderer}
+      loadContent={loadContent}
+      {...(store ? { openProgressStore: () => Promise.resolve(store) } : {})}
+    />,
+  );
   return { ...utils, router };
 }
 

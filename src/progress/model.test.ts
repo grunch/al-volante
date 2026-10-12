@@ -1,5 +1,19 @@
 import { describe, expect, it } from 'vitest';
-import { ConceptProgressSchema, MASTERY_BOX, createAttempt, masteryOf, updateConcept } from './model.ts';
+import { AttemptSchema } from '../content/schemas.ts';
+import { attemptErrors } from '../content/validateAttempt.ts';
+import { interrupt, recordFault } from '../exam/scoring.ts';
+import type { Stage } from '../exam/scoring.ts';
+import { createPracticeSession, createSession } from '../exam/session.ts';
+import type { Session } from '../exam/session.ts';
+import { REAL_BANDS, REAL_RULES, REAL_RULE_CATALOG } from '../test/realRules.ts';
+import {
+  ConceptProgressSchema,
+  MASTERY_BOX,
+  createAttempt,
+  createDrivingAttempt,
+  masteryOf,
+  updateConcept,
+} from './model.ts';
 import type { ConceptProgress } from './model.ts';
 
 const DAY = 24 * 60 * 60 * 1000;
@@ -173,5 +187,117 @@ describe('createAttempt', () => {
       response: { kind: 'choice', optionId: 'o' },
       unitIds: ['a', 'b', 'a'],
     });
+  });
+});
+
+describe('createDrivingAttempt (F04-T05)', () => {
+  const session = (faults: readonly { ruleId: string; stage: Stage }[], interrupted = false): Session => {
+    const base = createSession(REAL_RULES, 'manual', 3, null, REAL_BANDS);
+    let ledger = base.ledger;
+    faults.forEach((fault, index) => {
+      ledger = recordFault(ledger, { ...fault, atS: 10 * (index + 1) });
+    });
+    if (interrupted) ledger = interrupt(ledger, 45, 'examiner');
+    return {
+      ...base,
+      phase: 'finished',
+      ledger,
+      timeS: 50,
+      completedStages: interrupted ? ['I'] : ['I', 'II', 'III'],
+      transitions: [
+        { phase: 'familiarisation', atS: 0 },
+        { phase: 'unlock', atS: 5 },
+        ...(interrupted ? [] : [{ phase: 'parking' as const, atS: 30 }]),
+        { phase: 'finished', atS: 50 },
+      ],
+    };
+  };
+  const context = { id: 'drive-1', contentVersion: 'deadbeef', startedAt: T0, finishedAt: at(1) };
+  const outcome = (faults: readonly { ruleId: string; stage: Stage }[], interrupted = false) => ({
+    session: session(faults, interrupted),
+    mode: 'exam' as const,
+    subjectId: 'route.comuna13-a',
+  });
+
+  it('records an approved exam as a correct driving attempt with its points, faults, phases and stages', () => {
+    const attempt = createDrivingAttempt(outcome([{ ruleId: 'rule.minor.c-seat-adjustment', stage: 'I' }]), context);
+
+    expect(attempt).toMatchObject({
+      id: 'drive-1',
+      kind: 'driving',
+      subjectId: 'route.comuna13-a',
+      contentVersion: 'deadbeef',
+      mode: 'exam',
+      startedAt: T0,
+      finishedAt: at(1),
+      result: { correct: true, score: null, points: 1 },
+    });
+    expect(attempt.faults).toEqual([
+      { ruleId: 'rule.minor.c-seat-adjustment', at: new Date(Date.parse(T0) + 10_000).toISOString(), points: 1 },
+    ]);
+    expect(attempt.events.map((event) => event.type)).toEqual([
+      'start',
+      'phase',
+      'phase',
+      'phase',
+      'phase',
+      'stage-completed',
+      'stage-completed',
+      'stage-completed',
+      'finished',
+    ]);
+    expect(attempt.events[0]?.payload).toEqual({ transmission: 'manual', seed: 3, scope: { from: 'I', to: 'III' } });
+    expect(attempt.events.at(-1)?.payload).toEqual({
+      result: 'approved',
+      points: 1,
+      completedStages: ['I', 'II', 'III'],
+    });
+    expect(AttemptSchema.safeParse(attempt).success).toBe(true);
+    expect(attemptErrors(attempt, REAL_RULE_CATALOG)).toEqual([]);
+  });
+
+  it('records an interrupted exam as incorrect, with the interruption event and the stages completed so far', () => {
+    // A takeover without a scorable fault: the examiner interrupts on top of a minor fault (D7 records i; here the
+    // ledger is interrupted directly to keep the fixture small).
+    const attempt = createDrivingAttempt(outcome([{ ruleId: 'rule.low.d-engine-stall', stage: 'II' }], true), context);
+
+    expect(attempt.result).toEqual({ correct: false, score: null, points: 2 });
+    const interruption = attempt.events.find((event) => event.type === 'interruption');
+    expect(interruption?.payload).toEqual({ cause: 'examiner', ruleId: null });
+    expect(interruption?.at).toBe(new Date(Date.parse(T0) + 45_000).toISOString());
+    expect(attempt.events.at(-1)?.payload).toMatchObject({ result: 'disapproved', completedStages: ['I'] });
+    expect(AttemptSchema.safeParse(attempt).success).toBe(true);
+  });
+
+  it('records a practice of one stage with the result pending (correct null)', () => {
+    const practice: Session = {
+      ...createPracticeSession(REAL_RULES, 'automatic', 1, null, REAL_BANDS, 'I'),
+      phase: 'finished',
+      completedStages: ['I'],
+      transitions: [
+        { phase: 'familiarisation', atS: 0 },
+        { phase: 'finished', atS: 20 },
+      ],
+    };
+
+    const attempt = createDrivingAttempt({ session: practice, mode: 'practice', subjectId: 'route.x' }, context);
+
+    expect(attempt.result).toEqual({ correct: null, score: null, points: 0 });
+    expect(attempt.events[0]?.payload).toEqual({ transmission: 'automatic', seed: 1, scope: { from: 'I', to: 'I' } });
+    expect(AttemptSchema.safeParse(attempt).success).toBe(true);
+  });
+
+  it('keeps every time inside the attempt when the clocks disagree with the simulation', () => {
+    // The wall clock says the attempt lasted 5 s, but the simulation ran 50 s (a slow tab, a corrected clock).
+    const short = { ...context, finishedAt: new Date(Date.parse(T0) + 5_000).toISOString() };
+    const attempt = createDrivingAttempt(outcome([{ ruleId: 'rule.minor.c-seat-adjustment', stage: 'I' }]), short);
+
+    expect(attempt.faults[0]?.at).toBe(short.finishedAt);
+    expect(attempt.events.every((event) => event.at >= T0 && event.at <= short.finishedAt)).toBe(true);
+    expect(AttemptSchema.safeParse(attempt).success).toBe(true);
+    // A start after the end (the latest stored attempt pushed the end back) collapses to the end.
+    const inverted = createDrivingAttempt(outcome([]), { ...context, startedAt: at(2), finishedAt: at(1) });
+    expect(inverted.startedAt).toBe(at(1));
+    expect(AttemptSchema.safeParse(inverted).success).toBe(true);
   });
 });

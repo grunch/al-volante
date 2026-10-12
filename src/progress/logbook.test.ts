@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { choiceActivity, unit } from '../content/testing/fixtures.ts';
 import type { Activity, Attempt } from '../content/schemas.ts';
-import { progressByGroup, recentErrors, recommendedReview } from './logbook.ts';
+import { drivingLog, progressByGroup, recentErrors, recommendedReview } from './logbook.ts';
 import { MASTERY_BOX, createAttempt } from './model.ts';
 import type { ConceptProgress } from './model.ts';
 
@@ -124,5 +124,44 @@ describe('recommendedReview', () => {
 
     expect(recommendedReview(activities, [], new Map(), NOW)).toEqual([]);
     expect(recommendedReview(activities, [], due, NOW, 1)).toHaveLength(1);
+  });
+});
+
+describe('drivingLog (F04-T05)', () => {
+  const drive = (id: string, at: string, mode: Attempt['mode'], finished: Record<string, unknown> | null): Attempt => ({
+    id,
+    kind: 'driving',
+    subjectId: 'route.comuna13-a',
+    contentVersion: 'deadbeef',
+    mode,
+    startedAt: at,
+    finishedAt: at,
+    events: finished ? [{ at, type: 'finished', payload: finished }] : [],
+    faults: [],
+    result: { correct: null, score: null, points: 3 },
+  });
+
+  it('lists the drives newest first with their mode, completed stages, points and verdict, skipping activities', () => {
+    const approved = drive('a', daysAgo(2), 'exam', {
+      result: 'approved',
+      points: 3,
+      completedStages: ['I', 'II', 'III'],
+    });
+    const practice = drive('b', daysAgo(1), 'practice', { result: 'pending', points: 3, completedStages: ['III'] });
+    const rows = drivingLog([attempt('act.x', true, daysAgo(3)), approved, practice]);
+
+    expect(rows.map((row) => row.attempt.id)).toEqual(['b', 'a']);
+    expect(rows[1]).toMatchObject({ mode: 'exam', completedStages: ['I', 'II', 'III'], points: 3, result: 'approved' });
+    expect(rows[0]).toMatchObject({ mode: 'practice', completedStages: ['III'], points: 3, result: 'pending' });
+  });
+
+  it('reads a drive whose events are missing or malformed from its result alone', () => {
+    const bare = { ...drive('c', daysAgo(1), 'run', null), result: { correct: false, score: null, points: 9 } };
+    const odd = drive('d', daysAgo(2), 'run', { result: 'maybe', points: 'many', completedStages: 'all' });
+
+    const rows = drivingLog([bare, odd]);
+
+    expect(rows[0]).toMatchObject({ mode: 'run', completedStages: [], points: 9, result: 'disapproved' });
+    expect(rows[1]).toMatchObject({ mode: 'run', completedStages: [], points: 3, result: 'pending' });
   });
 });

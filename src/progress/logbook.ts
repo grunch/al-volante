@@ -1,6 +1,8 @@
+import { z } from 'zod';
 import { LEARNING_PATH } from '../app/learningPath.ts';
 import type { PathGroup } from '../app/learningPath.ts';
 import type { Activity, Attempt, KnowledgeUnit } from '../content/schemas.ts';
+import type { ExamResult, Stage } from '../exam/scoring.ts';
 import { masteryOf } from './model.ts';
 import type { ConceptProgress } from './model.ts';
 
@@ -140,4 +142,41 @@ export function recommendedReview(
     suggestions.push({ activity, reason: 'due', dueUnitIds });
   }
   return suggestions.slice(0, limit);
+}
+
+export interface DrivingRow {
+  attempt: Attempt;
+  mode: Attempt['mode'];
+  completedStages: Stage[];
+  points: number | null;
+  result: ExamResult;
+  /** When the drive ended (or started, if it never ended). */
+  at: string;
+}
+
+/** The payload of the `finished` event a drive stores (createDrivingAttempt); anything else is read as unknown. */
+const FinishedPayloadSchema = z.object({
+  result: z.enum(['approved', 'disapproved', 'pending']),
+  completedStages: z.array(z.enum(['I', 'II', 'III'])),
+});
+
+/** Drives of the exam page, newest first, read for the logbook; the verdict comes from the result when it is set. */
+export function drivingLog(attempts: readonly Attempt[]): DrivingRow[] {
+  return attempts
+    .filter((attempt) => attempt.kind === 'driving')
+    .sort((a, b) => attemptTime(b) - attemptTime(a))
+    .map((attempt) => {
+      const finished = attempt.events.find((event) => event.type === 'finished');
+      const payload = finished ? FinishedPayloadSchema.safeParse(finished.payload) : null;
+      const fromResult: ExamResult | null =
+        attempt.result.correct === null ? null : attempt.result.correct ? 'approved' : 'disapproved';
+      return {
+        attempt,
+        mode: attempt.mode,
+        completedStages: payload?.success ? payload.data.completedStages : [],
+        points: attempt.result.points,
+        result: fromResult ?? (payload?.success ? payload.data.result : 'pending'),
+        at: attempt.finishedAt ?? attempt.startedAt,
+      };
+    });
 }

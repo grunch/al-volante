@@ -743,3 +743,43 @@ a {
 .cockpit-shell a {
   color: #a4e9d6;
 }
+
+.exam-mode__help {
+  flex-basis: 100%;
+  margin: var(--space-1) 0 0;
+  font-size: 0.875rem;
+}
+
+.exam-learn {
+  padding: var(--space-2) var(--space-3);
+  border-left: 4px solid var(--color-accent, #2b5797);
+  background: #f3f6fb;
+}
+
+.exam-learn p {
+  margin: var(--space-1) 0;
+}
+
+.exam-card {
+  margin-top: var(--space-4);
+}
+
+.exam-stage {
+  margin: var(--space-3) 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid #d5dbe7;
+  border-radius: 6px;
+}
+
+.exam-stage h3 {
+  margin-top: 0;
+}
+
+.exam-feedback {
+  margin: var(--space-1) 0 0;
+  font-size: 0.875rem;
+}
+
+.home-modes {
+  padding-left: var(--space-4);
+}
