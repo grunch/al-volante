@@ -122,6 +122,20 @@ describe('composeExam', () => {
 
     expect(composeExam(short, units, config, 1).questions).toHaveLength(0);
   });
+
+  it('leaves out activities that also practise units outside the exam sections', () => {
+    const { activities, units } = bank();
+    const guide = unit({ id: 'siniestros.s1.witness-duty', source: 'siniestros', section: 's1' });
+    // The activity lives in ch1 (its first unit), but some of its variants may come from the guide.
+    const mixed = activities.map((activity) =>
+      activity.id === 'act.ch1-two' ? { ...activity, unitIds: [...activity.unitIds, guide.id] } : activity,
+    );
+
+    const paper = composeExam(mixed, [...units, guide], config, 3);
+
+    expect(paper.questions.map((question) => question.activityId)).not.toContain('act.ch1-two');
+    expect(paper.questions.some((question) => question.activityId === 'act.ch1-one')).toBe(true);
+  });
 });
 
 describe('gradeExam', () => {
@@ -198,6 +212,18 @@ describe('the shipped bank (integration)', () => {
       expect(paper.questions).toHaveLength(theoryExam.questions);
       expect(paper.questions.every((question) => question.options.length === theoryExam.optionsPerQuestion)).toBe(true);
       expect(new Set(paper.questions.map((question) => question.sectionKey))).toEqual(new Set(theoryExam.sections));
+      // Every question comes only from licence B material: none of its units is in another section or source.
+      for (const question of paper.questions) {
+        const activity = activities.find((item) => item.id === question.activityId);
+        const keys = (activity?.unitIds ?? []).map((id) => {
+          const owner = units.find((item) => item.id === id);
+          return `${owner?.source}-${owner?.section}`;
+        });
+        expect(
+          keys.every((key) => theoryExam.sections.includes(key)),
+          question.id,
+        ).toBe(true);
+      }
       expect(gradeExam(paper, right, activities, theoryExam)).toMatchObject({
         correct: theoryExam.questions,
         passed: true,

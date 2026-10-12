@@ -32,7 +32,11 @@ interface Candidate {
   sectionKey: string;
 }
 
-/** Choice questions of the configured sections that can offer the configured number of options. */
+/**
+ * Choice questions of the configured sections that can offer the configured number of options. An activity counts
+ * only when every unit it practises is in those sections: variants carry no source of their own, so an activity that
+ * also practises the guide (or any other material) could ask for data outside the licence B exam.
+ */
 function candidatesBySection(
   activities: readonly Activity[],
   units: readonly Pick<KnowledgeUnit, 'id' | 'source' | 'section'>[],
@@ -42,11 +46,15 @@ function candidatesBySection(
     activities.filter((activity) => activity.status === 'reviewed'),
     units,
   );
+  const sectionOf = new Map(units.map((unit) => [unit.id, `${unit.source}-${unit.section}`]));
+  const onlyExamMaterial = (activity: Activity) =>
+    activity.unitIds.every((unitId) => config.sections.includes(sectionOf.get(unitId) ?? ''));
   const pools = new Map<string, Candidate[]>();
   for (const sectionKey of config.sections) {
     const pool: Candidate[] = [];
     for (const activity of bySection.get(sectionKey) ?? []) {
       if (activity.type !== 'single-choice' && activity.type !== 'sign-identification') continue;
+      if (!onlyExamMaterial(activity)) continue;
       for (const variant of activity.variants as ChoiceVariant[]) {
         const wrong = variant.options.filter((option) => !option.correct).length;
         if (wrong >= config.optionsPerQuestion - 1) pool.push({ activity, variant, sectionKey });

@@ -111,6 +111,15 @@ describe('theory mock exam page', () => {
     expect(screen.getByText(THEORY_COPY.unanswered(2))).toBeInTheDocument();
   });
 
+  it('cites the source of each time instead of calling one of them the one in force', async () => {
+    renderApp('/teorico?semilla=4', readyContent(examContent()));
+
+    const times = await screen.findAllByRole('radio');
+    const labels = times.map((radio) => radio.closest('label')?.textContent ?? '');
+    expect(labels).toEqual([THEORY_COPY.timeDefault(45), THEORY_COPY.timeShort(40)]);
+    expect(labels.join(' ')).not.toMatch(/vigente/);
+  });
+
   it('warns that a paper shorter than the exam cannot be passed', async () => {
     renderApp('/teorico?semilla=4', readyContent(testContent()));
 

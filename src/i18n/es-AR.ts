@@ -172,10 +172,10 @@ export const THEORY_COPY = {
   introSummary: (questions: number, pass: number, options: number, minutes: number) =>
     `${questions} preguntas de opción múltiple con ${options} opciones y una sola correcta, tomadas de todo el material de la licencia B y repartidas por tema. Aprobás con ${pass} correctas. Tenés ${minutes} minutos.`,
   notOfficial:
-    'Es un simulacro propio, armado con las actividades revisadas del juego: no es el banco oficial. La cantidad de preguntas, el puntaje y el tiempo siguen la normativa citada abajo.',
+    'Es un simulacro propio, armado con las actividades revisadas del juego: no es el banco oficial. La cantidad de preguntas, el puntaje y el tiempo siguen las fuentes citadas abajo, que no coinciden en el tiempo: 45 minutos según la disposición de 2023 y 40 según el informe de gestión de 2024.',
   timeLegend: 'Tiempo',
-  timeDefault: (minutes: number) => `${minutes} minutos (el de la normativa vigente)`,
-  timeShort: (minutes: number) => `${minutes} minutos (más exigente)`,
+  timeDefault: (minutes: number) => `${minutes} minutos (Disposición 860/2023)`,
+  timeShort: (minutes: number) => `${minutes} minutos (informe de gestión 2024, más exigente)`,
   shortBank: (available: number, questions: number) =>
     `Por ahora hay ${available} preguntas disponibles de las ${questions} del examen: este simulacro no puede aprobarse.`,
   start: 'Empezar el simulacro',

@@ -115,7 +115,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 
 - **Configuración** (`specs/catalog/theory-exam.json`, `TheoryExamConfigSchema`): versión, 40 preguntas, 3 opciones, 34 correctas para aprobar, 45 minutos por defecto y 40 como alternativa, las secciones de la licencia B (introducción, capítulos 1–5 y anexos I y IV) y una fuente por parámetro (`REGLAS.md` §8). `validateTheoryExam` exige que el umbral no supere las preguntas, que las secciones existan, que el tiempo por defecto no se repita entre las alternativas y que cada parámetro tenga fuente.
 - **Hoja** (`src/theory/exam.ts`, `composeExam(activities, units, config, seed)`, pura y reproducible por semilla):
-  - el banco son las variantes de opción única y de identificación de señales de actividades revisadas de esas secciones, que tengan al menos dos opciones incorrectas;
+  - el banco son las variantes de opción única y de identificación de señales de actividades revisadas de esas secciones, que tengan al menos dos opciones incorrectas; una actividad entra solo si todas sus unidades son de esas secciones (las variantes no indican su fuente);
   - las preguntas se reparten por tema en proporción a las unidades de cada sección (`allocate`: resto mayor, las secciones más pesadas primero en los empates), sin pedirle a una sección más de lo que tiene y con al menos una por sección mientras alcancen;
   - dentro de una sección se toma primero una variante por actividad;
   - cada pregunta muestra la correcta y dos incorrectas al azar, en orden aleatorio, sin revelar cuál es la correcta.
