@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test';
 
-// Cold shader compilation with city shadows and three mirrors needs extra time on software WebGL.
-test.describe.configure({ timeout: 120_000 });
+// Cold shader compilation with city shadows and three mirrors needs extra time on software WebGL: «offers the four
+// modes…» takes ~72 s locally and ran out of 120 s on a slower runner, with the same build passing on another one.
+test.describe.configure({ timeout: 240_000 });
 
 test.describe('practical exam on the circuit', () => {
   test('guides from the familiarisation to the recognition on the city, and a stop request disapproves', async ({

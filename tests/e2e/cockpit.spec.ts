@@ -1,11 +1,15 @@
 import { expect, test } from '@playwright/test';
 
+// The detailed cabin (F04-T01-FIX02) renders slowly on software WebGL: the default 30 s per test ran out on a slower
+// CI runner while the same build passed on another one.
+test.describe.configure({ timeout: 90_000 });
+
 test('prepares the cabin, observes and restores the initial state', async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/#/pista');
   const view = page.getByTestId('driving-canvas');
-  await expect(view).toHaveAttribute('data-state', 'ready');
+  await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await view.scrollIntoViewIfNeeded();
   await view.screenshot({ path: testInfo.outputPath('cockpit-front.png') });
   await page.getByRole('button', { name: 'Cinturón', exact: false }).first().click();
@@ -27,7 +31,7 @@ test('prepares the cabin, observes and restores the initial state', async ({ pag
 test('rebinds the key command and retains it after reload', async ({ page }) => {
   await page.goto('/#/pista');
   const view = page.getByTestId('driving-canvas');
-  await expect(view).toHaveAttribute('data-state', 'ready');
+  await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await page.getByText('Configurar teclado', { exact: true }).click();
   const binding = page.getByRole('button', { name: 'Accionar llave KeyK', exact: true });
   await binding.click();
@@ -37,7 +41,7 @@ test('rebinds the key command and retains it after reload', async ({ page }) => 
   await page.keyboard.press('Digit1');
   await expect(view).toHaveAttribute('data-engine', 'running');
   await page.reload();
-  await expect(view).toHaveAttribute('data-state', 'ready');
+  await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await view.focus();
   await page.keyboard.press('Digit1');
   await page.keyboard.press('Digit1');
@@ -47,7 +51,7 @@ test('rebinds the key command and retains it after reload', async ({ page }) => 
 test('records frame timing within a bounded sample window', async ({ page }, testInfo) => {
   await page.goto('/#/pista');
   const view = page.getByTestId('driving-canvas');
-  await expect(view).toHaveAttribute('data-state', 'ready');
+  await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await view.scrollIntoViewIfNeeded();
   const timing = await page.evaluate(async () => {
     const samples: number[] = [];

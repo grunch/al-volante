@@ -66,8 +66,10 @@ test('drives from a route entry with the keyboard and restores the parked state'
   await page.keyboard.press('Space');
   await page.keyboard.up('ArrowDown');
   await page.keyboard.down('ArrowUp');
+  // 3 m take ~2 s of simulation, but software WebGL renders ~1.5 frames a second: 14.8 s of wall clock locally,
+  // more on a slower runner. The wall-clock budget leaves room for that; the distance asserted is the same.
   await expect
-    .poll(async () => Number(await view.getAttribute('data-odometer-m')), { timeout: 20000 })
+    .poll(async () => Number(await view.getAttribute('data-odometer-m')), { timeout: 60000 })
     .toBeGreaterThan(3);
   await page.keyboard.up('ArrowUp');
   await page.getByRole('button', { name: 'Volver al punto de entrada', exact: true }).click();
