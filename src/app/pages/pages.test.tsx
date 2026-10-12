@@ -143,10 +143,42 @@ describe('sign catalog', () => {
       'href',
       '/biblioteca/manual/3',
     );
+    // The activity may practise several signs: the link asks for the variant of this one.
     expect(within(family).getByRole('link', { name: SIGN_COPY.practise })).toHaveAttribute(
       'href',
-      '/actividad/act.stop-sign',
+      '/actividad/act.stop-sign?variante=v1',
     );
+  });
+
+  it('opens the variant asked for in the URL and keeps it while choosing a seed', async () => {
+    const content = testContent();
+    content.activities = [
+      choiceActivity({
+        id: 'act.two-questions',
+        variants: [
+          {
+            id: 'first',
+            prompt: 'Primera pregunta',
+            options: [
+              { id: 'a', text: 'Sí', correct: true, feedback: 'Bien' },
+              { id: 'b', text: 'No', correct: false, feedback: 'No' },
+            ],
+          },
+          {
+            id: 'second',
+            prompt: 'Segunda pregunta',
+            options: [
+              { id: 'a', text: 'Sí', correct: true, feedback: 'Bien' },
+              { id: 'b', text: 'No', correct: false, feedback: 'No' },
+            ],
+          },
+        ],
+      }),
+    ];
+    const { router } = renderApp('/actividad/act.two-questions?variante=second', readyContent(content));
+
+    expect(await screen.findByText('Segunda pregunta')).toBeInTheDocument();
+    expect(router.state.location.search).toMatch(/^\?variante=second&semilla=\d+$/);
   });
 
   it('marks signs kept for reference and is linked from the library', async () => {

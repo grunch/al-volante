@@ -54,10 +54,15 @@ function variantById<T extends { id: string }>(variants: readonly T[], variantId
   return variant;
 }
 
-/** Picks the variant and the presentation order from `seed`; identical seeds give identical presentations. */
-export function presentActivity(activity: Activity, seed: number): Presentation {
+/**
+ * Picks the variant and the presentation order from `seed`; identical seeds give identical presentations. A known
+ * `variantId` (the sign catalog links to the variant of each sign) replaces the variant drawn, not the order.
+ */
+export function presentActivity(activity: Activity, seed: number, variantId?: string): Presentation {
   const random = createRandom(seed);
-  const variantIndex = Math.floor(random() * activity.variants.length);
+  const drawn = Math.floor(random() * activity.variants.length);
+  const requested = activity.variants.findIndex((variant) => variant.id === variantId);
+  const variantIndex = requested === -1 ? drawn : requested;
   const base = { activityId: activity.id, seed };
   switch (activity.type) {
     case 'single-choice':
@@ -188,12 +193,13 @@ const presentationKey = (activity: Activity, seed: number) =>
   JSON.stringify({ ...presentActivity(activity, seed), seed: 0 });
 
 /**
- * The next seed whose presentation really differs: another variant when the activity has several, otherwise at
- * least another order. Falls back to seed + 1 when every nearby seed looks the same.
+ * The next seed whose presentation really differs from the current one (`variantId` when it was requested): another
+ * variant when the activity has several, otherwise at least another order. Falls back to seed + 1 when every nearby
+ * seed looks the same.
  */
-export function nextDistinctSeed(activity: Activity, seed: number): number {
+export function nextDistinctSeed(activity: Activity, seed: number, variantId?: string): number {
   const candidates = Array.from({ length: DISTINCT_SEED_SEARCH }, (_, index) => (seed + index + 1) % SEED_LIMIT);
-  const current = presentActivity(activity, seed);
+  const current = presentActivity(activity, seed, variantId);
   const otherVariant = candidates.find(
     (candidate) => presentActivity(activity, candidate).variantId !== current.variantId,
   );

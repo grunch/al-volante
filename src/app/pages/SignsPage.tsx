@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { SignGraphic } from '../../activities/ui/SignGraphic.tsx';
-import type { Activity, Sign } from '../../content/schemas.ts';
+import type { Sign } from '../../content/schemas.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
 import { SIGN_COPY } from '../../i18n/es-AR.ts';
@@ -28,11 +28,13 @@ export function SignsPage() {
       <p className="lead">{SIGN_COPY.intro}</p>
       <ContentGate>
         {(content) => {
-          const practice = new Map<string, Activity>();
+          // An activity may practise several signs: each card links to the variant of its own sign.
+          const practice = new Map<string, string>();
           for (const activity of content.activities)
             if (activity.type === 'sign-identification' && activity.status === 'reviewed')
               for (const variant of activity.variants)
-                if (!practice.has(variant.signId)) practice.set(variant.signId, activity);
+                if (!practice.has(variant.signId))
+                  practice.set(variant.signId, `/actividad/${activity.id}?variante=${encodeURIComponent(variant.id)}`);
           // Families have spaces ("Señalamiento luminoso"): aria-labelledby takes a list of ids, so ids use the index.
           return groupSigns(content.signs).map(({ family, groups }, index) => (
             <section key={family} aria-labelledby={`signs-family-${index}`} className="map-group">
@@ -42,7 +44,7 @@ export function SignsPage() {
                   {group !== family && <h3>{group.split(' / ').slice(1).join(' / ') || group}</h3>}
                   <ul className="sign-grid">
                     {signs.map((sign) => (
-                      <SignCard key={sign.id} sign={sign} activity={practice.get(sign.id)} />
+                      <SignCard key={sign.id} sign={sign} practiceLink={practice.get(sign.id)} />
                     ))}
                   </ul>
                 </div>
@@ -55,7 +57,7 @@ export function SignsPage() {
   );
 }
 
-function SignCard({ sign, activity }: { sign: Sign; activity: Activity | undefined }) {
+function SignCard({ sign, practiceLink }: { sign: Sign; practiceLink: string | undefined }) {
   return (
     <li className="sign-card">
       <SignGraphic signId={sign.id} description={sign.visual} hasCrop={sign.box !== undefined} />
@@ -70,10 +72,10 @@ function SignCard({ sign, activity }: { sign: Sign; activity: Activity | undefin
         <Link to={`/biblioteca/manual/${sign.page}`}>
           {SIGN_COPY.page} {sign.page}
         </Link>
-        {activity && (
+        {practiceLink && (
           <>
             {' · '}
-            <Link to={`/actividad/${activity.id}`}>{SIGN_COPY.practise}</Link>
+            <Link to={practiceLink}>{SIGN_COPY.practise}</Link>
           </>
         )}
       </p>

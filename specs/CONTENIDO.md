@@ -43,7 +43,7 @@ Escala común (`COBERTURA.md`): `pending` → `transcribed` → `reviewed` → `
 
 - **Tipos:** `single-choice` para definiciones y datos; `ordering` solo para procedimientos cuyo orden fija la fuente; `decision` para conductas en situación; `sign-identification` para señales (desde F05-T02): una variante por señal, con distractores del mismo grupo y, cuando el capítulo 3 da la conducta, preguntas de aplicación.
 - **Largo de las opciones:** la correcta no supera en más de 10 caracteres a la más larga de las incorrectas (se delataría).
-- **Texto para quien juega:** sin ids internos (decisiones, issues, archivos), incluidos los motivos de consulta.
+- **Texto para quien juega:** sin ids internos (decisiones, issues, archivos). Vale para enunciados, opciones y devoluciones, y también para los motivos de consulta, que se muestran en la página de sección y en el catálogo de señales (ver «Consulta»).
 - **Una sola respuesta defendible** según la página citada. Distractores plausibles pero claramente incorrectos para quien estudió esa página; sin «todas/ninguna de las anteriores» ni opciones que se delaten por su largo.
 - **Devolución por opción:** la correcta confirma y explica; cada incorrecta dice por qué no y cuál es el dato correcto. La `explanation` enseña la regla completa con su cita.
 - **Español rioplatense con voseo**, claro y breve. Ids y claves en inglés.
@@ -55,6 +55,8 @@ Escala común (`COBERTURA.md`): `pending` → `transcribed` → `reviewed` → `
 ## Decisiones sobre discrepancias
 
 Política (`COBERTURA.md`): ninguna pregunta depende de un dato no resuelto. Cuando dos fuentes difieren se evalúa lo que comparten o la versión verificada, y la diferencia se explica citando ambas. Las verificaciones externas indican fecha y fuente.
+
+Citas: «manual PDF n» y «guía PDF n» son páginas físicas de `fuentes/pdf/manual.pdf` y `fuentes/pdf/siniestros.pdf`. Dentro de una decisión, «PDF n» sin otra indicación es del manual.
 
 ### F05-T01
 
@@ -79,7 +81,7 @@ Política (`COBERTURA.md`): ninguna pregunta depende de un dato no resuelto. Cua
 
 ### F05-T02
 
-- **D-T02-1 Cordón amarillo** (PDF 60: «prohibición de estacionar durante las 24 horas»; PDF 196: «prohibición de estacionar, pudiendo detenerse»): se evalúa solo lo que comparten, que el cordón amarillo prohíbe estacionar. No se evalúa si se puede detener ni el «24 horas». El cordón anaranjado (solo PDF 60) se evalúa citando PDF 60.
+- **D-T02-1 Cordón amarillo** (manual PDF 60: «prohibición de estacionar durante las 24 horas»; manual PDF 196: «prohibición de estacionar, pudiendo detenerse»): se evalúa solo lo que comparten, que el cordón amarillo prohíbe estacionar. No se evalúa si se puede detener ni el «24 horas». El cordón anaranjado (solo manual PDF 60) se evalúa citando esa página.
 - **D-T02-2 Estacionar en pasajes** (PDF 84: el texto lo prohíbe en pasajes de calzada de hasta 4,5 m y la infografía en todos): se evalúa la prohibición en pasajes de calzada de hasta 4,5 m, que ambas incluyen; no se pregunta por pasajes más anchos.
 - **D-T02-3 Referencias erradas** («Anexo V», «Ley 2449», PDF 58, 59, 77): no se pregunta por números de anexo, ley ni artículo.
 - **D-T02-4 Velocidades** (PDF 72–74): se evalúan los límites generales de CABA (20/40/60/100) y los de fuera de CABA que da el manual, citándolo; la velocidad de calles de convivencia queda fuera (D-T01-1). Las excepciones por avenida (Corrientes, Gral. Paz, Figueroa Alcorta, etc.) no se evalúan: la propia página dice que la autoridad las modifica por tramos y pueden haber cambiado; se estudian como consulta en la unidad.
