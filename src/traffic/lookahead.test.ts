@@ -2,7 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { overlaps } from '../sim/collision.ts';
 import type { OrientedBox } from '../sim/collision.ts';
 import type { ActorPose } from '../sim/scenario.ts';
-import { leaderAhead } from './lookahead.ts';
+import routeData from '../../specs/route/comuna13-a.json';
+import { buildCity, offsetPoint } from '../city/model.ts';
+import { RouteSchema } from '../content/schemas.ts';
+import { leaderAhead, lookAhead } from './lookahead.ts';
+import { pointAlong } from './network.ts';
+import { createTraffic, createTrafficState } from './traffic.ts';
 
 const car: OrientedBox = { centerX: 0, centerZ: 0, halfLengthM: 2.15, halfWidthM: 0.875, headingRad: 0 };
 
@@ -42,5 +47,36 @@ describe('the vehicle ahead', () => {
     expect(leaderAhead([vehicleAt('crossing', 8, Math.PI / 2)], car)).toBeNull();
     expect(leaderAhead([vehicleAt('oncoming', 8, Math.PI)], car)).toBeNull();
     expect(leaderAhead([vehicleAt('crossing', 8, Math.PI / 2), vehicleAt('ahead', 20, 0)], car)?.pose.id).toBe('ahead');
+  });
+});
+
+describe('the vehicle ahead on the route', () => {
+  const city = buildCity(RouteSchema.parse(routeData));
+  const traffic = createTraffic(city, 1);
+  const lap = traffic.network.paths.find((path) => path.id === 'lap')!;
+  const at = (s: number, leftM: number): OrientedBox => {
+    const { point, headingRad } = pointAlong(lap, s);
+    const centre = offsetPoint(point, headingRad, leftM);
+    return { centerX: centre.x, centerZ: centre.z, halfLengthM: 2.15, halfWidthM: 0.875, headingRad };
+  };
+  const vehicleOnLap = (s: number): ActorPose => {
+    const box = at(s, 0);
+    return {
+      id: 'ahead',
+      kind: 'vehicle',
+      x: box.centerX,
+      z: box.centerZ,
+      headingRad: box.headingRad,
+      active: true,
+      box,
+      inside: (zone) => overlaps(box, zone),
+    };
+  };
+  const view = (car: OrientedBox) =>
+    lookAhead(traffic, { ...createTrafficState(traffic), poses: [vehicleOnLap(300)] }, car).leader;
+
+  it('follows the vehicle on the route’s line while the car keeps to it, not from the next lane', () => {
+    expect(view(at(285, 0))?.gapM).toBeCloseTo(15 - 2.15 - 2.15, 1);
+    expect(view(at(285, 2.6))).toBeNull();
   });
 });

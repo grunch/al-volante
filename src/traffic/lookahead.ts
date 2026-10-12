@@ -129,7 +129,8 @@ export function lookAhead(traffic: Traffic, state: TrafficState, carBody: Orient
   const empty: DriverView = { routeS: null, signal: null, crossing: null, crosswalk: null, leader: null };
   // Through a corner the car's heading lags: the way the route takes over the next 20 m also counts.
   const route: LeaderRoute | undefined =
-    lap && front !== null
+    // Only while the car itself keeps to the route's line: after a lane change the line is someone else's lane.
+    lap && front !== null && locateOnPath(lap, { x: carBody.centerX, z: carBody.centerZ }, LEADER_LATERAL_M)
       ? {
           ways: [0, 5, 10, 15, 20].map((aheadM) => pointAlong(lap, front + aheadM).headingRad),
           locate: (point) => {
