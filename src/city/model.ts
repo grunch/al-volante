@@ -1,3 +1,4 @@
+import { planStreetParking } from './streetParking.ts';
 import type { Route } from '../content/schemas.ts';
 import type { Point, OrientedBox } from '../sim/collision.ts';
 import { overlaps } from '../sim/collision.ts';
@@ -281,7 +282,14 @@ export function buildCity(route: Route): City {
     legs,
     roads,
     controls,
-    world: { surface: DRY_ASPHALT, obstacles: curbObstacles(roads), markings },
+    world: {
+      surface: DRY_ASPHALT,
+      obstacles: [
+        ...curbObstacles(roads),
+        ...planStreetParking(roads, [parked, ...legs.map((leg) => sampleLeg({ legs }, leg.number, 18))]),
+      ],
+      markings,
+    },
     start: { status: 'approximation', pose: parked },
   };
 }

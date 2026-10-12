@@ -2,7 +2,7 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-12 (correctivo gráfico F04-T01-FIX03 con Blender; integra `main` con #36, `c71a289`, y el correctivo de E2E #37).
+Última actualización: 2026-10-12 (F04-T01-FIX05: inmersión visual y sonora; #35 y #37 fusionados).
 
 ## Fase activa
 
@@ -11,11 +11,12 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
 - **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
 - **Fase 5 — Todo el contenido y simulacros teóricos: tareas fusionadas.** F05-T05 ([#33](https://github.com/grunch/al-volante/pull/33)) se integró en `main` con `9dd6d9e`. Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
-- **F04-T01-FIX03 — detalle gráfico con Blender:** rama `f04-t01-fix03-blender-detail`, base `main` en `f3d2f60`, worktree independiente. [PR #35](https://github.com/grunch/al-volante/pull/35), implementación `1f1195b`, validación local aprobada. Codex sin observaciones sobre `1f1195b`; CodeRabbit sin comentarios accionables sobre `c7e655c`, y agregó docstrings en `30db45a`. Integra `main` (`c71a289`, con #36) y el correctivo de E2E #37. Doce familias de modelos originales y superficies generadas con Blender, tras revisar otra vez las 35 referencias. No inicia fase 6.
+- **F04-T01-FIX05 — inmersión visual y sonora:** rama `f04-t01-fix05-route-immersion`, base `main` en `132409a`, worktree independiente. Pedido explícito de más detalle desde las 35 fotos, Blender, sonido y pruebas; PR en preparación. [Alcance y reproducción](INMERSION_RECORRIDO.md). No inicia el resto de la fase 6.
+- **F04-T01-FIX03 — detalle gráfico con Blender, fusionado en `132409a`:** rama `f04-t01-fix03-blender-detail`, base `main` en `f3d2f60`, worktree independiente. [PR #35](https://github.com/grunch/al-volante/pull/35), implementación `1f1195b`, validación local aprobada. Codex sin observaciones sobre `1f1195b`; CodeRabbit sin comentarios accionables sobre `c7e655c`, y agregó docstrings en `30db45a`. Integra `main` (`c71a289`, con #36) y el correctivo de E2E #37. Doce familias de modelos originales y superficies generadas con Blender, tras revisar otra vez las 35 referencias. No inicia fase 6.
 - **F04-T01-FIX02 — experiencia de conducción, fusionado:** [#34](https://github.com/grunch/al-volante/pull/34), merge `f3d2f60` del 2026-10-12 20:51 UTC. El E2E de `main` posterior a la fusión se canceló por tiempos de reloj justos con WebGL por software, no por un error de código (el mismo árbol pasó en la corrida del PR); lo corrige F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37)).
 - **F04-T05-FIX01 — guía de manejo del examen práctico:** [#36](https://github.com/grunch/al-volante/pull/36), fusionado por el usuario en `main` (`c71a289`). Pedido puntual del usuario; no inicia fase 6. Detalle en la sección de la tarea.
 - **F04-T01-FIX01 — referencias visuales, fusionado en `9bc0257`:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
-- **F04-T01-FIX04 — E2E con margen para WebGL por software:** rama `f04-t01-fix04-e2e-budgets`, desde `main` (`f3d2f60`), [#37](https://github.com/grunch/al-volante/pull/37). Repara la CI roja de `main` tras #34 (tiempos de reloj justos, sin error de código); #37 integra `main` con #36 (`c71a289`) y #35 integra #37.
+- **F04-T01-FIX04 — E2E con margen para WebGL por software, fusionado en `a39dd41`:** rama `f04-t01-fix04-e2e-budgets`, desde `main` (`f3d2f60`), [#37](https://github.com/grunch/al-volante/pull/37). Repara la CI roja de `main` tras #34 (tiempos de reloj justos, sin error de código); #37 integra `main` con #36 (`c71a289`) y #35 integra #37.
 - Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -463,6 +464,15 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - PR [#36](https://github.com/grunch/al-volante/pull/36), implementación `d73a185`; fusionado por el usuario en `main` (`c71a289`, 21:56 UTC). CodeRabbit: no revisó por el límite de revisiones incluidas («Review limit reached») antes de la fusión. Al fusionarse, el E2E de su CI seguía en curso; el arreglo de esa CI es F04-T01-FIX04 (#37). Codex: completada sobre `d2e7386` (revisión 5496225183), con dos findings documentales, ambos corregidos: faltaba la entrada en CONTINUIDAD y este registro daba F05-T05 por abierta (la integración de `main` trae la fila y la fase activa al día, y se actualizaron #34 y los bloqueos).
 - Integración de `main` (`f3d2f60`, con #34) por merge, sin reescribir historia. El único conflicto fue este registro. #34 cambió el volante con teclas: a más velocidad gira menos, y al soltar la tecla vuelve al centro más despacio que antes. La referencia de teclas dice que gira menos cuanto más rápido se va. Pedales, embrague y freno no cambiaron, así que las mediciones de los 30 cm siguen valiendo.
 
+## Correctivo F04-T01-FIX05 — Inmersión visual y sonora
+
+- Pedido: revisar las 35 imágenes cronológicas y reproducir más detalles sin perjudicar la experiencia; usar Blender, agregar sonidos de conducción y tránsito, ampliar pruebas y crear un nuevo PR. Rama `f04-t01-fix05-route-immersion`, base `main` (`132409a`), worktree independiente.
+- Se ejecutó Blender 5.2.0 LTS: tres nuevas familias de mobiliario y cuatro variantes de distancia. Fachadas, cableado, parches de asfalto y ciclovía revisados; autos estacionados con colisión fuera de carriles, cruces y maniobras de entrada. Audio original de motor, arranque, bocina, cabina y tránsito espacial; volumen/silencio, suspensión y cierre. Detalle y límites en [INMERSION_RECORRIDO.md](INMERSION_RECORRIDO.md).
+- Revisión independiente local adicional: tres findings corregidos con regresiones (intervención al chocar un estacionado, audio estable en cuadros sin avance físico y actualización de LOD/sombras solo al cambiar instancias). También corregidos el cierre de Vite ante fallo al iniciar Chromium y el presupuesto de preparación fría del nuevo test de examen.
+- Blender reproducible: dos catálogos idénticos byte a byte. `npm run check` aprobado con Node 24.21.0: 1.438 pruebas en 79 archivos, cobertura de líneas 96,56 % y ramas 90,18 %, lint, formato, tipos, catálogo y build. 34 E2E focalizados aprobados en Chromium con GPU nativa, escritorio y móvil emulado. Siete escenarios PCM real aprobados. Tras los últimos ajustes de limpieza asíncrona, clic accesible y distancia de detalles pasaron las 51 pruebas afectadas, los dos E2E de audio y el PCM; lint, formato, tipos y build repetidos y aprobados sobre el código final.
+- Rendimiento comparado con #35: 49,4 % menos triángulos y 546 → 536 llamadas de dibujo; 8,47 → 8,83 ms con GPU nativa. SwiftShader mejora un 18,4 % en la muestra y sigue demasiado lento para conducir. Condiciones, capturas y límites en el documento de inmersión. Persiste la advertencia de tamaño: habitáculo 591,21 kB gzip.
+- Codex remoto y CodeRabbit: pendientes de solicitar al crear el PR. La revisión local no reemplaza la autorrevisión del diff.
+
 ## Correctivo F04-T01-FIX03 — Detalle gráfico con Blender
 
 - Pedido: una nueva revisión de las imágenes y mayor nitidez y detalle de calle, árboles, edificios, semáforos, autos y personas, usando Blender, con un nuevo PR. Rama `f04-t01-fix03-blender-detail`, base `main` (`f3d2f60`), worktree independiente; [PR #35](https://github.com/grunch/al-volante/pull/35), implementación `1f1195b`.
@@ -586,7 +596,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-Fase 5 y correctivos #31, #34 y #36 fusionados. Orden: fusionar F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37)) y después F04-T01-FIX03 ([#35](https://github.com/grunch/al-volante/pull/35)), cuando su CI pase con #37 integrado. La fase 6 requiere inicio explícito del usuario.
+Fase 5 y correctivos #31, #34–#37 fusionados. Cerrar la verificación y publicar F04-T01-FIX05, solicitar Codex y CodeRabbit, y registrar sus resultados. No fusionar el nuevo PR como parte de este pedido de creación. La fase 6 completa requiere inicio explícito del usuario.
 
 ### Cierre de la fase 4 contra el plan
 

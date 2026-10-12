@@ -712,6 +712,8 @@ function onEvent(session: Session, event: CarEvent): Session {
     case 'stall':
       return eventFault(session, 'rule.low.d-engine-stall');
     case 'contact':
+      // A parked vehicle is the same physical hazard as a moving vehicle (protocolo PDF 7).
+      if (event.kind === 'vehicle') return onEvent(session, { type: 'actor-contact', actor: 'vehicle' });
       // The collision engine only knows the body touched: speed tells a scrape from a hit (game approximation).
       if (event.kind === 'pole')
         return eventFault(

@@ -905,3 +905,23 @@ a {
 .home-modes {
   padding-left: var(--space-4);
 }
+
+.cockpit-audio {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+.cockpit-audio label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cockpit-audio input {
+  width: 7rem;
+}
+.cockpit-audio button {
+  min-height: 2.75rem;
+}

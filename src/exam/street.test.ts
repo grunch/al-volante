@@ -353,6 +353,25 @@ describe('the examiner takes the dual controls (protocolo PDF 7)', () => {
     expect(driver.session.street.takeover).toBe(true);
   });
 
+  it('a parked-car contact triggers the same examiner intervention as moving traffic, only once', () => {
+    const exam = inCirculation();
+    placeOnLeg(exam, 3, 100);
+    const observation = {
+      type: 'step' as const,
+      car: movingAt(exam, 3),
+      cockpit: exam.driver.cockpit,
+      events: [{ type: 'contact' as const, kind: 'vehicle' as const, obstacleId: 'parked-car', impactSpeedMps: 3 }],
+      dt: SIM_STEP_S,
+      scenario: snapshotWith(exam, []),
+    };
+    exam.driver.see(observation);
+    exam.driver.see(observation);
+    expect(exam.driver.faults).toEqual(['rule.eliminatory.i-reckless-maneuver']);
+    expect(exam.driver.session.street.takeover).toBe(true);
+    expect(exam.driver.session.ledger.interruption?.cause).toBe('examiner');
+    expect(exam.driver.phase).toBe('finished');
+  }, 30_000);
+
   it('hitting a pedestrian raises the yielding fault of that crosswalk to eliminatory; hitting a car is reckless', () => {
     const onFoot = inCirculation();
     const crosswalk = onFoot.circuit.crosswalks.find((item) => item.id === 'crosswalk-intersection-2:leg-3-1:exit')!;

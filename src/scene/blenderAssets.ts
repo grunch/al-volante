@@ -15,6 +15,13 @@ export const ASSET_NAMES = [
   'aircon',
   'drain',
   'manhole',
+  'treeLow',
+  'treeSparseLow',
+  'carLow',
+  'windowLow',
+  'container',
+  'scooter',
+  'bikeRack',
 ] as const;
 export type BlenderAssetName = (typeof ASSET_NAMES)[number];
 const FinishSchema = z.enum(['matte', 'metal', 'paint', 'glass', 'foliage']);

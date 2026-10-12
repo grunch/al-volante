@@ -1,3 +1,5 @@
+import { useDrivingAudio } from '../audio/useDrivingAudio.ts';
+import { AUDIO_COPY } from '../i18n/es-AR.ts';
 import { startTransition, useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import * as THREE from 'three';
@@ -97,6 +99,13 @@ export function DrivingCanvas({
   halted = false,
   onBindingsChange,
 }: DrivingCanvasProps) {
+  const {
+    session: audioRef,
+    settings: audioSettings,
+    status: audioStatus,
+    storageError: audioStorageError,
+    change: changeAudio,
+  } = useDrivingAudio();
   const shellRef = useRef<HTMLElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
   const [displayError, setDisplayError] = useState(false);
@@ -233,6 +242,7 @@ export function DrivingCanvas({
 
   useEffect(() => {
     const container = containerRef.current;
+    const audioSession = audioRef.current;
     if (!container) return;
     let renderer: SceneRenderer;
     try {
@@ -295,6 +305,7 @@ export function DrivingCanvas({
       if (appliedReset !== resetRef.current) {
         appliedReset = resetRef.current;
         driving = fresh();
+        audioSession?.reset();
         lastEvent = null;
         releaseKeys();
         cockpitRef.current = initialCockpit();
@@ -326,6 +337,7 @@ export function DrivingCanvas({
       const { stepper, events } = driving;
       const car = stepper.state;
       const rpm = radSToRpm(car.powertrain.engineRadS);
+      audioSession?.update(car, cockpitRef.current, driving.scenario);
       track.setReducedMotion(reducedMotionRef.current);
       track.update(
         interpolateVehicle(stepper.previous.world.vehicle, car.world.vehicle, driving.alpha),
@@ -377,11 +389,12 @@ export function DrivingCanvas({
       window.removeEventListener('resize', resize);
       window.removeEventListener('blur', releaseKeys);
       document.removeEventListener('visibilitychange', releaseKeys);
+      audioSession?.reset();
       track.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [createRenderer, createScene, world, start, transmission, prepared]);
+  }, [createRenderer, createScene, world, start, transmission, prepared, audioRef]);
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.ctrlKey || event.altKey || event.metaKey) return;
@@ -392,7 +405,14 @@ export function DrivingCanvas({
   };
 
   return (
-    <section ref={shellRef} className="cockpit-shell" aria-label={copy.title}>
+    <section
+      ref={shellRef}
+      className="cockpit-shell"
+      aria-label={copy.title}
+      onClickCapture={() => void audioRef.current?.unlock()}
+      onPointerDownCapture={() => void audioRef.current?.unlock()}
+      onKeyDownCapture={() => void audioRef.current?.unlock()}
+    >
       <div className="cockpit-heading">
         <span>{subtitle}</span>
         <strong>{cockpit.belt ? copy.beltOn : copy.beltOff}</strong>
@@ -402,6 +422,28 @@ export function DrivingCanvas({
         <button type="button" onClick={() => void toggleFullscreen()} aria-pressed={fullscreen}>
           {fullscreen ? copy.exitFullscreen : copy.fullscreen}
         </button>
+      </div>
+      <div className="cockpit-audio" role="group" aria-label={AUDIO_COPY.title}>
+        <button
+          type="button"
+          aria-pressed={audioSettings.muted}
+          onClick={() => changeAudio({ ...audioSettings, muted: !audioSettings.muted })}
+        >
+          {audioSettings.muted ? AUDIO_COPY.unmute : AUDIO_COPY.mute}
+        </button>
+        <label>
+          {AUDIO_COPY.volume}
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            value={Math.round(audioSettings.volume * 100)}
+            onChange={(event) => changeAudio({ ...audioSettings, volume: Number(event.target.value) / 100 })}
+          />
+        </label>
+        <span role="status">{audioSettings.muted ? AUDIO_COPY.muted : AUDIO_COPY[audioStatus]}</span>
+        {audioStorageError && <span role="status">{AUDIO_COPY.storageError}</span>}
       </div>
       {displayError && (
         <p className="cockpit-help" role="status">

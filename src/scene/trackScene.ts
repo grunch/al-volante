@@ -20,6 +20,7 @@ const GROUND_MARGIN_M = 60;
 const GROUND_MIN_SIZE_M = 200;
 
 const OBSTACLE_LOOK: Record<ObstacleKind, { heightM: number; color: THREE.ColorRepresentation }> = {
+  vehicle: { heightM: 1.5, color: '#74858c' },
   wall: { heightM: 2, color: '#8a8f99' },
   pole: { heightM: 1, color: SCENE_COLORS.roadYellow },
   curb: { heightM: 0.15, color: '#d6d0c4' },

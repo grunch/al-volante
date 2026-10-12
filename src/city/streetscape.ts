@@ -1,3 +1,4 @@
+import { neighborhoodDetails } from './neighborhoodDetails.ts';
 import type { City, Road } from './model.ts';
 import { distance, mixPoint, offsetPoint, projectOnRoad, roadBox } from './model.ts';
 import { overlaps } from '../sim/collision.ts';
@@ -87,11 +88,36 @@ export function planStreetscape(city: City): CityPlan {
           });
         }
       }
+      if (road.kind === 'route' && i % 3 === 2 && !onOtherRoad(center, road, 10)) {
+        const patch = offsetPoint(center, road.headingRad, road.widthM * 0.24, -2);
+        add({
+          shape: 'box',
+          position: [patch.x, 0.0355, patch.z],
+          size: [1.15, 0.003, 2.8],
+          heading: road.headingRad + 0.025,
+          color: '#444747',
+          surface: 'pavement',
+          detailDistanceM: 65,
+        });
+        for (let section = 0; section < 4; section++) {
+          const crack = offsetPoint(patch, road.headingRad, Math.sin(section * 2) * 0.08 - 0.64, section * 0.55 - 1.1);
+          add({
+            shape: 'box',
+            position: [crack.x, 0.038, crack.z],
+            size: [0.019, 0.002, 0.6],
+            heading: road.headingRad + Math.sin(section) * 0.18,
+            color: '#343b39',
+            detailDistanceM: 25,
+          });
+        }
+      }
       if (road.cycleTrack) {
         const bike = offsetPoint(center, road.headingRad, road.widthM / 2 + 1.3);
-        box(bike, 2.6, 0.015, length + 0.03, c.cycle, road.headingRad, 0.04);
+        box(bike, 2.6, 0.015, length + 0.03, onOtherRoad(bike, road, 3) ? c.cycle : c.asphalt, road.headingRad, 0.04);
         if (!onOtherRoad(bike, road, 3)) {
-          box(bike, 0.08, 0.012, 2, c.paint, road.headingRad, 0.056);
+          box(bike, 0.07, 0.012, length, '#d2b94e', road.headingRad, 0.056);
+          for (const edge of [-1.15, 1.15])
+            box(offsetPoint(bike, road.headingRad, edge), 0.07, 0.012, length, c.paint, road.headingRad, 0.057);
           box(offsetPoint(center, road.headingRad, road.widthM / 2 + 0.15), 0.18, 0.12, 1.5, c.curb, road.headingRad);
         }
       }
@@ -115,6 +141,9 @@ export function planStreetscape(city: City): CityPlan {
   }
   addFrontages(city, add);
   const furniture = planStreetFurniture(city);
+  const neighborhood = neighborhoodDetails(city);
+  furniture.parts.push(...neighborhood.parts);
+  furniture.labels.push(...neighborhood.labels);
   furniture.parts.forEach(add);
   addBayBarriers(city, add);
   for (const label of furniture.labels) {
@@ -123,7 +152,7 @@ export function planStreetscape(city: City): CityPlan {
     (sector.labels ??= []).push(label);
     sectors.set(key, sector);
   }
-  for (const obstacle of city.world.obstacles) {
+  for (const obstacle of city.world.obstacles.filter((item) => item.kind === 'curb')) {
     const { box: curb } = obstacle;
     const center = { x: curb.centerX, z: curb.centerZ };
     box(center, curb.halfWidthM * 2, 0.15, curb.halfLengthM * 2, c.curb, curb.headingRad);
