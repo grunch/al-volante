@@ -5,6 +5,7 @@ import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import type { City } from './model.ts';
 import { entryPose } from './model.ts';
 import { cityCockpitFactory } from './scene.ts';
+import { createCityRenderer } from './lighting.ts';
 import { createTrafficSource } from '../traffic/traffic.ts';
 import { CITY_COPY as copy } from '../i18n/es-AR.ts';
 
@@ -14,7 +15,7 @@ export function CityDrive({
   transmission,
   resetCount,
   seed,
-  createRenderer,
+  createRenderer = createCityRenderer,
 }: {
   city: City;
   leg: number;

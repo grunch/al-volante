@@ -21,7 +21,7 @@ F04-T01 se inició con «arranca con F04 T01»; el usuario autorizó después F0
 
 ## Aproximaciones que siguen abiertas
 
-No hubo relevamiento en terreno ni se obtuvieron imágenes de calle autorizadas que permitan confirmar PARE, reductor, máximas o cantidad de carriles. La consulta adicional al [dataset oficial de cruces semaforizados](https://data.buenosaires.gob.ar/dataset/cruces-semaforizados) confirma su disponibilidad, pero no resuelve los datos ajenos a ese dataset. Se conserva `single-source` o `discrepancy` donde corresponde; no se elevó ningún estado a `surveyed`.
+No hubo relevamiento en terreno. El 2026-10-12 se recibieron 35 capturas de Street View para referencia visual (ver [REFERENCIAS_VISUALES.md](REFERENCIAS_VISUALES.md)); sus fechas de imagen varían y no acreditan vigencia de PARE, reductor, máximas o cantidad de carriles. La consulta adicional al [dataset oficial de cruces semaforizados](https://data.buenosaires.gob.ar/dataset/cruces-semaforizados) confirma su disponibilidad, pero no resuelve los datos ajenos a ese dataset. Se conserva `single-source` o `discrepancy` donde corresponde; no se elevó ningún estado a `surveyed`.
 
 Cada fila indica qué dato tiene respaldo y qué parte es aproximación del juego. Los datos respaldados vienen del catálogo `route/comuna13-a.json` (OSM y GCBA, ver [RECORRIDO.md](RECORRIDO.md) §1, §4 y §5) o del protocolo; todo lo demás es diseño.
 
@@ -34,14 +34,14 @@ Cada fila indica qué dato tiene respaldo y qué parte es aproximación del jueg
 | Cajón | Respaldado: largo exterior de 6 m (gráfico 4, `fuentes/pdf/protocolo.pdf`, PDF 21). Aproximación: posición a 20 m del comienzo del tramo 1, lado derecho y ancho de 2,4 m. No es un relevamiento de Quesada 2381. |
 | Entrada de otros tramos | Aproximación: a 18 m del comienzo, en carril derecho cuando hay dos. No representa una posición oficial de examen. |
 | Cabildo y Guayra | Respaldado: el semáforo del dataset GCBA de cruces semaforizados, con su discrepancia frente a OSM ([RECORRIDO.md](RECORRIDO.md) §5 y §7). |
-| Edificios, comercios, árboles | Aproximación: geometría procedural original, determinista y estilizada. No representa fachadas relevadas. |
+| Edificios, comercios, árboles | Aproximación: geometría procedural original, determinista y estilizada. Desde F04-T01-FIX01 se inspira en las 35 referencias del usuario; no representa fachadas medidas ni cada parcela real. |
 
 Las máximas pendientes no se convierten en señalética oficial ni en reglas nuevas de evaluación. Su confirmación sigue necesaria antes de presentar el circuito como reproducción vigente para rendir. Las licencias y atribuciones se muestran en la pantalla: OpenStreetMap/ODbL y GCBA/CC-BY 2.5 AR. No se incorporaron activos externos ni nuevas dependencias.
 
 ## Organización y rendimiento
 
 - `src/city/model.ts`: conversión métrica, aristas, contexto, entradas y colisiones estáticas. Los recortes de cordón consideran toda su caja y las vías que cruzan, no solo el centro.
-- `streetscape.ts`, `geometry.ts`, `palette.ts`, `signage.ts`: sistema visual de cuadras, materiales, fachadas, árboles, carriles, ciclovías y controles. Las piezas se agrupan con `InstancedMesh` por forma y material dentro de cada sector.
+- `streetscape.ts`, `frontages.ts`, `streetFurniture.ts`, `geometry.ts`, `palette.ts`, `signage.ts`: sistema visual de cuadras, materiales, fachadas, árboles, carriles, ciclovías y controles. Las piezas se agrupan con `InstancedMesh` por forma y material dentro de cada sector.
 - `sectors.ts` y `scene.ts`: sectores de 128 m; se cargan a 220 m y se descargan después de 270 m, más allá de la niebla que termina a 170 m. Se conservan también los sectores detrás del auto para los espejos. Salir de un sector libera geometrías, materiales, texturas e instancias; volver los reconstruye de manera determinista. La vista completa carga todos y los libera al salir.
 - Las colisiones permanecen disponibles aunque un sector visual no esté cargado. `stepWorld` rechaza primero pares cuyas circunferencias envolventes no se tocan, antes del SAT; no modifica el resultado de colisión.
 - `DrivingCanvas` admite una fábrica de escena y subtítulo opcionales. El comportamiento por defecto del predio y del examen se conserva. El adaptador de ciudad reutiliza habitáculo, controles, transmisión, espejos y reinicio.
@@ -63,3 +63,7 @@ Ejecución del 2026-10-12 UTC, producción, un worker, AMD Ryzen 7 4800H, Chromi
 | Pixel 7 emulado | 412 × 839 / 2,625 | 36 en 5007 ms | 138,85 ms (~7,2 FPS) | 166,6 ms |
 
 **El objetivo de 60 FPS no se alcanzó en este entorno.** La emulación no mide un teléfono real ni una GPU física. Es una limitación de la validación y una referencia reproducible para el trabajo de rendimiento de F07; no se presenta como presupuesto aprobado. La vista aérea es estática y no consume un bucle continuo cuando no cambia.
+
+## Referencias visuales — F04-T01-FIX01
+
+Mejora puntual autorizada mientras Opus implementa la fase 5 en otro árbol de trabajo. Se desarrolla en una rama independiente desde `main`, sin iniciar la fase 6. Inventario de imágenes, criterios visuales y límites en [REFERENCIAS_VISUALES.md](REFERENCIAS_VISUALES.md). El entorno incorpora balcones, comercios, casas bajas, arboleda y refugios del Metrobús; las dimensiones siguen siendo aproximadas. `lighting.ts` mantiene una sombra local de 1024 × 1024, actualizada al cambiar una celda de 24 m o cargar/descargar sectores, para no recalcularla en cada cuadro. Los materiales se agrupan por forma y superficie, con color por instancia.

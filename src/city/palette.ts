@@ -1,6 +1,6 @@
 /** Procedural materials; no external textures or unlicensed assets. */
 export const CITY_COLORS = {
-  asphalt: '#555e62',
+  asphalt: '#484c4e',
   busway: '#726966',
   sidewalk: '#c8c1af',
   curb: '#e5decf',
@@ -16,6 +16,17 @@ export const CITY_COLORS = {
   sage: '#a9b7a1',
   awning: '#477e79',
   trim: '#f2e4ce',
+  ivory: '#e0ddd2',
+  stone: '#aaa79c',
+  shutter: '#918e80',
+  railing: '#414748',
+  balconyGlass: '#7c9295',
+  terracotta: '#9d5e48',
+  door: '#50463f',
+  charcoal: '#3d4344',
+  ochre: '#c8a565',
+  foliageDark: '#355842',
+  soil: '#695e4b',
   red: '#c63632',
   inactive: '#1d282b',
 } as const;

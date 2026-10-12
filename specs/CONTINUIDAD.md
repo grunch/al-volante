@@ -1,6 +1,12 @@
 # Continuidad del proyecto
 
-Actualizado: 2026-10-12. Estado: fases 1–3 fusionadas; fase 4 con sus cinco PRs creados (etapa A completa), etapa B de revisión pendiente. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
+Actualizado: 2026-10-12. Estado: fases 1–4 fusionadas hasta `b36fe55`; fase 5 en curso por Opus según el usuario. Correctivo visual F04-T01-FIX01 en worktree independiente. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
+
+## Trabajo puntual activo — F04-T01-FIX01
+
+El usuario aportó 35 capturas cronológicas de Street View y pidió mejorar los gráficos sin pisar la fase 5 que implementa Opus. Rama `f04-t01-fix01-street-reference`, base `main` (`b36fe55`), trabajo aislado. No iniciar la fase 6. El inventario y la interpretación de las fotos están en [REFERENCIAS_VISUALES.md](REFERENCIAS_VISUALES.md); las dimensiones siguen siendo aproximadas y el material original no se redistribuye.
+
+Implementados edificios y balcones por tramo, plantas bajas, arboleda, refugios del Metrobús, carteles, vallas, materiales e iluminación. No cambian el modelo vial, las colisiones o las reglas. El registro operativo contiene las pruebas y fallos reales. La suite general **no está aprobada**: 500 pruebas pasan y 17 fallan en la vuelta y preparación del estacionamiento; la vuelta completa reproduce el mismo error en la base `b36fe55`, sin estos cambios, con Node 24.21.0 (142,8 s). El PR y la validación final siguen pendientes. Integrar esta entrada con la continuidad de Opus al fusionar, sin reemplazar su avance de fase 5.
 
 ## Pedido y alcance de esta etapa
 

@@ -5,9 +5,13 @@ import type { Point } from '../sim/collision.ts';
 import type { Part } from './geometry.ts';
 import { CITY_COLORS as c } from './palette.ts';
 import { sectorKey } from './sectors.ts';
+import { addFrontages } from './frontages.ts';
+import { addBayBarriers, planStreetFurniture } from './streetFurniture.ts';
+import type { StreetLabel } from './streetFurniture.ts';
 
 export interface SectorPlan {
   parts: Part[];
+  labels?: StreetLabel[];
 }
 export type CityPlan = Map<string, SectorPlan>;
 
@@ -28,7 +32,15 @@ export function planStreetscape(city: City): CityPlan {
     color: string,
     heading: number,
     y = height / 2,
-  ) => add({ shape: 'box', color, position: [point.x, y, point.z], size: [width, height, length], heading });
+  ) =>
+    add({
+      shape: 'box',
+      color,
+      position: [point.x, y, point.z],
+      size: [width, height, length],
+      heading,
+      ...(color === c.asphalt ? { surface: 'pavement' as const } : {}),
+    });
   const onOtherRoad = (point: Point, road: Road, margin = 0) =>
     city.roads.some(
       (other) => other.id !== road.id && projectOnRoad(point, other).distanceM < other.widthM / 2 + margin,
@@ -73,66 +85,16 @@ export function planStreetscape(city: City): CityPlan {
           );
       }
     }
-    // Model the visual vocabulary on each frontage, then repeat it along the complete metric graph.
-    if (road.kind !== 'busway')
-      for (const side of [-1, 1]) {
-        for (let along = 14; along < road.lengthM - 7; along += 19) {
-          const center = mixPoint(road.a, road.b, along / road.lengthM);
-          const bikeWidth = road.cycleTrack && side === 1 ? 2.6 : 0;
-          const facadeCenter = offsetPoint(center, road.headingRad, side * (road.widthM / 2 + bikeWidth + 7));
-          const footprint = {
-            centerX: facadeCenter.x,
-            centerZ: facadeCenter.z,
-            halfWidthM: 4,
-            halfLengthM: 8.4,
-            headingRad: road.headingRad,
-          };
-          if (city.roads.some((other) => overlaps(footprint, roadBox(other, 2.9 + (other.cycleTrack ? 2.6 : 0)))))
-            continue;
-          const variation = Math.abs(Math.round(center.x * 13 + center.z * 7));
-          const floors = 2 + (variation % 4);
-          const height = floors * 2.8;
-          const colors = [c.facade, c.brick, c.sage];
-          box(facadeCenter, 8, height, 16.8, colors[variation % colors.length] ?? c.facade, road.headingRad);
-          const face = offsetPoint(facadeCenter, road.headingRad, -side * 4.04);
-          box(
-            offsetPoint(face, road.headingRad, -side * 0.15),
-            0.32,
-            0.25,
-            17.2,
-            c.trim,
-            road.headingRad,
-            height - 0.1,
-          );
-          for (let floor = 1; floor < floors; floor++)
-            for (const column of [-5.6, -1.9, 1.9, 5.6]) {
-              const window = offsetPoint(face, road.headingRad, 0, column);
-              box(window, 0.1, 1.5, 1.6, c.glass, road.headingRad, floor * 2.8 + 1);
-              box(
-                offsetPoint(window, road.headingRad, -side * 0.08),
-                0.23,
-                0.12,
-                1.9,
-                c.trim,
-                road.headingRad,
-                floor * 2.8 + 0.2,
-              );
-            }
-          box(face, 0.12, 2.1, 9, c.glass, road.headingRad, 1.1);
-          box(offsetPoint(face, road.headingRad, -side * 0.55), 1.2, 0.15, 10, c.awning, road.headingRad, 2.4);
-          const tree = offsetPoint(center, road.headingRad, side * (road.widthM / 2 + bikeWidth + 1.7), 7);
-          if (!onOtherRoad(tree, road, 3)) {
-            add({ shape: 'cylinder', color: c.trunk, position: [tree.x, 1.5, tree.z], size: [0.25, 3, 0.25] });
-            add({
-              shape: 'sphere',
-              color: variation % 2 ? c.foliage : c.foliageLight,
-              position: [tree.x, 4.2, tree.z],
-              size: [3.8, 3.5, 3.8],
-            });
-            box(tree, 1.1, 0.04, 1.1, c.trunk, road.headingRad, 0.18);
-          }
-        }
-      }
+  }
+  addFrontages(city, add);
+  const furniture = planStreetFurniture(city);
+  furniture.parts.forEach(add);
+  addBayBarriers(city, add);
+  for (const label of furniture.labels) {
+    const key = sectorKey({ x: label.position[0], z: label.position[2] });
+    const sector = sectors.get(key) ?? { parts: [] };
+    (sector.labels ??= []).push(label);
+    sectors.set(key, sector);
   }
   for (const obstacle of city.world.obstacles) {
     const { box: curb } = obstacle;

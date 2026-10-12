@@ -8,6 +8,7 @@ import type { VehicleState } from '../sim/vehicle.ts';
 import type { World } from '../sim/world.ts';
 import type { City } from './model.ts';
 import { cityCockpitFactory } from './scene.ts';
+import { createCityRenderer } from './lighting.ts';
 import { EXAM_COPY as copy } from '../i18n/es-AR.ts';
 
 /** The exam's cockpit view on the city (F04-T03): the city scene with the seeded traffic, driven from the box. */
@@ -21,7 +22,7 @@ export function ExamDrive({
   onObservation,
   onTelemetry,
   halted,
-  createRenderer,
+  createRenderer = createCityRenderer,
 }: {
   city: City;
   /** The city's collisions with the seeded traffic of the exam. */
@@ -52,7 +53,7 @@ export function ExamDrive({
       onTelemetry={onTelemetry}
       halted={halted}
       createScene={createScene}
-      {...(createRenderer ? { createRenderer } : {})}
+      createRenderer={createRenderer}
     />
   );
 }

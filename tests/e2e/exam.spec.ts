@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
 
+// Cold shader compilation with city shadows and three mirrors needs extra time on software WebGL.
+
 test.describe('practical exam on the circuit', () => {
+  test.describe.configure({ timeout: 120000 });
   test('guides from the familiarisation to the recognition on the city, and a stop request disapproves', async ({
     page,
   }) => {
@@ -8,7 +11,7 @@ test.describe('practical exam on the circuit', () => {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('./#/examen');
     const view = page.getByTestId('driving-canvas');
-    await expect(view).toHaveAttribute('data-state', 'ready');
+    await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     await expect(view).toHaveAttribute('data-engine', 'off');
     const says = page.getByTestId('examiner-says');
     await expect(says).toHaveAttribute('data-phase', 'familiarisation');
@@ -31,7 +34,7 @@ test.describe('practical exam on the circuit', () => {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('./#/examen');
     const view = page.getByTestId('driving-canvas');
-    await expect(view).toHaveAttribute('data-state', 'ready');
+    await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     await expect(page.getByTestId('exam-leg')).toHaveText('Tramo 1 · Quesada');
     await expect(page.getByTestId('exam-instruction')).toHaveText(
       'En la próxima esquina, doblá a la derecha, por Av. Cabildo.',
@@ -49,7 +52,7 @@ test.describe('practical exam on the circuit', () => {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('./#/examen');
     const view = page.getByTestId('driving-canvas');
-    await expect(view).toHaveAttribute('data-state', 'ready');
+    await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     await expect(page.getByTestId('exam-parking')).toHaveText('0 maniobras · 0 intentos');
     await expect(page.getByTestId('exam-kerb')).toHaveText('pendiente');
     await expect(page.getByRole('button', { name: 'Abrir la puerta y bajar' })).toBeVisible();
@@ -69,7 +72,7 @@ test.describe('exam modes (F04-T05)', () => {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('./#/examen');
     const view = page.getByTestId('driving-canvas');
-    await expect(view).toHaveAttribute('data-state', 'ready');
+    await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     const modes = page.getByRole('group', { name: 'Modo' });
     await expect(modes.getByRole('radio')).toHaveCount(4);
     await expect(modes.getByRole('radio', { name: 'Recorrer' })).toBeChecked();
@@ -103,7 +106,7 @@ test.describe('exam modes (F04-T05)', () => {
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('./#/examen?modo=practicar&etapa=3');
     const view = page.getByTestId('driving-canvas');
-    await expect(view).toHaveAttribute('data-state', 'ready');
+    await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     await expect(view).toHaveAttribute('data-engine', 'running');
     await expect(page.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'circulation');
     await expect(page.getByTestId('exam-leg')).toHaveText('Tramo 8 · Vuelta de Obligado');
@@ -118,7 +121,7 @@ test.describe('exam modes (F04-T05)', () => {
 test('can leave the exam page through the navigation while the drive is running', async ({ page }) => {
   // The readouts update every frame; as urgent updates they used to starve the navigation's transition.
   await page.goto('./#/examen');
-  await expect(page.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'ready');
+  await expect(page.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await page.getByRole('link', { name: 'Mi bitácora' }).click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mi bitácora');
 });
