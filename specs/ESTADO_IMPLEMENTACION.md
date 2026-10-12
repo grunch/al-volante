@@ -329,7 +329,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
 | F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
-| F04-T02 | `f04-t02-traffic` | `f04-t01-city` (#22) | PR_F04_T02 | implementada; CI y revisiones pendientes |
+| F04-T02 | `f04-t02-traffic` | `f04-t01-city` (#22) | [#23](https://github.com/grunch/al-volante/pull/23) | implementada; CI y revisiones pendientes |
 | F04-T03 | — | `f04-t02-traffic` | — | siguiente |
 | F04-T04 | — | — | — | pendiente |
 | F04-T05 | — | — | — | pendiente |
@@ -348,19 +348,19 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ### F04-T02 — Tránsito del circuito
 
-- Apilado sobre `f04-t01-city` (#22), por el pedido «ya está el pr de F04 T01, haz el resto de tareas de esta fase». Orden obligatorio: #22 → PR_F04_T02.
+- Apilado sobre `f04-t01-city` (#22), por el pedido «ya está el pr de F04 T01, haz el resto de tareas de esta fase». Orden obligatorio: #22 → [#23](https://github.com/grunch/al-volante/pull/23).
 - Alcance: `src/traffic/` (red de encrucijadas, aproximaciones, sendas y trayectorias; planes de semáforo por semilla; autos, colectivos, bicicletas y peatones con seguimiento, semáforos, PARE, prioridad de la derecha y peatones; `lookAhead` para el examinador y los conductores de prueba), `TrafficSnapshot`/`TrafficSource` en `scenario.ts` con `World.traffic` y `trafficOf`, bucle de manejo genérico, lámparas encendidas y actores en la escena de la ciudad, semilla en `#/recorrido`. Detalle en ARQUITECTURA, «Tránsito del circuito».
 - Aceptación:
   - **Actores interactúan coherentemente:** pruebas `stops at a red light before the line and goes on green`, `comes to a full stop at a STOP sign, waits, then goes`, `keeps a following distance behind a slower vehicle`, `follows the car itself`, `yields to a vehicle crossing from the right … and goes when it has priority`, `yields to the car when it comes from the right, and proceeds once the car has stopped and lost priority`, `lets pedestrians cross a signalled crosswalk only on its walk phase`, `lets pedestrians step off an unsignalled crosswalk only in a gap, and vehicles stop for them`, `keeps bicycles on the cycle track`, `keeps every vehicle at or below the speed of its lane`, `reports a contact once`, `never shows green to both streets`.
   - **Cruces y tránsito no bloquean indefinidamente una conducción válida:** `completes the lap with traffic on, obeying the lights, without touching anyone and never waiting a full cycle` (`src/traffic/lap.test.ts`): la vuelta completa con la semilla 1, sin contactos, sin cruzar en rojo, con detenciones en rojo y ninguna espera mayor a 36 s; `is reproducible` para la semilla.
 - Aproximaciones declaradas (ARQUITECTURA): ciclo 14/3/19 s con 1 s de todo rojo; espera de 1 s en PARE; 20 m o 4 s para considerar que alguien llega; 1,5 s detenido para perder la prioridad (excepción 4 del manual, PDF 64); 8 s anti-bloqueo; aceleraciones y frenados de los actores; velocidades de contexto, Metrobús y bicicleta; densidad de un vehículo cada 120 m; fase peatonal = rojo de su calle; brecha peatonal de 15 m; sentidos de las calles de contexto, doble mano del Metrobús, Congreso y ciclovía; prolongaciones de 15 m; líneas de detención geométricas (la pintura de tres semáforos de media cuadra queda para F04-T03).
 - Verificación local: `npm run check` aprobado con 391 pruebas (cobertura 95,95 % sentencias / 90,72 % ramas), contenido OK y build OK. Playwright: `npx playwright test --workers=1` con 46 E2E aprobados (escritorio y Pixel 7 emulado), incluido el caso nuevo de tránsito; ciudad y examen aprobados también por separado (10).
-- Revisiones: Codex y CodeRabbit solicitados al abrir el PR; se registran al llegar. Sin excepción de cuota aplicada.
+- PR #23 abierto con implementación `f4d4ccb`. Codex solicitado con `@codex review`; CodeRabbit automático. Ambos resultados y la CI remota están pendientes; se registran al llegar. Sin excepción de cuota aplicada.
 - Para F04-T03: consumir `TrafficSnapshot.lights` (estado por control), `lookAhead` (semáforo, cruce, senda y vehículo de adelante con distancias y cajas de conflicto), `poses` con `inside(zona)` y los eventos `actor-contact` de cualquier tipo de actor; `Approach.rule`/`group` dan la regla de cada cruce. `light` solo resume la luz que el auto enfrenta en el recorrido.
 
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 (PR_F04_T02) está apilado sobre #22: fusionar #22 primero, después actualizar la base de PR_F04_T02, comprobar su diff y repetir los checks.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) está apilado sobre #22: fusionar #22 primero, después actualizar la base de [#23](https://github.com/grunch/al-volante/pull/23), comprobar su diff y repetir los checks.
 
 ## Bloqueos
 
@@ -368,7 +368,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Continuar la etapa A de la fase 4: F04-T03 (examinador y reglas de circulación del circuito) apilada sobre `f04-t02-traffic`, consumiendo las interfaces de tránsito registradas arriba. Mientras tanto, atender CI y revisiones de [#22](https://github.com/grunch/al-volante/pull/22) y de PR_F04_T02 cuando lleguen; no fusionar hasta la etapa B. Ver `CIUDAD.md` y ARQUITECTURA «Tránsito del circuito» para interfaces y aproximaciones.
+Continuar la etapa A de la fase 4: F04-T03 (examinador y reglas de circulación del circuito) apilada sobre `f04-t02-traffic`, consumiendo las interfaces de tránsito registradas arriba. Mientras tanto, atender CI y revisiones de [#22](https://github.com/grunch/al-volante/pull/22) y de [#23](https://github.com/grunch/al-volante/pull/23) cuando lleguen; no fusionar hasta la etapa B. Ver `CIUDAD.md` y ARQUITECTURA «Tránsito del circuito» para interfaces y aproximaciones.
 
 ## Decisiones que no deben reinterpretarse
 
