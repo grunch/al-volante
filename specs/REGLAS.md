@@ -1,6 +1,6 @@
 # Reglas del examen práctico y parámetros del teórico
 
-Entregable de F01-T03. Fecha: 2026-10-11. Estado: **transcripción completa del protocolo, conciliada con la ficha; discrepancias y vacíos localizados.**
+Entregable de F01-T03. Fecha: 2026-10-11; §7 (D6–D9) y §9 actualizados en F04-T03 (2026-10-12). Estado: **transcripción completa del protocolo, conciliada con la ficha; discrepancias y vacíos localizados; criterios de disparo del juego fijados.**
 
 Este documento es la fuente de verdad del motor de evaluación (F03-T04, F04-T03 a F04-T05) y de la configuración del simulacro teórico (F05-T05). Prevalece sobre las cifras citadas en `PROPUESTA.md` y en el plan. Los datos estructurados están en `catalog/rules.json`, y la tabla de fallas de este documento se genera desde ese archivo.
 
@@ -283,6 +283,10 @@ Políticas de repetición, según el texto del anexo II:
 - **D3.** Las reglas con repetición «no especifica» se consignan **una vez por episodio distinto**. Un episodio termina cuando la conducta se corrige o cambia el contexto (otra cuadra, otra intersección, otra maniobra). El criterio es configurable y se muestra en la devolución.
 - **D5.** El corte de 8 puntos antes de la circulación (PDF 10, «si al llegar a esta etapa») se aplica en el juego hasta que el auto se mueve por primera vez en la etapa II (0,2 m/s); a partir de ahí los puntos se acumulan y se informan al final (PDF 14). Es una interpretación del proyecto: el protocolo no fija el instante exacto.
 - **D4.** Los parámetros de aproximación (V2, V3) y la interpretación de la observación (mirar espejos o girar la cabeza según la orientación de la cámara y el espejo seleccionado) se presentan como práctica virtual, como establece la propuesta (§4).
+- **D6 (F04-T03).** Los umbrales de disparo de las fallas de circulación que el protocolo enuncia sin cifra («velocidad precautoria», «reduce la velocidad», «distancia mínima», «detención innecesaria», «velocidad mínima», «bloquea la encrucijada», «pasa el lomo de burro de manera imprudente», «pierde el control», «maniobra temeraria») son decisiones del juego, listadas en §9 con su valor, y se muestran en la devolución como aproximaciones. Cambiarlos no cambia el protocolo.
+- **D7 (F04-T03).** La toma de control por doble comando (PDF 7) se dispara cuando el auto ya no puede evitar por frenado a un actor que tiene de frente (§9). Eleva a eliminatoria, con interrupción atribuida al examinador, la última deficiente alta escalable consignada en los últimos 10 s (e, l, n, o); si no hay ninguna, consigna la eliminatoria i (maniobra temeraria) con la misma interrupción. Un atropello real de peatón o ciclista eleva la alta l del mismo episodio; un choque contra un vehículo consigna la eliminatoria i. En todos los casos la causa registrada de la interrupción es `examiner`, no `fault`.
+- **D8 (F04-T03).** Un episodio de velocidad (D2, D3) termina al volver por debajo del límite o al entrar en otro tramo del recorrido; cada tramo es un contexto distinto. La línea continua de la eliminatoria o es el borde izquierdo de la calzada de examen de Av. Cabildo, junto al Metrobús (X3); circular sobre el Metrobús o sobre la ciclovía es la eliminatoria j (carril exclusivo), igual que ir a contramano. Cruzar la línea y además entrar al Metrobús consigna o y j: son dos hechos (la maniobra prohibida y la circulación por un carril exclusivo).
+- **D9 (F04-T03).** Con el cajón de F04-T01 a 20 m del inicio del tramo 1 (aproximación declarada en CIUDAD.md), los primeros 100 m terminan unos 3 m después de la línea de Av. Cabildo. Las reglas de la esquina rigen igual durante los primeros 100 m; solo la velocidad se juzga por la eliminatoria g en vez de f/l (D1). Si el relevamiento mueve el cajón, el examinador no cambia.
 
 ## 8. Examen teórico
 
@@ -308,7 +312,37 @@ Fuentes web consultadas el 2026-10-11:
 
 ## 9. Lo que el juego aproxima
 
-El protocolo evalúa conductas físicas que el juego solo puede representar: la mirada, la postura, las manos en el volante y la regulación del asiento. Como establece la propuesta (§4), esas fallas se evalúan con acciones virtuales y se identifican como práctica, no como equivalente al examen real. También son decisiones del juego, y no del protocolo, la detección de «velocidad precautoria», «maniobra temeraria», «pérdida de control» y la toma de control por doble comando. Su criterio de disparo se documenta y prueba en F04-T03.
+El protocolo evalúa conductas físicas que el juego solo puede representar: la mirada, la postura, las manos en el volante y la regulación del asiento. Como establece la propuesta (§4), esas fallas se evalúan con acciones virtuales y se identifican como práctica, no como equivalente al examen real. También son decisiones del juego, y no del protocolo, los criterios de disparo siguientes (D6 y D7), implementados en `src/exam/circulation.ts` (`CIRCULATION`) y probados en `src/exam/circulation.test.ts` y `src/exam/street.test.ts` (F04-T03). Cada valor se muestra en la devolución como aproximación.
+
+| Conducta (ítem) | Criterio del juego | Episodio (D3) |
+|---|---|---|
+| Distancia de 2 s (alta g) | brecha al vehículo de adelante en movimiento (> 1 m/s) dividida por la velocidad propia menor a 2 s durante más de 1,5 s seguidos, con el auto a más de 2 m/s | tramo |
+| Detención pasando la línea o la senda (alta h) | al detenerse, el paragolpes delantero entre 0,1 y 4,5 m después de una línea de detención, o dentro de una senda; se juzga el frente, no la cola, porque hay sendas de controles consecutivos a menos de un largo de auto | cada detención |
+| Bloquea la encrucijada (alta i) | 2 s detenido con la carrocería sobre la calzada de la calle cruzada, salvo que esté cediendo a un peatón en una senda a menos de 6 m | encrucijada |
+| PARE (alta j) | cruzar la línea sin haber llegado a 0 m/s a menos de 3 m antes de ella, o con un vehículo cruzando el pavimento de conflicto | encrucijada |
+| Prioridad sin semáforo (alta k) | cruzar la línea con un vehículo cruzando el pavimento de conflicto, o con uno que llega por la derecha a menos de 20 m de su propia línea a más de 0,5 m/s | encrucijada |
+| Peatones y ciclistas (alta l) | entrar en movimiento en una senda con un peatón sobre ella, o en el pavimento de conflicto con un ciclista cruzándolo (rumbo entre 45° y 135° del propio); escalable por D7 | senda o encrucijada |
+| Reducir antes de girar o de un cruce sin semáforo (alta m) | a menos de 12 m de la línea de una esquina de giro o de un cruce con prioridad de la derecha, a más de 20 km/h; en un PARE rige j | encrucijada |
+| Carril de giro (alta n) | en calles de más de un carril, cruzar la línea de la esquina desde un carril que no es el más próximo al lado del giro; escalable por D7 | encrucijada |
+| Espejos al cambiar de carril (alta o) | cambio de carril (el centro de la carrocería pasa a otro carril, alineado con la calle y a más de 20 m de la esquina) sin una mirada al espejo del lado (D4) en los 5 s previos; escalable por D7 | cada cambio |
+| Direccional al cambiar de carril (baja h) | cambio de carril con la direccional de ese lado encendida hace menos de 3 s | cada cambio |
+| Direccional de giro (baja g, leve q) | al cruzar la línea de la esquina: sin direccional o con la del lado contrario, baja g; con la correcta encendida a menos de 30 m de la línea, leve q | encrucijada |
+| Carril (leve p) | carrocería fuera de su carril por más de 0,5 m durante 3 s, alineada, en movimiento, asentada en la cuadra y lejos de la esquina; en calles de un carril el carril es toda la calzada | tramo |
+| Detención innecesaria (leve k) | 1 s detenido sin línea a menos de 8 m, vehículo a menos de 12 m, senda ocupada a menos de 15 m, semáforo en rojo o amarillo a menos de 30 m ni vehículo de emergencia | cada detención |
+| Velocidad mínima (leve l) | menos de 10 km/h durante 8 s con la vía libre 30 m adelante (sin cruce, vehículo ni senda ocupada); no en los primeros 100 m | tramo |
+| Bocina (leve m) | presionarla sin vehículo ni senda ocupada a menos de 15 m ni peatón a menos de 15 m; la omisión no se evalúa | cada toque |
+| Lomo de burro (leve n) | pasar el reductor del tramo 6 a más de 20 km/h; la simulación no modela el salto | cada reductor |
+| Velocidad precautoria (leve o) | a menos de 15 m de una senda con un peatón, a más de 20 km/h y sin frenar (freno < 0,2) durante 0,5 s | senda |
+| Pérdida de control (eliminatoria h) | aceleración lateral v²·tan(δ)/batalla mayor a 6 m/s² durante 0,3 s (modelo cinemático sin deslizamiento) | — |
+| Maniobra temeraria (eliminatoria i) | choque contra un vehículo, colectivo o ambulancia, o toma de control sin falla escalable (D7) | — |
+| Carriles y sentidos (eliminatoria j) | 1 s alineado sobre la ciclovía (borde izquierdo de la carrocería 0,5 m más allá de la calzada) o sobre el Metrobús, o 1 s a contramano (más de 120° del sentido de la calle, a más de 1 m/s) | tramo |
+| Línea continua (eliminatoria o) | 0,5 s alineado con el borde izquierdo de la carrocería 0,5 m más allá de la calzada de examen de Av. Cabildo (D8) | tramo |
+| Sobrepaso (eliminatoria p) | un vehículo que estaba adelante en la propia línea queda a la izquierda (sobrepaso por la derecha), o a la derecha mientras la carrocería está sobre una encrucijada o una senda (sobrepaso en zona prohibida), y luego atrás | — |
+| Vehículo de emergencia (eliminatoria n) | la ambulancia del tramo 3 pasa (o se rinde tras 4 s detenida detrás) sin que el auto haya bajado a 10 km/h o se haya corrido 0,7 m a la derecha del centro de su carril mientras venía | — |
+| Indicación del examinador (eliminatoria f) | después de cruzar la línea de una esquina, superar la caja de la encrucijada en el propio rumbo sin entrar al tramo siguiente, o salir del recorrido (más de 14 m de su línea) durante 3 s en movimiento | — |
+| Toma de control (D7) | actor de frente dentro del ancho de la carrocería cuya aproximación exige más de 7 m/s² para no tocarlo, con velocidad de cierre mayor a 1,5 m/s | — |
+
+Lo que **no se evalúa** y por qué: las dos manos en el volante (baja f: el volante se maneja con teclas, no hay modelo de manos); el celular, auriculares y reproductores (eliminatoria m: no existen en el habitáculo); la autoridad de control de tránsito (eliminatoria e: no hay agentes en la escena); el arranque excedido en tiempo (leve g) y el arranque brusco y la aceleración en vacío (bajas b, c), que siguen como en F03-T04; la omisión de bocina (parte de la leve m); y la etapa III completa (F04-T04).
 
 ## 10. Cómo validar
 

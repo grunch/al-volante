@@ -45,8 +45,10 @@ export interface FaultReport {
   ruleId: string;
   atS: number;
   episode?: string;
-  /** The examiner used the dual controls: the rule's escalation applies. */
+  /** The examiner used the dual controls: the rule's escalation applies and the interruption is theirs. */
   escalate?: boolean;
+  /** The interruption this fault causes is the examiner's takeover, not the fault itself (protocolo PDF 7). */
+  cause?: Extract<InterruptionCause, 'fault' | 'examiner'>;
 }
 
 /**
@@ -78,13 +80,15 @@ export function recordFault(ledger: Ledger, report: FaultReport): Ledger {
   const toRaise = escalated
     ? previous.find((fault) => fault.episode === report.episode && !fault.escalated)
     : undefined;
+  // An escalation is, by definition, the examiner's intervention with the dual controls (protocolo PDF 7).
+  const cause: InterruptionCause = report.cause ?? (escalated ? 'examiner' : 'fault');
   if (toRaise) {
     const points = rule.escalation?.points ?? rule.points;
     return {
       ...ledger,
       faults: ledger.faults.map((fault) => (fault === toRaise ? { ...fault, points, escalated: true } : fault)),
       points: ledger.points - toRaise.points + points,
-      interruption: ledger.interruption ?? { ruleId: rule.id, atS: report.atS, cause: 'fault' },
+      interruption: ledger.interruption ?? { ruleId: rule.id, atS: report.atS, cause },
     };
   }
   if (!repeats(rule, previous, report.episode)) return ledger;
@@ -95,12 +99,12 @@ export function recordFault(ledger: Ledger, report: FaultReport): Ledger {
     episode: report.episode,
     escalated,
   };
-  const interrupts = escalated || rule.interrupts;
+  const interrupts = escalated || rule.interrupts || report.cause === 'examiner';
   return {
     ...ledger,
     faults: [...ledger.faults, fault],
     points: ledger.points + fault.points,
-    interruption: ledger.interruption ?? (interrupts ? { ruleId: rule.id, atS: report.atS, cause: 'fault' } : null),
+    interruption: ledger.interruption ?? (interrupts ? { ruleId: rule.id, atS: report.atS, cause } : null),
   };
 }
 

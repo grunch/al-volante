@@ -30,6 +30,7 @@ const ACTOR_LOOK: Record<ActorKind, { heightM: number; color: THREE.ColorReprese
   vehicle: { heightM: 1.4, color: '#c94b3b' },
   bus: { heightM: 3, color: '#e0b43a' },
   bicycle: { heightM: 1.1, color: '#3aa37a' },
+  emergency: { heightM: 2.3, color: '#f4f1e8' },
 };
 const LAMP_COLORS: Record<LightState, THREE.ColorRepresentation> = {
   red: '#e03b2e',

@@ -1,16 +1,17 @@
 import { commandCockpit, initialCockpit } from '../practice/cockpit.ts';
 import type { CockpitCommand, CockpitState } from '../practice/cockpit.ts';
+import type { Circuit } from '../exam/circuit.ts';
 import { EXAM_START, createSession, observe } from '../exam/session.ts';
-import type { Course, Observation, Session } from '../exam/session.ts';
+import type { Observation, Session } from '../exam/session.ts';
 import { command, initialCarState, stepCar } from '../sim/car.ts';
 import type { CarControls, CarEvent, CarState } from '../sim/car.ts';
 import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import type { AutomaticLever, ManualGear, PowertrainCommand, TransmissionKind } from '../sim/powertrain/powertrain.ts';
-import { createScenarioState, stepScenario } from '../sim/scenario.ts';
-import type { ScenarioState } from '../sim/scenario.ts';
+import type { TrafficSnapshot, TrafficSource } from '../sim/scenario.ts';
 import { PRACTICE_YARD } from '../sim/tracks/practiceYard.ts';
 import { EXAM_CAR, bodyBox } from '../sim/vehicle.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
+import { trafficOf } from '../sim/world.ts';
 import type { World } from '../sim/world.ts';
 import { REAL_RULES } from './realRules.ts';
 
@@ -22,20 +23,30 @@ export class Driver {
   car: CarState;
   cockpit: CockpitState = initialCockpit();
 
-  scenario: ScenarioState | null;
+  /** The traffic beside the car (a scripted scenario or the seeded city traffic), stepped with every step. */
+  scenario: TrafficSnapshot | null;
+  readonly traffic: TrafficSource | null;
+  readonly start: VehicleState;
 
   constructor(
     readonly kind: TransmissionKind,
     seed = 7,
     readonly world: World = PRACTICE_YARD,
     start: VehicleState = EXAM_START,
-    course: Course | null = null,
+    circuit: Circuit | null = null,
   ) {
-    this.session = createSession(REAL_RULES, kind, seed, course);
+    this.start = start;
+    this.session = createSession(REAL_RULES, kind, seed, circuit);
     this.car = initialCarState(start, kind);
-    this.scenario = world.scenario ? createScenarioState(world.scenario) : null;
+    this.traffic = trafficOf(world) ?? null;
+    this.scenario = this.traffic ? this.traffic.create() : null;
     // Stage I starts with the key in contact (protocolo PDF 9), as the exam page does.
     this.drive({ type: 'insert-key' }, { type: 'turn-key', to: 'on' });
+  }
+
+  /** A copy to branch a scenario from: every field is an immutable value, so sharing them is safe. */
+  clone(): Driver {
+    return Object.assign(Object.create(Driver.prototype) as Driver, this);
   }
 
   see(observation: Observation) {
@@ -69,9 +80,9 @@ export class Driver {
       const result = stepCar(this.world, this.car, controls, SIM_STEP_S);
       this.car = result.state;
       const events: CarEvent[] = [...result.events];
-      if (this.world.scenario && this.scenario) {
+      if (this.traffic && this.scenario) {
         const { vehicle, timeS } = this.car.world;
-        this.scenario = stepScenario(this.world.scenario, this.scenario, bodyBox(EXAM_CAR, vehicle), timeS);
+        this.scenario = this.traffic.step(this.scenario, bodyBox(EXAM_CAR, vehicle), timeS, SIM_STEP_S);
         events.push(...this.scenario.contacts.map((actor) => ({ type: 'actor-contact' as const, actor })));
       }
       this.see({
@@ -124,7 +135,9 @@ export class Driver {
     } else if (target === 'signal-left' || target === 'signal-right') {
       this.cabin({ type: 'signal', value: target === 'signal-left' ? 'left' : 'right' });
     } else if (target === 'horn') {
+      // A press and its release, as the key does on the page.
       this.cabin({ type: 'horn', value: true });
+      this.cabin({ type: 'horn', value: false });
     } else {
       this.cabin({
         type: 'toggle',
@@ -153,10 +166,12 @@ export class Driver {
 
   /** Moves the signed distance along the heading with the technique the protocol asks for, then stops. */
   moveInBox(metres: number) {
-    const startZ = this.car.world.vehicle.z;
+    const origin = this.car.world.vehicle;
+    const along = (car: CarState) =>
+      (car.world.vehicle.x - origin.x) * Math.sin(origin.headingRad) +
+      (car.world.vehicle.z - origin.z) * Math.cos(origin.headingRad);
     const reverse = metres < 0;
-    const reached = (car: CarState) =>
-      reverse ? car.world.vehicle.z <= startZ + metres : car.world.vehicle.z >= startZ + metres;
+    const reached = (car: CarState) => (reverse ? along(car) <= metres : along(car) >= metres);
     if (this.kind === 'manual') {
       this.hold({ ...IDLE, clutch: 1 }, (_, t) => t > 0.1);
       this.drive({ type: 'shift', to: reverse ? 'R' : '1' }, { type: 'handbrake', engaged: false });
@@ -173,7 +188,14 @@ export class Driver {
     }
   }
 
-  /** Drives out of the box to the left (+x) in one forward manoeuvre, straightens up in the lane and stops. */
+  /** How far to the left of the starting pose the car is, in the frame of that pose. */
+  lateralFromStartM(): number {
+    const { x, z } = this.car.world.vehicle;
+    const { headingRad } = this.start;
+    return (x - this.start.x) * Math.cos(headingRad) - (z - this.start.z) * Math.sin(headingRad);
+  }
+
+  /** Drives out of the box to the left in one forward manoeuvre, straightens up in the lane and stops. */
   driveOut() {
     if (this.kind === 'manual') {
       this.hold({ ...IDLE, clutch: 1 }, (_, t) => t > 0.1);
@@ -186,13 +208,15 @@ export class Driver {
       this.hold({ ...IDLE, clutch: 0.6, throttle: 0.5 }, (car) => car.world.vehicle.speedMps > 1.5, 8);
     }
     const pedals: CarControls = { ...IDLE, throttle: 0.25 };
-    const boxFrontZ = Math.max(...this.world.obstacles.filter((o) => o.kind === 'pole').map((o) => o.box.centerZ));
-    this.hold(pedals, (car) => car.world.vehicle.z > boxFrontZ + 1, 30);
+    const heading0 = this.start.headingRad;
+    const startOdometer = this.car.world.vehicle.odometerM;
+    // Straight until the whole body is past the 6 m box (turning earlier swings the side into its front).
+    this.hold(pedals, (car) => car.world.vehicle.odometerM - startOdometer > 4.5, 30);
     // A short swing (about 35°), a straight stretch to gain the lane, and back to the heading of the street: a
     // full-lock swing would put the nose into the left kerb of a 10 m street.
-    this.hold({ ...pedals, steer: 1 }, (car) => car.world.vehicle.headingRad >= 0.6, 30);
-    this.hold(pedals, (car) => car.world.vehicle.x > -2, 30);
-    this.hold({ ...pedals, steer: -1 }, (car) => car.world.vehicle.headingRad <= 0.02, 30);
+    this.hold({ ...pedals, steer: 1 }, (car) => car.world.vehicle.headingRad >= heading0 + 0.6, 30);
+    this.hold(pedals, () => this.lateralFromStartM() > 3, 30);
+    this.hold({ ...pedals, steer: -1 }, (car) => car.world.vehicle.headingRad <= heading0 + 0.02, 30);
     this.hold({ ...IDLE, brake: 1, clutch: 1 }, (car) => car.world.vehicle.speedMps === 0);
   }
 

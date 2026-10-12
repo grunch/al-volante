@@ -18,8 +18,11 @@ export interface TrafficLight {
   stopLineZ: number;
 }
 
-/** `vehicle` is a car; buses and bicycles arrive with the city traffic (F04-T02). */
-export type ActorKind = 'pedestrian' | 'vehicle' | 'bus' | 'bicycle';
+/**
+ * `vehicle` is a car; buses and bicycles arrive with the city traffic (F04-T02) and `emergency` is the ambulance on
+ * duty of the circuit (F04-T03), sirens on, which the driver must let through.
+ */
+export type ActorKind = 'pedestrian' | 'vehicle' | 'bus' | 'bicycle' | 'emergency';
 
 /**
  * A scripted actor moves in a straight line from `from` to `to` at a constant speed. It starts when its trigger

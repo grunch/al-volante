@@ -4,6 +4,8 @@ import { distance } from '../city/model.ts';
 import { overlaps } from '../sim/collision.ts';
 import type { OrientedBox, Point } from '../sim/collision.ts';
 import type { ActorKind, ActorPose, TrafficSnapshot, TrafficSource } from '../sim/scenario.ts';
+import { createEmergencyState, emergencyPose, planEmergency, stepEmergency } from './emergency.ts';
+import type { EmergencyPlan, EmergencyState } from './emergency.ts';
 import { controlLights, createSignalPlan, intersectionLight, redRemainingS } from './lights.ts';
 import type { SignalPlan } from './lights.ts';
 import { governingLight } from './lookahead.ts';
@@ -16,6 +18,7 @@ export const ACTOR_SIZES: Record<ActorKind, { lengthM: number; widthM: number }>
   bus: { lengthM: 12, widthM: 2.5 },
   pedestrian: { lengthM: 0.5, widthM: 0.5 },
   bicycle: { lengthM: 1.8, widthM: 0.6 },
+  emergency: { lengthM: 5, widthM: 2 },
 };
 
 /** Actors farther than this from the car are neither posed nor spawned. */
@@ -91,6 +94,8 @@ export interface Traffic {
   plan: SignalPlan;
   vehicles: VehiclePlan[];
   walks: Readonly<Record<string, WalkSchedule>>;
+  /** The ambulance of the lap (F04-T03); null when the network has no lap. Tests set it to null to isolate rules. */
+  emergency: EmergencyPlan | null;
 }
 
 export interface VehicleState {
@@ -128,6 +133,7 @@ export interface TrafficState extends TrafficSnapshot {
   carSpeedMps: number;
   carStoppedS: number;
   touching: readonly string[];
+  emergency: EmergencyState;
 }
 
 function required<T>(value: T | undefined, what: string): T {
@@ -202,7 +208,7 @@ export function createTraffic(city: City, seed: number): Traffic {
       speedMps: between(random, WALK_MIN_MPS, WALK_MAX_MPS),
       side: random() < 0.5 ? 0 : 1,
     };
-  return { seed, network, plan, vehicles, walks };
+  return { seed, network, plan, vehicles, walks, emergency: planEmergency(network) };
 }
 
 export function createTrafficState(traffic: Traffic): TrafficState {
@@ -230,6 +236,7 @@ export function createTrafficState(traffic: Traffic): TrafficState {
     carSpeedMps: 0,
     carStoppedS: 0,
     touching: [],
+    emergency: createEmergencyState(),
   };
 }
 
@@ -624,12 +631,14 @@ function mayWalk(
 ): boolean {
   const crossingS = distance(crosswalk.kerbs[0], crosswalk.kerbs[1]) / schedule.speedMps;
   const cycle = crosswalk.intersectionId ? traffic.plan.cycles[crosswalk.intersectionId] : undefined;
+  const near = (point: Point, speedMps: number) =>
+    distance(point, crosswalk.center) <= PEDESTRIAN_GAP_M && speedMps > PEDESTRIAN_GAP_SPEED_MPS;
   if (cycle) {
     if (redRemainingS(cycle, crosswalk.group, timeS) < crossingS + 1) return false;
-  } else {
-    const near = (point: Point, speedMps: number) =>
-      distance(point, crosswalk.center) <= PEDESTRIAN_GAP_M && speedMps > PEDESTRIAN_GAP_SPEED_MPS;
-    if (placed.some((other) => near(other.point, other.state.speedMps)) || near(car.center, car.speedMps)) return false;
+    // Even on their phase, pedestrians do not step off in front of a car about to turn across (F04-T03).
+    if (near(car.center, car.speedMps)) return false;
+  } else if (placed.some((other) => near(other.point, other.state.speedMps)) || near(car.center, car.speedMps)) {
+    return false;
   }
   return !placed.some((other) => overlaps(other.box, crosswalk.box)) && !overlaps(car.body, crosswalk.box);
 }
@@ -711,6 +720,21 @@ export function stepTraffic(
     if (next && distance(next.point, center) <= ACTIVE_RADIUS_M)
       poses.push(poseOf(next.plan.id, next.plan.kind, next.box, true));
   }
+  // The ambulance drives beside the route lane and does not go through posed vehicles; the actors do not react to it.
+  const lap = index.paths.get('lap');
+  const emergency =
+    traffic.emergency && lap
+      ? stepEmergency(
+          lap,
+          traffic.emergency,
+          state.emergency,
+          carBody,
+          poses.map((pose) => pose.box),
+          dt,
+        )
+      : state.emergency;
+  const ambulance = lap ? emergencyPose(lap, emergency) : null;
+  if (ambulance) poses.push(ambulance);
   for (const pedestrian of walked.pedestrians) {
     const crosswalk = required(index.crosswalks.get(pedestrian.crosswalkId), 'crosswalk');
     poses.push(poseOf(pedestrian.id, 'pedestrian', pedestrianBox(crosswalk, pedestrian), true));
@@ -733,15 +757,20 @@ export function stepTraffic(
     carSpeedMps,
     carStoppedS: car.stoppedS,
     touching: overlapping.map((pose) => pose.id),
+    emergency,
   };
 }
 
-/** The traffic as the driving loop consumes it: created with the city and a seed, stepped beside the car. */
-export function createTrafficSource(city: City, seed: number): TrafficSource<TrafficState> & { traffic: Traffic } {
-  const traffic = createTraffic(city, seed);
+/** A traffic description as the driving loop consumes it, stepped beside the car. */
+export function trafficSourceOf(traffic: Traffic): TrafficSource<TrafficState> & { traffic: Traffic } {
   return {
     traffic,
     create: () => createTrafficState(traffic),
     step: (state, carBody, timeS, dt) => stepTraffic(traffic, state, carBody, timeS, dt),
   };
+}
+
+/** The traffic as the driving loop consumes it: created with the city and a seed, stepped beside the car. */
+export function createTrafficSource(city: City, seed: number): TrafficSource<TrafficState> & { traffic: Traffic } {
+  return trafficSourceOf(createTraffic(city, seed));
 }

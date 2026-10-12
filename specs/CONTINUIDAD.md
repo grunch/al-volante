@@ -1,6 +1,6 @@
 # Continuidad del proyecto
 
-Actualizado: 2026-10-11. Estado: fases 1–3 fusionadas; F04-T01 autorizada y en curso. Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
+Actualizado: 2026-10-12. Estado: fases 1–3 fusionadas; fase 4 en etapa A (T01–T03 con PR, T04 siguiente). Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
 ## Pedido y alcance de esta etapa
 
@@ -141,4 +141,18 @@ El usuario pidió «ya está el pr de F04 T01, haz el resto de tareas de esta fa
 - El examinador de F04-T03 debe leer `lights` (por control) y `lookAhead` (próximo semáforo, cruce con regla y cajas de conflicto, senda y vehículo de adelante); `light` es solo un resumen. Los contactos llegan como `actor-contact` con el tipo de actor (`vehicle`, `bus`, `bicycle`, `pedestrian`).
 - PR [#23](https://github.com/grunch/al-volante/pull/23), apilado sobre #22. Etapa B: findings de Codex corregidos (cabezales de sendas, ciclovía por sentido, mallas liberadas, líder solo en el mismo sentido); CodeRabbit pendiente por cuota.
 - La vuelta legal de `lap.test.ts` acredita que el tránsito no bloquea una conducción válida con la semilla 1 (sin contactos, sin rojo cruzado, sin esperas mayores a un ciclo); no acredita evaluación ni todas las semillas.
+
+## F04-T03: examinador del circuito
+
+Apilada sobre `f04-t02-traffic` (#23) por el mismo pedido («ya está el pr de F04 T01, haz el resto de tareas de esta fase»). Decisiones de T03 que no deben reinterpretarse:
+
+- El examinador de la etapa II es un juez puro por paso fijo (`judgeCirculation`) sobre un `Circuit` derivado de la ciudad y de la red de tránsito, nunca de coordenadas fijas de una cuadra. `#/examen` corre sobre la ciudad con el tránsito de la semilla; el primer tramo con guion (`firstBlock.ts`) queda solo como fixture del escenario.
+- Los umbrales de las reglas de circulación que el protocolo no cifra son decisiones del juego (REGLAS.md §7 D6–D9 y §9, `CIRCULATION`); se muestran como aproximaciones. Cambiarlos no cambia el protocolo ni la fuente.
+- La toma de control (D7) se dispara por frenado imposible (> 7 m/s² necesarios) frente a un actor; eleva la última alta escalable (e, l, n, o) o consigna la eliminatoria i, siempre con interrupción de causa `examiner`. Todo escalamiento tiene causa `examiner` (es el doble comando, PDF 7), ya no `fault`.
+- Un episodio de velocidad termina al corregir o al cambiar de tramo (D8). La línea continua de la eliminatoria o es el borde izquierdo de la calzada de examen de Cabildo; Metrobús, ciclovía y contramano son la j.
+- Con el cajón de F04-T01 a 20 m del inicio del tramo 1, los primeros 100 m terminan unos 3 m después de la línea de Cabildo (D9): las reglas de la esquina rigen dentro de los 100 m y solo la velocidad se juzga por g. No se movió el cajón de T01.
+- La ambulancia es un actor `emergency` del tránsito (`src/traffic/emergency.ts`), uno por vuelta en Guayra; los demás actores no la ven. Los peatones de sendas semaforizadas tampoco bajan del cordón frente al auto a menos de 15 m (extensión mínima de T02).
+- La etapa II termina al volver al tramo 1 tras el 8 (`verdict.done`): `completedStages` incluye `II` y el resultado queda parcial. F04-T04 debe reemplazar ese `finish` por una fase de estacionamiento y completar la III; F04-T05 integra los modos y la ficha.
+- No se evalúan: dos manos en el volante, dispositivos, autoridad de tránsito, omisión de bocina (REGLAS.md §9).
+- PR_RECORD_T03
 

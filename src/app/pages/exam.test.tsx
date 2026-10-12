@@ -1,14 +1,16 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import routeData from '../../../specs/route/comuna13-a.json';
+import { RouteSchema } from '../../content/schemas.ts';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
 import { REAL_RULES } from '../../test/realRules.ts';
 import { EXAM_COPY } from '../../i18n/es-AR.ts';
 
-/** The fixture content with the real rule catalog: the exam scores real rule ids. */
+/** The fixture content with the real rule catalog and the real route: the exam runs on the city (F04-T03). */
 const content = () => {
   const base = testContent();
-  return { ...base, rules: { ...base.rules, rules: [...REAL_RULES] } };
+  return { ...base, rules: { ...base.rules, rules: [...REAL_RULES] }, route: RouteSchema.parse(routeData) };
 };
 
 describe('exam page', () => {
@@ -140,6 +142,24 @@ describe('exam page', () => {
 
     expect(screen.queryByTestId('exam-result')).not.toBeInTheDocument();
     expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'familiarisation');
+  });
+
+  it('runs on the city: shows the leg, the first turn instruction, the limits of the road and the traffic seed', async () => {
+    await openExam();
+
+    expect(screen.getByTestId('exam-leg')).toHaveTextContent(EXAM_COPY.leg(1, 'Quesada'));
+    expect(screen.getByTestId('exam-instruction')).toHaveTextContent(EXAM_COPY.instruction('right', 'Av. Cabildo'));
+    expect(screen.getByTestId('exam-limits')).toHaveTextContent(EXAM_COPY.limitsOf(30, 40));
+    expect(screen.getByTestId('exam-notice')).toHaveTextContent(EXAM_COPY.nothingAhead);
+    const seed = screen.getByRole('spinbutton', { name: EXAM_COPY.seed });
+    expect(seed).toHaveValue(1);
+
+    fireEvent.change(seed, { target: { value: '5' } });
+    runFrames(5);
+
+    expect(seed).toHaveValue(5);
+    expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'familiarisation');
+    expect(screen.getByTestId('exam-points')).toHaveTextContent('0');
   });
 
   it('is linked from the home page', async () => {

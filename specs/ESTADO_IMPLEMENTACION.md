@@ -2,14 +2,14 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-11.
+Última actualización: 2026-10-12.
 
 ## Fase activa
 
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
-- **Fase 4 — etapa A en curso.** T01 se inició con «arranca con F04 T01» (autor asignado GPT-6 Astra). El resto de la fase se inició con «ya está el pr de F04 T01, haz el resto de tareas de esta fase»: T02 está implementada y apilada sobre T01; T03–T05 siguen en orden, apiladas, sin esperar revisiones ni fusiones.
+- **Fase 4 — etapa A en curso.** T01 se inició con «arranca con F04 T01» (autor asignado GPT-6 Astra). El resto de la fase se inició con «ya está el pr de F04 T01, haz el resto de tareas de esta fase»: T02 y T03 están implementadas y apiladas (T02 sobre T01, T03 sobre T02); T04 y T05 siguen en orden, apiladas, sin esperar revisiones ni fusiones.
 - Fases 5–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -330,8 +330,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|
 | F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
 | F04-T02 | `f04-t02-traffic` | `f04-t01-city` (#22) | [#23](https://github.com/grunch/al-volante/pull/23) | implementada; findings de `a5b9496` y `f53b7f3` corregidos; revisión de seguimiento pendiente |
-| F04-T03 | — | `f04-t02-traffic` | — | siguiente |
-| F04-T04 | — | — | — | pendiente |
+| F04-T03 | `f04-t03-examiner` | `f04-t02-traffic` (#23) | PR_T03 | implementada; CI y revisiones pendientes |
+| F04-T04 | — | `f04-t03-examiner` | — | siguiente |
 | F04-T05 | — | — | — | pendiente |
 
 ### F04-T01 — Ciudad y recorrido completo
@@ -360,9 +360,22 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisiones sobre `a5b9496` (etapa B, 2026-10-12). CI: la prueba `keeps bicycles on the cycle track beside the road` superaba los 5 s por defecto en el runner (6,9 s); ahora tiene 30 s, como las otras simulaciones largas. E2E verde. Codex, 4 findings, todos corregidos: (1) los cabezales de las tres sendas semaforizadas de Cabildo no se dibujaban ni encendían; ahora `isSignalControl` incluye `crossing-traffic_signals` en la creación y el encendido; (2) los dos sentidos de la ciclovía compartían la línea central; cada uno usa su mitad derecha, y quien viene de frente ya no cuenta como vehículo de adelante (separadas 1,3 m, dos bicicletas enfrentadas se trababan y la vuelta legal no terminaba); (3) las mallas de los peatones terminados se acumulaban; se liberan cuando su id sale del estado; (4) `CIUDAD.md` aún decía que solo T01 estaba autorizada. Pruebas nuevas de escena y red que fallan sin los cambios. CodeRabbit no revisó (límite de reseñas gratuitas); se vuelve a pedir.
 - Segunda revisión de Codex sobre `f53b7f3`, 2 findings, corregidos: `lookAhead().leader` podía devolver un auto que cruzaba perpendicular delante (o venía de frente) y medir su brecha con el largo en vez de su extensión sobre el eje del auto; ahora solo cuenta quien va en el sentido del recorrido o del auto (hasta 60°), y sobre la línea del recorrido, mientras el auto también va por ella (después de cambiar de carril, la línea es otro carril), se lo sigue a lo largo de la vuelta (un filtro solo por el rumbo del auto perdía al auto que dobla adelante y la vuelta legal chocaba); prueba nueva `lookahead.test.ts` que falla sin el cambio; y este registro ya no dice que la CI y las revisiones están pendientes. CodeRabbit sigue pendiente por límite de cuota; la CI unitaria quedó verde tras las correcciones y corre de nuevo con este push.
 
+### F04-T03 — Examinador del circuito y reglas de circulación
+
+- Apilado sobre `f04-t02-traffic` (#23). Orden obligatorio: #22 → #23 → PR_T03.
+- Alcance: `src/exam/circuit.ts` (circuito derivado de la ciudad y la red: tramos, esquinas con giro, cruces con regla, sendas, reductor, Metrobús, línea continua), `src/exam/circulation.ts` (juez puro de la etapa II con todas las reglas de circulación, umbrales `CIRCULATION`, avisos e instrucciones), `session.ts` (fases `firstMetres` → `circulation`, salida medida en el marco de la pose inicial, toma de control, contactos con causa `examiner`), `scoring.ts` (`cause` del reporte; todo escalamiento interrumpe como `examiner`), `src/traffic/emergency.ts` (ambulancia por vuelta) y una extensión mínima del tránsito (peatones de sendas semaforizadas no bajan frente al auto), `lookAhead` con tolerancia lateral, `DrivingCanvas` con `halted`, `ExamDrive`, `#/examen` sobre la ciudad con semilla, HUD de tramo/indicación/aviso/límites y devolución con la regla que interrumpe. Detalle en ARQUITECTURA «Examinador del circuito (F04-T03)».
+- Aceptación:
+  - **Cada regla del alcance tiene evidencia:** tabla regla → criterio → fuente → episodio → prueba en ARQUITECTURA; `src/exam/circulation.test.ts` (21 casos sintéticos: prioridad, 2 s, sobrepaso, peatones/ciclistas, precautoria, toma de control, bocina, emergencia, cambios de carril, carril, ciclovía, Metrobús, línea continua, contramano, reductor, mínima, detención innecesaria, primeros 100 m sin velocidad), `src/exam/street.test.ts` (16 casos con guion sobre la ciudad con tránsito: vuelta limpia de los ocho tramos, primeros 100 m correctos y con exceso en automática y manual, velocidad f/l con D2 y D3, rojo, línea, bloqueo, direccionales, seguir de largo, PARE, reducir, ambulancia, toma de control, atropello escalado, choque, pérdida de control, HUD), `src/exam/circuit.test.ts` (4 casos de derivación).
+  - **Distinción entre 30/45 y máxima vial:** `street.road` expone `examKmh` (30 calles, 45 Cabildo) y `postedKmh` (OSM: 40/60/30, fuente única sin confirmar) por calle; la vuelta limpia lo comprueba por tramo (45/60 en Cabildo, 30/40 en Guayra, 30/30 en Cuba) y el HUD los muestra separados.
+  - **Toma de control cuando corresponde:** D7 en REGLAS.md §7; pruebas «the examiner takes the dual controls» (sintética y con sesión: eliminatoria i con causa `examiner`, atropello que eleva la alta l a 8 puntos, choque) y el canvas frena el auto (`halted`).
+- Lo que no se evalúa (dos manos, dispositivos, autoridad de tránsito, omisión de bocina) y por qué está en REGLAS.md §9 y en ARQUITECTURA.
+- Aproximaciones nuevas (REGLAS.md §7 D6–D9 y §9): umbrales de cada regla, ambulancia (tramo 3, 90 m detrás, 50 km/h, 2,4 m a la izquierda, 6 s de paciencia), toma de control a más de 7 m/s² de frenado necesario, los primeros 100 m terminan unos 3 m después de la línea de Cabildo por la posición del cajón de F04-T01 (D9), el frente del auto decide la detención sobre senda, los actores no reaccionan a la ambulancia.
+- Verificación local: `npm run check` aprobado con 422 pruebas (cobertura 96,03 % sentencias / 90,52 % ramas / 95,27 % funciones / 96,93 % líneas), contenido OK y build OK. Playwright: `exam.spec.ts` y `city.spec.ts` con `--workers=1`, 12 E2E aprobados (escritorio y Pixel 7 emulado), incluido el caso nuevo del HUD del circuito; suite completa `npx playwright test --workers=1`: 48 E2E aprobados sin reintentos. La vuelta limpia con guion tarda unos 33 s reales (359 s simulados).
+- PR_RECORD_T03
+
 ## Pila y orden de fusión
 
-La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) está apilado sobre #22: fusionar #22 primero, después actualizar la base de [#23](https://github.com/grunch/al-volante/pull/23), comprobar su diff y repetir los checks.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 parte de `main` (`89791fc`); no tiene PRs padres abiertos. F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) está apilado sobre #22 y F04-T03 (PR_T03) sobre #23: fusionar #22 primero, después actualizar la base de [#23](https://github.com/grunch/al-volante/pull/23), comprobar su diff y repetir los checks; después lo mismo con PR_T03.
 
 ## Bloqueos
 
@@ -370,7 +383,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Continuar la etapa A de la fase 4: F04-T03 (examinador y reglas de circulación del circuito) apilada sobre `f04-t02-traffic`, consumiendo las interfaces de tránsito registradas arriba. Mientras tanto, atender CI y revisiones de [#22](https://github.com/grunch/al-volante/pull/22) y de [#23](https://github.com/grunch/al-volante/pull/23) cuando lleguen; no fusionar hasta la etapa B. Ver `CIUDAD.md` y ARQUITECTURA «Tránsito del circuito» para interfaces y aproximaciones.
+Continuar la etapa A de la fase 4: F04-T04 (estacionamiento y descenso, etapa III) apilada sobre `f04-t03-examiner`. La etapa II termina en `onCirculationStep` cuando `verdict.done` (el auto vuelve al tramo 1 tras el 8): ahí T04 debe entrar en una fase `parking` en vez de `finish`, con `completedStages` ya incluyendo `II`; la sesión expone `street` (tramo, límites, avisos), `circuit` (cajón de F04-T01 en `city.start`, marcas en `city.world.markings`) y `recordFault`/`interrupt` para las reglas r–y, baja i/j, alta p y eliminatorias d, q, r. Mientras tanto, atender CI y revisiones de #22, #23 y PR_T03 cuando lleguen; no fusionar hasta la etapa B.
 
 ## Decisiones que no deben reinterpretarse
 
