@@ -276,6 +276,38 @@ describe('exam modes, card and logbook (F04-T05)', () => {
     });
   });
 
+  it('a save still running when the exam restarts does not report on the new exam', async () => {
+    // Arrange: every write waits until the test releases it.
+    const memory = createMemoryStore();
+    const releases: (() => void)[] = [];
+    const store: ProgressStore = {
+      ...memory,
+      record: async (...args) => {
+        await new Promise<void>((resolve) => releases.push(resolve));
+        return memory.record(...args);
+      },
+    };
+    await openExam('/examen?modo=rendir', store);
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
+    runFrames(5);
+    await waitFor(() => expect(releases).toHaveLength(1));
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.restart }));
+    runFrames(5);
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
+    runFrames(5);
+    expect(screen.getByTestId('exam-saved')).toHaveAttribute('data-save', 'saving');
+
+    // Act: the first exam's write ends while the second one's is still pending.
+    act(() => releases[0]?.());
+    await waitFor(() => expect(releases).toHaveLength(2));
+
+    // Assert
+    expect(screen.getByTestId('exam-saved')).toHaveAttribute('data-save', 'saving');
+    act(() => releases[1]?.());
+    await waitFor(() => expect(screen.getByTestId('exam-saved')).toHaveAttribute('data-save', 'saved'));
+    expect((await store.load()).snapshot.attempts).toHaveLength(2);
+  });
+
   it('does not store the guided learning, and says so', async () => {
     const store = createMemoryStore();
     await openExam('/examen?modo=aprender', store);

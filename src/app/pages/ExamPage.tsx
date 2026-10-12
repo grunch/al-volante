@@ -141,12 +141,15 @@ function Exam({ content }: { content: Content }) {
   const sessionRef = useRef<Session>(session);
   const modeRef = useRef(mode);
   const startedAtRef = useRef(now().toISOString());
+  // Bumped by every restart: a save still running for an earlier session must not report on the new one.
+  const sessionIdRef = useRef(0);
   const subjectId = `route.${content.route.id}`;
 
   const begin = useCallback(
     (kind: TransmissionKind, nextSeed: number, nextStage: Stage | null) => {
       const nextCircuit = nextSeed === seed ? circuit : buildCircuit(city, createTraffic(city, nextSeed));
       sessionRef.current = newSession(kind, nextSeed, nextCircuit, nextStage);
+      sessionIdRef.current += 1;
       startedAtRef.current = now().toISOString();
       setSaveState('idle');
       setSession(sessionRef.current);
@@ -171,13 +174,16 @@ function Exam({ content }: { content: Content }) {
   const save = useCallback(
     (finished: Session, finishedMode: DrivingMode) => {
       setSaveState('saving');
+      const sessionId = sessionIdRef.current;
       const startedAt = startedAtRef.current;
       void recordAttempt((context) =>
         createDrivingAttempt(
           { session: finished, mode: finishedMode, subjectId },
           { id: context.id, contentVersion: context.contentVersion, startedAt, finishedAt: context.at },
         ),
-      ).then((outcome) => setSaveState(outcome === 'saved' ? 'saved' : 'failed'));
+      ).then((outcome) => {
+        if (sessionIdRef.current === sessionId) setSaveState(outcome === 'saved' ? 'saved' : 'failed');
+      });
     },
     [recordAttempt, subjectId],
   );
