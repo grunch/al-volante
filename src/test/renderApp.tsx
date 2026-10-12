@@ -13,6 +13,7 @@ import {
   ruleCatalog,
   sign,
   source,
+  theoryExamConfig,
   unit,
 } from '../content/testing/fixtures.ts';
 import { createFakeRenderer } from './fakeRenderer.ts';
@@ -49,6 +50,7 @@ export function testContent(): Content {
     ]),
     route: route(),
     figures: [],
+    theoryExam: theoryExamConfig(),
     activities: [choiceActivity()],
   };
 }

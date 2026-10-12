@@ -305,7 +305,7 @@ Políticas de repetición, según el texto del anexo II:
 | Intentos | 3 por clase y trámite; 5 días hábiles de espera tras reprobar | Disp. 860/2023, p. 96 |
 | Tipo para B | «Teórico 3: todas las subclases B» | Disp. 860/2023, p. 96 |
 
-**Decisión sobre el tiempo:** el simulacro usa **45 minutos por defecto**, porque coinciden la norma de procedimiento y la página oficial vigente de material de estudio. Además ofrece **40 minutos** como variante «más exigente», que remite al informe 2024. Los tres parámetros (preguntas, umbral y tiempo) son configuración versionada con su fuente, y la interfaz no los presenta como certificados. El simulacro es propio y no es el banco oficial.
+**Decisión sobre el tiempo:** el simulacro usa **45 minutos por defecto**, porque coinciden la norma de procedimiento y la página oficial vigente de material de estudio. Además ofrece **40 minutos** como variante «más exigente», que remite al informe 2024. Los tres parámetros (preguntas, umbral y tiempo) son configuración versionada con su fuente (`catalog/theory-exam.json`, desde F05-T05), y la interfaz no los presenta como certificados. El simulacro es propio y no es el banco oficial.
 
 Fuentes web consultadas el 2026-10-11:
 

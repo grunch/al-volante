@@ -4,8 +4,8 @@ import { VERIFICATION_STATUSES } from './schemas.ts';
 import { computeContentVersion, validateContent } from './validate.ts';
 import type { RawContent } from './validate.ts';
 import { loadContent } from './catalog.ts';
-import { computeCoverage } from './coverage.ts';
-import { catalog, choiceActivity, route, ruleCatalog } from './testing/fixtures.ts';
+import { auditCoverage, auditGaps, computeCoverage } from './coverage.ts';
+import { catalog, choiceActivity, route, ruleCatalog, source, theoryExamConfig } from './testing/fixtures.ts';
 
 function rawFixture(): RawContent {
   const data = catalog();
@@ -16,6 +16,7 @@ function rawFixture(): RawContent {
     rules: ruleCatalog([]),
     route: route(),
     figures: [],
+    theoryExam: theoryExamConfig(),
     activities: { 'manual-ch3': [choiceActivity()] },
   };
 }
@@ -159,60 +160,97 @@ describe('real content (integration)', () => {
   });
 });
 
-/** Sections whose units phase 5 has already reviewed and treated (CONTENIDO.md, coverage by task). */
-const TREATED_SECTIONS = [
-  'manual-front',
-  'manual-glossary',
-  'manual-intro',
-  'manual-ch1',
-  'manual-ch2',
-  'manual-ch3',
-  'manual-ch4',
-  'manual-ch5',
-  'manual-annex1',
-  'manual-annex2',
-  'manual-annex3',
-  'manual-annex4',
-  'protocolo-general',
-  'protocolo-stages',
-  'protocolo-evaluation',
-  'protocolo-annex1',
-  'protocolo-annex2',
-  'protocolo-annex3',
-  'recorridos-intro',
-  'recorridos-circuits',
-  'siniestros-intro',
-  'siniestros-s1',
-  'siniestros-s2',
-  'siniestros-s3',
-];
-
-describe('content coverage (integration)', () => {
-  it('treats every unit of the finished sections, by activity or as consultation', async () => {
+describe('global coverage audit (integration)', () => {
+  it('treats every unit and sign (by activity or as consultation), crops every sign and classifies every page', async () => {
     const result = await loadContent();
 
     if (!result.ok) throw new Error(result.errors.join('\n'));
-    const untreated = result.content.units
-      .filter((unit) => TREATED_SECTIONS.includes(`${unit.source}-${unit.section}`))
-      .filter((unit) => unit.status !== 'implemented' && unit.status !== 'tested')
-      .map((unit) => unit.id);
-    expect(untreated).toEqual([]);
+    const audit = auditCoverage(result.content);
+    expect(audit.units.untreated).toEqual([]);
+    expect(audit.signs.untreated).toEqual([]);
+    expect(audit.signs.withoutCrop).toEqual([]);
+    expect(audit.unclassifiedPages).toEqual([]);
   });
 });
 
-/** Pages whose signs phase 5 has not reached yet: none since F05-T03. */
-const SIGN_PAGES_PENDING: number[] = [];
+describe('auditCoverage', () => {
+  it('lists untreated units and signs, signs without a crop and unclassified pages', () => {
+    const data = catalog();
+    const audit = auditCoverage({
+      manifest: [source('manual', 3), source('siniestros', 1)],
+      pages: data.pages,
+      units: [...data.units, { ...data.units[0]!, id: 'manual.ch3.done', status: 'tested' }],
+      signs: [
+        {
+          id: 'sign.x.a',
+          page: 2,
+          group: 'G',
+          name: 'A',
+          meaning: '',
+          visual: 'v',
+          printedCode: null,
+          status: 'tested',
+          notes: '',
+          box: { x: 0, y: 0, width: 0.1, height: 0.1 },
+        },
+        {
+          id: 'sign.x.b',
+          page: 2,
+          group: 'G',
+          name: 'B',
+          meaning: '',
+          visual: 'v',
+          printedCode: null,
+          status: 'transcribed',
+          notes: '',
+        },
+      ],
+    });
 
-describe('sign coverage (integration)', () => {
-  it('crops and treats every sign of the finished pages, by activity or as consultation', async () => {
-    const result = await loadContent();
+    expect(audit.units).toEqual({
+      total: 2,
+      practiced: 1,
+      consultation: 0,
+      untreated: ['manual.ch3.roundabout-priority'],
+    });
+    expect(audit.signs).toMatchObject({ total: 2, practiced: 1, untreated: ['sign.x.b'], withoutCrop: ['sign.x.b'] });
+    expect(audit.unclassifiedPages).toEqual([{ source: 'manual', page: 3 }]);
+  });
+});
 
-    if (!result.ok) throw new Error(result.errors.join('\n'));
-    const finished = result.content.signs.filter((sign) => !SIGN_PAGES_PENDING.includes(sign.page));
-    expect(finished.filter((sign) => !sign.box).map((sign) => sign.id)).toEqual([]);
+describe('auditCoverage of a source without classified pages', () => {
+  it('reports every page of an audited source in the manifest that has no page records', () => {
+    const data = catalog();
+    const pages = data.pages.filter((page) => page.source !== 'recorridos');
+
+    const audit = auditCoverage({ manifest: data.manifest, pages, units: data.units, signs: [] });
+
+    expect(audit.unclassifiedPages).toHaveLength(19);
+    expect(audit.unclassifiedPages[0]).toEqual({ source: 'recorridos', page: 1 });
+  });
+});
+
+describe('auditGaps', () => {
+  it('describes each gap of an audit, and nothing when coverage is complete', () => {
+    const complete = {
+      units: { total: 1, practiced: 1, consultation: 0, untreated: [] },
+      signs: { total: 1, practiced: 1, consultation: 0, untreated: [], withoutCrop: [] },
+      unclassifiedPages: [],
+    };
+
+    expect(auditGaps(complete)).toEqual([]);
     expect(
-      finished.filter((sign) => sign.status !== 'implemented' && sign.status !== 'tested').map((sign) => sign.id),
-    ).toEqual([]);
+      auditGaps({
+        units: { ...complete.units, untreated: ['manual.ch3.a'] },
+        signs: { ...complete.signs, untreated: ['sign.x.b'], withoutCrop: ['sign.x.b'] },
+        unclassifiedPages: [{ source: 'manual', page: 3 }],
+      }),
+    ).toEqual([
+      'untreated units: manual.ch3.a',
+      'untreated signs: sign.x.b',
+      'signs without a crop: sign.x.b',
+      'unclassified pages: manual:3',
+    ]);
   });
 });
 

@@ -1,4 +1,15 @@
-import type { Activity, KnowledgeUnit, Page, Route, RouteLeg, Rule, RuleCatalog, Sign, Source } from '../schemas.ts';
+import type {
+  Activity,
+  KnowledgeUnit,
+  Page,
+  Route,
+  RouteLeg,
+  Rule,
+  RuleCatalog,
+  Sign,
+  Source,
+  TheoryExamConfig,
+} from '../schemas.ts';
 
 /** Minimal, valid fixtures; tests clone and break them one property at a time. */
 export function source(id: Source['id'], pages: number): Source {
@@ -248,6 +259,26 @@ export function choiceActivity(
         ],
       },
     ],
+    ...overrides,
+  };
+}
+
+/** A mock exam of 2 questions out of the ch3 section of the fixture catalog, pass with 1. */
+export function theoryExamConfig(overrides: Partial<TheoryExamConfig> = {}): TheoryExamConfig {
+  return {
+    version: '2026-10-12',
+    questions: 2,
+    passCorrect: 1,
+    optionsPerQuestion: 2,
+    timeMinutes: { default: 45, alternatives: [40] },
+    sections: ['manual-ch3'],
+    sources: ['questions', 'options', 'pass', 'time'].map((parameter) => ({
+      parameter: parameter as TheoryExamConfig['sources'][number]['parameter'],
+      text: 'Dato.',
+      reference: 'Disposición 860/2023, p. 96.',
+      url: 'https://example.org/disposicion.pdf',
+    })),
+    notes: '',
     ...overrides,
   };
 }

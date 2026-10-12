@@ -1,3 +1,4 @@
+import { AUDITED_SOURCE_IDS } from './schemas.ts';
 import type { AuditedSourceId, Category } from './schemas.ts';
 import type { Content } from './validate.ts';
 
@@ -57,4 +58,66 @@ export function computeCoverage({
     if (REVIEWED.has(unit.status)) entry.reviewedUnits += 1;
   }
   return [...sections.values()];
+}
+
+export interface CoverageAudit {
+  units: { total: number; practiced: number; consultation: number; untreated: string[] };
+  signs: { total: number; practiced: number; consultation: number; untreated: string[]; withoutCrop: string[] };
+  /** Physical pages of each audited source with no classification in pages.json. */
+  unclassifiedPages: Array<{ source: string; page: number }>;
+}
+
+const TREATED = new Set(['implemented', 'tested']);
+
+/**
+ * The global audit of phase 5 (F05-T05): every unit and sign treated (by activity or as consultation), every sign
+ * cropped and every page of the audited sources classified. Empty gaps mean full coverage.
+ */
+export function auditCoverage({
+  manifest,
+  pages,
+  units,
+  signs,
+}: Pick<Content, 'manifest' | 'pages' | 'units' | 'signs'>): CoverageAudit {
+  const consulted = <T extends { consultationReason?: string | undefined }>(items: readonly T[]) =>
+    items.filter((item) => item.consultationReason !== undefined).length;
+  const classified = new Set(pages.map((page) => `${page.source}:${page.page}`));
+  // Every audited source of the manifest, also one without any page record yet.
+  const audited = new Set<string>(AUDITED_SOURCE_IDS);
+  return {
+    units: {
+      total: units.length,
+      practiced: units.filter((unit) => unit.status === 'tested').length,
+      consultation: consulted(units),
+      untreated: units.filter((unit) => !TREATED.has(unit.status)).map((unit) => unit.id),
+    },
+    signs: {
+      total: signs.length,
+      practiced: signs.filter((sign) => sign.status === 'tested').length,
+      consultation: consulted(signs),
+      untreated: signs.filter((sign) => !TREATED.has(sign.status)).map((sign) => sign.id),
+      withoutCrop: signs.filter((sign) => sign.box === undefined).map((sign) => sign.id),
+    },
+    unclassifiedPages: manifest
+      .filter((source) => audited.has(source.id))
+      .flatMap((source) =>
+        Array.from({ length: source.pages }, (_, index) => ({ source: source.id, page: index + 1 })).filter(
+          ({ page }) => !classified.has(`${source.id}:${page}`),
+        ),
+      ),
+  };
+}
+
+/** One line per kind of gap in an audit; empty when coverage is complete (validate:content fails otherwise). */
+export function auditGaps({ units, signs, unclassifiedPages }: CoverageAudit): string[] {
+  const line = (label: string, items: readonly string[]) => (items.length > 0 ? [`${label}: ${items.join(', ')}`] : []);
+  return [
+    ...line('untreated units', units.untreated),
+    ...line('untreated signs', signs.untreated),
+    ...line('signs without a crop', signs.withoutCrop),
+    ...line(
+      'unclassified pages',
+      unclassifiedPages.map(({ source, page }) => `${source}:${page}`),
+    ),
+  ];
 }
