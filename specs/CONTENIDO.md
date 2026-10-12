@@ -100,7 +100,23 @@ Citas: «manual PDF n» y «guía PDF n» son páginas físicas de `fuentes/pdf/
 - **D-T02-17 «Acérquese a la parada…»** (PDF 194): vale la leyenda dibujada en la señal.
 - **D-T02-18 Luz amarilla** (PDF 64: «detenerse si aún no se ha iniciado el cruce»; PDF 197: detenerse «si no se llega a transponer la encrucijada antes del cambio a rojo»): se evalúa solo el caso en que coinciden (todavía no empezaste a cruzar y no llegarías antes del rojo); la explicación cita las dos.
 
-Observaciones nuevas de F05-T01 (agregadas a `catalog/issues.json`, que pasa de 206 a 214): límite de 13 m entre calle y avenida (glosario PDF 5–6), pictogramas de PDF 23 y 29, horario de la calle prioridad peatón (PDF 26 y 29), edad de 12 años en veredas (PDF 33), picadas como contravención (PDF 45), balizas en doble sentido (manual PDF 51 frente a guía PDF 8) y documentos a intercambiar (manual PDF 53 frente a guía PDF 7). Ninguna pregunta depende de ellas. F05-T02 agrega 12 (226 en total): banquina en PDF 60, mínimos de PDF 73, señal de ciclovía de PDF 32 frente a PDF 185, oblea de PDF 87, cheurones de niebla (PDF 79), diagramas de PDF 77, contracurva y curva en «S» (PDF 187), fondo azul de fin de prescripción (PDF 186 frente a 61), luz amarilla (PDF 64 frente a 197), carril de emergencia (PDF 63 frente a 196), erratas de PDF 195–196 y semáforos de PDF 197.
+### F05-T03
+
+- **D-T03-1 Alcohol** (PDF 91, Ley 2148: 0,5 g/l general, 0,20 motociclistas, 0,00 principiantes y profesionales; «ACOMPAÑANTE 0.50» sin explicar): la Ley nacional 27.714 de alcohol cero rige en rutas nacionales y en las jurisdicciones que adhieren; no se encontró confirmación oficial de que la Ciudad haya adherido ni de que mantenga sus límites (búsqueda del 12/10/2026: solo notas de prensa de hasta 2023 que dicen que mantenía los suyos). Se evalúa el 0,0 g/l de principiantes y profesionales (válido con cualquiera de las dos normas) y los efectos del alcohol; **no** se evalúan los límites de 0,5 y 0,2 ni el del acompañante: quedan en la unidad como consulta, con la advertencia en la explicación.
+- **D-T03-2 Distracciones** (PDF 96): ejemplos como cambiar el CD o mirar un DVD están desactualizados; se evalúa el concepto (todo lo que saca la vista, las manos o la atención de la conducción), no esos aparatos como respuesta.
+- **D-T03-3 Capítulo 5, cifras de la infografía de viajes de mujeres y línea por SMS** (PDF 100): no se evalúan porcentajes ni números de contacto.
+- **D-T03-4 Ralentí de 5 minutos** (PDF 102): relación causal ambigua; se evalúan las recomendaciones de conducción eficiente sin la cifra de 5 minutos.
+- **D-T03-5 Elementos de seguridad** (PDF 106 los llama «adicionales», PDF 119–120 los presenta como obligatorios): se evalúa lo que dice la sección específica (PDF 119–120), sin preguntar si son «adicionales u obligatorios».
+- **D-T03-6 Fecha del neumático** (PDF 108): se evalúa cómo se lee el código (semana y año), no la equivalencia «tercera semana de abril».
+- **D-T03-7 Espejos laterales, 10 %** (PDF 110): se evalúa que el propio vehículo apenas debe verse en el espejo lateral, sin la cifra si la pregunta depende de la ambigüedad.
+- **D-T03-8 Niños en asientos delanteros** (PDF 114, combinación ambigua de 12 años, 1,50 m y 36 kg; nota con 10 años de la ley nacional): se evalúan solo casos que cumplen todas las condiciones a la vez (por ejemplo, un chico de 7 años viaja atrás con su SRI), no los casos frontera ni el límite nacional.
+- **D-T03-9 Contramarcha del SRI** (PDF 115 frente a 116): se evalúa que los bebés viajan a contramarcha en los primeros grupos, no el corte exacto de edad o peso.
+- **D-T03-10 Objetos sueltos** (PDF 117, «hasta 40 veces su peso» y un ejemplo de ~41): se evalúa el concepto (en un choque a 50 km/h un objeto suelto multiplica muchas veces su peso y se vuelve un proyectil); la cifra solo en la explicación.
+- **D-T03-11 Cristales laminados o templados** (PDF 118): no se evalúa cuál se rompe en pedazos pequeños.
+- **D-T03-12 Cuarta de enganche** (PDF 121): se evalúa que en la Ciudad un vehículo particular no puede remolcar a otro.
+- **D-T03-13 Tercera fila del SRI** (PDF 116): no se evalúa.
+
+Observaciones nuevas de F05-T01 (agregadas a `catalog/issues.json`, que pasa de 206 a 214): límite de 13 m entre calle y avenida (glosario PDF 5–6), pictogramas de PDF 23 y 29, horario de la calle prioridad peatón (PDF 26 y 29), edad de 12 años en veredas (PDF 33), picadas como contravención (PDF 45), balizas en doble sentido (manual PDF 51 frente a guía PDF 8) y documentos a intercambiar (manual PDF 53 frente a guía PDF 7). Ninguna pregunta depende de ellas. F05-T03 agrega 3 más (229): ABS «no obligatorio» (PDF 107), el paréntesis de PDF 100 y el orden de luz de giro y velocidad de PDF 110 frente a PDF 75. F05-T02 agrega 12 (226 en total): banquina en PDF 60, mínimos de PDF 73, señal de ciclovía de PDF 32 frente a PDF 185, oblea de PDF 87, cheurones de niebla (PDF 79), diagramas de PDF 77, contracurva y curva en «S» (PDF 187), fondo azul de fin de prescripción (PDF 186 frente a 61), luz amarilla (PDF 64 frente a 197), carril de emergencia (PDF 63 frente a 196), erratas de PDF 195–196 y semáforos de PDF 197.
 
 ## Cobertura por tarea
 
@@ -108,8 +124,9 @@ Observaciones nuevas de F05-T01 (agregadas a `catalog/issues.json`, que pasa de 
 |---|---|---:|---:|---:|---:|---:|
 | F05-T01 | Presentación, glosario, introducción, cap. 1–2 y guía de siniestros | 260 | 254 | 6 | 105 (351 variantes) | 23 |
 | F05-T02 | Cap. 3 y anexo IV, con el catálogo visual de señales | 153 | 151 | 2 | 128 (573 variantes) | 28 |
+| F05-T03 | Cap. 4–5 y anexo I, con la inspección del auto («Mi garaje») | 107 | 106 | 1 | 59 (192 variantes) | 17 |
 
-Señales (F05-T02): 354 de las 355 recortadas de su página y revisadas (`name`, `meaning` solo cuando la fuente lo da, y `visual`, que es el texto alternativo y no delata la respuesta); 350 `tested` por actividades de identificación y 4 de consulta (las tres luces intermitentes, que un dibujo fijo no distingue de la luz fija, y «Barreras ferroviarias», incompleta en el PDF). La restante (PDF 91, íconos de alcohol) es del capítulo 4 (F05-T03).
+Señales (F05-T02): 354 de las 355 recortadas de su página y revisadas (`name`, `meaning` solo cuando la fuente lo da, y `visual`, que es el texto alternativo y no delata la respuesta); 350 `tested` por actividades de identificación y 4 de consulta (las tres luces intermitentes, que un dibujo fijo no distingue de la luz fija, y «Barreras ferroviarias», incompleta en el PDF). La restante (PDF 91, ícono de principiante de la tabla de alcohol) se recortó y practica en F05-T03: las 355 tienen recorte y tratamiento.
 
 Además, en F05-T01 se revisaron contra sus páginas las 14 unidades (cap. 1, 3 y anexo IV) y las 4 señales que practican las 8 actividades de la fase 2; quedan `tested`.
 

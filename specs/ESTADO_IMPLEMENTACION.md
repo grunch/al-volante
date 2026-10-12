@@ -436,6 +436,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|
 | F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | abierto; Codex sin observaciones (`ef44c0b`); CodeRabbit pendiente por cuota |
 | F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | [#29](https://github.com/grunch/al-volante/pull/29) | abierto; Codex solicitado, CodeRabbit automático |
+| F05-T03 | `f05-t03-garage` | `f05-t02-signs` (#29) | (se completa al crear el PR) | implementada; revisiones pendientes |
 
 ### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
 
@@ -457,6 +458,16 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - **Pruebas:** la de recorrido del catálogo comprueba la estructura de lo que se muestra (sin claves que revelen la respuesta) en lugar de buscar texto; la de política de contenido distingue el cordón amarillo permitido (prohíbe estacionar) del no resuelto (detenerse, 24 horas); prueba de cobertura de señales.
 - Método: seis lotes por páginas (tres del capítulo 3 y tres del anexo IV) con guía común y detector de señales por segmentación de imagen; revisión del autor con heurísticas sobre todas las variantes y hojas de contacto rotuladas de recortes.
 
+### F05-T03 — Capítulos 4–5, anexo I e inspección del auto («Mi garaje»)
+
+- Apilada sobre `f05-t02-signs` (#29). Orden: #27 → #28 → #29 → este PR.
+- Alcance:
+  - **Contenido:** las 107 unidades de los capítulos 4 (capacidad natural) y 5 (actitud) y del anexo I (automóviles particulares) revisadas contra la imagen (17 correcciones), 59 actividades nuevas (30 de opción única, 25 escenas, 3 de ordenar y 1 de identificación; 192 variantes) y 17 figuras. 106 unidades `tested` y 1 de consulta: el límite general de alcohol de 0,5 g/l (D-T03-1). La señal de PDF 91 (ícono de principiante de la tabla de alcohol) recortada y practicada: las 355 señales tienen recorte y tratamiento.
+  - **Inspección del auto:** escenas de revisión antes de salir (neumáticos, frenos, luces, espejos, cinturones, sillitas, elementos de seguridad, equipaje y mascotas) en el anexo I.
+  - **«Mi garaje»** (`#/garaje`): la práctica de la etapa I del examen y la pista de prueba (asiento, apoyacabezas, espejos, cinturón) y las actividades de revisión del anexo I. El espacio del inicio deja de estar «Próximamente».
+  - **Decisiones:** D-T03-1 a D-T03-13 en `CONTENIDO.md` (alcohol: solo se evalúa el 0,0 g/l de principiantes y profesionales, porque no se pudo confirmar si en la Ciudad rige la ley nacional de alcohol cero o la Ley 2148; búsqueda del 12/10/2026). 3 observaciones nuevas (229). La prueba de política de contenido controla que ninguna respuesta correcta use los límites de 0,5 o 0,2 g/l.
+- Método: tres lotes por páginas con la guía común y la de la tarea; revisión del autor con heurísticas sobre todas las variantes.
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) parte de `main`.
@@ -469,7 +480,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: abrir el PR de F05-T02 y seguir con F05-T03 (capítulos 4–5, anexo I e inspección del auto; habilita «Mi garaje»), T04 y T05 sin esperar revisiones. Después, etapa B con el usuario.
+La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: abrir el PR de F05-T03 y seguir con F05-T04 (anexos II–III, protocolo y recorridos de consulta) y F05-T05 (simulacros teóricos y auditoría global) sin esperar revisiones. Después, etapa B con el usuario.
 
 ### Cierre de la fase 4 contra el plan
 

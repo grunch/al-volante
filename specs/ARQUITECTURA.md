@@ -89,6 +89,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 | `#/pista` | Pista de prueba de la simulación (F03-T01): predio cerrado con cajón, cordón y paredes; teclado, velocidad, recorrido y contactos. Provisional hasta el habitáculo (F03-T03). |
 | `#/bitacora` | «Mi bitácora»: repaso recomendado, errores recientes, progreso por concepto (campaña B separada del complemento) y respaldo (F02-T05). |
 | `#/biblioteca` | Las cuatro fuentes oficiales, con edición, cantidad de páginas y PDF oficial. |
+| `#/garaje` | «Mi garaje» (F05-T03): la práctica de la etapa I y la pista de prueba para regular asiento, apoyacabezas, espejos y cinturón, y las actividades de revisión del auto del anexo I. Enlazado desde el espacio del inicio. |
 | `#/senales` | Catálogo visual de señales (F05-T02): todas las del manual por familia y grupo, con su recorte, nombre, significado si la fuente lo da, página y la actividad donde se practican. Enlazado desde la biblioteca y desde las páginas con señales. |
 | `#/biblioteca/:fuente/:página` | Una página física: clasificación, resumen, unidades, figuras, señales, observaciones, reglas del examen que la citan (protocolo), texto extraído y enlace al PDF oficial en esa página. |
 
