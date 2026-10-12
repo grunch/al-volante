@@ -437,7 +437,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | abierto; Codex sin observaciones (`ef44c0b`); CodeRabbit pendiente por cuota |
 | F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | [#29](https://github.com/grunch/al-volante/pull/29) | abierto; Codex solicitado, CodeRabbit automático |
 | F05-T03 | `f05-t03-garage` | `f05-t02-signs` (#29) | [#30](https://github.com/grunch/al-volante/pull/30) | abierto; Codex solicitado, CodeRabbit automático |
-| F05-T04 | `f05-t04-complement` | `f05-t03-garage` (#30) | (se completa al crear el PR) | implementada; revisiones pendientes |
+| F05-T04 | `f05-t04-complement` | `f05-t03-garage` (#30) | [#32](https://github.com/grunch/al-volante/pull/32) | abierto; Codex solicitado, CodeRabbit automático |
 
 ### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
 
@@ -471,7 +471,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ### F05-T04 — Anexos II–III, protocolo y recorridos
 
-- Apilada sobre `f05-t03-garage` (#30). Orden: #27 → #28 → #29 → #30 → este PR.
+- PR [#32](https://github.com/grunch/al-volante/pull/32), apilado sobre `f05-t03-garage` (#30). Orden: #27 → #28 → #29 → #30 → #32.
 - Alcance:
   - **Anexos II y III (material complementario):** las 185 unidades revisadas contra la imagen (17 correcciones), 82 actividades nuevas y 47 figuras. 177 unidades `tested` y 8 de consulta (tablas de autopistas, mapa de hospitales, tarifas y los avisos del Paseo del Bajo que solo lista el anexo III).
   - **Protocolo y recorridos:** pasan a estar clasificados página por página (42 y 19 páginas, categoría `exam`), con 44 unidades nuevas. 12 de ellas tienen actividad: reglas generales del examen, con los datos de `REGLAS.md`, y la presentación de los recorridos. Las otras 32 son de consulta: lo que se practica al volante, los gráficos del anexo I y los 14 circuitos de 2026 y 7 de 2023, con una figura por lámina. 12 actividades nuevas y 6 figuras del protocolo.
@@ -492,7 +492,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: abrir el PR de F05-T04 y seguir con F05-T05 (simulacros teóricos y auditoría global) sin esperar revisiones. Después, etapa B con el usuario.
+La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: F05-T04 ya está abierto ([#32](https://github.com/grunch/al-volante/pull/32)); seguir con F05-T05 (simulacros teóricos y auditoría global) sin esperar revisiones. Después, etapa B con el usuario.
 
 ### Cierre de la fase 4 contra el plan
 
