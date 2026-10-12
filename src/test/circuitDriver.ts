@@ -41,9 +41,13 @@ const KERB_MARGIN_M = 2;
 const PRECAUTION_MPS = 5;
 /** How far ahead (seconds) the driver projects a cyclist riding towards a crossing it is about to enter. */
 const CYCLIST_HORIZON_S = [0.5, 1, 1.5, 2, 2.5, 3];
-/** Before turning across the cycle track, the driver lets through cyclists this far behind on the side of the turn. */
+/**
+ * Before turning across the cycle track, the driver lets through cyclists this far behind on the side of the turn,
+ * no farther to that side than the track can be (heuristics of this test driver, not protocol thresholds).
+ */
 const CYCLIST_BEHIND_M = 25;
 const CYCLIST_AHEAD_M = 6;
+const CYCLIST_LATERAL_M = 8;
 /** The manual test driver: first gear from a stop, second above this speed; clutch down under this speed. */
 const MANUAL_SECOND_GEAR_MPS = 3.5;
 const MANUAL_CLUTCH_DOWN_MPS = 2.2;
@@ -234,7 +238,8 @@ export function cruise(exam: CityExam, options: CruiseOptions): void {
           const dz = pose.z - body.centerZ;
           const along = dx * Math.sin(vehicle.headingRad) + dz * Math.cos(vehicle.headingRad);
           const left = dx * Math.cos(vehicle.headingRad) - dz * Math.sin(vehicle.headingRad);
-          const onTurnSide = crossing.corner?.turn === 'left' ? left > 1 : left < -1;
+          const side = crossing.corner?.turn === 'left' ? left : -left;
+          const onTurnSide = side > 1 && side < CYCLIST_LATERAL_M;
           return onTurnSide && along > -CYCLIST_BEHIND_M && along < body.halfLengthM + CYCLIST_AHEAD_M;
         });
       if (crossing.rule === 'stop' && options.stopAtStops !== false && clearedStop !== crossing.approachId) {
