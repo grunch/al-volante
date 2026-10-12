@@ -2,14 +2,29 @@ import { describe, expect, it } from 'vitest';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import { FIRST_BLOCK, FIRST_BLOCK_START, FIRST_BLOCK_ZONES } from '../sim/tracks/firstBlock.ts';
 import { EXAM_CAR, bodyBox } from '../sim/vehicle.ts';
+import type { World } from '../sim/world.ts';
+import type { Course } from './session.ts';
 import { Driver, IDLE } from '../test/examDriver.ts';
 import type { CarControls, CarState } from '../sim/car.ts';
 
 const { stopLineZ, crosswalk, intersection } = FIRST_BLOCK_ZONES;
 
 /** A driver on the first block who has already left the box and is straight in the lane. */
-function inTheLane(kind: TransmissionKind): Driver {
-  const driver = new Driver(kind, 7, FIRST_BLOCK, FIRST_BLOCK_START, FIRST_BLOCK_ZONES);
+/** The first block without kerbs, fronts or avenue, and its corner 300 m further: room for speed episodes. */
+const LONG_BLOCK: World = {
+  surface: FIRST_BLOCK.surface,
+  obstacles: FIRST_BLOCK.obstacles.filter((obstacle) => obstacle.kind === 'pole'),
+  markings: FIRST_BLOCK.markings ?? [],
+};
+const LONG_COURSE = {
+  ...FIRST_BLOCK_ZONES,
+  stopLineZ: FIRST_BLOCK_ZONES.stopLineZ + 300,
+  crosswalk: { ...FIRST_BLOCK_ZONES.crosswalk, centerZ: FIRST_BLOCK_ZONES.crosswalk.centerZ + 300 },
+  intersection: { ...FIRST_BLOCK_ZONES.intersection, centerZ: FIRST_BLOCK_ZONES.intersection.centerZ + 300 },
+};
+
+function inTheLane(kind: TransmissionKind, world: World = FIRST_BLOCK, course: Course = FIRST_BLOCK_ZONES): Driver {
+  const driver = new Driver(kind, 7, world, FIRST_BLOCK_START, course);
   driver.ready();
   driver.recognise();
   driver.prepareProperly();
@@ -204,6 +219,48 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
     expect(driver.faults).not.toContain('rule.eliminatory.l-road-speed-limit-exceeded');
   });
 
+  it('an exceeding that reaches the road maximum keeps only the eliminatory fault, and a corrected one opens a new episode', () => {
+    // The real block leaves 21 m between the end of the first 100 m and the line: a longer, open one for this.
+    const driver = inTheLane('automatic', LONG_BLOCK, LONG_COURSE);
+    cruiseTo(driver, 60);
+    cruiseTo(driver, 104);
+    expect(driver.phase).toBe('approach');
+
+    // Over the exam limit, back under it, over it again: two episodes of the exam-speed fault (D3).
+    laneKeeping(driver, { ...IDLE, throttle: 1 }, (car) => car.world.vehicle.speedMps * 3.6 > 33, 20);
+    laneKeeping(driver, { ...IDLE, brake: 0.3 }, (car) => car.world.vehicle.speedMps * 3.6 < 28, 20);
+    laneKeeping(driver, { ...IDLE, throttle: 1 }, (car) => car.world.vehicle.speedMps * 3.6 > 33, 20);
+    expect(driver.faults).toEqual(['rule.high.f-exam-speed-exceeded', 'rule.high.f-exam-speed-exceeded']);
+
+    // The same episode goes on past the road maximum: its exam-speed fault is replaced by the eliminatory one (D2).
+    laneKeeping(driver, { ...IDLE, throttle: 1 }, (car) => car.world.vehicle.speedMps * 3.6 > 42, 20);
+
+    expect(driver.faults).toEqual(['rule.high.f-exam-speed-exceeded', 'rule.eliminatory.l-road-speed-limit-exceeded']);
+    expect(driver.session.ledger.points).toBe(11);
+
+    // Easing off to 35 km/h is still the same episode: the exam-speed fault does not come back.
+    laneKeeping(driver, { ...IDLE, brake: 0.3 }, (car) => car.world.vehicle.speedMps * 3.6 < 36, 20);
+    laneKeeping(driver, { ...IDLE, throttle: 0.3 }, (_, t) => t > 1, 5);
+    expect(driver.faults).toEqual(['rule.high.f-exam-speed-exceeded', 'rule.eliminatory.l-road-speed-limit-exceeded']);
+
+    // Still over the limit on reaching the corner (signalled in time): another road context, another episode (D3).
+    driver.cabin({ type: 'signal', value: 'right' });
+    const kmh = () => driver.car.world.vehicle.speedMps * 3.6;
+    // Held between the exam limit and the road maximum (about 34 km/h) all the way into the turn.
+    for (let guard = 0; guard < 400 && driver.phase !== 'turn'; guard += 1)
+      laneKeeping(driver, { ...IDLE, throttle: kmh() < 34 ? 0.5 : 0.05 }, (_, t) => t >= 0.25, 1);
+    laneKeeping(driver, { ...IDLE, throttle: kmh() < 34 ? 0.5 : 0.05 }, (_, t) => t > 0.5, 5);
+    expect(driver.phase).toBe('turn');
+    expect(kmh()).toBeGreaterThan(31);
+    expect(kmh()).toBeLessThan(40);
+
+    expect(driver.faults).toEqual([
+      'rule.high.f-exam-speed-exceeded',
+      'rule.eliminatory.l-road-speed-limit-exceeded',
+      'rule.high.f-exam-speed-exceeded',
+    ]);
+  });
+
   it('driving onto the crosswalk while the pedestrian is on it does not yield; hitting them is eliminatory', () => {
     // Wait for the green just before the pedestrian's trigger, then go: the pedestrian steps off as the car moves.
     const driver = inTheLane('automatic');
@@ -219,9 +276,13 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
       20,
     );
 
-    expect(driver.faults[0]).toBe('rule.high.l-yield-to-pedestrians-cyclists');
-    const hit = driver.session.ledger.faults.some((fault) => fault.escalated);
-    if (hit) expect(driver.session.ledger.interruption?.cause).toBe('fault');
+    expect(driver.faults).toEqual(['rule.high.l-yield-to-pedestrians-cyclists']);
+    const hit = driver.scenario?.touching.includes('pedestrian') || driver.phase === 'finished';
+    if (hit) {
+      // Entering the crosswalk scored the fault; hitting the pedestrian raised that same fault to eliminatory.
+      expect(driver.session.ledger.faults[0]).toMatchObject({ points: 8, escalated: true });
+      expect(driver.session.ledger.interruption?.cause).toBe('fault');
+    }
   });
 
   it('going straight through instead of turning ignores the examiner', () => {

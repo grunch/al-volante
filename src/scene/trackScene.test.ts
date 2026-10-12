@@ -82,6 +82,20 @@ describe('track scene', () => {
   });
 });
 
+describe('track scene ground', () => {
+  it('covers the whole first block, crossing included, instead of a fixed square around the origin', () => {
+    const view = createTrackScene(FIRST_BLOCK, EXAM_CAR, { reducedMotion: true });
+    const ground = view.scene.getObjectByName('ground') as THREE.Mesh;
+    const bounds = new THREE.Box3().setFromObject(ground);
+    const grid = view.scene.getObjectByName('grid');
+
+    expect(bounds.max.z).toBeGreaterThan(FIRST_BLOCK_ZONES.intersection.centerZ + 30);
+    expect(bounds.min.z).toBeLessThan(FIRST_BLOCK_START.z - 10);
+    expect(grid?.position.z).toBeCloseTo(ground.position.z, 6);
+    view.dispose();
+  });
+});
+
 describe('track scene scenario', () => {
   it('draws the scenario actors and a traffic light, and moves them with the scenario state', () => {
     const view = createTrackScene(FIRST_BLOCK, EXAM_CAR, { reducedMotion: true });
