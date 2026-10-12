@@ -58,6 +58,8 @@ describe('exam page', () => {
   it('scores a wrong answer during the recognition and lists the fault with its points', async () => {
     const canvas = await openExam();
     await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.ready }));
+    // The recognition starts by putting the car back, which releases every held key: wait for that frame.
+    runFrames(5);
     const says = screen.getByTestId('examiner-says');
     const asked = says.textContent;
     const pedal = (
@@ -101,6 +103,20 @@ describe('exam page', () => {
     const points = Number(screen.getByTestId('exam-points').textContent);
     expect(points).toBeGreaterThan(0);
     expect(screen.getByText(new RegExp(EXAM_COPY.faultPoints(points)))).toBeInTheDocument();
+  });
+
+  it('puts the car back with the engine off when the recognition starts, whatever happened while familiarising', async () => {
+    const canvas = await openExam();
+    // Manual in neutral: K turns the key to start.
+    fireEvent.keyDown(canvas, { code: 'KeyK' });
+    runFrames(5);
+    expect(canvas).toHaveAttribute('data-engine', 'running');
+
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.ready }));
+    runFrames(5);
+
+    expect(canvas).toHaveAttribute('data-engine', 'off');
+    expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'recognition');
   });
 
   it('asking to stop interrupts and disapproves, and restarting clears everything', async () => {

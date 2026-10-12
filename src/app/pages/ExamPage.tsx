@@ -67,7 +67,10 @@ function Exam({ content }: { content: Content }) {
     setResetCount((count) => count + 1);
   };
   const onObservation = useCallback((observation: Observation) => {
+    const before = sessionRef.current.phase;
     sessionRef.current = observe(sessionRef.current, observation);
+    // The recognition starts as stage I requires: engine off, key in contact, car in the box (protocolo PDF 9).
+    if (before === 'familiarisation' && sessionRef.current.phase === 'recognition') setResetCount((count) => count + 1);
     // Steps come 120 times a second: the page refreshes with the telemetry; commands refresh at once.
     if (observation.type !== 'step') setSession(sessionRef.current);
   }, []);
@@ -132,7 +135,7 @@ function Exam({ content }: { content: Content }) {
       </section>
       <Suspense fallback={<p className="scene-canvas__status">{copy.loading}</p>}>
         <DrivingCanvas
-          key={`${transmission}-${resetCount}`}
+          key={transmission}
           world={PRACTICE_YARD}
           start={EXAM_START}
           transmission={transmission}
@@ -140,6 +143,7 @@ function Exam({ content }: { content: Content }) {
           loadingText={copy.loading}
           unavailableText={copy.unavailable}
           prepared={EXAM_PREPARED}
+          resetCount={resetCount}
           onObservation={onObservation}
           onTelemetry={onTelemetry}
           {...(createRenderer ? { createRenderer } : {})}

@@ -382,6 +382,8 @@ export const COCKPIT_COPY = {
     lookRight: 'Mirar a la derecha',
     lookBack: 'Mirar hacia atrás',
     lookCenter: 'Mirar al frente',
+    glanceLeft: 'Mirar el espejo izquierdo',
+    glanceRight: 'Mirar el espejo derecho',
     belt: 'Cinturón',
     lights: 'Cambiar luces',
     signalLeft: 'Giro izquierdo',
@@ -497,7 +499,7 @@ export const EXAM_COPY = {
   exitManoeuvres: 'Maniobras de salida',
   pendingMeasure: 'pendiente',
   approximations:
-    'Aproximaciones del juego, no reglas del protocolo: tolerancia de ±10 cm en los 30 cm (V2); un poste tocado a menos de 1 m/s es un roce y a más, un derribo; chequear los espejos se registra al girar la cabeza (D4). Ver REGLAS.md §7.',
+    'Aproximaciones del juego, no reglas del protocolo: tolerancia de ±10 cm en los 30 cm (V2); un poste tocado a menos de 1 m/s es un roce y a más, un derribo; chequear los espejos se registra al mirar un espejo lateral (un giro corto de la cabeza, D4); girar del todo la cabeza no lo reemplaza (X6); el cordón tocado a menos de 1 m/s es un roce de la rueda y a más, subirse a la vereda. Ver REGLAS.md §7.',
   source: 'Protocolo: etapa I (PDF 9–10), maniobrabilidad y salida del cajón (PDF 11), puntaje (PDF 14).',
   homeLink: 'Examen práctico',
 } as const;

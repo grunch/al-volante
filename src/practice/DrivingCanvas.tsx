@@ -126,6 +126,13 @@ export function DrivingCanvas({
         case 'lookCenter':
           command({ type: 'look', yaw: 0, pitch: 0 });
           break;
+        // A glance at a side mirror: a short turn of the head, which the exam counts as checking the mirror.
+        case 'glanceLeft':
+          command({ type: 'look', yaw: 0.5, pitch: 0 });
+          break;
+        case 'glanceRight':
+          command({ type: 'look', yaw: -0.5, pitch: 0 });
+          break;
         case 'belt':
         case 'hazards':
         case 'wipers':

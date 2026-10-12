@@ -6,6 +6,8 @@ export const DEFAULT_BINDINGS = {
   lookRight: ['KeyL'],
   lookBack: ['KeyB'],
   lookCenter: ['KeyI'],
+  glanceLeft: ['KeyU'],
+  glanceRight: ['KeyP'],
   belt: ['KeyC'],
   lights: ['KeyO'],
   signalLeft: ['KeyZ'],

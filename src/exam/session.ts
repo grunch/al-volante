@@ -15,8 +15,12 @@ export const GAME_PARAMETERS = {
   steerHeldRad: 0.03,
   /** A post touched slower than this is a scrape (high d); faster, it is knocked over (eliminatory d). */
   markerKnockSpeedMps: 1,
-  /** Turning the head at least this far counts as checking the mirrors before leaving the box (D4). */
-  mirrorCheckYawRad: 0.5,
+  /** A glance within this yaw range is a look at a side mirror (D4); turning further is a head turn, a complement only (X6). */
+  mirrorGlanceYawRad: { min: 0.25, max: 0.9 },
+  /** A kerb touched slower than this is a scrape of the wheel (minor i); faster, the car mounted it (eliminatory d). */
+  kerbMountSpeedMps: 1,
+  /** Braking during a manual 30 cm manoeuvre is allowed only to immobilise: moving further than this afterwards is not. */
+  brakeThenMoveM: 0.05,
   /** Standing still this long ends a 30 cm manoeuvre. */
   settleS: 0.5,
   /** Faster than this, the car has moved off in stage II (belt check, cutoff no longer applies). */
@@ -62,6 +66,8 @@ interface Manoeuvre {
   moved: boolean;
   violated: boolean;
   stoppedS: number;
+  /** Displacement when the brake was first pressed while moving (manual), to tell a final stop from regulating. */
+  brakedAtM: number | null;
 }
 
 export interface Session {
@@ -77,6 +83,8 @@ export interface Session {
   queue: readonly RecognitionTarget[];
   adjusted: { seat: boolean; headrest: boolean; mirrors: boolean };
   pedalsDown: { throttle: boolean; brake: boolean; clutch: boolean };
+  /** Gear or lever position last engaged, to tell a shift towards the asked gear from one away from it. */
+  lastGear: string;
   engineStarts: number;
   handbrakeEpisodes: number;
   /** The car moved in stage II, so the cutoff before circulation no longer applies. */
@@ -118,11 +126,26 @@ function familyOf(target: RecognitionTarget): Family {
   return LIGHT_TARGETS.includes(target) ? 'lights' : 'instruments';
 }
 
+/** Every position of the box, in the order the lever reaches them. */
+const BOX_SEQUENCE: Record<TransmissionKind, readonly string[]> = {
+  manual: ['R', 'N', '1', '2', '3', '4', '5'],
+  automatic: ['P', 'R', 'N', 'D'],
+};
+
+/** The gearbox is run through whole and back to N or P (protocolo PDF 9), one neighbour at a time. */
+const GEAR_ROUND: Record<TransmissionKind, readonly string[]> = {
+  manual: ['1', '2', '3', '4', '5', '4', '3', '2', '1', 'N', 'R', 'N'],
+  automatic: ['R', 'N', 'D', 'N', 'R', 'P'],
+};
+
+/** Pedals, lights and instruments in a seeded random order; the gearbox round keeps its order, as one block. */
 function recognitionQueue(kind: TransmissionKind, seed: number): RecognitionTarget[] {
+  const random = createRandom(seed);
   const pedals: RecognitionTarget[] = kind === 'manual' ? ['clutch', 'brake', 'throttle'] : ['brake', 'throttle'];
-  const gears: RecognitionTarget[] =
-    kind === 'manual' ? ['gear-1', 'gear-R', 'gear-N'] : ['gear-P', 'gear-R', 'gear-N', 'gear-D'];
-  return shuffle([...pedals, ...gears, ...LIGHT_TARGETS, ...INSTRUMENT_TARGETS], createRandom(seed));
+  const others = shuffle([...pedals, ...LIGHT_TARGETS, ...INSTRUMENT_TARGETS], random);
+  const gears: RecognitionTarget[] = GEAR_ROUND[kind].map((gear) => `gear-${gear}` as const);
+  const at = Math.floor(random() * (others.length + 1));
+  return [...others.slice(0, at), ...gears, ...others.slice(at)];
 }
 
 export function createSession(rules: readonly Rule[], kind: TransmissionKind, seed: number): Session {
@@ -139,6 +162,7 @@ export function createSession(rules: readonly Rule[], kind: TransmissionKind, se
     queue: recognitionQueue(kind, seed),
     adjusted: { seat: false, headrest: false, mirrors: false },
     pedalsDown: { throttle: false, brake: false, clutch: false },
+    lastGear: kind === 'manual' ? 'N' : 'P',
     engineStarts: 0,
     handbrakeEpisodes: 0,
     movedOff: false,
@@ -185,6 +209,17 @@ function judgeRecognition(session: Session, answered: RecognitionTarget): Sessio
   return nextPrompt(fault(session, FAMILY_RULES[familyOf(target)]));
 }
 
+/** A gear on the way to the asked one is not an answer yet; a gear further away from it is a wrong one. */
+function judgeGear(session: Session, engaged: string): Session {
+  const target = session.queue[0];
+  const next: Session = { ...session, lastGear: engaged };
+  if (target === undefined || !target.startsWith('gear-')) return next;
+  const sequence = BOX_SEQUENCE[session.kind];
+  const distance = (gear: string) => Math.abs(sequence.indexOf(gear) - sequence.indexOf(target.slice(5)));
+  if (engaged === target.slice(5)) return nextPrompt(next);
+  return distance(engaged) > distance(session.lastGear) ? nextPrompt(fault(next, FAMILY_RULES.gears)) : next;
+}
+
 function cockpitAnswer(command: CockpitCommand): RecognitionTarget | null {
   switch (command.type) {
     case 'lights':
@@ -212,7 +247,9 @@ function onCockpit(session: Session, command: CockpitCommand, after: CockpitStat
   // Taking the belt off during the exam eliminates (eliminatory c).
   if (inStageTwo(next) && next.movedOff && command.type === 'toggle' && command.control === 'belt' && !after.belt)
     return fault(next, 'rule.eliminatory.c-no-seatbelt');
-  if (next.phase === 'exit' && command.type === 'look' && Math.abs(after.lookYaw) >= GAME_PARAMETERS.mirrorCheckYawRad)
+  const yaw = Math.abs(after.lookYaw);
+  const { min, max } = GAME_PARAMETERS.mirrorGlanceYawRad;
+  if (next.phase === 'exit' && command.type === 'look' && yaw >= min && yaw <= max)
     return { ...next, exit: { ...next.exit, looked: true } };
   return next;
 }
@@ -220,10 +257,16 @@ function onCockpit(session: Session, command: CockpitCommand, after: CockpitStat
 function onReady(session: Session): Session {
   switch (session.phase) {
     case 'familiarisation': {
-      const first = session.queue[0];
+      // The page puts the car back as stage I requires (engine off, key in contact); pedals start up.
+      const reset: Session = {
+        ...session,
+        pedalsDown: { throttle: false, brake: false, clutch: false },
+        lastGear: session.kind === 'manual' ? 'N' : 'P',
+      };
+      const first = reset.queue[0];
       return first
-        ? { ...session, phase: 'recognition', prompt: { kind: 'recognise', target: first } }
-        : enter(session, 'preparation');
+        ? { ...reset, phase: 'recognition', prompt: { kind: 'recognise', target: first } }
+        : enter(reset, 'preparation');
     }
     case 'preparation': {
       let next = session;
@@ -239,7 +282,7 @@ function onReady(session: Session): Session {
 
 function startManoeuvre(car: CarState): Manoeuvre {
   const { x, z, headingRad } = car.world.vehicle;
-  return { startX: x, startZ: z, headingRad, moved: false, violated: false, stoppedS: 0 };
+  return { startX: x, startZ: z, headingRad, moved: false, violated: false, stoppedS: 0, brakedAtM: null };
 }
 
 /** Signed distance along the heading the manoeuvre started with. */
@@ -257,19 +300,24 @@ function onManoeuvreStep(session: Session, car: CarState, dt: number): Session {
   const displacement = displacementM(manoeuvre, car);
   const moving = vehicle.speedMps !== 0;
   let violated = manoeuvre.violated;
+  let brakedAtM = manoeuvre.brakedAtM;
   if (moving || manoeuvre.moved) {
     if (Math.abs(vehicle.steerRad) > GAME_PARAMETERS.steerHeldRad) violated = true;
     // Clutch only (manual) or brake only (automatic): no accelerator in either.
     if (car.controls.throttle > 0.05) violated = true;
+    // Manual: the brake only immobilises at the end (PDF 11); where it was first pressed is checked at the end.
+    if (session.kind === 'manual' && moving && car.controls.brake > 0.05 && brakedAtM === null)
+      brakedAtM = displacement;
     // The wrong direction, or a second manoeuvre after the first (forward: in one manoeuvre).
     if (reverse ? vehicle.speedMps > 0.01 : vehicle.speedMps < -0.01) violated = true;
   }
   const moved = manoeuvre.moved || Math.abs(displacement) > 0.01;
   const stoppedS = moving ? 0 : manoeuvre.stoppedS + dt;
-  const next: Session = { ...session, manoeuvre: { ...manoeuvre, moved, violated, stoppedS } };
+  const next: Session = { ...session, manoeuvre: { ...manoeuvre, moved, violated, stoppedS, brakedAtM } };
   if (!moved || stoppedS < GAME_PARAMETERS.settleS) return next;
   const cm = (reverse ? -displacement : displacement) * 100;
-  const failed = violated || Math.abs(cm - 30) > GAME_PARAMETERS.displacementToleranceCm;
+  const regulatedWithBrake = brakedAtM !== null && Math.abs(displacement - brakedAtM) > GAME_PARAMETERS.brakeThenMoveM;
+  const failed = violated || regulatedWithBrake || Math.abs(cm - 30) > GAME_PARAMETERS.displacementToleranceCm;
   const measured: Session = {
     ...next,
     manoeuvre: null,
@@ -303,8 +351,8 @@ function onExitStep(session: Session, car: CarState, cockpit: CockpitState): Ses
 }
 
 function onEvent(session: Session, event: CarEvent): Session {
-  if (session.phase === 'recognition')
-    return event.type === 'gear-engaged' ? judgeRecognition(session, `gear-${event.gear}`) : session;
+  if (session.phase === 'recognition') return event.type === 'gear-engaged' ? judgeGear(session, event.gear) : session;
+  if (event.type === 'gear-engaged') return { ...session, lastGear: event.gear };
   if (!inStageTwo(session)) return session;
   switch (event.type) {
     case 'start-refused':
@@ -323,12 +371,22 @@ function onEvent(session: Session, event: CarEvent): Session {
     case 'stall':
       return fault(session, 'rule.low.d-engine-stall');
     case 'contact':
-      if (
-        event.kind === 'curb' ||
-        (event.kind === 'pole' && event.impactSpeedMps >= GAME_PARAMETERS.markerKnockSpeedMps)
-      )
-        return fault(session, 'rule.eliminatory.d-curb-mount-or-marker-hit');
-      return event.kind === 'pole' ? fault(session, 'rule.high.d-box-marker-touch') : session;
+      // The collision engine only knows the body touched: speed tells a scrape from a hit (game approximation).
+      if (event.kind === 'pole')
+        return fault(
+          session,
+          event.impactSpeedMps >= GAME_PARAMETERS.markerKnockSpeedMps
+            ? 'rule.eliminatory.d-curb-mount-or-marker-hit'
+            : 'rule.high.d-box-marker-touch',
+        );
+      if (event.kind === 'curb')
+        return fault(
+          session,
+          event.impactSpeedMps >= GAME_PARAMETERS.kerbMountSpeedMps
+            ? 'rule.eliminatory.d-curb-mount-or-marker-hit'
+            : 'rule.minor.i-curb-scrape',
+        );
+      return session;
     default:
       return session;
   }

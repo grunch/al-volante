@@ -275,6 +275,12 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Aproximaciones declaradas (REGLAS.md V2 y D4; `GAME_PARAMETERS`): tolerancia de 10 cm, umbrales de volante, roce/derribo, giro de cabeza y movimiento. No son reglas del protocolo y la interfaz lo dice.
 - Verificación local: `npm run check` con 298 pruebas (cobertura 95,2 % sentencias / 88,8 % ramas), contenido OK y build OK; `npx playwright test --workers=1` con 36 E2E (incluye `tests/e2e/exam.spec.ts`).
 - Revisiones: Codex y CodeRabbit solicitados al abrir el PR; se registran al llegar.
+- Revisión de Codex sobre `6d4732e` (5 findings, todos aplicados con prueba):
+  - Caja en el reconocimiento (P1): los controles solo pasan a la posición vecina, así que pedir D desde P puntuaba la R intermedia como error, y faltaban 2.ª–5.ª. Ahora la caja se pide completa y de vuelta a N/P, en orden; una marcha en camino no es respuesta y una que se aleja es la eliminatoria b.
+  - Cordón (P1): todo contacto con el cordón era eliminatorio; ahora, por debajo de 1 m/s es el roce de la rueda (leve i) y por encima, subirse a la vereda (aproximación declarada).
+  - Freno en los 30 cm manuales (P2): frenar antes del final (moverse más de 5 cm después de pisarlo) falla la maniobra.
+  - Espejos (P2): girar del todo la cabeza ya no cuenta; cuenta mirar un espejo lateral (0,25–0,9 rad), con botones y teclas nuevos (U y P), según X6.
+  - Auto al empezar el reconocimiento (P2): la página lo vuelve a poner con motor apagado y llave en contacto.
 
 ## Pila y orden de fusión
 

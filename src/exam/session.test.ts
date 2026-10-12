@@ -182,13 +182,12 @@ function inTheBoxAfterThirtyCentimetres(kind: TransmissionKind): Driver {
   return driver;
 }
 
+const MANUAL_GEAR_ROUND = ['1', '2', '3', '4', '5', '4', '3', '2', '1', 'N', 'R', 'N'].map((gear) => `gear-${gear}`);
 const ALL_TARGETS = [
   'clutch',
   'brake',
   'throttle',
-  'gear-1',
-  'gear-R',
-  'gear-N',
+  ...MANUAL_GEAR_ROUND,
   'position',
   'low',
   'high',
@@ -238,7 +237,9 @@ describe('exam session: familiarisation and stage I (protocolo PDF 9–10)', () 
     const targets = driver.recognise();
 
     expect(targets).not.toContain('clutch');
-    expect(targets).toEqual(expect.arrayContaining(['gear-P', 'gear-R', 'gear-N', 'gear-D']));
+    expect(targets.filter((target) => target.startsWith('gear-'))).toEqual(
+      ['R', 'N', 'D', 'N', 'R', 'P'].map((gear) => `gear-${gear}`),
+    );
     expect(driver.faults).toEqual([]);
   });
 
@@ -249,9 +250,8 @@ describe('exam session: familiarisation and stage I (protocolo PDF 9–10)', () 
       clutch: 'brake',
       brake: 'throttle',
       throttle: 'clutch',
+      // Asked first from neutral, the driver goes to reverse: away from it (eliminatory b, once).
       'gear-1': 'gear-R',
-      'gear-R': 'gear-N',
-      'gear-N': 'gear-1',
       position: 'low',
       low: 'high',
       high: 'position',
@@ -275,6 +275,26 @@ describe('exam session: familiarisation and stage I (protocolo PDF 9–10)', () 
     ]);
     expect(driver.session.ledger.interruption?.cause).toBe('fault');
     expect(driver.phase).toBe('finished');
+  });
+
+  it('asks the gearbox in its order and takes the gears on the way to the asked one as steps, not answers', () => {
+    const driver = new Driver('manual', 5);
+    driver.ready();
+    while (driver.session.prompt.kind === 'recognise' && !driver.session.prompt.target.startsWith('gear-'))
+      driver.answer(driver.session.prompt.target);
+    expect(driver.session.prompt).toEqual({ kind: 'recognise', target: 'gear-1' });
+
+    // Asked second from first, going back to neutral is away from it (a wrong answer); then, asked third,
+    // second is on the way (not an answer) and third answers.
+    driver.answer('gear-1');
+    expect(driver.session.prompt).toEqual({ kind: 'recognise', target: 'gear-2' });
+    driver.answer('gear-N');
+    expect(driver.faults).toEqual(['rule.eliminatory.b-gearbox-not-handled']);
+    expect(driver.session.prompt).toEqual({ kind: 'recognise', target: 'gear-3' });
+    driver.answer('gear-2');
+    expect(driver.session.prompt).toEqual({ kind: 'recognise', target: 'gear-3' });
+    driver.answer('gear-3');
+    expect(driver.session.prompt).toEqual({ kind: 'recognise', target: 'gear-4' });
   });
 
   it('scores seat, headrest and mirrors never adjusted when the driver says the preparation is done', () => {
@@ -409,7 +429,10 @@ describe('exam session: 30 cm in the box and leaving it (protocolo PDF 11)', () 
     const driver = inTheBoxAfterThirtyCentimetres('manual');
 
     driver.cabin({ type: 'signal', value: 'left' });
+    // A full head turn is only a complement (X6); the glance at the side mirror is what counts.
     driver.cabin({ type: 'look', yaw: 1.3, pitch: 0 });
+    expect(driver.session.exit.looked).toBe(false);
+    driver.cabin({ type: 'look', yaw: 0.5, pitch: 0 });
     driver.cabin({ type: 'look', yaw: 0, pitch: 0 });
     driver.driveOut();
 
@@ -442,10 +465,42 @@ describe('exam session: 30 cm in the box and leaving it (protocolo PDF 11)', () 
     expect(driver.session.measurements.exitManoeuvres).toBe(2);
   });
 
+  it('manual: regulating the reverse with the brake, instead of braking only to stop, fails it', () => {
+    const driver = throughStageOne('manual');
+    driver.startEngine();
+    driver.hold({ ...IDLE, clutch: 1 }, (_, t) => t > 0.1);
+    driver.drive({ type: 'shift', to: 'R' }, { type: 'handbrake', engaged: false });
+    const startZ = driver.car.world.vehicle.z;
+
+    // Brake while still moving well short of the 30 cm, then keep going on the clutch alone.
+    driver.hold({ ...IDLE, clutch: 0.68 }, (car) => car.world.vehicle.z < startZ - 0.08);
+    driver.hold({ ...IDLE, clutch: 0.68, brake: 0.15 }, (_, t) => t > 0.3);
+    driver.hold({ ...IDLE, clutch: 0.68 }, (car) => car.world.vehicle.z < startZ - 0.28);
+    driver.hold({ ...IDLE, clutch: 1, brake: 1 }, (car) => car.world.vehicle.speedMps === 0);
+    driver.hold({ ...IDLE, clutch: 1, brake: 1 }, (_, t) => t > 1);
+
+    expect(driver.session.measurements.reverseCm).toBeGreaterThan(20);
+    expect(driver.faults).toEqual(['rule.high.b-reverse-30cm-fail']);
+  });
+
+  it('scraping the kerb with a wheel at walking pace is a minor fault, not mounting it', () => {
+    const driver = inTheBoxAfterThirtyCentimetres('automatic');
+    driver.cabin({ type: 'signal', value: 'left' });
+    driver.cabin({ type: 'look', yaw: 0.5, pitch: 0 });
+
+    // Creep forward steering right from just off the kerb: the nose touches it slowly.
+    driver.place(-5.5);
+    driver.hold({ ...IDLE, brake: 0.05, steer: -1 }, (car) => car.world.contacts.length > 0, 30);
+
+    expect(driver.car.world.contacts[0]?.kind).toBe('curb');
+    expect(driver.faults).toEqual(['rule.minor.i-curb-scrape']);
+    expect(driver.phase).toBe('exit');
+  });
+
   it('hitting a post at speed or mounting the kerb eliminates and interrupts', () => {
     const driver = inTheBoxAfterThirtyCentimetres('automatic');
     driver.cabin({ type: 'signal', value: 'left' });
-    driver.cabin({ type: 'look', yaw: 1.3, pitch: 0 });
+    driver.cabin({ type: 'look', yaw: 0.5, pitch: 0 });
 
     driver.place(-4.5);
     driver.hold({ ...IDLE, throttle: 1 }, (car) => car.world.contacts.length > 0, 30);

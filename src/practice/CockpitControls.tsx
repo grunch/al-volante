@@ -90,7 +90,7 @@ export function CockpitControls({
         ))}
       </div>
       <div className="cockpit-look-row" role="group" aria-label={copy.look}>
-        {(['lookLeft', 'lookCenter', 'lookRight', 'lookBack'] as const).map((action) => (
+        {(['glanceLeft', 'lookLeft', 'lookCenter', 'lookRight', 'glanceRight', 'lookBack'] as const).map((action) => (
           <button type="button" key={action} onClick={() => invoke(action)}>
             {copy.actions[action]}
           </button>
