@@ -437,6 +437,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | abierto; Codex sin observaciones (`ef44c0b`); CodeRabbit pendiente por cuota |
 | F05-T02 | `f05-t02-signs` | `f05-t01-content` (#28) | [#29](https://github.com/grunch/al-volante/pull/29) | abierto; Codex solicitado, CodeRabbit automático |
 | F05-T03 | `f05-t03-garage` | `f05-t02-signs` (#29) | [#30](https://github.com/grunch/al-volante/pull/30) | abierto; Codex solicitado, CodeRabbit automático |
+| F05-T04 | `f05-t04-complement` | `f05-t03-garage` (#30) | (se completa al crear el PR) | implementada; revisiones pendientes |
 
 ### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
 
@@ -468,6 +469,17 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - **Decisiones:** D-T03-1 a D-T03-13 en `CONTENIDO.md` (alcohol: solo se evalúa el 0,0 g/l de principiantes y profesionales, porque no se pudo confirmar si en la Ciudad rige la ley nacional de alcohol cero o la Ley 2148; búsqueda del 12/10/2026). 3 observaciones nuevas (229). La prueba de política de contenido controla que ninguna respuesta correcta use los límites de 0,5 o 0,2 g/l.
 - Método: tres lotes por páginas con la guía común y la de la tarea; revisión del autor con heurísticas sobre todas las variantes.
 
+### F05-T04 — Anexos II–III, protocolo y recorridos
+
+- Apilada sobre `f05-t03-garage` (#30). Orden: #27 → #28 → #29 → #30 → este PR.
+- Alcance:
+  - **Anexos II y III (material complementario):** las 185 unidades revisadas contra la imagen (17 correcciones), 82 actividades nuevas y 47 figuras. 177 unidades `tested` y 8 de consulta (tablas de autopistas, mapa de hospitales, tarifas y los avisos del Paseo del Bajo que solo lista el anexo III).
+  - **Protocolo y recorridos:** pasan a estar clasificados página por página (42 y 19 páginas, categoría `exam`), con 44 unidades nuevas. 12 de ellas tienen actividad: reglas generales del examen, con los datos de `REGLAS.md`, y la presentación de los recorridos. Las otras 32 son de consulta: lo que se practica al volante, los gráficos del anexo I y los 14 circuitos de 2026 y 7 de 2023, con una figura por lámina. 12 actividades nuevas y 6 figuras del protocolo.
+  - **Mapa de aprendizaje:** nuevo grupo «Examen práctico: protocolo y recorridos». La página de cada fuente muestra su clasificación también en el protocolo y los recorridos.
+  - **Validación:** las cuatro fuentes son auditadas: toda página clasificada una vez.
+  - **Decisiones:** D-T04-1 a D-T04-17 en `CONTENIDO.md`, con la comparación de circuitos de 2023 y 2026. 14 observaciones nuevas (243).
+- Método: seis lotes por páginas (O–R anexos, S protocolo, T recorridos) con la guía común y la de la tarea; revisión del autor (resúmenes de figuras de PDF 158 y 166 corregidos tras mirar las imágenes).
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) parte de `main`.
@@ -480,7 +492,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: F05-T03 ya está abierto ([#30](https://github.com/grunch/al-volante/pull/30)); seguir con F05-T04 (anexos II–III, protocolo y recorridos de consulta) y F05-T05 (simulacros teóricos y auditoría global) sin esperar revisiones. Después, etapa B con el usuario.
+La fase 4 está fusionada. Revisar y fusionar el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) antes que los PRs de la fase 5, que se apilan sobre su rama. Fase 5, etapa A: abrir el PR de F05-T04 y seguir con F05-T05 (simulacros teóricos y auditoría global) sin esperar revisiones. Después, etapa B con el usuario.
 
 ### Cierre de la fase 4 contra el plan
 
