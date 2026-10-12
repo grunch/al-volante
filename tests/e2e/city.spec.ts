@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 // Cold shader compilation with city shadows and three mirrors needs extra time on software WebGL.
+test.describe.configure({ timeout: 120_000 });
 
 test('explores all eight legs, opens sources and preserves the geographic overview without overflow', async ({
   page,

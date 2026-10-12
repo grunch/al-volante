@@ -33,6 +33,12 @@ export const esAR = {
   mapComplementary: 'Material complementario',
   unitsCount: 'unidades',
   unitsWithActivities: 'con actividades',
+  unitsForConsultation: 'de consulta',
+  sectionPractice: 'Practicá esta sección',
+  sectionPracticeCount: 'actividades sobre esta sección',
+  sectionNoActivities: 'Esta sección todavía no tiene actividades.',
+  unitPracticedIn: 'Practicala en',
+  unitConsultation: 'Material de consulta',
   sectionUnitsHeading: 'Unidades de conocimiento',
   sectionPages: 'Páginas del manual',
   figureBased: 'Contenido en figura',
@@ -153,7 +159,7 @@ export const HOME_SPACES = [
   {
     id: 'city',
     title: 'La ciudad te pregunta',
-    description: 'Resolvé escenas de prioridades, señales, semáforos y giros (muestra inicial).',
+    description: 'Resolvé escenas y preguntas sobre el material de estudio, sección por sección.',
   },
   {
     id: 'lab',
@@ -174,7 +180,15 @@ export type HomeSpaceId = (typeof HOME_SPACES)[number]['id'];
 export const ACTIVITY_COPY = {
   heading: 'La ciudad te pregunta',
   intro:
-    'Escenas y preguntas para practicar lo que estudiás. Esta es una muestra inicial: la campaña completa, con actividades para todo el manual, llega en la fase 5.',
+    'Escenas y preguntas para practicar lo que estudiás, sección por sección. Cada respuesta explica el porqué y cita la página del material oficial. El mapa de aprendizaje muestra qué parte de cada sección ya tiene actividades.',
+  sectionIntro:
+    'Elegí una actividad. Las variantes cambian en cada intento, así que no alcanza con memorizar una respuesta.',
+  allSections: 'Todas las secciones',
+  studySection: 'Estudiar esta sección',
+  unknownSection: 'Esa sección no existe o todavía no tiene actividades. Elegí una de la lista.',
+  activityOne: 'actividad',
+  activityMany: 'actividades',
+  unitsInSection: 'unidades en la sección',
   answer: 'Responder',
   check: 'Comprobar',
   correct: '¡Correcto!',

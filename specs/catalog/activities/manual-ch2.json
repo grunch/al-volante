@@ -1,0 +1,3684 @@
+[
+  {
+    "id": "act.ch2-driving-responsibility",
+    "type": "single-choice",
+    "title": "Conducir es un acto de responsabilidad",
+    "unitIds": [
+      "manual.ch2.driving-responsibility",
+      "manual.ch2.legal-framework-law-2148"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 44
+      }
+    ],
+    "explanation": "Movilizarse por la Ciudad es un derecho que conlleva responsabilidades, y quien conduce asume una todavía mayor: la velocidad, el tamaño de la carrocería y el peso transportado aumentan el riesgo (manual PDF 44). Las normas son un consenso para la convivencia, no algo arbitrario, y conviene respetarlas por convicción y no solo por obligación, porque las conductas que se repiten pueden naturalizarse aunque no sean seguras. En la Ciudad la conducción debe ajustarse a la Ley 2148, y quien no la cumple puede ser sancionado por la autoridad competente según el tipo de responsabilidad: administrativa, contravencional, civil o penal.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "why-more",
+        "prompt": "¿Por qué quien conduce un vehículo asume una responsabilidad mayor que otros usuarios de la vía pública?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Porque la velocidad, el tamaño y el peso del vehículo generan más riesgo",
+            "correct": true,
+            "feedback": "¡Correcto! Por eso el manual dice que conducir es un acto de responsabilidad: tus decisiones involucran a quienes comparten la vía."
+          },
+          {
+            "id": "b",
+            "text": "Porque paga patente y seguro, y eso le da más derechos que al resto en la calle",
+            "correct": false,
+            "feedback": "No. La mayor responsabilidad viene del riesgo que genera un vehículo por su velocidad, tamaño y peso, no de lo que se paga."
+          },
+          {
+            "id": "c",
+            "text": "Porque tiene prioridad de paso sobre los peatones y los ciclistas en las esquinas",
+            "correct": false,
+            "feedback": "No. El manual fundamenta la mayor responsabilidad en el riesgo: velocidad, tamaño de la carrocería y peso transportado."
+          },
+          {
+            "id": "d",
+            "text": "Porque las normas de tránsito se aplican solo a quienes conducen un vehículo",
+            "correct": false,
+            "feedback": "No. Las normas alcanzan a todos los usuarios; quien conduce asume más responsabilidad porque su vehículo genera más riesgo."
+          }
+        ]
+      },
+      {
+        "id": "norms",
+        "prompt": "Según el manual, ¿cómo conviene entender las normas de tránsito?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Como un consenso para convivir, que conviene respetar por convicción",
+            "correct": true,
+            "feedback": "¡Exacto! Las normas son una construcción social, no algo arbitrario; conocer su sentido ayuda a respetarlas por convicción."
+          },
+          {
+            "id": "b",
+            "text": "Como reglas arbitrarias que se cumplen para no recibir una multa",
+            "correct": false,
+            "feedback": "No. El manual dice que las normas son una construcción social para convivir, no algo arbitrario, y que conviene respetarlas por convicción."
+          },
+          {
+            "id": "c",
+            "text": "Como recomendaciones que cada uno adapta según su experiencia",
+            "correct": false,
+            "feedback": "No. Son normas obligatorias, producto de un consenso para la convivencia; el manual propone conocer su sentido para respetarlas por convicción."
+          },
+          {
+            "id": "d",
+            "text": "Como exigencias que importan sobre todo durante el examen de manejo",
+            "correct": false,
+            "feedback": "No. Las normas rigen siempre: son un consenso para la convivencia que se respeta por convicción y no solo por obligación."
+          }
+        ]
+      },
+      {
+        "id": "habits",
+        "prompt": "¿Qué advierte el manual sobre las conductas que repetimos al circular?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Que algunas se naturalizan aunque no sean seguras",
+            "correct": true,
+            "feedback": "¡Correcto! La repetición refuerza respuestas, buenas o malas; mirar las normas desde su sentido permite romper pautas inseguras."
+          },
+          {
+            "id": "b",
+            "text": "Que si se repiten durante muchos años terminan siendo seguras, porque ya se conocen bien",
+            "correct": false,
+            "feedback": "No. Repetir una conducta no la hace segura; el manual advierte que algunas se naturalizan aunque no lo sean."
+          },
+          {
+            "id": "c",
+            "text": "Que solo las personas principiantes incorporan malos hábitos por repetición",
+            "correct": false,
+            "feedback": "No. Cualquier persona puede naturalizar conductas inseguras por repetición; para romperlas hay que conocer el sentido de las normas."
+          },
+          {
+            "id": "d",
+            "text": "Que la repetición no influye en la forma de manejar de cada persona",
+            "correct": false,
+            "feedback": "Al contrario: la repetición refuerza respuestas, y algunas conductas inadecuadas se naturalizan. Hay que revisarlas conociendo el sentido de las normas."
+          }
+        ]
+      },
+      {
+        "id": "sanctions",
+        "prompt": "Si una conducta en la vía pública no cumple la Ley 2148, ¿cómo se determina la sanción?",
+        "options": [
+          {
+            "id": "a",
+            "text": "La determina la autoridad competente según el tipo de responsabilidad",
+            "correct": true,
+            "feedback": "¡Correcto! Puede tratarse de responsabilidad administrativa, contravencional, civil o penal, y cada una tiene sus sanciones."
+          },
+          {
+            "id": "b",
+            "text": "Siempre es la misma multa, sin importar lo que haya ocurrido ni quién lo hizo",
+            "correct": false,
+            "feedback": "No. Según el manual, la sanción se determina en cada caso, según el tipo de responsabilidad: administrativa, contravencional, civil o penal."
+          },
+          {
+            "id": "c",
+            "text": "La acuerdan entre sí las personas involucradas, sin intervención de la autoridad",
+            "correct": false,
+            "feedback": "No. La determina la autoridad competente en cada caso, según el tipo de responsabilidad."
+          },
+          {
+            "id": "d",
+            "text": "Solo hay sanción si alguna persona resultó herida o murió en el hecho",
+            "correct": false,
+            "feedback": "No. Hay responsabilidades sin daños ni lesiones, como la administrativa (multas). La autoridad competente determina la sanción según el tipo de responsabilidad."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-responsibility-types",
+    "type": "single-choice",
+    "title": "Tipos de responsabilidad legal",
+    "unitIds": [
+      "manual.ch2.administrative-responsibility",
+      "manual.ch2.contraventional-responsibility",
+      "manual.ch2.civil-responsibility",
+      "manual.ch2.criminal-responsibility"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 44
+      },
+      {
+        "source": "manual",
+        "page": 45
+      }
+    ],
+    "explanation": "El manual distingue cuatro tipos de responsabilidad (manual PDF 44–45). La administrativa corresponde a faltas sin daños ni lesiones, como las multas; la contravencional, a conductas consideradas cuasidelito, como darse a la fuga luego de un incidente, conducir con 1,0 g de alcohol por litro de sangre o más, o bajo otras sustancias que disminuyan la aptitud, o participar en competencias de velocidad en la vía pública. La civil obliga a reparar económicamente el daño causado a otra persona, y la penal surge de un delito del Código Penal, es intransferible y puede llevar a la privación de la libertad. Un mismo hecho puede generar más de una: la sanción por falta se aplica sin perjuicio de la pena contravencional.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "administrative",
+        "prompt": "Un agente te labra un acta por una falta de tránsito; no hubo daños ni lesiones. ¿Qué tipo de responsabilidad es?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Administrativa",
+            "correct": true,
+            "feedback": "¡Correcto! Son multas o faltas, leves o graves, que se miden en unidades fijas y se resuelven ante la Dirección General de Administración de Infracciones."
+          },
+          {
+            "id": "b",
+            "text": "Contravencional",
+            "correct": false,
+            "feedback": "No. La contravencional abarca conductas como la fuga, el alcohol por encima del nivel contravencional o las competencias de velocidad. Una falta sin daños ni lesiones es responsabilidad administrativa."
+          },
+          {
+            "id": "c",
+            "text": "Civil",
+            "correct": false,
+            "feedback": "No. La civil exige un daño real a un particular, que hay que indemnizar. Sin daños ni lesiones, es responsabilidad administrativa."
+          },
+          {
+            "id": "d",
+            "text": "Penal",
+            "correct": false,
+            "feedback": "No. La penal surge de un delito que provocó lesiones, puso en peligro a otras personas o dañó bienes. Una falta sin daños es administrativa."
+          }
+        ]
+      },
+      {
+        "id": "contraventional",
+        "prompt": "Un conductor roza otro auto, nadie resulta herido, y se va del lugar sin detenerse. Según el manual, ¿qué tipo de responsabilidad genera darse a la fuga?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Contravencional",
+            "correct": true,
+            "feedback": "¡Exacto! Darse a la fuga luego de participar de un incidente es una contravención, que se sanciona con apercibimientos, inhabilitaciones temporales, fianza o trabajo comunitario, entre otros."
+          },
+          {
+            "id": "b",
+            "text": "Administrativa",
+            "correct": false,
+            "feedback": "No. El manual ubica la fuga entre las conductas contravencionales, consideradas cuasidelito."
+          },
+          {
+            "id": "c",
+            "text": "Civil",
+            "correct": false,
+            "feedback": "No. El daño al otro auto puede generar responsabilidad civil, pero darse a la fuga, en sí mismo, es una contravención."
+          },
+          {
+            "id": "d",
+            "text": "Ninguna, porque no hubo heridos",
+            "correct": false,
+            "feedback": "No. Aunque no haya heridos, darse a la fuga luego de participar de un incidente es una contravención."
+          }
+        ]
+      },
+      {
+        "id": "civil",
+        "prompt": "Chocás un auto y tenés que pagarle a su dueña la reparación de los daños. ¿Qué tipo de responsabilidad es esa obligación?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Civil",
+            "correct": true,
+            "feedback": "¡Correcto! La responsabilidad civil es la obligación de reparar el daño causado a otra persona con una indemnización económica, porque lo dañado no puede volver a su estado anterior."
+          },
+          {
+            "id": "b",
+            "text": "Administrativa",
+            "correct": false,
+            "feedback": "No. La administrativa corresponde a faltas sin daños ni lesiones. Reparar económicamente un daño a otra persona es responsabilidad civil."
+          },
+          {
+            "id": "c",
+            "text": "Contravencional",
+            "correct": false,
+            "feedback": "No. La contravencional abarca conductas como la fuga o las competencias de velocidad. Indemnizar un daño es responsabilidad civil."
+          },
+          {
+            "id": "d",
+            "text": "Penal",
+            "correct": false,
+            "feedback": "No. La penal surge de un delito y puede llevar a la privación de la libertad. Pagar la reparación de un daño es responsabilidad civil."
+          }
+        ]
+      },
+      {
+        "id": "criminal",
+        "prompt": "¿Qué tipo de responsabilidad es intransferible y puede sancionarse con la privación de la libertad?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Penal",
+            "correct": true,
+            "feedback": "¡Correcto! Surge de un delito descripto en el Código Penal; desde los 16 años cualquier persona responde penalmente por sus actos."
+          },
+          {
+            "id": "b",
+            "text": "Civil",
+            "correct": false,
+            "feedback": "No. La civil es transferible: en menores de 18 años pasa a quien firmó la autorización de la licencia y de ellos a las aseguradoras. La intransferible es la penal."
+          },
+          {
+            "id": "c",
+            "text": "Administrativa",
+            "correct": false,
+            "feedback": "No. La administrativa se refiere a multas o faltas que se miden en unidades fijas. La que puede llevar a la privación de la libertad es la penal."
+          },
+          {
+            "id": "d",
+            "text": "Contravencional",
+            "correct": false,
+            "feedback": "No. La contravencional se sanciona con apercibimientos, inhabilitaciones temporales, fianza o trabajo comunitario, entre otros. La privación de la libertad es una sanción penal."
+          }
+        ]
+      },
+      {
+        "id": "cumulative",
+        "prompt": "Una persona recibe una sanción contravencional por una conducta de tránsito. ¿Queda eximida de la sanción administrativa por el mismo hecho?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No: también puede recibir la sanción administrativa",
+            "correct": true,
+            "feedback": "¡Correcto! El manual aclara que la responsabilidad contravencional no exime de la administrativa por el mismo hecho."
+          },
+          {
+            "id": "b",
+            "text": "Sí: la sanción contravencional reemplaza a la administrativa",
+            "correct": false,
+            "feedback": "No. Las dos pueden aplicarse: la sanción por falta va sin perjuicio de la pena contravencional."
+          },
+          {
+            "id": "c",
+            "text": "Sí, siempre que pague la fianza que le fijen",
+            "correct": false,
+            "feedback": "No. La fianza es una de las sanciones contravencionales posibles, pero no exime de la responsabilidad administrativa por el mismo hecho."
+          },
+          {
+            "id": "d",
+            "text": "Sí, siempre que nadie haya resultado herido",
+            "correct": false,
+            "feedback": "No. Haya o no heridos, la contravención no exime de la sanción administrativa por el mismo hecho."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-transferable-responsibility",
+    "type": "single-choice",
+    "title": "Quién responde: civil y penal",
+    "unitIds": [
+      "manual.ch2.civil-responsibility",
+      "manual.ch2.criminal-responsibility"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 45
+      }
+    ],
+    "explanation": "La responsabilidad civil es transferible: si quien causa el daño es menor de 18 años, se transfiere a quien firmó la autorización al pedir la licencia (padre, madre o tutor legal) y de ellos a las aseguradoras (manual PDF 45). Para iniciar una demanda civil es determinante que exista un daño real a un particular como consecuencia del incidente. La responsabilidad penal, en cambio, es intransferible: desde los 16 años cualquier persona responde penalmente por sus actos.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "minor-civil",
+        "prompt": "Una conductora de 17 años choca y le causa daños a un tercero. Según el manual, ¿a quién se transfiere la responsabilidad civil?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A quien firmó la autorización de su licencia, y de ahí a la aseguradora",
+            "correct": true,
+            "feedback": "¡Correcto! Se transfiere al padre, la madre o el tutor legal que firmó la autorización al pedir la licencia, y de ellos a las aseguradoras."
+          },
+          {
+            "id": "b",
+            "text": "A nadie: la responsabilidad civil es intransferible y la asume ella misma",
+            "correct": false,
+            "feedback": "No. La intransferible es la penal. La civil se transfiere a quien firmó la autorización y de ellos a las aseguradoras."
+          },
+          {
+            "id": "c",
+            "text": "Al Gobierno de la Ciudad, porque fue quien le otorgó la licencia",
+            "correct": false,
+            "feedback": "No. Según el manual, se transfiere a quien firmó la autorización al pedir la licencia (padre, madre o tutor legal) y de ellos a las aseguradoras."
+          },
+          {
+            "id": "d",
+            "text": "A la escuela de manejo donde aprendió a conducir y rindió el examen",
+            "correct": false,
+            "feedback": "No. La responsabilidad civil de una persona menor de 18 años pasa a quien firmó la autorización de su licencia, y de ellos a las aseguradoras."
+          }
+        ]
+      },
+      {
+        "id": "minor-criminal",
+        "prompt": "Un conductor de 17 años le provoca lesiones a una persona en un siniestro. ¿Puede trasladar su responsabilidad penal a sus padres?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No: la responsabilidad penal es intransferible",
+            "correct": true,
+            "feedback": "¡Correcto! Desde los 16 años cualquier persona es penalmente responsable de sus actos, y esa responsabilidad no se transfiere; entre las sanciones posibles está la privación de la libertad."
+          },
+          {
+            "id": "b",
+            "text": "Sí: como es menor de 18 años, responden sus padres",
+            "correct": false,
+            "feedback": "Eso vale para la responsabilidad civil. La penal es intransferible y se tiene desde los 16 años."
+          },
+          {
+            "id": "c",
+            "text": "Sí, si sus padres firmaron la autorización de la licencia",
+            "correct": false,
+            "feedback": "La firma de la autorización traslada la responsabilidad civil, no la penal, que es intransferible."
+          },
+          {
+            "id": "d",
+            "text": "Sí: la asume la aseguradora del vehículo",
+            "correct": false,
+            "feedback": "Las aseguradoras intervienen en la responsabilidad civil. La penal es intransferible: responde la persona, desde los 16 años."
+          }
+        ]
+      },
+      {
+        "id": "civil-requirement",
+        "prompt": "¿Qué es determinante para iniciar una demanda por responsabilidad civil?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Que exista un daño real a un particular por el incidente",
+            "correct": true,
+            "feedback": "¡Exacto! Sin un daño real a un particular no hay qué reparar; la responsabilidad civil busca indemnizar ese daño."
+          },
+          {
+            "id": "b",
+            "text": "Que la autoridad haya labrado un acta de infracción en el lugar",
+            "correct": false,
+            "feedback": "No. El acta corresponde a la responsabilidad administrativa. Para la demanda civil es determinante un daño real a un particular."
+          },
+          {
+            "id": "c",
+            "text": "Que quien causó el daño sea mayor de 18 años y tenga licencia",
+            "correct": false,
+            "feedback": "No. La responsabilidad civil existe igual: en menores se transfiere a quien firmó la autorización. Lo determinante es el daño real a un particular."
+          },
+          {
+            "id": "d",
+            "text": "Que se haya cometido un delito descripto en el Código Penal",
+            "correct": false,
+            "feedback": "No. Eso corresponde a la responsabilidad penal. La civil requiere un daño real a un particular."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-hit-and-run",
+    "type": "decision",
+    "title": "Después de un choque, no te vayas",
+    "unitIds": [
+      "manual.ch2.hit-and-run",
+      "manual.ch2.contraventional-responsibility"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 45
+      },
+      {
+        "source": "manual",
+        "page": 52
+      }
+    ],
+    "explanation": "Darse a la fuga luego de participar de un incidente es una contravención, haya o no heridos (manual PDF 45). Si además se deja a una persona herida, quien se fuga puede ser juzgado por el delito de abandono de persona. Lo que corresponde es detenerse y quedarse; si hay personas heridas, pedir ayuda llamando al 107 (SAME) para la emergencia médica y al 911 para dar intervención a la policía (manual PDF 52).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "injured",
+        "start": "impact",
+        "nodes": {
+          "impact": {
+            "text": "Manejás de noche por una calle tranquila. Al doblar, golpeás a un ciclista, que cae y queda herido en el piso. No hay nadie más a la vista.",
+            "choices": [
+              {
+                "id": "stop",
+                "text": "Freno y me quedo en el lugar",
+                "next": "pressure"
+              },
+              {
+                "id": "flee",
+                "text": "Acelero y me voy antes de que llegue alguien",
+                "outcome": "abandon"
+              },
+              {
+                "id": "later",
+                "text": "Sigo unas cuadras y vuelvo más tarde a ver qué pasó",
+                "outcome": "abandon-later"
+              }
+            ]
+          },
+          "pressure": {
+            "text": "Te detuviste. La persona está consciente pero dolorida. Un vecino que se asoma te dice: «Andate, total nadie vio nada».",
+            "choices": [
+              {
+                "id": "stay",
+                "text": "Me quedo, llamo al 107 y al 911 y espero",
+                "outcome": "good"
+              },
+              {
+                "id": "go",
+                "text": "Le hago caso y me voy",
+                "outcome": "abandon"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Quedarte es lo que corresponde: irte sería darte a la fuga, una contravención, y con una persona herida podrías ser juzgado por abandono de persona (manual PDF 45). Llamaste al 107 (SAME) por la emergencia médica y al 911 para dar intervención a la policía (PDF 52)."
+          },
+          "abandon": {
+            "correct": false,
+            "feedback": "Darse a la fuga luego de participar de un incidente es una contravención, y como dejás a una persona herida podés ser juzgado por el delito de abandono de persona (manual PDF 45)."
+          },
+          "abandon-later": {
+            "correct": false,
+            "feedback": "Irte del lugar, aunque pienses volver, es darte a la fuga: una contravención. Y mientras tanto dejás a una persona herida, lo que puede llevar a un juicio por abandono de persona (manual PDF 45)."
+          }
+        }
+      },
+      {
+        "id": "no-injured",
+        "start": "scrape",
+        "nodes": {
+          "scrape": {
+            "text": "En una esquina rozás el costado de otro auto. Nadie resulta herido. El otro conductor empieza a bajarse.",
+            "choices": [
+              {
+                "id": "stay",
+                "text": "Me detengo y me quedo en el lugar",
+                "outcome": "good"
+              },
+              {
+                "id": "flee",
+                "text": "Me voy rápido: no hubo heridos, así que no pasa nada",
+                "outcome": "flee"
+              },
+              {
+                "id": "pay-later",
+                "text": "Me voy y, si me identifican, después pago el arreglo",
+                "outcome": "flee-pay"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Correcto! Quedarte evita la fuga, que el manual califica como contravención aunque no haya heridos (PDF 45)."
+          },
+          "flee": {
+            "correct": false,
+            "feedback": "Aunque no haya heridos, darse a la fuga luego de participar de un incidente es una contravención (manual PDF 45)."
+          },
+          "flee-pay": {
+            "correct": false,
+            "feedback": "Pagar el arreglo después no borra la fuga: irte luego de participar de un incidente es una contravención, más allá de la obligación de reparar el daño (manual PDF 45)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-legal-forms-of-fault",
+    "type": "single-choice",
+    "title": "Negligencia, imprudencia e impericia",
+    "unitIds": [
+      "manual.ch2.negligence",
+      "manual.ch2.recklessness",
+      "manual.ch2.lack-of-skill"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 45
+      }
+    ],
+    "explanation": "Cuando un/a conductor/a es responsable de un incidente, el manual distingue tres formas jurídicas (manual PDF 45). Negligencia es actuar con descuido u omitir una obligación legal, como circular sin un elemento de seguridad obligatorio o con el vehículo en malas condiciones. Imprudencia es la falta de precaución para evitar un riesgo o actuar en forma precipitada, como exceder la velocidad, ir a contramano o pasar un semáforo en rojo; impericia es no responder adecuadamente a las circunstancias del tránsito por falta de práctica.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "negligence",
+        "prompt": "Circulás con un auto en malas condiciones, sin un elemento de seguridad obligatorio, y eso termina en un incidente. ¿Qué forma jurídica de responsabilidad describe el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Negligencia",
+            "correct": true,
+            "feedback": "¡Correcto! Es actuar con descuido u omitir una obligación legal; circular sin un elemento de seguridad obligatorio o en malas condiciones es el ejemplo del manual."
+          },
+          {
+            "id": "b",
+            "text": "Imprudencia",
+            "correct": false,
+            "feedback": "No. La imprudencia es actuar sin precaución o en forma precipitada, como ir a contramano. Omitir una obligación, como un elemento de seguridad, es negligencia."
+          },
+          {
+            "id": "c",
+            "text": "Impericia",
+            "correct": false,
+            "feedback": "No. La impericia es la falta de respuesta adecuada por falta de práctica. Circular sin un elemento obligatorio es negligencia."
+          }
+        ]
+      },
+      {
+        "id": "recklessness",
+        "prompt": "Un conductor circula a contramano para llegar más rápido y provoca un choque. ¿Qué forma jurídica de responsabilidad es?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Imprudencia",
+            "correct": true,
+            "feedback": "¡Exacto! Es la falta de precaución para evitar un riesgo o actuar en forma precipitada; circular a contramano es uno de los ejemplos del manual."
+          },
+          {
+            "id": "b",
+            "text": "Negligencia",
+            "correct": false,
+            "feedback": "No. La negligencia es actuar con descuido u omitir una obligación, como no tener un elemento de seguridad. Ir a contramano es imprudencia."
+          },
+          {
+            "id": "c",
+            "text": "Impericia",
+            "correct": false,
+            "feedback": "No. La impericia viene de la falta de práctica. Ir a contramano a propósito es imprudencia."
+          }
+        ]
+      },
+      {
+        "id": "skill",
+        "prompt": "Una persona con muy poca práctica no logra responder adecuadamente ante una situación del tránsito y provoca un incidente. ¿Qué forma jurídica de responsabilidad es?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Impericia",
+            "correct": true,
+            "feedback": "¡Correcto! La impericia es la falta de respuesta adecuada frente a las circunstancias de circulación por falta de práctica en la conducción."
+          },
+          {
+            "id": "b",
+            "text": "Imprudencia",
+            "correct": false,
+            "feedback": "No. La imprudencia es actuar sin precaución o de forma precipitada. No saber responder por falta de práctica es impericia."
+          },
+          {
+            "id": "c",
+            "text": "Negligencia",
+            "correct": false,
+            "feedback": "No. La negligencia es el descuido o la omisión de una obligación legal. Responder mal por falta de práctica es impericia."
+          }
+        ]
+      },
+      {
+        "id": "definition",
+        "prompt": "¿Cómo define el manual la negligencia?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Actuar con descuido u omitir actuar en el cumplimiento de una obligación legal",
+            "correct": true,
+            "feedback": "¡Correcto! Por ejemplo, circular sin algún elemento de seguridad obligatorio o con el vehículo en malas condiciones."
+          },
+          {
+            "id": "b",
+            "text": "La falta de precaución para evitar un riesgo, o actuar de forma precipitada",
+            "correct": false,
+            "feedback": "No: esa es la definición de imprudencia. La negligencia es actuar con descuido u omitir una obligación legal."
+          },
+          {
+            "id": "c",
+            "text": "La falta de respuesta adecuada ante el tránsito por falta de práctica",
+            "correct": false,
+            "feedback": "No: esa es la impericia. La negligencia es actuar con descuido u omitir una obligación legal."
+          },
+          {
+            "id": "d",
+            "text": "Darse a la fuga después de haber participado de un incidente",
+            "correct": false,
+            "feedback": "No. Darse a la fuga es una contravención. La negligencia es actuar con descuido u omitir una obligación legal."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-driving-license",
+    "type": "single-choice",
+    "title": "Licencia de conducir",
+    "unitIds": [
+      "manual.ch2.driving-license-function",
+      "manual.ch2.driving-license-validity",
+      "manual.ch2.license-minimum-age",
+      "manual.ch2.road-safety-education-resources"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 46
+      }
+    ],
+    "explanation": "La licencia certifica que su titular está habilitado/a para conducir determinado vehículo después de cumplir requisitos: se evalúan las aptitudes psicofísicas y la idoneidad teórico-práctica, y para el otorgamiento son obligatorios los cursos teóricos de la escuela de educación vial (manual PDF 46). La edad mínima es 16 años para ciclomotores, 17 para las demás categorías y 21 para profesionales, sin excepciones ni emancipación que la modifique. No se puede conducir con la licencia vencida (es motivo de retención), salvo que venza en un día inhábil, que pasa al día hábil siguiente; si pasó más de un año desde el vencimiento, se tramita como un otorgamiento.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "function",
+        "prompt": "¿Qué certifica la licencia de conducir?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Que está habilitado/a para conducir determinado vehículo",
+            "correct": true,
+            "feedback": "¡Correcto! La expide la autoridad competente después de que la persona cumple ciertos requisitos."
+          },
+          {
+            "id": "b",
+            "text": "La identidad de la persona, igual que lo hace el DNI",
+            "correct": false,
+            "feedback": "No. El manual aclara que la licencia no sirve como documento de identidad; para eso está el DNI."
+          },
+          {
+            "id": "c",
+            "text": "Que quien conduce es dueño/a del vehículo que maneja",
+            "correct": false,
+            "feedback": "No. Eso lo acredita la cédula de identificación del vehículo. La licencia certifica la habilitación para conducir determinado vehículo."
+          },
+          {
+            "id": "d",
+            "text": "Que el vehículo aprobó la verificación técnica obligatoria",
+            "correct": false,
+            "feedback": "No. Eso lo acredita el certificado de VTV. La licencia certifica que la persona está habilitada para conducir determinado vehículo."
+          }
+        ]
+      },
+      {
+        "id": "holiday",
+        "prompt": "Tu licencia vence un domingo, que es día inhábil. Según el manual, ¿qué pasa con el vencimiento?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Se traslada al día hábil siguiente",
+            "correct": true,
+            "feedback": "¡Correcto! Es la única excepción: fuera de ese caso, no se puede conducir con la licencia vencida."
+          },
+          {
+            "id": "b",
+            "text": "Se adelanta al último día hábil anterior",
+            "correct": false,
+            "feedback": "No. El manual dice que si vence en un día inhábil, el vencimiento se traslada al día hábil siguiente."
+          },
+          {
+            "id": "c",
+            "text": "Se extiende un mes, como período de gracia",
+            "correct": false,
+            "feedback": "No hay un mes de gracia. Si vence en día inhábil, el vencimiento pasa al día hábil siguiente; después, conducir con la licencia vencida es motivo de retención."
+          },
+          {
+            "id": "d",
+            "text": "Se extiende un año, que es el plazo para renovarla",
+            "correct": false,
+            "feedback": "No. El año es el plazo para renovarla sin volver a tramitar un otorgamiento, pero no se puede conducir con ella vencida. Si vence en día inhábil, pasa al día hábil siguiente."
+          }
+        ]
+      },
+      {
+        "id": "over-a-year",
+        "prompt": "Tu licencia venció hace un año y medio. ¿Qué trámite corresponde?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Tramitarla como si fuera un otorgamiento",
+            "correct": true,
+            "feedback": "¡Correcto! Se puede renovar si el vencimiento no superó el año; pasado ese plazo, se tramita como un otorgamiento."
+          },
+          {
+            "id": "b",
+            "text": "Una renovación común, sin importar cuánto tiempo pasó",
+            "correct": false,
+            "feedback": "No. La renovación es posible solo si el vencimiento no superó el año. Con un año y medio, se tramita como un otorgamiento."
+          },
+          {
+            "id": "c",
+            "text": "Ninguno: puede seguir usándose hasta los dos años",
+            "correct": false,
+            "feedback": "No. No se puede conducir con la licencia vencida, y después de un año se tramita como un otorgamiento."
+          },
+          {
+            "id": "d",
+            "text": "Solo pagar una multa por la demora",
+            "correct": false,
+            "feedback": "No. Si pasó más de un año desde el vencimiento, hay que tramitarla como un otorgamiento."
+          }
+        ]
+      },
+      {
+        "id": "min-age",
+        "prompt": "¿Cuál es la edad mínima para obtener una licencia para conducir un auto particular (no profesional)?",
+        "options": [
+          {
+            "id": "a",
+            "text": "17 años",
+            "correct": true,
+            "feedback": "¡Correcto! 17 años para las categorías que no son ciclomotores ni profesionales, sin excepciones: la emancipación no la modifica."
+          },
+          {
+            "id": "b",
+            "text": "16 años",
+            "correct": false,
+            "feedback": "No. 16 años es la edad mínima solo para ciclomotores. Para un auto particular son 17 años."
+          },
+          {
+            "id": "c",
+            "text": "18 años",
+            "correct": false,
+            "feedback": "No. Para las categorías que no son ciclomotores ni profesionales, la edad mínima es 17 años, sin excepciones."
+          },
+          {
+            "id": "d",
+            "text": "21 años",
+            "correct": false,
+            "feedback": "No. 21 años es la edad mínima para conductores/as profesionales. Para un auto particular son 17 años."
+          }
+        ]
+      },
+      {
+        "id": "education",
+        "prompt": "Para obtener la licencia por primera vez, ¿qué capacitación es obligatoria según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Los cursos de capacitación teórica de la escuela de educación vial",
+            "correct": true,
+            "feedback": "¡Correcto! Son obligatorios para el otorgamiento; para la renovación, la escuela ofrece videos de actualización."
+          },
+          {
+            "id": "b",
+            "text": "Una cantidad mínima de horas de práctica en la pista de aprendizaje",
+            "correct": false,
+            "feedback": "No. La pista de aprendizaje es un recurso que facilita el Gobierno de la Ciudad para practicar de manera segura; lo obligatorio son los cursos teóricos."
+          },
+          {
+            "id": "c",
+            "text": "Los videos de actualización de la escuela de educación vial",
+            "correct": false,
+            "feedback": "No. Los videos son para la renovación. Para el otorgamiento son obligatorios los cursos de capacitación teórica."
+          },
+          {
+            "id": "d",
+            "text": "Un curso de mecánica básica del automotor",
+            "correct": false,
+            "feedback": "No. El manual menciona como obligatorios los cursos de capacitación teórica de la escuela de educación vial."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-documents-own-car",
+    "type": "decision",
+    "title": "Qué documentación llevar",
+    "unitIds": [
+      "manual.ch2.mandatory-documents",
+      "manual.ch2.national-id",
+      "manual.ch2.cng-equipment",
+      "manual.ch2.vtv-validity"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 46
+      },
+      {
+        "source": "manual",
+        "page": 47
+      },
+      {
+        "source": "manual",
+        "page": 48
+      },
+      {
+        "source": "manual",
+        "page": 49
+      }
+    ],
+    "explanation": "Para conducir en la Ciudad hay que llevar el DNI, la licencia de conducir, la cédula de identificación del vehículo, el comprobante del seguro obligatorio y el certificado de VTV; si el auto tiene equipo de GNC, también la cédula de ese equipo y la oblea obligatoria vigente (manual PDF 46–48). La licencia no sirve para acreditar identidad: el DNI puede pedirse para verificar que coincida con sus datos. El manual recuerda, además, circular siempre con el certificado de VTV vigente (PDF 49).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "leaving",
+        "start": "leave",
+        "nodes": {
+          "leave": {
+            "text": "Vas a salir con tu auto. Ya tenés en la mano la licencia de conducir. ¿Qué más llevás?",
+            "choices": [
+              {
+                "id": "full",
+                "text": "El DNI, la cédula del auto, el comprobante del seguro y el certificado de VTV",
+                "next": "gnc"
+              },
+              {
+                "id": "license-id",
+                "text": "Nada más: la licencia también sirve como documento de identidad",
+                "outcome": "license-id"
+              },
+              {
+                "id": "home",
+                "text": "Solo el DNI: los papeles del auto quedan en casa para que no se pierdan",
+                "outcome": "papers-home"
+              }
+            ]
+          },
+          "gnc": {
+            "text": "Antes de arrancar recordás que el auto tiene equipo de GNC. ¿Necesitás algo más?",
+            "choices": [
+              {
+                "id": "cng",
+                "text": "Sí: la cédula de identificación del equipo de GNC y la oblea obligatoria vigente",
+                "outcome": "good"
+              },
+              {
+                "id": "no-cng",
+                "text": "No: el GNC no lleva documentación aparte de la cédula del auto",
+                "outcome": "no-cng"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Llevás toda la documentación obligatoria: DNI, licencia, cédula del vehículo, seguro, VTV y, por el GNC, la cédula del equipo y la oblea vigente (manual PDF 46–48)."
+          },
+          "license-id": {
+            "correct": false,
+            "feedback": "La licencia no acredita identidad: el DNI se puede pedir para verificar que coincida con los datos de la licencia. Además faltan la cédula del vehículo, el seguro y la VTV (manual PDF 46–48)."
+          },
+          "papers-home": {
+            "correct": false,
+            "feedback": "La documentación del vehículo tiene que viajar con vos: la cédula de identificación, el comprobante del seguro obligatorio y el certificado de VTV forman parte de la documentación obligatoria (manual PDF 47–48)."
+          },
+          "no-cng": {
+            "correct": false,
+            "feedback": "Un vehículo con equipo de GNC debe llevar la cédula de identificación de ese equipo y la oblea obligatoria vigente (manual PDF 48)."
+          }
+        }
+      },
+      {
+        "id": "vtv-certificate",
+        "start": "drawer",
+        "nodes": {
+          "drawer": {
+            "text": "Tu auto tiene la VTV hecha y vigente, pero el certificado quedó guardado en un cajón de tu casa. Ya estás en la puerta, por salir.",
+            "choices": [
+              {
+                "id": "fetch",
+                "text": "Vuelvo a buscarlo y lo llevo conmigo",
+                "outcome": "good"
+              },
+              {
+                "id": "skip",
+                "text": "No lo llevo: alcanza con haber hecho la verificación",
+                "outcome": "skip"
+              },
+              {
+                "id": "insurance",
+                "text": "No lo llevo: con el comprobante del seguro alcanza",
+                "outcome": "insurance-instead"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Correcto! El manual recuerda circular siempre con el certificado de VTV vigente: forma parte de la documentación obligatoria (manual PDF 48–49)."
+          },
+          "skip": {
+            "correct": false,
+            "feedback": "No alcanza con haberla hecho: hay que circular con el certificado de VTV vigente, que es parte de la documentación obligatoria (manual PDF 48–49)."
+          },
+          "insurance-instead": {
+            "correct": false,
+            "feedback": "El comprobante del seguro y el certificado de VTV son documentos distintos, y los dos son obligatorios para circular (manual PDF 48–49)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-documents-borrowed-car",
+    "type": "decision",
+    "title": "Cédula y seguro: auto prestado",
+    "unitIds": [
+      "manual.ch2.vehicle-id-card",
+      "manual.ch2.vehicle-id-card-validity-and-use",
+      "manual.ch2.mandatory-insurance"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 47
+      },
+      {
+        "source": "manual",
+        "page": 48
+      }
+    ],
+    "explanation": "La cédula de identificación del vehículo, que expide la DNRPA, identifica al vehículo y a su titular o persona autorizada: sin ella no hay forma de certificar que quien conduce es dueño/a o está autorizado/a, y si no sos titular puede reemplazarse por un permiso certificado ante escribano público (manual PDF 47). La «cédula para autorizados a conducir» es personal e intransferible, y quien es titular puede tramitar todas las que desee (PDF 48). Además, todo vehículo debe tener un seguro que cubra como mínimo los daños a terceros, transportados o no, y hay que circular con su certificado por cualquier vía (PDF 48).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "borrowed",
+        "start": "lend",
+        "nodes": {
+          "lend": {
+            "text": "Una amiga te presta su auto para el fin de semana. Vos no sos titular. ¿Cómo salís?",
+            "choices": [
+              {
+                "id": "card",
+                "text": "Con la cédula de identificación del auto (o un permiso certificado ante escribano)",
+                "next": "insurance"
+              },
+              {
+                "id": "other-name",
+                "text": "Con la «cédula para autorizados a conducir» que ella tramitó a nombre de su hermano",
+                "outcome": "other-name"
+              },
+              {
+                "id": "none",
+                "text": "Sin la cédula: si me paran, explico que me lo prestaron",
+                "outcome": "no-card"
+              }
+            ]
+          },
+          "insurance": {
+            "text": "Tu amiga te dice que el seguro está al día, pero el comprobante quedó en su casa. Solo vas a andar por calles del barrio.",
+            "choices": [
+              {
+                "id": "fetch",
+                "text": "Le pido el comprobante del seguro y lo llevo",
+                "outcome": "good"
+              },
+              {
+                "id": "skip",
+                "text": "No hace falta: no voy a salir a avenidas ni autopistas",
+                "outcome": "insurance-anyroad"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Llevás la cédula del vehículo, que certifica que podés usarlo, y el certificado del seguro, obligatorio en cualquier vía (manual PDF 47–48)."
+          },
+          "other-name": {
+            "correct": false,
+            "feedback": "La «cédula para autorizados a conducir» es personal e intransferible: no se puede conducir con una a nombre de otra persona (manual PDF 48)."
+          },
+          "no-card": {
+            "correct": false,
+            "feedback": "Sin la cédula no hay forma de certificar que quien conduce es dueño/a del vehículo o tiene autorización para usarlo. Si no sos titular, también sirve un permiso certificado ante escribano (manual PDF 47)."
+          },
+          "insurance-anyroad": {
+            "correct": false,
+            "feedback": "Es obligatorio circular con el certificado del seguro de responsabilidad civil, sin importar por qué vía circules (manual PDF 48)."
+          }
+        }
+      },
+      {
+        "id": "owner",
+        "start": "family",
+        "nodes": {
+          "family": {
+            "text": "Sos titular de un auto y querés que también lo manejen tu pareja y tus dos hijos, que tienen licencia. Vas al registro a hacer el trámite.",
+            "choices": [
+              {
+                "id": "each",
+                "text": "Tramito una «cédula para autorizados a conducir» para cada uno",
+                "outcome": "good"
+              },
+              {
+                "id": "shared",
+                "text": "Tramito una sola, para que la compartan entre los tres",
+                "outcome": "shared"
+              },
+              {
+                "id": "limit",
+                "text": "Elijo a una sola persona: no se puede autorizar a más",
+                "outcome": "limit"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Correcto! Quien es titular puede tramitar la cantidad de «cédulas para autorizados a conducir» que desee, y cada una es personal (manual PDF 48)."
+          },
+          "shared": {
+            "correct": false,
+            "feedback": "La cédula para autorizados es personal e intransferible: no se puede conducir con una a nombre de otra persona. Hace falta una para cada persona (manual PDF 48)."
+          },
+          "limit": {
+            "correct": false,
+            "feedback": "No hay ese límite: quien es titular puede tramitar todas las «cédulas para autorizados a conducir» que desee (manual PDF 48)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-beginner-driver",
+    "type": "decision",
+    "title": "Conductor/a principiante",
+    "unitIds": [
+      "manual.ch2.beginner-driver",
+      "manual.ch2.beginner-driver-restrictions"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 47
+      }
+    ],
+    "figureIds": [
+      "fig.manual-p47-beginner-sign"
+    ],
+    "explanation": "Quien obtiene su licencia por primera vez, de moto o de auto, es conductor/a principiante; esas licencias no dan antigüedad entre sí, y no es principiante quien acredita antigüedad con licencia de este u otro municipio o país (manual PDF 47). Durante los primeros 6 meses no puede circular por arterias donde se permitan más de 70 km/h y debe llevar el cartel de principiante: en auto, en la parte inferior del parabrisas y en la luneta; en moto, consigo, como la documentación. Durante los dos años de principiante no puede circular con más de 0,0 g de alcohol por litro de sangre.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "first-months",
+        "start": "prepare",
+        "nodes": {
+          "prepare": {
+            "text": "Hace tres meses sacaste tu primera licencia, de auto. Un sábado te invitan a un cumpleaños en otro barrio y salís con el auto.",
+            "choices": [
+              {
+                "id": "both",
+                "text": "Pongo el cartel de principiante en la parte inferior del parabrisas y en la luneta",
+                "next": "route"
+              },
+              {
+                "id": "rear",
+                "text": "Pongo el cartel solo en la luneta, para que me vean los de atrás",
+                "outcome": "sign-one-place"
+              },
+              {
+                "id": "none",
+                "text": "No pongo el cartel: ya me siento seguro/a y no hace falta avisar",
+                "outcome": "no-sign"
+              }
+            ]
+          },
+          "route": {
+            "text": "El navegador te sugiere ir por una vía donde se permite circular a más de 70 km/h, porque es más rápida.",
+            "choices": [
+              {
+                "id": "other-way",
+                "text": "Elijo otro camino, por arterias donde no se permitan más de 70 km/h",
+                "next": "party"
+              },
+              {
+                "id": "slow",
+                "text": "Voy por esa vía, pero respetando siempre un máximo de 70 km/h",
+                "outcome": "fast-road"
+              }
+            ]
+          },
+          "party": {
+            "text": "En el cumpleaños te ofrecen una copa de vino para el brindis.",
+            "choices": [
+              {
+                "id": "decline",
+                "text": "No tomo nada de alcohol: después tengo que manejar",
+                "outcome": "good"
+              },
+              {
+                "id": "one",
+                "text": "Tomo una sola copa: es poco",
+                "outcome": "alcohol"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Muy bien! Llevaste el cartel donde corresponde, evitaste las arterias de más de 70 km/h y no tomaste alcohol: como principiante tenés que circular con 0,0 g/l (manual PDF 47)."
+          },
+          "sign-one-place": {
+            "correct": false,
+            "feedback": "En auto, durante los primeros 6 meses, el cartel se exhibe en la parte inferior del parabrisas y también en la luneta (manual PDF 47)."
+          },
+          "no-sign": {
+            "correct": false,
+            "feedback": "Durante los primeros 6 meses es obligatorio llevar el cartel de principiante, por más seguro/a que te sientas (manual PDF 47)."
+          },
+          "fast-road": {
+            "correct": false,
+            "feedback": "La restricción es sobre la vía, no sobre tu velocidad: durante los primeros 6 meses no podés circular por arterias donde se permitan más de 70 km/h, aunque vayas más despacio (manual PDF 47)."
+          },
+          "alcohol": {
+            "correct": false,
+            "feedback": "Durante los dos años en que sos principiante no podés circular con más de 0,0 g de alcohol por litro de sangre: ni una copa (manual PDF 47)."
+          }
+        }
+      },
+      {
+        "id": "moto-to-car",
+        "start": "new-license",
+        "nodes": {
+          "new-license": {
+            "text": "Manejás moto con licencia desde hace cinco años. Este mes obtuviste por primera vez la licencia de auto.",
+            "choices": [
+              {
+                "id": "beginner",
+                "text": "Con el auto soy principiante: llevo el cartel y respeto las restricciones",
+                "next": "later"
+              },
+              {
+                "id": "experienced",
+                "text": "No soy principiante: ya tengo cinco años de licencia de moto",
+                "outcome": "no-seniority"
+              }
+            ]
+          },
+          "later": {
+            "text": "Pasaron 18 meses desde que obtuviste la licencia de auto. Vas a una cena y a la vuelta tenés que manejar.",
+            "choices": [
+              {
+                "id": "zero",
+                "text": "No tomo alcohol: todavía soy principiante",
+                "outcome": "good"
+              },
+              {
+                "id": "some",
+                "text": "Puedo tomar un poco: las restricciones duraban solo 6 meses",
+                "outcome": "six-months"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Correcto! Las licencias de moto y de auto no dan antigüedad entre sí, y el 0,0 g/l de alcohol rige durante los dos años de principiante (manual PDF 47)."
+          },
+          "no-seniority": {
+            "correct": false,
+            "feedback": "Las licencias de moto y de auto no dan antigüedad entre sí: con tu primera licencia de auto sos principiante (manual PDF 47)."
+          },
+          "six-months": {
+            "correct": false,
+            "feedback": "Los 6 meses son para el cartel y la prohibición de arterias de más de 70 km/h. El límite de 0,0 g de alcohol por litro de sangre rige durante los dos años de principiante (manual PDF 47)."
+          }
+        }
+      },
+      {
+        "id": "abroad",
+        "start": "seniority",
+        "nodes": {
+          "seniority": {
+            "text": "Manejás autos desde hace seis años con licencia de otro país. Al tramitar tu licencia en la Ciudad, acreditás esa antigüedad.",
+            "choices": [
+              {
+                "id": "not-beginner",
+                "text": "No soy principiante: acredité antigüedad con licencia de otro país",
+                "outcome": "good"
+              },
+              {
+                "id": "beginner",
+                "text": "Soy principiante igual: toda primera licencia de la Ciudad lo es",
+                "outcome": "abroad-wrong"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Correcto! No son principiantes quienes acreditan antigüedad con licencia de este u otro municipio o país (manual PDF 47)."
+          },
+          "abroad-wrong": {
+            "correct": false,
+            "feedback": "No es así: el manual aclara que no son principiantes quienes acreditan antigüedad con licencia de este u otro municipio o país (PDF 47)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-vtv-purpose",
+    "type": "single-choice",
+    "title": "VTV: qué es y para qué sirve",
+    "unitIds": [
+      "manual.ch2.vtv-purpose",
+      "manual.ch2.vtv-where"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 48
+      },
+      {
+        "source": "manual",
+        "page": 49
+      }
+    ],
+    "explanation": "La Ley 2265 establece la Verificación Técnica Vehicular obligatoria para los vehículos y motovehículos radicados en la Ciudad y para los de otra jurisdicción que circulan en ella (manual PDF 48). Es un control mecánico que busca garantizar las normas de seguridad vial, reducir la contaminación y mejorar el ambiente, por eso se vincula con la prevención de siniestros; se revisan emisiones de gases y ruidos, dirección, tren delantero, frenos, suspensión, chasis, neumáticos, llantas y luces, y hay que presentarse con los elementos de seguridad y emergencia y la documentación al día. Los autos y motos particulares de hasta 3.500 kg radicados en la Ciudad la hacen en cualquiera de las plantas habilitadas por el Gobierno de la Ciudad (PDF 49).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "purpose",
+        "prompt": "¿Para qué sirve la VTV, según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Para controlar el vehículo por seguridad vial y para reducir la contaminación",
+            "correct": true,
+            "feedback": "¡Correcto! Es un control mecánico que además busca mejorar el ambiente; por eso está vinculada con la prevención de siniestros."
+          },
+          {
+            "id": "b",
+            "text": "Para registrar a nombre de quién está el vehículo y quién lo puede usar",
+            "correct": false,
+            "feedback": "No. La titularidad la acredita la cédula de identificación del vehículo. La VTV es un control mecánico para la seguridad vial y el ambiente."
+          },
+          {
+            "id": "c",
+            "text": "Para habilitar a la persona que va a conducir ese vehículo en la vía pública",
+            "correct": false,
+            "feedback": "No. Eso lo certifica la licencia de conducir. La VTV controla el vehículo, no a quien conduce."
+          },
+          {
+            "id": "d",
+            "text": "Para cobrar el impuesto a la radicación del vehículo en la Ciudad",
+            "correct": false,
+            "feedback": "No. La VTV es un control mecánico que busca garantizar la seguridad vial y reducir la contaminación."
+          }
+        ]
+      },
+      {
+        "id": "checks",
+        "prompt": "¿Qué se controla durante la VTV, según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Frenos, dirección, suspensión, luces, neumáticos y emisiones",
+            "correct": true,
+            "feedback": "¡Exacto! También el tren delantero, el chasis y las llantas: todo lo que hace a la seguridad del vehículo y al ambiente."
+          },
+          {
+            "id": "b",
+            "text": "El estado de la pintura, de la tapicería y de los accesorios",
+            "correct": false,
+            "feedback": "No. La VTV revisa la parte mecánica y las emisiones: frenos, dirección, suspensión, luces, neumáticos, gases y ruidos, entre otros."
+          },
+          {
+            "id": "c",
+            "text": "Las multas impagas que tenga la persona titular del vehículo",
+            "correct": false,
+            "feedback": "No. La VTV es un control mecánico del vehículo: frenos, dirección, suspensión, luces, neumáticos y emisiones, entre otros."
+          },
+          {
+            "id": "d",
+            "text": "El vencimiento de la licencia de quien lo lleva a verificar",
+            "correct": false,
+            "feedback": "No. La VTV controla el vehículo, no a quien conduce: frenos, dirección, suspensión, luces, neumáticos y emisiones, entre otros."
+          }
+        ]
+      },
+      {
+        "id": "where",
+        "prompt": "¿Dónde hace la VTV un auto particular de hasta 3.500 kg radicado en la Ciudad?",
+        "options": [
+          {
+            "id": "a",
+            "text": "En cualquiera de las plantas habilitadas por el Gobierno de la Ciudad",
+            "correct": true,
+            "feedback": "¡Correcto! En cambio, escolares, taxis, remises, vehículos de carga, de transporte de personas o de gran porte van a una única planta, según el manual."
+          },
+          {
+            "id": "b",
+            "text": "En el Registro de la Propiedad Automotor que corresponde al vehículo",
+            "correct": false,
+            "feedback": "No. En el registro se tramitan la cédula y las placas. La VTV de un particular se hace en cualquiera de las plantas habilitadas por el Gobierno de la Ciudad."
+          },
+          {
+            "id": "c",
+            "text": "En la Dirección General de Habilitación de Conductores de la Ciudad",
+            "correct": false,
+            "feedback": "No. Allí se tramita la licencia. La VTV se hace en las plantas habilitadas por el Gobierno de la Ciudad."
+          },
+          {
+            "id": "d",
+            "text": "En cualquier taller mecánico de confianza que elija quien es titular",
+            "correct": false,
+            "feedback": "No. Tiene que hacerse en una de las plantas habilitadas por el Gobierno de la Ciudad."
+          }
+        ]
+      },
+      {
+        "id": "bring",
+        "prompt": "Además del vehículo, ¿con qué hay que presentarse a hacer la VTV?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Con los elementos de seguridad y emergencia y los papeles al día",
+            "correct": true,
+            "feedback": "¡Correcto! El manual indica que, al verificar, hay que contar con esos elementos y con la documentación al día."
+          },
+          {
+            "id": "b",
+            "text": "Con un informe previo firmado por un taller mecánico particular",
+            "correct": false,
+            "feedback": "No. El manual no pide un informe de taller: hay que llevar los elementos de seguridad y emergencia y la documentación del vehículo al día."
+          },
+          {
+            "id": "c",
+            "text": "Solo con el título de propiedad, sin otra documentación",
+            "correct": false,
+            "feedback": "No alcanza. Hay que contar con los elementos de seguridad y emergencia y con la documentación del vehículo al día."
+          },
+          {
+            "id": "d",
+            "text": "Con las licencias de todas las personas que usan el auto",
+            "correct": false,
+            "feedback": "No. La verificación es del vehículo: hay que llevar sus elementos de seguridad y emergencia y su documentación al día."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-vtv-result",
+    "type": "decision",
+    "title": "Resultado de la VTV",
+    "unitIds": [
+      "manual.ch2.vtv-results"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 50
+      }
+    ],
+    "explanation": "La VTV puede dar tres resultados (manual PDF 50). Apto: sin defectos graves ni leves; se entregan un certificado, un informe y una oblea, que el personal técnico adhiere al parabrisas (en motos, al dorso del certificado). Condicional: uno o más defectos leves; el vehículo puede circular, pero hay que resolverlos y volver a verificar sin cargo, con turno previo. Rechazado: uno o más defectos graves; el vehículo no está en condiciones de circular hasta repararlo y reverificar.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "conditional",
+        "start": "result",
+        "nodes": {
+          "result": {
+            "text": "Hiciste la VTV y el informe marca un defecto leve: el resultado es «condicional».",
+            "choices": [
+              {
+                "id": "fix",
+                "text": "Sigo usando el auto, arreglo el defecto y pido turno para reverificar",
+                "outcome": "good"
+              },
+              {
+                "id": "park",
+                "text": "Dejo el auto guardado: con «condicional» no se puede circular",
+                "outcome": "park"
+              },
+              {
+                "id": "ignore",
+                "text": "Sigo usando el auto y no vuelvo: «condicional» equivale a apto",
+                "outcome": "ignore"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Correcto! Con resultado condicional el vehículo puede circular, pero tenés que resolver los defectos leves y volver a verificar sin cargo, con turno previo, dentro del plazo (manual PDF 50)."
+          },
+          "park": {
+            "correct": false,
+            "feedback": "No hace falta: con resultado condicional el vehículo sí puede circular. Lo que tenés que hacer es resolver el defecto y reverificar con turno previo (manual PDF 50)."
+          },
+          "ignore": {
+            "correct": false,
+            "feedback": "Condicional no es apto: hay defectos leves que tenés que resolver para después volver a verificar, sin cargo y con turno previo (manual PDF 50)."
+          }
+        }
+      },
+      {
+        "id": "rejected",
+        "start": "result",
+        "nodes": {
+          "result": {
+            "text": "Hiciste la VTV y el informe marca un defecto grave: el resultado es «rechazado».",
+            "choices": [
+              {
+                "id": "stop",
+                "text": "No circulo con el auto hasta repararlo y reverificar",
+                "outcome": "good"
+              },
+              {
+                "id": "careful",
+                "text": "Lo sigo usando con cuidado hasta el turno de reverificación",
+                "outcome": "careful"
+              },
+              {
+                "id": "daytime",
+                "text": "Lo uso solo de día y por calles tranquilas",
+                "outcome": "daytime"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Correcto! Con resultado rechazado el vehículo no está en condiciones de circular; la reverificación es sin cargo, con turno previo (manual PDF 50)."
+          },
+          "careful": {
+            "correct": false,
+            "feedback": "Con resultado rechazado el vehículo no está en condiciones de circular, aunque lo manejes con cuidado: hay un defecto grave que reparar antes de reverificar (manual PDF 50)."
+          },
+          "daytime": {
+            "correct": false,
+            "feedback": "El horario o el tipo de calle no cambian nada: un vehículo rechazado tiene un defecto grave y no está en condiciones de circular (manual PDF 50)."
+          }
+        }
+      },
+      {
+        "id": "approved",
+        "start": "sticker",
+        "nodes": {
+          "sticker": {
+            "text": "Tu auto obtuvo resultado «apto». Te entregan el certificado, el informe y la oblea con el mes y año del próximo vencimiento.",
+            "choices": [
+              {
+                "id": "windshield",
+                "text": "Dejo que el personal técnico adhiera la oblea al parabrisas",
+                "outcome": "good"
+              },
+              {
+                "id": "glovebox",
+                "text": "Guardo la oblea en la guantera, junto con los papeles",
+                "outcome": "glovebox"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Correcto! En los autos, el personal técnico adhiere la oblea al parabrisas; en las motos, va al dorso del certificado (manual PDF 50)."
+          },
+          "glovebox": {
+            "correct": false,
+            "feedback": "La oblea no se guarda: en los autos el personal técnico la adhiere al parabrisas (en las motos, al dorso del certificado) (manual PDF 50)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.ch2-plates-and-autoparts",
+    "type": "single-choice",
+    "title": "Placas de dominio y grabado de autopartes",
+    "unitIds": [
+      "manual.ch2.license-plates",
+      "manual.ch2.auto-parts-engraving-rva"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 50
+      }
+    ],
+    "figureIds": [
+      "fig.manual-p50-rva-sticker"
+    ],
+    "explanation": "Los vehículos motorizados, acoplados y semiacoplados deben llevar las placas oficiales de dominio que entrega la DNRPA, en su lugar y sin modificaciones: el auto, una adelante y otra atrás; la moto, una sola en el medio de la parte trasera (manual PDF 50). Deben estar en buen estado y sin agregados que impidan o dificulten verlas; si se deterioran o se pierden, se piden en el Registro Nacional de la Propiedad del Automotor que corresponde al vehículo. Además, quien conduce debe saber si el vehículo cumple la Ley 3708: todo vehículo radicado en la Ciudad, incluso 0 km, debe grabar sus autopartes, y después se coloca una oblea de seguridad en el parabrisas.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "plates",
+        "prompt": "¿Cómo deben llevar las placas de dominio un auto y una moto?",
+        "options": [
+          {
+            "id": "a",
+            "text": "El auto, adelante y atrás; la moto, una sola atrás, en el medio",
+            "correct": true,
+            "feedback": "¡Correcto! Son placas oficiales que entrega la DNRPA y deben ir en su lugar y de forma reglamentaria."
+          },
+          {
+            "id": "b",
+            "text": "El auto, una sola en la parte trasera; la moto, una adelante y otra atrás",
+            "correct": false,
+            "feedback": "Es al revés: el auto lleva una placa adelante y otra atrás; la moto, una sola en el medio de la parte trasera."
+          },
+          {
+            "id": "c",
+            "text": "Los dos, una sola placa en el medio de la parte trasera",
+            "correct": false,
+            "feedback": "Eso vale solo para la moto. El auto lleva dos placas: una adelante y otra atrás."
+          },
+          {
+            "id": "d",
+            "text": "Los dos, una placa en la parte delantera y otra en la trasera",
+            "correct": false,
+            "feedback": "Eso vale solo para el auto. La moto lleva una única placa, en el medio de la parte trasera."
+          }
+        ]
+      },
+      {
+        "id": "additions",
+        "prompt": "Querés ponerle a la patente un marco decorativo que tapa parte de los caracteres. ¿Está permitido?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No: no puede haber agregados que dificulten verla",
+            "correct": true,
+            "feedback": "¡Correcto! Además deben estar en buen estado de conservación y no pueden modificarse."
+          },
+          {
+            "id": "b",
+            "text": "Sí, siempre que el marco sea del mismo color que la placa",
+            "correct": false,
+            "feedback": "No. Cualquier agregado que impida o dificulte ver la placa está prohibido, sin importar el color."
+          },
+          {
+            "id": "c",
+            "text": "Sí, pero solo en la placa delantera, no en la trasera",
+            "correct": false,
+            "feedback": "No. Ninguna placa puede tener agregados que impidan o dificulten su visualización."
+          },
+          {
+            "id": "d",
+            "text": "Sí, si la placa original ya está gastada o despintada",
+            "correct": false,
+            "feedback": "No. Si la placa está deteriorada, hay que pedir una nueva en el Registro; no se puede tapar con agregados."
+          }
+        ]
+      },
+      {
+        "id": "replacement",
+        "prompt": "Se te deterioró una placa de dominio. ¿Dónde se pide una nueva?",
+        "options": [
+          {
+            "id": "a",
+            "text": "En el Registro de la Propiedad del Automotor del vehículo",
+            "correct": true,
+            "feedback": "¡Correcto! Las placas son oficiales: las entrega la autoridad nacional (DNRPA) y se reponen en el registro del vehículo."
+          },
+          {
+            "id": "b",
+            "text": "En la planta donde se hace la verificación técnica del auto",
+            "correct": false,
+            "feedback": "No. En la planta de VTV se controla el vehículo. Las placas se piden en el Registro Nacional de la Propiedad del Automotor que corresponde."
+          },
+          {
+            "id": "c",
+            "text": "En la Dirección General de Habilitación de Conductores",
+            "correct": false,
+            "feedback": "No. Allí se tramitan las licencias. Las placas se piden en el Registro Nacional de la Propiedad del Automotor que corresponde al vehículo."
+          },
+          {
+            "id": "d",
+            "text": "En un comercio que fabrique una copia con el mismo número",
+            "correct": false,
+            "feedback": "No. Las placas son oficiales, las entrega la DNRPA y no pueden modificarse: se piden en el Registro que corresponde al vehículo."
+          }
+        ]
+      },
+      {
+        "id": "rva-scope",
+        "prompt": "¿Qué exige la ley de grabado de autopartes a los vehículos radicados en la Ciudad?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Grabar sus autopartes, aunque sean 0 km, y llevar la oblea en el parabrisas",
+            "correct": true,
+            "feedback": "¡Correcto! También se entrega un certificado que autentica el trámite, y quien conduce debe saber si el vehículo cumple esta ley."
+          },
+          {
+            "id": "b",
+            "text": "Grabar las autopartes solo de los vehículos usados, cuando se venden a otra persona",
+            "correct": false,
+            "feedback": "No. La Ley 3708 alcanza a todo vehículo radicado en la Ciudad, incluso los 0 km."
+          },
+          {
+            "id": "c",
+            "text": "Grabar el número de patente en los vidrios, solo en los autos importados",
+            "correct": false,
+            "feedback": "No. Exige grabar las autopartes de todo vehículo radicado en la Ciudad, incluso los 0 km, y colocar una oblea de seguridad en el parabrisas."
+          },
+          {
+            "id": "d",
+            "text": "Declarar las autopartes en cada VTV, en lugar de grabarlas en el vehículo",
+            "correct": false,
+            "feedback": "No. La ley exige el grabado de las autopartes; después se coloca una oblea de seguridad en el parabrisas y se entrega un certificado."
+          }
+        ]
+      },
+      {
+        "id": "rva-purpose",
+        "prompt": "¿Para qué sirve el grabado de autopartes, según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Para combatir el robo de autos y de autopartes, verificando su procedencia",
+            "correct": true,
+            "feedback": "¡Exacto! También busca regularizar los comercios autopartistas y contribuir a la seguridad activa y pasiva de los vehículos."
+          },
+          {
+            "id": "b",
+            "text": "Para controlar las emisiones de gases y ruidos que produce el vehículo",
+            "correct": false,
+            "feedback": "No. Eso lo controla la VTV. El grabado de autopartes busca reducir el tráfico de autopartes robadas y el robo automotor."
+          },
+          {
+            "id": "c",
+            "text": "Para acreditar que quien conduce tiene autorización para usar el vehículo",
+            "correct": false,
+            "feedback": "No. Eso lo acredita la cédula de identificación del vehículo. El grabado permite verificar la procedencia de las autopartes."
+          },
+          {
+            "id": "d",
+            "text": "Para calcular el impuesto a la radicación según las piezas del vehículo",
+            "correct": false,
+            "feedback": "No. El grabado busca reducir el tráfico de autopartes robadas y el robo automotor, al permitir verificar su procedencia."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.incident-protect-alert-rescue-order",
+    "type": "ordering",
+    "title": "Proteger, Alertar, Socorrer",
+    "unitIds": [
+      "manual.ch2.crash-protect-alert-rescue",
+      "siniestros.s1.first-responder-steps"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 51
+      },
+      {
+        "source": "manual",
+        "page": 52
+      },
+      {
+        "source": "manual",
+        "page": 53
+      },
+      {
+        "source": "siniestros",
+        "page": 7
+      }
+    ],
+    "figureIds": [
+      "fig.manual-p51-protect-icons"
+    ],
+    "explanation": "El manual resume la conducta ante un siniestro vial en tres pasos, en este orden: 1° Proteger (detenerse y permanecer en el lugar, mantener la calma y balizar la zona), 2° Alertar (llamar a los servicios de emergencia) y 3° Socorrer (evaluar y brindar ayuda a las personas heridas) (manual PDF 51–53). La guía enumera los mismos primeros pasos: detenerse, mantener la calma, señalizar la zona y, si hay personas heridas, avisar a la autoridad (guía PDF 7). Primero se evita otro incidente; después se llama y se ayuda.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "steps",
+        "prompt": "Según el manual, ¿en qué orden van los tres pasos ante un siniestro vial? Ordenalos del primero al último:",
+        "items": [
+          {
+            "id": "protect",
+            "text": "Proteger: detenerte, mantener la calma y balizar la zona",
+            "reason": "es el 1° paso: evita que se produzca otro incidente"
+          },
+          {
+            "id": "alert",
+            "text": "Alertar: llamar a los servicios de emergencia",
+            "reason": "es el 2° paso, con la zona ya protegida"
+          },
+          {
+            "id": "rescue",
+            "text": "Socorrer: evaluar y brindar ayuda a las personas heridas",
+            "reason": "es el 3° paso: se hace mientras se espera al servicio de emergencias"
+          }
+        ]
+      },
+      {
+        "id": "scene",
+        "prompt": "Chocaste y la otra conductora quedó herida. Ordená lo que hacés, del primero al último:",
+        "items": [
+          {
+            "id": "stop",
+            "text": "Detenerte en un lugar seguro y permanecer en el lugar del hecho",
+            "reason": "es lo primero que piden el manual y la guía"
+          },
+          {
+            "id": "calm",
+            "text": "Respirar profundamente para mantener la calma",
+            "reason": "viene después de detenerte y te permite decidir bien"
+          },
+          {
+            "id": "signal",
+            "text": "Encender las balizas y señalizar la zona",
+            "reason": "completa el paso Proteger: evita otro incidente"
+          },
+          {
+            "id": "call",
+            "text": "Llamar a emergencias e informar el lugar, qué pasó y cuántas víctimas hay",
+            "reason": "es el paso Alertar, que va después de proteger la zona"
+          },
+          {
+            "id": "help",
+            "text": "Mientras esperás, evaluar si podés ayudar a la persona herida",
+            "reason": "es el paso Socorrer, mientras llega el servicio de emergencias"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.incident-crash-scene",
+    "type": "decision",
+    "title": "Un choque con una persona herida",
+    "unitIds": [
+      "manual.ch2.crash-general-obligations",
+      "manual.ch2.crash-alert-emergency-call",
+      "siniestros.s1.emergency-call-911",
+      "siniestros.s1.police-intervention"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 51
+      },
+      {
+        "source": "manual",
+        "page": 52
+      },
+      {
+        "source": "manual",
+        "page": 53
+      },
+      {
+        "source": "manual",
+        "page": 45
+      },
+      {
+        "source": "siniestros",
+        "page": 9
+      },
+      {
+        "source": "siniestros",
+        "page": 10
+      },
+      {
+        "source": "siniestros",
+        "page": 12
+      }
+    ],
+    "explanation": "Toda persona involucrada en un siniestro, maneje o no, debe pedir auxilio para las víctimas, colaborar para evitar mayores daños y contribuir a esclarecer los hechos (manual PDF 51). Con personas heridas, el manual pide llamar al 107 (SAME, emergencias médicas) y al 911, y la guía, dar intervención a la Policía por el 911 para que preserve la escena y resguarde las pruebas (manual PDF 52; guía PDF 10). En la llamada se informa el lugar, las características del siniestro y la cantidad y estado de las víctimas, y no se corta hasta que lo indiquen (manual PDF 52; guía PDF 9).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "cyclist",
+        "start": "crash",
+        "nodes": {
+          "crash": {
+            "text": "Doblando en una esquina de la Ciudad chocás a una ciclista. Quedó en el piso, consciente, y se queja de dolor en una pierna.",
+            "choices": [
+              {
+                "id": "stop",
+                "text": "Me detengo, enciendo las balizas y señalizo la zona",
+                "next": "call"
+              },
+              {
+                "id": "leave",
+                "text": "Sigo de largo: no parece grave y hay gente que la puede ayudar",
+                "outcome": "flee"
+              },
+              {
+                "id": "insurer",
+                "text": "Me detengo y lo primero que hago es llamar a mi aseguradora",
+                "outcome": "insurer-first"
+              }
+            ]
+          },
+          "call": {
+            "text": "La zona ya está señalizada. ¿A quién llamás?",
+            "choices": [
+              {
+                "id": "both",
+                "text": "Al 107 por la emergencia médica (SAME) y al 911 para que intervenga la policía",
+                "next": "report"
+              },
+              {
+                "id": "nobody",
+                "text": "A nadie: seguro que algún testigo ya llamó",
+                "outcome": "no-call"
+              },
+              {
+                "id": "relative",
+                "text": "Solo a un familiar mío, para que venga a ayudarme",
+                "outcome": "relative"
+              }
+            ]
+          },
+          "report": {
+            "text": "Te atienden. ¿Qué decís?",
+            "choices": [
+              {
+                "id": "full",
+                "text": "El lugar exacto (calle e intersección), que choqué a una ciclista y que está consciente con dolor en una pierna; y no corto hasta que me lo indiquen",
+                "outcome": "good"
+              },
+              {
+                "id": "short",
+                "text": "Mi nombre, mi número de póliza y la patente de mi auto, y corto enseguida para no ocupar la línea",
+                "outcome": "hang-up"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Protegiste la zona, llamaste al 107 y al 911, informaste el lugar, qué pasó y el estado de la víctima, y no cortaste hasta que te lo indicaron (manual PDF 51–52; guía PDF 9)."
+          },
+          "flee": {
+            "correct": false,
+            "feedback": "Quien está involucrado en un siniestro debe detenerse y pedir auxilio para las víctimas (manual PDF 51). Darse a la fuga es una contravención y, si queda una persona herida, se puede ser juzgado por abandono de persona (manual PDF 45; guía PDF 12)."
+          },
+          "insurer-first": {
+            "correct": false,
+            "feedback": "A la aseguradora se le avisa dentro de las 72 horas. Con una persona herida, primero se protege la zona y se llama a emergencias (manual PDF 51–53)."
+          },
+          "no-call": {
+            "correct": false,
+            "feedback": "No alcanza con suponer que otro llamó: toda persona involucrada debe solicitar auxilio para las víctimas (manual PDF 51). Con heridos, llamá al 107 (SAME) y al 911 para que intervenga la policía (manual PDF 52; guía PDF 10)."
+          },
+          "relative": {
+            "correct": false,
+            "feedback": "Avisar a un familiar no reemplaza el llamado a emergencias: con heridos hay que llamar al 107 (SAME) y al 911 (manual PDF 52; guía PDF 10)."
+          },
+          "hang-up": {
+            "correct": false,
+            "feedback": "Esos datos sirven para el seguro, no para la emergencia: hay que indicar con claridad el lugar, las características del siniestro y la cantidad y estado de las víctimas, y no cortar hasta que te lo indiquen (manual PDF 52; guía PDF 9)."
+          }
+        }
+      },
+      {
+        "id": "passenger",
+        "start": "scene",
+        "nodes": {
+          "scene": {
+            "text": "Viajás como acompañante en un auto que atropella a un peatón. Quien manejaba quedó aturdido y no reacciona; el peatón está herido en la calzada.",
+            "choices": [
+              {
+                "id": "act",
+                "text": "Pido auxilio: llamo al 107 y al 911 y ayudo a señalizar la zona",
+                "outcome": "good"
+              },
+              {
+                "id": "wait",
+                "text": "Espero: como no manejaba, no me corresponde intervenir",
+                "outcome": "not-driver"
+              },
+              {
+                "id": "carry",
+                "text": "Subo al peatón al auto y lo llevo al hospital más cercano",
+                "outcome": "moved"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! La obligación alcanza a toda persona involucrada, maneje o no: pedir auxilio para las víctimas, colaborar para evitar mayores daños y contribuir a esclarecer los hechos (manual PDF 51)."
+          },
+          "not-driver": {
+            "correct": false,
+            "feedback": "Pedir auxilio, evitar mayores daños y contribuir a esclarecer los hechos es obligación de toda persona involucrada, sea o no quien maneja (manual PDF 51)."
+          },
+          "moved": {
+            "correct": false,
+            "feedback": "No hay que movilizar a la persona herida, porque puede tener lesiones ocultas: se llama a emergencias y se la asiste en el lugar (manual PDF 53; guía PDF 10)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.incident-first-aid",
+    "type": "decision",
+    "title": "Mientras llega la ambulancia",
+    "unitIds": [
+      "manual.ch2.crash-first-aid",
+      "siniestros.s1.first-aid-injured"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 53
+      },
+      {
+        "source": "siniestros",
+        "page": 9
+      },
+      {
+        "source": "siniestros",
+        "page": 10
+      }
+    ],
+    "explanation": "Mientras llega emergencias, no hay que mover a la persona herida por posibles lesiones ocultas, ni retirarle un objeto clavado, porque puede producirse una hemorragia, ni sacarle el casco (manual PDF 53; guía PDF 10). Si está consciente, se la tranquiliza, se le pide que no se mueva y se le pregunta por dolor, pérdida de sensibilidad o dificultad de movimiento. La reanimación se intenta solo si se conocen las técnicas y se cuenta con habilitación; si no, se espera al servicio de emergencias (manual PDF 53).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "helmet",
+        "start": "rider",
+        "nodes": {
+          "rider": {
+            "text": "Ya llamaste a emergencias. Un motociclista herido está tendido en la zona señalizada, consciente y con el casco puesto. Te dice que quiere sacárselo y levantarse.",
+            "choices": [
+              {
+                "id": "calm",
+                "text": "Lo tranquilizo, le pido que no se mueva ni se saque el casco y le pregunto si siente dolor",
+                "outcome": "good"
+              },
+              {
+                "id": "remove",
+                "text": "Le saco el casco con mucho cuidado para que respire mejor y lo dejo acostado",
+                "outcome": "helmet"
+              },
+              {
+                "id": "sidewalk",
+                "text": "Lo ayudo a levantarse despacio y a caminar hasta la vereda, con el casco puesto",
+                "outcome": "moved"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Tranquilizarlo, pedirle que no se mueva, dejarle el casco y preguntarle por dolor o pérdida de sensibilidad es lo que indican el manual (PDF 53) y la guía (PDF 9–10)."
+          },
+          "helmet": {
+            "correct": false,
+            "feedback": "El casco no se retira: el manual lo admite solo si hay vómito o asfixia (manual PDF 53; guía PDF 10)."
+          },
+          "moved": {
+            "correct": false,
+            "feedback": "No hay que movilizar a la persona herida: puede tener lesiones ocultas (manual PDF 53; guía PDF 10)."
+          }
+        }
+      },
+      {
+        "id": "object",
+        "start": "glass",
+        "nodes": {
+          "glass": {
+            "text": "Una persona herida tiene un trozo de vidrio clavado en el brazo. La ambulancia ya está en camino.",
+            "choices": [
+              {
+                "id": "leave",
+                "text": "No se lo saco: la tranquilizo y espero a la ambulancia",
+                "outcome": "good"
+              },
+              {
+                "id": "pull",
+                "text": "Se lo saco con cuidado para poder limpiarle la herida",
+                "outcome": "bleeding"
+              },
+              {
+                "id": "car",
+                "text": "La acuesto en el asiento de atrás de mi auto para llevarla al hospital",
+                "outcome": "moved"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Un objeto clavado no se retira, porque puede producirse una hemorragia (manual PDF 53; guía PDF 10)."
+          },
+          "bleeding": {
+            "correct": false,
+            "feedback": "Si se retira un objeto clavado puede producirse una hemorragia: hay que dejarlo y esperar al servicio de emergencias (manual PDF 53; guía PDF 10)."
+          },
+          "moved": {
+            "correct": false,
+            "feedback": "No se moviliza a la persona herida, por posibles lesiones ocultas; se espera la ambulancia que ya fue solicitada (manual PDF 53; guía PDF 10)."
+          }
+        }
+      },
+      {
+        "id": "unconscious",
+        "start": "still",
+        "nodes": {
+          "still": {
+            "text": "Una persona herida está inconsciente. Nunca aprendiste técnicas de reanimación ni tenés habilitación para hacerlas. Ya llamaste a emergencias.",
+            "choices": [
+              {
+                "id": "wait",
+                "text": "No intento reanimarla y espero al servicio de emergencias",
+                "outcome": "good"
+              },
+              {
+                "id": "try",
+                "text": "Intento reanimarla como lo vi en una película",
+                "outcome": "no-training"
+              },
+              {
+                "id": "shake",
+                "text": "La sacudo y la siento para que reaccione",
+                "outcome": "moved"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! La reanimación se hace solo si se conocen las técnicas y se cuenta con habilitación; si no, se espera el auxilio del servicio de emergencias (manual PDF 53)."
+          },
+          "no-training": {
+            "correct": false,
+            "feedback": "El manual pide reanimar solo si se conocen las técnicas y se cuenta con habilitación; si no, hay que esperar al servicio de emergencias (manual PDF 53; guía PDF 10)."
+          },
+          "moved": {
+            "correct": false,
+            "feedback": "No se moviliza a la persona herida: puede tener lesiones ocultas (manual PDF 53; guía PDF 10). Sin técnicas ni habilitación, se espera al servicio de emergencias."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.incident-first-aid-exceptions",
+    "type": "single-choice",
+    "title": "Primeros auxilios: reglas y excepciones",
+    "unitIds": [
+      "manual.ch2.crash-first-aid",
+      "siniestros.s1.first-aid-injured"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 53
+      },
+      {
+        "source": "siniestros",
+        "page": 9
+      },
+      {
+        "source": "siniestros",
+        "page": 10
+      }
+    ],
+    "explanation": "La regla general de ambas fuentes es no mover a la persona herida ni retirarle el casco (manual PDF 53; guía PDF 10). El manual, material del examen de la categoría B, agrega dos excepciones: se la puede movilizar si existe posibilidad de atropello y se le puede retirar el casco si hay vómito o asfixia; la guía no las menciona, pero no las contradice. Si la persona está consciente, se le pregunta por dolor, pérdida de sensibilidad o dificultad de movimiento, y la guía sugiere empezar con preguntas cerradas, como su nombre o su edad (guía PDF 9).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "move",
+        "prompt": "Según el manual, ¿en qué caso se puede movilizar a una persona herida en un siniestro?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Cuando existe posibilidad de que la atropellen",
+            "correct": true,
+            "feedback": "¡Correcto! El manual pide no movilizarla por posibles lesiones ocultas, salvo que exista posibilidad de atropello (PDF 53)."
+          },
+          {
+            "id": "b",
+            "text": "Cuando se queja de dolor en una pierna",
+            "correct": false,
+            "feedback": "El dolor no habilita a moverla: puede indicar justamente una lesión. La única excepción del manual es la posibilidad de atropello."
+          },
+          {
+            "id": "c",
+            "text": "Cuando pasaron diez minutos y la ambulancia no llega",
+            "correct": false,
+            "feedback": "La demora no cambia la regla: se espera al servicio de emergencias. Solo la posibilidad de atropello permite moverla (manual PDF 53)."
+          },
+          {
+            "id": "d",
+            "text": "Siempre que esté consciente y pueda hablar",
+            "correct": false,
+            "feedback": "Consciente o no, puede tener lesiones ocultas: si está consciente, se la alienta a no hacer ningún movimiento (manual PDF 53)."
+          }
+        ]
+      },
+      {
+        "id": "helmet",
+        "prompt": "Según el manual, ¿cuándo se le puede retirar el casco a un motociclista herido?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Si hay vómito o asfixia",
+            "correct": true,
+            "feedback": "¡Correcto! El casco no se retira, a menos que haya vómito o asfixia (manual PDF 53)."
+          },
+          {
+            "id": "b",
+            "text": "Si está consciente y lo pide",
+            "correct": false,
+            "feedback": "Que lo pida no alcanza: se lo tranquiliza y se le pide que no se mueva. Solo el vómito o la asfixia permiten retirarlo (manual PDF 53)."
+          },
+          {
+            "id": "c",
+            "text": "Siempre, para que respire mejor",
+            "correct": false,
+            "feedback": "Es al revés: el casco no se retira, salvo vómito o asfixia (manual PDF 53; guía PDF 10)."
+          },
+          {
+            "id": "d",
+            "text": "Cuando llega la policía al lugar",
+            "correct": false,
+            "feedback": "La llegada de la policía no cambia la regla: el casco solo se retira ante vómito o asfixia (manual PDF 53)."
+          }
+        ]
+      },
+      {
+        "id": "ask",
+        "prompt": "La persona herida está consciente. Además de tranquilizarla, ¿qué le preguntás?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Si tiene dolor, pierde sensibilidad o le cuesta mover un miembro",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo indican el manual (PDF 53) y la guía (PDF 10), para poder actuar en consecuencia."
+          },
+          {
+            "id": "b",
+            "text": "Quién tuvo la culpa del choque y si vio venir tu auto",
+            "correct": false,
+            "feedback": "No es el momento: se le pregunta por dolor, sensibilidad y dificultad de movimiento (manual PDF 53)."
+          },
+          {
+            "id": "c",
+            "text": "Si puede pararse un momento para comprobar que está bien",
+            "correct": false,
+            "feedback": "Pedirle que se pare es moverla: hay que alentarla a no hacer ningún movimiento (manual PDF 53)."
+          },
+          {
+            "id": "d",
+            "text": "Los datos de su seguro y de su licencia, antes que nada",
+            "correct": false,
+            "feedback": "Los datos se recaban después; primero se atiende su estado: dolor, sensibilidad y movimiento (manual PDF 53)."
+          }
+        ]
+      },
+      {
+        "id": "closed-questions",
+        "prompt": "Según la guía, si la persona lesionada está consciente, ¿qué preguntas conviene hacerle?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Preguntas cerradas, como su nombre o su edad",
+            "correct": true,
+            "feedback": "¡Correcto! La guía sugiere preguntas cerradas y, si no la conocés, preguntarle si quiere que llames a un familiar o conocido (PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Que te cuente con detalle cómo ocurrió el choque",
+            "correct": false,
+            "feedback": "La guía propone preguntas cerradas y simples, como nombre y edad, no un relato largo (PDF 9)."
+          },
+          {
+            "id": "c",
+            "text": "Ninguna: es mejor no hablarle",
+            "correct": false,
+            "feedback": "Al contrario: la guía pide tranquilizarla y hacerle preguntas cerradas, como nombre y edad (PDF 9–10)."
+          },
+          {
+            "id": "d",
+            "text": "Si quiere que la lleves al hospital en tu auto",
+            "correct": false,
+            "feedback": "No hay que moverla; la guía propone preguntas cerradas, como nombre y edad, mientras llega emergencias (PDF 9–10)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.incident-crash-duties",
+    "type": "single-choice",
+    "title": "Quién tiene que actuar",
+    "unitIds": [
+      "manual.ch2.crash-general-obligations",
+      "siniestros.intro.guide-purpose"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 51
+      },
+      {
+        "source": "siniestros",
+        "page": 5
+      }
+    ],
+    "explanation": "Toda persona involucrada en un siniestro vial, maneje o no el vehículo, debe solicitar auxilio para atender a las víctimas si las hay, colaborar para evitar mayores daños o peligro para la circulación y contribuir al esclarecimiento de los hechos (manual PDF 51). La guía dirige sus pasos inmediatos a cualquier persona que participe o vea un siniestro, con o sin víctimas; después trata el reclamo ante la aseguradora y, por último, los procesos legales, una parte dirigida a víctimas y familiares (guía PDF 5).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "duties",
+        "prompt": "Según el manual, ¿qué debe hacer toda persona involucrada en un siniestro vial?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Pedir auxilio, evitar mayores daños y ayudar a esclarecer los hechos",
+            "correct": true,
+            "feedback": "¡Correcto! Son las tres obligaciones que fija el manual (PDF 51)."
+          },
+          {
+            "id": "b",
+            "text": "Retirar los vehículos de inmediato y acordar en el lugar quién paga los daños",
+            "correct": false,
+            "feedback": "El manual no pide acordar en el lugar: pide solicitar auxilio, evitar mayores daños o peligro y contribuir a esclarecer los hechos (PDF 51)."
+          },
+          {
+            "id": "c",
+            "text": "Dejarle sus datos a la otra persona y seguir viaje si no hay heridos graves",
+            "correct": false,
+            "feedback": "Seguir viaje no cumple con pedir auxilio para las víctimas ni con evitar mayores daños, que el manual exige (PDF 51)."
+          },
+          {
+            "id": "d",
+            "text": "Esperar a que llegue la policía, sin intervenir ni llamar a nadie",
+            "correct": false,
+            "feedback": "Esperar sin hacer nada no alcanza: hay que pedir auxilio y colaborar para evitar mayores daños (manual PDF 51)."
+          }
+        ]
+      },
+      {
+        "id": "passenger",
+        "prompt": "Viajabas como acompañante en un auto que chocó y hay una persona herida. ¿Te alcanzan esas obligaciones?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sí: alcanzan a toda persona involucrada, maneje o no",
+            "correct": true,
+            "feedback": "¡Correcto! El manual aclara que la obligación es independiente de ser o no quien conduce (PDF 51)."
+          },
+          {
+            "id": "b",
+            "text": "No: solo alcanzan a quien manejaba el auto que chocó",
+            "correct": false,
+            "feedback": "El manual dice lo contrario: alcanzan a toda persona involucrada, sea o no quien conduce (PDF 51)."
+          },
+          {
+            "id": "c",
+            "text": "Solo si el auto es tuyo",
+            "correct": false,
+            "feedback": "La titularidad del auto no importa: la obligación alcanza a toda persona involucrada (manual PDF 51)."
+          },
+          {
+            "id": "d",
+            "text": "Solo si sabés primeros auxilios",
+            "correct": false,
+            "feedback": "Pedir auxilio y evitar mayores daños no requiere saber primeros auxilios: es obligación de toda persona involucrada (manual PDF 51)."
+          }
+        ]
+      },
+      {
+        "id": "audience",
+        "prompt": "Según la guía, ¿quiénes deben seguir los pasos inmediatos ante un siniestro vial?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Quien participe o vea el siniestro, haya o no víctimas",
+            "correct": true,
+            "feedback": "¡Correcto! La guía los dirige a involucrados directos y a testigos presenciales, con o sin víctimas (PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "Solo quien manejaba el vehículo responsable del siniestro",
+            "correct": false,
+            "feedback": "La guía no los limita a quien manejaba: incluye a toda persona que participe o vea el siniestro (PDF 5)."
+          },
+          {
+            "id": "c",
+            "text": "Solo los testigos presenciales, y únicamente si hubo víctimas",
+            "correct": false,
+            "feedback": "La guía incluye a involucrados y testigos, haya o no víctimas (PDF 5)."
+          },
+          {
+            "id": "d",
+            "text": "Solo el personal de emergencias y la policía que llegan al lugar",
+            "correct": false,
+            "feedback": "La guía se dirige a cualquier persona que participe o vea un siniestro, no solo a quienes trabajan en emergencias (PDF 5)."
+          }
+        ]
+      },
+      {
+        "id": "legal-part",
+        "prompt": "¿A quiénes dirige la guía su parte sobre los procesos legales posteriores al siniestro?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A las víctimas y a sus familiares",
+            "correct": true,
+            "feedback": "¡Correcto! La guía aclara que esa sección está dirigida específicamente a víctimas o familiares de víctimas (PDF 5)."
+          },
+          {
+            "id": "b",
+            "text": "A los agentes de tránsito",
+            "correct": false,
+            "feedback": "No: la sección de procesos legales está dirigida a víctimas o familiares de víctimas (guía PDF 5)."
+          },
+          {
+            "id": "c",
+            "text": "A las compañías de seguros",
+            "correct": false,
+            "feedback": "Las aseguradoras aparecen en la parte del reclamo administrativo; la de procesos legales se dirige a víctimas y familiares (guía PDF 5)."
+          },
+          {
+            "id": "d",
+            "text": "A quienes rinden el examen de manejo",
+            "correct": false,
+            "feedback": "La guía dirige esa sección a víctimas o familiares de víctimas (PDF 5)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.incident-stranded-car-signaling",
+    "type": "decision",
+    "title": "El auto quedó inmovilizado",
+    "unitIds": [
+      "manual.ch2.crash-signaling-warning-triangles",
+      "siniestros.s1.warning-triangles-placement",
+      "siniestros.s1.mandatory-safety-kit"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 51
+      },
+      {
+        "source": "manual",
+        "page": 52
+      },
+      {
+        "source": "siniestros",
+        "page": 8
+      },
+      {
+        "source": "siniestros",
+        "page": 9
+      }
+    ],
+    "figureIds": [
+      "fig.siniestros-p8-beacons"
+    ],
+    "explanation": "Si el vehículo queda inmovilizado, primero se encienden las balizas del vehículo y se señaliza la zona para que no se produzcan nuevos incidentes (manual PDF 51; guía PDF 8). En la ciudad, las balizas portátiles van a unos 30 y 60 metros, detrás del vehículo, del lado de donde vienen los demás, y las personas esperan en una zona segura (manual PDF 51; guía PDF 8). La guía recuerda llevar siempre balizas reglamentarias y un chaleco reflectante para ponérselo antes de bajar, y si es posible una linterna (guía PDF 9). Las distancias en ruta difieren entre las fuentes y no se evalúan aquí.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "one-way-street",
+        "start": "stalled",
+        "nodes": {
+          "stalled": {
+            "text": "Vas por el carril derecho de una calle de mano única de la Ciudad y el auto se apaga: no arranca y no podés moverlo.",
+            "choices": [
+              {
+                "id": "hazards",
+                "text": "Enciendo las balizas del auto",
+                "next": "vest"
+              },
+              {
+                "id": "engine",
+                "text": "Me bajo enseguida a revisar el motor, sin señalizar nada",
+                "outcome": "unsignaled"
+              },
+              {
+                "id": "low-beams",
+                "text": "Dejo las luces bajas encendidas y espero adentro a que alguien me ayude",
+                "outcome": "no-hazards"
+              }
+            ]
+          },
+          "vest": {
+            "text": "Las balizas del auto ya titilan. Vas a bajar para colocar las balizas portátiles. ¿Qué hacés antes?",
+            "choices": [
+              {
+                "id": "put-on",
+                "text": "Me pongo el chaleco reflectante antes de bajar",
+                "next": "place"
+              },
+              {
+                "id": "skip",
+                "text": "Bajo así: es de día y me van a ver igual",
+                "outcome": "no-vest"
+              }
+            ]
+          },
+          "place": {
+            "text": "¿Dónde colocás las dos balizas portátiles?",
+            "choices": [
+              {
+                "id": "behind",
+                "text": "Detrás del auto, del lado de donde vienen los vehículos: una a unos 30 m y otra a unos 60 m",
+                "next": "wait"
+              },
+              {
+                "id": "ahead",
+                "text": "Delante del auto: una a unos 30 m y otra a unos 60 m",
+                "outcome": "front"
+              },
+              {
+                "id": "bumper",
+                "text": "Las dos juntas, pegadas al paragolpes trasero",
+                "outcome": "too-close"
+              }
+            ]
+          },
+          "wait": {
+            "text": "Las balizas ya están colocadas. ¿Dónde esperás la asistencia?",
+            "choices": [
+              {
+                "id": "safe",
+                "text": "Fuera de la calzada, en un lugar seguro",
+                "outcome": "good"
+              },
+              {
+                "id": "door",
+                "text": "Parado junto a la puerta del conductor, para que me vean",
+                "outcome": "exposed"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Balizas del auto, chaleco antes de bajar, balizas portátiles a 30 y 60 m detrás del auto y espera en una zona segura (manual PDF 51; guía PDF 8–9)."
+          },
+          "unsignaled": {
+            "correct": false,
+            "feedback": "Antes que nada hay que encender las balizas del vehículo y señalizar la zona, para que no se produzcan nuevos incidentes (manual PDF 51; guía PDF 8)."
+          },
+          "no-hazards": {
+            "correct": false,
+            "feedback": "Las luces bajas no avisan que el auto está detenido: hay que encender las balizas vehiculares y señalizar la zona con las balizas portátiles (manual PDF 51; guía PDF 8)."
+          },
+          "no-vest": {
+            "correct": false,
+            "feedback": "La guía pide ponerse el chaleco reflectante antes de descender (guía PDF 9); el manual también lo pide al bajar, para ser visto (manual PDF 51–52)."
+          },
+          "front": {
+            "correct": false,
+            "feedback": "En una calle de mano única las balizas van del lado de donde vienen los vehículos, es decir, detrás del auto (manual PDF 51; guía PDF 8)."
+          },
+          "too-close": {
+            "correct": false,
+            "feedback": "Pegadas al auto no anticipan nada a quien se acerca: en la ciudad van a unos 30 y 60 m detrás del vehículo (manual PDF 51; guía PDF 8)."
+          },
+          "exposed": {
+            "correct": false,
+            "feedback": "Junto al auto seguís expuesto a que te atropellen: el diagrama de la guía muestra a las personas esperando en una zona segura (guía PDF 8)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.incident-tunnel-highway",
+    "type": "decision",
+    "title": "Detenido en un túnel o en una autopista",
+    "unitIds": [
+      "manual.ch2.crash-tunnel",
+      "manual.ch2.crash-highway",
+      "siniestros.s1.fast-roads-procedure"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 51
+      },
+      {
+        "source": "manual",
+        "page": 52
+      },
+      {
+        "source": "siniestros",
+        "page": 8
+      }
+    ],
+    "figureIds": [
+      "fig.manual-p52-highway-lanes"
+    ],
+    "explanation": "En un túnel, el manual indica mantener encendidas las luces de posición y las balizas, apagar el motor, abandonar el vehículo con mucha precaución usando el chaleco reflectante y después colocar las balizas portátiles y llamar a asistencia mecánica (manual PDF 51). En autopista lo ideal es usar una dársena de emergencia; si no se puede, en los carriles centrales o izquierdo hay que quedarse en el vehículo con el cinturón abrochado y las balizas encendidas, y llamar a la autopista, porque bajarse puede costar lesiones o la vida (manual PDF 52; guía PDF 8). En el carril derecho se acerca el auto a la banquina, se baja con chaleco, se señaliza y se espera detrás de una defensa; solo la empresa de la autopista puede remover el vehículo (manual PDF 51–52).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "tunnel",
+        "start": "stop",
+        "nodes": {
+          "stop": {
+            "text": "El auto se detiene por una falla dentro de un túnel y no podés sacarlo.",
+            "choices": [
+              {
+                "id": "manual",
+                "text": "Dejo encendidas las luces de posición y las balizas, apago el motor y bajo con precaución, con el chaleco reflectante",
+                "next": "after"
+              },
+              {
+                "id": "inside",
+                "text": "Me quedo adentro con el motor en marcha, esperando que vuelva a andar",
+                "outcome": "engine"
+              },
+              {
+                "id": "dark",
+                "text": "Apago todas las luces para no encandilar y bajo a revisar",
+                "outcome": "dark"
+              }
+            ]
+          },
+          "after": {
+            "text": "Ya bajaste con el chaleco puesto. ¿Qué hacés ahora?",
+            "choices": [
+              {
+                "id": "signal",
+                "text": "Coloco las balizas portátiles y llamo al número de asistencia mecánica",
+                "outcome": "good"
+              },
+              {
+                "id": "walk",
+                "text": "Salgo caminando del túnel a buscar un taxi y dejo el auto como está",
+                "outcome": "unsignaled"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Luces de posición y balizas encendidas, motor apagado, chaleco al bajar, balizas portátiles y llamada a asistencia mecánica (manual PDF 51)."
+          },
+          "engine": {
+            "correct": false,
+            "feedback": "En un túnel el manual pide apagar el motor y abandonar el vehículo con mucha precaución, usando el chaleco reflectante (PDF 51)."
+          },
+          "dark": {
+            "correct": false,
+            "feedback": "Las luces de posición y las balizas tienen que quedar encendidas: son las que te hacen visible dentro del túnel (manual PDF 51)."
+          },
+          "unsignaled": {
+            "correct": false,
+            "feedback": "Después de bajar hay que colocar las balizas portátiles y llamar al número de asistencia mecánica (manual PDF 51)."
+          }
+        }
+      },
+      {
+        "id": "left-lane",
+        "start": "stuck",
+        "nodes": {
+          "stuck": {
+            "text": "Tu auto queda inmovilizado en el carril izquierdo de una autopista. No llegaste a una dársena de emergencia y los demás siguen pasando rápido.",
+            "choices": [
+              {
+                "id": "stay",
+                "text": "Me quedo adentro con el cinturón abrochado y las balizas encendidas, y llamo al número de emergencias de la autopista",
+                "outcome": "good"
+              },
+              {
+                "id": "triangles",
+                "text": "Me pongo el chaleco y bajo a colocar las balizas portátiles",
+                "outcome": "out"
+              },
+              {
+                "id": "push",
+                "text": "Bajo a empujar el auto hasta la banquina",
+                "outcome": "remove"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! En los carriles centrales o izquierdo, con tránsito rápido, bajarse puede costar lesiones o la vida: quedate con el cinturón y las balizas y llamá a la autopista (manual PDF 52; guía PDF 8)."
+          },
+          "out": {
+            "correct": false,
+            "feedback": "En los carriles centrales o izquierdo, bajarse aumenta el riesgo de ser atropellado: hay que permanecer en el vehículo con el cinturón abrochado (manual PDF 52; guía PDF 8)."
+          },
+          "remove": {
+            "correct": false,
+            "feedback": "No intentes remover el vehículo: bajarte es muy riesgoso y solo la empresa de la autopista está autorizada a removerlo (manual PDF 51; guía PDF 8)."
+          }
+        }
+      },
+      {
+        "id": "right-lane",
+        "start": "losing-power",
+        "nodes": {
+          "losing-power": {
+            "text": "El auto pierde potencia en una autopista: vas por el carril derecho y no hay una dársena de emergencia a la vista.",
+            "choices": [
+              {
+                "id": "verge",
+                "text": "Lo acerco lo más posible a la banquina y enciendo las balizas",
+                "next": "stopped"
+              },
+              {
+                "id": "in-lane",
+                "text": "Lo freno donde está, en medio del carril, y me bajo a ver qué pasa",
+                "outcome": "in-lane"
+              }
+            ]
+          },
+          "stopped": {
+            "text": "El auto quedó junto a la banquina con las balizas encendidas. ¿Qué hacés?",
+            "choices": [
+              {
+                "id": "barrier",
+                "text": "Me pongo el chaleco, bajo, coloco las balizas portátiles, llamo a la autopista y espero detrás de una defensa",
+                "outcome": "good"
+              },
+              {
+                "id": "tow",
+                "text": "Llamo a una grúa particular para que lo saque cuanto antes",
+                "outcome": "tow"
+              },
+              {
+                "id": "beside",
+                "text": "Espero parado al lado del auto, sobre la calzada, para que la grúa me vea",
+                "outcome": "exposed"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! En el carril derecho: banquina, balizas, chaleco al bajar, balizas portátiles, llamada a la autopista y espera a resguardo detrás de una defensa (manual PDF 52; guía PDF 8)."
+          },
+          "in-lane": {
+            "correct": false,
+            "feedback": "En el carril derecho, primero ubicá el vehículo lo más próximo posible a la banquina y encendé las balizas (manual PDF 52)."
+          },
+          "tow": {
+            "correct": false,
+            "feedback": "En autopista hay que llamar al número de emergencia de la empresa de la autopista: es la única autorizada a remover el vehículo (manual PDF 51)."
+          },
+          "exposed": {
+            "correct": false,
+            "feedback": "Hay que esperar a resguardo, detrás de una defensa si la hay, y no junto al auto (manual PDF 52; guía PDF 8)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.incident-emergency-call",
+    "type": "single-choice",
+    "title": "El llamado a emergencias",
+    "unitIds": [
+      "manual.ch2.crash-alert-emergency-call",
+      "siniestros.s1.emergency-call-911",
+      "siniestros.s1.police-intervention"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 51
+      },
+      {
+        "source": "manual",
+        "page": 52
+      },
+      {
+        "source": "siniestros",
+        "page": 7
+      },
+      {
+        "source": "siniestros",
+        "page": 9
+      },
+      {
+        "source": "siniestros",
+        "page": 10
+      }
+    ],
+    "explanation": "Con personas heridas, el manual indica llamar al servicio de Emergencias Médicas 107 (SAME) y luego al 911; la guía pide dar intervención a la Policía llamando al 911 (manual PDF 52; guía PDF 7 y 10). En la llamada hay que indicar con claridad el lugar, las características del siniestro y la cantidad y estado de las víctimas, y no cortar hasta que el operador lo indique (manual PDF 52; guía PDF 9). La Policía preserva la escena, facilita que los servicios de emergencia atiendan a los heridos y resguarda los vehículos y las pruebas (guía PDF 10).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "numbers",
+        "prompt": "Hay una persona herida en el choque. ¿A qué números llamás?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Al 107 (SAME) por la emergencia médica y al 911 por la policía",
+            "correct": true,
+            "feedback": "¡Correcto! El 107 es el SAME y el 911, la policía: con heridos se llama a los dos (manual PDF 52; guía PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Solo a tu compañía de seguros, que se ocupa de avisar al resto",
+            "correct": false,
+            "feedback": "La aseguradora no reemplaza a emergencias: se le avisa dentro de las 72 h. Con heridos, 107 (SAME) y 911."
+          },
+          {
+            "id": "c",
+            "text": "Al número de emergencia de la autopista, aunque estés en una calle",
+            "correct": false,
+            "feedback": "Ese número es para quedar inmovilizado en una autopista. Con heridos en la calle: 107 (SAME) y 911 (manual PDF 52)."
+          },
+          {
+            "id": "d",
+            "text": "A ninguno: esperás a que pase un patrullero",
+            "correct": false,
+            "feedback": "Hay que pedir auxilio: llamá al 107 por la emergencia médica y al 911 para la policía (manual PDF 51–52)."
+          }
+        ]
+      },
+      {
+        "id": "report",
+        "prompt": "¿Qué tenés que decir con claridad cuando llamás a emergencias?",
+        "options": [
+          {
+            "id": "a",
+            "text": "El lugar, qué tipo de siniestro fue y cuántas víctimas hay y en qué estado",
+            "correct": true,
+            "feedback": "¡Correcto! Lugar (calle e intersección o una referencia clave), tipo de siniestro (choque frontal, vuelco, incendio…) y víctimas (manual PDF 52; guía PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Tu nombre completo, tu número de póliza y la patente del otro auto",
+            "correct": false,
+            "feedback": "Esos datos sirven para el seguro, no para la emergencia: hay que dar el lugar, las características del siniestro y el estado de las víctimas."
+          },
+          {
+            "id": "c",
+            "text": "Solo que hubo un choque: los detalles los ven al llegar al lugar",
+            "correct": false,
+            "feedback": "Los detalles importan para que lleguen rápido y con lo necesario: lugar, características del siniestro y cantidad y estado de las víctimas (manual PDF 52)."
+          },
+          {
+            "id": "d",
+            "text": "Quién tuvo la culpa del choque, para que la policía lo anote en el acta",
+            "correct": false,
+            "feedback": "La culpa no es lo que se informa: se da el lugar, qué pasó y cuántas víctimas hay y en qué estado (guía PDF 9)."
+          }
+        ]
+      },
+      {
+        "id": "hang-up",
+        "prompt": "Ya diste todos los datos. ¿Cuándo cortás la llamada?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Cuando el operador te lo indique",
+            "correct": true,
+            "feedback": "¡Correcto! Es importante no cortar hasta que te lo indiquen (manual PDF 52; guía PDF 9)."
+          },
+          {
+            "id": "b",
+            "text": "Apenas diste la dirección, para liberar la línea",
+            "correct": false,
+            "feedback": "Cortar antes puede dejar datos sin pasar: se corta cuando el operador lo indica (guía PDF 9)."
+          },
+          {
+            "id": "c",
+            "text": "Cuando ves llegar la ambulancia",
+            "correct": false,
+            "feedback": "El criterio no es ese: no se corta hasta que te lo indiquen (manual PDF 52)."
+          },
+          {
+            "id": "d",
+            "text": "Después de un minuto, aunque el operador siga hablando",
+            "correct": false,
+            "feedback": "No hay un tiempo fijo: se corta cuando el operador lo indica (manual PDF 52; guía PDF 9)."
+          }
+        ]
+      },
+      {
+        "id": "police",
+        "prompt": "Según la guía, ¿para qué se da intervención a la Policía cuando hay personas heridas?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Para que preserve la escena, facilite la atención y resguarde vehículos y pruebas",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo explica la guía, para una adecuada resolución del caso (PDF 10)."
+          },
+          {
+            "id": "b",
+            "text": "Para que decida en el lugar quién tuvo la culpa y quién paga los daños",
+            "correct": false,
+            "feedback": "La Policía no fija responsabilidades económicas en el lugar: preserva la escena y resguarda las pruebas (guía PDF 10)."
+          },
+          {
+            "id": "c",
+            "text": "Para que retire los vehículos de la calzada antes de que llegue la ambulancia",
+            "correct": false,
+            "feedback": "Al contrario: resguarda los vehículos como prueba y facilita la atención de los heridos (guía PDF 10)."
+          },
+          {
+            "id": "d",
+            "text": "Para que lleve a las personas heridas al hospital más cercano en el patrullero",
+            "correct": false,
+            "feedback": "La atención de los heridos está a cargo de los servicios de emergencia; la Policía les brinda los medios para hacerlo (guía PDF 10)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.incident-crash-data",
+    "type": "single-choice",
+    "title": "Los datos del siniestro",
+    "unitIds": [
+      "manual.ch2.crash-data-collection",
+      "siniestros.s1.data-collection",
+      "manual.ch2.crash-insurer-notice-72h"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 53
+      },
+      {
+        "source": "siniestros",
+        "page": 7
+      },
+      {
+        "source": "siniestros",
+        "page": 11
+      },
+      {
+        "source": "siniestros",
+        "page": 14
+      }
+    ],
+    "figureIds": [
+      "fig.manual-p53-data-icons"
+    ],
+    "explanation": "En el lugar del siniestro se recaban los datos de los vehículos (dominio, marca, modelo, color, aseguradora, póliza y titular), de quien conduce, de testigos y lesionados (nombre, DNI, dirección y teléfono), del siniestro (fecha, hora, lugar, estado de la calzada y del tiempo) y, en lo posible, fotos panorámicas, de los daños y de las marcas de frenado (manual PDF 53; guía PDF 11). Los datos de testigos pueden ser importantes en un posterior proceso judicial. Con los otros conductores se intercambian los datos de la licencia y del seguro, y dentro de las 72 horas hay que informar el siniestro a la compañía aseguradora (manual PDF 53; guía PDF 7).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "vehicle",
+        "prompt": "¿Qué datos del otro vehículo tenés que anotar?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Dominio, marca, modelo, color, aseguradora, número de póliza y titular",
+            "correct": true,
+            "feedback": "¡Correcto! Es la lista de datos del vehículo que dan el manual (PDF 53) y la guía (PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "Solo la patente: con eso alcanza para cualquier reclamo",
+            "correct": false,
+            "feedback": "La patente sola no alcanza: también hacen falta marca, modelo, color, aseguradora, póliza y titular (manual PDF 53)."
+          },
+          {
+            "id": "c",
+            "text": "El kilometraje, el año de fabricación y la fecha del último service",
+            "correct": false,
+            "feedback": "No son datos que pidan las fuentes: se anotan dominio, marca, modelo, color, aseguradora, póliza y titular."
+          },
+          {
+            "id": "d",
+            "text": "Solo la marca, el modelo y el color, para poder describirlo después",
+            "correct": false,
+            "feedback": "Faltan datos clave: dominio, aseguradora, número de póliza y titular (guía PDF 11)."
+          }
+        ]
+      },
+      {
+        "id": "witnesses",
+        "prompt": "¿Por qué conviene anotar nombre, DNI, dirección y teléfono de las personas testigos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Porque pueden ser importantes en un posterior proceso judicial",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo dicen el manual (PDF 53) y la guía (PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "Porque la policía no puede intervenir sin testigos",
+            "correct": false,
+            "feedback": "La intervención policial no depende de los testigos; sus datos importan para un posterior proceso judicial (manual PDF 53)."
+          },
+          {
+            "id": "c",
+            "text": "Porque así ya no hace falta avisar a la aseguradora",
+            "correct": false,
+            "feedback": "A la aseguradora hay que avisarle igual, dentro de las 72 h; los testigos importan para un posible proceso judicial."
+          },
+          {
+            "id": "d",
+            "text": "Porque los testigos son quienes deben llamar a emergencias",
+            "correct": false,
+            "feedback": "Pedir auxilio es obligación de toda persona involucrada; los datos de testigos sirven ante un proceso judicial (manual PDF 53)."
+          }
+        ]
+      },
+      {
+        "id": "photos",
+        "prompt": "Según el manual y la guía, ¿qué fotos conviene tomar en el lugar?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Panorámicas del lugar, de los daños y de las marcas de frenado",
+            "correct": true,
+            "feedback": "¡Correcto! La guía agrega que se vea la placa de dominio y todo dato que consideres relevante (manual PDF 53; guía PDF 11)."
+          },
+          {
+            "id": "b",
+            "text": "Solo del daño de tu auto, para mostrarlo en el taller",
+            "correct": false,
+            "feedback": "Con eso no alcanza: también panorámicas del lugar, daños de todos los vehículos y marcas de frenado (guía PDF 11)."
+          },
+          {
+            "id": "c",
+            "text": "Ninguna: las fotos las saca la policía cuando llega al lugar",
+            "correct": false,
+            "feedback": "Las fuentes recomiendan que tomes fotos, en lo posible: panorámicas, daños y marcas de frenado (manual PDF 53)."
+          },
+          {
+            "id": "d",
+            "text": "Solo de las personas involucradas y de sus documentos",
+            "correct": false,
+            "feedback": "Lo que piden las fuentes son fotos del lugar, de los daños y de las marcas de frenado (manual PDF 53; guía PDF 11)."
+          }
+        ]
+      },
+      {
+        "id": "exchange",
+        "prompt": "Según el manual y la guía, ¿qué datos intercambiás con quien maneja el otro vehículo?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Los de la licencia de conducir y los del seguro",
+            "correct": true,
+            "feedback": "¡Correcto! Ambas fuentes piden intercambiar los datos del seguro y de la licencia; el manual agrega la cédula del vehículo (manual PDF 53; guía PDF 7)."
+          },
+          {
+            "id": "b",
+            "text": "Solo los teléfonos, para hablar más tarde",
+            "correct": false,
+            "feedback": "El teléfono no alcanza: hay que intercambiar los datos de la licencia y del seguro (guía PDF 7)."
+          },
+          {
+            "id": "c",
+            "text": "Ninguno: eso lo resuelven después las aseguradoras",
+            "correct": false,
+            "feedback": "El intercambio se hace en el lugar: datos de la licencia y del seguro (manual PDF 53; guía PDF 7)."
+          },
+          {
+            "id": "d",
+            "text": "Solo el DNI, sin los datos del seguro",
+            "correct": false,
+            "feedback": "Los datos del seguro son imprescindibles para reclamar: se intercambian junto con los de la licencia (guía PDF 7)."
+          }
+        ]
+      },
+      {
+        "id": "insurer",
+        "prompt": "¿En qué plazo tenés que informar el siniestro a tu compañía aseguradora?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Dentro de las 72 horas",
+            "correct": true,
+            "feedback": "¡Correcto! El manual (PDF 53) y la guía (PDF 7) coinciden: dentro de las 72 h."
+          },
+          {
+            "id": "b",
+            "text": "Dentro de los 30 días",
+            "correct": false,
+            "feedback": "Es mucho más corto: dentro de las 72 horas (manual PDF 53; guía PDF 7)."
+          },
+          {
+            "id": "c",
+            "text": "Dentro de 1 año",
+            "correct": false,
+            "feedback": "Un año es el plazo que da la guía para reclamar ante tu propia aseguradora; el aviso del siniestro es dentro de las 72 horas (guía PDF 7 y 14)."
+          },
+          {
+            "id": "d",
+            "text": "Solo si el otro conductor no tiene seguro",
+            "correct": false,
+            "feedback": "El aviso a tu aseguradora corresponde siempre, dentro de las 72 horas (manual PDF 53; guía PDF 7)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.incident-parked-car",
+    "type": "decision",
+    "title": "Rozaste un auto estacionado",
+    "unitIds": [
+      "manual.ch2.parked-vehicle-collision",
+      "siniestros.s1.parked-vehicle-collision"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 54
+      },
+      {
+        "source": "siniestros",
+        "page": 12
+      }
+    ],
+    "explanation": "Si chocás un vehículo estacionado y no sabés de quién es, tenés que dejar tus datos bien sujetos, para que no se pierdan: la guía pide dejarlos en el auto estacionado y el manual, en un lugar seguro (manual PDF 54; guía PDF 12). Ambas fuentes incluyen los datos de la licencia de conducir y del seguro; el manual agrega los datos personales y del vehículo, y la guía, un teléfono de contacto.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "parking",
+        "start": "scrape",
+        "nodes": {
+          "scrape": {
+            "text": "Al estacionar rozás el paragolpes de un auto estacionado. No hay nadie cerca y no sabés de quién es.",
+            "choices": [
+              {
+                "id": "note",
+                "text": "Escribo mis datos personales y un teléfono, los de mi licencia y los de mi seguro, y los dejo bien sujetos en el auto",
+                "outcome": "good"
+              },
+              {
+                "id": "go",
+                "text": "Me voy: el daño es mínimo y nadie me vio",
+                "outcome": "leave"
+              },
+              {
+                "id": "loose",
+                "text": "Dejo un papel con mi nombre apoyado en el parabrisas, sin sujetarlo",
+                "outcome": "loose"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Datos personales y de contacto, de la licencia y del seguro, bien sujetos para que lleguen a quien es dueño o dueña del auto (manual PDF 54; guía PDF 12)."
+          },
+          "leave": {
+            "correct": false,
+            "feedback": "Aunque nadie te haya visto, tenés que dejar los datos de tu licencia, de tu seguro y un contacto, bien sujetos en el auto (manual PDF 54; guía PDF 12)."
+          },
+          "loose": {
+            "correct": false,
+            "feedback": "Con el nombre solo no alcanza y un papel suelto se vuela: dejá los datos de tu licencia, tu seguro y un contacto, bien sujetos (manual PDF 54; guía PDF 12)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.incident-witness-duty",
+    "type": "single-choice",
+    "title": "Testigos y datos pendientes",
+    "unitIds": [
+      "manual.ch2.witness-duty",
+      "siniestros.s1.witness-duty",
+      "manual.ch2.crash-info-obtained-later",
+      "siniestros.s1.info-obtained-later"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 54
+      },
+      {
+        "source": "siniestros",
+        "page": 12
+      }
+    ],
+    "explanation": "Si hay un procedimiento judicial por un siniestro y te convocan como testigo, es obligatorio presentarte a declarar en la fiscalía o el juzgado, y conviene declarar todo lo que sepas y recuerdes ante el juez o el fiscal (manual PDF 54). La guía agrega que ser testigo es una carga pública, que hay que presentarse todas las veces que te convoquen y que siempre hay que decir la verdad, porque el falso testimonio es un delito (guía PDF 12). Los datos que no se pudieron recabar en el momento se pueden obtener en la comisaría, la fiscalía o el juzgado interviniente (manual PDF 54; guía PDF 12).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "summoned",
+        "prompt": "Te citan como testigo en una causa judicial por un siniestro vial que viste. ¿Tenés que ir?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sí: es obligatorio presentarte si te convocan",
+            "correct": true,
+            "feedback": "¡Correcto! Es obligatorio presentarse en la fiscalía o el juzgado si te convocan como testigo (manual PDF 54; guía PDF 12)."
+          },
+          {
+            "id": "b",
+            "text": "No: ser testigo es siempre voluntario",
+            "correct": false,
+            "feedback": "No es voluntario: si te convocan, presentarte es obligatorio; la guía lo llama una carga pública (PDF 12)."
+          },
+          {
+            "id": "c",
+            "text": "Solo si estuviste involucrado en el choque",
+            "correct": false,
+            "feedback": "La obligación es de quien es convocado como testigo, haya participado o no del choque (manual PDF 54)."
+          },
+          {
+            "id": "d",
+            "text": "Solo la primera vez que te citan",
+            "correct": false,
+            "feedback": "La guía aclara que hay que presentarse todas las veces que te convoquen (PDF 12)."
+          }
+        ]
+      },
+      {
+        "id": "declare",
+        "prompt": "Estás frente al fiscal como testigo. ¿Qué declarás?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Todo lo que sepas y recuerdes del hecho",
+            "correct": true,
+            "feedback": "¡Correcto! Declarar todo lo que se sepa y recuerde ayuda a esclarecer la causa (manual PDF 54; guía PDF 12)."
+          },
+          {
+            "id": "b",
+            "text": "Solo lo que favorezca a quien te propuso como testigo",
+            "correct": false,
+            "feedback": "Un testigo no toma partido: declara todo lo que sabe y recuerda, siempre diciendo la verdad (guía PDF 12)."
+          },
+          {
+            "id": "c",
+            "text": "Lo menos posible, para no complicarte",
+            "correct": false,
+            "feedback": "Lo que se espera es lo contrario: que declares todo lo que sepas y recuerdes (manual PDF 54)."
+          },
+          {
+            "id": "d",
+            "text": "Solo lo que puedas demostrar con fotos",
+            "correct": false,
+            "feedback": "Se declara todo lo que se sabe y recuerda, aunque no tengas fotos (manual PDF 54)."
+          }
+        ]
+      },
+      {
+        "id": "truth",
+        "prompt": "Según la guía, ¿por qué un testigo siempre tiene que decir la verdad?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Porque el falso testimonio es un delito",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo advierte la guía (PDF 12)."
+          },
+          {
+            "id": "b",
+            "text": "Porque si miente le descuentan puntos de la licencia",
+            "correct": false,
+            "feedback": "El descuento de puntos es por infracciones de tránsito; la guía advierte que el falso testimonio es un delito (PDF 12)."
+          },
+          {
+            "id": "c",
+            "text": "Porque si miente tiene que pagar los daños del siniestro",
+            "correct": false,
+            "feedback": "No es eso lo que dice la guía: mentir como testigo es falso testimonio, que es un delito (PDF 12)."
+          },
+          {
+            "id": "d",
+            "text": "Porque solo así cobra por presentarse a declarar",
+            "correct": false,
+            "feedback": "La guía no menciona ningún pago: presentarse es una carga pública y el falso testimonio es un delito (PDF 12)."
+          }
+        ]
+      },
+      {
+        "id": "later",
+        "prompt": "No pudiste anotar los datos del otro conductor en el lugar. ¿Dónde podés conseguirlos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "En la comisaría, la fiscalía o el juzgado que intervino",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo indican el manual (PDF 54) y la guía (PDF 12)."
+          },
+          {
+            "id": "b",
+            "text": "En ningún lado: si no los anotaste en el momento, se pierden",
+            "correct": false,
+            "feedback": "Se pueden recuperar: en la comisaría, la fiscalía o el juzgado interviniente (manual PDF 54)."
+          },
+          {
+            "id": "c",
+            "text": "Solo a través de la aseguradora del otro conductor",
+            "correct": false,
+            "feedback": "Las fuentes indican la comisaría, la fiscalía o el juzgado interviniente (guía PDF 12)."
+          },
+          {
+            "id": "d",
+            "text": "En el taller donde reparan tu auto",
+            "correct": false,
+            "feedback": "El taller no tiene esos datos: se obtienen en la comisaría, la fiscalía o el juzgado interviniente (manual PDF 54)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.incident-legal-advice",
+    "type": "decision",
+    "title": "Elegir asesoramiento legal",
+    "unitIds": [
+      "manual.ch2.legal-advice-recommendation",
+      "siniestros.s3.legal-advice-recommendation"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 54
+      },
+      {
+        "source": "siniestros",
+        "page": 22
+      }
+    ],
+    "explanation": "Después de un siniestro conviene asegurarse el mejor asesoramiento posible para reclamar las indemnizaciones y reparaciones a las que las víctimas tienen derecho: elegir con calma el asesoramiento legal y no aceptar ofertas apresuradas ni de profesionales de los que no se tienen referencias previas (manual PDF 54). La guía da el mismo consejo, citando la Guía Iberoamericana de atención integral a víctimas de siniestros de tránsito, y ambas fuentes mencionan organismos que brindan asesoramiento jurídico gratuito (guía PDF 22).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "offer",
+        "start": "call",
+        "nodes": {
+          "call": {
+            "text": "Saliste del hospital después de un siniestro. Te llama alguien que dice ser abogado, del que no tenés ninguna referencia, y te pide que firmes hoy mismo para llevar tu reclamo.",
+            "choices": [
+              {
+                "id": "calm",
+                "text": "Le digo que no: prefiero elegir con calma",
+                "next": "choose"
+              },
+              {
+                "id": "sign",
+                "text": "Firmo hoy: cuanto antes empiece el reclamo, mejor",
+                "outcome": "rushed"
+              }
+            ]
+          },
+          "choose": {
+            "text": "Querés elegir con calma. ¿Cómo seguís?",
+            "choices": [
+              {
+                "id": "references",
+                "text": "Busco profesionales de los que tenga referencias, o pido orientación en un organismo de asistencia a víctimas",
+                "outcome": "good"
+              },
+              {
+                "id": "ad",
+                "text": "Contrato al primer estudio de una publicidad que promete cobrar en pocos días",
+                "outcome": "no-references"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! Elegir con calma, con referencias previas, y no aceptar ofertas apresuradas es lo que recomiendan el manual (PDF 54) y la guía (PDF 22)."
+          },
+          "rushed": {
+            "correct": false,
+            "feedback": "El manual y la guía aconsejan no aceptar ofertas apresuradas ni de profesionales sin referencias previas (manual PDF 54; guía PDF 22)."
+          },
+          "no-references": {
+            "correct": false,
+            "feedback": "Una promesa rápida no es una referencia: conviene elegir con calma a profesionales de los que tengas referencias previas (manual PDF 54; guía PDF 22)."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "act.incident-victim-support",
+    "type": "single-choice",
+    "title": "Dónde pedir ayuda después de un siniestro",
+    "unitIds": [
+      "manual.ch2.public-victim-support-contacts",
+      "manual.ch2.ngo-victim-support-contacts",
+      "siniestros.s3.public-victim-support-contacts",
+      "siniestros.s3.ngo-victim-support-contacts"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 54
+      },
+      {
+        "source": "manual",
+        "page": 55
+      },
+      {
+        "source": "siniestros",
+        "page": 22
+      },
+      {
+        "source": "siniestros",
+        "page": 23
+      }
+    ],
+    "explanation": "Para recibir asesoramiento jurídico sobre cómo proceder y/o atención psicológica gratuita después de un siniestro, se puede recurrir a organismos públicos nacionales y de la Ciudad y a organizaciones no gubernamentales de apoyo a víctimas y familiares (manual PDF 54–55; guía PDF 22–23). Según las fuentes, algunos de esos organismos brindan asesoramiento y patrocinio a víctimas, acompañamiento en causas penales o asistencia psicológica. Los teléfonos, correos y sitios de cada uno figuran en esas páginas como material de consulta: pueden cambiar y no se evalúan.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "free-help",
+        "prompt": "Después de un siniestro necesitás orientación legal o apoyo psicológico y no podés pagarlo. Según el manual y la guía, ¿a quién podés recurrir?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A organismos públicos y ONG con ayuda jurídica y/o psicológica gratuita",
+            "correct": true,
+            "feedback": "¡Correcto! El manual (PDF 54–55) y la guía (PDF 22–23) listan organismos públicos nacionales y de la Ciudad y organizaciones no gubernamentales."
+          },
+          {
+            "id": "b",
+            "text": "Solo a la aseguradora del responsable, que debe asignarte un abogado",
+            "correct": false,
+            "feedback": "Las fuentes no dicen eso: para asesoramiento o atención psicológica gratuita mencionan organismos públicos y ONG (manual PDF 54)."
+          },
+          {
+            "id": "c",
+            "text": "Solo a un estudio jurídico privado, porque no hay opciones gratuitas",
+            "correct": false,
+            "feedback": "Sí hay opciones gratuitas: organismos públicos y ONG que brindan asesoramiento jurídico y/o atención psicológica (guía PDF 22)."
+          },
+          {
+            "id": "d",
+            "text": "Solo a la comisaría donde se hizo la denuncia del siniestro",
+            "correct": false,
+            "feedback": "La comisaría recibe la denuncia; el asesoramiento y la atención psicológica gratuita los brindan organismos públicos y ONG (manual PDF 54)."
+          }
+        ]
+      },
+      {
+        "id": "ngo",
+        "prompt": "Además de los organismos públicos, ¿qué otro tipo de entidades listan el manual y la guía para pedir apoyo después de un siniestro?",
+        "options": [
+          {
+            "id": "a",
+            "text": "ONG de apoyo a víctimas y familiares de víctimas de tránsito",
+            "correct": true,
+            "feedback": "¡Correcto! Ambas fuentes listan asociaciones civiles de víctimas y familiares (manual PDF 55; guía PDF 23)."
+          },
+          {
+            "id": "b",
+            "text": "Las compañías de seguros de los vehículos involucrados",
+            "correct": false,
+            "feedback": "Las aseguradoras aparecen en el reclamo administrativo, no como entidades de apoyo; las fuentes listan ONG (manual PDF 55)."
+          },
+          {
+            "id": "c",
+            "text": "Las empresas concesionarias de autopistas de la Ciudad",
+            "correct": false,
+            "feedback": "A la autopista se la llama si el auto queda inmovilizado en ella; para apoyo, las fuentes listan ONG de víctimas (guía PDF 23)."
+          },
+          {
+            "id": "d",
+            "text": "Las escuelas de manejo habilitadas por la Ciudad",
+            "correct": false,
+            "feedback": "No figuran en esas listas: el manual y la guía mencionan organizaciones no gubernamentales de víctimas y familiares (manual PDF 55; guía PDF 23)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.incident-scoring-points",
+    "type": "single-choice",
+    "title": "El sistema de puntos (Scoring)",
+    "unitIds": [
+      "manual.ch2.scoring-system",
+      "manual.ch2.scoring-point-recovery",
+      "manual.ch2.scoring-zero-points"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 55
+      }
+    ],
+    "explanation": "Según el manual, el Sistema de Evaluación Permanente de Conductores (Scoring) asigna 20 puntos al obtener la licencia por primera vez y descuenta puntos según el tipo de infracción (PDF 55). Si en tres años desde la última infracción no se perdieron todos los puntos, los descuentos quedan sin efecto; se pueden recuperar 4 puntos con un curso de educación vial, una vez por año y sin haber llegado a 0, y con el pago voluntario de las infracciones y un curso de reasignación se recupera el 50% de lo descontado, salvo algunas infracciones que el manual excluye. Al llegar a 0 puntos hay inhabilitación para conducir (de 60 días a 5 años) y un curso de educación vial y prevención que permite reasignar 10 puntos; en algunos casos caduca la licencia.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "initial",
+        "prompt": "Según el manual, ¿con cuántos puntos empieza quien obtiene la licencia por primera vez?",
+        "options": [
+          {
+            "id": "10",
+            "text": "10 puntos",
+            "correct": false,
+            "feedback": "No: 10 son los puntos que permite reasignar el curso al llegar a 0. Al obtener la licencia por primera vez se reciben 20 (manual PDF 55)."
+          },
+          {
+            "id": "20",
+            "text": "20 puntos",
+            "correct": true,
+            "feedback": "¡Correcto! El Scoring asigna 20 puntos al obtener la licencia por primera vez (manual PDF 55)."
+          },
+          {
+            "id": "50",
+            "text": "50 puntos",
+            "correct": false,
+            "feedback": "Son menos: 20 puntos al obtener la licencia por primera vez (manual PDF 55)."
+          },
+          {
+            "id": "100",
+            "text": "100 puntos",
+            "correct": false,
+            "feedback": "Son muchos menos: 20 puntos al obtener la licencia por primera vez (manual PDF 55)."
+          }
+        ]
+      },
+      {
+        "id": "three-years",
+        "prompt": "Perdiste algunos puntos, pero nunca todos, y pasan tres años desde tu última infracción. ¿Qué pasa con los descuentos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Quedan sin efecto",
+            "correct": true,
+            "feedback": "¡Correcto! Si no se perdieron todos los puntos en tres años desde la última infracción, los descuentos quedan sin efecto (manual PDF 55)."
+          },
+          {
+            "id": "b",
+            "text": "Se mantienen para siempre",
+            "correct": false,
+            "feedback": "No: a los tres años desde la última infracción, sin haber perdido todos los puntos, los descuentos quedan sin efecto (manual PDF 55)."
+          },
+          {
+            "id": "c",
+            "text": "Se recupera solo la mitad",
+            "correct": false,
+            "feedback": "El 50% se reasigna con el pago voluntario y un curso; a los tres años, los descuentos directamente quedan sin efecto (manual PDF 55)."
+          },
+          {
+            "id": "d",
+            "text": "Hay que rendir de nuevo el examen para recuperarlos",
+            "correct": false,
+            "feedback": "No hace falta: si en tres años no perdiste todos los puntos, los descuentos quedan sin efecto (manual PDF 55)."
+          }
+        ]
+      },
+      {
+        "id": "recover",
+        "prompt": "Perdiste puntos, sin llegar a 0, y querés recuperar 4 voluntariamente. ¿Qué tenés que hacer?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Aprobar un curso especializado de educación vial",
+            "correct": true,
+            "feedback": "¡Correcto! Se puede hacer una sola vez por año y si no llegaste a 0 puntos (manual PDF 55)."
+          },
+          {
+            "id": "b",
+            "text": "Pagar el doble de las multas",
+            "correct": false,
+            "feedback": "Pagar no devuelve esos 4 puntos: se recuperan aprobando un curso especializado de educación vial (manual PDF 55)."
+          },
+          {
+            "id": "c",
+            "text": "Rendir otra vez el examen práctico",
+            "correct": false,
+            "feedback": "No es lo que indica el manual: los 4 puntos se recuperan con un curso especializado de educación vial (PDF 55)."
+          },
+          {
+            "id": "d",
+            "text": "Esperar 60 días sin cometer infracciones",
+            "correct": false,
+            "feedback": "Esperar no alcanza: hay que aprobar un curso especializado de educación vial, una vez por año como máximo (manual PDF 55)."
+          }
+        ]
+      },
+      {
+        "id": "voluntary-payment",
+        "prompt": "¿Qué permite pagar voluntariamente las infracciones y aprobar un curso de reasignación de puntos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Reasignar el 50% de los puntos descontados",
+            "correct": true,
+            "feedback": "¡Correcto! Salvo algunas infracciones que el manual excluye (PDF 55)."
+          },
+          {
+            "id": "b",
+            "text": "Recuperar todos los puntos descontados",
+            "correct": false,
+            "feedback": "No todos: se reasigna el 50% de los puntos descontados (manual PDF 55)."
+          },
+          {
+            "id": "c",
+            "text": "Recuperar exactamente 10 puntos",
+            "correct": false,
+            "feedback": "10 son los que reasigna el curso al llegar a 0; con el pago voluntario y el curso de reasignación se recupera el 50% (manual PDF 55)."
+          },
+          {
+            "id": "d",
+            "text": "Evitar que la licencia caduque en cualquier caso",
+            "correct": false,
+            "feedback": "No es eso: el pago voluntario con el curso de reasignación devuelve el 50% de los puntos descontados (manual PDF 55)."
+          }
+        ]
+      },
+      {
+        "id": "zero",
+        "prompt": "Según el manual, ¿qué pasa al llegar a 0 puntos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Te inhabilitan y debés aprobar un curso que permite reasignar 10 puntos",
+            "correct": true,
+            "feedback": "¡Correcto! La inhabilitación va de 60 días a 5 años, y en algunos casos caduca la licencia y hay que tramitarla de nuevo (manual PDF 55)."
+          },
+          {
+            "id": "b",
+            "text": "Pagás una multa más alta y seguís manejando sin otra consecuencia",
+            "correct": false,
+            "feedback": "Llegar a 0 puntos inhabilita para conducir, de 60 días a 5 años (manual PDF 55)."
+          },
+          {
+            "id": "c",
+            "text": "Recibís 20 puntos nuevos en forma automática al año siguiente",
+            "correct": false,
+            "feedback": "No hay reposición automática: hay inhabilitación y un curso que permite reasignar 10 puntos (manual PDF 55)."
+          },
+          {
+            "id": "d",
+            "text": "Perdés la licencia para siempre, sin poder volver a tramitarla",
+            "correct": false,
+            "feedback": "No es para siempre: en algunos casos caduca la licencia, pero se puede iniciar un nuevo trámite de otorgamiento (manual PDF 55)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.incident-zero-points-control",
+    "type": "decision",
+    "title": "Un control con 0 puntos",
+    "unitIds": [
+      "manual.ch2.scoring-zero-points"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 55
+      }
+    ],
+    "explanation": "Si en una inspección en la vía pública los agentes de tránsito comprueban que la persona llegó a 0 puntos, le retienen la licencia y le entregan una Boleta de Citación, que la habilita a conducir solo por un plazo máximo de 3 días hábiles. Después tiene que presentarse ante el juez o funcionario designado para regularizar su situación (manual PDF 55).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "control",
+        "start": "stop",
+        "nodes": {
+          "stop": {
+            "text": "En un control de tránsito, el agente comprueba que llegaste a 0 puntos. Te retiene la licencia y te entrega una Boleta de Citación.",
+            "choices": [
+              {
+                "id": "plan",
+                "text": "Manejo con la Boleta solo dentro de los 3 días hábiles y me presento ante el juez o funcionario designado",
+                "outcome": "good"
+              },
+              {
+                "id": "keep",
+                "text": "Sigo manejando con la Boleta hasta que me llamen del juzgado",
+                "outcome": "expired"
+              },
+              {
+                "id": "duplicate",
+                "text": "Tramito un duplicado de la licencia y sigo manejando como siempre",
+                "outcome": "duplicate"
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "good": {
+            "correct": true,
+            "feedback": "¡Bien! La Boleta de Citación habilita a conducir como máximo 3 días hábiles; después hay que presentarse ante el juez o funcionario designado (manual PDF 55)."
+          },
+          "expired": {
+            "correct": false,
+            "feedback": "La Boleta no es indefinida: habilita a conducir como máximo 3 días hábiles, y sos vos quien debe presentarse ante el juez o funcionario designado (manual PDF 55)."
+          },
+          "duplicate": {
+            "correct": false,
+            "feedback": "Con 0 puntos la licencia queda retenida y hay que presentarse ante el juez o funcionario designado para regularizar la situación (manual PDF 55)."
+          }
+        }
+      }
+    ]
+  }
+]

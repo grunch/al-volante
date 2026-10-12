@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
 import { rule, ruleCatalog } from '../../content/testing/fixtures.ts';
-import { esAR } from '../../i18n/es-AR.ts';
+import { ACTIVITY_COPY, esAR } from '../../i18n/es-AR.ts';
 import { loadPageText, splitPages } from '../../content/sourceText.ts';
 import type * as SourceTextModule from '../../content/sourceText.ts';
 
@@ -36,6 +36,69 @@ describe('learning map', () => {
       'href',
       '/biblioteca/manual/2',
     );
+  });
+
+  it('links each unit to the activities that practice it and the section to its activity list', async () => {
+    renderApp('/mapa/manual/ch3');
+
+    expect(await screen.findByRole('link', { name: `1 ${esAR.sectionPracticeCount}` })).toHaveAttribute(
+      'href',
+      '/actividades?seccion=manual-ch3',
+    );
+    expect(screen.getByRole('link', { name: 'Velocidad en calle' })).toHaveAttribute(
+      'href',
+      '/actividad/act.speed-street',
+    );
+  });
+
+  it('marks consultation units with their reason and shows the figures of each unit', async () => {
+    const content = testContent();
+    content.units = content.units.map((item) => ({ ...item, consultationReason: 'Teléfonos por verificar.' }));
+    content.activities = [];
+    content.figures = [
+      {
+        id: 'fig.manual-p2-roundabout',
+        source: 'manual',
+        page: 2,
+        box: { x: 0, y: 0, width: 1, height: 0.5 },
+        alt: 'Rotonda con la prioridad de quien circula dentro.',
+        unitIds: ['manual.ch3.roundabout-priority'],
+      },
+    ];
+    renderApp('/mapa/manual/ch3', readyContent(content));
+
+    expect(await screen.findByText(esAR.sectionNoActivities)).toBeInTheDocument();
+    expect(screen.getByText(esAR.unitConsultation)).toBeInTheDocument();
+    expect(screen.getByText('Teléfonos por verificar.')).toBeInTheDocument();
+    const image = screen.getByRole('img', { name: 'Rotonda con la prioridad de quien circula dentro.' });
+    expect(image.getAttribute('src')).toMatch(/figures\/manual-p2-roundabout\.png$/);
+    expect(screen.getByText('Manual, PDF 2')).toBeInTheDocument();
+  });
+
+  it('shows the figures of an activity only with the feedback, after answering', async () => {
+    const user = userEvent.setup();
+    const content = testContent();
+    content.figures = [
+      {
+        id: 'fig.manual-p2-roundabout',
+        source: 'manual',
+        page: 2,
+        box: { x: 0, y: 0, width: 1, height: 0.5 },
+        alt: 'Rotonda con la prioridad de quien circula dentro.',
+        unitIds: ['manual.ch3.roundabout-priority'],
+      },
+    ];
+    content.activities = content.activities.map((activity) => ({
+      ...activity,
+      figureIds: ['fig.manual-p2-roundabout'],
+    }));
+    renderApp('/actividad/act.speed-street?semilla=1', readyContent(content));
+
+    await user.click(await screen.findByRole('radio', { name: 'A' }));
+    expect(screen.queryByRole('img', { name: /Rotonda/ })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: ACTIVITY_COPY.answer }));
+
+    expect(await screen.findByRole('img', { name: /Rotonda/ })).toBeInTheDocument();
   });
 
   it('shows not found for a section that does not exist', async () => {

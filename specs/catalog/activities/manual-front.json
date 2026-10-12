@@ -1,0 +1,300 @@
+[
+  {
+    "id": "act.front-presentation",
+    "type": "single-choice",
+    "title": "La presentación del manual",
+    "unitIds": [
+      "manual.front.presentation"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 2
+      }
+    ],
+    "explanation": "La presentación del manual promueve el ejercicio de la movilidad como derecho universal y plantea que mejorar la seguridad vial es un trabajo colectivo de toda la sociedad: adoptar y promover conductas seguras es responsabilidad del Gobierno y compromiso de todas las personas que se mueven por la Ciudad. Conocer algunos datos de la problemática permite pensar nuevas prácticas saludables de movilidad. El objetivo es conducir de manera responsable y respetuosa para que la vía pública sea un espacio de convivencia donde todas las personas se sientan seguras (manual PDF 2).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "right",
+        "prompt": "Según la presentación del manual, ¿cómo se promueve el ejercicio de la movilidad?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Como un derecho universal",
+            "correct": true,
+            "feedback": "¡Correcto! El manual fue diseñado con una perspectiva facilitadora del proceso formativo y promueve el ejercicio de la movilidad como derecho universal (manual PDF 2)."
+          },
+          {
+            "id": "b",
+            "text": "Como un privilegio de quien conduce",
+            "correct": false,
+            "feedback": "No: la presentación no habla de privilegios. Promueve la movilidad como un derecho universal, de todas las personas."
+          },
+          {
+            "id": "c",
+            "text": "Como un servicio del Gobierno",
+            "correct": false,
+            "feedback": "El Gobierno tiene responsabilidad en la seguridad vial, pero la movilidad no se presenta como un servicio suyo: se promueve como derecho universal."
+          },
+          {
+            "id": "d",
+            "text": "Como un premio por aprobar el examen",
+            "correct": false,
+            "feedback": "No es así. La licencia no convierte la movilidad en un premio: el manual la promueve como derecho universal."
+          }
+        ]
+      },
+      {
+        "id": "collective",
+        "prompt": "Según la presentación del manual, ¿de quién depende mejorar la seguridad vial?",
+        "options": [
+          {
+            "id": "a",
+            "text": "De toda la sociedad: del Gobierno y de quienes se mueven por la Ciudad",
+            "correct": true,
+            "feedback": "¡Exacto! Es un trabajo colectivo: las conductas seguras son responsabilidad del Gobierno y un compromiso de todas las personas que se mueven por la Ciudad (manual PDF 2)."
+          },
+          {
+            "id": "b",
+            "text": "Del Gobierno, que es el que fija las normas y controla que se cumplan",
+            "correct": false,
+            "feedback": "No es solo del Gobierno. El manual lo plantea como un trabajo colectivo de toda la sociedad, con compromiso de todas las personas que se mueven por la Ciudad."
+          },
+          {
+            "id": "c",
+            "text": "De quienes conducen, porque son los que manejan vehículos con motor",
+            "correct": false,
+            "feedback": "No: el compromiso es de todas las personas que se mueven por la Ciudad, no solo de quienes conducen, y también es responsabilidad del Gobierno."
+          },
+          {
+            "id": "d",
+            "text": "De los agentes de tránsito, que son quienes controlan la vía pública",
+            "correct": false,
+            "feedback": "La presentación no lo deja en manos de los agentes: mejorar la seguridad vial es un trabajo colectivo de toda la sociedad."
+          }
+        ]
+      },
+      {
+        "id": "goal",
+        "prompt": "¿Cuál es el objetivo que plantea la presentación del manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Que la vía pública sea un espacio de convivencia seguro para todas las personas",
+            "correct": true,
+            "feedback": "¡Correcto! Se busca incorporar actitudes para conducir de manera responsable y respetuosa, de modo que la vía pública sea un espacio de convivencia donde todas las personas se sientan seguras (manual PDF 2)."
+          },
+          {
+            "id": "b",
+            "text": "Que los vehículos circulen más rápido y con menos demoras por la Ciudad",
+            "correct": false,
+            "feedback": "No: el objetivo no es la rapidez. Es una vía pública de convivencia, donde todas las personas se sientan seguras."
+          },
+          {
+            "id": "c",
+            "text": "Que quienes rinden el examen memoricen las normas para aprobarlo",
+            "correct": false,
+            "feedback": "La presentación apunta a algo más que aprobar: incorporar actitudes de conducción responsable y respetuosa para que la vía pública sea un espacio de convivencia seguro."
+          },
+          {
+            "id": "d",
+            "text": "Que circulen menos personas por la vía pública para evitar incidentes",
+            "correct": false,
+            "feedback": "No se trata de que circulen menos personas: el manual promueve la movilidad como derecho y busca que la vía pública sea un espacio de convivencia seguro para todas."
+          }
+        ]
+      },
+      {
+        "id": "data",
+        "prompt": "Según la presentación, ¿para qué conviene conocer algunos datos estadísticos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Para reconocer la problemática y pensar nuevas prácticas saludables de movilidad",
+            "correct": true,
+            "feedback": "¡Bien! Saber algunos datos estadísticos permite conocer y reconocer la problemática y pensar cómo proyectar a futuro nuevas prácticas saludables de movilidad (manual PDF 2)."
+          },
+          {
+            "id": "b",
+            "text": "Para saber en qué calles de la Ciudad hay más controles de velocidad",
+            "correct": false,
+            "feedback": "No es eso. Los datos sirven para reconocer la problemática en la que se está involucrado y proyectar nuevas prácticas saludables de movilidad."
+          },
+          {
+            "id": "c",
+            "text": "Para saber quién tiene la culpa en cada uno de los incidentes",
+            "correct": false,
+            "feedback": "La presentación no los usa para buscar culpables: sirven para reconocer la problemática y pensar nuevas prácticas de movilidad."
+          },
+          {
+            "id": "d",
+            "text": "Para comparar la Ciudad con otras ciudades del país",
+            "correct": false,
+            "feedback": "No: el manual menciona los datos para conocer y reconocer la problemática y proyectar nuevas prácticas saludables de movilidad."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.front-study-material",
+    "type": "single-choice",
+    "title": "Qué estudiar según la licencia",
+    "unitIds": [
+      "manual.front.study-material-by-category"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 3
+      },
+      {
+        "source": "manual",
+        "page": 4
+      }
+    ],
+    "explanation": "El manual organiza el material a estudiar según la categoría de licencia. La categoría B (automóviles) estudia la Introducción, los capítulos 1 a 5, el Anexo I (Automóviles particulares) y el Anexo IV (Señales viales). Las listas de las categorías B, D, E y F comparten la Introducción, los capítulos 1 a 5 y el Anexo IV; cambia el anexo específico: Anexo II para D (transporte de pasajeros/as), Anexo III para E (camiones y maquinaria especial no agrícola) y Anexo I, II o III para F (vehículos adaptados), según la licencia a obtener. La categoría C (carga) figura solo como encabezado, sin lista propia (manual PDF 3–4).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "category-b",
+        "prompt": "Vas a rendir para la licencia de categoría B (automóviles). ¿Qué material del manual tenés que estudiar?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Introducción, capítulos 1 a 5, Anexo I y Anexo IV",
+            "correct": true,
+            "feedback": "¡Correcto! Para la categoría B: Introducción, capítulos 1 a 5, Anexo I (Automóviles particulares) y Anexo IV (Señales viales) (manual PDF 3)."
+          },
+          {
+            "id": "b",
+            "text": "Introducción, capítulos 1 a 5, Anexo II y Anexo IV",
+            "correct": false,
+            "feedback": "Esa es la lista de la categoría D: el Anexo II es Transporte de pasajeros/as. La B estudia el Anexo I, Automóviles particulares."
+          },
+          {
+            "id": "c",
+            "text": "Introducción, capítulos 1 a 5, Anexo III y Anexo IV",
+            "correct": false,
+            "feedback": "Esa lista es la de la categoría E: el Anexo III es Transporte de carga y mercaderías. A la B le toca el Anexo I."
+          },
+          {
+            "id": "d",
+            "text": "Introducción, capítulos 3 y 4, Anexo I y Anexo IV",
+            "correct": false,
+            "feedback": "Faltan capítulos: la categoría B estudia los cinco (del 1 al 5), además de la Introducción y los anexos I y IV."
+          }
+        ]
+      },
+      {
+        "id": "category-d",
+        "prompt": "Según el manual, ¿qué anexo específico estudia la categoría D, además del Anexo IV (Señales viales)?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Anexo II: Transporte de pasajeros/as",
+            "correct": true,
+            "feedback": "¡Exacto! La categoría D corresponde al transporte de pasajeros/as y estudia el Anexo II, además de la Introducción, los capítulos 1 a 5 y el Anexo IV (manual PDF 3)."
+          },
+          {
+            "id": "b",
+            "text": "Anexo I: Automóviles particulares",
+            "correct": false,
+            "feedback": "El Anexo I es el de la categoría B, la de automóviles. La D, de transporte de pasajeros/as, estudia el Anexo II."
+          },
+          {
+            "id": "c",
+            "text": "Anexo III: Transporte de carga y mercaderías",
+            "correct": false,
+            "feedback": "El Anexo III figura en la lista de la categoría E. La categoría D estudia el Anexo II: Transporte de pasajeros/as."
+          }
+        ]
+      },
+      {
+        "id": "annex-iii",
+        "prompt": "¿Cuál de estas categorías tiene en su lista el Anexo III: Transporte de carga y mercaderías?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Categoría E",
+            "correct": true,
+            "feedback": "¡Correcto! La categoría E (camiones y maquinaria especial no agrícola) tiene en su lista el Anexo III, junto con la Introducción, los capítulos 1 a 5 y el Anexo IV (manual PDF 3)."
+          },
+          {
+            "id": "b",
+            "text": "Categoría B",
+            "correct": false,
+            "feedback": "No: la categoría B (automóviles) estudia el Anexo I, Automóviles particulares. El Anexo III figura en la lista de la categoría E."
+          },
+          {
+            "id": "c",
+            "text": "Categoría D",
+            "correct": false,
+            "feedback": "La categoría D (transporte de pasajeros/as) estudia el Anexo II. El Anexo III está en la lista de la categoría E."
+          }
+        ]
+      },
+      {
+        "id": "category-f",
+        "prompt": "La categoría F (vehículos adaptados), ¿qué anexo específico estudia según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "El Anexo I, II o III, según la categoría de licencia a obtener",
+            "correct": true,
+            "feedback": "¡Bien! La categoría F estudia el Anexo I, II o III de acuerdo con la categoría de licencia a obtener, además de la Introducción, los capítulos 1 a 5 y el Anexo IV (manual PDF 4)."
+          },
+          {
+            "id": "b",
+            "text": "Solo el Anexo I, porque son vehículos de uso particular",
+            "correct": false,
+            "feedback": "No siempre es el Anexo I: la categoría F estudia el I, el II o el III según la licencia a obtener."
+          },
+          {
+            "id": "c",
+            "text": "Ninguno: estudia solo la Introducción y los capítulos",
+            "correct": false,
+            "feedback": "Sí estudia anexos: el Anexo IV y, además, el I, II o III según la categoría de licencia a obtener."
+          },
+          {
+            "id": "d",
+            "text": "Un anexo propio dedicado a los vehículos adaptados",
+            "correct": false,
+            "feedback": "La lista de la categoría F no incluye un anexo propio: estudia el Anexo I, II o III según la licencia a obtener, además del Anexo IV."
+          }
+        ]
+      },
+      {
+        "id": "common",
+        "prompt": "Según el manual, ¿qué parte del material se repite en las listas de las categorías B, D, E y F?",
+        "options": [
+          {
+            "id": "a",
+            "text": "La Introducción, los capítulos 1 a 5 y el Anexo IV (Señales viales)",
+            "correct": true,
+            "feedback": "¡Correcto! Esas partes figuran en las cuatro listas; lo que cambia es el anexo específico de cada categoría (manual PDF 3–4)."
+          },
+          {
+            "id": "b",
+            "text": "Solo el Anexo IV (Señales viales); lo demás cambia según la categoría",
+            "correct": false,
+            "feedback": "No solo el Anexo IV: también se repiten la Introducción y los capítulos 1 a 5. Cambia únicamente el anexo específico."
+          },
+          {
+            "id": "c",
+            "text": "La Introducción y el Anexo I (Automóviles particulares)",
+            "correct": false,
+            "feedback": "El Anexo I es específico de la categoría B (y de la F, según la licencia). Lo que se repite en todas es la Introducción, los capítulos 1 a 5 y el Anexo IV."
+          },
+          {
+            "id": "d",
+            "text": "Los capítulos 3 y 4; el resto depende de la categoría",
+            "correct": false,
+            "feedback": "Se repite mucho más: la Introducción, los cinco capítulos y el Anexo IV figuran en las listas de B, D, E y F."
+          }
+        ]
+      }
+    ]
+  }
+]

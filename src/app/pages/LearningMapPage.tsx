@@ -40,6 +40,7 @@ function SectionCard({ row }: { row: SectionCoverage }) {
       <p className="card__meta">{CATEGORY_LABELS[row.category]}</p>
       <p>
         {row.units} {t('unitsCount')} · {row.unitsWithActivities} {t('unitsWithActivities')}
+        {row.consultationUnits > 0 && ` · ${row.consultationUnits} ${t('unitsForConsultation')}`}
       </p>
     </li>
   );

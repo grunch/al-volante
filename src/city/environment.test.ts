@@ -3,14 +3,35 @@ import routeData from '../../specs/route/comuna13-a.json';
 import { RouteSchema } from '../content/schemas.ts';
 import { overlaps } from '../sim/collision.ts';
 import { buildCity, roadBox } from './model.ts';
-import { planFrontages } from './frontages.ts';
+import { addFrontages, planFrontages } from './frontages.ts';
 import { planStreetFurniture } from './streetFurniture.ts';
 import { disposeSector, instantiate } from './geometry.ts';
 import { createCityLighting } from './lighting.ts';
+import type { Part } from './geometry.ts';
+import { CITY_COLORS } from './palette.ts';
 
 const city = buildCity(RouteSchema.parse(routeData));
 
 describe('reference-based city environment', () => {
+  it('keeps displaced lamp posts and heads out of every intersecting road', () => {
+    const parts: Part[] = [];
+    addFrontages(city, (part) => parts.push(part));
+    const lamps = parts.filter((part) => part.color === CITY_COLORS.steel);
+    expect(lamps.some((part) => part.shape === 'cylinder')).toBe(true);
+    expect(lamps.some((part) => part.shape === 'box')).toBe(true);
+    const blocked = lamps.flatMap((part) => {
+      const footprint = {
+        centerX: part.position[0],
+        centerZ: part.position[2],
+        halfWidthM: part.size[0] / 2,
+        halfLengthM: part.size[2] / 2,
+        headingRad: part.heading ?? 0,
+      };
+      return city.roads.filter((road) => overlaps(footprint, roadBox(road))).map((road) => road.street);
+    });
+    expect(blocked).toEqual([]);
+  });
+
   it('keeps architecture deterministic and outside road and cycle-track clearance', () => {
     const source = structuredClone(city);
     const frontages = planFrontages(city);

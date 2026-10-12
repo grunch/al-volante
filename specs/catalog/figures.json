@@ -1,0 +1,349 @@
+[
+  {
+    "id": "fig.manual-p17-risk-factors",
+    "source": "manual",
+    "page": 17,
+    "box": {
+      "x": 0.075,
+      "y": 0.415,
+      "width": 0.81,
+      "height": 0.372
+    },
+    "alt": "Infografía «Factores de riesgo». Texto: los siniestros viales suelen ser multicausales; el riesgo en la vía pública surge de la interacción de 3 factores. Ambiental: relacionado con todas las condiciones del entorno al momento de la conducción, ya sea la infraestructura vial o las condiciones climáticas. Vehicular: vinculado a la parte mecánica del vehículo; su falla o la falta de mantenimiento puede provocar un siniestro vial. Humano (destacado en amarillo): involucra las decisiones, omisiones, actitudes y conductas de las personas; es el principal factor de riesgo.",
+    "unitIds": [
+      "manual.intro.risk-factors"
+    ]
+  },
+  {
+    "id": "fig.manual-p18-incident-consequences",
+    "source": "manual",
+    "page": 18,
+    "box": {
+      "x": 0.075,
+      "y": 0.06,
+      "width": 0.83,
+      "height": 0.395
+    },
+    "alt": "Infografía «Consecuencias de los incidentes de tránsito». Texto: no se limitan a las víctimas humanas, sino que también repercuten en el ámbito económico y social: relaciones familiares, perjuicios psicológicos, daños emocionales y materiales, costos sanitarios (servicios de salud pública) y gastos administrativos (como los servicios de justicia), entre otros. Un semicírculo con «Siniestro vial» en el centro se divide en cuatro sectores: Instituciones (servicios de salud pública, servicios judiciales, servicios de fuerzas de seguridad); Familia y economía (relaciones familiares, consecuencias laborales); Salud (secuelas psicológicas; servicios de lesiones graves o leves, permanentes o temporales); y Víctimas fatales.",
+    "unitIds": [
+      "manual.intro.incident-consequences"
+    ]
+  },
+  {
+    "id": "fig.manual-p19-work-axes",
+    "source": "manual",
+    "page": 19,
+    "box": {
+      "x": 0.075,
+      "y": 0.17,
+      "width": 0.84,
+      "height": 0.425
+    },
+    "alt": "Infografía «Ejes de trabajo» del Plan de Seguridad Vial de la Ciudad, con cuatro círculos. Infraestructura segura: acciones relacionadas con el diseño del espacio público. Comunicación, educación y concientización: programas de formación y campañas de concientización para mejorar la convivencia y la seguridad vial. Control y legislación: acciones que promueven el ordenamiento del tránsito, el cumplimiento de las normas y que garanticen un sistema seguro de transporte. Compromiso y participación ciudadana: acciones con participación y compromiso conjunto de la ciudadanía, ONG, empresas y dependencias.",
+    "unitIds": [
+      "manual.intro.road-safety-plan-work-axes"
+    ]
+  },
+  {
+    "id": "fig.manual-p23-space-60-people",
+    "source": "manual",
+    "page": 23,
+    "box": {
+      "x": 0.09,
+      "y": 0.331,
+      "width": 0.82,
+      "height": 0.147
+    },
+    "alt": "Pictograma «¿Cuánto espacio necesitan 60 personas para movilizarse?»: en colectivo, un solo colectivo; a pie, una grilla de personas; en bicicleta, una grilla de bicicletas; en auto, una grilla de autos que ocupa mucho más espacio que todos los demás.",
+    "unitIds": [
+      "manual.ch1.space-needed-60-people"
+    ]
+  },
+  {
+    "id": "fig.manual-p23-vulnerability",
+    "source": "manual",
+    "page": 23,
+    "box": {
+      "x": 0.08,
+      "y": 0.75,
+      "width": 0.8,
+      "height": 0.205
+    },
+    "alt": "Infografía «Uso de la vía pública de acuerdo a la vulnerabilidad». Esta distinción se realiza teniendo en cuenta si tienen o no carrocería, el tamaño de ésta y la posibilidad de protección frente a un impacto, la cantidad de personas y el modo en que son transportadas. Orden: 1° peatones, 2° ciclistas, 3° moto, 4° colectivo, 5° taxi/automóvil, 6° camión.",
+    "unitIds": [
+      "manual.ch1.road-user-vulnerability-ranking"
+    ]
+  },
+  {
+    "id": "fig.manual-p25-impact-phases",
+    "source": "manual",
+    "page": 25,
+    "box": {
+      "x": 0.075,
+      "y": 0.17,
+      "width": 0.855,
+      "height": 0.315
+    },
+    "alt": "Gráfico «Fases del impacto» con una silueta humana y un auto: contacto, el paragolpes golpea las extremidades inferiores; volteo, gira y cae sobre el capó y luego golpea sobre el parabrisas; proyección, es impulsado por encima del vehículo; arrastre, se desliza sobre la calzada.",
+    "unitIds": [
+      "manual.ch1.pedestrian-impact-phases"
+    ]
+  },
+  {
+    "id": "fig.manual-p29-free-circulation",
+    "source": "manual",
+    "page": 29,
+    "box": {
+      "x": 0.08,
+      "y": 0.428,
+      "width": 0.806,
+      "height": 0.152
+    },
+    "alt": "«Circulación: se permite libre circulación», con cuatro íconos: a pie, bici, transporte público y taxi.",
+    "unitIds": [
+      "manual.ch1.pedestrian-areas-parking-and-circulation"
+    ]
+  },
+  {
+    "id": "fig.manual-p30-bike-benefits",
+    "source": "manual",
+    "page": 30,
+    "box": {
+      "x": 0.08,
+      "y": 0.28,
+      "width": 0.84,
+      "height": 0.312
+    },
+    "alt": "Infografía «La bici como agente de cambio en la Movilidad Sustentable»: ecológica (no utiliza combustible, no produce gases contaminantes o ruido); económica (bajo costo de adquisición y mantenimiento, con una larga vida útil); rápida (no hay transbordos ni tiempos de espera, fácil estacionamiento); saludable (mejora el estado físico, el ánimo y fortalece el sistema inmune).",
+    "unitIds": [
+      "manual.ch1.bicycle-benefits"
+    ]
+  },
+  {
+    "id": "fig.manual-p31-cyclist-gear",
+    "source": "manual",
+    "page": 31,
+    "box": {
+      "x": 0.08,
+      "y": 0.52,
+      "width": 0.84,
+      "height": 0.36
+    },
+    "alt": "Ciclista equipado con sus elementos de protección: vestimenta (ropa clara para ser más visible y no suelta para no engancharse y evitar caídas); elementos reflectantes (más visibilidad, sobre todo de noche o con baja visibilidad); lentes (protegen los ojos y reducen encandilamientos); luces (blanca adelante y roja atrás, de noche o con baja visibilidad); guantes (mejor agarre, maniobrabilidad y evitan lesiones en caídas).",
+    "unitIds": [
+      "manual.ch1.cyclist-protective-gear"
+    ]
+  },
+  {
+    "id": "fig.manual-p31-helmet-fit",
+    "source": "manual",
+    "page": 31,
+    "box": {
+      "x": 0.08,
+      "y": 0.195,
+      "width": 0.84,
+      "height": 0.293
+    },
+    "alt": "Recuadro «Recomendaciones»: el casco se ubica de manera horizontal (ni hacia adelante, ni hacia atrás), con la hebilla debajo de la mandíbula y las correas tensas, pero de modo que permita abrir y cerrar la boca. Tres cabezas con casco: la primera, con tilde verde (correcto); las otras dos, con el casco mal ubicado y cruz roja (incorrecto).",
+    "unitIds": [
+      "manual.ch1.bicycle-helmet-fit"
+    ]
+  },
+  {
+    "id": "fig.manual-p32-cycling-signs",
+    "source": "manual",
+    "page": 32,
+    "box": {
+      "x": 0.1,
+      "y": 0.165,
+      "width": 0.8,
+      "height": 0.24
+    },
+    "alt": "Catálogo de 13 señales vinculadas a la circulación en bicicleta, cada una con su nombre. Fila superior: Circulación exclusiva para bicicletas (círculo azul con una bicicleta blanca); Vereda de convivencia con peatones (círculo azul con una bicicleta y peatones separados por una línea); Direccionador en ciclovía (cartel verde con una flecha, la palabra «Centro», la distancia en km y el tiempo en minutos); Cruce de ciclistas (rombo amarillo con una bicicleta y flechas en ambos sentidos); Deténgase por completo (octógono rojo con «PARE»); Prohibido circular en bicicleta (círculo blanco con borde rojo y una bicicleta tachada). Fila inferior: Finalización de la ciclovía (cartel blanco «ATENCIÓN Fin de ciclovía a 50 mts»); Descienda de la bicicleta (círculo con un ciclista y placa «DESCIENDA»); Velocidad máxima 30 km/h; Comienzo de doble mano (círculo con dos flechas en sentidos opuestos); Prohibido estacionar y detenerse sobre la ciclovía todos los días las 24 horas (círculo azul con borde rojo y una cruz roja); Cruce de peatones (triángulo con un peatón sobre la senda); Ceda el paso (triángulo invertido con «CEDA EL PASO»).",
+    "unitIds": [
+      "manual.ch1.cyclist-traffic-signs"
+    ]
+  },
+  {
+    "id": "fig.manual-p33-cycling-posture",
+    "source": "manual",
+    "page": 33,
+    "box": {
+      "x": 0.08,
+      "y": 0.11,
+      "width": 0.84,
+      "height": 0.305
+    },
+    "alt": "Infografía «Postura corporal» con una persona en bicicleta. Espalda: no circular con el cuerpo totalmente flexionado hacia adelante ni con la columna recta. Cabeza: en alto, para ver todo lo que sucede alrededor y anticiparse; la mirada siempre al frente. Manos: ambas sujetando el manubrio, con dos dedos sobre los frenos para accionarlos rápido. Cadera: regular el asiento a la altura de la cadera media, un poco más abajo de la punta del hueso de la cadera. Piernas: que no queden muy flexionadas ni extendidas al pedalear.",
+    "unitIds": [
+      "manual.ch1.cycling-posture"
+    ]
+  },
+  {
+    "id": "fig.manual-p34-cyclist-distance",
+    "source": "manual",
+    "page": 34,
+    "box": {
+      "x": 0.08,
+      "y": 0.29,
+      "width": 0.84,
+      "height": 0.27
+    },
+    "alt": "Dos ilustraciones de una calle. Con tilde verde: un ciclista pasa separado de un auto estacionado que abre la puerta, con los rótulos «1,5 mtrs.» y «Distancia de vehículos estacionados». Con cruz roja: un ciclista agarrado de la parte trasera de un auto en marcha, con el rótulo «Prohibido circular agarrados de otros vehículos».",
+    "unitIds": [
+      "manual.ch1.cyclist-parked-cars-distance",
+      "manual.ch1.cyclist-no-hitching"
+    ]
+  },
+  {
+    "id": "fig.manual-p35-cyclist-hand-signals",
+    "source": "manual",
+    "page": 35,
+    "box": {
+      "x": 0.1,
+      "y": 0.6,
+      "width": 0.8,
+      "height": 0.185
+    },
+    "alt": "Tres ciclistas vistos de espaldas haciendo señas. Giro a la izquierda: brazo izquierdo extendido. Detenerse: mano izquierda levantada. Giro a la derecha: brazo derecho extendido.",
+    "unitIds": [
+      "manual.ch1.cyclist-hand-signals"
+    ]
+  },
+  {
+    "id": "fig.manual-p35-off-tracking",
+    "source": "manual",
+    "page": 35,
+    "box": {
+      "x": 0.08,
+      "y": 0.1,
+      "width": 0.84,
+      "height": 0.26
+    },
+    "alt": "Ilustración «Giros y off-tracking»: un colectivo dobla en una esquina y un ciclista queda junto a su rueda trasera. Texto: el fenómeno se produce cuando giran vehículos de gran porte; la trayectoria de sus ruedas traseras tiene un arco de curvatura menor que la de las delanteras, lo que es peligroso si quien conduce una bici va muy pegado al colectivo o camión, porque queda en un punto ciego.",
+    "unitIds": [
+      "manual.ch1.off-tracking"
+    ]
+  },
+  {
+    "id": "fig.manual-p40-exclusive-lane",
+    "source": "manual",
+    "page": 40,
+    "box": {
+      "x": 0.085,
+      "y": 0.08,
+      "width": 0.41,
+      "height": 0.16
+    },
+    "alt": "Foto de un carril exclusivo en una avenida: junto al cordón, una banda separada del resto de los carriles por demarcación amarilla, con un rombo y la palabra «BUS» pintados en blanco sobre la calzada.",
+    "unitIds": [
+      "manual.ch1.exclusive-lanes"
+    ]
+  },
+  {
+    "id": "fig.manual-p40-metrobus-crossing",
+    "source": "manual",
+    "page": 40,
+    "box": {
+      "x": 0.08,
+      "y": 0.41,
+      "width": 0.415,
+      "height": 0.165
+    },
+    "alt": "Foto de una estación de Metrobus («Metrobus Norte») en el centro de una avenida, con colectivos en el carril exclusivo y una senda de color rojo que cruza la calzada en la intersección.",
+    "unitIds": [
+      "manual.ch1.metrobus"
+    ]
+  },
+  {
+    "id": "fig.manual-p47-beginner-sign",
+    "source": "manual",
+    "page": 47,
+    "box": {
+      "x": 0.078,
+      "y": 0.095,
+      "width": 0.276,
+      "height": 0.129
+    },
+    "alt": "Cartel de conductor/a principiante: rectángulo verde oscuro con una letra «P» blanca grande, la leyenda «Conductor principiante» arriba a la izquierda y el logo de la Ciudad de Buenos Aires abajo a la derecha. En auto se exhibe en la parte inferior del parabrisas y en la luneta durante los primeros 6 meses.",
+    "unitIds": [
+      "manual.ch2.beginner-driver-restrictions"
+    ]
+  },
+  {
+    "id": "fig.manual-p50-rva-sticker",
+    "source": "manual",
+    "page": 50,
+    "box": {
+      "x": 0.078,
+      "y": 0.62,
+      "width": 0.276,
+      "height": 0.2
+    },
+    "alt": "Oblea de seguridad del Registro de Verificación de Autopartes: arriba, sobre fondo blanco, la sigla «RVA» con la leyenda «Registro de Verificación de Autopartes, Ley nro. 3708» y el escudo del Ministerio de Justicia y Seguridad de la Ciudad de Buenos Aires; abajo, sobre fondo negro, «Autopartes Grabadas». Se coloca en el parabrisas una vez realizado el grabado.",
+    "unitIds": [
+      "manual.ch2.auto-parts-engraving-rva"
+    ]
+  },
+  {
+    "id": "fig.manual-p51-protect-icons",
+    "source": "manual",
+    "page": 51,
+    "box": {
+      "x": 0.07,
+      "y": 0.328,
+      "width": 0.85,
+      "height": 0.184
+    },
+    "alt": "Íconos del paso 1° Proteger: «Detenerse» (una mano): permanecer en el lugar del hecho; «Mantener la calma» (una persona): respirar profundamente; «Balizar» (un triángulo): señalizar la zona para evitar otro incidente.",
+    "unitIds": [
+      "manual.ch2.crash-protect-alert-rescue"
+    ]
+  },
+  {
+    "id": "fig.manual-p52-highway-lanes",
+    "source": "manual",
+    "page": 52,
+    "box": {
+      "x": 0.094,
+      "y": 0.076,
+      "width": 0.785,
+      "height": 0.444
+    },
+    "alt": "Infografía de una autopista con dos recuadros. Carriles centrales o izquierdo: si los vehículos siguen circulando con velocidad, bajarse conlleva el riesgo de sufrir lesiones o perder la vida; permanecer en el vehículo con el cinturón abrochado, encender las balizas y llamar al número de emergencias de la autopista. Carril derecho: ubicar el vehículo lo más próximo posible a la banquina, encender las balizas, señalizar con las balizas portátiles, llamar al número de emergencia de la autopista y esperar a resguardo detrás de una defensa si la hubiere; al descender, usar chaleco reflectante para ser visto o vista.",
+    "unitIds": [
+      "manual.ch2.crash-highway"
+    ]
+  },
+  {
+    "id": "fig.manual-p53-data-icons",
+    "source": "manual",
+    "page": 53,
+    "box": {
+      "x": 0.08,
+      "y": 0.468,
+      "width": 0.85,
+      "height": 0.16
+    },
+    "alt": "Íconos de los datos a recabar: «Datos personales y de vehículos»: intercambiar documentos (cédula, seguro y licencia de conducir) con las otras personas involucradas; «Personas testigos»: solicitar datos a las personas presentes; «Seguro»: dentro de las 72 h, informar a la compañía aseguradora.",
+    "unitIds": [
+      "manual.ch2.crash-data-collection",
+      "manual.ch2.crash-insurer-notice-72h"
+    ]
+  },
+  {
+    "id": "fig.siniestros-p8-beacons",
+    "source": "siniestros",
+    "page": 8,
+    "box": {
+      "x": 0.07,
+      "y": 0.243,
+      "width": 0.865,
+      "height": 0.162
+    },
+    "alt": "Diagrama de la guía: las personas esperan dentro de un círculo rotulado «zona segura»; el auto inmovilizado tiene las balizas encendidas y su parte trasera marca 0 m; detrás de él hay dos balizas portátiles, una a 30 m y otra a 60 m.",
+    "unitIds": [
+      "siniestros.s1.warning-triangles-placement"
+    ]
+  }
+]

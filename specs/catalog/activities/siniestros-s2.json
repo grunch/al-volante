@@ -1,0 +1,255 @@
+[
+  {
+    "id": "act.guide-administrative-claim",
+    "type": "single-choice",
+    "title": "El reclamo ante la aseguradora",
+    "unitIds": [
+      "siniestros.s2.administrative-claim",
+      "siniestros.s2.administrative-claim-who",
+      "siniestros.s2.administrative-claim-deadlines"
+    ],
+    "refs": [
+      {
+        "source": "siniestros",
+        "page": 14
+      },
+      {
+        "source": "siniestros",
+        "page": 7
+      }
+    ],
+    "explanation": "El reclamo administrativo se hace por daños materiales y lesiones ante la compañía de seguros del responsable del siniestro, que valora los daños por inspección ocular o cotejando presupuestos y hace un ofrecimiento (guía PDF 14). No es obligatorio aceptarlo: existen otras vías, como la mediación o la demanda civil. Lo puede presentar la persona damnificada, su apoderado o apoderada, o un abogado o abogada de su confianza. Según la guía, hay 3 años desde el siniestro para reclamar ante la aseguradora del tercero y 1 año ante la propia; además, el siniestro se informa a la propia aseguradora dentro de las 72 horas (guía PDF 7 y 14).",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "where",
+        "prompt": "Según la guía, ¿ante quién se presenta el reclamo administrativo por los daños de un siniestro?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Ante la aseguradora del responsable del siniestro",
+            "correct": true,
+            "feedback": "¡Correcto! Se presenta ante la aseguradora del o de los responsables (guía PDF 14)."
+          },
+          {
+            "id": "b",
+            "text": "Ante un juzgado civil, con un abogado matriculado",
+            "correct": false,
+            "feedback": "Eso es la demanda civil, un reclamo ante la Justicia. El reclamo administrativo va a la aseguradora del responsable (guía PDF 14)."
+          },
+          {
+            "id": "c",
+            "text": "Ante la comisaría que corresponde al lugar del hecho",
+            "correct": false,
+            "feedback": "En la comisaría se hace la denuncia penal; el reclamo administrativo se presenta ante la aseguradora del responsable (guía PDF 14)."
+          },
+          {
+            "id": "d",
+            "text": "Ante la Agencia Nacional de Seguridad Vial",
+            "correct": false,
+            "feedback": "La guía menciona a la ANSV como organismo de asistencia a víctimas; el reclamo administrativo va a la aseguradora del responsable (PDF 14)."
+          }
+        ]
+      },
+      {
+        "id": "offer",
+        "prompt": "La aseguradora del responsable te ofrece un monto que te parece bajo. ¿Estás obligado a aceptarlo?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No: podés rechazarlo y reclamar por otra vía, como la mediación",
+            "correct": true,
+            "feedback": "¡Correcto! No es obligatorio aceptar el ofrecimiento: hay otras vías, como la mediación o la demanda civil (guía PDF 14)."
+          },
+          {
+            "id": "b",
+            "text": "Sí: una vez que reclamaste, tenés que aceptar el ofrecimiento",
+            "correct": false,
+            "feedback": "La guía lo destaca: no es obligatorio aceptar el ofrecimiento (PDF 14)."
+          },
+          {
+            "id": "c",
+            "text": "Sí, salvo que un perito de tu confianza lo rechace",
+            "correct": false,
+            "feedback": "No hace falta ningún perito: aceptar el ofrecimiento no es obligatorio (guía PDF 14)."
+          },
+          {
+            "id": "d",
+            "text": "No, pero si lo rechazás ya no podés reclamar de otra forma",
+            "correct": false,
+            "feedback": "Sí podés: existen otros medios, como la mediación o la demanda civil (guía PDF 14)."
+          }
+        ]
+      },
+      {
+        "id": "who",
+        "prompt": "¿Quién puede presentar el reclamo administrativo?",
+        "options": [
+          {
+            "id": "a",
+            "text": "La persona damnificada, su apoderado o un abogado de confianza",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo indica la guía (PDF 14)."
+          },
+          {
+            "id": "b",
+            "text": "Solo un abogado o abogada matriculado, nunca la víctima",
+            "correct": false,
+            "feedback": "No hace falta: la propia persona damnificada o su apoderado o apoderada también pueden presentarlo (guía PDF 14)."
+          },
+          {
+            "id": "c",
+            "text": "Solo la policía que intervino en el lugar del siniestro",
+            "correct": false,
+            "feedback": "La policía no presenta reclamos ante aseguradoras: lo hace la persona damnificada, su apoderado o un abogado de confianza (guía PDF 14)."
+          },
+          {
+            "id": "d",
+            "text": "Solo quien causó el siniestro, ante su propia aseguradora",
+            "correct": false,
+            "feedback": "El reclamo lo hace quien sufrió el daño, ante la aseguradora del responsable (guía PDF 14)."
+          }
+        ]
+      },
+      {
+        "id": "third-party",
+        "prompt": "Según la guía, ¿qué plazo hay para reclamar ante la compañía de seguros del tercero involucrado?",
+        "options": [
+          {
+            "id": "a",
+            "text": "3 años desde el siniestro",
+            "correct": true,
+            "feedback": "¡Correcto! Ante la aseguradora del tercero, 3 años; ante la propia, 1 año (guía PDF 14)."
+          },
+          {
+            "id": "b",
+            "text": "1 año desde el siniestro",
+            "correct": false,
+            "feedback": "Un año es el plazo ante tu propia aseguradora; ante la del tercero son 3 años (guía PDF 14)."
+          },
+          {
+            "id": "c",
+            "text": "72 horas",
+            "correct": false,
+            "feedback": "Las 72 horas son para informar el siniestro a tu aseguradora, no para reclamar; ante la del tercero hay 3 años (guía PDF 7 y 14)."
+          },
+          {
+            "id": "d",
+            "text": "6 meses desde el siniestro",
+            "correct": false,
+            "feedback": "Es más: la guía da 3 años para reclamar ante la aseguradora del tercero (PDF 14)."
+          }
+        ]
+      },
+      {
+        "id": "own",
+        "prompt": "Según la guía, ¿qué plazo hay para reclamar ante tu propia compañía de seguros?",
+        "options": [
+          {
+            "id": "a",
+            "text": "1 año",
+            "correct": true,
+            "feedback": "¡Correcto! Ante la propia aseguradora, 1 año; ante la del tercero, 3 años (guía PDF 14)."
+          },
+          {
+            "id": "b",
+            "text": "3 años",
+            "correct": false,
+            "feedback": "Tres años es el plazo ante la aseguradora del tercero involucrado; ante la propia, 1 año (guía PDF 14)."
+          },
+          {
+            "id": "c",
+            "text": "72 horas",
+            "correct": false,
+            "feedback": "En 72 horas hay que informar el siniestro; el plazo para reclamar ante tu aseguradora es 1 año (guía PDF 7 y 14)."
+          },
+          {
+            "id": "d",
+            "text": "No hay plazo",
+            "correct": false,
+            "feedback": "Sí lo hay: 1 año para reclamar ante la propia aseguradora (guía PDF 14)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.guide-injury-claim",
+    "type": "single-choice",
+    "title": "Reclamos por lesiones",
+    "unitIds": [
+      "siniestros.s2.injury-claim-documents",
+      "siniestros.s2.medical-funeral-expenses"
+    ],
+    "refs": [
+      {
+        "source": "siniestros",
+        "page": 15
+      }
+    ],
+    "explanation": "Cuando el reclamo incluye lesiones, la guía recomienda acompañar las constancias médicas, las órdenes de tratamiento y los datos de la causa penal, si se inició (guía PDF 15). Además, según la guía, que cita la Ley 24449, el asegurador debe pagar de inmediato los gastos de sanatorio o velatorio de terceros, sin perjuicio de los derechos que se puedan hacer valer después.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "documents",
+        "prompt": "Vas a reclamar por lesiones ante la aseguradora del responsable. Según la guía, ¿qué conviene acompañar?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Constancias médicas, órdenes de tratamiento y datos de la causa penal, si existe",
+            "correct": true,
+            "feedback": "¡Correcto! Es lo que recomienda la guía en casos de lesiones (PDF 15)."
+          },
+          {
+            "id": "b",
+            "text": "Solo el presupuesto del taller por los daños que sufrió tu vehículo",
+            "correct": false,
+            "feedback": "El presupuesto sirve para los daños materiales; por lesiones conviene acompañar constancias médicas, órdenes de tratamiento y datos de la causa penal (guía PDF 15)."
+          },
+          {
+            "id": "c",
+            "text": "Nada: la aseguradora consigue sola toda la documentación médica del caso",
+            "correct": false,
+            "feedback": "La guía recomienda acompañarla vos: constancias médicas, órdenes de tratamiento y datos de la causa penal, si existe (PDF 15)."
+          },
+          {
+            "id": "d",
+            "text": "Tu licencia de conducir original, que queda retenida en la aseguradora",
+            "correct": false,
+            "feedback": "No es lo que pide la guía: para lesiones, constancias médicas, órdenes de tratamiento y datos de la causa penal (PDF 15)."
+          }
+        ]
+      },
+      {
+        "id": "expenses",
+        "prompt": "Según la guía, ¿qué pasa con los gastos de sanatorio o velatorio de terceros después de un siniestro?",
+        "options": [
+          {
+            "id": "a",
+            "text": "El asegurador los paga de inmediato, sin perjuicio de otros derechos",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo indica la guía, citando la Ley 24449 (PDF 15)."
+          },
+          {
+            "id": "b",
+            "text": "Se pagan recién cuando termina el juicio civil",
+            "correct": false,
+            "feedback": "No hay que esperar al juicio: el asegurador los abona de inmediato (guía PDF 15)."
+          },
+          {
+            "id": "c",
+            "text": "Los paga siempre la víctima o su familia, sin posibilidad de reclamo",
+            "correct": false,
+            "feedback": "La guía dice lo contrario: los abona de inmediato el asegurador (PDF 15)."
+          },
+          {
+            "id": "d",
+            "text": "Solo se pagan si se acepta el primer ofrecimiento de la aseguradora",
+            "correct": false,
+            "feedback": "No dependen de aceptar ningún ofrecimiento: el asegurador los paga de inmediato, sin perjuicio de otros derechos (guía PDF 15)."
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,1105 @@
+[
+  {
+    "id": "act.intro-road-pandemic-context",
+    "type": "single-choice",
+    "title": "Pandemia vial: quiénes son las víctimas",
+    "unitIds": [
+      "manual.intro.road-pandemic",
+      "manual.intro.world-road-casualty-stats",
+      "manual.intro.caba-road-fatality-stats"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 15
+      }
+    ],
+    "explanation": "La OMS categorizó a los siniestros viales como una «pandemia» por la gran cantidad de muertes que generan en todo el mundo, y las cifras mundiales que muestra el manual suman, además, muchas más personas lesionadas que fallecidas (manual PDF 15). En la Ciudad, según el informe del Observatorio de Seguridad Vial del GCBA de mayo de 2022 que cita el manual, los motociclistas y los peatones fueron la mayor parte de las víctimas fatales, y la gran mayoría de las víctimas fueron de sexo masculino. Las cifras exactas no se evalúan: el manual no indica a qué año corresponden.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "pandemic",
+        "prompt": "¿Por qué la Organización Mundial de la Salud (OMS) categorizó a los siniestros viales como una «pandemia»?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Por la gran cantidad de muertes que generan en todo el mundo",
+            "correct": true,
+            "feedback": "¡Correcto! Así lo explica el manual: los siniestros viales causan tantas muertes en el mundo que la OMS los considera una «pandemia»."
+          },
+          {
+            "id": "b",
+            "text": "Porque la mayoría se debe a fallas mecánicas imposibles de prever",
+            "correct": false,
+            "feedback": "No. El manual no lo vincula con fallas mecánicas; además, el principal factor de riesgo es el humano. La OMS habla de «pandemia» por la cantidad de muertes en el mundo."
+          },
+          {
+            "id": "c",
+            "text": "Porque solo ocurren en las grandes ciudades con mucho tránsito",
+            "correct": false,
+            "feedback": "No. Es un problema mundial, no solo de las grandes ciudades: la OMS usa esa palabra por la cantidad de muertes que provoca en todo el mundo."
+          },
+          {
+            "id": "d",
+            "text": "Porque se producen sobre todo por el mal estado de las calles",
+            "correct": false,
+            "feedback": "No es lo que dice el manual. «Pandemia» refleja la enorme cantidad de muertes que causan los siniestros viales en el mundo."
+          }
+        ]
+      },
+      {
+        "id": "world-injured",
+        "prompt": "Las cifras mundiales del manual cuentan cada año a las víctimas fatales de siniestros de tránsito y a otro grupo de personas, mucho más numeroso. ¿Cuál?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Las personas lesionadas por traumatismos",
+            "correct": true,
+            "feedback": "¡Exacto! Según el manual, cada año las personas lesionadas por traumatismos superan con creces a las víctimas fatales: el daño no se mide solo en muertes."
+          },
+          {
+            "id": "b",
+            "text": "Las personas multadas por infracciones de tránsito",
+            "correct": false,
+            "feedback": "No. La infografía no habla de multas: compara las víctimas fatales con las personas lesionadas por traumatismos, que son muchas más."
+          },
+          {
+            "id": "c",
+            "text": "Las personas a las que se les retiró la licencia",
+            "correct": false,
+            "feedback": "No. El otro grupo que muestra el manual son las personas lesionadas por traumatismos causados por siniestros de tránsito."
+          },
+          {
+            "id": "d",
+            "text": "Los conductores principiantes que tuvieron un choque",
+            "correct": false,
+            "feedback": "No. El manual muestra a las personas lesionadas por traumatismos, un grupo mucho más numeroso que el de las víctimas fatales."
+          }
+        ]
+      },
+      {
+        "id": "caba-users",
+        "prompt": "Según el informe del Observatorio de Seguridad Vial del GCBA que cita el manual, ¿qué usuarios de la vía fueron el grupo más numeroso entre las víctimas fatales en la Ciudad?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Motociclistas",
+            "correct": true,
+            "feedback": "¡Correcto! Según ese informe, los motociclistas fueron el grupo más numeroso, seguidos por los peatones."
+          },
+          {
+            "id": "b",
+            "text": "Peatones",
+            "correct": false,
+            "feedback": "Casi: los peatones fueron el segundo grupo. El más numeroso, según el informe del Observatorio, fueron los motociclistas."
+          },
+          {
+            "id": "c",
+            "text": "Ocupantes de automóvil",
+            "correct": false,
+            "feedback": "No. Los ocupantes de automóvil fueron una parte menor. El grupo más numeroso fueron los motociclistas, y después los peatones."
+          },
+          {
+            "id": "d",
+            "text": "Conductores/as profesionales",
+            "correct": false,
+            "feedback": "No. El informe no los destaca: el grupo más numeroso fueron los motociclistas, seguidos por los peatones."
+          }
+        ]
+      },
+      {
+        "id": "caba-sex",
+        "prompt": "¿Qué muestra ese mismo informe sobre el sexo de las víctimas fatales en la Ciudad?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Que la gran mayoría fueron de sexo masculino",
+            "correct": true,
+            "feedback": "¡Así es! Según el informe que cita el manual, la gran mayoría de las víctimas fatales en la Ciudad fueron varones."
+          },
+          {
+            "id": "b",
+            "text": "Que la mayoría de las víctimas fatales fueron mujeres",
+            "correct": false,
+            "feedback": "Es al revés: según el informe que cita el manual, la gran mayoría de las víctimas fatales fueron de sexo masculino."
+          },
+          {
+            "id": "c",
+            "text": "Que hubo tantas mujeres como varones",
+            "correct": false,
+            "feedback": "No hubo un reparto parejo: según el informe, la gran mayoría de las víctimas fatales fueron de sexo masculino."
+          },
+          {
+            "id": "d",
+            "text": "Que todas fueron de sexo masculino",
+            "correct": false,
+            "feedback": "Exagera: no fueron todas, pero sí la gran mayoría de las víctimas fatales fueron de sexo masculino."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.intro-laws-and-road-culture",
+    "type": "single-choice",
+    "title": "Leyes, convivencia y cultura vial",
+    "unitIds": [
+      "manual.intro.conflict-resolution-and-laws",
+      "manual.intro.caba-traffic-code-law-2148",
+      "manual.intro.road-culture"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 16
+      }
+    ],
+    "explanation": "Los conflictos son naturales porque las personas son diferentes; lo importante es resolverlos de forma pacífica y respetuosa, y las leyes existen para hacer posible la convivencia poniendo un límite entre las personas (manual PDF 16). En la Ciudad rige la Ley 2148, Código de Tránsito y Transporte, que define los derechos y obligaciones en la vía pública de peatones, ciclistas, motociclistas, automovilistas y conductores/as profesionales. Pero no alcanza con que las leyes existan: el tránsito es una expresión de la cultura ciudadana, una «cultura vial» en la que las leyes son una parte, no la totalidad.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "conflicts",
+        "prompt": "Según el manual, los conflictos entre personas son naturales. ¿En qué hay que poner el foco?",
+        "options": [
+          {
+            "id": "a",
+            "text": "En la forma de resolverlos: de manera pacífica y respetuosa",
+            "correct": true,
+            "feedback": "¡Correcto! El manual dice que se resuelven de dos formas: pacífica y respetuosamente, o violenta e irrespetuosamente. La primera es la que permite convivir."
+          },
+          {
+            "id": "b",
+            "text": "En evitar todo contacto con los demás usuarios de la vía",
+            "correct": false,
+            "feedback": "No. Los conflictos son parte de la condición humana; el manual pone el foco en resolverlos de forma pacífica y respetuosa, no en evitar a los demás."
+          },
+          {
+            "id": "c",
+            "text": "En establecer quién tiene la razón antes de actuar",
+            "correct": false,
+            "feedback": "No es eso. Lo que importa, según el manual, es cómo se resuelve el conflicto: de forma pacífica y respetuosa."
+          },
+          {
+            "id": "d",
+            "text": "En que la autoridad de tránsito resuelva cada conflicto",
+            "correct": false,
+            "feedback": "No. El manual habla de la actitud de cada persona: un conflicto se resuelve en forma pacífica y respetuosa o violenta e irrespetuosa, y hay que elegir la primera."
+          }
+        ]
+      },
+      {
+        "id": "laws-purpose",
+        "prompt": "¿Para qué existen las leyes, según el enfoque ético-ciudadano del manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Para hacer posible la convivencia pacífica, poniendo un límite entre las personas",
+            "correct": true,
+            "feedback": "¡Exacto! Los problemas empiezan cuando alguien cruza ese límite y su conducta ofende a la comunidad de la que forma parte."
+          },
+          {
+            "id": "b",
+            "text": "Para recaudar dinero mediante las multas que se cobran a quienes las incumplen",
+            "correct": false,
+            "feedback": "No. Según el manual, las leyes existen para hacer posible la convivencia pacífica, poniendo un límite entre las personas."
+          },
+          {
+            "id": "c",
+            "text": "Para reemplazar la responsabilidad que tiene cada persona al moverse por la calle",
+            "correct": false,
+            "feedback": "No. Las leyes ponen un límite para convivir, pero el manual insiste en que cada persona es responsable de respetarlas."
+          },
+          {
+            "id": "d",
+            "text": "Para ordenar solo la circulación de los vehículos con motor",
+            "correct": false,
+            "feedback": "No. Las leyes alcanzan a toda la ciudadanía y sirven para convivir en paz, poniendo un límite entre las personas."
+          }
+        ]
+      },
+      {
+        "id": "not-enough",
+        "prompt": "¿Qué revelan las estadísticas de siniestros viales sobre las leyes de tránsito, según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Que no alcanza con que existan: hace falta el compromiso de respetarlas",
+            "correct": true,
+            "feedback": "¡Correcto! La ley es necesaria, pero sin el compromiso de cada persona de respetarla no evita los siniestros."
+          },
+          {
+            "id": "b",
+            "text": "Que ya no son necesarias, porque la gente aprende a convivir sin ellas",
+            "correct": false,
+            "feedback": "No. Las leyes son el marco necesario para convivir; las estadísticas muestran que además hace falta el compromiso de respetarlas."
+          },
+          {
+            "id": "c",
+            "text": "Que alcanza con aumentar las multas para que todas las personas las cumplan",
+            "correct": false,
+            "feedback": "No es lo que dice el manual. El problema que señala es la falta de compromiso de la ciudadanía con respetar las leyes."
+          },
+          {
+            "id": "d",
+            "text": "Que los siniestros dependen sobre todo del estado de las calles y no de las leyes",
+            "correct": false,
+            "feedback": "No. El manual concluye que no alcanza con que existan leyes si la ciudadanía no se compromete a respetarlas."
+          }
+        ]
+      },
+      {
+        "id": "code-scope",
+        "prompt": "En la Ciudad rige la Ley 2148, Código de Tránsito y Transporte. Según el manual, ¿qué define?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Los derechos y obligaciones en la vía pública de todos sus usuarios, a pie o en cualquier vehículo",
+            "correct": true,
+            "feedback": "¡Correcto! El código alcanza a todas las personas que usan la vía pública, no solo a quienes conducen."
+          },
+          {
+            "id": "b",
+            "text": "Solo las obligaciones de quienes manejan autos particulares, porque el resto de los usuarios no necesita licencia",
+            "correct": false,
+            "feedback": "No. Según el manual, define derechos y obligaciones de todos los usuarios de la vía pública, incluidos peatones y ciclistas."
+          },
+          {
+            "id": "c",
+            "text": "Los requisitos técnicos que deben cumplir las fábricas de vehículos antes de vender sus modelos en la Ciudad",
+            "correct": false,
+            "feedback": "No. El código define los derechos y obligaciones de quienes usan la vía pública: peatones, ciclistas, motociclistas, automovilistas y profesionales."
+          },
+          {
+            "id": "d",
+            "text": "Únicamente las sanciones para conductores/as profesionales de taxis, colectivos y camiones de carga",
+            "correct": false,
+            "feedback": "No. Abarca a todos los usuarios de la vía pública y define sus derechos y obligaciones, no solo sanciones para profesionales."
+          }
+        ]
+      },
+      {
+        "id": "culture",
+        "prompt": "¿Por qué el manual habla de una «cultura vial»?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Porque el tránsito expresa la cultura ciudadana, y las leyes son solo una parte",
+            "correct": true,
+            "feedback": "¡Correcto! Como otras manifestaciones sociales, el tránsito refleja modos de vida y costumbres; las leyes son una parte de esa cultura vial."
+          },
+          {
+            "id": "b",
+            "text": "Porque en el tránsito solo cuenta lo que está escrito en las leyes y sus reglamentos",
+            "correct": false,
+            "feedback": "Es al revés: el manual dice que las leyes son una parte de la cultura vial, pero no la totalidad; también cuentan los modos de vida y las costumbres."
+          },
+          {
+            "id": "c",
+            "text": "Porque cada persona puede fijar sus propias reglas de circulación según su experiencia",
+            "correct": false,
+            "feedback": "No. La cultura vial no reemplaza a las leyes: el tránsito expresa la cultura ciudadana, y las leyes son una parte de ella."
+          },
+          {
+            "id": "d",
+            "text": "Porque se refiere a la educación vial que se enseña en las escuelas primarias",
+            "correct": false,
+            "feedback": "No. El manual usa «cultura vial» para decir que el tránsito es una expresión de la cultura ciudadana, en la que las leyes son una parte."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.intro-road-user-duties",
+    "type": "single-choice",
+    "title": "Tu parte en el tránsito",
+    "unitIds": [
+      "manual.intro.road-user-general-duty",
+      "manual.intro.shared-road-responsibility"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 16
+      }
+    ],
+    "explanation": "Como usuarios de la vía pública estamos obligados a no entorpecer injustamente la circulación y a no causar peligro, perjuicios o molestias innecesarias a las personas ni daños a los bienes (manual PDF 16). Cada persona que usa la vía pública es responsable de una parte del tránsito, sea cual sea su forma de moverse. El tránsito es un sistema que construye toda la ciudadanía, y sus normas son realmente efectivas según el grado de apropiación que se haga de ellas.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "duty",
+        "prompt": "Como usuario/a de la vía pública, ¿a qué estás obligado/a según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "A no entorpecer injustamente la circulación ni causar peligro o molestias innecesarias",
+            "correct": true,
+            "feedback": "¡Correcto! Y tampoco hay que causar daños a los bienes. Es la obligación general que el manual destaca para todos los usuarios."
+          },
+          {
+            "id": "b",
+            "text": "A cumplir las normas cuando hay un agente de tránsito controlando, para evitar una multa",
+            "correct": false,
+            "feedback": "No. La obligación rige siempre, haya o no control: no entorpecer injustamente la circulación ni causar peligro, perjuicios o molestias innecesarias."
+          },
+          {
+            "id": "c",
+            "text": "A no demorar a los vehículos más rápidos, aunque eso cause molestias a los peatones",
+            "correct": false,
+            "feedback": "No. La obligación protege a todas las personas: no causar peligro, perjuicios ni molestias innecesarias a nadie, ni daños a los bienes."
+          },
+          {
+            "id": "d",
+            "text": "A evitar los choques; las demás molestias que se causen no dependen de quien circula",
+            "correct": false,
+            "feedback": "No alcanza con no chocar. También hay que evitar entorpecer injustamente la circulación y causar molestias o perjuicios innecesarios."
+          }
+        ]
+      },
+      {
+        "id": "who",
+        "prompt": "¿Quién es responsable de una parte del tránsito, según el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Cada persona que usa la vía pública, a pie o en vehículo",
+            "correct": true,
+            "feedback": "¡Exacto! Peatones, ciclistas, motociclistas, automovilistas y conductores/as profesionales: todos tienen derechos y obligaciones."
+          },
+          {
+            "id": "b",
+            "text": "Solo quienes conducen vehículos con motor por la calzada",
+            "correct": false,
+            "feedback": "No. El manual dice que cada persona que usa la vía pública, también a pie o en bicicleta, es responsable de una parte del tránsito."
+          },
+          {
+            "id": "c",
+            "text": "Solo los conductores/as profesionales, que trabajan manejando",
+            "correct": false,
+            "feedback": "No. La responsabilidad es de cada persona que usa la vía pública, más allá del tipo de movilidad que utilice."
+          },
+          {
+            "id": "d",
+            "text": "Solo la autoridad que controla y ordena el tránsito",
+            "correct": false,
+            "feedback": "No. El tránsito es un sistema que se construye entre toda la ciudadanía: cada persona que usa la vía pública es responsable de una parte."
+          }
+        ]
+      },
+      {
+        "id": "appropriation",
+        "prompt": "Según el manual, ¿de qué depende que las pautas y normas de convivencia en el tránsito sean realmente efectivas?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Del grado de apropiación que la ciudadanía haga de ellas",
+            "correct": true,
+            "feedback": "¡Correcto! El tránsito es un sistema que se construye entre todos y se interioriza desde edades tempranas; las normas funcionan cuando se las hace propias."
+          },
+          {
+            "id": "b",
+            "text": "De la cantidad de agentes de tránsito en la calle",
+            "correct": false,
+            "feedback": "No es lo que plantea el manual: las normas son efectivas según el grado de apropiación que la ciudadanía haga de ellas."
+          },
+          {
+            "id": "c",
+            "text": "Del monto de las multas que se aplican a quienes las incumplen",
+            "correct": false,
+            "feedback": "No. El manual pone el acento en que la ciudadanía se apropie de las normas, no en las multas."
+          },
+          {
+            "id": "d",
+            "text": "De estudiarlas una vez, al sacar la licencia",
+            "correct": false,
+            "feedback": "Justamente el manual critica eso: en general la ley se estudia solo al sacar la licencia, pero el tránsito se aprende desde edades tempranas y las normas funcionan cuando se las hace propias."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.intro-incident-not-accident",
+    "type": "single-choice",
+    "title": "¿Accidente o incidente?",
+    "unitIds": [
+      "manual.intro.incident-not-accident"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 17
+      }
+    ],
+    "explanation": "La Ley 3072 de la Ciudad define el incidente de tránsito como un «hecho en el cual se produce daño a una persona o cosa en ocasión de la circulación en la vía pública» (manual PDF 17). No es correcto llamarlo «accidente», porque esa palabra sugiere algo impredecible e inevitable, y la inmensa mayoría de estos hechos se produce por errores de las personas: son prevenibles. Nombrarlos «incidentes» evita desligar de responsabilidad a las conductas y permite analizar sus causas para que no vuelvan a ocurrir: «si se puede evitar, no es un accidente».",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "why",
+        "prompt": "¿Por qué el manual dice que no es correcto llamar «accidentes» a los siniestros de tránsito?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Porque la mayoría se debe a errores de las personas y se puede prevenir",
+            "correct": true,
+            "feedback": "¡Correcto! «Accidente» sugiere un hecho inevitable; en cambio, estos hechos son prevenibles. Si se puede evitar, no es un accidente."
+          },
+          {
+            "id": "b",
+            "text": "Porque son hechos impredecibles que nadie puede controlar",
+            "correct": false,
+            "feedback": "Es justo al revés: esa es la idea de «accidente» que el manual rechaza. La inmensa mayoría se produce por errores de las personas y se puede prevenir."
+          },
+          {
+            "id": "c",
+            "text": "Porque la palabra «accidente» se usa solo cuando hay víctimas fatales",
+            "correct": false,
+            "feedback": "No. El problema de la palabra «accidente» es que sugiere algo inevitable, cuando la mayoría de estos hechos se deben a errores humanos y son prevenibles."
+          },
+          {
+            "id": "d",
+            "text": "Porque la ley reserva esa palabra para los choques entre dos vehículos con motor",
+            "correct": false,
+            "feedback": "No. El manual cuestiona la palabra «accidente» porque sugiere algo imposible de controlar; estos hechos, en su inmensa mayoría, son prevenibles."
+          }
+        ]
+      },
+      {
+        "id": "definition",
+        "prompt": "¿Cómo define la ley de la Ciudad que cita el manual al incidente de tránsito?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Un hecho con daño a una persona o cosa en ocasión de circular por la vía pública",
+            "correct": true,
+            "feedback": "¡Correcto! Es la definición de la Ley 3072 que cita el manual: alcanza a cualquier daño a personas o cosas al circular por la vía pública."
+          },
+          {
+            "id": "b",
+            "text": "Un choque entre dos o más vehículos con motor que circulan por la calzada",
+            "correct": false,
+            "feedback": "Es más amplio: hay incidente cuando se produce daño a una persona o cosa al circular por la vía pública, haya o no otro vehículo."
+          },
+          {
+            "id": "c",
+            "text": "Un hecho imprevisible e inevitable que ocurre mientras se circula por la calle",
+            "correct": false,
+            "feedback": "No. Esa es la idea de «accidente» que el manual descarta. El incidente es un hecho con daño a una persona o cosa en ocasión de la circulación."
+          },
+          {
+            "id": "d",
+            "text": "Una falta de tránsito, sin daños, que la autoridad sanciona con una multa",
+            "correct": false,
+            "feedback": "No. Eso describe una falta administrativa. El incidente de tránsito implica daño a una persona o cosa en ocasión de circular por la vía pública."
+          }
+        ]
+      },
+      {
+        "id": "naming",
+        "prompt": "¿Qué se logra al nombrar estos hechos como «incidentes» y no como «accidentes»?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No desligar de responsabilidad a las conductas y trabajar sobre sus causas",
+            "correct": true,
+            "feedback": "¡Exacto! Si se piensa que son inevitables, es poco lo que se puede hacer; al llamarlos incidentes se trabaja sobre sus causas."
+          },
+          {
+            "id": "b",
+            "text": "Reducir el monto de las indemnizaciones que se pagan a las víctimas",
+            "correct": false,
+            "feedback": "No. El cambio de nombre apunta a no desligar de responsabilidad a las conductas de las personas y a trabajar sobre las causas."
+          },
+          {
+            "id": "c",
+            "text": "Atribuir la responsabilidad al estado de las calles y de los vehículos",
+            "correct": false,
+            "feedback": "No. Al contrario, el manual busca que no se desligue de responsabilidad a las conductas de las personas."
+          },
+          {
+            "id": "d",
+            "text": "Clasificarlos según la cantidad de personas heridas y de vehículos dañados",
+            "correct": false,
+            "feedback": "No. Llamarlos incidentes sirve para reconocer que son prevenibles, asumir la responsabilidad de las conductas y analizar sus causas."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.intro-risk-factors",
+    "type": "single-choice",
+    "title": "Factores de riesgo",
+    "unitIds": [
+      "manual.intro.risk-factors",
+      "manual.intro.risk-conditions-recommendation"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 17
+      }
+    ],
+    "figureIds": [
+      "fig.manual-p17-risk-factors"
+    ],
+    "explanation": "Los siniestros viales suelen ser multicausales: el riesgo surge de la interacción de tres factores (manual PDF 17). El ambiental abarca las condiciones del entorno, como la infraestructura vial o el clima; el vehicular, la parte mecánica del vehículo, cuya falla o falta de mantenimiento puede provocar un siniestro; y el humano, las decisiones, omisiones, actitudes y conductas de las personas, que es el principal factor de riesgo. Por eso el manual recomienda atender al circular el estado del vehículo, la infraestructura vial, el clima y a la persona que conduce.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "main",
+        "prompt": "De los tres factores de riesgo que presenta el manual, ¿cuál es el principal?",
+        "options": [
+          {
+            "id": "a",
+            "text": "El humano",
+            "correct": true,
+            "feedback": "¡Correcto! Las decisiones, omisiones, actitudes y conductas de las personas son el principal factor de riesgo."
+          },
+          {
+            "id": "b",
+            "text": "El ambiental",
+            "correct": false,
+            "feedback": "No. El ambiental (infraestructura y clima) influye, pero el manual señala al factor humano como el principal."
+          },
+          {
+            "id": "c",
+            "text": "El vehicular",
+            "correct": false,
+            "feedback": "No. Las fallas mecánicas pueden provocar siniestros, pero el principal factor de riesgo es el humano."
+          }
+        ]
+      },
+      {
+        "id": "multicausal",
+        "prompt": "¿Qué dice el manual sobre las causas de los siniestros viales?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Que suelen ser multicausales: intervienen varios factores a la vez",
+            "correct": true,
+            "feedback": "¡Correcto! El riesgo surge de la interacción de los factores ambiental, vehicular y humano, y el humano es el principal."
+          },
+          {
+            "id": "b",
+            "text": "Que casi siempre tienen una única causa, que hay que identificar",
+            "correct": false,
+            "feedback": "No. El manual dice que suelen ser multicausales: el riesgo surge de la interacción de los factores ambiental, vehicular y humano."
+          },
+          {
+            "id": "c",
+            "text": "Que dependen sobre todo del clima y del estado de las calles",
+            "correct": false,
+            "feedback": "No. Esas condiciones forman parte del factor ambiental, pero el riesgo surge de la interacción de tres factores, y el humano es el principal."
+          },
+          {
+            "id": "d",
+            "text": "Que se deben sobre todo a la falta de mantenimiento de los vehículos",
+            "correct": false,
+            "feedback": "No. El factor vehicular es uno de los tres; el manual dice que los siniestros suelen ser multicausales y que el principal factor es el humano."
+          }
+        ]
+      },
+      {
+        "id": "vehicle",
+        "prompt": "Mientras circulás, se rompe una pieza de la dirección del auto. Según el manual, ¿con qué factor de riesgo se relaciona esa falla?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Vehicular",
+            "correct": true,
+            "feedback": "¡Exacto! El factor vehicular está vinculado a la parte mecánica del vehículo: su falla o la falta de mantenimiento pueden provocar un siniestro."
+          },
+          {
+            "id": "b",
+            "text": "Ambiental",
+            "correct": false,
+            "feedback": "No. El ambiental se refiere al entorno (infraestructura, clima). Una falla mecánica corresponde al factor vehicular."
+          },
+          {
+            "id": "c",
+            "text": "Humano",
+            "correct": false,
+            "feedback": "No. El humano abarca las decisiones y conductas de las personas. La falla de una pieza del auto corresponde al factor vehicular."
+          }
+        ]
+      },
+      {
+        "id": "environment",
+        "prompt": "Llueve fuerte y la calzada está en mal estado. Según la clasificación del manual, ¿qué factor de riesgo describen esas condiciones?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Ambiental",
+            "correct": true,
+            "feedback": "¡Correcto! El factor ambiental reúne las condiciones del entorno al conducir, como la infraestructura vial y el clima."
+          },
+          {
+            "id": "b",
+            "text": "Vehicular",
+            "correct": false,
+            "feedback": "No. El vehicular se refiere a la parte mecánica del vehículo. La lluvia y la calzada son condiciones del entorno: factor ambiental."
+          },
+          {
+            "id": "c",
+            "text": "Humano",
+            "correct": false,
+            "feedback": "No. El humano abarca las decisiones y conductas de las personas. El clima y el estado de la calzada son parte del factor ambiental."
+          }
+        ]
+      },
+      {
+        "id": "recommendation",
+        "prompt": "¿A qué condiciones recomienda el manual prestar atención al circular?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Al vehículo, la infraestructura, el clima y quien conduce",
+            "correct": true,
+            "feedback": "¡Correcto! Son las condiciones de los tres factores de riesgo, incluida la propia persona que conduce."
+          },
+          {
+            "id": "b",
+            "text": "Solo al vehículo, porque es lo único que se puede controlar",
+            "correct": false,
+            "feedback": "No. El manual recomienda atender también la infraestructura, el clima y a la persona que conduce, que corresponde al principal factor de riesgo."
+          },
+          {
+            "id": "c",
+            "text": "Al vehículo y al clima; el estado de quien conduce no influye",
+            "correct": false,
+            "feedback": "No. La persona que conduce es parte de la recomendación, y el factor humano es el principal factor de riesgo."
+          },
+          {
+            "id": "d",
+            "text": "Solo a las señales de tránsito y a los semáforos",
+            "correct": false,
+            "feedback": "No. La recomendación del manual abarca el vehículo, la infraestructura vial, las condiciones climáticas y la persona que conduce."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.intro-incident-consequences",
+    "type": "single-choice",
+    "title": "Consecuencias de un siniestro vial",
+    "unitIds": [
+      "manual.intro.incident-consequences"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 18
+      }
+    ],
+    "figureIds": [
+      "fig.manual-p18-incident-consequences"
+    ],
+    "explanation": "Las consecuencias de los incidentes de tránsito no se limitan a las víctimas humanas: también repercuten en lo económico y lo social (manual PDF 18). Impactan en las relaciones familiares y laborales, provocan perjuicios psicológicos, daños emocionales y materiales, costos sanitarios (servicios de salud pública) y gastos administrativos (como los servicios de justicia). La infografía del manual las agrupa en instituciones, familia y economía, salud y víctimas fatales.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "scope",
+        "prompt": "Según el manual, ¿las consecuencias de un siniestro vial se limitan a las personas fallecidas o heridas?",
+        "options": [
+          {
+            "id": "a",
+            "text": "No: también repercuten en lo económico y lo social",
+            "correct": true,
+            "feedback": "¡Correcto! El manual suma perjuicios psicológicos, daños emocionales y materiales, costos sanitarios y gastos administrativos, como los de la justicia."
+          },
+          {
+            "id": "b",
+            "text": "Sí: lo único que cuenta son las víctimas fatales y las personas heridas",
+            "correct": false,
+            "feedback": "No. El manual aclara que no se limitan a las víctimas humanas: también afectan a las familias, al trabajo y a los servicios públicos."
+          },
+          {
+            "id": "c",
+            "text": "No, pero lo único que se agrega son los daños a los vehículos",
+            "correct": false,
+            "feedback": "Se queda corto: además de los daños materiales, hay consecuencias familiares, laborales, psicológicas, sanitarias y judiciales."
+          },
+          {
+            "id": "d",
+            "text": "Sí, salvo cuando un seguro se hace cargo de los daños",
+            "correct": false,
+            "feedback": "No. Más allá de los seguros, el manual muestra consecuencias familiares, laborales, de salud y para las instituciones públicas."
+          }
+        ]
+      },
+      {
+        "id": "institutions",
+        "prompt": "En la infografía del manual, ¿qué consecuencias de un siniestro vial se agrupan en «Instituciones»?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Salud pública, servicios judiciales y fuerzas de seguridad",
+            "correct": true,
+            "feedback": "¡Correcto! Un siniestro también moviliza a la salud pública, a la justicia y a las fuerzas de seguridad."
+          },
+          {
+            "id": "b",
+            "text": "Relaciones familiares y consecuencias laborales",
+            "correct": false,
+            "feedback": "No: esas aparecen en «Familia y economía». En «Instituciones» están los servicios de salud pública, judiciales y de fuerzas de seguridad."
+          },
+          {
+            "id": "c",
+            "text": "Secuelas psicológicas y lesiones graves o leves",
+            "correct": false,
+            "feedback": "No: esas aparecen en «Salud». En «Instituciones» están los servicios de salud pública, judiciales y de fuerzas de seguridad."
+          },
+          {
+            "id": "d",
+            "text": "Multas, reparaciones de vehículos y primas de seguros",
+            "correct": false,
+            "feedback": "No. La infografía no incluye esos ítems. En «Instituciones» están los servicios de salud pública, judiciales y de fuerzas de seguridad."
+          }
+        ]
+      },
+      {
+        "id": "health",
+        "prompt": "¿Qué consecuencias reúne el grupo «Salud» de esa infografía?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Secuelas psicológicas y lesiones graves o leves",
+            "correct": true,
+            "feedback": "¡Exacto! La salud se ve afectada por las lesiones físicas y también por las secuelas psicológicas."
+          },
+          {
+            "id": "b",
+            "text": "Servicios judiciales y de fuerzas de seguridad",
+            "correct": false,
+            "feedback": "No: esos servicios están en «Instituciones». «Salud» reúne las secuelas psicológicas y las lesiones graves o leves, permanentes o temporales."
+          },
+          {
+            "id": "c",
+            "text": "Relaciones familiares y consecuencias laborales",
+            "correct": false,
+            "feedback": "No: están en «Familia y economía». En «Salud» aparecen las secuelas psicológicas y las lesiones, permanentes o temporales."
+          },
+          {
+            "id": "d",
+            "text": "Solo las lesiones físicas graves y permanentes",
+            "correct": false,
+            "feedback": "Incompleto: «Salud» incluye también las secuelas psicológicas y las lesiones leves o temporales."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.intro-safe-system",
+    "type": "single-choice",
+    "title": "Sistema seguro y Visión Cero",
+    "unitIds": [
+      "manual.intro.safe-system-principles",
+      "manual.intro.vision-zero"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 18
+      }
+    ],
+    "explanation": "El sistema de transporte debe diseñarse para contener y reducir el impacto de los errores humanos: es lo que se conoce como «sistema seguro» (manual PDF 18). Parte de que ninguna persona fallecida ni herida grave es aceptable, de que se cometen errores aun conociendo las normas, de que la infraestructura debe contemplar esos errores para que no haya víctimas fatales y de que el diseño debe tener en cuenta la fragilidad del cuerpo humano. El programa Visión Cero, creado en Suecia, sostiene el mismo principio ético: nadie debería morir ni sufrir lesiones permanentes en siniestros de tránsito.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "idea",
+        "prompt": "¿Qué propone el enfoque de «sistema seguro» que presenta el manual?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Diseñar el sistema de transporte para contener los errores humanos",
+            "correct": true,
+            "feedback": "¡Correcto! Como los errores se van a cometer, el sistema se diseña para que no terminen en víctimas fatales ni heridos graves."
+          },
+          {
+            "id": "b",
+            "text": "Eliminar los errores humanos aumentando los controles y las sanciones",
+            "correct": false,
+            "feedback": "No. El sistema seguro parte de que los errores se cometen igual, y por eso diseña el sistema para que no terminen en víctimas fatales."
+          },
+          {
+            "id": "c",
+            "text": "Que cada conductor/a sea el único responsable de evitar los siniestros",
+            "correct": false,
+            "feedback": "No. El sistema seguro pone el foco en el diseño del sistema de transporte, para que contenga los errores humanos."
+          },
+          {
+            "id": "d",
+            "text": "Diseñar las calles para que los vehículos circulen lo más rápido posible",
+            "correct": false,
+            "feedback": "No. El sistema seguro diseña la movilidad pensando en los errores humanos y en la fragilidad del cuerpo, no en la rapidez."
+          }
+        ]
+      },
+      {
+        "id": "acceptable",
+        "prompt": "Según los principios del sistema seguro, ¿cuántas personas fallecidas o heridas graves por incidentes de tránsito son aceptables?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Ninguna",
+            "correct": true,
+            "feedback": "¡Correcto! Es el primer principio básico: no es aceptable ninguna persona fallecida ni herida grave."
+          },
+          {
+            "id": "b",
+            "text": "Solo las que se deben a errores de la propia víctima",
+            "correct": false,
+            "feedback": "No. El sistema seguro no acepta ninguna persona fallecida ni herida grave, cometa quien cometa el error."
+          },
+          {
+            "id": "c",
+            "text": "Una cantidad baja, mientras baje cada año",
+            "correct": false,
+            "feedback": "No. El principio es que no es aceptable ninguna persona fallecida ni herida grave por incidentes de tránsito."
+          },
+          {
+            "id": "d",
+            "text": "Las que ocurren en vías rápidas, como las autopistas",
+            "correct": false,
+            "feedback": "No. El sistema seguro no acepta ninguna persona fallecida ni herida grave, en ningún tipo de vía."
+          }
+        ]
+      },
+      {
+        "id": "errors",
+        "prompt": "¿Qué reconoce el sistema seguro sobre los errores humanos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Que se cometen aunque se conozcan las normas de tránsito",
+            "correct": true,
+            "feedback": "¡Exacto! Así, cuando un error ocurre, el diseño evita que haya víctimas fatales."
+          },
+          {
+            "id": "b",
+            "text": "Que desaparecen cuando todas las personas conocen la normativa",
+            "correct": false,
+            "feedback": "No. Uno de sus principios es que se cometen errores aun con conocimiento de la normativa y de los programas de concientización."
+          },
+          {
+            "id": "c",
+            "text": "Que solo los cometen las personas que recién empiezan a manejar",
+            "correct": false,
+            "feedback": "No. El sistema seguro parte de que cualquiera comete errores, aun conociendo las normas; por eso la infraestructura debe contemplarlos."
+          },
+          {
+            "id": "d",
+            "text": "Que no tienen relación con el diseño de la infraestructura",
+            "correct": false,
+            "feedback": "Al contrario: el diseño de la infraestructura debe contemplar los errores humanos para que, cuando ocurran, no haya víctimas fatales."
+          }
+        ]
+      },
+      {
+        "id": "body",
+        "prompt": "Al diseñar el sistema de movilidad, ¿qué hay que tener en cuenta según el sistema seguro?",
+        "options": [
+          {
+            "id": "a",
+            "text": "La fragilidad del cuerpo humano",
+            "correct": true,
+            "feedback": "¡Correcto! El cuerpo humano tolera poco los impactos; por eso el diseño de la movilidad tiene que considerarlo."
+          },
+          {
+            "id": "b",
+            "text": "La potencia de los vehículos más modernos",
+            "correct": false,
+            "feedback": "No. El principio del manual es tener en cuenta la fragilidad del cuerpo humano."
+          },
+          {
+            "id": "c",
+            "text": "La velocidad máxima que pueden alcanzar los autos",
+            "correct": false,
+            "feedback": "No. Lo que el diseño debe considerar, según el sistema seguro, es la fragilidad del cuerpo humano."
+          },
+          {
+            "id": "d",
+            "text": "La cantidad de carriles que necesita el tránsito",
+            "correct": false,
+            "feedback": "No. El sistema seguro pide diseñar pensando en la fragilidad del cuerpo humano."
+          }
+        ]
+      },
+      {
+        "id": "vision-zero",
+        "prompt": "¿Qué establece el principio ético del programa Visión Cero?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Que nadie debería morir ni sufrir lesiones permanentes por siniestros viales",
+            "correct": true,
+            "feedback": "¡Correcto! Es el principio ético de Visión Cero, y el Plan de Seguridad Vial de la Ciudad se guía por los mismos principios."
+          },
+          {
+            "id": "b",
+            "text": "Que la meta es que no se labre ninguna multa de tránsito en la Ciudad",
+            "correct": false,
+            "feedback": "No. Visión Cero se refiere a las personas: nadie debería morir ni sufrir lesiones permanentes en siniestros de tránsito."
+          },
+          {
+            "id": "c",
+            "text": "Que hay que reducir a cero la cantidad de autos particulares en circulación",
+            "correct": false,
+            "feedback": "No. El principio ético de Visión Cero es que nadie debería morir ni sufrir lesiones permanentes en siniestros de tránsito."
+          },
+          {
+            "id": "d",
+            "text": "Que no debería producirse ningún choque, aunque solo haya daños materiales",
+            "correct": false,
+            "feedback": "No es eso: Visión Cero pone el foco en la vida y la salud. Nadie debería morir ni sufrir lesiones permanentes en siniestros de tránsito."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "act.intro-road-safety-plan",
+    "type": "single-choice",
+    "title": "Plan de Seguridad Vial de la Ciudad",
+    "unitIds": [
+      "manual.intro.road-safety-plan-objectives",
+      "manual.intro.road-safety-plan-work-axes"
+    ],
+    "refs": [
+      {
+        "source": "manual",
+        "page": 19
+      }
+    ],
+    "figureIds": [
+      "fig.manual-p19-work-axes"
+    ],
+    "explanation": "En el mediano y largo plazo, el Plan de Seguridad Vial de la Ciudad busca reducir todo lo posible la siniestralidad vial y minimizar sus consecuencias humanas y materiales (manual PDF 19). Trabaja en cuatro ejes: infraestructura segura (diseño del espacio público); comunicación, educación y concientización (formación y campañas); control y legislación (ordenamiento del tránsito y cumplimiento de las normas); y compromiso y participación ciudadana, junto con ONG, empresas y dependencias.",
+    "status": "reviewed",
+    "variants": [
+      {
+        "id": "objective",
+        "prompt": "Según el manual, ¿qué busca el Plan de Seguridad Vial de la Ciudad en el mediano y largo plazo?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Reducir la siniestralidad vial y minimizar sus consecuencias humanas y materiales",
+            "correct": true,
+            "feedback": "¡Correcto! Es el objetivo de esa política integral, que se organiza en cuatro ejes de trabajo."
+          },
+          {
+            "id": "b",
+            "text": "Que el tránsito sea más rápido, aumentando las velocidades permitidas en las avenidas",
+            "correct": false,
+            "feedback": "No. El objetivo del plan es reducir la siniestralidad vial y minimizar sus consecuencias humanas y materiales."
+          },
+          {
+            "id": "c",
+            "text": "Reemplazar los controles de tránsito por campañas de concientización en las escuelas",
+            "correct": false,
+            "feedback": "No. Control y comunicación son ejes distintos del mismo plan; el objetivo es reducir la siniestralidad y minimizar sus consecuencias."
+          },
+          {
+            "id": "d",
+            "text": "Reducir solo los daños materiales que provocan los choques entre vehículos",
+            "correct": false,
+            "feedback": "Incompleto: busca minimizar las consecuencias humanas y materiales, y reducir todo lo posible la siniestralidad vial."
+          }
+        ]
+      },
+      {
+        "id": "infrastructure",
+        "prompt": "¿Qué eje de trabajo del plan agrupa las acciones relacionadas con el diseño del espacio público?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Infraestructura segura",
+            "correct": true,
+            "feedback": "¡Correcto! Infraestructura segura reúne las acciones de diseño del espacio público."
+          },
+          {
+            "id": "b",
+            "text": "Control y legislación",
+            "correct": false,
+            "feedback": "No. Control y legislación promueve el ordenamiento del tránsito y el cumplimiento de las normas. El diseño del espacio público es infraestructura segura."
+          },
+          {
+            "id": "c",
+            "text": "Comunicación, educación y concientización",
+            "correct": false,
+            "feedback": "No. Ese eje reúne programas de formación y campañas. El diseño del espacio público corresponde a infraestructura segura."
+          },
+          {
+            "id": "d",
+            "text": "Compromiso y participación ciudadana",
+            "correct": false,
+            "feedback": "No. Ese eje suma a la ciudadanía, ONG, empresas y dependencias. El diseño del espacio público es infraestructura segura."
+          }
+        ]
+      },
+      {
+        "id": "control",
+        "prompt": "Las acciones que promueven el ordenamiento del tránsito y el cumplimiento de las normas, ¿a qué eje del plan pertenecen?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Control y legislación",
+            "correct": true,
+            "feedback": "¡Exacto! Ese eje busca ordenar el tránsito, hacer cumplir las normas y garantizar un sistema seguro de transporte."
+          },
+          {
+            "id": "b",
+            "text": "Infraestructura segura",
+            "correct": false,
+            "feedback": "No. Infraestructura segura se ocupa del diseño del espacio público. Ordenar el tránsito y hacer cumplir las normas es control y legislación."
+          },
+          {
+            "id": "c",
+            "text": "Comunicación, educación y concientización",
+            "correct": false,
+            "feedback": "No. Ese eje trabaja con formación y campañas. El cumplimiento de las normas corresponde a control y legislación."
+          },
+          {
+            "id": "d",
+            "text": "Compromiso y participación ciudadana",
+            "correct": false,
+            "feedback": "No. Ese eje reúne acciones conjuntas con la ciudadanía. Ordenar el tránsito y hacer cumplir las normas es control y legislación."
+          }
+        ]
+      },
+      {
+        "id": "participation",
+        "prompt": "Una iniciativa que suma en forma conjunta a la ciudadanía, ONG, empresas y dependencias, ¿a qué eje del plan corresponde?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Compromiso y participación ciudadana",
+            "correct": true,
+            "feedback": "¡Correcto! Ese eje reúne acciones con participación y compromiso conjunto de la ciudadanía, ONG, empresas y dependencias."
+          },
+          {
+            "id": "b",
+            "text": "Control y legislación",
+            "correct": false,
+            "feedback": "No. Control y legislación apunta al ordenamiento del tránsito y al cumplimiento de las normas. Las acciones conjuntas son compromiso y participación ciudadana."
+          },
+          {
+            "id": "c",
+            "text": "Infraestructura segura",
+            "correct": false,
+            "feedback": "No. Infraestructura segura es el diseño del espacio público. Las acciones con la ciudadanía y las ONG son compromiso y participación ciudadana."
+          },
+          {
+            "id": "d",
+            "text": "Comunicación, educación y concientización",
+            "correct": false,
+            "feedback": "Cerca, pero no: ese eje son programas de formación y campañas. Sumar en conjunto a ciudadanía, ONG y empresas es compromiso y participación ciudadana."
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -2,16 +2,17 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-12.
+Última actualización: 2026-10-12 (inicio de la fase 5).
 
 ## Fase activa
 
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
-- **Fase 4 — tareas fusionadas.** #22–#26 están en `main`; #25 entró con `cefe7b2` y #26 con `b36fe55`. Las secciones por tarea conservan la historia de revisión de la etapa B.
-- **Fase 5 en curso por Opus**, según indicación del usuario del 2026-10-12. Este correctivo visual no modifica ni incorpora su trabajo; su avance se registra en su rama de fase 5.
-- **F04-T01-FIX01 — referencias visuales**, autorizado como pedido puntual, en worktree independiente y rama `f04-t01-fix01-street-reference` desde `main` (`b36fe55`). No inicia la fase 6 ni la 7.
+- **Fase 4 — Comuna 13 A y examen práctico completo: tareas fusionadas.** #22 (`3c7aca2`), #23 (`a3c5e15`), #24 (`d919f98`), #25 (`cefe7b2`) y #26 (`b36fe55`) están en `main` (2026-10-12). Las CI de las dos últimas fusiones quedaron canceladas y `main` tenía rojas las vueltas guionadas: lo repara el correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)).
+- **Fase 5 — Todo el contenido y simulacros teóricos: etapa A en curso.** Mensaje de inicio (2026-10-12): «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Método, estados y decisiones del contenido en `CONTENIDO.md`.
+- **F04-T01-FIX01 — referencias visuales:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` (`78b5cee`) para resolver conflictos documentales y conservar #27–#28; no toca el worktree de Opus.
+- Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
 ## Repositorio y revisión
@@ -329,11 +330,12 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
-| F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | implementada; findings de `9dc94d3` y `5b07456` corregidos; CI verde; revisión de seguimiento pendiente |
+| F04-T01 | `f04-t01-city` | `main` (`89791fc`) | [#22](https://github.com/grunch/al-volante/pull/22) | fusionada en `main` (`3c7aca2`); findings de `9dc94d3` y `5b07456` corregidos |
 | F04-T02 | `f04-t02-traffic` | `main` | [#23](https://github.com/grunch/al-volante/pull/23) | fusionada en `main` (`a3c5e15`); findings de `a5b9496`, `f53b7f3`, `50ce70f` y `d2c563a` corregidos |
 | F04-T03 | `f04-t03-examiner` | `main` | [#24](https://github.com/grunch/al-volante/pull/24) | fusionada en `main` (`d919f98`); findings de `f4d7c6f`, `eaf60ce` y `cf9d690` corregidos |
-| F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | fusionada en `main` (`cefe7b2`); historia de findings abajo |
-| F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | fusionada en `main` (`b36fe55`); historia de findings abajo |
+| F04-T04 | `f04-t04-parking` | `main` (#24 fusionado) | [#25](https://github.com/grunch/al-volante/pull/25) | fusionada en `main` (`cefe7b2`); findings de `f2624a4`, `b551baa` y siguientes corregidos |
+| F04-T05 | `f04-t05-modes` | `f04-t04-parking` (#25) | [#26](https://github.com/grunch/al-volante/pull/26) | fusionada en `main` (`b36fe55`); findings de `f7b9398` y siguientes corregidos |
+| F04-T04-FIX01 | `f04-t04-fix01` | `main` (`b36fe55`) | [#27](https://github.com/grunch/al-volante/pull/27) | fusionado en `main` (`367b484`); findings registrados abajo |
 
 ### F04-T01 — Ciudad y recorrido completo
 
@@ -399,6 +401,19 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Revisión de Codex sobre `b551baa` (2026-10-12), 4 findings, corregidos: (1) P1, el intento empezaba con cualquier detención en la zona, también dentro del cajón entrando de frente, y el aviso de terminado se aceptaba sin marcha atrás: ahora solo la detención en doble fila empieza la maniobra (D11) y «Terminé» se ignora hasta la marcha atrás de un intento empezado (D14); (2) P1, la antigüedad de las balizas empezaba con la fase de estacionamiento aunque el aviso llega en el tramo 8: `noteHazards` la lleva desde la circulación; (3) P1, una sola mirada en cualquier momento cubría la alta p: ahora se piden la detención en doble fila (antes de retroceder) y la marcha atrás, por separado, y una mirada posterior no cuenta (protocolo PDF 13; D14); el conductor de prueba mira también durante la marcha atrás; (4) P2, ARQUITECTURA decía que calado, arranque con el motor en marcha y freno de mano se juzgan en la etapa III, pero `scoredInPhase` los deja fuera. Pruebas nuevas: en `parking.test.ts`, la detención dentro del cajón, las balizas desde el último tramo y los dos momentos de espejos (las de doble fila y espejos fallan sin su cambio); en `parkingStreet.test.ts`, «Terminé» antes de la marcha atrás y la antigüedad de las balizas al empezar la etapa III. Con #22–#24 ya fusionados, #25 apunta a `main` e incorporó esa fusión con un merge (`a7ca9a0`); los conflictos fueron solo de documentación.
 - Para F04-T05: la sesión termina en `finished` con `completedStages` I/II/III y `resultOf` aprobado/desaprobado; `Session.parking.final` (frontCm, rearCm, alongM), `parking.manoeuvres/attempts`, `measurements` de la etapa I y `street` dan la ficha por etapa; `ledger.faults` lleva `atS`, así cada falla se puede asignar a su etapa por el instante de cada cambio de fase. Un modo que salte etapas debe crear la sesión en la fase deseada (`enter`) con `completedStages` vacío: `resultOf` quedará `pending`. No se persisten intentos todavía (contrato `Attempt`, `kind: 'driving'`).
 
+### F04-T04-FIX01 — Vuelta guionada trabada en Cuba y Quesada
+
+- Hallazgo (2026-10-12, al empezar la fase 5): las CI de `main` después de fusionar #25 (`cefe7b2`) y #26 (`b36fe55`) quedaron canceladas por las fusiones seguidas, y `main` tenía rojas siete pruebas de la vuelta completa: la vuelta legal de `street.test.ts` y los casos de examen completo de `parkingStreet.test.ts`. La falla aparece en `a7ca9a0`, cuando se integró `main` (#22–#24) en la rama de F04-T04: los cambios de tiempos del conductor de prueba de T04 llevaron a la semilla 1 a una situación que las pruebas de #24 no recorrían.
+- Causas:
+  - **Espera mutua con el auto:** el auto quedaba detenido con el frente en la línea de Cuba ante Quesada esperando a una bicicleta de la ciclovía que ya doblaba dentro del cruce; la bicicleta tomaba al auto como obstáculo en su corredor y lo esperaba a él. Entre actores esa espera ya estaba resuelta (`waitsAtLineFor`); faltaba para el auto. `carWaitsAtLineFor` (`src/traffic/traffic.ts`): el auto quieto con el frente en su línea (tolerancia de la línea) de un cruce que el actor ya atraviesa no es su obstáculo, porque lo espera; salvo que su carrocería esté sobre la trayectoria real del actor en los próximos metros (curvas incluidas), en cuyo caso el actor no avanza hacia él.
+  - **Conductor de prueba que no cede a ciclistas:** con caja manual, el auto doblaba a la izquierda hacia Quesada y alcanzaba a una bicicleta que seguía derecho por la ciclovía de su izquierda (contacto, eliminatoria por la falla l escalada: no ceder el paso a ciclistas que cruzan al girar, `protocolo.pdf`, PDF 12, 16, 17 y 29; prioridad del ciclista, `manual.pdf`, PDF 35). El conductor de `src/test/circuitDriver.ts` ahora espera en la línea, antes de doblar, a los ciclistas que vienen por el lado del giro y a los que van a cruzar el pavimento que va a atravesar. Las distancias que usa para reconocerlos (hasta 25 m detrás, a menos de 8 m hacia el lado del giro, proyección de hasta 3 s) son **heurísticas del guion de pruebas**, no umbrales del protocolo ni de la evaluación, que no cambian.
+- Pruebas: nueva `traffic.test.ts` «rides on across the corner past the car standing at its own line…», que falla sin el cambio (la bicicleta no avanza) y pasa con él; `street.test.ts`, `parkingStreet.test.ts`, `practice.test.ts` y `src/traffic` aprobadas (73 pruebas en 8 archivos).
+
+- Revisiones (etapa de correcciones del PR):
+  - Codex sobre `3327a92`: el lado del giro no tenía distancia lateral máxima → corregido en `ba64169` (`CYCLIST_LATERAL_M`, 8 m).
+  - CodeRabbit sobre `e048648`, 3 findings: heurísticas sin fuente en este registro → corregido en `ba64169`; cesión tras el PARE → retirado por CodeRabbit (la condición es la misma de `main` y el PARE ya exige vía libre antes de salir); limitar `carWaitsAtLineFor` con `corridorGap` → no se aplicó tal cual porque recrea la espera mutua (la prueba nueva falla con ese cambio); se atendió la preocupación de fondo con `carOnPathAhead` en `ba64169`, y CodeRabbit lo aceptó.
+  - Codex sobre `bbea36a`: la fase 4 seguía como pendiente en este registro → corregido en `bbea36a`; sobre `7c010ff`: faltaba la contraparte en `CONTINUIDAD.md` → corregido en `7c010ff`; registrar estas rondas y el total de 73 pruebas → corregido en el commit siguiente.
+
 ### F04-T05 — Modos, recorrido entero y ficha por etapa
 
 - Apilado sobre `f04-t04-parking` (#25). Orden obligatorio: #22 → #23 → #24 → #25 → [#26](https://github.com/grunch/al-volante/pull/26).
@@ -418,29 +433,49 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ## Correctivo F04-T01-FIX01 — Entorno basado en referencias
 
-- Pedido: incorporar las imágenes cronológicas del recorrido y trabajar en un worktree para preservar la fase 5 de Opus. Base `main` (`b36fe55`), rama `f04-t01-fix01-street-reference`; PR pendiente de creación.
-- Entrega: fachadas diferenciadas por tramo, balcones y plantas bajas, casas y esquinas bajas, arboleda, refugios/barandas del Metrobús, placas de calles, vallas del cajón, materiales y luz de día. Las 35 referencias se inventarían en [REFERENCIAS_VISUALES.md](REFERENCIAS_VISUALES.md). No se redistribuyen las capturas originales ni se cambian física, reglas o catálogo.
-- Pruebas: lint, formato, tipos, validador de contenido y build aprobados. Suite general con Node 24.21.0 y dos workers: **500 aprobadas y 17 fallidas**, en `street.test.ts` y `parkingStreet.test.ts`; fallan la vuelta completa (`condition not met in 600 s`) y sus preparaciones de estacionamiento, incluida una falta de prioridad. No declarar `npm run check` aprobado. La prueba de vuelta completa reproduce el mismo error sobre `main` (`b36fe55`), sin cambios gráficos, con Node 24.21.0: 1 fallida y 16 omitidas por el filtro (142,8 s).
-- Revisión Codex independiente local con GPT-6.1 Sol, esfuerzo high: completada sobre el diff de trabajo; 8 pruebas focalizadas aprobadas, sin findings iniciales. La suite final de ciudad pasa sus 21 pruebas. Se amplió después la comprobación visual del pavimento de Quesada y se ajustó el plano de fondo para no ocultarlo. Revisión GitHub Codex y CodeRabbit: pendientes de abrir el PR. Sin excepción de tokens; cuota no disponible para medir.
-- Navegador: capturas de los ocho tramos y habitáculo, sin errores de consola en el recorrido de capturas. Primera ronda E2E finalizada con 16/20 aprobadas y cuatro tiempos agotados en WebGL por software; se redujo geometría oculta y costo de sombras, y se repiten los casos afectados. No se acredita 60 FPS.
+- Pedido: incorporar las imágenes cronológicas del recorrido y trabajar en un worktree para preservar la fase 5 de Opus. Base `main` (`b36fe55`), rama `f04-t01-fix01-street-reference`; [#31](https://github.com/grunch/al-volante/pull/31), implementación `5f8f226`. Actualización posterior con `main` (`78b5cee`), que ya contiene #27 y #28.
+- Entrega: fachadas diferenciadas por tramo, balcones y plantas bajas, casas y esquinas bajas, arboleda, refugios/barandas del Metrobús, placas de calles, vallas del cajón, materiales y luz de día. Las 35 referencias están inventariadas en [REFERENCIAS_VISUALES.md](REFERENCIAS_VISUALES.md). No se redistribuyen las capturas originales ni se cambian física, reglas o catálogo.
+- Pruebas antes de incorporar `78b5cee`: lint, formato, tipos, validador de contenido y build aprobados. Suite general con Node 24.21.0 y dos workers: **500 aprobadas y 17 fallidas**, en `street.test.ts` y `parkingStreet.test.ts`; fallan la vuelta completa (`condition not met in 600 s`) y sus preparaciones de estacionamiento, incluida una falta de prioridad. No declarar `npm run check` aprobado. La prueba de vuelta completa reproduce el mismo error sobre `main` (`b36fe55`), sin cambios gráficos, con Node 24.21.0: 1 fallida y 16 omitidas por el filtro (142,8 s).
+- Revisión Codex independiente local con GPT-6.1 Sol, esfuerzo high: completada sobre el diff de trabajo; 8 pruebas focalizadas aprobadas, sin findings iniciales. La suite final de ciudad pasa sus 21 pruebas. Se amplió después la comprobación visual del pavimento de Quesada y se ajustó el plano de fondo para no ocultarlo. El seguimiento independiente de fondo, sombras y tejados dio conformidad. Codex GitHub: completada sobre `5f8f226`, revisión [5494732545](https://github.com/grunch/al-volante/pull/31#pullrequestreview-5494732545); la respuesta inicial de configuración quedó superada por esa revisión. CodeRabbit: solicitada automáticamente, pendiente por límite de revisiones incluidas (respuesta del 2026-10-12 18:35 UTC, próxima revisión en 34 minutos). No se presenta el límite de CodeRabbit como una revisión completada.
+- Findings de Codex 5494732545, ambos aplican: timeout global de 120 s para todos los casos de ciudad/examen (180 s en la conducción por teclado), y despeje de la luminaria en su posición final tras desplazarla 4 m. La regresión nueva detectó seis piezas sobre Iberá/Cuba antes del cambio; después pasan las 9 pruebas de entorno/escena. Se conservan árboles válidos y se omiten únicamente luminarias sin despeje. Seguimiento y E2E de la corrección pendientes.
+- Integración de `main`: conflictos únicamente en estado/continuidad, resueltos conservando #27 y F05-T01; sin cambios en el worktree de Opus. Lint, formato, tipos/build y catálogo `93afd404` aprobados tras incorporar la base; cobertura completa en curso.
+- Navegador: capturas de los ocho tramos y habitáculo, sin errores de consola en el recorrido de capturas. Ronda final sobre `5f8f226`: **20/20 E2E aprobadas**, escritorio y Pixel 7, sin reintentos (11,8 min). Se redujo geometría oculta y costo de sombras; las esperas contemplan la compilación de shaders en software. Tras incorporar `main` se revalidan los checks afectados. No se acredita 60 FPS.
+
+## Tareas de la fase 5
+
+| Tarea | Rama | Base | PR | Estado |
+|---|---|---|---|---|
+| F05-T01 | `f05-t01-content` | `f04-t04-fix01` (#27) | [#28](https://github.com/grunch/al-volante/pull/28) | fusionado en `main` (`78b5cee`); historial de implementación abajo |
+
+### F05-T01 — Glosario, introducción, capítulos 1–2 y guía de siniestros
+
+- Primera tarea de la fase, apilada sobre F04-T04-FIX01 (#27), que repara la vuelta guionada rota en `main`; sin ese correctivo la CI de esta tarea no puede quedar en verde.
+- Alcance:
+  - **Infraestructura de contenido para toda la fase:** actividades en un archivo por sección (`specs/catalog/activities/<fuente>-<sección>.json`, cargados con `import.meta.glob`), catálogo de figuras (`specs/catalog/figures.json`, recortes en `public/figures/` con `scripts/crop-figures.ts`), `consultationReason` en las unidades, validadores `activityFileErrors`, `validateFigures` y `validateTreatment`, prueba de recorrido de todo el catálogo (`catalogPlaythrough.test.ts`), prueba de política de contenido (`catalogPolicy.test.ts`, que reemplaza la prueba de temas excluidos de la fase 2) y prueba de cobertura de las secciones terminadas.
+  - **Interfaz:** «La ciudad te pregunta» por secciones del recorrido de aprendizaje (`?seccion=`); la página de cada sección muestra sus actividades, las que practican cada unidad, el motivo de las unidades de consulta y las figuras; la devolución muestra las figuras después de responder; la presentación y el material a estudiar entran al grupo de consulta del mapa.
+  - **Contenido:** las 260 unidades de presentación, glosario, introducción, capítulos 1–2 y guía de siniestros revisadas contra la imagen de su página (22 correcciones), 105 actividades nuevas (77 de opción única, 22 escenas de decisión y 6 de ordenar; 351 variantes) y 23 figuras. 254 unidades quedan `tested` y 6 de consulta (`implemented`). Las 14 unidades y 4 señales que usaban las 8 actividades de la fase 2 se revisaron contra sus páginas y quedan `tested`.
+  - **Decisiones:** D-T01-1 a D-T01-18 en `CONTENIDO.md` (verificaciones del 12/10/2026: 107 SAME y 911 Policía en el sitio oficial; scoring de 20 puntos; régimen cambiante de la VTV). 8 observaciones nuevas en `issues.json` (214 en total).
+- Método: cinco lotes por páginas escritos por subagentes con una guía común, sin tocar el repositorio; el autor los integró, reequilibró 28 variantes cuya opción correcta se delataba por su largo, reescribió los motivos de consulta para quien juega y revisó por muestreo los datos contra el texto y la imagen de las páginas (PDF 26, 29, 33, 38, 45–47, 53 y las de los recortes).
 
 ## Pila y orden de fusión
 
-Fases 1–4 integradas en `main` hasta `b36fe55`. El correctivo visual parte de esa base; no depende de los PRs de contenido de fase 5. Si Opus actualiza los registros operativos antes de su fusión, integrar ambas entradas sin descartar el estado más reciente de fase 5.
+La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) y F05-T01 ([#28](https://github.com/grunch/al-volante/pull/28)) también están fusionados (`367b484`, `78b5cee`).
+
+Fase 5, etapa A a cargo de Opus: #27 y F05-T01 (#28) ya integrados; F05-T02 y las siguientes conservan su orden de apilado. El correctivo visual #31 apunta a `main` y conserva ese avance; no incorpora trabajo sin publicar del otro worktree.
 
 ## Bloqueos
 
-La suite general presenta los 17 fallos de simulación indicados arriba; no fusionar este correctivo como si todos los checks estuvieran aprobados. Pendientes la validación E2E final y revisiones del PR; la vuelta completa ya reproduce su fallo en la base.
+La base inicial `b36fe55` tenía los 17 fallos indicados arriba. `main` incorporó su correctivo #27 mientras se trabajaba: se revalida después de actualizar la rama. Codex remoto completó su revisión y sus dos findings están corregidos; falta seguimiento. CodeRabbit sigue pendiente por cuota. La revisión independiente local está completada. No fusionar sin checks aprobados y findings revisados con el usuario.
 
 ## Siguiente acción
 
-Completar la validación del correctivo visual, abrir su PR y solicitar Codex/CodeRabbit. Revisar findings y resultados con el usuario antes de fusionar. Opus mantiene la fase 5 en su rama; este trabajo no la amplía ni inicia otra fase.
+Cerrar las comprobaciones de #31 tras incorporar `78b5cee`, registrar resultados y revisar findings con el usuario antes de fusionar. Opus continúa la fase 5 en su worktree; esta tarea no cambia su alcance ni inicia otra fase.
 
 ### Cierre de la fase 4 contra el plan
 
 «Examen completo jugable en A, con reglas transcritas implementadas y comprobadas. Los criterios que el juego solo aproxima se explican al usuario.»
 
-- **Examen completo jugable en A:** cumplido en etapa A. Las tres etapas se juegan seguidas en `#/examen` (recorrer y rendir), con tránsito y semáforos por semilla (T02), el examinador y las reglas de circulación (T03), el estacionamiento y el descenso (T04), los modos y la ficha (T05). Fusionado con #22–#26; la historia de revisión se conserva por tarea.
+- **Examen completo jugable en A:** cumplido y fusionado (#22–#26). Las tres etapas se juegan seguidas en `#/examen` (recorrer y rendir), con tránsito y semáforos por semilla (T02), el examinador y las reglas de circulación (T03), el estacionamiento y el descenso (T04), los modos y la ficha (T05).
 - **Reglas transcritas implementadas y comprobadas:** cada regla del alcance tiene criterio, fuente y prueba en las tablas de ARQUITECTURA (T03 y T04). No se evalúan, y se dice por qué en REGLAS.md §9: las dos manos en el volante (baja f), los dispositivos (eliminatoria m), la autoridad de tránsito (eliminatoria e), la omisión de bocina, el arranque excedido en tiempo (leve g) y el arranque brusco y la aceleración en vacío (bajas b, c).
 - **Lo que el juego solo aproxima se explica al usuario:** los umbrales sin cifra del protocolo (D6–D14, V2, V3), las ayudas por modo (D15) y las aproximaciones de los modos están en REGLAS.md §7 y §9, en el texto «Aproximaciones del juego» de la página del examen y, al terminar, en la ficha como «aproximaciones que pudieron influir».
 - **Queda aproximado y sin relevamiento** (CIUDAD.md): la posición exacta del cajón, los anchos, PARE, reductor y máximas de la vía (OSM, fuente única). El rendimiento gráfico medido en T01 no acredita 60 FPS por software. Las revisiones visuales en navegador se limitaron a los E2E en T03–T05.

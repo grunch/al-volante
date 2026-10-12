@@ -338,6 +338,8 @@ export function addFrontages(city: City, add: AddPart): void {
         addTree(point, road.headingRad, index, road.leg === 6 || road.leg === 8, add);
         if (index % 2 === 0) {
           const lamp = offsetPoint(point, road.headingRad, 0, 4);
+          // The longitudinal offset can put a lamp in a crossing even when its tree has clearance.
+          if (city.roads.some((other) => projectOnRoad(lamp, other).distanceM < other.widthM / 2 + 0.8)) continue;
           add({ shape: 'cylinder', color: c.steel, position: [lamp.x, 3.3, lamp.z], size: [0.11, 6.6, 0.11] });
           const head = offsetPoint(lamp, road.headingRad, -side * 0.42);
           add({

@@ -18,8 +18,8 @@
       "Objetivo: que la vía pública sea un espacio de convivencia donde todas las personas se sientan seguras."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 2 (F05-T01): fiel a la página, sin cambios."
   },
   {
     "id": "manual.front.study-material-by-category",
@@ -32,18 +32,18 @@
     "title": "Material a estudiar según categoría de licencia",
     "category": "common",
     "type": "table",
-    "summary": "El material está organizado según categorías de licencia. Todas las categorías estudian la Introducción, los Capítulos 1 a 5 y el Anexo IV (Señales viales); cambia el anexo específico: Categoría B / Automóviles → Anexo I (Automóviles particulares); Categoría D / Transporte de pasajeros/as → Anexo II (Transporte de pasajeros/as); Categoría C / Carga y Categoría E / Camiones y maquinaria especial no agrícola → Anexo III (Transporte de carga y mercaderías); Categoría F / Vehículos adaptados → Anexo I, II o III de acuerdo a la categoría de licencia a obtener.",
+    "summary": "El material está organizado según categorías de licencia. Las listas de las categorías B, D, E y F incluyen la Introducción, los Capítulos 1 a 5 y el Anexo IV (Señales viales); cambia el anexo específico: Categoría B / Automóviles → Anexo I (Automóviles particulares); Categoría D / Transporte de pasajeros/as → Anexo II (Transporte de pasajeros/as); Categoría E / Camiones y maquinaria especial no agrícola → Anexo III (Transporte de carga y mercaderías); Categoría F / Vehículos adaptados → Anexo I, II o III de acuerdo a la categoría de licencia a obtener. La Categoría C / Carga figura solo como encabezado, sin lista propia, inmediatamente antes de la Categoría E.",
     "keyFacts": [
       "Categoría B / Automóviles: Introducción; Capítulo 1: Hacia una movilidad sustentable; Capítulo 2: Conducir es un acto de responsabilidad; Capítulo 3: Normas básicas de conducción; Capítulo 4: Capacidad natural; Capítulo 5: Actitud al conducir; Anexo I: Automóviles particulares; Anexo IV: Señales viales.",
       "Categoría D / Transporte de pasajeros/as: Introducción; Capítulos 1 a 5; Anexo II: Transporte de pasajeros/as; Anexo IV: Señales viales.",
-      "Categoría C / Carga: encabezado sin lista propia, agrupado con la Categoría E.",
+      "Categoría C / Carga: encabezado sin lista propia, ubicado inmediatamente antes de la Categoría E.",
       "Categoría E / Camiones y maquinaria especial no agrícola: Introducción; Capítulos 1 a 5; Anexo III: Transporte de carga y mercaderías; Anexo IV: Señales viales.",
       "Categoría F / Vehículos adaptados: Introducción; Capítulos 1 a 5; Anexo I, II, o III: de acuerdo a la categoría de licencia a obtener; Anexo IV: Señales viales.",
       "Introducción, Capítulos 1 a 5 y Anexo IV son comunes a todas las categorías listadas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Transcripción completa de PDF 3–4. La Categoría C aparece solo como encabezado («Categoría C / Carga») inmediatamente antes de la Categoría E, por lo que se interpreta que comparte su lista; no se lista ninguna categoría A (motos)."
+    "status": "tested",
+    "notes": "Transcripción completa de PDF 3–4. La Categoría C aparece solo como encabezado («Categoría C / Carga») inmediatamente antes de la Categoría E, por lo que se interpreta que comparte su lista; no se lista ninguna categoría A (motos). Revisada contra PDF 3–4 (F05-T01): el resumen decía que «todas las categorías» estudian el material común y asignaba el Anexo III a «Categoría C / Carga y Categoría E»; se ajustó a lo que muestra la página (C solo como encabezado, sin lista propia) y el keyFact de C dejó de decir «agrupado con la Categoría E». Las actividades no preguntan por la categoría C."
   },
   {
     "id": "manual.glossary.arterial",
@@ -60,7 +60,7 @@
       "Arteria: vía pública urbana de circulación vehicular y eventualmente peatonal."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -79,7 +79,7 @@
       "Destinado al transporte de personas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -98,7 +98,7 @@
       "También es avenida la arteria con más de 17,32 m entre líneas de edificación (con boulevard, calzadas centrales y laterales con divisorio físico u otra conformación física)."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Comparar con Calle (5 a 13 m) y Pasaje (menos de 5 m)."
   },
   {
@@ -118,7 +118,7 @@
       "c) Luces intermitentes de emergencia de los vehículos en general."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -136,7 +136,7 @@
       "Bicicleta: ciclorodado de 2 ruedas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -157,7 +157,7 @@
       "Sin ingreso directo desde los predios frentistas lindantes."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Contrasta con manual.glossary.semi-highway (con algún cruce a nivel)."
   },
   {
@@ -175,7 +175,7 @@
       "Automotor: vehículo impulsado por la fuerza generada por un motor."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -194,7 +194,7 @@
       "Las vías rápidas también están comprendidas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -212,7 +212,7 @@
       "Adelantamiento: sobrepasar a otro vehículo SIN cambiar de carril (a diferencia del sobrepaso)."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Contrasta con manual.glossary.passing (Sobrepaso: cambiando de carril)."
   },
   {
@@ -230,7 +230,7 @@
       "Banquina: zona adyacente y paralela a la calzada de rutas, autopistas, semiautopistas o caminos, para mayor seguridad del tránsito."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -248,7 +248,7 @@
       "La acera bordea la calzada y está destinada a la circulación de peatones."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -266,7 +266,7 @@
       "«Accidente de tránsito» se sustituye por «incidente de tránsito»."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Ver manual.glossary.traffic-incident y manual.intro.incident-not-accident."
   },
   {
@@ -285,7 +285,7 @@
       "Para ciclorodados y dispositivos de movilidad personal."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Comparar con Ciclocarril y Ciclovía (ambos en la calzada)."
   },
   {
@@ -305,7 +305,7 @@
       "Destinado exclusivamente a carga y descarga de vehículos afectados a esa actividad."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -324,7 +324,7 @@
       "Sirve para limitar o impedir el paso o estacionamiento de vehículos."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -343,7 +343,7 @@
       "Incluye las sendas peatonales."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Sinónimo: Encrucijada."
   },
   {
@@ -362,7 +362,7 @@
       "Destinada generalmente a una sola fila de vehículos."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -382,7 +382,7 @@
       "Solo por el tiempo estrictamente necesario, dentro de los límites del artículo 7.1.10."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "El artículo 7.1.10 es del Código de Tránsito y Transporte (Ley 2148), aunque el glosario no lo aclara."
   },
   {
@@ -402,7 +402,7 @@
       "Se usa en intersecciones con intenso tránsito vehicular y peatonal."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "La definición de Senda peatonal (PDF 10) lo llama «bolsones peatonales»; ver issues."
   },
   {
@@ -420,7 +420,7 @@
       "Chaleco reflectante: prenda sin mangas de materiales reflectantes para ser visto en baja visibilidad."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -438,7 +438,7 @@
       "Calzada: sector de la vía pública destinado a la circulación de vehículos."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -457,7 +457,7 @@
       "Se admite circulación restringida de vehículos."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -476,7 +476,7 @@
       "En particular: arteria con calzada de ancho entre 5 y 13 metros."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Comparar con Avenida (≥ 13 m) y Pasaje (< 5 m)."
   },
   {
@@ -494,7 +494,7 @@
       "Circulación: desplazamiento y tránsito de peatones y vehículos."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -514,7 +514,7 @@
       "También son colectoras las arterias paralelas a las vías rápidas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -532,7 +532,7 @@
       "Cordón: elevación al borde de la calzada que la separa de aceras, isletas o plazoletas y forma parte de éstas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -550,7 +550,7 @@
       "Ciclocarril: en la calzada, circulación PREFERENTE (no exclusiva) de ciclorodados y dispositivos de movilidad personal."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Comparar con Ciclovía (exclusiva, con separación) y Bicisenda (en aceras y espacios verdes)."
   },
   {
@@ -568,7 +568,7 @@
       "Conductor/a: persona a cargo del manejo directo de un vehículo en la vía pública."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -586,7 +586,7 @@
       "2 ruedas o más, con motor eléctrico auxiliar, impulsado por el esfuerzo de quien lo utiliza."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -606,7 +606,7 @@
       "Velocidad máxima: no más de 50 km/h."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Comparar con Motocicleta (más de 50 cm³ / más de 4 kW / más de 50 km/h)."
   },
   {
@@ -624,7 +624,7 @@
       "Cuatriciclo motorizado: motorizado, no carrozado, 4 ruedas no alineadas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -643,7 +643,7 @@
       "Ancho mínimo: 2 metros, salvo estudio de composición vehicular que demuestre un ancho menor de vehículo."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -661,7 +661,7 @@
       "Ciclorodado: no motorizado, de 2 o más ruedas, impulsado por el esfuerzo de quien lo usa."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -680,7 +680,7 @@
       "Circulación EXCLUSIVA de ciclorodados y dispositivos de movilidad personal."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -701,7 +701,7 @@
       "No es detención la inmovilización accidental por necesidades de la circulación o fuerza mayor."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Comparar con Estacionamiento (más tiempo del necesario para ser detención)."
   },
   {
@@ -719,7 +719,7 @@
       "Embotellamiento/atascamiento/congestión: acumulación de vehículos que entorpece u obstruye el tránsito."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -737,7 +737,7 @@
       "Encrucijada es sinónimo de bocacalle."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Ver manual.glossary.intersection-area."
   },
   {
@@ -755,7 +755,7 @@
       "Guiñada: encender y apagar rápidamente la luz alta como señal de advertencia."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -773,7 +773,7 @@
       "Estacionamiento: vehículo sin movimiento, con o sin conductor/a, por más tiempo del necesario para ser detención."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Ver manual.glossary.stopping (detención: hasta 2 minutos sin abandonar el vehículo)."
   },
   {
@@ -792,7 +792,7 @@
       "Pueden tener mobiliario urbano (macetas, sillas, mesas, anclajes para bicicletas) según el art. 2.3.6 del Código de Tránsito y Transporte."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -812,7 +812,7 @@
       "Excluidos: vehículos sin auto-balanceo y con asiento; vehículos de competición; vehículos para personas con movilidad reducida."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -831,7 +831,7 @@
       "Si no está demarcada, divide la calzada en dos partes iguales."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -849,7 +849,7 @@
       "Incidente de tránsito: hecho con daño a personas o cosas en ocasión de la circulación en la vía pública."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Reemplaza al término «accidente de tránsito». Ver manual.intro.incident-not-accident (Ley 3072)."
   },
   {
@@ -868,7 +868,7 @@
       "b) Zona de calzada demarcada con líneas paralelas amarillas de trazo continuo en diagonal o en V, con delimitación perimetral."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "La fuente escribe «trazo continúo» (errata menor)."
   },
   {
@@ -886,7 +886,7 @@
       "Giro: maniobra para cambiar de arteria de circulación modificando la dirección."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -904,7 +904,7 @@
       "Puente: paso de personas o vehículos POR SOBRE el nivel de lo atravesado."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Contrasta con Túnel (por debajo)."
   },
   {
@@ -922,7 +922,7 @@
       "Moto furgón: triciclo o cuatriciclo motorizado para transporte de cargas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "En la definición de Motovehículo aparece escrito «motofurgones»."
   },
   {
@@ -940,7 +940,7 @@
       "Mano: sentido de circulación que deben conservar los vehículos en una arteria."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -959,7 +959,7 @@
       "Sobre redes troncales y vías intermedias; facilita la transferencia intramodal e intermodal del Sistema Integrado de Transporte de la Ciudad."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -977,7 +977,7 @@
       "Motovehículo incluye SOLO: ciclomotores, triciclos motorizados, cuatriciclos motorizados, motocicletas y motofurgones."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -997,7 +997,7 @@
       "Puede desarrollar velocidades superiores a 50 km/h."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Comparar con Ciclomotor."
   },
   {
@@ -1015,7 +1015,7 @@
       "Pasaje: arteria con calzada de ancho inferior a 5 metros."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Comparar con Calle (5 a 13 m) y Avenida (≥ 13 m)."
   },
   {
@@ -1034,7 +1034,7 @@
       "Circulación exclusiva y obligatoria para Tránsito Pesado y Ómnibus de Transporte de Pasajeros de Larga Distancia."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "También figura en la lista de vías rápidas."
   },
   {
@@ -1052,7 +1052,7 @@
       "Peatón/a: persona en la vía pública (circulando o detenida) que no usa un vehículo."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1070,7 +1070,7 @@
       "Parada: indicador vertical para ascenso y descenso de pasajeros de un servicio de transporte."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1089,7 +1089,7 @@
       "Medio de transporte: motovehículo o ciclorodado."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1108,7 +1108,7 @@
       "Actividades: ruptura de cargas, carga y descarga y almacenamiento temporal de mercancías para su distribución."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1126,7 +1126,7 @@
       "Ruptura de cargas: recepción, descarga y clasificación de mercancías para redistribuirlas en otros vehículos."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1145,7 +1145,7 @@
       "Si no está demarcada, es la prolongación longitudinal de la acera sobre la calzada (excepto en los bolsones peatonales)."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Ver manual.glossary.pedestrian-crossing-pocket."
   },
   {
@@ -1163,7 +1163,7 @@
       "Sobrepaso: sobrepasar a otro vehículo CAMBIANDO de carril (a diferencia del adelantamiento)."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1181,7 +1181,7 @@
       "Rotonda: emplazamiento circular en la encrucijada de dos o más arterias que permite la circulación giratoria."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1201,7 +1201,7 @@
       "Con limitación (no prohibición) de ingreso directo desde predios frentistas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Contrasta con Autopista (sin cruces a nivel, sin ingreso directo)."
   },
   {
@@ -1221,7 +1221,7 @@
       "También es reductor todo dispositivo que reduzca el ancho del carril hasta no menos de 2,80 m e induzca menor velocidad."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1239,7 +1239,7 @@
       "Sector de parada: área delimitada en la calzada adyacente a la parada del transporte de pasajeros/as."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1258,7 +1258,7 @@
       "Agiliza la entrada y salida de alumnos mediante demarcación horizontal, señalización vertical y pautas de operatoria acordadas con cada institución."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1276,7 +1276,7 @@
       "Tráfico: circulación de cosas o personas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1294,7 +1294,7 @@
       "Semáforo: señalización luminosa que asigna en forma alternativa el derecho de paso a vehículos y, con otras características, a peatones."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1312,7 +1312,7 @@
       "Vehículo abandonado: vehículo o parte de él en lugares de dominio público en estado de deterioro y/o inmovilidad y/o abandono."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1342,7 +1342,7 @@
       "Total: 12 arterias declaradas vías rápidas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Las vías rápidas están comprendidas en la definición de arterias multicarriles."
   },
   {
@@ -1360,7 +1360,7 @@
       "Triciclo motorizado: motorizado, no carrozado, 3 ruedas no alineadas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1378,7 +1378,7 @@
       "Vía pública incluye: acera, autopista, semiautopista, callejón, pasaje, calle, avenida, senda, plaza, parque o cualquier espacio afectado al dominio público o declarado así por la autoridad."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1396,7 +1396,7 @@
       "Tránsito: movimiento de cosas o personas de un lugar a otro."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1414,7 +1414,7 @@
       "Triciclo: ciclorodado de 3 ruedas no alineadas."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1432,7 +1432,7 @@
       "Túnel: paso de personas o vehículos POR DEBAJO del nivel de lo atravesado."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1450,7 +1450,7 @@
       "Vehículo: medio por el cual una persona o cosa puede ser transportada por la vía pública."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -1474,8 +1474,8 @@
       "Fuente: informe del Observatorio de Seguridad Vial del GCBA (OSV), mayo de 2022."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "La infografía no indica a qué año corresponden las 96 víctimas (solo la fecha del informe). Los porcentajes por tipo de usuario suman 93%; el 7% restante no se detalla."
+    "status": "tested",
+    "notes": "La infografía no indica a qué año corresponden las 96 víctimas (solo la fecha del informe). Los porcentajes por tipo de usuario suman 93%; el 7% restante no se detalla. Revisada contra PDF 15 (F05-T01): fiel a la infografía, sin cambios. Por D-T01-14 solo se evalúan conceptos atribuidos al informe del OSV (motociclistas y peatones como grupos más afectados; gran mayoría de víctimas varones), no porcentajes ni cifras."
   },
   {
     "id": "manual.intro.road-pandemic",
@@ -1493,8 +1493,8 @@
       "El tránsito es uno de los sistemas más complejos que las personas construyen cotidianamente."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 15 (F05-T01): sin cambios."
   },
   {
     "id": "manual.intro.world-road-casualty-stats",
@@ -1514,8 +1514,8 @@
       "50 millones de lesionados = 715 estadios llenos."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Infografía; la fuente escribe «1.4 MILLONES» con punto decimal. No se indica año ni fuente de los datos mundiales."
+    "status": "tested",
+    "notes": "Infografía; la fuente escribe «1.4 MILLONES» con punto decimal. No se indica año ni fuente de los datos mundiales. Revisada contra PDF 15 (F05-T01): sin cambios. Solo se evalúa el concepto (las personas lesionadas superan con creces a las fallecidas), no las cifras (D-T01-14, issue 9)."
   },
   {
     "id": "manual.intro.caba-traffic-code-law-2148",
@@ -1533,8 +1533,8 @@
       "La ley define los derechos y obligaciones en la vía pública de peatones, ciclistas, motociclistas, automovilistas y conductores/as profesionales."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Nota al pie 2: https://boletinoficialpdf.buenosaires.gob.ar/util/imagen.php?idn=95322&idf=2"
+    "status": "tested",
+    "notes": "Nota al pie 2: https://boletinoficialpdf.buenosaires.gob.ar/util/imagen.php?idn=95322&idf=2 Revisada contra PDF 16 (F05-T01): sin cambios. No se pregunta el número de ley ni el enlace de la nota 2 (D-T01-15)."
   },
   {
     "id": "manual.intro.conflict-resolution-and-laws",
@@ -1553,8 +1553,8 @@
       "No alcanza con que las leyes existan si la ciudadanía no asume el compromiso de respetarlas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 16 (F05-T01): sin cambios."
   },
   {
     "id": "manual.intro.road-culture",
@@ -1573,8 +1573,8 @@
       "Definición de cultura según la RAE: «conjunto de modos de vida y costumbres, conocimientos y grado de desarrollo artístico, científico, industrial en una época y grupo social»."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 16 (F05-T01): sin cambios."
   },
   {
     "id": "manual.intro.road-user-general-duty",
@@ -1592,8 +1592,8 @@
       "No deben causar peligro, perjuicios o molestias innecesarias a las personas ni daños a los bienes."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Cita destacada sin atribución explícita a un artículo de ley."
+    "status": "tested",
+    "notes": "Cita destacada sin atribución explícita a un artículo de ley. Revisada contra PDF 16 (F05-T01): sin cambios."
   },
   {
     "id": "manual.intro.shared-road-responsibility",
@@ -1612,8 +1612,8 @@
       "Las normas de convivencia son efectivas según el grado de apropiación que se haga de ellas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "La frase sobre el tránsito como sistema se repite como cita de cierre en PDF 20."
+    "status": "tested",
+    "notes": "La frase sobre el tránsito como sistema se repite como cita de cierre en PDF 20. Revisada contra PDF 16 (F05-T01): sin cambios."
   },
   {
     "id": "manual.intro.incident-not-accident",
@@ -1631,11 +1631,12 @@
       "Incidente: hecho en el que se produce daño a una persona o cosa en ocasión de la circulación en la vía pública.",
       "«Accidente» implica un hecho impredecible, inevitable e imposible de controlar.",
       "La inmensa mayoría de los incidentes se produce por errores de las personas, por lo tanto son prevenibles.",
+      "Nombrarlos incidentes evita desligar de responsabilidad a las conductas de las personas y permite analizar sus causas para que no vuelvan a ocurrir.",
       "Lema: «Si se puede evitar, no es un accidente»."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 17 (F05-T01): se agregó a keyFacts por qué conviene nombrarlos incidentes (estaba en el resumen pero no en keyFacts). No se pregunta el número de ley."
   },
   {
     "id": "manual.intro.risk-conditions-recommendation",
@@ -1652,8 +1653,8 @@
       "Al circular hay que atender el estado del vehículo, la infraestructura vial, las condiciones climáticas y la persona que conduce."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Recuadro «Recomendaciones»."
+    "status": "tested",
+    "notes": "Recuadro «Recomendaciones». Revisada contra PDF 17 (F05-T01): sin cambios."
   },
   {
     "id": "manual.intro.risk-factors",
@@ -1675,8 +1676,8 @@
       "El factor humano es el principal factor de riesgo."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Contenido solo presente en la infografía (no en la capa de texto)."
+    "status": "tested",
+    "notes": "Contenido solo presente en la infografía (no en la capa de texto). Revisada contra PDF 17 (F05-T01): sin cambios; la infografía se propone como figura fig.manual-p17-risk-factors."
   },
   {
     "id": "manual.intro.incident-consequences",
@@ -1698,8 +1699,8 @@
       "Incluyen costos sanitarios (salud pública) y gastos administrativos (servicios de justicia)."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Contenido solo presente en la infografía (no en la capa de texto)."
+    "status": "tested",
+    "notes": "Contenido solo presente en la infografía (no en la capa de texto). Revisada contra PDF 18 en un render de 200 ppp (F05-T01): la transcripción de la infografía es correcta (issue 10); sin cambios. Figura fig.manual-p18-incident-consequences."
   },
   {
     "id": "manual.intro.safe-system-principles",
@@ -1720,8 +1721,8 @@
       "El diseño del sistema de movilidad debe tener en cuenta la fragilidad del cuerpo humano."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 18 (F05-T01): sin cambios."
   },
   {
     "id": "manual.intro.vision-zero",
@@ -1741,8 +1742,8 @@
       "El Plan de Seguridad Vial de CABA aplica los mismos principios que las ciudades y países con mejores resultados."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Nota al pie 3 remite al «nuevo plan 2020-2023»."
+    "status": "tested",
+    "notes": "Nota al pie 3 remite al «nuevo plan 2020-2023». Revisada contra PDF 18 (F05-T01): sin cambios. No se evalúa el año de creación ni el plan 2020-2023 de la nota 3 (D-T01-15)."
   },
   {
     "id": "manual.intro.road-safety-plan-objectives",
@@ -1761,8 +1762,8 @@
       "Minimizar las consecuencias humanas y materiales de los incidentes viales."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 19 (F05-T01): sin cambios. Se evalúa el objetivo del plan según el cuerpo del manual, no el plan 2020-2023 de la nota 3 (D-T01-15)."
   },
   {
     "id": "manual.intro.road-safety-plan-work-axes",
@@ -1783,8 +1784,8 @@
       "Compromiso y participación ciudadana: participación conjunta de la ciudadanía, ONG´s, empresas y dependencias."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Contenido solo presente en la infografía (no en la capa de texto)."
+    "status": "tested",
+    "notes": "Contenido solo presente en la infografía (no en la capa de texto). Revisada contra PDF 19 (F05-T01): transcripción de la infografía verificada, sin cambios (issue 10). Figura fig.manual-p19-work-axes."
   },
   {
     "id": "manual.ch1.caba-daily-trips",
@@ -1797,8 +1798,9 @@
     "title": "Contexto de movilidad de la Ciudad de Buenos Aires",
     "category": "B",
     "type": "fact",
-    "summary": "En la Ciudad de Buenos Aires se realizan a diario más de nueve millones de viajes, uno de los principales desafíos para el ordenamiento del tránsito. La infografía indica 3 millones de habitantes, 1,8 millones de personas que ingresan a la ciudad y 9 millones de viajes por día: 3,5 millones interjurisdiccionales (84 % bonaerenses que viajan a CABA; 16 % porteños/as que viajan a PBA) y 5,5 millones internos.",
+    "summary": "En la Ciudad de Buenos Aires se realizan a diario más de nueve millones de viajes, uno de los principales desafíos para el ordenamiento del tránsito y la seguridad vial. La infografía indica 3 millones de habitantes, 1,8 millones de personas que ingresan a la ciudad y 9 millones de viajes por día: 3,5 millones interjurisdiccionales (84 % bonaerenses que viajan a CABA; 16 % porteños/as que viajan a PBA) y 5,5 millones internos.",
     "keyFacts": [
+      "La enorme cantidad de viajes diarios es uno de los principales desafíos para el ordenamiento del tránsito y la seguridad vial",
       "Más de 9 millones de viajes por día en CABA",
       "3 millones de habitantes",
       "1,8 millones de personas ingresan a la ciudad",
@@ -1806,8 +1808,8 @@
       "5,5 millones de viajes internos"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "El desglose de cifras solo está en la infografía de la página 23."
+    "status": "tested",
+    "notes": "El desglose de cifras solo está en la infografía de la página 23. Revisada contra PDF 22 y 23 (F05-T01): el resumen omitía «y la seguridad vial» en el desafío que plantea el manual; se agregó un dato clave con ese concepto. Las cifras no se evalúan (estadísticas): solo que el volumen de viajes diarios es un desafío."
   },
   {
     "id": "manual.ch1.greater-care-from-stronger",
@@ -1825,8 +1827,8 @@
       "Conducir implica peligrosidad y una especial responsabilidad"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 22 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.motor-vehicles-crash-probability",
@@ -1844,8 +1846,8 @@
       "Las calles deberían pasar de ser vías rápidas para autos a un espacio compartido de convivencia saludable"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 22 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.public-space-coexistence",
@@ -1863,8 +1865,8 @@
       "Por la Ciudad circulan peatones, ciclistas y conductores/as de distintos vehículos"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 22 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.traffic-system-principles",
@@ -1883,8 +1885,8 @@
       "Solidaridad: respetar un código –una ley– y, por lo tanto, a otra persona"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 22 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.mobility-right-and-intermodality",
@@ -1903,8 +1905,8 @@
       "Intermodalidad: combinación de caminata, bicicleta y transporte público"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 23 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.road-user-vulnerability-ranking",
@@ -1916,9 +1918,9 @@
     "title": "Uso de la vía pública según vulnerabilidad",
     "category": "B",
     "type": "table",
-    "summary": "Orden de vulnerabilidad de los usuarios de la vía pública, de mayor a menor: 1° peatones, 2° ciclistas, 3° moto, 4° colectivo, 5° taxi/automóvil, 6° camión. La distinción tiene en cuenta si tienen o no carrocería, el tamaño de ésta y la posibilidad de protección frente a un impacto, la cantidad de personas y el modo en que son transportadas.",
+    "summary": "La infografía «Uso de la vía pública de acuerdo a la vulnerabilidad» ordena a los usuarios del 1° al 6°: 1° peatones, 2° ciclistas, 3° moto, 4° colectivo, 5° taxi/automóvil, 6° camión. La distinción tiene en cuenta si tienen o no carrocería, el tamaño de ésta y la posibilidad de protección frente a un impacto, la cantidad de personas y el modo en que son transportadas.",
     "keyFacts": [
-      "1° peatones (más vulnerables)",
+      "1° peatones",
       "2° ciclistas",
       "3° moto",
       "4° colectivo",
@@ -1927,8 +1929,8 @@
       "Criterios: carrocería, su tamaño y protección frente a un impacto, cantidad de personas y modo de transporte"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 23 (F05-T01): el resumen decía «orden de vulnerabilidad, de mayor a menor» y el dato clave «1° peatones (más vulnerables)»; la infografía solo numera del 1° al 6° bajo el título «Uso de la vía pública de acuerdo a la vulnerabilidad», y se ajustó a esa formulación. Se propone el recorte fig.manual-p23-vulnerability."
   },
   {
     "id": "manual.ch1.space-needed-60-people",
@@ -1946,8 +1948,8 @@
       "Movilizar a 60 personas en auto ocupa mucho más espacio que en colectivo, a pie o en bicicleta"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "El gráfico no indica la cantidad exacta de autos."
+    "status": "tested",
+    "notes": "El gráfico no indica la cantidad exacta de autos. Revisada contra PDF 23 (F05-T01): sin cambios en el contenido. A 160 ppp se cuentan 60 autos dibujados (10 × 6), uno por persona, aunque el gráfico no rotula la cantidad; no se evalúa. Se propone el recorte fig.manual-p23-space-60-people."
   },
   {
     "id": "manual.ch1.sustainable-mobility-definition",
@@ -1966,8 +1968,8 @@
       "Contribuye a una mejor calidad ambiental"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 23 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.human-scale-city",
@@ -1985,8 +1987,8 @@
       "Función social de la vía pública: lugar de encuentro seguro y saludable"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 24 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-priority",
@@ -2005,8 +2007,8 @@
       "Valores de la movilidad sustentable: equidad, eficiencia, seguridad, salud y participación ciudadana"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 24 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.human-body-fragility",
@@ -2024,8 +2026,8 @@
       "Se debe respetar por sobre todo el derecho a la vida"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 25 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-crossing-location",
@@ -2043,8 +2045,8 @@
       "Si no hay senda, cruzar por las esquinas: se es más visible y es donde se espera al peatón"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 25 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-distractions",
@@ -2062,8 +2064,8 @@
       "Auriculares y celular son de los principales factores de distracción"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 25 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-eye-contact",
@@ -2081,8 +2083,8 @@
       "Establecer contacto visual con quienes conducen los primeros vehículos para asegurarse de ser visto/a"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 25 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-flashing-signal",
@@ -2100,8 +2102,8 @@
       "Si cambia a titilante durante el cruce, finalizarlo con mucha precaución"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 25 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-impact-phases",
@@ -2122,8 +2124,8 @@
       "4. Arrastre: se desliza sobre la calzada"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 25 (F05-T01): sin cambios; los rótulos de las fases son legibles en la imagen. No se evalúan la velocidad ni la autoría de la recreación. Se propone el recorte fig.manual-p25-impact-phases."
   },
   {
     "id": "manual.ch1.pedestrian-wait-on-sidewalk",
@@ -2141,8 +2143,8 @@
       "No asomar el carrito de bebé invadiendo la calzada"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 25 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.garage-pedestrian-priority",
@@ -2160,8 +2162,8 @@
       "Cuando sea posible, salir de frente y no marcha atrás, para tener mayor campo visual"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 26 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.motorcycles-scooters-no-sidewalk",
@@ -2180,8 +2182,8 @@
       "La prohibición también rige para monopatines eléctricos"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 26 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-center-access-restriction",
@@ -2203,8 +2205,8 @@
       "Trámite únicamente online; consultas al 147"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "El horario (días hábiles de 11 a 16 hs) solo aparece en las señales ilustradas (páginas 26 y 29); el texto dice «En este horario»."
+    "status": "tested",
+    "notes": "El horario (días hábiles de 11 a 16 hs) solo aparece en las señales ilustradas (páginas 26 y 29); el texto dice «En este horario». Revisada contra PDF 26 y 29 (F05-T01): sin cambios en el contenido. A 250 ppp, el pictograma de la señal de restricción de la página 29 es una «E» tachada (prohibido estacionar), no un auto tachado como en la foto de la página 26; el pictograma no se evalúa. Se evalúan el horario de la restricción (igual en ambas señales y legible), el permiso y el requisito de cochera; no el trámite online ni el 147."
   },
   {
     "id": "manual.ch1.pedestrian-priority-street",
@@ -2225,8 +2227,8 @@
       "Calles de convivencia en general: máximo 20 km/h; en el Centro Peatonal se redujo a 10 km/h por señalética"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "La foto muestra la placa «MICROCENTRO – Días hábiles 11 a 16 hs – Sólo vehículos autorizados»."
+    "status": "tested",
+    "notes": "La foto muestra la placa «MICROCENTRO – Días hábiles 11 a 16 hs – Sólo vehículos autorizados». Revisada contra PDF 26 (F05-T01): sin cambios. No se evalúa la velocidad máxima (D-T01-1); sí las características, la aplicación y quién puede circular."
   },
   {
     "id": "manual.ch1.pedestrian-street",
@@ -2245,8 +2247,8 @@
       "Circulación vehicular: solo de forma extraordinaria"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 26 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.protect-jaywalking-pedestrian",
@@ -2263,8 +2265,8 @@
       "Aunque el peatón cruce mal (a mitad de calle), el conductor debe priorizar su integridad física"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 26 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.stop-for-crossing-pedestrians",
@@ -2283,8 +2285,8 @@
       "Se acepta obstruir por un momento la bocacalle"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 26 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.turning-yield-to-pedestrians",
@@ -2301,8 +2303,8 @@
       "Al girar con luz verde, si hay peatones cruzando, se debe frenar y cederles el paso"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 26 (F05-T01): sin cambios; la cubre act.turn-with-pedestrian."
   },
   {
     "id": "manual.ch1.unsignalized-yield-to-pedestrians",
@@ -2319,8 +2321,8 @@
       "En calles sin semáforo, siempre ceder el paso a los peatones que deseen cruzar"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 26 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-wayfinding-signs",
@@ -2339,8 +2341,8 @@
       "Se ubican en lugares con intenso flujo peatonal"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 27 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.school-drop-off-zone",
@@ -2359,8 +2361,8 @@
       "Prohibido estacionar a menos de 10 metros a cada lado de la entrada de instituciones educativas en horario escolar"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 27 (F05-T01): sin cambios. La distancia de 10 metros coincide con manual.ch3.parking-10m-from-entrances (PDF 85)."
   },
   {
     "id": "manual.ch1.school-paths",
@@ -2380,8 +2382,8 @@
       "Áreas protegidas por Agentes de Prevención, Agentes de Control de Tránsito, Policía de la Ciudad y guardianes escolares"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 27 (F05-T01): sin cambios. No se evalúan los organismos que protegen los senderos ni las referencias a sitios de las notas 6 y 7."
   },
   {
     "id": "manual.ch1.pedestrian-interventions",
@@ -2401,8 +2403,8 @@
       "Instan a reducir la velocidad y el radio de giro"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 28 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-priority-areas",
@@ -2421,8 +2423,8 @@
       "El mapa distingue Tribunales Peatonal, Centro Peatonal y arterias exceptuadas"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "El mapa solo muestra dos zonas; ver issues."
+    "status": "tested",
+    "notes": "El mapa solo muestra dos zonas; ver issues. Revisada contra PDF 28 (F05-T01): sin cambios. No se evalúan el listado de áreas (D-T01-2) ni los rótulos del mapa (poco legibles); se evalúa el motivo de su creación."
   },
   {
     "id": "manual.ch1.corrientes-avenue-lanes",
@@ -2441,8 +2443,8 @@
       "Lado derecho: dos carriles exclusivos para transporte público (taxis y colectivos) las 24 horas"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 29 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-areas-infrastructure",
@@ -2461,8 +2463,8 @@
       "Nuevos canteros, bancos y luminarias"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 29 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.pedestrian-areas-parking-and-circulation",
@@ -2480,8 +2482,8 @@
       "Libre circulación: a pie, bici, transporte público y taxi"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Los modos con libre circulación solo están en íconos."
+    "status": "tested",
+    "notes": "Los modos con libre circulación solo están en íconos. Revisada contra PDF 29 (F05-T01): sin cambios; los íconos son legibles. Se propone el recorte fig.manual-p29-free-circulation."
   },
   {
     "id": "manual.ch1.speed-reduction-fatalities",
@@ -2498,8 +2500,8 @@
       "Bajar 5 % la velocidad promedio podría reducir 30 % las víctimas fatales"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 29 (F05-T01): sin cambios. Las cifras (5 % y 30 %) no se evalúan; solo el concepto de que bajar un poco la velocidad promedio reduce de forma importante las víctimas fatales."
   },
   {
     "id": "manual.ch1.zone-30",
@@ -2518,8 +2520,8 @@
       "Aplicación: Villa Real, perímetro Ramón Lista, Nogoyá, Juan E. Martínez e Irigoyen"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 29 (F05-T01): sin cambios. No se evalúan las calles del perímetro de aplicación."
   },
   {
     "id": "manual.ch1.active-mobility-role",
@@ -2537,8 +2539,8 @@
       "La bicicleta es uno de los principales agentes de cambio de la movilidad sustentable"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 30 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.bicycle-benefits",
@@ -2558,8 +2560,8 @@
       "Saludable: mejora estado físico, ánimo y sistema inmune"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 30 (F05-T01): sin cambios. Se propone el recorte fig.manual-p30-bike-benefits."
   },
   {
     "id": "manual.ch1.bicycle-pre-ride-check",
@@ -2580,8 +2582,8 @@
       "Todas las partes bien sujetas"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 30 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.bicycle-helmet",
@@ -2600,8 +2602,8 @@
       "Un casco que sufrió fuertes golpes puede tener sus materiales afectados"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 31 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.bicycle-helmet-fit",
@@ -2620,8 +2622,8 @@
       "Las correas deben permitir abrir y cerrar la boca"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 31 (F05-T01): sin cambios. Se propone el recorte fig.manual-p31-helmet-fit."
   },
   {
     "id": "manual.ch1.cyclist-protective-gear",
@@ -2642,8 +2644,8 @@
       "Guantes: mejor agarre y maniobrabilidad, evitan lesiones en caídas"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 31 (F05-T01): sin cambios. Se propone el recorte fig.manual-p31-cyclist-gear."
   },
   {
     "id": "manual.ch1.bicycle-cargo",
@@ -2662,8 +2664,8 @@
       "Elementos sueltos o colgados del manubrio afectan estabilidad y maniobrabilidad"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 32 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.bicycle-passenger",
@@ -2682,8 +2684,8 @@
       "No debe impedir ni limitar los movimientos de quien conduce"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 32 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.cyclist-distractions",
@@ -2700,8 +2702,8 @@
       "Auriculares y dispositivos electrónicos distraen al ciclista e impiden percibir el entorno"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 32 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.cyclist-reaction-time",
@@ -2715,14 +2717,14 @@
     "type": "fact",
     "summary": "Andar en bici requiere buen estado psicofísico: no se puede estar bajo los efectos de estupefacientes ni de alcohol. En condiciones óptimas se tarda aproximadamente 1 segundo entre percibir un estímulo y reaccionar (accionar el freno); en ese segundo la bici recorre aproximadamente 4,20 m, el largo de un automóvil. Estas sustancias incrementan el tiempo de reacción y el riesgo vial.",
     "keyFacts": [
-      "Prohibido andar en bici bajo efectos de estupefacientes o alcohol",
+      "Andar en bici requiere buen estado psicofísico: no se puede estar bajo los efectos de estupefacientes ni de alcohol",
       "Tiempo de reacción en condiciones óptimas: aproximadamente 1 segundo",
       "En 1 segundo la bici recorre aproximadamente 4,20 m (el largo de un auto)",
-      "Alcohol y estupefacientes aumentan el tiempo de reacción"
+      "Alcohol y estupefacientes aumentan el tiempo de reacción y el riesgo vial"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 32 (F05-T01): los datos clave siguen la redacción de la página («no se puede estar bajo los efectos», buen estado psicofísico, mayor riesgo vial)."
   },
   {
     "id": "manual.ch1.cyclist-traffic-signs",
@@ -2734,14 +2736,14 @@
     "title": "Normas y señales de tránsito para ciclistas",
     "category": "B",
     "type": "sign-group",
-    "summary": "Quien conduce una bicicleta debe respetar las normas de tránsito como cualquier usuario de la vía pública; conocer y cumplir las señales ayuda a disminuir los riesgos. La página ilustra 13 señales vinculadas a la circulación en bicicleta (ver «signs» con prefijo sign.ch1-cycling).",
+    "summary": "Quien conduce una bicicleta debe respetar las normas de tránsito como cualquier usuario de la vía pública; conocer y cumplir las señales ayuda a disminuir los riesgos. La página muestra 13 señales vinculadas a la circulación en bicicleta: circulación exclusiva para bicicletas, vereda de convivencia con peatones, direccionador en ciclovía, cruce de ciclistas, deténgase por completo (PARE), prohibido circular en bicicleta, finalización de la ciclovía, descienda de la bicicleta, velocidad máxima 30 km/h, comienzo de doble mano, prohibido estacionar y detenerse sobre la ciclovía, cruce de peatones y ceda el paso.",
     "keyFacts": [
       "El ciclista debe respetar las normas de tránsito como cualquier usuario",
       "Conocer y cumplir las señales disminuye los riesgos"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 32 (F05-T01): el resumen enumera las 13 señales de la imagen en lugar de remitir al catálogo interno «signs». La actividad pregunta por el significado de algunas señales describiéndolas en texto (sin sign-identification, que llega con F05-T02) y muestra la figura del catálogo."
   },
   {
     "id": "manual.ch1.cycling-on-bike-paths-age",
@@ -2758,8 +2760,8 @@
       "Bicisendas: sin límite de edad"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 33 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.cycling-on-roadway-and-bike-lanes",
@@ -2779,8 +2781,8 @@
       "Sin ciclovía, circular por la calzada evitando la zona central"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 33 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.cycling-on-sidewalks",
@@ -2799,8 +2801,8 @@
       "Mayores de 12 años deben bajar de la bici para subir a la vereda"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 33 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.cycling-posture",
@@ -2821,8 +2823,8 @@
       "Piernas ni muy flexionadas ni extendidas al pedalear"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 33 (F05-T01): sin cambios; se propone el recorte fig.manual-p33-cycling-posture."
   },
   {
     "id": "manual.ch1.cycling-prohibited-roads",
@@ -2841,8 +2843,8 @@
       "Bicis prohibidas en arterias peatonales"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 33 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.electric-assist-bicycle",
@@ -2861,8 +2863,8 @@
       "Potencia máxima del motor auxiliar: 1500 W"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 33 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.road-coexistence-rights",
@@ -2880,8 +2882,8 @@
       "Comprender el punto de vista del otro, empezando por el más débil"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 33 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.cyclist-no-hitching",
@@ -2899,8 +2901,8 @@
       "Prohibido circular enfilado inmediatamente detrás de otros automotores"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 34 (F05-T01): sin cambios; se propone el recorte fig.manual-p34-cyclist-distance."
   },
   {
     "id": "manual.ch1.cyclist-overtaking",
@@ -2920,8 +2922,8 @@
       "Dejar 1,5 m de distancia lateral"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 34 (F05-T01): sin cambios. La página escribe «1,5 mts.» y la PDF 35 «1.5 mts.»: es el mismo dato (issue de PDF 35)."
   },
   {
     "id": "manual.ch1.cyclist-parked-cars-distance",
@@ -2939,8 +2941,8 @@
       "Motivo: posible apertura de puertas"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 34 (F05-T01): sin cambios; se propone el recorte fig.manual-p34-cyclist-distance."
   },
   {
     "id": "manual.ch1.cyclist-take-the-lane",
@@ -2954,12 +2956,13 @@
     "type": "recommendation",
     "summary": "Por la distancia prudencial y el ancho de las vías, en algunos trayectos solo puede pasar un vehículo por vez. En esos casos es recomendable que el ciclista permanezca en el centro de la calzada, sin acercarse al borde, hasta que haya lugar suficiente para ser sobrepasado de manera segura.",
     "keyFacts": [
-      "Si solo pasa un vehículo por vez, el ciclista debe permanecer en el centro de la calzada",
+      "Por la distancia a los estacionados y el ancho de la vía, en algunos trayectos solo pasa un vehículo por vez",
+      "En esos casos es recomendable permanecer en el centro de la calzada",
       "No acercarse al borde hasta que haya lugar para ser sobrepasado con seguridad"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 34 (F05-T01): el dato clave decía que el ciclista «debe» ir por el centro; la página lo presenta como recomendación («es recomendable»). Se agregó la causa (distancia prudencial y ancho de la vía)."
   },
   {
     "id": "manual.ch1.bicycle-right-to-circulate",
@@ -2977,8 +2980,8 @@
       "Respetar la prioridad de paso de la bici"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 35 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.cyclist-hand-signals",
@@ -2997,8 +3000,8 @@
       "Giro a la derecha: brazo derecho extendido"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 35 (F05-T01): sin cambios; se propone el recorte fig.manual-p35-cyclist-hand-signals."
   },
   {
     "id": "manual.ch1.driver-bike-blind-spot",
@@ -3016,8 +3019,8 @@
       "Chequear que no haya una bici en el punto ciego"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 35 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.driver-following-overtaking-bike",
@@ -3035,8 +3038,8 @@
       "Al sobrepasar una bici, dejar 1,5 m de distancia lateral"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "La fuente escribe «1.5 mts.»."
+    "status": "tested",
+    "notes": "La fuente escribe «1.5 mts.». Revisada contra PDF 35 (F05-T01): sin cambios; «1.5 mts.» (PDF 35) y «1,5 mts.» (PDF 34) son el mismo dato y las actividades usan «1,5 m»."
   },
   {
     "id": "manual.ch1.driver-narrow-road-bike",
@@ -3054,8 +3057,8 @@
       "Esperar a que el ciclista tenga espacio para facilitar el paso"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 35 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.green-lane-crossing",
@@ -3075,8 +3078,8 @@
       "Por la senda verde pueden circular bicis y monopatines eléctricos en ambos sentidos"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 35 y 36 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.no-blocking-bike-lanes",
@@ -3094,8 +3097,8 @@
       "Aunque sea por «cinco minutos», pone en riesgo a ciclistas"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 35 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.off-tracking",
@@ -3114,8 +3117,8 @@
       "Peligro para ciclistas pegados a colectivos o camiones: están en un punto ciego"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "El texto está dentro de la ilustración."
+    "status": "tested",
+    "notes": "El texto está dentro de la ilustración. Revisada contra PDF 35 (F05-T01): sin cambios; se propone el recorte fig.manual-p35-off-tracking."
   },
   {
     "id": "manual.ch1.bike-network",
@@ -3129,13 +3132,13 @@
     "type": "concept",
     "summary": "La red de bicisendas y ciclovías protegidas se diseñó para fomentar el uso de la bicicleta y mejorar la convivencia y la seguridad de ciclistas. Integra puntos estratégicos de la Ciudad (centros de transbordo, universidades, escuelas y hospitales) y permite la interconexión con otros medios de transporte.",
     "keyFacts": [
-      "Fomenta el uso de la bici y la seguridad de ciclistas",
+      "Fomenta el uso de la bici y mejora la convivencia en el tránsito y la seguridad de ciclistas",
       "Conecta centros de transbordo, universidades, escuelas y hospitales",
       "Permite interconexión con otros medios de transporte"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 36 (F05-T01): se agregó a los datos clave la mejora de la convivencia en el tránsito, que la página menciona entre los fines de la red."
   },
   {
     "id": "manual.ch1.bike-path-definition",
@@ -3154,8 +3157,8 @@
       "Se hace cuando no es posible una ciclovía en la calzada y sin conflictos con peatones"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 36 (F05-T01): sin cambios. Las fotos de la página son ilustrativas (sin recorte)."
   },
   {
     "id": "manual.ch1.protected-bike-lane-definition",
@@ -3176,8 +3179,8 @@
       "Señalización vertical, horizontal y táctil o intervenciones físicas"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 36 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.bicycle-parking",
@@ -3195,8 +3198,8 @@
       "Si hay bicicleteros, deben utilizarse"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 37 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.bicycle-parking-garages-events",
@@ -3214,8 +3217,8 @@
       "Ley 4619/13: espectáculos masivos deben ofrecer estacionamiento de bicis gratuito y seguro"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 37 (F05-T01): sin cambios. Se evalúan las obligaciones (espacios con tarifa proporcional en garajes, espacios gratuitos y seguros en espectáculos masivos), no los números de decreto o ley."
   },
   {
     "id": "manual.ch1.public-bike-system",
@@ -3234,8 +3237,8 @@
       "Devolución en cualquier estación"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 37 (F05-T01): sin cambios. El nombre de la app y el procedimiento de retiro están marcados «a verificar» (issue de PDF 37): la actividad solo evalúa que la bici se puede devolver en cualquier estación; el retiro se menciona en la explicación atribuido al manual."
   },
   {
     "id": "manual.ch1.e-scooter-definition",
@@ -3249,11 +3252,12 @@
     "type": "definition",
     "summary": "El monopatín eléctrico es un nuevo modelo de vehículo que brinda soluciones de movilidad urbana y favorece los desplazamientos peatonales, debiendo convivir con los medios de transporte tradicionales.",
     "keyFacts": [
-      "Vehículo de movilidad urbana que debe convivir con los medios tradicionales"
+      "Nuevo modelo de vehículo que brinda soluciones de movilidad urbana y favorece los desplazamientos peatonales",
+      "Debe convivir con los medios de transporte tradicionales"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 38 (F05-T01): se completaron los datos clave con lo que dice la página (favorece los desplazamientos peatonales)."
   },
   {
     "id": "manual.ch1.e-scooter-prohibitions",
@@ -3272,8 +3276,8 @@
       "Prohibido llevar acompañante"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 38 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.e-scooter-requirements",
@@ -3293,11 +3297,12 @@
       "Velocidad máxima general: 25 km/h",
       "Edad mínima: 16 años",
       "Uso de casco",
-      "Circula por bicisendas y calzadas; ciclovía obligatoria si existe"
+      "Circula por bicisendas y calzadas; ciclovía obligatoria si existe",
+      "Respetar las normas de tránsito"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 38 (F05-T01): se agregó a los datos clave el último requisito de la lista, «Respetar las normas de tránsito»."
   },
   {
     "id": "manual.ch1.bus-bulbs",
@@ -3313,11 +3318,12 @@
     "keyFacts": [
       "Plataformas elevadas para esperar el colectivo",
       "Eliminan las maniobras de entrada y salida del carril",
-      "La detención se realiza paralela al cordón"
+      "La detención se realiza paralela al cordón",
+      "El servicio es más rápido, fluido y seguro: los peatones quedan más visibles en un espacio protegido"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 39 (F05-T01): se agregó a los datos clave el beneficio que da la página (servicio más rápido y seguro, peatones visibles en un espacio protegido). La foto es ilustrativa (sin recorte)."
   },
   {
     "id": "manual.ch1.public-transport-benefits",
@@ -3336,8 +3342,8 @@
       "En el mismo espacio, dos autos llevan solo 3-4 personas cada uno"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 39 (F05-T01): sin cambios. La comparación colectivo/autos se usa como concepto, sin evaluar las cifras."
   },
   {
     "id": "manual.ch1.yellow-bus-boxes",
@@ -3356,8 +3362,8 @@
       "Los demás vehículos no pueden estacionar ni detenerse allí"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 39 (F05-T01): sin cambios. La foto del cajón es chica y poco nítida a la resolución de recorte: no se propone figura."
   },
   {
     "id": "manual.ch1.exclusive-lanes",
@@ -3373,11 +3379,12 @@
     "keyFacts": [
       "Bandas demarcadas con un rombo y el tipo de vehículo autorizado",
       "Priorizan el transporte público en avenidas",
+      "Incentivan que autos particulares, motos y bicicletas circulen por las calles aledañas",
       "Fuera del horario de restricción, otros vehículos pueden circular libremente"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 40 (F05-T01): se agregó a los datos clave el incentivo a usar calles aledañas, que la página da como fin de los carriles. Se propone el recorte fig.manual-p40-exclusive-lane (rombo y «BUS»)."
   },
   {
     "id": "manual.ch1.exclusive-lanes-garage-access",
@@ -3396,8 +3403,8 @@
       "Egreso: abandonar el carril en la intersección más próxima"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 40 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.metrobus",
@@ -3417,8 +3424,8 @@
       "Peatones: ingresar a las estaciones por la rampa, nunca a mitad de cuadra"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 40 (F05-T01): sin cambios. Se propone el recorte fig.manual-p40-metrobus-crossing (senda roja)."
   },
   {
     "id": "manual.ch1.metrobus-restrictions",
@@ -3437,8 +3444,8 @@
       "Circular por el Metrobus es infracción y motivo de retención de la licencia"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 40 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.transfer-centers",
@@ -3456,8 +3463,8 @@
       "Acortan los cruces con apoyos peatonales intermedios"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 40 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.carpool",
@@ -3476,8 +3483,8 @@
       "Objetivo: maximizar los asientos utilizados"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 41 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch1.carpool-benefits",
@@ -3491,14 +3498,14 @@
     "type": "fact",
     "summary": "El viaje compartido reduce la congestión (al compartir el viaje con otras personas conductoras habrá cuatro autos menos en la calle), brinda más lugar para estacionar, cuida el medioambiente y ahorra costos de combustible, peaje y estacionamiento.",
     "keyFacts": [
-      "Reduce la congestión: cuatro autos menos en la calle",
+      "Reduce la congestión del tránsito: menos autos circulando",
       "Más lugar para estacionar",
       "Cuida el medioambiente",
       "Ahorra combustible, peaje y estacionamiento"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Ver issue sobre «cuatro autos menos»."
+    "status": "tested",
+    "notes": "Ver issue sobre «cuatro autos menos». Revisada contra PDF 41 (F05-T01): la cifra «cuatro autos menos» es ambigua (issue de PDF 41) y no se evalúa (D-T01-3); el dato clave conserva la idea (menos autos circulando) y el resumen mantiene la cita del manual. El diagrama de cuatro autos que convergen en uno no se recorta porque sugiere tres autos menos y reforzaría la ambigüedad."
   },
   {
     "id": "manual.ch2.administrative-responsibility",
@@ -3520,8 +3527,8 @@
       "Fuente de la unidad fija: Ley 451 CABA, arts. 18 y 19."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 44 (F05-T01): sin cambios. No se evalúa el valor de la unidad fija ni sus fuentes (D-T01-13, issues 39-40)."
   },
   {
     "id": "manual.ch2.driving-responsibility",
@@ -3536,14 +3543,15 @@
     "summary": "Movilizarse por la Ciudad es un derecho que conlleva responsabilidades. Las conductas repetidas se naturalizan aunque no sean seguras; hay que conocer el sentido de las normas para respetarlas por convicción y no sólo por obligación, entendiendo que son un consenso para la convivencia (una construcción social, no algo arbitrario). Quien conduce asume una responsabilidad mayor porque la velocidad, el tamaño de la carrocería y el peso transportado generan mayor riesgo.",
     "keyFacts": [
       "Movilizarse por la Ciudad es un derecho que conlleva responsabilidades.",
+      "Las conductas que se repiten pueden naturalizarse aunque no sean seguras; para cambiarlas hay que conocer el sentido de las normas.",
       "Las normas son producto de un consenso para la convivencia: una construcción social, no algo arbitrario.",
       "Se busca respetar las normas por convicción y no sólo por obligación.",
       "Conducir implica mayor responsabilidad según la velocidad, el tamaño de la carrocería y el peso transportado.",
       "Conducir es un acto de responsabilidad."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 44 (F05-T01): se agregó a keyFacts la naturalización de conductas inseguras por repetición (estaba en el resumen pero no en keyFacts)."
   },
   {
     "id": "manual.ch2.legal-framework-law-2148",
@@ -3562,8 +3570,8 @@
       "Tipos de responsabilidad: administrativa, contravencional, civil y penal."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 44 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.civil-responsibility",
@@ -3584,8 +3592,8 @@
       "Fuentes citadas: art. 1756 del Código Civil y Comercial; Ley 17.418."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 45 (F05-T01): sin cambios. No se evalúan los artículos ni las leyes de las notas 18-19 (D-T01-13)."
   },
   {
     "id": "manual.ch2.contraventional-responsibility",
@@ -3608,8 +3616,8 @@
       "Fuente: Ley 1472, Código Contravencional de CABA."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 45 (F05-T01): sin cambios. Se evalúan el tipo y sus ejemplos (fuga); no el umbral de alcohol ni la Ley 1472 (D-T01-13). Se evitó clasificar las competencias de velocidad porque la nota 20 cita el art. 193 bis del Código Penal sin aclarar su relación con la contravención."
   },
   {
     "id": "manual.ch2.criminal-responsibility",
@@ -3630,8 +3638,8 @@
       "Fuente: Código Penal arts. 84, 94 y 193 bis, modificados el 22/12/16 por Ley 27.347."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 45 (F05-T01): sin cambios. No se evalúan artículos del Código Penal ni años de pena (D-T01-13, issue 41)."
   },
   {
     "id": "manual.ch2.hit-and-run",
@@ -3649,8 +3657,8 @@
       "Si se deja a una persona herida, puede juzgarse por el delito de abandono de persona."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 45 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.lack-of-skill",
@@ -3667,8 +3675,8 @@
       "Impericia: falta de respuesta adecuada por falta de práctica en la conducción."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 45 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.negligence",
@@ -3686,8 +3694,8 @@
       "Ejemplo: circular sin un elemento de seguridad obligatorio o en malas condiciones."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 45 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.recklessness",
@@ -3705,8 +3713,8 @@
       "Ejemplos: exceso de velocidad, circular a contramano, violar el semáforo."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 45 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.driving-license-function",
@@ -3728,8 +3736,8 @@
       "La Licencia Nacional de Conducir vale en todo el país y en los países suscriptos a la convención de Ginebra de 1949."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 46 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.driving-license-validity",
@@ -3750,8 +3758,8 @@
       "Vencida más de 1 año: se tramita como otorgamiento."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 46 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.license-minimum-age",
@@ -3771,8 +3779,8 @@
       "Sin excepciones; la emancipación no modifica la edad mínima."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 46 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.mandatory-documents",
@@ -3794,8 +3802,8 @@
       "Actividades como taxis, transporte de pasajeros o de sustancias peligrosas requieren documentación específica adicional."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "La lista surge de los subtítulos bajo 'Documentación obligatoria' (pp. 46-48) y de la nota 21; el manual no la presenta como lista única. Placas de dominio y RVA (p. 50) se tratan en el mismo capítulo como obligaciones del vehículo."
+    "status": "tested",
+    "notes": "La lista surge de los subtítulos bajo 'Documentación obligatoria' (pp. 46-48) y de la nota 21; el manual no la presenta como lista única. Placas de dominio y RVA (p. 50) se tratan en el mismo capítulo como obligaciones del vehículo. Revisada contra PDF 46-48 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.national-id",
@@ -3815,8 +3823,8 @@
       "Desde el 31/03/2017 es obligatorio el DNI digital; los DNI manuales perdieron vigencia (Res. 1740/2016)."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 46 (F05-T01): sin cambios. No se evalúa la fecha del DNI digital (issue 42)."
   },
   {
     "id": "manual.ch2.road-safety-education-resources",
@@ -3835,8 +3843,8 @@
       "Para la renovación se ofrecen videos de actualización."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 46 (F05-T01): sin cambios. No se evalúan los enlaces de las notas 24-25."
   },
   {
     "id": "manual.ch2.beginner-driver",
@@ -3855,8 +3863,8 @@
       "No es principiante quien acredita antigüedad con licencia de otro municipio o país."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 47 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.beginner-driver-restrictions",
@@ -3870,6 +3878,7 @@
     "type": "rule",
     "summary": "Durante los primeros 6 meses no pueden circular por arterias donde se permitan velocidades superiores a 70 km/h y deben llevar el cartel de principiante: en automóvil, exhibido en la parte inferior del parabrisas y en la luneta; en motovehículo, llevado consigo como el resto de la documentación. No pueden circular con más de 0,0 g de alcohol por litro de sangre durante los dos años en que mantienen la condición de principiante. El cartel ilustrado es un rectángulo verde oscuro con una 'P' blanca y la leyenda 'CONDUCTOR PRINCIPIANTE'.",
     "keyFacts": [
+      "No hay un número de horas de conducción que asegure la experiencia; la falta de práctica, junto con otras variables como la velocidad o el tiempo de reacción, puede intervenir en un siniestro vial.",
       "Primeros 6 meses: prohibido circular por arterias con velocidad permitida superior a 70 km/h.",
       "Primeros 6 meses: llevar el cartel de principiante.",
       "En auto, el cartel va en la parte inferior del parabrisas y en la luneta.",
@@ -3878,8 +3887,8 @@
       "Cartel: fondo verde oscuro, 'P' blanca, leyenda 'CONDUCTOR PRINCIPIANTE'."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "La falta de práctica, junto con velocidad y tiempo de reacción, puede intervenir en la producción de un siniestro."
+    "status": "tested",
+    "notes": "La falta de práctica, junto con velocidad y tiempo de reacción, puede intervenir en la producción de un siniestro. Revisada contra PDF 47 (F05-T01): se agregó a keyFacts el párrafo sobre la falta de práctica, que solo figuraba en notes. El 0,0 g/l durante los dos años es evaluable (D-T01-10). Figura fig.manual-p47-beginner-sign."
   },
   {
     "id": "manual.ch2.vehicle-id-card",
@@ -3900,8 +3909,8 @@
       "Fuente: art. 6.1.2 inc. b del Código de Tránsito y Transporte de CABA."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 47 (F05-T01): sin cambios. No se evalúa el plazo de 15 días de la nota 28 ni el artículo citado."
   },
   {
     "id": "manual.ch2.vehicle-id-card-types",
@@ -3923,8 +3932,9 @@
       "La nueva cédula es igual para titular y autorizado."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "implemented",
+    "notes": "Revisada contra PDF 47 (F05-T01): sin cambios; queda como consulta.",
+    "consultationReason": "Describe los colores de las cédulas anteriores y su vigencia, que el propio manual presenta de forma ambigua frente a la nueva cédula unificada. Se estudia como referencia y no se evalúa."
   },
   {
     "id": "manual.ch2.cng-equipment",
@@ -3942,8 +3952,8 @@
       "Vehículo con GNC: llevar la oblea obligatoria vigente."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 48 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.mandatory-insurance",
@@ -3962,8 +3972,8 @@
       "La obligación rige en cualquier vía."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 48 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.vehicle-id-card-validity-and-use",
@@ -3986,8 +3996,8 @@
       "El titular puede tramitar la cantidad de cédulas para autorizados que desee."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Texto ambiguo: dice 'Vigencia: 1 año' y luego que la cédula para autorizados 'no tiene vencimiento'. Ver issues."
+    "status": "tested",
+    "notes": "Texto ambiguo: dice 'Vigencia: 1 año' y luego que la cédula para autorizados 'no tiene vencimiento'. Ver issues. Revisada contra PDF 48 (F05-T01): sin cambios. Solo se evalúa que la cédula para autorizados a conducir es personal e intransferible y que quien es titular puede tramitar las que desee; no la vigencia ni el uso según la vigencia (D-T01-11, issue 45)."
   },
   {
     "id": "manual.ch2.vtv-purpose",
@@ -4008,8 +4018,8 @@
       "Para verificar se exigen elementos de seguridad y emergencia y documentación al día."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 48 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.vtv-first-inspection",
@@ -4029,8 +4039,9 @@
       "Resto de los vehículos: primera VTV al ingresar al registro."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "implemented",
+    "notes": "Revisada contra PDF 49 (F05-T01): sin cambios; queda como consulta.",
+    "consultationReason": "Solo trae los plazos y kilometrajes de la primera VTV. El régimen de la VTV en la Ciudad está cambiando, así que estos datos se consultan pero no se evalúan."
   },
   {
     "id": "manual.ch2.vtv-month-by-plate",
@@ -4057,8 +4068,9 @@
       "Se usa el último número de la patente."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Diciembre y enero no tienen terminación asignada en la tabla."
+    "status": "implemented",
+    "notes": "Diciembre y enero no tienen terminación asignada en la tabla. Revisada contra PDF 49 (F05-T01): sin cambios; queda como consulta.",
+    "consultationReason": "Es el calendario de la VTV por terminación de patente: puede cambiar y la tabla del manual no asigna diciembre ni enero. Se consulta, no se evalúa."
   },
   {
     "id": "manual.ch2.vtv-other-vehicles-validity",
@@ -4082,8 +4094,9 @@
       "Fantasía y alegóricos: 12 meses hasta 5 años / 6 meses hasta 20 / 4 meses hasta 35."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Material de nota al pie; referencias a 'prórroga vigente' pueden estar desactualizadas."
+    "status": "implemented",
+    "notes": "Material de nota al pie; referencias a 'prórroga vigente' pueden estar desactualizadas. Revisada contra PDF 49 (F05-T01): sin cambios; queda como consulta.",
+    "consultationReason": "Plazos de VTV de vehículos de servicio que el manual vincula a prórrogas probablemente vencidas. Se consultan, no se evalúan."
   },
   {
     "id": "manual.ch2.vtv-validity",
@@ -4102,8 +4115,8 @@
       "Recordá circular siempre con el certificado de VTV vigente."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 49 (F05-T01): sin cambios. Solo se evalúa la obligación de circular con el certificado de VTV vigente; plazos y kilometrajes no (D-T01-12)."
   },
   {
     "id": "manual.ch2.vtv-where",
@@ -4123,8 +4136,8 @@
       "Transporte interjurisdiccional de carga y pasajeros: RTO en talleres CENT."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 49 (F05-T01): sin cambios. Se evalúa que los particulares la hacen en las plantas habilitadas por el GCBA; no la dirección de la planta única ni los talleres CENT."
   },
   {
     "id": "manual.ch2.auto-parts-engraving-rva",
@@ -4146,8 +4159,8 @@
       "Consultas: teléfono 147."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 50 (F05-T01): sin cambios. No se evalúan el teléfono 147 ni el plazo de 30 días. Figura fig.manual-p50-rva-sticker."
   },
   {
     "id": "manual.ch2.license-plates",
@@ -4168,8 +4181,8 @@
       "Reposición: en el Registro Nacional de la Propiedad del Automotor que corresponde al vehículo."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 50 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.vtv-results",
@@ -4190,8 +4203,8 @@
       "Las reverificaciones requieren turno previo."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 50 (F05-T01): sin cambios. No se evalúa el plazo de 60 días hábiles (D-T01-12)."
   },
   {
     "id": "manual.ch2.crash-general-obligations",
@@ -4211,8 +4224,8 @@
       "Contribuir al esclarecimiento de los hechos."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 51 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.crash-highway",
@@ -4236,8 +4249,8 @@
       "AUSOL: 140."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Las instrucciones por carril están sólo en la infografía de la p. 52."
+    "status": "tested",
+    "notes": "Las instrucciones por carril están sólo en la infografía de la p. 52. Revisada contra PDF 51-52 (F05-T01): sin cambios de contenido; los teléfonos de AUSA y AUSOL no se evalúan (solo 107 y 911, D-T01-4). Figura fig.manual-p52-highway-lanes."
   },
   {
     "id": "manual.ch2.crash-protect-alert-rescue",
@@ -4259,8 +4272,8 @@
       "Socorrer: evaluar y brindar ayuda a las personas heridas."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 51-53 (F05-T01): sin cambios. Estructura exclusiva del manual, evaluable citándolo (D-T01-6). Figura fig.manual-p51-protect-icons."
   },
   {
     "id": "manual.ch2.crash-signaling-warning-triangles",
@@ -4281,8 +4294,8 @@
       "En ruta: como mínimo a 50 y 100 m."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 51 (F05-T01): sin cambios. Solo se evalúa la ubicación en ciudad (30 y 60 m, del lado de donde vienen los vehículos), que coincide con la guía PDF 8; las distancias y la ubicación en ruta difieren y no se evalúan (D-T01-5, issue 48)."
   },
   {
     "id": "manual.ch2.crash-tunnel",
@@ -4302,8 +4315,8 @@
       "Colocar las balizas portátiles y llamar a asistencia mecánica."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 51 (F05-T01): sin cambios. Exclusiva del manual, evaluable citándolo (D-T01-6)."
   },
   {
     "id": "manual.ch2.crash-alert-emergency-call",
@@ -4324,8 +4337,8 @@
       "No cortar la llamada hasta que lo indiquen."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 52 (F05-T01): sin cambios en el texto, que es fiel a la página. Se evalúa 107 = SAME (emergencia médica) y 911 = Policía (D-T01-4); no se evalúa que el 911 «centraliza» a la Policía Federal (issue 52)."
   },
   {
     "id": "manual.ch2.crash-data-collection",
@@ -4348,9 +4361,9 @@
       "Fotos: panorámicas, daños y marcas de frenado.",
       "Intercambiar cédula, seguro y licencia con los otros involucrados."
     ],
-    "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "figureBased": true,
+    "status": "tested",
+    "notes": "Revisada contra PDF 53 (F05-T01): sin cambios. Se evalúa lo que comparte con la guía PDF 11 (D-T01-8). Figura fig.manual-p53-data-icons."
   },
   {
     "id": "manual.ch2.crash-first-aid",
@@ -4369,11 +4382,11 @@
       "No retirar el casco, salvo vómito o asfixia.",
       "Si está consciente: tranquilizar y pedir que no se mueva.",
       "Preguntar por dolor, pérdida de sensibilidad o dificultad de movimiento.",
-      "Reanimación sólo si se conocen las técnicas y se cuenta con habilitación."
+      "Si está inconsciente: reanimación sólo si se conocen las técnicas y se cuenta con habilitación; si no, esperar al servicio de emergencias."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 53 (F05-T01): el último dato clave omitía que, sin técnicas ni habilitación, hay que esperar al servicio de emergencias. Rige el manual con sus excepciones (D-T01-7)."
   },
   {
     "id": "manual.ch2.crash-insurer-notice-72h",
@@ -4390,8 +4403,8 @@
       "Informar a la aseguradora dentro de las 72 h del siniestro."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 53 (F05-T01): sin cambios; coincide con la guía PDF 7. Figura fig.manual-p53-data-icons."
   },
   {
     "id": "manual.ch2.crash-info-obtained-later",
@@ -4408,8 +4421,8 @@
       "La información faltante puede obtenerse en la comisaría, fiscalía o juzgado interviniente."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 54 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.legal-advice-recommendation",
@@ -4427,8 +4440,8 @@
       "No aceptar ofertas apresuradas ni de profesionales sin referencias."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 54 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.parked-vehicle-collision",
@@ -4446,8 +4459,8 @@
       "Dejarlos en un lugar seguro y bien sujeto."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 54 (F05-T01): sin cambios. Se evalúa lo que comparte con la guía PDF 12 (D-T01-8, issue 61)."
   },
   {
     "id": "manual.ch2.public-victim-support-contacts",
@@ -4459,17 +4472,18 @@
     "title": "Organismos públicos de asistencia a víctimas",
     "category": "B",
     "type": "contact",
-    "summary": "Organismos que brindan asesoramiento jurídico y/o atención psicológica gratuita: Centro de Atención a la víctima y familiares de víctimas de siniestros viales (ANSV, Ministerio de Transporte), tel. 149 opción 2; Unidades de Orientación y Denuncia (Ministerio Público Fiscal), tel. 6089-9114/9135, Pte. Perón 671; OFAVYT (Ministerio Público Fiscal de CABA), tel. 4014-1984, Beruti 3345 3° piso; Centros de Acceso a la Justicia (CAJ, Ministerio de Justicia y DDHH), tel. 0800-222-3425; Centro de Formación Profesional (Palacio de Justicia de la Nación), tel. 4372861/7679, Talcahuano 550 8° piso, no atiende daños y perjuicios.",
+    "summary": "Para recibir asesoramiento jurídico y/o atención psicológica gratuita tras un siniestro se puede recurrir a organismos públicos nacionales y de la Ciudad: Centro de Atención a la víctima y familiares de víctimas de siniestros viales (ANSV, Ministerio de Transporte de la Nación), tel. 149 opción 2; Unidades de Orientación y Denuncia (Ministerio Público Fiscal de la Ciudad, acompañamiento en causas penales sucedidas en CABA), tel. 6089-9114/9135, Pte. Perón 671; OFAVYT (Ministerio Público Fiscal de CABA, asistencia y asesoramiento a personas que sufrieron violencia física o emocional), tel. 4014-1984, Beruti 3345 3° piso; Centros de Acceso a la Justicia (CAJ, Ministerio de Justicia y DDHH de la Nación, asesoramiento jurídico y/o asistencia psicológica), tel. 0800-222-3425; Centro de Formación Profesional (Palacio de Justicia de la Nación, asesoramiento y patrocinio a víctimas, no atiende daños y perjuicios), tel. 4372861/7679, Talcahuano 550 8° piso.",
     "keyFacts": [
-      "ANSV - Centro de Atención a víctimas: 149 opción 2 (www.argentina.gob.ar/seguridadvial/redfederal).",
-      "Unidades de Orientación y Denuncia: 6089-9114/9135, Pte. Perón 671 (https://www.mpf.gob.ar/dovic/).",
-      "OFAVYT: 4014-1984, Beruti 3345, 3° piso (https://mpfciudad.gob.ar/).",
-      "Centros de Acceso a la Justicia (CAJ): 0800-222-3425.",
-      "Centro de Formación Profesional: 4372861/7679, Talcahuano 550, 8° piso; no atiende daños y perjuicios."
+      "Existen organismos públicos nacionales y de la Ciudad que brindan asesoramiento jurídico y/o atención psicológica gratuita a víctimas de siniestros viales.",
+      "ANSV - Centro de Atención a la víctima y familiares de víctimas de siniestros viales: 149 opción 2 (www.argentina.gob.ar/seguridadvial/redfederal).",
+      "Unidades de Orientación y Denuncia (acompañamiento en causas penales sucedidas en CABA): 6089-9114/9135, Pte. Perón 671 (https://www.mpf.gob.ar/dovic/).",
+      "OFAVYT (asistencia y asesoramiento a personas que sufrieron violencia física o emocional): 4014-1984, Beruti 3345, 3° piso (https://mpfciudad.gob.ar/).",
+      "Centros de Acceso a la Justicia (CAJ, asesoramiento jurídico y/o asistencia psicológica): 0800-222-3425.",
+      "Centro de Formación Profesional (asesoramiento y patrocinio a víctimas; no atiende daños y perjuicios): 4372861/7679, Talcahuano 550, 8° piso."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 54 (F05-T01): se agregaron la presentación de la página (asesoramiento jurídico y/o atención psicológica gratuita) y la función que la página atribuye a cada organismo. Solo se evalúa la existencia y la función de estos espacios; teléfonos, correos, sitios y nombres de oficinas quedan como consulta (D-T01-9, issues 59, 60 y 63)."
   },
   {
     "id": "manual.ch2.witness-duty",
@@ -4487,8 +4501,8 @@
       "Declarar todo lo que se sepa y recuerde ante el juez o fiscal."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 54 (F05-T01): sin cambios. Lo que agrega la guía PDF 12 (falso testimonio, carga pública) se evalúa citándola (D-T01-8, issue 62)."
   },
   {
     "id": "manual.ch2.ngo-victim-support-contacts",
@@ -4500,8 +4514,9 @@
     "title": "ONG de apoyo a víctimas",
     "category": "B",
     "type": "contact",
-    "summary": "Organizaciones no gubernamentales: A.C.T.I.V.V.A.S. (Ema Cibotti-Lischinsky, tel. 1558125022, emacibotti@activvas.org, https://activvas.org/); Asociación Civil Carla Arduini (Norma Bonelli, tel. 1160565111 y 3971-5437, asociacioncarlaarduini@gmail.com); Asociación Civil Madres del Dolor (Viviam Perrone, tel. 39684082, 35357569 y 08002229832 (AYUDA), kevinsedano@yahoo.com.ar, madresdeldolor.org.ar); Red Nacional Familiares de Víctimas de Tránsito (Teresa Mellano y Patricia Pistarini, tel. 1540832359 y 43013542, transitoporlavida@yahoo.com.ar); Asociación Civil Familias por la Vida (Cinthya Toledo, tel. 08009992769 y 1132364063, ongfamiliasporlavida@hotmail.com).",
+    "summary": "El manual lista organizaciones no gubernamentales a las que se puede recurrir (según la presentación de la p. 54, para asesoramiento jurídico y/o atención psicológica gratuita): Asociación Civil Trabajar contra la Inseguridad Vial y la Violencia con Acciones Sustentables, A.C.T.I.V.V.A.S. (Ema Cibotti-Lischinsky, tel. 1558125022, emacibotti@activvas.org, https://activvas.org/); Asociación Civil Carla Arduini (Norma Bonelli, tel. 1160565111 y 3971-5437, asociacioncarlaarduini@gmail.com); Asociación Civil Madres del Dolor (Viviam Perrone, tel. 39684082, 35357569 y 08002229832 (AYUDA), kevinsedano@yahoo.com.ar, madresdeldolor.org.ar); Asociación Civil Red Nacional Familiares de Víctimas de Tránsito (Teresa Mellano y Patricia Pistarini, tel. 1540832359 y 43013542, transitoporlavida@yahoo.com.ar); Asociación Civil Familias por la Vida (Cinthya Toledo, tel. 08009992769 y 1132364063, ongfamiliasporlavida@hotmail.com).",
     "keyFacts": [
+      "Además de los organismos públicos, existen organizaciones no gubernamentales (asociaciones civiles) de apoyo a víctimas y familiares de víctimas de tránsito.",
       "A.C.T.I.V.V.A.S.: 1558125022.",
       "Asociación Civil Carla Arduini: 1160565111 y 3971-5437.",
       "Madres del Dolor: 39684082, 35357569 y 0800-222-9832 (AYUDA).",
@@ -4509,8 +4524,8 @@
       "Familias por la Vida: 08009992769 y 1132364063."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 55 (F05-T01): se agregó que el listado responde a la presentación de la p. 54 y el nombre completo de A.C.T.I.V.V.A.S. Solo se evalúa la existencia de estas ONG; los contactos quedan como consulta (D-T01-9, issues 64-66)."
   },
   {
     "id": "manual.ch2.scoring-point-recovery",
@@ -4531,8 +4546,8 @@
       "Excluidas del 50%: infracciones de los incisos d) y e) del art. 11.1.4 del Código de Tránsito y Transporte."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 55 (F05-T01): sin cambios. No se evalúan los incisos ni el artículo de la nota 37."
   },
   {
     "id": "manual.ch2.scoring-system",
@@ -4551,8 +4566,8 @@
       "Se descuentan puntos según el tipo de infracción."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 55 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.scoring-zero-points",
@@ -4574,8 +4589,8 @@
       "Luego debe presentarse ante el juez o funcionario designado."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 55 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch3.normative-priority-order",
@@ -4599,7 +4614,7 @@
       "Se debe respetar y prestar atención a todas las señales de tránsito, indicaciones y marcas en la calzada; su color y forma geométrica indican cómo circular."
     ],
     "figureBased": true,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "El orden numerado solo figura en la infografía; el texto extraído no lo trae."
   },
   {
@@ -4644,7 +4659,7 @@
       "La autoridad de control debe realizar señas claras para comunicarse con quienes usan la vía pública."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -4959,7 +4974,7 @@
       "En estos casos se les deberá ceder el paso."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -5000,7 +5015,7 @@
       "Si fuera necesario, se debe detener la marcha."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -5082,7 +5097,7 @@
       "No ubicarse ni por delante ni inmediatamente por detrás de un vehículo en emergencia, porque aumentaría las posibilidades de un siniestro vial."
     ],
     "figureBased": true,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Información solo en la infografía."
   },
   {
@@ -5187,7 +5202,7 @@
       "CEDA EL PASO: la detención total no es obligatoria, sólo cuando facilita la circulación de los vehículos con preferencia."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -5212,7 +5227,7 @@
       "Rojo intermitente: detener la marcha antes de la encrucijada; reiniciarla solo con la certeza de que no existe riesgo de efectuar el cruce."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -5893,7 +5908,7 @@
       "Autopistas CABA: 100 km/h."
     ],
     "figureBased": true,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "Información solo en la infografía."
   },
   {
@@ -5914,7 +5929,7 @@
       "La autoridad competente puede modificarlas en algunos tramos por seguridad, informándolo con señales viales."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -6159,7 +6174,7 @@
       "Girar a marcha moderada."
     ],
     "figureBased": false,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -6179,7 +6194,7 @@
       "En doble sentido, para girar a la derecha: carril derecho."
     ],
     "figureBased": true,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -13036,7 +13051,7 @@
       "No estacionar ni detenerse: figura cruzada por aspa roja"
     ],
     "figureBased": true,
-    "status": "transcribed",
+    "status": "tested",
     "notes": ""
   },
   {
@@ -13098,7 +13113,7 @@
       "Descienda de la bicicleta: placa 'Camine con su bicicleta'"
     ],
     "figureBased": true,
-    "status": "transcribed",
+    "status": "tested",
     "notes": "El dibujo de BARRERAS FERROVIARIAS está incompleto en el PDF."
   },
   {
@@ -13671,8 +13686,8 @@
       "Parte 3: procesos legales, dirigida a víctimas o familiares."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 5 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s1.first-responder-steps",
@@ -13695,8 +13710,8 @@
       "Informar a la aseguradora dentro de las 72 h."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 7 (F05-T01): sin cambios. La guía solo menciona el 911 (issue 53); con heridos se evalúa 107 + 911 (D-T01-4)."
   },
   {
     "id": "siniestros.s1.fast-roads-procedure",
@@ -13716,8 +13731,8 @@
       "Llamar al número de emergencia de la autopista."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 8 (F05-T01): sin cambios. Coincide con la infografía del manual PDF 52 en carriles centrales o izquierdos (issue 54)."
   },
   {
     "id": "siniestros.s1.warning-triangles-placement",
@@ -13732,15 +13747,15 @@
     "summary": "Si el auto está inmovilizado, encender las balizas vehiculares de emergencia y se sugiere poner ambas balizas portátiles detrás del vehículo; la más alejada a una distancia de un metro por cada km/h de velocidad máxima permitida en la vía (en avenida, a 60 m porque la máxima es 60 km/h), con una distancia máxima de 90 m. En rutas se sugiere una baliza delante y otra detrás del vehículo, a unos 90 m. El diagrama muestra balizas a 30 y 60 m detrás del vehículo y a las personas en una 'zona segura'.",
     "keyFacts": [
       "Encender las balizas vehiculares de emergencia.",
-      "Ciudad: ambas balizas portátiles detrás del vehículo.",
+      "Se sugiere colocar ambas balizas portátiles detrás del vehículo.",
       "La más alejada: 1 metro por cada km/h de máxima permitida (avenida 60 km/h → 60 m).",
       "Distancia máxima: 90 m.",
       "Rutas: una baliza delante y otra detrás, a unos 90 m.",
-      "Diagrama: balizas a 30 m y 60 m; ocupantes en zona segura."
+      "Diagrama: balizas portátiles a 30 m y 60 m detrás del vehículo; las personas esperan en una «zona segura»."
     ],
-    "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "figureBased": true,
+    "status": "tested",
+    "notes": "Revisada contra PDF 8 (F05-T01): el dato «Ciudad: ambas balizas detrás» atribuía a la guía una mención a la ciudad que no hace (dice «se sugiere» ambas detrás y contrapone las rutas); el dato del diagrama no decía que las balizas van detrás. La unidad depende del diagrama, que es instructivo (figura fig.siniestros-p8-beacons). Solo se evalúan 30 y 60 m detrás (D-T01-5); la regla de 1 m por km/h y el máximo de 90 m quedan sin evaluar (issue 201)."
   },
   {
     "id": "siniestros.s1.emergency-call-911",
@@ -13761,8 +13776,8 @@
       "No colgar hasta que el operador lo indique."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 9 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s1.first-aid-injured",
@@ -13787,8 +13802,8 @@
       "Inconsciente: reanimación sólo si se está habilitado/a."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 9-10 (F05-T01): sin cambios. Rige el manual PDF 53 con sus excepciones; la guía no lo contradice (D-T01-7, issue 57)."
   },
   {
     "id": "siniestros.s1.highway-emergency-numbers",
@@ -13806,8 +13821,9 @@
       "AUSOL: 140."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "implemented",
+    "notes": "Revisada contra PDF 9 (F05-T01): sin cambios; coincide con el manual PDF 51. Queda como consulta (§7 solo habilita 107 y 911).",
+    "consultationReason": "Solo contiene los teléfonos de las concesionarias de autopistas, que pueden cambiar. Qué hacer en una autopista se practica con las actividades de vías rápidas."
   },
   {
     "id": "siniestros.s1.mandatory-safety-kit",
@@ -13826,8 +13842,8 @@
       "Si es posible, llevar una linterna para la noche."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 9 (F05-T01): sin cambios. La linterna solo figura en la guía (issue 49)."
   },
   {
     "id": "siniestros.s1.police-intervention",
@@ -13845,8 +13861,8 @@
       "La Policía preserva la escena y resguarda vehículos y pruebas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 10 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s1.data-collection",
@@ -13868,8 +13884,8 @@
       "Fotos: panorámicas, daños, marcas de frenado y placa de dominio."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 11 (F05-T01): sin cambios. No se evalúa de qué cédula salen los datos ni sus colores (D-T01-11, issue 58)."
   },
   {
     "id": "siniestros.s1.hit-and-run",
@@ -13888,8 +13904,8 @@
       "Si deja una persona herida, puede ser juzgado por abandono de persona."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 12 (F05-T01): sin cambios; la regla de fuga coincide con el manual PDF 45."
   },
   {
     "id": "siniestros.s1.info-obtained-later",
@@ -13906,8 +13922,8 @@
       "Puede obtenerse en la Comisaría, Fiscalía o Juzgado interviniente."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 12 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s1.parked-vehicle-collision",
@@ -13925,8 +13941,8 @@
       "Dejarlos bien sujetos en el auto estacionado."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 12 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s1.witness-duty",
@@ -13945,8 +13961,8 @@
       "Ser testigo es una carga pública: presentarse es obligatorio cada vez que se es convocado."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 12 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s2.administrative-claim",
@@ -13966,8 +13982,8 @@
       "Alternativas: mediación o demanda civil."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 14 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s2.administrative-claim-deadlines",
@@ -13985,8 +14001,8 @@
       "Ante la propia aseguradora: 1 año."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 14 (F05-T01): sin cambios. Evaluable citando la guía (D-T01-16)."
   },
   {
     "id": "siniestros.s2.administrative-claim-who",
@@ -14004,8 +14020,8 @@
       "Dónde: compañía de seguros del o de los responsables."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 14 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s2.injury-claim-documents",
@@ -14023,8 +14039,8 @@
       "Acompañar datos de la causa penal si existe."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 15 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s2.medical-funeral-expenses",
@@ -14042,8 +14058,8 @@
       "Es sin perjuicio de los derechos que se hagan valer después."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 15 (F05-T01): sin cambios. Se evalúa la regla sin preguntar por la ley ni el artículo."
   },
   {
     "id": "siniestros.s3.civil-process",
@@ -14062,8 +14078,8 @@
       "Sin acuerdo en la mediación, se interpone la demanda judicial."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 17 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s3.legal-orientation",
@@ -14082,8 +14098,8 @@
       "Los procesos posibles dependen de las consecuencias y de la voluntad de los involucrados."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 17 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s3.civil-lawsuit",
@@ -14107,8 +14123,8 @@
       "Plazo: hasta 3 años desde el siniestro."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 18-19 (F05-T01): sin cambios. Solo se evalúan el concepto y los rubros; no la oficina donde se presenta ni el plazo, cuyo llamado a la nota 1 parece erróneo (D-T01-17, issue 202)."
   },
   {
     "id": "siniestros.s3.mediation",
@@ -14129,8 +14145,8 @@
       "Sin acuerdo: demanda ante los juzgados civiles."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 18 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s3.criminal-complaint",
@@ -14152,8 +14168,8 @@
       "Plazo: hasta 2 años desde el siniestro."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 19-20 (F05-T01): sin cambios. Solo se evalúan el concepto y quién puede hacerla; no oficinas, sedes ni plazos (D-T01-17)."
   },
   {
     "id": "siniestros.s3.criminal-process",
@@ -14174,8 +14190,8 @@
       "Continúa en una fiscalía del Ministerio Público Fiscal de CABA."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 19 (F05-T01): sin cambios."
   },
   {
     "id": "siniestros.s3.criminal-action",
@@ -14190,13 +14206,13 @@
     "summary": "Es la petición a la Justicia para que investigue si hubo responsabilidad criminal. Con víctimas fatales la Justicia investiga de oficio. En siniestros con lesiones leves, las víctimas pueden instar a la Justicia a investigar; tienen dos años para decidirlo, por lo que no es necesario apresurarse, y es aconsejable asesorarse antes con profesionales de confianza.",
     "keyFacts": [
       "Víctimas fatales: la Justicia investiga sin que nadie lo pida.",
-      "Lesiones leves: la víctima debe instar la acción.",
+      "Lesiones leves: las víctimas pueden solicitar (instar) a la Justicia que investigue y determine quién fue responsable.",
       "Plazo para instar: 2 años.",
       "Aconsejable buscar asesoramiento legal antes de decidir."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 20 (F05-T01): el dato clave decía que la víctima «debe» instar la acción; la guía dice que las víctimas «pueden solicitar (instar)» que la Justicia investigue."
   },
   {
     "id": "siniestros.s3.private-prosecution",
@@ -14217,8 +14233,8 @@
       "Fuente citada: art. 83 del Código Procesal Penal de la Nación."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 20-21 (F05-T01): sin cambios. Solo se evalúan qué es la querella y quiénes pueden serlo; no el fuero, el código ni el momento procesal (D-T01-17, issue 204)."
   },
   {
     "id": "siniestros.s3.traffic-injury-jurisdiction-transfer",
@@ -14237,8 +14253,9 @@
       "Operatividad prevista entre septiembre y octubre de 2018."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Nota al pie 1 de la p. 21."
+    "status": "implemented",
+    "notes": "Nota al pie 1 de la p. 21. Revisada contra PDF 21 (F05-T01): sin cambios. Queda como consulta (D-T01-17, issue 203).",
+    "consultationReason": "Cuenta un traspaso de competencias de 2018 que la guía todavía redacta en futuro: es un dato histórico, no se evalúa."
   },
   {
     "id": "siniestros.s3.legal-advice-recommendation",
@@ -14257,8 +14274,8 @@
       "No aceptar ofertas apresuradas ni de abogados sin referencias."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 22 (F05-T01): sin cambios; coincide con el manual PDF 54."
   },
   {
     "id": "siniestros.s3.public-victim-support-contacts",
@@ -14271,15 +14288,16 @@
     "title": "Organismos públicos de asistencia a víctimas",
     "category": "guide",
     "type": "contact",
-    "summary": "Organismos con asesoramiento jurídico y/o atención psicológica gratuita: OFAVYT (Ministerio Público Fiscal de CABA), tel. 4014-1984, Beruti 3345 3° piso; Centro de Formación Profesional (Palacio de Justicia de la Nación), asesoramiento y patrocinio a víctimas, Talcahuano 550 8° piso; Oficina de asistencia a víctimas y familiares de víctimas de siniestros viales (ANSV, Ministerio de Transporte), tel. 149 opción 2 (post siniestro).",
+    "summary": "Para recibir asesoramiento jurídico y/o atención psicológica gratuita se puede recurrir a organismos públicos nacionales y de la Ciudad: OFAVYT (Ministerio Público Fiscal de CABA, asistencia y asesoramiento a personas que sufrieron violencia física o emocional), tel. 4014-1984, Beruti 3345 3° piso; Centro de Formación Profesional (Palacio de Justicia de la Nación), asesoramiento y patrocinio a víctimas, Talcahuano 550 8° piso; Oficina de asistencia a víctimas y familiares de víctimas de siniestros viales (ANSV, Ministerio de Transporte), tel. 149 opción 2 (post siniestro).",
     "keyFacts": [
-      "OFAVYT: 4014-1984, Beruti 3345, 3° piso.",
-      "Centro de Formación Profesional: Talcahuano 550, 8° piso (sin teléfono en la guía).",
-      "ANSV - Oficina de asistencia a víctimas: 149 opción 2 (post siniestro)."
+      "Existen organismos públicos nacionales y de la Ciudad que brindan asesoramiento jurídico y/o atención psicológica gratuita.",
+      "OFAVYT (asistencia y asesoramiento a personas que sufrieron violencia física o emocional): 4014-1984, Beruti 3345, 3° piso.",
+      "Centro de Formación Profesional (asesoramiento y patrocinio a víctimas): Talcahuano 550, 8° piso (sin teléfono en la guía).",
+      "ANSV - Oficina de asistencia a víctimas y familiares de víctimas de siniestros viales: 149 opción 2 (post siniestro)."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 22-23 (F05-T01): se agregaron la presentación de la p. 22 (asesoramiento jurídico y/o atención psicológica gratuita) y la función de la OFAVYT. Solo se evalúa la existencia y la función de estos espacios; los contactos quedan como consulta (D-T01-9, issues 63 y 205)."
   },
   {
     "id": "siniestros.s3.ngo-victim-support-contacts",
@@ -14293,6 +14311,7 @@
     "type": "contact",
     "summary": "ONG: A.C.C.A. - Asociación Civil Carla Arduini para Evitar Hechos de Tránsito (Dra. Norma Beatriz Bonelli, asociacioncivilcarlaarduini@gmail.com, tel. 1160565111 / 1166076699 / 3971-5437); A.C.T.I.V.V.A.S. (Ema Cibotti-Lischinsky, tel. 1558125022, www.activvas.org, activvas.blogspot.com); Asociación Conduciendo a Conciencia (Alba Saenz, conduciendoaconciencia@gmail.com, www.conduciendoaconciencia.org.ar); Asociación Madres del Dolor (Viviam Perrone, asociacionmadresdeldolor@yahoo.com.ar, tel. 3968-4082 / 353 575 69); Red Nacional de Familiares de Víctimas de Tránsito (Teresa Mellano y Patricia Pistarini, transitoporlavida@yahoo.com.ar, tel. 4301-3542 / 4300-5060).",
     "keyFacts": [
+      "Además de los organismos públicos, existen organizaciones no gubernamentales de apoyo a víctimas y familiares de víctimas de tránsito.",
       "A.C.C.A. (Carla Arduini): 1160565111 / 1166076699 / 3971-5437.",
       "A.C.T.I.V.V.A.S.: 1558125022.",
       "Conduciendo a Conciencia: conduciendoaconciencia@gmail.com.",
@@ -14300,7 +14319,7 @@
       "Red Nacional de Familiares de Víctimas de Tránsito: 4301-3542 / 4300-5060."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 23 (F05-T01): se agregó como dato clave la existencia de estas ONG, que es lo único evaluable. Los contactos quedan como consulta (D-T01-9, issues 65 y 66)."
   }
 ]

@@ -374,6 +374,33 @@ describe('seeded traffic', () => {
     expect(frontOf(traffic, released, 'bicycle-0')).toBeGreaterThan(stop.atS + 1);
   });
 
+  it('rides on across the corner past the car standing at its own line: the car waits for it, not the reverse', () => {
+    // Cuba into Quesada: the car stopped with its front at the line (rear axle where the scripted lap stopped).
+    const stop = lap.stops.find((item) => item.approach.road.id === 'leg-4-1')!;
+    const waiting = carAt(132.4, -96, stop.approach.headingRad);
+    // A cyclist of Cuba's track already turning into Quesada, inside the crossing just ahead of the car's bonnet.
+    const track = base.network.paths.find((path) => path.id === 'cycle-leg-4-0:forward')!;
+    const inside = locateOnPath(track, { x: 138.5, z: -90.7 }, 2)!;
+    const bicycle = ACTOR_SIZES.bicycle;
+    const traffic = only([
+      car({
+        id: 'bicycle-0',
+        kind: 'bicycle',
+        pathId: track.id,
+        startS: inside.s,
+        halfLengthM: bicycle.lengthM / 2,
+        halfWidthM: bicycle.widthM / 2,
+      }),
+    ]);
+    const first = run(traffic, waiting, SIM_STEP_S);
+    const pose = first.poses.find((item) => item.id === 'bicycle-0')!;
+    expect(stop.approach.conflicts.some((box) => overlaps(pose.box, box))).toBe(true);
+
+    const after = run(traffic, waiting, 8, (state) => expect(state.contacts).toEqual([]), first);
+
+    expect(vehicle(after, 'bicycle-0').s).toBeGreaterThan(inside.s + 15);
+  });
+
   it('lets pedestrians cross a signalled crosswalk only on its walk phase', () => {
     const crosswalk = base.network.crosswalks.find((item) => item.controlId === 'control-1')!;
     const body = carAt(40, -25, -1);
