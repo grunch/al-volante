@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { decorateActor } from './actorModel.ts';
 import { createCarModel, poseCar } from './carModel.ts';
 import { disposeScene } from './dispose.ts';
 import { SCENE_COLORS } from './colors.ts';
@@ -99,7 +100,7 @@ function createMarking(marking: OrientedBox, index: number): THREE.Mesh {
   return mesh;
 }
 
-/** A scripted actor as a simple box of its kind, named by its id so the update can pose it. */
+/** Recognizable actors retain their evaluated footprints and ids; the outer mesh anchors the visual model. */
 export function createActor(id: string, kind: ActorKind, halfLengthM: number, halfWidthM: number): THREE.Mesh {
   const { heightM, color } = ACTOR_LOOK[kind];
   const mesh = new THREE.Mesh(
@@ -108,6 +109,7 @@ export function createActor(id: string, kind: ActorKind, halfLengthM: number, ha
   );
   mesh.name = `actor-${id}`;
   mesh.position.y = heightM / 2;
+  decorateActor(mesh, kind, halfWidthM * 2, halfLengthM * 2, heightM);
   return mesh;
 }
 

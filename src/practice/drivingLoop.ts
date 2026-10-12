@@ -82,7 +82,12 @@ export function driveFrame(
   }
   let controls = frame.controls;
   const result = advance(stepper, frameS, (current) => {
-    controls = stepControls(controls, typeof keys === 'function' ? keys() : keys, SIM_STEP_S);
+    controls = stepControls(
+      controls,
+      typeof keys === 'function' ? keys() : keys,
+      SIM_STEP_S,
+      current.world.vehicle.speedMps,
+    );
     const next = stepCar(world, current, controls, SIM_STEP_S, specs);
     const stepEvents: CarEvent[] = [...next.events];
     if (frame.traffic && scenario) {

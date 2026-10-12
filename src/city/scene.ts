@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { City } from './model.ts';
+import { disposeScene } from '../scene/dispose.ts';
 import { createCityLighting } from './lighting.ts';
 import { instantiate, disposeSector } from './geometry.ts';
 import { planStreetscape } from './streetscape.ts';
@@ -13,8 +14,7 @@ import type { World } from '../sim/world.ts';
 
 const disposeMesh = (mesh: THREE.Mesh) => {
   mesh.removeFromParent();
-  mesh.geometry.dispose();
-  for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) material.dispose();
+  disposeScene(mesh);
 };
 
 /**

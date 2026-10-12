@@ -39,7 +39,11 @@ export function planStreetscape(city: City): CityPlan {
       position: [point.x, y, point.z],
       size: [width, height, length],
       heading,
-      ...(color === c.asphalt ? { surface: 'pavement' as const } : {}),
+      ...(color === c.asphalt || color === c.busway || color === c.cycle || color === c.paint
+        ? { surface: 'pavement' as const }
+        : color === c.sidewalk
+          ? { surface: 'sidewalk' as const }
+          : {}),
     });
   const onOtherRoad = (point: Point, road: Road, margin = 0) =>
     city.roads.some(

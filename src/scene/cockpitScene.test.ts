@@ -72,6 +72,27 @@ describe('cockpit scene', () => {
     view.dispose();
     releases.forEach((release) => expect(release).toHaveBeenCalledOnce());
   });
+  it('releases instrument textures and disables camera inertia without resetting seat or observation', () => {
+    const view = createCockpitScene(PRACTICE_YARD, EXAM_CAR);
+    const cabin = { ...initialCockpit(), seatHeight: 0.8, lookYaw: 0.5 };
+    const textures = new Set<THREE.Texture>();
+    view.scene.traverse((object) => {
+      if (object instanceof THREE.Mesh && object.material instanceof THREE.MeshBasicMaterial && object.material.map)
+        textures.add(object.material.map);
+    });
+    expect(textures.size).toBe(2);
+    const releases = [...textures].map((texture) => vi.spyOn(texture, 'dispose'));
+    view.update(PRACTICE_YARD_START, cabin, 0, 0);
+    const eye = view.camera.position.clone();
+    view.update({ ...PRACTICE_YARD_START, speedMps: 1 }, cabin, 1200, 0.1);
+    expect(view.camera.position.distanceTo(eye)).toBeGreaterThan(0);
+    view.setReducedMotion(true);
+    view.update({ ...PRACTICE_YARD_START, speedMps: 2 }, cabin, 1500, 0.2);
+    expect(view.camera.position.distanceTo(eye)).toBeLessThan(1e-9);
+    expect(view.camera.getWorldDirection(new THREE.Vector3()).x).toBeCloseTo(Math.sin(0.5) * Math.cos(0.055));
+    view.dispose();
+    releases.forEach((release) => expect(release).toHaveBeenCalledOnce());
+  });
   it('renders moving world actors into each mirror without recursive reflections', () => {
     const view = createCockpitScene(PRACTICE_YARD, EXAM_CAR);
     const actor = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial());

@@ -36,7 +36,11 @@ describe('streamed city renderer', () => {
       resources.add(object.geometry);
       for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
         resources.add(material);
-        if (material instanceof THREE.MeshBasicMaterial && material.map) resources.add(material.map);
+        if (
+          (material instanceof THREE.MeshBasicMaterial || material instanceof THREE.MeshStandardMaterial) &&
+          material.map
+        )
+          resources.add(material.map);
       }
     });
     expect(instances).toBeGreaterThan(1000);

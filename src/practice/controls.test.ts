@@ -39,6 +39,27 @@ describe('keyboard pedals and wheel', () => {
     expect(pressed.clutch).toBe(1);
     expect(halfUp.clutch).toBeCloseTo(1 - 0.5 * CONTROL_RATES.clutchReleasePerS, 6);
   });
+
+  it('keeps full manoeuvring lock and gives smaller wheel inputs at road speed in either direction', () => {
+    const hold = (speed: number) => {
+      let controls = NEUTRAL_CONTROLS;
+      for (let i = 0; i < 240; i++) controls = stepControls(controls, new Set(['KeyA']), 1 / 120, speed);
+      return controls;
+    };
+    expect(hold(1).steer).toBe(1);
+    expect(hold(30 / 3.6).steer).toBeLessThan(0.4);
+    expect(hold(45 / 3.6).steer).toBeLessThan(hold(30 / 3.6).steer);
+    expect(hold(-30 / 3.6)).toEqual(hold(30 / 3.6));
+  });
+
+  it('returns gently while parking and more quickly while rolling without overshooting center', () => {
+    const turned = { ...NEUTRAL_CONTROLS, steer: 0.5 };
+    const stopped = stepControls(turned, new Set(), 0.1, 0);
+    const rolling = stepControls(turned, new Set(), 0.1, 10);
+    expect(stopped.steer).toBeGreaterThan(rolling.steer);
+    expect(rolling.steer).toBeGreaterThan(0);
+    expect(stepControls(rolling, new Set(), 1, 10).steer).toBe(0);
+  });
 });
 
 describe('command keys', () => {
