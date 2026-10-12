@@ -23,3 +23,13 @@ Geometrías, dibujos de instrumentos y texturas son originales y reproducibles d
 Pruebas de regresión: giro a baja velocidad, sensibilidad a 30/45 km/h y en reversa, retorno sin sobrepasar el centro; determinismo a 30/120 cuadros por segundo; aceleración, frenado, giro, reposo y reposición de cámara; movimiento reducido sin alterar mirada/asiento; pantalla completa sin reinicio; contornos de los cinco tipos de actor y liberación de geometrías, materiales y texturas.
 
 Se verifican en Chromium la conducción por teclado, frenado, reinicio, espejos, controles de cabina, pantalla completa y adaptación a móvil. Medición de render con RTX 2060, Chromium/ANGLE OpenGL ES 3.2, lienzo de 811 × 456, DPR 1, Quesada y tránsito con semilla 1 tras cinco segundos simulados: la escena completa pasó de 549 a 331 llamadas de dibujo; aumentó de aproximadamente 1,01 a 1,36 millones de triángulos por cuadro contando reflejos. Una muestra de 12 renders calentados con sincronización GPU dio 11,6 ms antes y 9,9 ms después. Había otros procesos de pruebas en ejecución: estos valores no certifican 60 FPS en todo el circuito ni en otros equipos. El resultado operativo final de checks y navegador se registra en `ESTADO_IMPLEMENTACION.md`.
+
+## Comparación visual
+
+Capturas propias de la aplicación en Quesada, mismo punto de entrada, ventana 1440 × 960 y DPR 1. La cabina anterior pertenece a #31; la nueva corresponde a `404ea74`. Se incluyen como evidencia visual liviana de este correctivo, sin material fotográfico externo.
+
+| Antes | Después |
+|---|---|
+| ![Habitáculo anterior y árboles de copas sólidas](imagenes/driving-before.png) | ![Nuevo habitáculo, instrumentos numerados y copas con hojas](imagenes/driving-after.png) |
+
+En una segunda medición de la aplicación completa, después de agrupar también los actores, 180 cuadros en el mismo equipo dieron media de 16,67 ms y p95 de 16,7 ms tanto en la base como en el correctivo. La prueba incluyó arranque automático, avance, giro breve, frenado, reinicio, espejos, pantalla completa y móvil; los 32 E2E de ciudad, cabina, examen y pista también pasaron en escritorio y móvil.
