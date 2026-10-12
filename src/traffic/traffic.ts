@@ -1,8 +1,9 @@
 import { createRandom } from '../activities/random.ts';
 import type { City } from '../city/model.ts';
-import { distance } from '../city/model.ts';
+import { distance, offsetPoint } from '../city/model.ts';
 import { overlaps } from '../sim/collision.ts';
 import type { OrientedBox, Point } from '../sim/collision.ts';
+import { EXAM_CAR } from '../sim/vehicle.ts';
 import type { ActorKind, ActorPose, TrafficSnapshot, TrafficSource } from '../sim/scenario.ts';
 import { createEmergencyState, emergencyPose, planEmergency, stepEmergency } from './emergency.ts';
 import type { EmergencyPlan, EmergencyState } from './emergency.ts';
@@ -35,6 +36,17 @@ const BRAKE_COMFORT_MPS2 = 3;
 const BRAKE_MAX_MPS2 = 5;
 const HEADWAY_S = 2;
 const STANDING_GAP_M = 3;
+/**
+ * Beside the parking bay, behind the player's car stopped in double file and driving the same way, the actors
+ * leave room for the reverse of the parking manoeuvre (protocolo PDF 13). A game approximation: within this
+ * radius of the bay, while the car is slower than this, they keep this standing gap instead of 3 m.
+ */
+const ROOM_BEHIND_CAR_M = 8;
+const ROOM_RADIUS_M = 25;
+const ROOM_UNDER_MPS = 2.5;
+const BEHIND_CAR_ALIGNED_RAD = 0.5;
+/** A car backing towards a vehicle faster than this makes it wait where it is. */
+const BACKING_MPS = 0.1;
 const LEADER_LOOKAHEAD_M = 60;
 /** Speed through a corner link between two lanes that turn more than CORNER_RAD (game approximation). */
 const CORNER_MPS = 4;
@@ -65,6 +77,9 @@ const WALK_MIN_MPS = 1.1;
 const WALK_MAX_MPS = 1.5;
 const PEDESTRIAN_GAP_M = 15;
 const PEDESTRIAN_GAP_SPEED_MPS = 1;
+/** Nobody steps off in front of the player's car moving off right by the crosswalk (F04-T04, a game approximation). */
+const PEDESTRIAN_CAR_CLOSE_M = 6;
+const PEDESTRIAN_CAR_MOVING_MPS = 0.1;
 const WALK_INTERVAL_MIN_S = 25;
 const WALK_INTERVAL_MAX_S = 55;
 const RESPAWN_MIN_S = 4;
@@ -101,6 +116,8 @@ export interface Traffic {
   walks: Readonly<Record<string, WalkSchedule>>;
   /** The ambulance of the lap (F04-T03); null when the network has no lap. Tests set it to null to isolate rules. */
   emergency: EmergencyPlan | null;
+  /** Centre of the parking bay (F04-T04): vehicles leave room behind a car stopped beside it. */
+  parkingBayAt?: Point;
 }
 
 export interface VehicleState {
@@ -213,7 +230,9 @@ export function createTraffic(city: City, seed: number): Traffic {
       speedMps: between(random, WALK_MIN_MPS, WALK_MAX_MPS),
       side: random() < 0.5 ? 0 : 1,
     };
-  return { seed, network, plan, vehicles, walks, emergency: planEmergency(network) };
+  const { pose } = city.start;
+  const parkingBayAt = offsetPoint(pose, pose.headingRad, 0, EXAM_CAR.lengthM / 2 - EXAM_CAR.rearOverhangM);
+  return { seed, network, plan, vehicles, walks, emergency: planEmergency(network), parkingBayAt };
 }
 
 export function createTrafficState(traffic: Traffic): TrafficState {
@@ -331,8 +350,8 @@ function speedToStop(distanceM: number): number {
 }
 
 /** Allowed speed behind a leader `gapM` ahead moving at `leaderMps`: two seconds of headway plus a standing gap. */
-function speedBehind(gapM: number, leaderMps: number): number {
-  const free = Math.max(0, gapM - STANDING_GAP_M);
+function speedBehind(gapM: number, leaderMps: number, standingGapM = STANDING_GAP_M): number {
+  const free = Math.max(0, gapM - standingGapM);
   return Math.min(leaderMps + free / HEADWAY_S, Math.sqrt(leaderMps * leaderMps + 2 * BRAKE_COMFORT_MPS2 * free));
 }
 
@@ -365,6 +384,8 @@ interface Car {
   center: Point;
   front: Point;
   speedMps: number;
+  /** Velocity estimated between steps; a follower reads only the part moving away from it. */
+  velocity: Point;
   stoppedS: number;
 }
 
@@ -549,7 +570,18 @@ function decide(
     }
     const straight = corridorGap(self, car.body);
     if (straight !== null) gap = gap === null ? straight : Math.min(gap, straight);
-    if (gap !== null) target = Math.min(target, speedBehind(Math.max(0, gap), car.speedMps));
+    if (gap !== null) {
+      const forward = { x: Math.sin(self.headingRad), z: Math.cos(self.headingRad) };
+      const awayMps = car.velocity.x * forward.x + car.velocity.z * forward.z;
+      const behind = Math.abs(headingDifference(car.body.headingRad, self.headingRad)) < BEHIND_CAR_ALIGNED_RAD;
+      const besideBay =
+        traffic.parkingBayAt !== undefined && distance(car.center, traffic.parkingBayAt) <= ROOM_RADIUS_M;
+      const room = behind && besideBay && car.speedMps < ROOM_UNDER_MPS ? ROOM_BEHIND_CAR_M : STANDING_GAP_M;
+      // A car backing towards the vehicle behind it: that one waits where it is instead of closing the gap. Other
+      // vehicles (oncoming or crossing in a corner) read the car's speed as before, so corners never lock up.
+      if (behind && awayMps < -BACKING_MPS) target = 0;
+      else target = Math.min(target, speedBehind(Math.max(0, gap), behind ? Math.max(0, awayMps) : car.speedMps, room));
+    }
   }
   // Pedestrians on the crosswalks ahead.
   for (const crossing of path.crosswalks) {
@@ -692,11 +724,14 @@ function mayWalk(
   const cycle = crosswalk.intersectionId ? traffic.plan.cycles[crosswalk.intersectionId] : undefined;
   const near = (point: Point, speedMps: number) =>
     distance(point, crosswalk.center) <= PEDESTRIAN_GAP_M && speedMps > PEDESTRIAN_GAP_SPEED_MPS;
+  const carNear =
+    near(car.center, car.speedMps) ||
+    (distance(car.center, crosswalk.center) <= PEDESTRIAN_CAR_CLOSE_M && car.speedMps > PEDESTRIAN_CAR_MOVING_MPS);
   if (cycle) {
     if (redRemainingS(cycle, crosswalk.group, timeS) < crossingS + 1) return false;
     // Even on their phase, pedestrians do not step off in front of a car about to turn across (F04-T03).
-    if (near(car.center, car.speedMps)) return false;
-  } else if (placed.some((other) => near(other.point, other.state.speedMps)) || near(car.center, car.speedMps)) {
+    if (carNear) return false;
+  } else if (placed.some((other) => near(other.point, other.state.speedMps)) || carNear) {
     return false;
   }
   return !placed.some((other) => overlaps(other.box, crosswalk.box)) && !overlaps(car.body, crosswalk.box);
@@ -752,6 +787,10 @@ export function stepTraffic(
   const index = indexOf(traffic);
   const center = { x: carBody.centerX, z: carBody.centerZ };
   const carSpeedMps = state.carCenter && dt > 0 ? distance(state.carCenter, center) / dt : 0;
+  const velocity =
+    state.carCenter && dt > 0
+      ? { x: (center.x - state.carCenter.x) / dt, z: (center.z - state.carCenter.z) / dt }
+      : { x: 0, z: 0 };
   const car: Car = {
     body: carBody,
     center,
@@ -760,6 +799,7 @@ export function stepTraffic(
       z: carBody.centerZ + Math.cos(carBody.headingRad) * carBody.halfLengthM,
     },
     speedMps: carSpeedMps,
+    velocity,
     stoppedS: carSpeedMps < 0.05 ? state.carStoppedS + dt : 0,
   };
   const placedById = new Map<string, Placed | null>();

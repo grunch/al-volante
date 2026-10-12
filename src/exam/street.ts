@@ -94,6 +94,8 @@ export const CIRCULATION = {
   escalatableS: 10,
   /** The examiner announces a control this far ahead. */
   noticeM: 60,
+  /** The examiner announces the parking this far before the bay (protocolo PDF 24). */
+  parkingNoticeM: 100,
   /** The car is still on the route this far from the lap line (Cabildo's busway is 9 m to its left). */
   onRouteM: 14,
 } as const;
@@ -118,6 +120,8 @@ export interface Street {
   legsEntered: number;
   instruction: { turn: 'left' | 'right'; street: string } | null;
   notice: Notice | null;
+  /** Metres to the bay's front line once the examiner has announced the parking, on the last leg (D10). */
+  parkingAheadM: number | null;
   road: { street: string; examKmh: number; postedKmh: number | null } | null;
   signalSince: { left: number | null; right: number | null };
   signalAtS: { left: number | null; right: number | null };
@@ -170,6 +174,7 @@ export function createStreet(circuit: Circuit | null, startLeg = 1): Street {
     legsEntered: (first?.number ?? 1) - 1,
     instruction: first ? { turn: first.turn, street: first.nextStreet } : null,
     notice: null,
+    parkingAheadM: null,
     road: first ? { street: first.street, examKmh: first.examKmh, postedKmh: first.postedKmh } : null,
     signalSince: { left: null, right: null },
     signalAtS: { left: null, right: null },

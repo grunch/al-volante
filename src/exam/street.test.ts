@@ -95,7 +95,8 @@ describe('the whole circuit (RECORRIDO.md §4; protocolo PDF 10–12)', () => {
         const instruction = street.instruction ? `${street.instruction.turn}:${street.instruction.street}` : '';
         if (instructions.at(-1) !== instruction) instructions.push(instruction);
         if (street.road && !limits.has(street.leg)) limits.set(street.leg, street.road);
-        return d.phase === 'finished';
+        // Back on leg 1 after leg 8, stage II is complete and the parking of stage III begins (F04-T04).
+        return d.phase === 'parking';
       },
       maxS: 600,
     });
@@ -103,6 +104,7 @@ describe('the whole circuit (RECORRIDO.md §4; protocolo PDF 10–12)', () => {
     expect(driver.faults).toEqual([]);
     expect(driver.session.ledger.interruption).toBeNull();
     expect(driver.session.completedStages).toEqual(['I', 'II']);
+    expect(driver.session.prompt).toEqual({ kind: 'say', message: 'parking' });
     expect(driver.session.street.takeover).toBe(false);
     expect(legs).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 1]);
     expect(instructions).toEqual([

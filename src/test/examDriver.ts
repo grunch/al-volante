@@ -13,7 +13,7 @@ import { EXAM_CAR, bodyBox } from '../sim/vehicle.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
 import { trafficOf } from '../sim/world.ts';
 import type { World } from '../sim/world.ts';
-import { REAL_RULES } from './realRules.ts';
+import { REAL_BANDS, REAL_RULES } from './realRules.ts';
 
 export const IDLE: CarControls = { throttle: 0, brake: 0, clutch: 0, steer: 0 };
 
@@ -36,7 +36,7 @@ export class Driver {
     circuit: Circuit | null = null,
   ) {
     this.start = start;
-    this.session = createSession(REAL_RULES, kind, seed, circuit);
+    this.session = createSession(REAL_RULES, kind, seed, circuit, REAL_BANDS);
     this.car = initialCarState(start, kind);
     this.traffic = trafficOf(world) ?? null;
     this.scenario = this.traffic ? this.traffic.create() : null;

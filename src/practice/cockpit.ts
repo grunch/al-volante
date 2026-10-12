@@ -1,7 +1,7 @@
 /** Cabin controls are independent of exam scoring and drivetrain physics. */
 export const MIRROR_IDS = ['left', 'center', 'right'] as const;
 export type MirrorId = (typeof MIRROR_IDS)[number];
-export type Toggle = 'belt' | 'hazards' | 'wipers' | 'defogger' | 'rearHeater' | 'airConditioning' | 'heating';
+export type Toggle = 'belt' | 'hazards' | 'wipers' | 'defogger' | 'rearHeater' | 'airConditioning' | 'heating' | 'door';
 export type Adjustment = 'seatDistance' | 'seatHeight' | 'headrest';
 export interface CockpitState {
   seatDistance: number;
@@ -20,6 +20,8 @@ export interface CockpitState {
   airConditioning: boolean;
   heating: boolean;
   horn: boolean;
+  /** The driver's door, opened to get out at the end of the exam (protocolo PDF 13). */
+  door: boolean;
 }
 export type CockpitCommand =
   | { type: 'toggle'; control: Toggle }
@@ -48,6 +50,7 @@ export function initialCockpit(): CockpitState {
     airConditioning: false,
     heating: false,
     horn: false,
+    door: false,
   };
 }
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));

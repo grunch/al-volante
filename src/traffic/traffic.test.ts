@@ -204,6 +204,29 @@ describe('seeded traffic', () => {
     expect(end.contacts).toEqual([]);
   });
 
+  it('leaves room behind a car stopped in double file beside the parking bay, and waits while it backs up', () => {
+    // The double-file position: on the lap, 5 m past the bay's centre (the reverse starts from here).
+    const bay = base.parkingBayAt!;
+    const bayS = locateOnPath(lap, bay, 6)!.s;
+    const start = pointAlong(lap, bayS + 5);
+    const body = carAt(start.point.x, start.point.z, start.headingRad);
+    const traffic = only([car({ pathId: 'lap', startS: bayS - 40 })]);
+    const stopped = run(traffic, body, 25);
+    const rearS = locateOnPath(lap, { x: body.centerX, z: body.centerZ }, 1)!.s - body.halfLengthM;
+    expect(vehicle(stopped, 'vehicle-0').speedMps).toBe(0);
+    expect(rearS - frontOf(traffic, stopped, 'vehicle-0')).toBeGreaterThan(7.5);
+    expect(rearS - frontOf(traffic, stopped, 'vehicle-0')).toBeLessThan(9);
+    // Backing 6 m towards it at 1 m/s: the vehicle stays put and nothing touches.
+    const backing = (timeS: number) => {
+      const s = bayS + 5 - Math.min(6, Math.max(0, timeS - 25));
+      const at = pointAlong(lap, s);
+      return carAt(at.point.x, at.point.z, at.headingRad);
+    };
+    const end = run(traffic, backing, 8, undefined, stopped);
+    expect(vehicle(end, 'vehicle-0').s).toBeCloseTo(vehicle(stopped, 'vehicle-0').s, 1);
+    expect(end.contacts).toEqual([]);
+  });
+
   it('yields to a vehicle crossing from the right at a corner without signals and goes when it has priority', () => {
     const stop = lap.stops.find((item) => item.approach.road.id === 'leg-4-1')!;
     expect(stop.approach.rule).toBe('priority');

@@ -426,3 +426,38 @@ describe('exam session: 30 cm in the box and leaving it (protocolo PDF 11)', () 
     expect(driver.phase).toBe('finished');
   });
 });
+
+describe('car events in stage III (protocolo PDF 15–17)', () => {
+  it('score only the rules the ficha lists for the parking: a stall or a refused start there is not a fault', () => {
+    const driver = new Driver('manual');
+    driver.session = { ...driver.session, phase: 'parking' };
+    driver.see({
+      type: 'step',
+      car: driver.car,
+      cockpit: driver.cockpit,
+      events: [
+        { type: 'stall' },
+        { type: 'start-refused', reason: 'running' },
+        { type: 'start-refused', reason: 'in-gear' },
+        { type: 'moved-with-handbrake' },
+        { type: 'contact', obstacleId: 'curb-1', kind: 'curb', impactSpeedMps: 0.5 },
+      ],
+      dt: 0,
+      scenario: null,
+    });
+    expect(driver.faults).toEqual(['rule.minor.i-curb-scrape']);
+
+    // The same events while driving in stage II do score.
+    const circulating = new Driver('manual');
+    circulating.session = { ...circulating.session, phase: 'circulation' };
+    circulating.see({
+      type: 'step',
+      car: circulating.car,
+      cockpit: { ...circulating.cockpit, belt: true },
+      events: [{ type: 'stall' }],
+      dt: 0,
+      scenario: null,
+    });
+    expect(circulating.faults).toContain('rule.low.d-engine-stall');
+  });
+});

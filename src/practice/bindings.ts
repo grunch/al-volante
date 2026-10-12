@@ -15,6 +15,7 @@ export const DEFAULT_BINDINGS = {
   hazards: ['KeyV'],
   wipers: ['KeyF'],
   horn: ['KeyH'],
+  door: ['KeyG'],
 } as const;
 export type Action = keyof typeof DEFAULT_BINDINGS;
 export const ACTIONS = Object.keys(DEFAULT_BINDINGS) as Action[];
@@ -39,7 +40,8 @@ export function parseBindings(raw: string | null): Bindings {
     if (typeof candidate !== 'object' || candidate === null) return DEFAULT_BINDINGS;
     const entries = candidate as Record<string, unknown>;
     const used = new Set<string>();
-    for (const action of ACTIONS) {
+    const saved = ACTIONS.filter((action) => entries[action] !== undefined);
+    for (const action of saved) {
       const codes = entries[action];
       if (!Array.isArray(codes) || codes.length === 0 || codes.length > 2) return DEFAULT_BINDINGS;
       for (const code of codes) {
@@ -47,7 +49,13 @@ export function parseBindings(raw: string | null): Bindings {
         used.add(code);
       }
     }
-    return Object.fromEntries(ACTIONS.map((action) => [action, entries[action]])) as Bindings;
+    // An action added after the bindings were saved (the door, F04-T04) takes its default key when it is free; if a
+    // saved action already uses it, the saved set cannot be completed and the defaults apply.
+    const added = ACTIONS.filter((action) => entries[action] === undefined);
+    if (added.some((action) => DEFAULT_BINDINGS[action].some((code) => used.has(code)))) return DEFAULT_BINDINGS;
+    return Object.fromEntries(
+      ACTIONS.map((action) => [action, entries[action] ?? DEFAULT_BINDINGS[action]]),
+    ) as Bindings;
   } catch {
     return DEFAULT_BINDINGS;
   }

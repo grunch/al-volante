@@ -1,8 +1,9 @@
 import type { City, Road } from '../city/model.ts';
-import { projectOnRoad } from '../city/model.ts';
+import { offsetPoint, projectOnRoad } from '../city/model.ts';
 import type { OrientedBox, Point } from '../sim/collision.ts';
+import { EXAM_CAR } from '../sim/vehicle.ts';
 import { aheadOnLap } from '../traffic/lookahead.ts';
-import { pointAlong, travelDistance } from '../traffic/network.ts';
+import { locateOnPath, pointAlong, travelDistance } from '../traffic/network.ts';
 import type { ApproachRule, Path } from '../traffic/network.ts';
 import type { Traffic } from '../traffic/traffic.ts';
 
@@ -70,9 +71,32 @@ export interface CircuitBump {
   leg: number;
 }
 
+/**
+ * The parking bay of stage III (protocolo PDF 13, 21): the 6 m bay of the city's start pose, with the kerb on its
+ * right and its two painted end lines. Distances to the kerb come from the road's geometry (CIUDAD.md: the bay's
+ * width, side and position are approximations; only the 6 m length is sourced).
+ */
+export interface ParkingBay {
+  /** Centre of the bay on the ground, and the heading of the kerb (a parked car faces this way). */
+  center: Point;
+  headingRad: number;
+  /** Half the bay's length along the kerb (3 m for the 6 m bay). */
+  halfLengthM: number;
+  /** Lateral position of the kerb's edge in the bay's frame (positive is left): negative, the kerb is on the right. */
+  kerbLeftM: number;
+  /**
+   * The bay's markers: the part of each painted end line (`city.world.markings`) nearest the kerb, standing for
+   * the posts of the real bay (a game approximation, D13). Touching one is high d; hitting it, eliminatory d.
+   */
+  lines: readonly OrientedBox[];
+  /** Lap distance of the bay's front line, for the examiner's notice 100 m before (protocolo PDF 24). */
+  frontS: number;
+}
+
 export interface Circuit {
   traffic: Traffic;
   lap: Path;
+  bay: ParkingBay;
   legs: readonly CircuitLeg[];
   crossings: readonly CircuitCrossing[];
   crosswalks: readonly CircuitCrosswalk[];
@@ -229,6 +253,54 @@ const roadBoxOf = (road: Road): OrientedBox => ({
   headingRad: road.headingRad,
 });
 
+/** How far from the lap line the bay's centre may be and still be located on it (it sits beside the right lane). */
+const BAY_LATERAL_M = 6;
+/** The markers reach this far from the kerb's edge into the road (the real posts stand by the kerb; D13). */
+export const MARKER_REACH_M = 1.2;
+
+/** Lateral position of a point in the frame of the bay (positive to the left of its heading). */
+function bayFrameLeftM(center: Point, headingRad: number, point: Point): number {
+  return (point.x - center.x) * Math.cos(headingRad) - (point.z - center.z) * Math.sin(headingRad);
+}
+
+function bayOf(city: City, lap: Path): ParkingBay {
+  const pose = city.start.pose;
+  const center = offsetPoint(pose, pose.headingRad, 0, EXAM_CAR.lengthM / 2 - EXAM_CAR.rearOverhangM);
+  const road = required(
+    [...city.roads]
+      .filter((item) => item.kind === 'route')
+      .sort((a, b) => projectOnRoad(center, a).distanceM - projectOnRoad(center, b).distanceM)[0],
+    'road of the parking bay',
+  );
+  const lines = city.world.markings ?? [];
+  const forward = { x: Math.sin(pose.headingRad), z: Math.cos(pose.headingRad) };
+  const halfLengthM = lines.length
+    ? Math.max(
+        ...lines.map(
+          (line) =>
+            Math.abs((line.centerX - center.x) * forward.x + (line.centerZ - center.z) * forward.z) + line.halfLengthM,
+        ),
+      )
+    : 3;
+  const located = required(locateOnPath(lap, center, BAY_LATERAL_M) ?? undefined, 'parking bay on the lap');
+  const kerbLeftM = -road.widthM / 2 - lateralOnRoad(road, center);
+  // Each marker is the stretch of its line from the kerb's edge to MARKER_REACH_M into the road.
+  const markers = lines.map((line) => {
+    const lineCentreLeftM = bayFrameLeftM(center, pose.headingRad, { x: line.centerX, z: line.centerZ });
+    const reachLeftM = kerbLeftM + MARKER_REACH_M / 2;
+    const shifted = offsetPoint({ x: line.centerX, z: line.centerZ }, line.headingRad, reachLeftM - lineCentreLeftM);
+    return { ...line, centerX: shifted.x, centerZ: shifted.z, halfWidthM: MARKER_REACH_M / 2 };
+  });
+  return {
+    center,
+    headingRad: pose.headingRad,
+    halfLengthM,
+    kerbLeftM,
+    lines: markers,
+    frontS: located.s + halfLengthM,
+  };
+}
+
 export function buildCircuit(city: City, traffic: Traffic): Circuit {
   const lap = required(
     traffic.network.paths.find((path) => path.id === 'lap'),
@@ -239,6 +311,7 @@ export function buildCircuit(city: City, traffic: Traffic): Circuit {
   return {
     traffic,
     lap,
+    bay: bayOf(city, lap),
     legs,
     crossings: crossingsOf(city, traffic, lap, legs),
     crosswalks: crosswalksOf(lap),

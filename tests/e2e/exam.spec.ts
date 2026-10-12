@@ -43,4 +43,17 @@ test.describe('practical exam on the circuit', () => {
       .toBeGreaterThan(0);
     expect(errors).toEqual([]);
   });
+
+  test('shows the stage III readings in the HUD and the door control in the cabin (F04-T04)', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.goto('./#/examen');
+    const view = page.getByTestId('driving-canvas');
+    await expect(view).toHaveAttribute('data-state', 'ready');
+    await expect(page.getByTestId('exam-parking')).toHaveText('0 maniobras · 0 intentos');
+    await expect(page.getByTestId('exam-kerb')).toHaveText('pendiente');
+    await expect(page.getByRole('button', { name: 'Abrir la puerta y bajar' })).toBeVisible();
+    await expect(page.getByText(/estacionamiento paralelo en el cajón/)).toBeVisible();
+    expect(errors).toEqual([]);
+  });
 });
