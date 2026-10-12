@@ -1282,5 +1282,77 @@
     "page": 53,
     "type": "discrepancy",
     "description": "Manual vs guía (documentos a intercambiar): el manual pide intercambiar cédula, seguro y licencia; la guía (PDF 7), solo los datos del seguro y de la licencia. Se evalúa lo que comparten (F05-T01)."
+  },
+  {
+    "source": "manual",
+    "page": 60,
+    "type": "ambiguous",
+    "description": "El globo «BANQUINA» de la ilustración de demarcación apunta entre las dos líneas blancas del borde: no queda claro qué franja es la banquina. Ninguna pregunta depende de eso. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 73,
+    "type": "ambiguous",
+    "description": "La regla de la velocidad mínima (mitad de la máxima) no coincide con los mínimos especiales de la misma página (por ejemplo, en ruta para autos daría 55 km/h y el mínimo especial es 40; en autopista, 65 frente a 60). No se explica cómo se combinan; solo se evalúan por separado. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 32,
+    "type": "discrepancy",
+    "description": "La señal de ciclistas «Prohibido estacionar y detenerse sobre la ciclovía» (PDF 32) es una «E» cruzada por un aspa, sin placa; la de NO ESTACIONAR NI DETENERSE «Sobre la ciclovía» del anexo IV (PDF 185) tiene otro dibujo y lleva placa. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 87,
+    "type": "discrepancy",
+    "description": "La oblea del Símbolo Internacional de Acceso dice que vale solo si el vehículo «cuya patente ha sido asociada» lleva a la persona o lo conduce ella; el texto dice que la franquicia aplica a cualquier vehículo «sin limitar su uso a un vehículo específico». Ninguna pregunta depende de eso. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 79,
+    "type": "ambiguous",
+    "description": "El dibujo de la demarcación para niebla tiene cuatro cheurones, pero la regla habla de hasta tres. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 77,
+    "type": "ambiguous",
+    "description": "En los diagramas de adelantamiento, el izquierdo tiene línea central amarilla continua y el derecho blanca discontinua, sin explicación en el texto. No se evalúa. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 187,
+    "type": "ambiguous",
+    "description": "Los dibujos de CURVA (Contracurva) y CURVA (En «S») son casi iguales: solo cambia lo cerradas que son las curvas. No se usan como respuestas distintas entre sí. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 186,
+    "type": "ambiguous",
+    "description": "PDF 61 dice que el fondo azul indica restricción, pero FIN DE LA PRESCRIPCIÓN (el 35 tachado) también tiene fondo azul. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 197,
+    "type": "discrepancy",
+    "description": "Luz amarilla: PDF 64 dice «detenerse si aún no se ha iniciado el cruce» y PDF 197, detenerse «si no se llega a transponer la encrucijada antes del cambio a rojo». Se evalúa solo el caso en que coinciden (D-T02-18). (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 196,
+    "type": "discrepancy",
+    "description": "El símbolo de carril de emergencia es un rombo con una «E» en PDF 63 y un rombo sin letra en PDF 196. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 196,
+    "type": "typo",
+    "description": "«TACHAS REFLECTIVAS.» lleva punto final en el rótulo; en PDF 195, «OMNIBUS» va sin tilde. (F05-T02)"
+  },
+  {
+    "source": "manual",
+    "page": 197,
+    "type": "extraction",
+    "description": "El semáforo principal está dibujado con las tres luces encendidas a la vez y los estados intermitentes no tienen dibujo propio: sus recortes son iguales a los de la luz fija, por eso esas señales quedan de consulta. (F05-T02)"
   }
 ]

@@ -4615,7 +4615,7 @@
     ],
     "figureBased": true,
     "status": "tested",
-    "notes": "El orden numerado solo figura en la infografía; el texto extraído no lo trae."
+    "notes": "El orden numerado solo figura en la infografía; el texto extraído no lo trae. Revisada contra PDF 58 (F05-T02): fiel a la infografía, sin cambios. El número de ley no se evalúa."
   },
   {
     "id": "manual.ch3.traffic-agent-hand-signals",
@@ -4629,14 +4629,14 @@
     "type": "concept",
     "summary": "Fotos de un/a agente de tránsito con cuatro señas rotuladas: Seguir a la derecha, Avanzar, Detenerse y Seguir a la izquierda.",
     "keyFacts": [
-      "Seguir a la derecha: brazo extendido horizontalmente hacia un costado.",
-      "Avanzar: brazo en movimiento, con gesto de hacer pasar (flecha curva).",
-      "Detenerse: brazo levantado en vertical.",
-      "Seguir a la izquierda: brazo extendido horizontalmente hacia el otro costado."
+      "Seguir a la derecha: brazo extendido horizontalmente, señalando hacia la derecha de quien mira al agente.",
+      "Avanzar: de perfil, el antebrazo va y viene entre extendido hacia adelante y levantado (flecha curva de doble punta), en un gesto de hacer pasar.",
+      "Detenerse: brazo levantado en vertical, con la palma abierta.",
+      "Seguir a la izquierda: brazo extendido horizontalmente, señalando hacia la izquierda de quien mira al agente."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Las descripciones de la postura se infieren de las fotos; la fuente solo da los rótulos."
+    "status": "tested",
+    "notes": "Las descripciones de la postura se infieren de las fotos; la fuente solo da los rótulos. Revisada contra PDF 58 (F05-T02): se precisó hacia qué lado señala el brazo en «Seguir a la derecha» y «Seguir a la izquierda», el gesto de «Avanzar» y la palma abierta de «Detenerse», según las fotos."
   },
   {
     "id": "manual.ch3.traffic-authority-orders",
@@ -4660,7 +4660,7 @@
     ],
     "figureBased": false,
     "status": "tested",
-    "notes": ""
+    "notes": "Revisada contra PDF 58 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.horizontal-markings-definition",
@@ -4679,8 +4679,8 @@
       "Tipos: marcas longitudinales, transversales y especiales."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 59–60 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.horizontal-vertical-equal-priority",
@@ -4698,8 +4698,8 @@
       "Deben respetarse aunque figure sólo una de ellas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 59 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.longitudinal-markings",
@@ -4718,8 +4718,8 @@
       "Indican dónde es seguro sobrepasar y dónde está prohibido."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 59 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.temporary-signs",
@@ -4741,8 +4741,8 @@
       "Los conos indican que está prohibido sobrepasar la línea imaginaria que los une."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 59 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.traffic-lights-definition",
@@ -4762,8 +4762,8 @@
       "Su luz puede ser continua o intermitente."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 59 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.longitudinal-line-types",
@@ -4784,8 +4784,8 @@
       "Banquina: no se puede circular por ella."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Información solo en la ilustración; el texto extraído no la trae."
+    "status": "tested",
+    "notes": "Información solo en la ilustración; el texto extraído no la trae. Revisada contra PDF 60 (F05-T02): fiel. En la ilustración, la doble línea continua es amarilla; la doble línea mixta combina una amarilla continua y una blanca discontinua; la línea discontinua y la de borde son blancas."
   },
   {
     "id": "manual.ch3.painted-curbs",
@@ -4803,8 +4803,8 @@
       "Cordón amarillo: prohibido estacionar durante las 24 horas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 60 (F05-T02): fiel a la página. El anexo IV (PDF 196) dice del cordón amarillo «prohibición de estacionar, pudiendo detenerse»: se evalúa solo lo que comparten (prohibido estacionar), sin el «24 horas» ni si se puede detener. El cordón anaranjado se evalúa citando PDF 60."
   },
   {
     "id": "manual.ch3.special-markings",
@@ -4825,8 +4825,8 @@
       "Los cordones pintados también forman parte de las marcas especiales."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 60 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.transverse-markings",
@@ -4846,8 +4846,8 @@
       "Ejemplos: línea de detención, senda peatonal, senda para ciclistas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 60 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.informative-signs",
@@ -4867,8 +4867,8 @@
       "Tipos: nomenclatura vial y urbana; destinos y distancias; características de la vía; informaciones institucionales, turísticas y de servicios; educativas y anuncios especiales."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la infografía de PDF 61 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.preventive-signs",
@@ -4890,8 +4890,8 @@
       "Tipos: sobre características físicas de la vía; posibilidad de riesgo eventuales; dispositivos de control de tránsito; advertencia de máximo peligro."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la infografía de PDF 61 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.regulatory-signs",
@@ -4912,8 +4912,8 @@
       "Tipos: de prohibición; de restricción; de prioridad; fin de prescripción."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la infografía de PDF 61 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.transitory-vertical-signs",
@@ -4932,8 +4932,8 @@
       "Tipos: carteles de prevención; carteles de información; vallas; otros dispositivos."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la infografía de PDF 61 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.vertical-signage-definition",
@@ -4951,8 +4951,8 @@
       "Se dividen en 4 categorías: preventivas, reglamentarias, transitorias e informativas."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Los nombres de las 4 categorías están solo en la infografía."
+    "status": "tested",
+    "notes": "Los nombres de las 4 categorías están solo en la infografía. Revisada contra PDF 61 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.emergency-vehicle-beacons-only",
@@ -4975,7 +4975,7 @@
     ],
     "figureBased": false,
     "status": "tested",
-    "notes": ""
+    "notes": "Revisada contra PDF 62 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.emergency-vehicle-exemptions",
@@ -4994,8 +4994,8 @@
       "No deben poner en riesgo a terceras personas ni ocasionar un mal mayor que el que intentan resolver."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 62 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.emergency-vehicle-priority",
@@ -5016,7 +5016,7 @@
     ],
     "figureBased": false,
     "status": "tested",
-    "notes": ""
+    "notes": "Revisada contra PDF 62 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.extreme-necessity-vehicle",
@@ -5036,8 +5036,8 @@
       "Sí tiene prioridad de paso."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 62 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.general-legal-norms",
@@ -5057,8 +5057,8 @@
       "En CABA rige la Ley 2148."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 62 (F05-T02): fiel, sin cambios. El número de ley no se evalúa."
   },
   {
     "id": "manual.ch3.emergency-lane-symbol",
@@ -5076,8 +5076,8 @@
       "El carril marcado debe ser liberado por completo cuando se aproxima un vehículo de emergencia."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "En la ilustración aparece pintado sobre el carril central de una vía de tres carriles por sentido."
+    "status": "tested",
+    "notes": "En la ilustración aparece pintado sobre el carril central de una vía de tres carriles por sentido. Revisada contra PDF 63 (F05-T02): fiel. El símbolo está dibujado dos veces: pintado en la calzada (rombo blanco con la E girada en el sentido de circulación) y en la leyenda (contorno azul)."
   },
   {
     "id": "manual.ch3.yielding-to-emergency-vehicles-by-lanes",
@@ -5098,7 +5098,7 @@
     ],
     "figureBased": true,
     "status": "tested",
-    "notes": "Información solo en la infografía."
+    "notes": "Información solo en la infografía. Revisada contra PDF 63 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.railway-crossing-priority",
@@ -5117,8 +5117,8 @@
       "Es la excepción 2 a la prioridad de la derecha."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "La fuente titula la excepción como “Se circule por el costado de vías férreas”, pero la explicación habla de atravesar el paso a nivel."
+    "status": "tested",
+    "notes": "La fuente titula la excepción como “Se circule por el costado de vías férreas”, pero la explicación habla de atravesar el paso a nivel. Revisada contra PDF 64 (F05-T02): fiel. Se evalúa el contenido (prioridad de quien sale del paso a nivel), no el título."
   },
   {
     "id": "manual.ch3.right-hand-priority",
@@ -5130,19 +5130,19 @@
     "title": "Prioridad de la derecha y sus excepciones",
     "category": "B",
     "type": "rule",
-    "summary": "En cruces no semaforizados entre arterias de igual jerarquía tienen prioridad los vehículos que cruzan por la derecha, excepto que: 1) exista señalización que indique lo contrario (Pare, Ceda el Paso); 2) se circule por el costado de vías férreas; 3) haya una rotonda; 4) el que cruza desde la derecha detenga su marcha; 5) el que viene desde la derecha no desee cruzar, sino girar para ingresar a la arteria. Si se dan juntas varias excepciones, la prioridad se da según el orden en que fueron enumeradas.",
+    "summary": "En cruces no semaforizados entre arterias de igual jerarquía tienen prioridad los vehículos que cruzan por la derecha, excepto que: 1) exista señalización que indique lo contrario (Pare, Ceda el Paso); 2) se atraviese un cruce ferroviario sin semáforos, donde tiene prioridad el vehículo que sale del paso a nivel (la fuente titula esta excepción «se circule por el costado de vías férreas»); 3) haya una rotonda; 4) el que cruza desde la derecha detenga su marcha; 5) el que viene desde la derecha no desee cruzar, sino girar para ingresar a la arteria. Si se dan juntas varias excepciones, la prioridad se da según el orden en que fueron enumeradas.",
     "keyFacts": [
       "Arterias de igual jerarquía sin semáforo: prioridad del que cruza por la derecha.",
       "Excepción 1: señalización que indique lo contrario (Pare, Ceda el Paso).",
-      "Excepción 2: circular por el costado de vías férreas (prioridad del que sale del paso a nivel).",
+      "Excepción 2: cruce ferroviario en una intersección sin semáforos: tiene prioridad el vehículo que sale del paso a nivel (la fuente la titula «se circule por el costado de vías férreas»).",
       "Excepción 3: rotonda (prioridad del que circula dentro de la calzada circular).",
       "Excepción 4: el que cruza desde la derecha detiene su marcha.",
       "Excepción 5: el que viene desde la derecha no desea cruzar, sino girar para ingresar a la arteria.",
       "Si se dan juntas varias excepciones, la prioridad estará dada de acuerdo al orden en el que fueron enumeradas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 64 (F05-T02): la excepción 2 se describe por su contenido (prioridad de quien sale del paso a nivel), porque su título no coincide con la explicación."
   },
   {
     "id": "manual.ch3.road-hierarchy-priority",
@@ -5161,8 +5161,8 @@
       "Jerarquía de mayor a menor: avenida > calle > pasaje."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 64 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.roundabout-priority",
@@ -5181,8 +5181,8 @@
       "Es la excepción 3 a la prioridad de la derecha."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 64 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.stop-vs-yield",
@@ -5203,7 +5203,7 @@
     ],
     "figureBased": false,
     "status": "tested",
-    "notes": ""
+    "notes": "Revisada contra PDF 64 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.traffic-light-colors",
@@ -5228,7 +5228,7 @@
     ],
     "figureBased": false,
     "status": "tested",
-    "notes": ""
+    "notes": "Revisada contra PDF 64 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.roundabout-lane-use",
@@ -5251,8 +5251,8 @@
       "Las maniobras deben ser correctamente señalizadas."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Información solo en la infografía."
+    "status": "tested",
+    "notes": "Información solo en la infografía. Revisada contra PDF 65 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.bus-reentry-priority",
@@ -5270,8 +5270,8 @@
       "Al sobrepasar un colectivo detenido, prever que personas ocultas tras él podrían cruzar por delante o detrás."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 66 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.dirt-vs-paved-priority",
@@ -5288,8 +5288,8 @@
       "Tiene prioridad quien circula por la vía pavimentada sobre quien viene por la de tierra."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 66 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.obstructed-lane-priority",
@@ -5306,8 +5306,8 @@
       "Quien tiene su mano obstruida debe ceder el paso al que circula por la mano contraria."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 66 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.parked-vehicle-priority",
@@ -5324,8 +5324,8 @@
       "Un vehículo estacionado o detenido que se incorpora tiene prioridad sólo si el tránsito está interrumpido por alguna razón."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 66 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.slope-priority",
@@ -5346,8 +5346,8 @@
       "Para descender conviene usar un cambio bajo (primera o segunda)."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 66 (F05-T02): fiel, sin cambios."
   },
   {
     "id": "manual.ch3.fog-lights",
@@ -5366,8 +5366,8 @@
       "No son obligatorias, pero pueden ser agregadas en todos los vehículos."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Información solo en la infografía."
+    "status": "tested",
+    "notes": "Información solo en la infografía. Revisada contra la imagen de PDF 67 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.high-beams",
@@ -5379,18 +5379,18 @@
     "title": "Luces altas",
     "category": "B",
     "type": "rule",
-    "summary": "Proporcionan un área más extensa de iluminación. Solo pueden usarse en rutas poco iluminadas o como luz de guiñada en la Ciudad, porque encandilan; en zonas urbanas está prohibido circular con ellas encendidas. Deben cambiarse por bajas al cruzar un vehículo en sentido contrario y/o antes de sobrepasar. Si otro viene con altas, hacerle una guiñada, mirar al borde del camino, bajar la velocidad y aumentar la distancia con el de adelante; si el de atrás refleja sus altas en los espejos, conviene mover temporalmente los espejos.",
+    "summary": "Proporcionan un área más extensa de iluminación. Solo pueden usarse en rutas poco iluminadas o como luz de guiñada en la Ciudad, porque podrían encandilar a peatones y a otras personas que conducen; en zonas urbanas está prohibido circular con ellas encendidas. Deben cambiarse por bajas cuando se aproxima un vehículo en sentido contrario y/o antes de sobrepasar. Si otro viene de frente con altas, hacerle una luz de guiñada, mirar hacia el borde del camino, disminuir la velocidad y aumentar la distancia con el de adelante; si el de atrás refleja sus altas en los espejos, conviene modificar temporariamente su posición.",
     "keyFacts": [
       "Función: por su intensidad y orientación proporcionan un área más extensa de iluminación.",
-      "Solo pueden utilizarse en rutas poco iluminadas o como luz de guiñada al circular por la Ciudad.",
+      "Solo pueden utilizarse en rutas poco iluminadas o como luz de guiñada al circular por la Ciudad, dado que podrían causar encandilamiento a peatones y a otras personas que conducen.",
       "En zonas urbanas está prohibido circular con las luces altas encendidas.",
       "Deben sustituirse por las bajas cuando un vehículo se aproxima en sentido contrario y/o antes de realizar un sobrepaso.",
       "Ante un vehículo de frente con altas: hacer luz de guiñada, mirar hacia el borde del camino, disminuir la velocidad y aumentar la distancia con el vehículo de adelante.",
       "Si el vehículo de atrás refleja sus altas en los retrovisores, conviene modificar temporariamente la posición de los espejos."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Información solo en la infografía."
+    "status": "tested",
+    "notes": "Información solo en la infografía. Revisada contra la imagen de PDF 67 (F05-T02): el resumen decía «porque encandilan»; la página dice que «podrían causar encandilamiento a peatones y a otras personas que conducen» (se corrigió el resumen y se agregó el motivo al segundo dato)."
   },
   {
     "id": "manual.ch3.lights-modification-ban",
@@ -5411,8 +5411,8 @@
       "Las luces de xenón alternativo pueden generar deslumbramiento en otros conductores."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 67 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.low-beams",
@@ -5435,8 +5435,8 @@
       "De noche se triplica el riesgo de sufrir un incidente, y el encandilamiento lo incrementa aún más."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Información solo en la infografía."
+    "status": "tested",
+    "notes": "Información solo en la infografía. Revisada contra la imagen de PDF 67 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.position-lights",
@@ -5457,8 +5457,8 @@
       "Se ubican adelante y atrás del vehículo."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "En la página 68 aparece solo el rótulo “Luces de posición” sobre la parte trasera del auto."
+    "status": "tested",
+    "notes": "En la página 68 aparece solo el rótulo “Luces de posición” sobre la parte trasera del auto. Revisada contra las imágenes de PDF 67 y 68 (F05-T02): sin cambios; «se ubican adelante y atrás» se lee de los rótulos sobre ambas fotos."
   },
   {
     "id": "manual.ch3.side-and-clearance-lights",
@@ -5477,8 +5477,8 @@
       "Fuente: artículo 4.1.5 del Código de Tránsito y Transporte de la Ciudad Autónoma de Buenos Aires."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Contenido de la nota al pie 40."
+    "status": "tested",
+    "notes": "Contenido de la nota al pie 40. Revisada contra PDF 67 (F05-T02): sin cambios; no se pregunta por el número de artículo."
   },
   {
     "id": "manual.ch3.turn-signals-rsm",
@@ -5499,8 +5499,8 @@
       "Giro: accionarla 30 metros antes de incorporarse a otra vía."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "En la página 67 solo aparece el rótulo “(*) Intermitentes Giro/ balizas”."
+    "status": "tested",
+    "notes": "En la página 67 solo aparece el rótulo “(*) Intermitentes Giro/ balizas”. Revisada contra la imagen de PDF 68 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.brake-lights",
@@ -5522,8 +5522,8 @@
       "Existe además una “tercer luz de freno” (solo rotulada en la infografía)."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 68 (F05-T02): sin cambios. La tercera luz de freno es solo un rótulo y no se evalúa su función (D-T02-6)."
   },
   {
     "id": "manual.ch3.hazard-lights",
@@ -5542,8 +5542,8 @@
       "Se usan en emergencia."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 68 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.license-plate-light",
@@ -5561,8 +5561,8 @@
       "Uso: en condiciones de poca visibilidad, se acciona con la luz de posición."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 68 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.rear-lights-reverse-alarm",
@@ -5580,8 +5580,8 @@
       "Vehículos con visión estructuralmente obstaculizada por el retrovisor central: deben agregar una alarma sonora al circular marcha atrás."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 68 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.reverse-lights",
@@ -5600,8 +5600,8 @@
       "Se encienden automáticamente al engranar la marcha atrás."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "La fuente dice “alengranar” (errata por “al engranar”)."
+    "status": "tested",
+    "notes": "La fuente dice “alengranar” (errata por “al engranar”). Revisada contra la imagen de PDF 68 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.speed-and-field-of-vision",
@@ -5625,8 +5625,8 @@
       "A mayor velocidad, menor campo de visión."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Los grados solo figuran en la infografía."
+    "status": "tested",
+    "notes": "Los grados solo figuran en la infografía. Revisada contra la imagen de PDF 69 (F05-T02): sin cambios; las actividades evalúan el concepto (efecto túnel, a mayor velocidad menor campo de visión), no los grados."
   },
   {
     "id": "manual.ch3.speed-and-injury-severity",
@@ -5638,7 +5638,7 @@
     "title": "Velocidad de impacto y probabilidad de muerte",
     "category": "B",
     "type": "fact",
-    "summary": "A mayor velocidad, la probabilidad de muerte o lesiones graves aumenta exponencialmente, porque el cuerpo humano es vulnerable a la energía liberada en una colisión y los sistemas de protección solo son eficaces a velocidades bajas o moderadas. Infografía de impacto: a 30 km/h sobrevive el 90% y muere el 10%; a 45 km/h, 60% y 40%; a 60 km/h, 20% y 80%.",
+    "summary": "A mayor velocidad, la probabilidad de muerte o lesiones graves aumenta exponencialmente, porque el cuerpo humano es vulnerable a la energía liberada en una colisión y los sistemas de protección solo son eficaces a velocidades bajas o moderadas. La infografía «IMPACTO A», con pictogramas de personas a pie, muestra que a 30 km/h sobrevive el 90% y muere el 10%; a 45 km/h, 60% y 40%; a 60 km/h, 20% y 80%.",
     "keyFacts": [
       "A mayor velocidad, la probabilidad de muerte o lesiones graves aumenta exponencialmente.",
       "Los sistemas de protección de los vehículos son eficaces a velocidades bajas o moderadas, pero no ante fuerzas cinéticas mayores.",
@@ -5647,8 +5647,8 @@
       "Impacto a 60 km/h: 20% sobrevivientes, 80% víctimas fatales."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "La infografía dice “IMPACTO A” sin aclarar a quién se impacta (las figuras son personas a pie)."
+    "status": "tested",
+    "notes": "La infografía dice “IMPACTO A” sin aclarar a quién se impacta (las figuras son personas a pie). Revisada contra la imagen de PDF 69 (F05-T02): el resumen aclara que los pictogramas son personas a pie; se evalúa como probabilidad de sobrevivir de una persona a pie atropellada, «según la infografía del manual» (D-T02-7)."
   },
   {
     "id": "manual.ch3.speed-definition",
@@ -5668,8 +5668,8 @@
       "Es uno de los factores que determinan víctimas fatales o lesiones graves."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 69 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.reaction-time",
@@ -5688,8 +5688,8 @@
       "Promedio: 1 segundo aproximadamente."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 70 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.stopping-distance-phases",
@@ -5708,8 +5708,8 @@
       "Distancia de reacción + distancia de frenado = distancia de detención."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 70 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.stopping-distance-table",
@@ -5732,8 +5732,8 @@
       "La distancia de reacción no cambia entre seco y mojado; la de frenado sí (se duplica a 50 y 90 km/h)."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "El último keyFact es una lectura directa de las cifras de la tabla, no una frase de la fuente."
+    "status": "tested",
+    "notes": "El último keyFact es una lectura directa de las cifras de la tabla, no una frase de la fuente. Revisada contra la imagen de PDF 70 a 200 ppp (F05-T02): cifras confirmadas; se evalúan las cifras rotuladas, no el largo de las barras (D-T02-8)."
   },
   {
     "id": "manual.ch3.braking-distance",
@@ -5755,8 +5755,8 @@
       "Factor: condiciones meteorológicas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 71 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.reaction-distance",
@@ -5775,8 +5775,8 @@
       "A mayor tiempo de reacción y/o mayor velocidad, mayor distancia recorrida."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 71 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.safety-distance",
@@ -5796,8 +5796,8 @@
       "Siempre se deben tener en cuenta las condiciones climáticas, el momento del día y la condición de la calzada o del tránsito."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 71 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.safety-distance-calculation",
@@ -5817,8 +5817,8 @@
       "Si el paragolpe delantero pasa antes del segundo 2, disminuir la velocidad y tomar más distancia."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Información solo en la infografía."
+    "status": "tested",
+    "notes": "Información solo en la infografía. Revisada contra la imagen de PDF 71 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.stopping-distance-definition",
@@ -5835,8 +5835,8 @@
       "Distancia de detención = distancia de reacción + distancia de frenado."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 71 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.max-speeds-avenue-exceptions",
@@ -5864,8 +5864,9 @@
       "100 km/h: Av. Gral. Paz entre Av. Leopoldo Lugones y Au Ingeniero Pascual Palazzo (Acceso Norte), en su calzada central."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Nota 41 (“En su calzada central”) aplica a Av. Gral Paz 80 km/h, Av. Dellepiane 100 km/h y Av. Gral Paz 100 km/h. La fuente escribe “Av. Figuero Alcorta”."
+    "status": "implemented",
+    "notes": "Nota 41 (“En su calzada central”) aplica a Av. Gral Paz 80 km/h, Av. Dellepiane 100 km/h y Av. Gral Paz 100 km/h. La fuente escribe “Av. Figuero Alcorta”. Revisada contra la imagen de PDF 72 (F05-T02): sin cambios; queda como consulta (D-T02-4) con la figura fig.manual-p72-avenue-exceptions.",
+    "consultationReason": "Los límites por avenida los modifica la autoridad por tramos y pueden haber cambiado desde la edición del manual: se estudian como consulta y en la calle rige lo que indiquen las señales."
   },
   {
     "id": "manual.ch3.max-speeds-heavy-and-passenger",
@@ -5887,8 +5888,8 @@
       "Tránsito pesado y ómnibus de larga distancia: 60 km/h en el Paseo del Bajo."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Información solo en la infografía; agrupaciones verificadas a 300 ppp."
+    "status": "tested",
+    "notes": "Información solo en la infografía; agrupaciones verificadas a 300 ppp. Revisada de nuevo contra la imagen de PDF 72 a 200 ppp (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.max-speeds-light-vehicles",
@@ -5909,7 +5910,7 @@
     ],
     "figureBased": true,
     "status": "tested",
-    "notes": "Información solo en la infografía."
+    "notes": "Información solo en la infografía. Revisada contra la imagen de PDF 72 (F05-T02): sin cambios; la velocidad de las calles de convivencia no se evalúa (D-T01-1, D-T02-4)."
   },
   {
     "id": "manual.ch3.speed-limits-general-principle",
@@ -5930,7 +5931,7 @@
     ],
     "figureBased": false,
     "status": "tested",
-    "notes": ""
+    "notes": "Revisada contra PDF 72 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.max-speeds-outside-caba",
@@ -5955,8 +5956,8 @@
       "Fuente citada: Ley Nacional de Tránsito N° 24.449 (nota 42)."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Toda la tabla está solo en la infografía (velocímetro); el texto extraído no la contiene."
+    "status": "tested",
+    "notes": "Toda la tabla está solo en la infografía (velocímetro); el texto extraído no la contiene. Revisada contra la imagen de PDF 73 a 200 ppp (F05-T02): sin cambios; se evalúa «según la infografía del manual», sin afirmar su vigencia ni preguntar por el número de ley."
   },
   {
     "id": "manual.ch3.minimum-speed-rule",
@@ -5975,8 +5976,8 @@
       "El límite mínimo es la mitad del límite máximo fijado para cada tipo de arteria."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 73 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.special-minimum-speeds",
@@ -5994,8 +5995,8 @@
       "Autopistas: mínimo 60 km/h."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 73 (F05-T02): sin cambios; las señales son círculos azules con borde rojo."
   },
   {
     "id": "manual.ch3.inadequate-speed-risk",
@@ -6014,8 +6015,8 @@
       "Superar la velocidad precautoria aumenta la gravedad de un eventual siniestro."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 74 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.loose-animals-on-road",
@@ -6034,8 +6035,8 @@
       "Dar aviso a las autoridades de la zona."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 74 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.potholes",
@@ -6053,8 +6054,8 @@
       "Aumentar la distancia de seguridad con el vehículo de adelante."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 74 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.precautionary-speed-definition",
@@ -6073,8 +6074,8 @@
       "Objetivo: poder detener el vehículo antes de una colisión."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 74 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.rural-curves-and-warning-signs",
@@ -6093,8 +6094,8 @@
       "Señal de calzada resbaladiza: disminuir la velocidad aunque el pavimento no lo aparente."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 74 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.special-precautionary-max-speeds",
@@ -6114,8 +6115,8 @@
       "Proximidad de establecimientos escolares, deportivos y de gran afluencia de público, en horarios de ingreso y egreso: velocidad mínima de la arteria."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Datos solo en la infografía; el texto extraído no los contiene."
+    "status": "tested",
+    "notes": "Datos solo en la infografía; el texto extraído no los contiene. Revisada contra la imagen de PDF 74 (F05-T02): sin cambios; la «velocidad mínima de la arteria» no tiene cifra y no se evalúa un número (D-T02-9)."
   },
   {
     "id": "manual.ch3.vehicle-leaves-road",
@@ -6134,8 +6135,8 @@
       "Los volantazos son una de las causas más frecuentes de vuelcos."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 74 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.left-turn-two-way-street",
@@ -6147,15 +6148,15 @@
     "title": "Giro a la izquierda en vía de doble sentido",
     "category": "B",
     "type": "rule",
-    "summary": "Para girar a la izquierda en una vía de doble sentido hay que colocarse en el carril cercano al eje de la calzada, sin invadir la zona destinada al tránsito de sentido contrario, y girar en la intersección, no antes. Con semáforo de giro se gira con la flecha; si el semáforo no tiene giro, está prohibido hacer esta maniobra.",
+    "summary": "Para girar a la izquierda en una vía de doble sentido hay que colocarse en el carril cercano al eje de la calzada, sin invadir la zona destinada al tránsito de sentido contrario, y girar en la intersección, no antes. Se ilustra sin semáforos y con semáforo de giro; si el semáforo no tiene giro, está prohibido hacer esta maniobra.",
     "keyFacts": [
       "Ubicarse en el carril cercano al eje de la calzada sin invadir el sentido contrario.",
       "Girar en la intersección, no antes.",
       "En vía de doble sentido con semáforo: si el semáforo no tiene giro, está prohibido girar a la izquierda."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 75 (F05-T02): el resumen decía «con semáforo de giro se gira con la flecha», que la página no dice; se reemplazó por lo que rotulan los diagramas."
   },
   {
     "id": "manual.ch3.turn-general-steps",
@@ -6175,7 +6176,7 @@
     ],
     "figureBased": false,
     "status": "tested",
-    "notes": ""
+    "notes": "Revisada contra PDF 75 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.turn-lane-positioning",
@@ -6195,7 +6196,7 @@
     ],
     "figureBased": true,
     "status": "tested",
-    "notes": ""
+    "notes": "Revisada contra la imagen de PDF 75 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.overtaking-definition",
@@ -6212,8 +6213,8 @@
       "Adelantamiento: sobrepasar a otro vehículo sin cambiar de carril."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 76 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.overtaking-lane-use",
@@ -6233,8 +6234,8 @@
       "Al terminar, volver al carril derecho si está libre, gradualmente y sin obstaculizar."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 76 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.passing-definition",
@@ -6251,8 +6252,8 @@
       "Sobrepaso: sobrepasar a otro vehículo cambiando de carril."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 76 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.passing-prohibitions",
@@ -6271,8 +6272,8 @@
       "No ocupar el lugar de quien está sobrepasando hasta que termine."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 76 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.safe-passing-steps",
@@ -6292,8 +6293,8 @@
       "Volver a la derecha con el giro derecho encendido sin interferir al sobrepasado."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 76 (F05-T02): sin cambios."
   },
   {
     "id": "manual.ch3.convoy-passing-priority",
@@ -6311,8 +6312,8 @@
       "Los demás adelantan según su orden de marcha."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 77 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.turn-signal-passing-indication",
@@ -6331,8 +6332,8 @@
       "Siempre verificar uno mismo que haya suficiente espacio y tiempo para el sobrepaso."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "El texto atribuye la regla a 'La ley 2449, en su articulo 42' (probable errata por Ley 24.449)."
+    "status": "tested",
+    "notes": "El texto atribuye la regla a 'La ley 2449, en su articulo 42' (probable errata por Ley 24.449). Revisada contra PDF 77 (F05-T02): coincide con la imagen; por D-T02-3 no se pregunta por la ley ni el artículo. Se propone la figura fig.manual-p77-passing-turn-signals."
   },
   {
     "id": "manual.ch3.vehicle-being-passed-duties",
@@ -6351,8 +6352,8 @@
       "Camiones y maquinaria especial: correrse a la banquina periódicamente en caminos angostos."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 77 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.highway-entry",
@@ -6372,8 +6373,8 @@
       "Señalizar con la luz de giro durante la incorporación."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 78 (F05-T02): coincide con la imagen. Los pasos 2 y 3 son alternativas (continuar o detenerse), por eso se evalúa con una escena y no con un ordenamiento."
   },
   {
     "id": "manual.ch3.highway-exit",
@@ -6393,8 +6394,8 @@
       "Readaptar la velocidad al salir a una vía convencional."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 78 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.highway-lane-use",
@@ -6413,8 +6414,8 @@
       "Carga o pasajeros de más de 3.500 kg de peso bruto: obligatoriamente por el carril derecho, salvo para sobrepasar."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 78 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.highway-shoulder-use",
@@ -6433,8 +6434,8 @@
       "En emergencia: balizas del vehículo, balizas portátiles, llamar a emergencias de la vía y chaleco reflectante."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 78 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.highway-speed-and-lane-keeping",
@@ -6453,8 +6454,8 @@
       "Si no se alcanza la velocidad mínima: carril derecho y salir en la primera salida para pedir auxilio."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 78 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.towing-rule",
@@ -6473,8 +6474,8 @@
       "El remolque debe salir en la primera salida posible."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 78 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.adverse-conditions-intro",
@@ -6491,8 +6492,8 @@
       "Hay que prepararse para cualquier adversidad meteorológica."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 79 (F05-T02): coincide; se cubre dentro de la escena de niebla."
   },
   {
     "id": "manual.ch3.fog-chevron-speed-markings",
@@ -6511,8 +6512,8 @@
       "Se distingue 1 V invertida: máximo 40 km/h."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 79 (F05-T02): coincide con la imagen (el dibujo muestra cuatro «V» y los rótulos dan las tres reglas)."
   },
   {
     "id": "manual.ch3.fog-driving",
@@ -6528,12 +6529,12 @@
     "keyFacts": [
       "Ambas manos al volante, reducir velocidad, luces bajas.",
       "Distancia de seguridad de 2 a 4 segundos.",
-      "Con niebla densa, detenerse lo más lejos posible de la calzada y la banquina.",
+      "Si un denso banco de niebla impide circular, alejarse lo más posible de la calzada y de la banquina.",
       "Efectos: menor campo visual y percepción, menor capacidad lumínica, menos adherencia de las cubiertas."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 79 (F05-T02): el tercer dato decía «detenerse lo más lejos posible»; la página dice «alejarse lo más posible de la calzada y de la banquina» si no es posible circular."
   },
   {
     "id": "manual.ch3.fog-lights-no-hazards",
@@ -6552,8 +6553,8 @@
       "Las balizas pueden hacer creer que el vehículo está detenido."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 79 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.aquaplaning",
@@ -6572,8 +6573,8 @@
       "Puede causar un deslizamiento incontrolado."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 80 (F05-T02): coincide con la imagen. Se propone la figura fig.manual-p80-aquaplaning."
   },
   {
     "id": "manual.ch3.rain-driving",
@@ -6593,8 +6594,8 @@
       "Circular por la parte más alta de la calzada."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 80 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.rain-tires-and-road",
@@ -6614,8 +6615,8 @@
       "Lluvia intensa: riesgo de aquaplaning."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 80 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.wet-brakes",
@@ -6633,8 +6634,8 @@
       "Secarlos accionándolos suave y repetidamente mientras se mantiene la aceleración."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 80 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.wind-driving",
@@ -6654,8 +6655,8 @@
       "Efectos: menos tracción y agarre; afecta dirección y trayectoria."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 81 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.wind-large-vehicles-and-trucks",
@@ -6674,8 +6675,8 @@
       "El reparo del camión puede desestabilizar el vehículo."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 81 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.wind-motorcycles",
@@ -6693,8 +6694,8 @@
       "Viento lateral: inclinar cabeza y hombros hacia el lado del que sopla."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 81 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.heat-driving",
@@ -6715,8 +6716,8 @@
       "El aire acondicionado previene la somnolencia."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 82 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.heat-greenhouse-effect",
@@ -6733,8 +6734,8 @@
       "Con 24 °C afuera, el interior de un vehículo cerrado puede llegar a 50 °C en 10 minutos."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 82 (F05-T02): coincide. Se evalúa el concepto (efecto invernadero, calentamiento rápido); las cifras del ejemplo solo aparecen en el feedback."
   },
   {
     "id": "manual.ch3.snow-driving",
@@ -6754,8 +6755,8 @@
       "Sin aceleraciones ni maniobras bruscas; frenar suavemente; menor velocidad."
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 82 (F05-T02): coincide con la imagen."
   },
   {
     "id": "manual.ch3.no-stopping-places",
@@ -6781,8 +6782,8 @@
       "Sobre rieles; con vías sin barreras, a no menos de 5 metros de los rieles (inciso k, art. 48, Ley 24.449)."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 83 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.stopping-definition",
@@ -6803,8 +6804,8 @@
       "Fuente citada: capítulo 7 del Código de Tránsito y Transporte de CABA (nota 43)."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 83 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.general-parking-rules",
@@ -6827,8 +6828,8 @@
       "Días hábiles: lunes a viernes no feriados."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "La infografía de '3 reglas' dice 'Pasajes: prohibido las 24 horas' sin mencionar el ancho de 4,5 m del texto."
+    "status": "tested",
+    "notes": "La infografía de '3 reglas' dice 'Pasajes: prohibido las 24 horas' sin mencionar el ancho de 4,5 m del texto. Revisada contra PDF 84 (F05-T02): coincide. Por D-T02-2 solo se evalúa la prohibición en pasajes de calzada de hasta 4,5 m. Se propone la figura fig.manual-p84-three-parking-rules (su texto alternativo aclara la condición de ancho)."
   },
   {
     "id": "manual.ch3.parking-definition",
@@ -6847,8 +6848,8 @@
       "Semáforo en rojo, embotellamiento o emergencia no cuentan como detención ni estacionamiento."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 84 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.parking-rule-exceptions",
@@ -6866,8 +6867,8 @@
       "Macrocentro: prohibido en cualquier arteria, ambas aceras, días hábiles de 7 a 21 h."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 84 (F05-T02): coincide. Se evalúa la excepción de las avenidas de doble sentido (Av. 9 de Julio); por D-T02-10 el Macrocentro no se pregunta (solo figura en la explicación)."
   },
   {
     "id": "manual.ch3.boti-parking-chat",
@@ -6885,8 +6886,9 @@
       "https://www.buenosaires.gob.ar/laciudad/noticias/boti-el-chat-de-la-ciudad-ya-te-indica-en-que-calles-esta-permitido-estacionar"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "Nota al pie 45."
+    "status": "implemented",
+    "notes": "Nota al pie 45. Revisada contra PDF 85 (F05-T02): queda de consulta.",
+    "consultationReason": "Es un dato de contacto: un chat de la Ciudad por WhatsApp y un enlace web que pueden cambiar o dejar de funcionar."
   },
   {
     "id": "manual.ch3.correct-parking-cars",
@@ -6904,8 +6906,8 @@
       "A 45° o a 90° del cordón sólo dentro de sectores demarcados."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 85 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.correct-parking-motorcycles",
@@ -6923,8 +6925,8 @@
       "Sin demarcación: de culata entre 45° y 90° respecto del cordón."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 85 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.heavy-vehicles-no-parking",
@@ -6941,8 +6943,8 @@
       "Ómnibus, micros, camiones, casas rodantes, semiacoplados y maquinaria especial: prohibido estacionar en la vía pública las 24 h."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 85 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.parking-10m-from-entrances",
@@ -6965,8 +6967,8 @@
       "Instituciones de personas con discapacidad."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 85 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.special-parking-prohibitions",
@@ -6993,8 +6995,8 @@
       "Sectores oficialmente señalizados."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 85 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.hill-parking",
@@ -7015,8 +7017,8 @@
       "Vehículos de carga: cuñas o calzas, luego retirarlas."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 86 (F05-T02): coincide con el texto y el dibujo. Se propone la figura fig.manual-p86-hill-parking."
   },
   {
     "id": "manual.ch3.no-sidewalk-parking",
@@ -7034,8 +7036,8 @@
       "Incluye motovehículos, sin importar el ancho de la vereda ni desperfectos."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 86 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.parking-maneuver",
@@ -7056,8 +7058,8 @@
       "Marcha atrás: luces de retroceso y alarma sonora en vehículos sin visión por el espejo central."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 86 (F05-T02): coincide. El ordenamiento se apoya en lo que fija la página: señalizar con tiempo suficiente para anticipar la maniobra y detenerse en doble fila antes de iniciar la marcha atrás."
   },
   {
     "id": "manual.ch3.reversing-restriction",
@@ -7075,8 +7077,8 @@
       "Retroceder la distancia mínima indispensable."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 86 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch3.blue-loading-bays",
@@ -7096,8 +7098,8 @@
       "Los particulares no pueden estacionar allí."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 87 (F05-T02): coincide. Por D-T02-11 se evalúa el máximo de 30 minutos «salvo otra indicación»; el «24 horas» de la señal se explica como horario del espacio. Se propone la figura fig.manual-p87-blue-loading-bay."
   },
   {
     "id": "manual.ch3.disability-parking-franchise",
@@ -7118,8 +7120,8 @@
       "Más información: https://buenosaires.gob.ar/copidis/cio/simbolo-internacional-de-acceso"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "La figura reproduce la oblea del Símbolo Internacional de Acceso con código QR."
+    "status": "tested",
+    "notes": "La figura reproduce la oblea del Símbolo Internacional de Acceso con código QR. Revisada contra PDF 87 (F05-T02): coincide con el texto. La oblea dice que es válida solo cuando el vehículo «cuya patente ha sido asociada» traslada o es conducido por la persona, mientras que el texto dice que identifica a cualquier vehículo que la traslade «sin limitar su uso a un vehículo específico»; no se pregunta por ese punto. Tampoco por la Ley 2148 ni por el enlace."
   },
   {
     "id": "manual.ch3.loading-unloading-rules",
@@ -7137,8 +7139,8 @@
       "Respetar lugares y horarios de estacionamiento salvo otra modalidad indicada."
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 87 (F05-T02): coincide con el texto."
   },
   {
     "id": "manual.ch4.driving-aptitude",
@@ -13043,7 +13045,7 @@
     "title": "Reglamentarias de prohibición",
     "category": "B",
     "type": "sign-group",
-    "summary": "La página 185 ilustra 27 señales de prohibición: círculos blancos con borde y barra diagonal rojos (no avanzar, no circular por tipo de vehículo, no girar, no adelantar, no ruidos molestos, no estacionar y sus variantes con placas) y la señal de contramano (círculo rojo con barra blanca horizontal).",
+    "summary": "La página 185 ilustra 27 señales de prohibición: círculos blancos con borde y barra diagonal rojos y símbolo negro (no avanzar; no circular por tipo de vehículo, peatones o jinetes; no girar a la izquierda, a la derecha o en U; no adelantar; no ruidos molestos; no cambiar de carril; no estacionar y sus variantes entre discos, zona de caudales y acarreo de infractores), NO ESTACIONAR NI DETENERSE (figura cruzada por un aspa roja, también con la placa «Sobre la ciclovía») y la señal de contramano (círculo rojo con franja blanca horizontal).",
     "keyFacts": [
       "27 señales en la página 185",
       "Contramano: círculo rojo con barra horizontal blanca",
@@ -13052,7 +13054,7 @@
     ],
     "figureBased": true,
     "status": "tested",
-    "notes": ""
+    "notes": "Revisada contra la imagen de PDF 185 (F05-T02): el resumen sumó NO CAMBIAR DE CARRIL y las variantes de NO ESTACIONAR. Las placas de acarreo traen dirección y teléfono ilegibles; no se evalúan."
   },
   {
     "id": "manual.annex4.regulatory-signs",
@@ -13074,8 +13076,8 @@
       "Tipos: prohibición, restricción, prioridad y fin de prescripción"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Definición general tomada de la página PDF 61 (cap. 3, 'Señalización vertical'); el anexo IV no define las categorías, solo las ilustra."
+    "status": "tested",
+    "notes": "Definición general tomada de la página PDF 61 (cap. 3, 'Señalización vertical'); el anexo IV no define las categorías, solo las ilustra. Revisada contra PDF 61 y las imágenes de PDF 185–186 (F05-T02): sin cambios."
   },
   {
     "id": "manual.annex4.regulatory-end-of-prescription",
@@ -13087,14 +13089,15 @@
     "title": "Reglamentarias de fin de prescripción",
     "category": "B",
     "type": "sign-group",
-    "summary": "Dos señales rotuladas FIN DE LA PRESCRIPCIÓN: una blanca con borde negro y franjas diagonales negras sobre dos autos (fin de no adelantar) y otra azul con borde rojo con el 35 tachado (fin de velocidad mínima).",
+    "summary": "Dos señales rotuladas FIN DE LA PRESCRIPCIÓN: una blanca con borde negro y dos autos grises cruzados por franjas diagonales negras (el pictograma de NO ADELANTAR), y otra azul con borde rojo con el 35 blanco cruzado por una barra diagonal roja (el de LÍMITE DE VELOCIDAD MÍNIMA).",
     "keyFacts": [
-      "Ambas tienen el mismo rótulo 'FIN DE LA PRESCRIPCIÓN'",
-      "Las franjas diagonales negras anulan la prescripción anterior"
+      "Ambas tienen el mismo rótulo «FIN DE LA PRESCRIPCIÓN»",
+      "Una es blanca con borde negro: dos autos grises cruzados por franjas diagonales negras",
+      "La otra es azul con borde rojo: el 35 blanco cruzado por una barra diagonal roja"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "La interpretación de cada pictograma (no adelantar / velocidad mínima) se infiere del dibujo; la fuente solo da el rótulo genérico."
+    "status": "tested",
+    "notes": "La interpretación de cada pictograma (no adelantar / velocidad mínima) se infiere del dibujo; la fuente solo da el rótulo genérico. Revisada contra la imagen de PDF 186 (F05-T02): se quitó el keyFact «Las franjas diagonales negras anulan la prescripción anterior», que la página no dice, y se describen los dos dibujos. Solo se evalúa el rótulo."
   },
   {
     "id": "manual.annex4.regulatory-priority",
@@ -13114,7 +13117,7 @@
     ],
     "figureBased": true,
     "status": "tested",
-    "notes": "El dibujo de BARRERAS FERROVIARIAS está incompleto en el PDF."
+    "notes": "El dibujo de BARRERAS FERROVIARIAS está incompleto en el PDF. Revisada contra la imagen de PDF 186 (F05-T02): sin cambios. BARRERAS FERROVIARIAS queda de consulta por su dibujo incompleto y PREFERENCIA DE AVANCE se evalúa solo por su nombre."
   },
   {
     "id": "manual.annex4.regulatory-restriction",
@@ -13126,7 +13129,7 @@
     "title": "Reglamentarias de restricción",
     "category": "B",
     "type": "sign-group",
-    "summary": "La página 186 ilustra 20 señales de restricción: limitaciones de peso (4 tns), peso por eje (2 tns), altura (4,10 m), ancho (3 m) y largo (20 m); velocidad máxima (60) y mínima (35, fondo azul); estacionamiento exclusivo (cajón azul: carga y descarga 24 hs, 30 min por vehículo; discapacitados: reservado, 5 mts); circulación exclusiva (transporte público, moto, bicicleta, jinetes, peatones, convivencia); uso de cadenas para nieve; giro obligatorio y sentido de circulación.",
+    "summary": "La página 186 ilustra 20 señales de restricción: limitaciones de peso (4 tns), peso por eje (2 tns), altura (4,10 m), ancho (3 m) y largo de vehículo (20 m); límite de velocidad máxima (60, fondo blanco) y mínima (35, fondo azul); estacionamiento exclusivo (E blanca sobre fondo azul) y sus variantes con placa: cajón azul («NO ESTACIONAR / Exclusivo carga y descarga las 24 hs. / 30 min. por vehículo») y discapacitados («RESERVADO / Vehículo AA 0000 AA / 5 mts.»); circulación exclusiva (transporte público, moto, bicicleta, jinetes, peatones y convivencia); uso de cadenas para nieve; giro obligatorio (derecha e izquierda) y sentido de circulación (derecha).",
     "keyFacts": [
       "20 señales en la página 186",
       "Las de fondo azul con borde rojo indican circulación/estacionamiento exclusivo o velocidad mínima",
@@ -13134,8 +13137,8 @@
       "Estacionamiento para discapacitados: placa 'RESERVADO / Vehículo AA 0000 AA / 5 mts.'"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 186 (F05-T02): el resumen sumó la señal de estacionamiento exclusivo sin placa, la placa completa del cajón azul y los sentidos de las flechas."
   },
   {
     "id": "manual.annex4.warning-road-features",
@@ -13147,14 +13150,14 @@
     "title": "Preventivas: advertencias sobre características de la vía",
     "category": "B",
     "type": "sign-group",
-    "summary": "La página 187 ilustra 27 rombos amarillos que advierten características de la vía: curvas, camino sinuoso, pendientes, estrechamientos, perfil irregular (badén, lomada), calzada resbaladiza, proyección de piedras, derrumbes, túnel, puentes, altura (4,10 m) y ancho (3 m) limitados, calzada dividida, rotonda, incorporación de tránsito, doble circulación y encrucijadas.",
+    "summary": "La página 187 ilustra 27 rombos amarillos con borde negro que advierten características de la vía: curvas (común y pronunciada, contracurva, en «S»), camino sinuoso, pendientes ascendente y descendente, estrechamientos (ambas manos, una sola mano), perfil irregular (irregular, badén, lomada), calzada resbaladiza, proyección de piedras, derrumbes, túnel, puente angosto, puente móvil, altura (4,10 m) y ancho (3 m) limitados, calzada dividida, rotonda, incorporación de tránsito lateral, inicio de doble circulación y encrucijadas (cruce, empalme y bifurcación).",
     "keyFacts": [
       "27 señales en la página 187",
       "Altura limitada 4,10 m; ancho limitado 3 m"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 187 (F05-T02): el resumen detalla las variantes. Dos dibujos distintos (Y y T) llevan el rótulo «ENCRUCIJADA (Bifurcación)»; no se distinguen entre sí en las actividades."
   },
   {
     "id": "manual.annex4.warning-signs",
@@ -13175,8 +13178,8 @@
       "Tipos (p. 61): características físicas de la vía, posibilidad de riesgo eventual, dispositivos de control de tránsito, advertencia de máximo peligro"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Definición general tomada de la página PDF 61 (cap. 3, 'Señalización vertical'); el anexo IV no define las categorías, solo las ilustra. El anexo agrega el subgrupo 'Fin de prevención'."
+    "status": "tested",
+    "notes": "Definición general tomada de la página PDF 61 (cap. 3, 'Señalización vertical'); el anexo IV no define las categorías, solo las ilustra. El anexo agrega el subgrupo 'Fin de prevención'. Revisada contra PDF 61 y las imágenes de PDF 187–188 (F05-T02): sin cambios; para agrupar se usan los subtítulos del anexo."
   },
   {
     "id": "manual.annex4.warning-advance-control-devices",
@@ -13188,14 +13191,14 @@
     "title": "Preventivas: anticipo de otros dispositivos de control del tránsito",
     "category": "B",
     "type": "sign-group",
-    "summary": "Señales que anticipan otros dispositivos: flecha direccional (dos variantes), proximidad de semáforo y proximidad de señal restrictiva (Pare, Paso u otras) con la leyenda 'A 200 m'.",
+    "summary": "Señales que anticipan otros dispositivos de control: flecha direccional (dos dibujos con el mismo rótulo, rectángulos amarillos con borde negro), proximidad de semáforo y proximidad de señal restrictiva (Pare, Paso u Otras, con un ejemplo de NO CIRCULAR camiones), estas últimas en rombos amarillos con la leyenda «A 200 m».",
     "keyFacts": [
       "Proximidad de señal restrictiva: leyenda 'A 200 m'",
       "6 dibujos en este subgrupo"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 188 (F05-T02): el resumen sumó la forma de cada señal y el ejemplo de «Otras»."
   },
   {
     "id": "manual.annex4.warning-end",
@@ -13212,8 +13215,8 @@
       "Fin de prevención: rombo blanco con borde negro y franjas diagonales negras"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 188 (F05-T02): sin cambios; el pictograma tachado está en gris."
   },
   {
     "id": "manual.annex4.warning-eventual-risk",
@@ -13231,8 +13234,8 @@
       "Incluye escolares, niños, animales sueltos y vehículos extraños"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 188 (F05-T02): sin cambios."
   },
   {
     "id": "manual.annex4.warning-maximum-danger",
@@ -13244,15 +13247,16 @@
     "title": "Preventivas: advertencias de máximo peligro",
     "category": "B",
     "type": "sign-group",
-    "summary": "Diez señales de máximo peligro: cruce ferroviario, curva cerrada, cruce de peatones (con y sin placa PRIORIDAD PEATÓN) y atención, en triángulos blancos con borde rojo; paneles de prevención (aproximación, objeto rígido, curva/chevrón) con franjas rojas y blancas; y cruces de San Andrés para hasta dos vías y para más de dos vías.",
+    "summary": "Diez señales de máximo peligro: cruce ferroviario, curva cerrada, cruce de peatones (con y sin placa PRIORIDAD PEATÓN) y atención, en triángulos blancos con borde rojo; paneles de prevención blancos con franjas diagonales rojas (aproximación: tres paneles con una, dos y tres franjas; objeto rígido) o con un cheurón rojo (curva / chevrón); y cruces de San Andrés, aspas blancas con borde rojo, simple para hasta dos vías y doble para más de dos vías.",
     "keyFacts": [
       "Triángulo blanco con borde rojo",
       "Cruz de San Andrés simple: hasta dos vías; doble: más de dos vías",
-      "Paneles de prevención: aproximación, objeto rígido, curva/chevrón"
+      "Paneles de prevención: aproximación, objeto rígido, curva/chevrón",
+      "Placa del cruce de peatones: «PRIORIDAD PEATÓN»"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra la imagen de PDF 188 (F05-T02): el panel de curva tiene un cheurón, no franjas; los de aproximación tienen una, dos y tres franjas. Se agregó la placa PRIORIDAD PEATÓN a los keyFacts."
   },
   {
     "id": "manual.annex4.informative-road-features",
@@ -13265,17 +13269,20 @@
     "title": "Informativas: características de la vía",
     "category": "B",
     "type": "sign-group",
-    "summary": "Las páginas 189 y 190 ilustran 44 señales informativas de características de la vía: autopista (comienzo y fin), utilización de carriles, calle sin salida, camino transitable, velocidades máximas (90, 100 en autopista, 80 para camiones), esquemas de recorrido y desvío, estacionamiento permitido y ordenado (con relojes verdes/naranjas, 45°/90°, motos, tarifas simple y progresiva), giros y direcciones permitidas (círculos azules), cámara de control electrónico, fin de camino peatonal, cruce peatonal y señales de ciclovía.",
+    "summary": "Las páginas 189 y 190 ilustran 44 señales informativas de características de la vía: autopista (comienzo y fin), indicadora de utilización de carriles, camino o calle sin salida, camino o paso transitable, panel de velocidades máximas permitidas (90; 100 en autopista; 80 para camiones), esquema de recorrido y desvío por cambio de sentido de circulación, estacionamiento permitido (círculo azul con E) y ordenado (cuadrado azul con E y reloj verde o naranja; variantes con 45°, 90° y motos, y placas de tarifa simple y progresiva), giros y direcciones permitidas (círculos azules con flechas blancas), cámara de control electrónico, fin de camino peatonal, cruce peatonal y señales para ciclovías (proximidad, direccionadores, finalización, descenso de la bicicleta y advertencias de escuela y general).",
     "keyFacts": [
+      "Estacionamiento permitido: círculo azul con E blanca (variantes con 45° y con moto)",
+      "Estacionamiento ordenado: cuadrado azul con E y reloj verde o naranja; placas de tarifa simple (S) y progresiva (P)",
+      "Fin de autopista: el dibujo de comienzo de autopista cruzado por una barra diagonal roja",
+      "Camino o calle sin salida: calle blanca que termina en una barra roja",
       "Velocidades máximas permitidas (panel RA): 90; autopista 100; camiones 80",
-      "Estacionamiento ordenado: días hábiles 8 a 20 hs, sábados 8 a 13 hs (placas de tarifa)",
       "Proximidad de ciclovía: 'CICLOVÍA a 200 mts.'",
       "Finalización de la ciclovía: 'Fin de ciclovía a 50 mts'",
       "Fin de camino peatonal: 'A 100m'"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "La fuente no explica la diferencia entre relojes verdes y naranjas en 'Estacionamiento ordenado'."
+    "status": "tested",
+    "notes": "La fuente no explica la diferencia entre relojes verdes y naranjas en 'Estacionamiento ordenado'. Revisada contra PDF 189 y 190 (F05-T02): se completó el resumen (nombres de las señales y señales para ciclovías) y los datos clave (permitido frente a ordenado, sin salida, fin de autopista); se quitó de los datos clave el horario de las placas de tarifa, cuyo texto es en parte ilegible en el PDF."
   },
   {
     "id": "manual.annex4.informative-signs",
@@ -13296,8 +13303,8 @@
       "Fondo verde, azul, blanco o negro según la información"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Definición general tomada de la página PDF 61 (cap. 3, 'Señalización vertical'); el anexo IV no define las categorías, solo las ilustra."
+    "status": "tested",
+    "notes": "Definición general tomada de la página PDF 61 (cap. 3, 'Señalización vertical'); el anexo IV no define las categorías, solo las ilustra. Revisada contra PDF 61 y 189–191 (F05-T02): resumen y datos clave fieles, sin cambios."
   },
   {
     "id": "manual.annex4.informative-road-naming",
@@ -13313,11 +13320,15 @@
     "keyFacts": [
       "Ruta nacional: escudo con número",
       "Ruta provincial: cuadrado con número",
-      "Nomenclatura urbana: cartel negro con nombre de calle, altura, barrio y comuna"
+      "Ruta panamericana: escudo con 'ARGENTINA' y el mapa de América",
+      "Nomenclatura urbana: cartel negro con nombre de calle, altura, barrio y comuna, o con un destino a pie y el tiempo de caminata",
+      "Orientación: destinos con flechas (verde en caminos primarios y secundarios; blanco en caminos secundarios)",
+      "Mojón kilométrico: poste con números en columna",
+      "Nomenclatura de autopista: cartel azul 'AU 1'"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 190 (F05-T02): resumen fiel; se agregaron datos clave de ruta panamericana, orientación, mojón, autopista y del segundo cartel de nomenclatura urbana."
   },
   {
     "id": "manual.annex4.informative-educational",
@@ -13329,16 +13340,19 @@
     "title": "Informativas: educativas y anuncios especiales",
     "category": "B",
     "type": "sign-group",
-    "summary": "Ocho carteles blancos con leyendas educativas (Evite accidentes. Estacione lejos de la calzada; Destruir señales es un delito; Evite encandilar; No se adelante sin advertir; Transite dentro de su carril; No adelantarse en curvas y puentes; Adelántese por la izquierda; Respete las señales) y la Estrella Amarilla en conmemoración a una víctima de tránsito.",
+    "summary": "Ocho carteles blancos verticales con borde negro y leyendas educativas (Evite accidentes. Estacione lejos de la calzada; Destruir señales es un delito; Evite encandilar; No se adelante sin advertir; Transite dentro de su carril; No adelantarse en curvas y puentes; Adelántese por la izquierda; Respete las señales) y la Estrella Amarilla, rotulada «En conmemoración a una víctima de tránsito».",
     "keyFacts": [
+      "Carteles blancos verticales con borde negro y leyenda negra",
       "Destruir señales es un delito",
       "No adelantarse en curvas y puentes",
-      "Adelantarse por la izquierda",
-      "Evite encandilar"
+      "Adelántese por la izquierda",
+      "No se adelante sin advertir",
+      "Evite encandilar",
+      "Estrella Amarilla: en conmemoración a una víctima de tránsito"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 191 (F05-T02): el dato 'Adelantarse por la izquierda' se corrigió a la leyenda del cartel ('ADELANTESE POR LA IZQUIERDA'); se agregaron la forma de los carteles, 'No se adelante sin advertir' y la Estrella Amarilla."
   },
   {
     "id": "manual.annex4.informative-tourist-services",
@@ -13350,15 +13364,16 @@
     "title": "Informativas: información turística y de servicios",
     "category": "B",
     "type": "sign-group",
-    "summary": "Veinticinco señales rectangulares azules con recuadro blanco que indican servicios y lugares: puesto sanitario, teléfono, estación de servicio, teleférico, servicio mecánico, restaurante, aeropuerto, gomería, estacionamiento, punto panorámico, plaza, correo, casas rodantes, museo, policía, parada de colectivos, taxi, terminal de ómnibus, estación de ferrocarril, teatro, turismo, institución religiosa, escolares, escolares (ciclovía) y personas con movilidad reducida.",
+    "summary": "Veinticinco señales azules de servicios y lugares: casi todas son rectángulos verticales con un recuadro blanco para el pictograma y la leyenda abajo (puesto sanitario, servicio telefónico, estación de servicio, teleférico, servicio mecánico, restaurante, aeropuerto, gomería, estacionamiento, punto panorámico, plaza, correo, casas rodantes, museo, policía, parada de colectivos, taxi, terminal de ómnibus, estación de ferrocarril, teatro, institución religiosa, escolares, escolares (ciclovía) y personas con movilidad reducida); turismo es un cuadrado azul con borde blanco.",
     "keyFacts": [
-      "Fondo azul con recuadro blanco",
+      "Fondo azul con recuadro blanco para el pictograma",
       "Zona de detención de transporte público: leyenda 'PARADA DE COLECTIVOS'",
+      "Institución religiosa, escolares y personas con movilidad reducida: leyenda 'Ascenso y descenso'",
       "Escolares (Ciclovía): placa 'DEJE LIBRE Éste carril de la ciclovía'"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 191 (F05-T02): se precisó la forma (turismo es cuadrado con borde blanco) y se agregó que varias señales llevan la leyenda 'Ascenso y descenso'."
   },
   {
     "id": "manual.annex4.yellow-star-meaning",
@@ -13378,8 +13393,8 @@
       "Las muertes de tránsito son muertes evitables"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 191 y 192 (F05-T02): resumen y datos clave fieles, sin cambios. Se evalúa qué marca la estrella y su objetivo, no la leyenda del ejemplo dibujado."
   },
   {
     "id": "manual.annex4.yellow-star-points",
@@ -13398,8 +13413,8 @@
       "Inscripción: 'En memoria de una víctima de tránsito'"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": "El ejemplo dibujado en la página 191 muestra 'JUAN 02/02/2011' (una fecha, no una edad)."
+    "status": "tested",
+    "notes": "El ejemplo dibujado en la página 191 muestra 'JUAN 02/02/2011' (una fecha, no una edad). Revisada contra PDF 192 (F05-T02): fiel. No se evalúa la leyenda del ejemplo (edad o fecha)."
   },
   {
     "id": "manual.annex4.yellow-star-request-and-map",
@@ -13419,8 +13434,8 @@
       "Mapa: https://buenosaires.gob.ar/informes-estadisticos-y-mapas/mapa-de-estrellas-amarillas-en-la-ciudad"
     ],
     "figureBased": false,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 192 (F05-T02): fiel. Se evalúa que la piden gratis familiares de la víctima (por correo o a través de una ONG) y que existe un mapa interactivo; el correo y el sitio no se evalúan."
   },
   {
     "id": "manual.annex4.temporary-pedestrian",
@@ -13433,14 +13448,16 @@
     "title": "Transitorias peatonales",
     "category": "B",
     "type": "sign-group",
-    "summary": "Señales transitorias para peatones (naranja y negro con franja rayada): desvío, anuncio de obra ('OBRA a 50 m Camine con precaución'), comienzo de obra, anulación temporal de paradas, acérquese a la parada más próxima, anulación de parada, prohibido el paso y senda deshabilitada ('PELIGRO Prohibido cruzar').",
+    "summary": "Señales transitorias para peatones, rectángulos verticales naranjas (casi todas con la parte inferior negra y una franja rayada abajo): desvío (en la página 193, solo con una flecha; en la 194, con flecha y figura caminando), anuncio de obra ('OBRA a 50 m Camine con precaución'), comienzo de obra ('OBRA Camine con precaución'), anulación temporal de paradas, acérquese a la parada más próxima, anulación de parada ('se traslada a la siguiente'), prohibido el paso ('PELIGRO Prohibido el paso') y senda deshabilitada ('PELIGRO Prohibido cruzar').",
     "keyFacts": [
       "Anuncio de obra: 'OBRA a 50 m'",
-      "Senda deshabilitada: 'PELIGRO Prohibido cruzar'"
+      "Comienzo de obra: 'OBRA', sin distancia",
+      "Senda deshabilitada: 'PELIGRO Prohibido cruzar'",
+      "Acérquese a la parada más próxima (el rótulo dice 'más cercana')"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 193 y 194 (F05-T02): se agregaron los dos dibujos de desvío, la leyenda de comienzo de obra y la de anulación de parada."
   },
   {
     "id": "manual.annex4.temporary-road",
@@ -13458,8 +13475,8 @@
       "Anticipos a 100 m y a 'X m'"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 193 (F05-T02): fiel (23 señales)."
   },
   {
     "id": "manual.annex4.temporary-signs",
@@ -13480,8 +13497,8 @@
       "Prohibido sobrepasar la línea imaginaria que une los conos (p. 59)"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Definición tomada de las páginas PDF 59 y 61; el anexo solo ilustra."
+    "status": "tested",
+    "notes": "Definición tomada de las páginas PDF 59 y 61; el anexo solo ilustra. Revisada contra PDF 59, 61 y 193–194 (F05-T02): fiel."
   },
   {
     "id": "manual.annex4.temporary-bike-lane",
@@ -13498,8 +13515,8 @@
       "Interrupción de ciclovía (anticipación): 'a 50 m'"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 194 (F05-T02): fiel."
   },
   {
     "id": "manual.annex4.temporary-other-devices",
@@ -13511,14 +13528,14 @@
     "title": "Transitorias: otros dispositivos",
     "category": "B",
     "type": "sign-group",
-    "summary": "Quince dispositivos transitorios: valla barricada, valla peatonal, valla de obra, anuncio de obra, conos, tambores, delineadores, barandas canalizadoras (plásticas y de hormigón), reflector, baliza delineadora, baliza intermitente, flecha vial intermitente, semáforo y paneles.",
+    "summary": "Quince dispositivos transitorios: valla barricada, valla peatonal, valla de obra, anuncio de obra, conos, tambores, delineadores, barandas canalizadoras de tránsito (dos dibujos, uno de hormigón), reflector, baliza delineadora, baliza intermitente, flecha vial intermitente, semáforo y paneles.",
     "keyFacts": [
       "15 dispositivos",
-      "Incluye vallas, conos, tambores, barandas, balizas y paneles luminosos"
+      "Incluye vallas, conos, tambores, barandas canalizadoras, balizas, flecha vial intermitente, semáforo y paneles"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 194 (F05-T02): se quitó 'plásticas', que la página no dice (solo rotula la variante de hormigón)."
   },
   {
     "id": "manual.annex4.markings-longitudinal",
@@ -13538,8 +13555,8 @@
       "Continua y discontinua paralelas: traspaso autorizado solo desde el lado de la discontinua"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 59, 60 y 195 (F05-T02): fiel."
   },
   {
     "id": "manual.annex4.markings-transverse",
@@ -13558,8 +13575,8 @@
       "Líneas auxiliares de reducción de velocidad: distribución logarítmica"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 60 y 195 (F05-T02): fiel."
   },
   {
     "id": "manual.annex4.road-markings",
@@ -13579,8 +13596,8 @@
       "Tipos: longitudinales, transversales y especiales"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Definición tomada de las páginas PDF 59–60."
+    "status": "tested",
+    "notes": "Definición tomada de las páginas PDF 59–60. Revisada contra PDF 59, 60, 195 y 196 (F05-T02): fiel."
   },
   {
     "id": "manual.annex4.markings-special",
@@ -13601,8 +13618,8 @@
       "Delineadores: canalizan o guían el tránsito y destacan variaciones en la vía"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "La página 60 define el cordón amarillo como 'prohibición de estacionar durante las 24 horas' (ver issues)."
+    "status": "tested",
+    "notes": "La página 60 define el cordón amarillo como 'prohibición de estacionar durante las 24 horas' (ver issues). Revisada contra PDF 60 y 196 (F05-T02): fiel. Por la diferencia con la página 60, del cordón amarillo solo se evalúa que prohíbe estacionar. La página 63 dibuja el símbolo de carril de emergencia con una E; el anexo, como un rombo sin letra."
   },
   {
     "id": "manual.annex4.light-signals",
@@ -13614,14 +13631,15 @@
     "title": "Señalamiento luminoso",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 59, los semáforos son señales luminosas que transmiten órdenes o prohibiciones, advierten circunstancias y encauzan y regulan la circulación con colores, flechas o figuras de ubicación y forma predeterminadas; su luz puede ser continua o intermitente. La página 197 muestra el significado de las luces, la disposición de unidades ópticas (vertical y horizontal, con luces y flechas rojas, amarillas y verdes) y semáforos especiales.",
+    "summary": "Según la página 59, los semáforos son señales luminosas que transmiten órdenes o prohibiciones, advierten circunstancias y encauzan y regulan la circulación con colores, flechas o figuras de ubicación y forma predeterminadas; su luz puede ser continua o intermitente. La página 197 muestra el significado de las luces (con un semáforo vertical de tres luces, otro horizontal colgado de un brazo y flechas direccionales), la disposición de unidades ópticas (vertical, con la luz roja arriba, y horizontal, con la roja a la izquierda; con luces y flechas rojas, amarillas y verdes) y semáforos especiales.",
     "keyFacts": [
       "Luz continua o intermitente (p. 59)",
-      "Disposición de unidades ópticas vertical u horizontal"
+      "Disposición de unidades ópticas vertical u horizontal",
+      "Vertical: luz roja arriba; horizontal: luz roja a la izquierda"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": "Definición general tomada de la página PDF 59."
+    "status": "tested",
+    "notes": "Definición general tomada de la página PDF 59. Revisada contra PDF 59 y 197 (F05-T02): se agregaron el semáforo con brazo, las flechas direccionales y la posición de la luz roja en cada disposición."
   },
   {
     "id": "manual.annex4.special-traffic-lights",
@@ -13643,8 +13661,8 @@
       "Carril reversible: flecha verde intermitente = inminente cambio de circulación"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 197 (F05-T02): fiel."
   },
   {
     "id": "manual.annex4.traffic-light-meanings",
@@ -13666,8 +13684,8 @@
       "Verde: dejar terminar de cruzar a quienes iniciaron el paso antes del cambio"
     ],
     "figureBased": true,
-    "status": "transcribed",
-    "notes": ""
+    "status": "tested",
+    "notes": "Revisada contra PDF 64 y 197 (F05-T02): fiel. Diferencia con la página 64 en el amarillo: allí dice 'detenerse si aún no se ha iniciado el cruce'; aquí, 'si no se llega a transponer la encrucijada antes del cambio a rojo'. Solo se evalúa el caso en que ambas coinciden (no se inició el cruce y no se llega a cruzar antes del rojo)."
   },
   {
     "id": "siniestros.intro.guide-purpose",
