@@ -141,7 +141,7 @@ export const DRIVING_GUIDE_COPY = {
     kind === 'manual'
       ? `Pedales: ${k.throttle} acelerador, ${k.brake} freno y ${k.clutch} embrague. Mientras mantenés la tecla, el pedal baja hasta el fondo; al soltarla, sube. El embrague sube despacio: con toques cortos queda a medio camino.`
       : `Pedales: ${k.throttle} acelerador y ${k.brake} freno. Mientras mantenés la tecla, el pedal baja hasta el fondo; al soltarla, sube.`,
-    `Volante: ${k.left} a la izquierda y ${k.right} a la derecha. Gira mientras mantenés la tecla y vuelve solo al centro al soltarla.`,
+    `Volante: ${k.left} a la izquierda y ${k.right} a la derecha. Gira mientras mantenés la tecla, menos cuanto más rápido vas, y vuelve solo al centro al soltarla.`,
     kind === 'manual'
       ? `Caja: con ${k.clutch} pisado, ${k.gearUp} sube y ${k.gearDown} baja de a una marcha (R · N · 1 · 2 · 3 · 4 · 5).`
       : `Caja: ${k.gearUp} y ${k.gearDown} mueven la palanca de a una posición (P · R · N · D); para sacarla de P, pisá el freno (${k.brake}).`,

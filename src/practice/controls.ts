@@ -1,7 +1,7 @@
 import type { CarControls } from '../sim/car.ts';
 import type { AutomaticLever, ManualGear, PowertrainCommand, PowertrainState } from '../sim/powertrain/powertrain.ts';
 
-/** Provisional keyboard bindings of the practice yard; configurable controls arrive with the cabin (F03-T03). */
+/** Canonical actions; user bindings are translated to these keys before each simulation step. */
 export const KEY_BINDINGS = {
   throttle: ['ArrowUp', 'KeyW'],
   brake: ['ArrowDown', 'KeyS'],
@@ -24,7 +24,7 @@ export const CONTROL_RATES = {
   clutchPressPerS: 4,
   clutchReleasePerS: 0.6,
   steerPerS: 1.5,
-  steerReturnPerS: 2.5,
+  steerReturnPerS: 0.7,
 } as const;
 
 export const NEUTRAL_CONTROLS: CarControls = { throttle: 0, brake: 0, clutch: 0, steer: 0 };
@@ -35,12 +35,21 @@ function towards(value: number, target: number, rateUp: number, rateDown: number
   return value < target ? Math.min(target, value + rateUp * dt) : Math.max(target, value - rateDown * dt);
 }
 
-/** Moves pedals and wheel towards what the held keys ask for. */
-export function stepControls(controls: CarControls, keys: ReadonlySet<string>, dt: number): CarControls {
+/**
+ * Keyboard steering assist: full lock for manoeuvring, finer input at road speed. This models a driver's
+ * smaller wheel movements with binary keys, not a variable physical steering ratio or an exam speed limit.
+ * Signed speed is intentional: reversing gets the same sensitivity. All ramps run in simulation time.
+ */
+export function stepControls(controls: CarControls, keys: ReadonlySet<string>, dt: number, speedMps = 0): CarControls {
   const left = anyPressed(keys, KEY_BINDINGS.left);
   const right = anyPressed(keys, KEY_BINDINGS.right);
-  const steerTarget = left === right ? 0 : left ? 1 : -1;
-  const steerRate = steerTarget === 0 ? CONTROL_RATES.steerReturnPerS : CONTROL_RATES.steerPerS;
+  const speed = Math.abs(speedMps);
+  const steeringRange = 1 / (1 + (Math.max(0, speed - 2) / 5) ** 2);
+  const steerTarget = (left === right ? 0 : left ? 1 : -1) * steeringRange;
+  const steerRate =
+    steerTarget === 0
+      ? CONTROL_RATES.steerReturnPerS + Math.min(speed / 10, 1)
+      : CONTROL_RATES.steerPerS * Math.sqrt(steeringRange);
   const pedal = (codes: readonly string[], value: number, press: number, release: number) =>
     towards(value, anyPressed(keys, codes) ? 1 : 0, press, release, dt);
   return {

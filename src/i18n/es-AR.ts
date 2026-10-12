@@ -454,9 +454,13 @@ export const TRACK_COPY = {
 } as const;
 
 export const COCKPIT_COPY = {
+  fullscreen: 'Pantalla completa',
+  exitFullscreen: 'Salir de pantalla completa',
+  fullscreenUnavailable: 'Este navegador no pudo abrir la pantalla completa. Podés seguir manejando en esta vista.',
+  instrumentRpmScale: '×1000',
   title: 'Al volante',
   subtitle: 'PREDIO DE PRÁCTICA · HABITÁCULO',
-  help: 'Enfocá la vista para usar tus teclas. Arrastrá sobre el parabrisas para mirar; también podés usar los botones. Tab permite salir de la vista.',
+  help: 'Enfocá la vista para usar tus teclas. Arrastrá sobre el parabrisas para mirar; también podés usar los botones. Tab permite salir de la vista. Con teclas, el giro se dosifica según la velocidad.',
   setup: 'Prepará tu posición',
   preparationSource: 'Protocolo: comprobaciones previas (PDF 9–10)',
   postureSource: 'Protocolo: postura, espejos y cinturón (PDF 20)',

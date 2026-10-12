@@ -1,6 +1,7 @@
 import { startTransition, useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import * as THREE from 'three';
+import { usePrefersReducedMotion } from '../ui/usePrefersReducedMotion.ts';
 import { HeldInput } from './heldInput.ts';
 import { KEY_BINDINGS } from './controls.ts';
 import { driveFrame, startDriving } from './drivingLoop.ts';
@@ -96,8 +97,34 @@ export function DrivingCanvas({
   halted = false,
   onBindingsChange,
 }: DrivingCanvasProps) {
+  const shellRef = useRef<HTMLElement>(null);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
+  const reducedMotion = usePrefersReducedMotion();
+  const reducedMotionRef = useRef(reducedMotion);
+  useEffect(() => {
+    reducedMotionRef.current = reducedMotion;
+  }, [reducedMotion]);
   const containerRef = useRef<HTMLDivElement>(null);
   const heldRef = useRef(new HeldInput());
+  useEffect(() => {
+    const onFullscreen = () => {
+      setFullscreen(document.fullscreenElement === shellRef.current);
+      containerRef.current?.focus();
+    };
+    document.addEventListener('fullscreenchange', onFullscreen);
+    return () => document.removeEventListener('fullscreenchange', onFullscreen);
+  }, []);
+  const toggleFullscreen = async () => {
+    try {
+      if (document.fullscreenElement === shellRef.current) await document.exitFullscreen();
+      else if (shellRef.current?.requestFullscreen) await shellRef.current.requestFullscreen();
+      else throw new Error('Fullscreen is unavailable');
+      setDisplayError(false);
+    } catch {
+      setDisplayError(true);
+    }
+  };
   const [cockpit, setCockpit] = useState(initialCockpit);
   const cockpitRef = useRef(cockpit);
   const [bindings, setBindings] = useState<Bindings>(() => {
@@ -299,11 +326,12 @@ export function DrivingCanvas({
       const { stepper, events } = driving;
       const car = stepper.state;
       const rpm = radSToRpm(car.powertrain.engineRadS);
+      track.setReducedMotion(reducedMotionRef.current);
       track.update(
         interpolateVehicle(stepper.previous.world.vehicle, car.world.vehicle, driving.alpha),
         cockpitRef.current,
         rpm,
-        car.world.timeS,
+        stepper.previous.world.timeS + (car.world.timeS - stepper.previous.world.timeS) * driving.alpha,
         driving.scenario,
       );
       renderer.render(track.scene, track.camera);
@@ -364,12 +392,22 @@ export function DrivingCanvas({
   };
 
   return (
-    <section className="cockpit-shell" aria-label={copy.title}>
+    <section ref={shellRef} className="cockpit-shell" aria-label={copy.title}>
       <div className="cockpit-heading">
         <span>{subtitle}</span>
         <strong>{cockpit.belt ? copy.beltOn : copy.beltOff}</strong>
       </div>
-      <p className="cockpit-help">{copy.help}</p>
+      <div className="cockpit-view-options">
+        <p className="cockpit-help">{copy.help}</p>
+        <button type="button" onClick={() => void toggleFullscreen()} aria-pressed={fullscreen}>
+          {fullscreen ? copy.exitFullscreen : copy.fullscreen}
+        </button>
+      </div>
+      {displayError && (
+        <p className="cockpit-help" role="status">
+          {copy.fullscreenUnavailable}
+        </p>
+      )}
       <div className="cockpit-viewport">
         <div
           className="scene-canvas driving-canvas"
