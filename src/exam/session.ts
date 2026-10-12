@@ -1,4 +1,4 @@
-import { createLedger, interrupt, recordFault } from './scoring.ts';
+import { createLedger, interrupt, recordFault, withdrawFault } from './scoring.ts';
 import type { Ledger, Stage } from './scoring.ts';
 import { createRandom, shuffle } from '../activities/random.ts';
 import type { Rule } from '../content/schemas.ts';
@@ -137,6 +137,9 @@ export interface Session {
     blockedS: number;
     stops: number;
     wasStopped: boolean;
+    /** Over the exam limit right now, and how many such episodes there were: correcting it ends one (D3). */
+    speeding: boolean;
+    speedEpisodes: number;
   };
   queue: readonly RecognitionTarget[];
   /** Stage I adjustments made since the recognition began; all three mirrors must be checked (protocolo PDF 9). */
@@ -232,6 +235,8 @@ export function createSession(
       blockedS: 0,
       stops: 0,
       wasStopped: false,
+      speeding: false,
+      speedEpisodes: 0,
     },
     queue: recognitionQueue(kind, seed),
     adjusted: { seat: false, headrest: false, mirrors: [] },
@@ -442,9 +447,19 @@ const kmhOf = (car: CarState) => Math.abs(car.world.vehicle.speedMps) * 3.6;
 function judgeSpeed(session: Session, car: CarState, roadKmh: number, examKmh: number): Session {
   const kmh = kmhOf(car);
   const tolerance = GAME_PARAMETERS.speedToleranceKmh;
-  if (kmh > roadKmh + tolerance) return fault(session, 'rule.eliminatory.l-road-speed-limit-exceeded');
-  if (kmh > examKmh + tolerance) return fault(session, 'rule.high.f-exam-speed-exceeded', `speed-${session.phase}`);
-  return session;
+  const over = kmh > examKmh + tolerance;
+  let next = session;
+  if (over && !next.street.speeding)
+    next = { ...next, street: { ...next.street, speeding: true, speedEpisodes: next.street.speedEpisodes + 1 } };
+  if (!over && next.street.speeding) next = { ...next, street: { ...next.street, speeding: false } };
+  const episode = `speed-${next.street.speedEpisodes}`;
+  if (kmh > roadKmh + tolerance) {
+    // One episode, the more severe rule only (D2): the exam-speed fault of this episode is withdrawn.
+    const ledger = withdrawFault(next.ledger, 'rule.high.f-exam-speed-exceeded', episode);
+    return fault({ ...next, ledger }, 'rule.eliminatory.l-road-speed-limit-exceeded');
+  }
+  if (over) return fault(next, 'rule.high.f-exam-speed-exceeded', episode);
+  return next;
 }
 
 /** First 100 m: at most 30 km/h in second (manual) or D (automatic); otherwise the instruction is not followed. */

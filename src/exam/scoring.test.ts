@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { REAL_RULES } from '../test/realRules.ts';
-import { createLedger, interrupt, recordFault, resultOf, ruleById } from './scoring.ts';
+import { createLedger, interrupt, recordFault, resultOf, ruleById, withdrawFault } from './scoring.ts';
 import type { Ledger } from './scoring.ts';
 
 const ledger = () => createLedger(REAL_RULES);
@@ -65,6 +65,35 @@ describe('fault ledger (REGLAS.md §4–§5)', () => {
     expect(() => recordFault(ledger(), { ruleId: 'rule.minor.a-lights-recognition', atS: 1, escalate: true })).toThrow(
       /cannot escalate/,
     );
+  });
+
+  it('raises an already scored episode to its escalation instead of adding a second fault', () => {
+    let state = recordFault(ledger(), {
+      ruleId: 'rule.high.l-yield-to-pedestrians-cyclists',
+      atS: 1,
+      episode: 'crosswalk',
+    });
+    state = recordFault(state, {
+      ruleId: 'rule.high.l-yield-to-pedestrians-cyclists',
+      atS: 2,
+      episode: 'crosswalk',
+      escalate: true,
+    });
+
+    expect(state.faults).toHaveLength(1);
+    expect(state.faults[0]).toMatchObject({ points: 8, escalated: true, atS: 1 });
+    expect(state.points).toBe(8);
+    expect(state.interruption?.cause).toBe('fault');
+  });
+
+  it('withdraws a fault of an episode that a more severe rule now covers (decision D2)', () => {
+    let state = recordFault(ledger(), { ruleId: 'rule.high.f-exam-speed-exceeded', atS: 1, episode: 'speed-1' });
+    state = withdrawFault(state, 'rule.high.f-exam-speed-exceeded', 'speed-1');
+    state = recordFault(state, { ruleId: 'rule.eliminatory.l-road-speed-limit-exceeded', atS: 2 });
+
+    expect(state.faults.map((fault) => fault.ruleId)).toEqual(['rule.eliminatory.l-road-speed-limit-exceeded']);
+    expect(state.points).toBe(8);
+    expect(withdrawFault(state, 'rule.minor.a-lights-recognition', undefined)).toBe(state);
   });
 
   it('rejects unknown rules instead of scoring them', () => {

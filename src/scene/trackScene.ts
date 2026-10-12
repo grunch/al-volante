@@ -14,7 +14,9 @@ const CAMERA_UP_M = 3.2;
 const LOOK_AHEAD_M = 4;
 /** Share of the remaining distance the camera covers each frame when motion is allowed. */
 const CAMERA_EASE = 0.15;
-const GROUND_SIZE_M = 200;
+/** The ground and grid cover the world's obstacles and markings with this margin, at least this big. */
+const GROUND_MARGIN_M = 60;
+const GROUND_MIN_SIZE_M = 200;
 
 const OBSTACLE_LOOK: Record<ObstacleKind, { heightM: number; color: THREE.ColorRepresentation }> = {
   wall: { heightM: 2, color: '#8a8f99' },
@@ -56,11 +58,25 @@ function createObstacle(obstacle: Obstacle): THREE.Mesh {
   return mesh;
 }
 
+/** Square extent that covers every obstacle and marking of the world, so a long street keeps its pavement. */
+function groundExtent(world: World): { centerX: number; centerZ: number; sizeM: number } {
+  const boxes = [...world.obstacles.map((obstacle) => obstacle.box), ...(world.markings ?? [])];
+  if (boxes.length === 0) return { centerX: 0, centerZ: 0, sizeM: GROUND_MIN_SIZE_M };
+  const reach = (box: OrientedBox) => Math.hypot(box.halfLengthM, box.halfWidthM);
+  const minX = Math.min(...boxes.map((box) => box.centerX - reach(box)));
+  const maxX = Math.max(...boxes.map((box) => box.centerX + reach(box)));
+  const minZ = Math.min(...boxes.map((box) => box.centerZ - reach(box)));
+  const maxZ = Math.max(...boxes.map((box) => box.centerZ + reach(box)));
+  const sizeM = Math.max(GROUND_MIN_SIZE_M, maxX - minX + 2 * GROUND_MARGIN_M, maxZ - minZ + 2 * GROUND_MARGIN_M);
+  return { centerX: (minX + maxX) / 2, centerZ: (minZ + maxZ) / 2, sizeM };
+}
+
 /** A faint one-metre grid, so speed and short moves (such as 30 cm) can be judged by eye. */
-function createGrid(): THREE.GridHelper {
-  const grid = new THREE.GridHelper(GROUND_SIZE_M, GROUND_SIZE_M, SCENE_COLORS.ivory, SCENE_COLORS.ivory);
+function createGrid(extent: ReturnType<typeof groundExtent>): THREE.GridHelper {
+  const size = Math.round(extent.sizeM);
+  const grid = new THREE.GridHelper(size, size, SCENE_COLORS.ivory, SCENE_COLORS.ivory);
   grid.name = 'grid';
-  grid.position.y = 0.005;
+  grid.position.set(extent.centerX, 0.005, extent.centerZ);
   const materials = Array.isArray(grid.material) ? grid.material : [grid.material];
   for (const material of materials) {
     material.transparent = true;
@@ -121,13 +137,14 @@ function createTrafficLight(scenario: Scenario): { group: THREE.Group; setLight(
   };
 }
 
-function createGround(): THREE.Mesh {
+function createGround(extent: ReturnType<typeof groundExtent>): THREE.Mesh {
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(GROUND_SIZE_M, GROUND_SIZE_M),
+    new THREE.PlaneGeometry(extent.sizeM, extent.sizeM),
     new THREE.MeshStandardMaterial({ color: SCENE_COLORS.concrete, roughness: 0.95 }),
   );
   ground.name = 'ground';
   ground.rotation.x = -Math.PI / 2;
+  ground.position.set(extent.centerX, 0, extent.centerZ);
   return ground;
 }
 
@@ -142,10 +159,11 @@ export function createTrackScene(
   scene.background = new THREE.Color(SCENE_COLORS.night);
   const sun = new THREE.DirectionalLight(SCENE_COLORS.ivory, 2);
   sun.position.set(10, 20, 5);
-  scene.add(new THREE.HemisphereLight(SCENE_COLORS.ivory, SCENE_COLORS.night, 1.2), sun, createGround());
+  const extent = groundExtent(world);
+  scene.add(new THREE.HemisphereLight(SCENE_COLORS.ivory, SCENE_COLORS.night, 1.2), sun, createGround(extent));
   for (const obstacle of world.obstacles) scene.add(createObstacle(obstacle));
   (world.markings ?? []).forEach((marking, index) => scene.add(createMarking(marking, index)));
-  scene.add(createGrid());
+  scene.add(createGrid(extent));
   const car = createCarModel(spec);
   scene.add(car);
   const actors = new Map<string, THREE.Mesh>();
