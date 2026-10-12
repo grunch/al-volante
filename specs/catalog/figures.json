@@ -773,6 +773,261 @@
     ]
   },
   {
+    "id": "fig.manual-p95-mate-distraction",
+    "source": "manual",
+    "page": 95,
+    "box": {
+      "x": 0.094,
+      "y": 0.648,
+      "width": 0.82,
+      "height": 0.127
+    },
+    "alt": "Tira de tres viñetas. Primera: «Un auto a 100 km/h recorre 27,7 metros en 1 segundo», con un auto marcado «100 km/h» entre otros autos. Segunda: «Entonces, 4 segundos cebando mate mientras conduce…», con un volante, un termo y un mate. Tercera: «Sería como manejar una cuadra entera con los ojos tapados», con una persona al volante que se tapa los ojos con las manos.",
+    "unitIds": [
+      "manual.ch4.eating-drinking-mate-smoking"
+    ]
+  },
+  {
+    "id": "fig.manual-p105-vtv-checks",
+    "source": "manual",
+    "page": 105,
+    "box": {
+      "x": 0.083,
+      "y": 0.513,
+      "width": 0.835,
+      "height": 0.386
+    },
+    "alt": "Infografía «Controles de VTV» sobre un auto sedán azul, con ocho rótulos: Luces: en buen estado y sin faltantes. Chasis: paragolpes, parabrisas, limpiaparabrisas y chasis. Seguridad y emergencia: apoyacabezas en asientos delanteros, cinturones de seguridad, matafuegos y balizas. Sistema de dirección y tren delantero: caja de dirección, ruedas, rótulas y extremos de dirección. Sistema de suspensión: amortiguadores, elásticos y parrilla de suspensión. Sistema de escape: emisión de gases, humo y ruido. Sistema de frenos: eficacia de los frenos de servicio y del freno de mano. Neumáticos: chequeo de dibujo y llantas.",
+    "unitIds": [
+      "manual.annex1.vtv-checks"
+    ]
+  },
+  {
+    "id": "fig.manual-p106-active-safety",
+    "source": "manual",
+    "page": 106,
+    "box": {
+      "x": 0.083,
+      "y": 0.473,
+      "width": 0.835,
+      "height": 0.449
+    },
+    "alt": "«Elementos de seguridad activa: contribuyen a evitar que ocurra un siniestro, mejorando la eficacia y estabilidad, y garantizando el correcto funcionamiento del vehículo en movimiento.» Debajo, un auto sedán azul rodeado de seis círculos con fotos rotuladas: Luces, Sistema de dirección (un volante), Espejos, Neumáticos, Frenos (disco y mordaza) y Sistema de suspensión (amortiguador).",
+    "unitIds": [
+      "manual.annex1.active-safety-definition"
+    ]
+  },
+  {
+    "id": "fig.manual-p108-tread-life",
+    "source": "manual",
+    "page": 108,
+    "box": {
+      "x": 0.505,
+      "y": 0.055,
+      "width": 0.405,
+      "height": 0.341
+    },
+    "alt": "Tabla «Vida útil de los neumáticos» con tres fotos del dibujo, cada una con un círculo sobre la profundidad de la ranura (verde, amarillo y rojo). Columnas de profundidad y vida útil. Seguros: 8 mm, 100 %; 7 mm, 85 %; 6 mm, 69 %. Atención: 5 mm, 53 %; 4 mm, 38 %; 3 mm, 22 %. Peligro: 2,5 mm, 14 %; 2,3 mm, 9 %; 2,0 mm, 6 %; 1,6 mm, 0 %.",
+    "unitIds": [
+      "manual.annex1.tyre-tread-depth-table"
+    ]
+  },
+  {
+    "id": "fig.manual-p108-tyre-date",
+    "source": "manual",
+    "page": 108,
+    "box": {
+      "x": 0.083,
+      "y": 0.17,
+      "width": 0.418,
+      "height": 0.226
+    },
+    "alt": "Foto de un neumático con un código pequeño grabado en el lateral, marcado con un círculo y ampliado en un recuadro: «SEMANA 17» y «AÑO 16», es decir, fabricado en la semana 17 del año 2016.",
+    "unitIds": [
+      "manual.annex1.tyre-manufacture-date"
+    ]
+  },
+  {
+    "id": "fig.manual-p108-tyre-pressure",
+    "source": "manual",
+    "page": 108,
+    "box": {
+      "x": 0.083,
+      "y": 0.635,
+      "width": 0.835,
+      "height": 0.318
+    },
+    "alt": "Recuadro «Recomendaciones»: la presión adecuada está indicada en el manual del automóvil; conviene medirla con los neumáticos fríos y controlarla periódicamente; una presión mayor o menor de la correspondiente produce menor adherencia a la calzada y mayor desgaste del neumático, y acorta su vida útil. Debajo, tres bandas de rodamiento con su corte transversal: con «Falta de presión» el corte aparece aplastado, con la banda hundida en el centro; con «Presión excesiva», abombado, con la banda curvada hacia afuera; con «Presión adecuada», la banda queda pareja.",
+    "unitIds": [
+      "manual.annex1.tyre-pressure"
+    ]
+  },
+  {
+    "id": "fig.manual-p109-blind-spots",
+    "source": "manual",
+    "page": 109,
+    "box": {
+      "x": 0.083,
+      "y": 0.505,
+      "width": 0.845,
+      "height": 0.341
+    },
+    "alt": "Ilustración de dos calzadas con zonas rojas que marcan los puntos ciegos de cada vehículo. Rótulos: «Punto ciego autos» (zonas a los costados y detrás de los autos, con motos dentro de ellas), «Punto ciego motos» y «Camiones y colectivos» (un colectivo con zonas rojas mucho más grandes). Leyenda: «Cuanto más grande es el vehículo, mayor es el punto ciego».",
+    "unitIds": [
+      "manual.annex1.blind-spot-definition"
+    ]
+  },
+  {
+    "id": "fig.manual-p109-flat-tyre",
+    "source": "manual",
+    "page": 109,
+    "box": {
+      "x": 0.083,
+      "y": 0.052,
+      "width": 0.835,
+      "height": 0.151
+    },
+    "alt": "Recuadro «Pinchaduras» con la foto de una rueda con el neumático desinflado: «Si esto ocurre mientras se está manejando NO FRENAR INMEDIATAMENTE. Es aconsejable DESACELERAR LENTAMENTE y sujetar firmemente el volante.»",
+    "unitIds": [
+      "manual.annex1.flat-tyre-while-driving"
+    ]
+  },
+  {
+    "id": "fig.manual-p110-mirror-orientation",
+    "source": "manual",
+    "page": 110,
+    "box": {
+      "x": 0.083,
+      "y": 0.426,
+      "width": 0.835,
+      "height": 0.328
+    },
+    "alt": "«Correcta orientación de los espejos retrovisores»: dos fotos del espejo lateral tomadas desde el asiento. Con tilde verde (correcto): el espejo muestra sobre todo la calle y apenas un borde del propio auto. Con cruz roja (incorrecto): el espejo muestra gran parte del costado del propio auto. Leyenda: «Sólo debe reflejarse como máximo el 10 % de la parte trasera del vehículo».",
+    "unitIds": [
+      "manual.annex1.mirror-orientation"
+    ]
+  },
+  {
+    "id": "fig.manual-p111-passive-safety",
+    "source": "manual",
+    "page": 111,
+    "box": {
+      "x": 0.083,
+      "y": 0.123,
+      "width": 0.832,
+      "height": 0.363
+    },
+    "alt": "Diagrama de los elementos de seguridad pasiva, que minimizan las consecuencias de un siniestro una vez que ya ocurrió: un auto sedán azul rodeado de seis círculos rotulados, con la foto de cada elemento: Sistema de retención infantil, Airbag, Cristales, Paragolpe, Cinturón de seguridad y Apoyacabeza.",
+    "unitIds": [
+      "manual.annex1.passive-safety-definition"
+    ]
+  },
+  {
+    "id": "fig.manual-p112-seat-belt-position",
+    "source": "manual",
+    "page": 112,
+    "box": {
+      "x": 0.118,
+      "y": 0.112,
+      "width": 0.757,
+      "height": 0.562
+    },
+    "alt": "Uso correcto e incorrecto del cinturón de seguridad, con dos fotos del mismo conductor. Con tilde verde (correcto): la banda diagonal pasa por la clavícula y baja por el centro del pecho, y la banda inferior va baja, sobre la cadera. Debajo: debe pasar por la clavícula, entre el hombro y el cuello, y descender por el centro del pecho; debe colocarse sobre los huesos de la cadera, siempre por debajo del abdomen; debe quedar bien ajustado al cuerpo (sin ropa gruesa), no torcido ni enredado y sin pasar sobre objetos duros ni frágiles, como bolígrafos o anteojos, que en una colisión podrían incrustarse en el cuerpo. Con cruz roja (incorrecto): la banda diagonal va pegada al cuello y la inferior, alta, sobre el abdomen. Debajo: sobre el cuello o el pecho puede provocar graves lesiones; sobre el abdomen, graves lesiones en los órganos internos; si queda flojo pierde eficacia, porque en el incidente se recorre más distancia y se puede impactar contra el volante, el parabrisas o el asiento delantero.",
+    "unitIds": [
+      "manual.annex1.seat-belt-correct-use"
+    ]
+  },
+  {
+    "id": "fig.manual-p113-headrest-position",
+    "source": "manual",
+    "page": 113,
+    "box": {
+      "x": 0.125,
+      "y": 0.389,
+      "width": 0.793,
+      "height": 0.41
+    },
+    "alt": "«Posición del apoyacabeza». Panel «Altura apoyacabeza»: la cabeza de un maniquí de choque delante de un apoyacabeza, con cuatro líneas horizontales que marcan dónde queda el borde superior del apoyacabeza; de arriba hacia abajo: Bueno (a la altura del tope de la cabeza), Aceptable, Regular y Malo (a la altura de la mandíbula). Panel «Distancia del apoyacabeza»: cuatro líneas verticales entre el apoyacabeza y la nuca; de la más cercana al apoyacabeza a la más alejada: Bueno, Aceptable, Regular y Malo. Abajo, un apoyacabeza con una flecha doble vertical que indica que su altura se regula, y el detalle ampliado del «Botón de desbloqueo» en la base de la varilla.",
+    "unitIds": [
+      "manual.annex1.headrest-positioning"
+    ]
+  },
+  {
+    "id": "fig.manual-p115-child-seat-groups",
+    "source": "manual",
+    "page": 115,
+    "box": {
+      "x": 0.097,
+      "y": 0.326,
+      "width": 0.805,
+      "height": 0.222
+    },
+    "alt": "Tabla «Tipos de SRI» con cinco tarjetas, cada una con el pictograma de la silla y el número de grupo. Grupo 0: niños/as prematuros y de 0 a 6/9 meses, hasta los 10 kg; asiento trasero hacia atrás. Grupo +0: de 6/9 a 12/15 meses, hasta 13 kg; asiento trasero hacia atrás. Grupo 1: de 9 meses a 4 años, de 9 a 18 kg; asiento trasero hacia adelante. Grupo 2: de 4 a 6 años, de 15 a 25 kilos; asiento trasero hacia adelante. Grupo 3: de 6 a 12 años, de 22 a 36 kg; asiento trasero hacia adelante. Los pictogramas de los grupos 0 y +0 muestran una silla reclinada mirando hacia atrás; los de los grupos 1 y 2, una silla con respaldo mirando hacia adelante; el del grupo 3, un chico sentado sobre un elevador sin respaldo.",
+    "unitIds": [
+      "manual.annex1.child-restraint-groups-table"
+    ]
+  },
+  {
+    "id": "fig.manual-p116-child-seat-positions",
+    "source": "manual",
+    "page": 116,
+    "box": {
+      "x": 0.145,
+      "y": 0.141,
+      "width": 0.7,
+      "height": 0.287
+    },
+    "alt": "«Uso correcto de SRI»: un auto visto desde arriba, con el frente hacia arriba, y la marca de cada plaza. Adelante, la plaza de quien conduce tiene una cruz roja (instalación incorrecta o inapropiada) y la del acompañante, el signo «?1»: nunca instalar en el asiento delantero. Atrás, las dos plazas laterales tienen tilde verde (instalación correcta o apropiada) y la central, el signo «?2»: solamente puede usarse en ese asiento si cuenta con cinturón abdominal y diagonal (3 puntos), o con cinturón abdominal (2 puntos) cuando el fabricante de la silla así lo indique en el manual. Una fila adicional más atrás muestra una plaza lateral con cruz roja y otra con tilde verde. Destacado: la silla está correctamente sujeta cuando no se mueve más de 2,5 cm en forma lateral y frontal.",
+    "unitIds": [
+      "manual.annex1.child-restraint-seat-positions"
+    ]
+  },
+  {
+    "id": "fig.manual-p117-loose-objects",
+    "source": "manual",
+    "page": 117,
+    "box": {
+      "x": 0.08,
+      "y": 0.38,
+      "width": 0.84,
+      "height": 0.382
+    },
+    "alt": "Infografía «Velocidad de impacto 50 km/h»: un auto con una persona sentada y un objeto rojo que se desplaza hacia adelante dentro del habitáculo. Al lado, el peso original de cada objeto y su fuerza de impacto: ordenador portátil, 2,2 kg y 85 kg; bolso, 4 kg y 158 kg; consola infantil, 218 g y 7,8 kg; teléfono móvil, 110 g y 3,9 kg; tablet, 560 g y 23 kg; biberón lleno, 405 g y 15,5 kg.",
+    "unitIds": [
+      "manual.annex1.loose-objects-impact-force"
+    ]
+  },
+  {
+    "id": "fig.manual-p118-pet-transport",
+    "source": "manual",
+    "page": 118,
+    "box": {
+      "x": 0.083,
+      "y": 0.055,
+      "width": 0.834,
+      "height": 0.359
+    },
+    "alt": "«Traslado seguro de mascotas»: dos autos. Con cruz roja, un perro suelto en la parte delantera del auto. Con tilde verde, un perro en el asiento trasero; un detalle ampliado muestra su arnés enganchado al cinturón de seguridad del asiento trasero. Leyenda: «Las mascotas nunca sueltas. Siempre atrás, con el arnés de sujeción correspondiente.»",
+    "unitIds": [
+      "manual.annex1.pet-transport"
+    ]
+  },
+  {
+    "id": "fig.manual-p119-luggage",
+    "source": "manual",
+    "page": 119,
+    "box": {
+      "x": 0.083,
+      "y": 0.283,
+      "width": 0.834,
+      "height": 0.213
+    },
+    "alt": "Dos fotos de equipaje en el techo. Con tilde verde (correcto): un auto con un cofre portaequipaje cerrado, bajo y bien sujeto al techo. Con cruz roja (incorrecto): un auto con bultos voluminosos envueltos en plástico, apilados en el techo, que sobresalen de sus límites y caen sobre la luneta.",
+    "unitIds": [
+      "manual.annex1.luggage"
+    ]
+  },
+  {
     "id": "fig.siniestros-p8-beacons",
     "source": "siniestros",
     "page": 8,
