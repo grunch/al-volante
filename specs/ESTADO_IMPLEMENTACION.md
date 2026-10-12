@@ -194,7 +194,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | F03-T01 | `f03-t01-simulation` | `main` | F02 (fusionada, con #15) | #16 | fusionada (`0fce7c2`) |
 | F03-T02 | `f03-t02-transmission` | `f03-t01-simulation` (#16) | T01 (#16) | #17 | fusionada (`e49dc5b`) |
 | F03-T03 | `f03-t03-cockpit` | `main` (`e49dc5b`) | T02 fusionada (#17) | [#18](https://github.com/grunch/al-volante/pull/18) | abierto; revisiones solicitadas |
-| F03-T04 | `f03-t04-evaluation` | `f03-t03-cockpit` (#18) | T03 (#18) | PR_T04 | en revisión (etapa A) |
+| F03-T04 | `f03-t04-evaluation` | `f03-t03-cockpit` (#18) | T03 (#18) | [#19](https://github.com/grunch/al-volante/pull/19) | en revisión (etapa A) |
 | F03-T05 | — | `f03-t04-evaluation` | T04 | — | en curso |
 
 ### F03-T01 — Simulación a paso fijo, vehículo, dirección, frenado y colisiones
