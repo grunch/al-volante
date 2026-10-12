@@ -193,7 +193,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|---|
 | F03-T01 | `f03-t01-simulation` | `main` | F02 (fusionada, con #15) | #16 | fusionada (`0fce7c2`) |
 | F03-T02 | `f03-t02-transmission` | `f03-t01-simulation` (#16) | T01 (#16) | #17 | fusionada (`e49dc5b`) |
-| F03-T03 | `f03-t03-cockpit` | `main` (`e49dc5b`) | T02 fusionada (#17) | pendiente de publicar | implementación y validación |
+| F03-T03 | `f03-t03-cockpit` | `main` (`e49dc5b`) | T02 fusionada (#17) | [#18](https://github.com/grunch/al-volante/pull/18) | abierto; revisiones solicitadas |
 | F03-T04 | — | — | T03 | — | pendiente |
 | F03-T05 | — | — | T04 | — | pendiente |
 
@@ -253,10 +253,10 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Inicio explícito posterior al cierre de T01/T02; se conservó `main` limpia y se trabajó en la rama de tarea existente.
 - Resultado: habitáculo procedural, vista desde el conductor, volante/tablero animados, tres espejos de la escena, mirada, asiento/apoyacabezas, cinturón, instrumental, teclado reasignable y controles en pantalla.
 - Fuentes: `specs/fuentes/pdf/protocolo.pdf`, PDF 9–10 y 18–20. Ajustes y dimensiones identificados como aproximaciones; sin evaluación todavía.
-- Verificaciones: `npm run check` pasó con 268 pruebas y cobertura de 95,07 % en sentencias / 88,89 % en ramas. `npx playwright test --workers=1` pasó: 34 E2E, cero fallos o reintentos. El ajuste final de sentido visual del volante/agujas tiene cuatro pruebas de escena aprobadas y revalidación visual separada.
+- Verificaciones: `npm run check` pasó con 268 pruebas y cobertura de 95,07 % en sentencias / 88,89 % en ramas. `npx playwright test --workers=1` pasó: 34 E2E, cero fallos o reintentos. El ajuste final de sentido visual del volante/agujas tiene cuatro pruebas de escena aprobadas y cuatro E2E de revalidación visual aprobadas.
 - Capturas inspeccionadas: se corrigieron orientación del espejo interior y obstrucción del volante por la carrocería provisional.
-- Revisores: Codex y CodeRabbit pendientes de solicitud al publicar. No se declara revisión independiente completada.
-- Siguiente acción vigente: completar validación y publicar T03. T04 y T05 quedan pendientes de autorización.
+- Revisores: Codex y CodeRabbit solicitados en #18 sobre `db33865`. Codex confirmó ejecución; resultados y CI pendientes al registrar. No se declara revisión independiente completada.
+- Siguiente acción vigente: monitorear #18 y resolver findings aplicables antes de pedir nuevas revisiones. T04 y T05 quedan pendientes de autorización.
 
 
 ## Pila y orden de fusión
@@ -269,7 +269,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Validar y publicar F03-T03, autorizado por el usuario. F03-T04 y T05 no se inician con este pedido. Los findings tardíos de #16 se mantienen explícitos en CONTINUIDAD.
+Monitorear revisiones y CI de F03-T03 (#18), autorizado por el usuario. F03-T04 y T05 no se inician con este pedido. Los findings tardíos de #16 se mantienen explícitos en CONTINUIDAD.
 
 ## Decisiones que no deben reinterpretarse
 
