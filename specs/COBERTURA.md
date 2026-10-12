@@ -1,6 +1,6 @@
 # Cobertura del manual y de la guía de siniestros
 
-Entregable de F01-T02. Fecha: 2026-10-11. Estado: **inventario completo.** Desde la fase 5 (2026-10-12) las unidades pasan a `reviewed`, `implemented` y `tested` a medida que se revisan y se convierten en actividades; el método, el avance por tarea y las decisiones sobre discrepancias están en [CONTENIDO.md](CONTENIDO.md).
+Entregable de F01-T02. Fecha: 2026-10-11. Estado: **inventario completo y tratado.** En la fase 5 (2026-10-12) todas las unidades y señales se revisaron y quedaron practicadas o de consulta (auditoría global de F05-T05: 753 unidades, 355 señales y 285 páginas, sin pendientes); el método, el avance por tarea y las decisiones sobre discrepancias están en [CONTENIDO.md](CONTENIDO.md).
 
 Define qué hay que enseñar: cada página del manual teórico (200 páginas) y de la guía práctica de siniestros viales (24 páginas) está clasificada, y cada contenido instructivo está registrado como unidad de conocimiento o como señal, con su página. El protocolo de examen y el documento de recorridos se tratan en F01-T03 (`REGLAS.md`) y F01-T04 (`RECORRIDO.md`); desde F05-T04 también están clasificados página por página, con sus unidades de consulta (ver «Documentos del examen»).
 

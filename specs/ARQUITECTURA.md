@@ -87,9 +87,10 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 | `#/actividades` | «La ciudad te pregunta»: secciones del recorrido de aprendizaje con su cantidad de actividades; `?seccion=<fuente>-<sección>` abre las de una sección (F05-T01). |
 | `#/actividad/:id?semilla=n` | Una actividad; la semilla en la URL reproduce la misma variante y el mismo orden. |
 | `#/pista` | Pista de prueba de la simulación (F03-T01): predio cerrado con cajón, cordón y paredes; teclado, velocidad, recorrido y contactos. Provisional hasta el habitáculo (F03-T03). |
-| `#/bitacora` | «Mi bitácora»: repaso recomendado, errores recientes, progreso por concepto (campaña B separada del complemento) y respaldo (F02-T05). |
+| `#/bitacora` | «Mi bitácora»: repaso recomendado, errores recientes, progreso por concepto (campaña B separada del complemento), simulacros del teórico (F05-T05), manejos del examen práctico y respaldo (F02-T05). |
 | `#/biblioteca` | Las cuatro fuentes oficiales, con edición, cantidad de páginas y PDF oficial. |
 | `#/garaje` | «Mi garaje» (F05-T03): la práctica de la etapa I y la pista de prueba para regular asiento, apoyacabezas, espejos y cinturón, y las actividades de revisión del auto del anexo I. Enlazado desde el espacio del inicio. |
+| `#/teorico?semilla=n&minutos=40` | «Sala de examen» (F05-T05): simulacro del examen teórico. La semilla reproduce la misma hoja; `minutos=40` elige la variante más exigente. Enlazado desde el espacio del inicio. |
 | `#/senales` | Catálogo visual de señales (F05-T02): todas las del manual por familia y grupo, con su recorte, nombre, significado si la fuente lo da, página y la actividad donde se practican. Enlazado desde la biblioteca y desde las páginas con señales. |
 | `#/biblioteca/:fuente/:página` | Una página física (las cuatro fuentes están clasificadas desde F05-T04): clasificación, resumen, unidades, figuras, señales, observaciones, reglas del examen que la citan (protocolo), texto extraído y enlace al PDF oficial en esa página. |
 
@@ -109,6 +110,19 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 - **Tipos:** `single-choice`, `sign-identification` (la señal se muestra con su dibujo vectorial si lo tiene o, desde F05-T02, con su recorte del manual; su `visual` es el texto alternativo), `ordering` (botones subir/bajar, sin arrastrar) y `decision` (escena ramificada).
 - **Resultados:** `ActivityResultContext` recibe cada intento terminado; F02-T05 lo usa para registrar el progreso.
 - **Contenido:** `specs/catalog/activities/<fuente>-<sección>.json` (desde F05-T01; antes, `activities.json`). Cada actividad cita conceptos (`unitIds`) y páginas (`refs`), puede mostrar figuras con la devolución (`figureIds`) y se valida con `validateActivities`. Solo se escriben preguntas sobre datos sin discrepancias abiertas; el método de autoría y revisión y las decisiones sobre discrepancias están en `CONTENIDO.md`.
+
+## Simulacro teórico y auditoría de cobertura (F05-T05)
+
+- **Configuración** (`specs/catalog/theory-exam.json`, `TheoryExamConfigSchema`): versión, 40 preguntas, 3 opciones, 34 correctas para aprobar, 45 minutos por defecto y 40 como alternativa, las secciones de la licencia B (introducción, capítulos 1–5 y anexos I y IV) y una fuente por parámetro (`REGLAS.md` §8). `validateTheoryExam` exige que el umbral no supere las preguntas, que las secciones existan, que el tiempo por defecto no se repita entre las alternativas y que cada parámetro tenga fuente.
+- **Hoja** (`src/theory/exam.ts`, `composeExam(activities, units, config, seed)`, pura y reproducible por semilla):
+  - el banco son las variantes de opción única y de identificación de señales de actividades revisadas de esas secciones, que tengan al menos dos opciones incorrectas;
+  - las preguntas se reparten por tema en proporción a las unidades de cada sección (`allocate`: resto mayor, las secciones más pesadas primero en los empates), sin pedirle a una sección más de lo que tiene y con al menos una por sección mientras alcancen;
+  - dentro de una sección se toma primero una variante por actividad;
+  - cada pregunta muestra la correcta y dos incorrectas al azar, en orden aleatorio, sin revelar cuál es la correcta.
+- **Corrección** (`gradeExam`): correctas, sin responder (cuentan como incorrectas), aprobado, resultado por tema, unidades para repasar (las de las preguntas falladas, con cuántas veces) y la devolución de cada pregunta. Una hoja con menos preguntas que el examen no puede aprobarse.
+- **Página** (`TheoryExamPage`): introducción con los parámetros y sus fuentes, elección del tiempo, temporizador con fecha límite desde el inicio (al vencer, la hoja se entrega sola; `useEffectEvent` lee las respuestas vigentes sin reiniciar el reloj), y el resultado con el diagnóstico por tema y por concepto y enlaces para practicar cada actividad fallada.
+- **Registro** (`src/theory/attempt.ts`): cada simulacro se guarda como `Attempt` (`kind: 'activity'`, `subjectId: 'theory.mock'`, modo `exam`) con la semilla, la versión de la configuración, las preguntas, las respuestas y el resultado. No entrena conceptos: el dominio personal sigue saliendo de las actividades. La bitácora lista los simulacros (`theoryLog`).
+- **Auditoría global** (`auditCoverage` en `src/content/coverage.ts`): unidades y señales sin tratar, señales sin recorte y páginas sin clasificar de las fuentes auditadas. `validate:content` imprime el resumen y una prueba de integración exige que las cuatro listas estén vacías. Mide la **disponibilidad del contenido**, que es distinta del dominio personal de la bitácora.
 
 ## Progreso y bitácora (F02-T05)
 

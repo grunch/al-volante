@@ -176,10 +176,17 @@ En F05-T04, de las 185 unidades de los anexos II y III se revisaron todas contra
 
 Además, en F05-T01 se revisaron contra sus páginas las 14 unidades (cap. 1, 3 y anexo IV) y las 4 señales que practican las 8 actividades de la fase 2; quedan `tested`.
 
+## Simulacro teórico y auditoría global (F05-T05)
+
+- **Banco del simulacro:** las variantes de opción única y de identificación de señales de las secciones de la licencia B (introducción, capítulos 1–5 y anexos I y IV). Para que una variante entre tiene que ofrecer al menos dos opciones incorrectas: el examen muestra tres opciones. El glosario, la guía, los anexos II y III y los documentos del examen no entran, porque no son material del teórico B (manual PDF 3).
+- **Reparto por tema:** proporcional a las unidades de cada sección, con al menos una pregunta por sección. Una prueba de integración compone hojas con el banco real: 40 preguntas, todas las secciones representadas y una sola opción correcta de tres.
+- **Parámetros:** 40 preguntas, 34 para aprobar, 45 minutos (40 como variante), con sus fuentes en `REGLAS.md` §8 y en la propia configuración. La página aclara que el simulacro es propio y no es el banco oficial.
+- **Auditoría global** (fin de la fase 5): 753 de 753 unidades tratadas (697 practicadas y 56 de consulta), 355 de 355 señales tratadas y recortadas y ninguna página sin clasificar en las cuatro fuentes (285 páginas). `npm run validate:content` imprime este resumen y una prueba de integración lo exige.
+
 ## Cómo validar
 
 ```bash
-npm run validate:content                              # esquemas, referencias, figuras y estados de tratamiento
+npm run validate:content                              # esquemas, referencias, figuras, estados de tratamiento y auditoría global
 npx vitest run src/content                            # validadores, recorrido del catálogo y política de contenido
 node scripts/crop-figures.ts [id …]                   # regenera recortes de figuras y señales (poppler e ImageMagick)
 ```
