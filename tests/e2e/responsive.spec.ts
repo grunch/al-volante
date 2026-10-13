@@ -145,11 +145,15 @@ for (const viewport of VIEWPORTS) {
 
     test('text pages fit the screen, with 44 px targets on touch screens', async ({ page }) => {
       for (const path of TEXT_PAGES) {
+        // A hash change alone keeps the document, and the previous route's title would satisfy the wait below (and
+        // two routes share «Mi garaje»): every route is measured from a fresh load of its own URL.
+        await page.goto('about:blank');
         await page.goto(`./#${path}`);
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
         await expectToFit(page, path, viewport.touch);
       }
       // The running mock exam: forty questions of three options each.
+      await page.goto('about:blank');
       await page.goto('./#/teorico?semilla=1');
       await page.getByRole('button', { name: 'Empezar el simulacro' }).click();
       await expect(page.getByRole('radio')).toHaveCount(120);
@@ -163,6 +167,7 @@ for (const viewport of VIEWPORTS) {
       await expect(page.getByTestId('exam-hud')).toBeVisible();
       await expectToFit(page, '/examen', viewport.touch);
 
+      await page.goto('about:blank');
       await page.goto('./#/recorrido');
       await expect(page.getByTestId('city-preview')).toHaveAttribute('data-state', 'ready', {
         timeout: SOFTWARE_WEBGL_TIMEOUT_MS,
@@ -170,6 +175,7 @@ for (const viewport of VIEWPORTS) {
       await expectToFit(page, '/recorrido', viewport.touch);
 
       // The practice yard has the same cabin, pedals and controls as the exam, and loads fastest.
+      await page.goto('about:blank');
       await page.goto('./#/pista');
       const view = page.getByTestId('driving-canvas');
       await expect(view).toHaveAttribute('data-state', 'ready', { timeout: SOFTWARE_WEBGL_TIMEOUT_MS });
