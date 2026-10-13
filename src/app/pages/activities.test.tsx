@@ -12,6 +12,8 @@ import { SignGraphic, hasSignDrawing } from '../../activities/ui/SignGraphic.tsx
 import { loadContent } from '../../content/catalog.ts';
 import type { Activity } from '../../content/schemas.ts';
 import { createFakeRenderer } from '../../test/fakeRenderer.ts';
+import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
+import { choiceActivity } from '../../content/testing/fixtures.ts';
 import { ACTIVITY_COPY, sectionLabel } from '../../i18n/es-AR.ts';
 
 const activities = catalogActivities;
@@ -51,6 +53,27 @@ describe('activities list', () => {
     const inSection = catalogActivityFiles.get('manual-ch3') ?? [];
     expect(within(screen.getByRole('main')).getAllByRole('heading', { level: 2 })).toHaveLength(inSection.length);
     expect(screen.getByRole('link', { name: ACTIVITY_COPY.studySection })).toHaveAttribute('href', '/mapa/manual/ch3');
+  });
+
+  it('moves focus to the new title when it opens a section and when it goes back to every section', async () => {
+    // Arrange: the overview and a section share the path, so the layout's focus move does not run.
+    const user = userEvent.setup();
+    renderWithRealContent('/actividades');
+    const campaign = await screen.findByRole('region', { name: 'Campaña licencia B' });
+
+    // Act
+    await user.click(within(campaign).getByRole('link', { name: 'Cap. 3 · Normas básicas de conducción' }));
+
+    // Assert: the clicked link is gone; focus must not fall back to the document body.
+    const sectionTitle = await screen.findByRole('heading', {
+      level: 1,
+      name: 'Cap. 3 · Normas básicas de conducción',
+    });
+    await waitFor(() => expect(sectionTitle).toHaveFocus());
+
+    await user.click(screen.getByRole('link', { name: ACTIVITY_COPY.allSections }));
+    const overviewTitle = await screen.findByRole('heading', { level: 1, name: ACTIVITY_COPY.heading });
+    await waitFor(() => expect(overviewTitle).toHaveFocus());
   });
 
   it('counts the activities of every section that has some', async () => {
@@ -257,5 +280,29 @@ describe('sign drawings', () => {
     expect(screen.getByRole('img', { name: 'Rombo amarillo con una vaca' })).toHaveTextContent(
       'Rombo amarillo con una vaca',
     );
+  });
+});
+
+describe('activities overview with a small catalog', () => {
+  it('names one activity and one unit in the singular, and leaves out the groups without activities', async () => {
+    // Arrange: the fixture has a single activity, in manual ch3, whose section has a single unit.
+    renderApp('/actividades');
+
+    // Act
+    const campaign = await screen.findByRole('region', { name: 'Campaña licencia B' });
+
+    // Assert
+    const card = within(campaign).getByRole('link', { name: 'Cap. 3 · Normas básicas de conducción' }).closest('li');
+    expect(card).toHaveTextContent(`1 ${ACTIVITY_COPY.activityOne} · 1 unidad en la sección`);
+    expect(screen.getAllByRole('region')).toHaveLength(1);
+  });
+
+  it('goes back to the activity list when the activity has no known section', async () => {
+    const content = testContent();
+    content.activities = [choiceActivity({ unitIds: ['manual.unknown.unit'] })];
+
+    renderApp('/actividad/act.speed-street?semilla=1', readyContent(content));
+
+    expect(await screen.findByRole('link', { name: ACTIVITY_COPY.backToList })).toHaveAttribute('href', '/actividades');
   });
 });

@@ -7,7 +7,7 @@ import type { CarState } from '../sim/car.ts';
 import { overlaps } from '../sim/collision.ts';
 import type { OrientedBox } from '../sim/collision.ts';
 import { SIM_STEP_S } from '../sim/fixedStep.ts';
-import type { ActorKind, ActorPose, TrafficSnapshot } from '../sim/scenario.ts';
+import type { ActorKind, ActorPose, LightState, TrafficSnapshot } from '../sim/scenario.ts';
 import { restingVehicle } from '../sim/vehicle.ts';
 import { CITY } from '../test/circuitDriver.ts';
 import { headingDifference, locateOnPath, pointAlong } from '../traffic/network.ts';
@@ -16,6 +16,7 @@ import { buildCircuit, roadAt } from './circuit.ts';
 import type { Circuit, CircuitCrossing } from './circuit.ts';
 import { CIRCULATION, createStreet, judgeCirculation } from './circulation.ts';
 import type { Report, Street } from './circulation.ts';
+import { FICHA_GROUPS } from './scoring.ts';
 
 /**
  * The circulation judge against synthetic traffic: actors placed exactly where a rule needs them, with the car
@@ -95,6 +96,8 @@ interface RunOptions {
   firstMetres?: boolean;
   /** Simulation time of the first step, to continue a previous run. */
   startS?: number;
+  /** Lights of the snapshot by control id (a mid-block crosswalk's own light). */
+  lights?: Record<string, LightState>;
 }
 
 /** Steps the judge for `seconds` with the car moving straight; `poses(t)` places the actors at each time. */
@@ -116,7 +119,13 @@ function run(
   const steps = Math.round(seconds / SIM_STEP_S);
   for (let step = 0; step <= steps; step++) {
     const t = (options.startS ?? 0) + step * SIM_STEP_S;
-    const snapshot: TrafficSnapshot = { timeS: t, light: 'green', lights: {}, poses: poses(t), contacts: [] };
+    const snapshot: TrafficSnapshot = {
+      timeS: t,
+      light: 'green',
+      lights: options.lights ?? {},
+      poses: poses(t),
+      contacts: [],
+    };
     const verdict = judgeCirculation(
       street,
       circuit,
@@ -221,6 +230,11 @@ describe('overtaking (protocolo PDF 12, 17; eliminatory p)', () => {
     expect(unique(result)).toEqual(['rule.eliminatory.p-illegal-overtaking']);
   });
 
+  it('scores it too when the car moves aside only once level with the vehicle', () => {
+    const late = run(carAt(s, 0, 8), 6, (t) => [slow(t)], { lateral: (t) => (t < 1.75 ? 0 : -2.6) });
+    expect(unique(late)).toContain('rule.eliminatory.p-illegal-overtaking');
+  });
+
   it('allows passing on the left mid-block, but not through a crossing', () => {
     const clean = run(carAt(s, 0, 8), 6, (t) => [slow(t)], { lateral: pullOut(1) });
     expect(ids(clean)).not.toContain('rule.eliminatory.p-illegal-overtaking');
@@ -257,6 +271,48 @@ describe('pedestrians and cyclists (protocolo PDF 12; high l, minor o)', () => {
   });
 });
 
+describe('the ficha row of the context: a turn or a crossing (decision D1; protocolo PDF 16–17)', () => {
+  const groupOf = (result: Run, ruleId: string) => result.reports.find((report) => report.ruleId === ruleId)?.group;
+  const slowdown = 'rule.high.m-no-slowdown-before-maneuver';
+  const yielding = 'rule.high.l-yield-to-pedestrians-cyclists';
+
+  it('reports not slowing down at the signalised corner as a turn, and at an unsignalised crossing as a crossing', () => {
+    const corner = crossingOf(1, 'signal', true);
+    const straight = crossingOf(3, 'priority', false);
+
+    const turning = run(carAt(corner.lineS - 14, 0, 8), 1);
+    const crossing = run(carAt(straight.lineS - 14, 0, 8), 1);
+
+    expect(groupOf(turning, slowdown)).toBe(FICHA_GROUPS.turns);
+    expect(groupOf(crossing, slowdown)).toBe(FICHA_GROUPS.crossings);
+  });
+
+  it('reports a pedestrian not yielded to on the street the car turns into as a turn', () => {
+    const atCorner = circuit.crosswalks.find((item) => item.id === 'crosswalk-intersection-4:leg-2-0:exit')!;
+    const midBlock = circuit.crosswalks.find((item) => item.id === 'crosswalk-intersection-13:leg-6-1:exit')!;
+    const walkerOn = (crosswalk: typeof atCorner) => () => [
+      poseAt('walker', 'pedestrian', crosswalk.box.centerX, crosswalk.box.centerZ, 0),
+    ];
+
+    const turning = run(carAt(atCorner.startS - 3, 0, 2), 2, walkerOn(atCorner));
+    const crossing = run(carAt(midBlock.startS - 3, 0, 2), 2, walkerOn(midBlock));
+
+    expect(groupOf(turning, yielding)).toBe(FICHA_GROUPS.turns);
+    expect(groupOf(crossing, yielding)).toBe(FICHA_GROUPS.crossings);
+  });
+
+  it('reports a cyclist crossing the corner where the car turns as a turn', () => {
+    const corner = crossingOf(1, 'signal', true);
+    const conflict = corner.conflicts[0]!;
+    const heading = pointAlong(circuit.lap, corner.lineS).headingRad;
+    const bike = poseAt('bike', 'bicycle', conflict.centerX, conflict.centerZ, heading + Math.PI / 2);
+
+    const turning = run(carAt(corner.lineS - 3, 0, 4), 2, () => [bike]);
+
+    expect(groupOf(turning, yielding)).toBe(FICHA_GROUPS.turns);
+  });
+});
+
 describe('the examiner takes the dual controls (protocolo PDF 7)', () => {
   it('reports an imminent contact with an actor straight ahead the car can no longer brake for', () => {
     const s = OPEN_S;
@@ -267,6 +323,29 @@ describe('the examiner takes the dual controls (protocolo PDF 7)', () => {
     const away = () => [poseAt('parked', 'vehicle', far.point.x, far.point.z, far.headingRad)];
     expect(run(carAt(s, 0, 9), 0.1, away).takeover).toBe(false);
     expect(run(carAt(s, 0, 2), 0.1, parked).takeover).toBe(false);
+    // An actor that is not on the street (a parked spawn not yet active) is no reason to brake.
+    const inactive = () => parked().map((pose) => ({ ...pose, active: false }));
+    expect(run(carAt(s, 0, 9), 0.1, inactive).takeover).toBe(false);
+  });
+});
+
+describe('the route and the lights of a mid-block crosswalk (protocolo PDF 12; eliminatory f and k)', () => {
+  it('scores leaving the route for 3 s while moving, not while standing still', () => {
+    const moving = run(carAt(OPEN_S, 30, 2), 3.5);
+    const standing = run(carAt(OPEN_S, 30, 0), 4);
+
+    expect(unique(moving)).toEqual(['rule.eliminatory.f-examiner-safety-instruction-ignored']);
+    expect(moving.street.notice).toBeNull();
+    expect(ids(standing)).toEqual([]);
+  });
+
+  it('scores crossing a pedestrian light on red once, and lets the car through on green', () => {
+    const crosswalk = circuit.crosswalks.find((item) => item.controlId !== null)!;
+    const through = (light: LightState) =>
+      run(carAt(crosswalk.startS - 4, 0, 4), 2.5, () => [], { lights: { [crosswalk.controlId!]: light } });
+
+    expect(ids(through('red')).filter((id) => id === 'rule.eliminatory.k-red-light')).toHaveLength(1);
+    expect(ids(through('green'))).not.toContain('rule.eliminatory.k-red-light');
   });
 });
 
@@ -304,6 +383,21 @@ describe('the emergency vehicle (protocolo PDF 12; eliminatory n)', () => {
     expect(ids(right)).toEqual([]);
     const slow = run(carAt(s, 0, 2), 6, (t) => [ambulance(t)]);
     expect(ids(slow)).toEqual([]);
+  });
+
+  it('scores an ambulance held up behind the car for 4 s that has to find its own way, not one let through', () => {
+    const close = pointAlong(circuit.lap, s - 5);
+    // Standing still 5 m behind for 4.2 s, then gone (it turned off): it never passed the car.
+    const stuck = (t: number) =>
+      t < 4.2 ? [poseAt('ambulance', 'emergency', close.point.x, close.point.z, close.headingRad)] : [];
+
+    // Just over 10 km/h in the middle of the lane, the ambulance stays within 20 m behind.
+    const holding = run(carAt(s, 0, 2.85), 4.5, stuck);
+    const yielding = run(carAt(s, 0, 2), 4.5, stuck);
+
+    expect(unique(holding)).toEqual(['rule.eliminatory.n-emergency-vehicle-not-yielded']);
+    expect(ids(yielding)).toEqual([]);
+    expect(yielding.street.emergency).toMatchObject({ seen: true, judged: true });
   });
 
   it('does not keep a slow moment from far away as making way: the yield must hold while it comes close', () => {
@@ -357,6 +451,35 @@ describe('lanes (protocolo PDF 12; minor p, low h, high o, eliminatory j and o)'
     expect(unique(line)).not.toContain('rule.eliminatory.j-forbidden-road-lane-direction');
     const busway = run(carAt(s, 10.75, 8), 1.5, () => [], { lateral: () => 10.75 });
     expect(unique(busway)).toContain('rule.eliminatory.j-forbidden-road-lane-direction');
+  });
+
+  it('accepts a change to the right after a glance at the right mirror, not after one at the left mirror', () => {
+    const signalled = run(carAt(s, LEFT_LANE_M, 8), 3.5, () => [], {
+      cockpit: { signal: 'right' },
+      lateral: () => LEFT_LANE_M,
+    });
+    const change = (yaw: number) =>
+      run(carAt(s + 28, LEFT_LANE_M, 8), 2, () => [], {
+        cockpit: { signal: 'right' },
+        lateral: (t) => (t < 4 ? LEFT_LANE_M : 0),
+        street: { ...signalled.street, lastGlance: { yaw, atS: 3.5 }, previousFrontS: null },
+        startS: 3.5,
+      });
+
+    expect(ids(change(-0.5))).toEqual([]);
+    expect(ids(change(0.5))).toEqual(['rule.high.o-no-mirror-check-lane-change']);
+  });
+
+  it('scores turning right at the end of Av. Cabildo from its left lane, and keeps it escalatable (high n)', () => {
+    const corner = crossingOf(2, 'signal', true);
+    const turnFrom = (lateralM: number) =>
+      run(carAt(corner.lineS - 30, lateralM, 6), 6, () => [], { lateral: () => lateralM });
+
+    const wrong = turnFrom(LEFT_LANE_M);
+
+    expect(ids(wrong)).toContain('rule.high.n-turn-from-wrong-lane');
+    expect(wrong.street.escalatable.map((item) => item.ruleId)).toContain('rule.high.n-turn-from-wrong-lane');
+    expect(ids(turnFrom(0))).not.toContain('rule.high.n-turn-from-wrong-lane');
   });
 
   it('scores driving on the cycle track and against the one-way direction', () => {

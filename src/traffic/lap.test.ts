@@ -2,6 +2,8 @@ import routeData from '../../specs/route/comuna13-a.json';
 import { RouteSchema } from '../content/schemas.ts';
 import { buildCity, distance, sampleLeg } from '../city/model.ts';
 import { overlaps } from '../sim/collision.ts';
+import type { OrientedBox } from '../sim/collision.ts';
+import type { ActorPose } from '../sim/scenario.ts';
 import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import { EXAM_CAR, bodyBox } from '../sim/vehicle.ts';
 import { initialWorldState, stepWorld } from '../sim/world.ts';
@@ -15,14 +17,38 @@ const CRUISE_MPS = 5.5;
 const COMFORT_BRAKE_MPS2 = 2.5;
 const STOP_WAIT_S = 1;
 const MAX_STEPS = 72000;
+/** How far straight ahead the driver checks that its body can move without touching a vehicle, and in what steps. */
+const SWEEP_M = 6;
+const SWEEP_STEP_M = 0.25;
+const SWEEP_MARGIN_M = 1;
 
 /** Speed that still allows stopping `distanceM` ahead at comfort braking. */
 const toStop = (distanceM: number) => (distanceM <= 0.4 ? 0 : Math.sqrt(2 * COMFORT_BRAKE_MPS2 * distanceM));
 
 /**
+ * Metres the body can still move straight ahead before it touches a vehicle travelling its general way. Through a
+ * corner the car cuts inside the lane line, so the route distance to a leader turning ahead overstates the room.
+ */
+function clearAheadM(body: OrientedBox, poses: readonly ActorPose[]): number {
+  const forward = { x: Math.sin(body.headingRad), z: Math.cos(body.headingRad) };
+  const ahead = poses.filter(
+    (pose) =>
+      pose.kind !== 'pedestrian' &&
+      Math.cos(pose.headingRad - body.headingRad) > 0 &&
+      distance(pose, { x: body.centerX, z: body.centerZ }) < SWEEP_M * 3,
+  );
+  for (let metres = 0; metres <= SWEEP_M; metres += SWEEP_STEP_M) {
+    const swept = { ...body, centerX: body.centerX + forward.x * metres, centerZ: body.centerZ + forward.z * metres };
+    if (ahead.some((pose) => overlaps(pose.box, swept))) return metres;
+  }
+  return Infinity;
+}
+
+/**
  * A lawful test driver: pure pursuit on the route, stopping at red and yellow lights, making a full stop at STOP
- * signs, waiting for anyone inside a crossing, keeping two seconds behind the vehicle ahead and letting
- * pedestrians finish crossing. It is a test fixture, not the examiner.
+ * signs, waiting for anyone inside a crossing, keeping two seconds behind the vehicle ahead (and never moving its
+ * body into one, even while cutting a corner) and letting pedestrians finish crossing. It is a test fixture, not
+ * the examiner.
  */
 it('completes the lap with traffic on, obeying the lights, without touching anyone and never waiting a full cycle', () => {
   const city = buildCity(RouteSchema.parse(routeData));
@@ -88,6 +114,7 @@ it('completes the lap with traffic on, obeying the lights, without touching anyo
       const leaderSpeed = before ? distance(before, view.leader.pose) / SIM_STEP_S : 0;
       wanted = Math.min(wanted, leaderSpeed + free / 2, Math.sqrt(2 * COMFORT_BRAKE_MPS2 * free));
     }
+    wanted = Math.min(wanted, toStop(clearAheadM(body, snapshot.poses) - SWEEP_MARGIN_M));
     for (const pose of snapshot.poses) lastSeen.set(pose.id, { x: pose.x, z: pose.z });
     const speed = vehicle.speedMps;
     const tractionN = wanted > speed ? Math.min(3000, (wanted - speed) * 2000 + 150) : 0;

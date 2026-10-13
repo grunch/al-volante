@@ -87,10 +87,11 @@ function signalAhead(
   lights: Readonly<Record<string, LightState>>,
   carBody: OrientedBox,
   timeS: number,
+  maxLateralM = ROUTE_LATERAL_M,
 ): SignalAhead | null {
   const lap = lapOf(traffic);
   if (!lap) return null;
-  const front = frontS(lap, carBody);
+  const front = frontS(lap, carBody, maxLateralM);
   if (front === null) return null;
   let best: SignalAhead | null = null;
   const consider = (candidate: SignalAhead) => {
@@ -179,7 +180,8 @@ export function lookAhead(
   }
   return {
     routeS: front - carBody.halfLengthM,
-    signal: signalAhead(traffic, state.lights, carBody, state.timeS),
+    // The same band as `routeS`: a car the caller counts as on the route also faces the route's lights.
+    signal: signalAhead(traffic, state.lights, carBody, state.timeS, maxLateralM),
     crossing,
     crosswalk,
     leader,

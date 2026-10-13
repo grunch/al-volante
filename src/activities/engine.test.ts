@@ -186,3 +186,53 @@ describe('evaluateResponse', () => {
     expect(() => decisionStep(decision, 'green-right-turn', 'approach', 'ghost')).toThrow(/Unknown choice/);
   });
 });
+
+describe('evaluateResponse with unusual ids', () => {
+  const base = catalogActivities.find((item) => item.type === 'ordering') as Extract<Activity, { type: 'ordering' }>;
+
+  it('rejects an ordering that splits or merges item ids, even when their text would match', () => {
+    // Arrange: two items whose ids contain commas, so joining them hides a different set of ids.
+    const activity: Activity = {
+      ...base,
+      variants: [
+        {
+          id: 'v1',
+          prompt: 'Ordená',
+          items: [
+            { id: 'a,b', text: 'Primero', reason: 'r' },
+            { id: 'c', text: 'Segundo', reason: 'r' },
+          ],
+        },
+      ],
+    };
+
+    // Act / Assert
+    expect(() => evaluateResponse(activity, 'v1', { kind: 'ordering', order: ['a', 'b,c'] })).toThrow(/exactly once/);
+    expect(evaluateResponse(activity, 'v1', { kind: 'ordering', order: ['c', 'a,b'] })).toMatchObject({ score: 0 });
+  });
+
+  it('refuses a decision choice whose outcome is missing instead of inventing a result', () => {
+    const decision = byId('act.turn-with-pedestrian', 'decision');
+    const broken: Extract<Activity, { type: 'decision' }> = {
+      ...decision,
+      variants: [
+        {
+          id: 'v1',
+          start: 'n1',
+          nodes: {
+            n1: {
+              text: 'Inicio',
+              choices: [
+                { id: 'go', text: 'Seguir', outcome: 'ghost' },
+                { id: 'stop', text: 'Frenar', outcome: 'good' },
+              ],
+            },
+          },
+          outcomes: { good: { correct: true, feedback: 'Bien' } },
+        },
+      ],
+    };
+
+    expect(() => decisionStep(broken, 'v1', 'n1', 'go')).toThrow(/has no outcome/);
+  });
+});

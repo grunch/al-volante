@@ -46,4 +46,12 @@ describe('oriented boxes', () => {
     expect(clearance(box(0, 0), box(2.3, 2.4))).toBeCloseTo(Math.hypot(0.3, 0.4), 9);
     expect(clearance(box(0, 0), box(1, 0))).toBe(0);
   });
+
+  it('measure the distance to a point-sized obstacle, whose edges have no length', () => {
+    const point = box(3, 0, 0, 0);
+
+    expect(overlaps(box(0, 0), point)).toBe(false);
+    expect(clearance(box(0, 0), point)).toBeCloseTo(2, 9);
+    expect(clearance(point, box(0, 0))).toBeCloseTo(2, 9);
+  });
 });

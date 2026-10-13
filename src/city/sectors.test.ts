@@ -7,6 +7,10 @@ describe('city sector streaming', () => {
     expect(sectorDistance('0:0', { x: 64, z: 64 })).toBe(0);
     expect(sectorDistance('0:0', { x: -3, z: -4 })).toBe(5);
   });
+  it('rejects keys that are not two integers', () => {
+    expect(() => sectorDistance('a:b', { x: 0, z: 0 })).toThrow('Invalid sector key');
+    expect(() => sectorDistance('3', { x: 0, z: 0 })).toThrow('Invalid sector key');
+  });
   it('loads ahead of the fog, retains a hysteresis margin and releases departed sectors', () => {
     const load = vi.fn(),
       unload = vi.fn();

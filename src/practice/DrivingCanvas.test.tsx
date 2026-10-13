@@ -1,10 +1,17 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import type { ComponentProps } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DrivingCanvas } from './DrivingCanvas.tsx';
+import { BINDINGS_STORAGE_KEY, DEFAULT_BINDINGS } from './bindings.ts';
+import type { Bindings } from './bindings.ts';
 import type { Telemetry } from './telemetry.ts';
+import type { CockpitCommand } from './cockpit.ts';
+import { AUDIO_STORAGE_KEY } from '../audio/session.ts';
 import type { Observation } from '../exam/session.ts';
+import { FIRST_BLOCK, FIRST_BLOCK_START } from '../sim/tracks/firstBlock.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../sim/tracks/practiceYard.ts';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
+import { fakeAudio } from '../test/fakeAudio.ts';
 import { createFakeRenderer } from '../test/fakeRenderer.ts';
 
 const texts = { label: 'Pista 3D', loadingText: 'Cargando…', unavailableText: 'Sin WebGL' };
@@ -35,21 +42,17 @@ describe('DrivingCanvas', () => {
     }
   }
 
-  function renderCanvas(
-    transmission: TransmissionKind,
-    extra: { start?: typeof PRACTICE_YARD_START; onTelemetry?: (value: Telemetry) => void } = {},
-  ) {
+  function renderCanvas(transmission: TransmissionKind, extra: Partial<ComponentProps<typeof DrivingCanvas>> = {}) {
     const renderer = createFakeRenderer();
     const props = {
       world: PRACTICE_YARD,
-      start: extra.start ?? PRACTICE_YARD_START,
+      start: PRACTICE_YARD_START,
       transmission,
       createRenderer: () => renderer,
       ...texts,
+      ...extra,
     };
-    const utils = render(
-      <DrivingCanvas {...props} {...(extra.onTelemetry ? { onTelemetry: extra.onTelemetry } : {})} />,
-    );
+    const utils = render(<DrivingCanvas {...props} />);
     const surface = screen.getByTestId('driving-canvas');
     runFrames(0.05);
     const press = (code: string) => {
@@ -378,5 +381,369 @@ describe('DrivingCanvas', () => {
     runFrames(1 / 60);
 
     expect(screen.queryByText(/Bocina activada/)).not.toBeInTheDocument();
+  });
+
+  it('reports the prepared commands before the first step, with the restored cabin after a reset', () => {
+    // Arrange: the exam's prepared key, and a belt fastened before the reset.
+    const observations: Observation[] = [];
+    const prepared = [{ type: 'insert-key' }, { type: 'turn-key', to: 'on' }] as const;
+    const { press, rerender, props } = renderCanvas('manual', {
+      prepared,
+      onObservation: (observation) => observations.push(observation),
+    });
+    const first = observations[0];
+    press('KeyC');
+    observations.length = 0;
+
+    // Act
+    rerender(<DrivingCanvas {...props} resetCount={1} />);
+    runFrames(1 / 60);
+
+    // Assert: the prepared key is reported at once, and after the reset with the cabin as it now is.
+    expect(first).toMatchObject({ type: 'step', dt: 0, events: [{ type: 'key-inserted' }] });
+    expect(first?.type === 'step' && first.car.powertrain.key).toBe('on');
+    const afterReset = observations[0];
+    expect(afterReset).toMatchObject({ type: 'step', dt: 0, events: [{ type: 'key-inserted' }] });
+    expect(afterReset?.type === 'step' && afterReset.cockpit.belt).toBe(false);
+  });
+
+  it('starts and resets with the prepared cabin, and reports it with the prepared commands', () => {
+    // Arrange: a stage practised on its own arrives belted with the low beams on.
+    const observations: Observation[] = [];
+    const preparedCabin = [
+      { type: 'toggle', control: 'belt' },
+      { type: 'lights', value: 'low' },
+    ] as const;
+    const { press, rerender, props } = renderCanvas('manual', {
+      prepared: [{ type: 'insert-key' }],
+      preparedCabin,
+      onObservation: (observation) => observations.push(observation),
+    });
+    press('KeyC');
+    observations.length = 0;
+
+    // Act
+    rerender(<DrivingCanvas {...props} resetCount={1} />);
+    runFrames(1 / 60);
+
+    // Assert
+    const afterReset = observations[0];
+    expect(afterReset?.type === 'step' && afterReset.cockpit).toMatchObject({ belt: true, lights: 'low' });
+    expect(screen.getByText('Cinturón abrochado')).toBeVisible();
+    expect(screen.getByRole('combobox', { name: 'Iluminación' })).toHaveValue('low');
+  });
+
+  it('leaves shortcuts with Ctrl, Alt or Meta and unbound keys to the browser', () => {
+    // Arrange
+    const telemetry: Telemetry[] = [];
+    const { surface, press } = renderCanvas('manual', { onTelemetry: (value) => telemetry.push(value) });
+
+    // Act
+    const ignored = [
+      fireEvent.keyDown(surface, { code: 'KeyK', ctrlKey: true }),
+      fireEvent.keyDown(surface, { code: 'KeyK', altKey: true }),
+      fireEvent.keyDown(surface, { code: 'KeyK', metaKey: true }),
+      fireEvent.keyDown(surface, { code: 'KeyT' }),
+    ];
+    runFrames(0.2);
+    const keyBefore = telemetry.at(-1)?.powertrain.key;
+    press('KeyK');
+    runFrames(0.2);
+
+    // Assert: none was prevented nor reached the car; the bare key works.
+    expect(ignored).toEqual([true, true, true, true]);
+    expect(keyBefore).toBe('removed');
+    expect(telemetry.at(-1)?.powertrain.key).toBe('on');
+  });
+
+  it('ignores auto-repeated presses, so holding the key button does not run the whole key cycle', () => {
+    // Arrange
+    const telemetry: Telemetry[] = [];
+    const { surface } = renderCanvas('manual', { onTelemetry: (value) => telemetry.push(value) });
+
+    // Act: one press held long enough for the keyboard to repeat it.
+    fireEvent.keyDown(surface, { code: 'KeyK' });
+    const repeated = [1, 2, 3].map(() => fireEvent.keyDown(surface, { code: 'KeyK', repeat: true }));
+    const releasedBound = fireEvent.keyUp(surface, { code: 'KeyK' });
+    const releasedUnbound = fireEvent.keyUp(surface, { code: 'KeyT' });
+    runFrames(0.2);
+
+    // Assert: the repeats are swallowed and only the first press acted (key in contact, engine still off).
+    expect(repeated).toEqual([false, false, false]);
+    expect(releasedBound).toBe(false);
+    expect(releasedUnbound).toBe(true);
+    expect(telemetry.at(-1)?.powertrain).toMatchObject({ key: 'on', engineRunning: false });
+  });
+
+  it('glances at the mirrors, cycles the lights and switches a turn signal off with its own key', () => {
+    const { surface, press } = renderCanvas('manual');
+    const lights = screen.getByRole('combobox', { name: 'Iluminación' });
+    const leftSignal = screen.getByRole('button', { name: 'Giro izquierdo' });
+
+    press('KeyU');
+    expect(surface).toHaveAttribute('data-look-yaw', '0.5');
+    press('KeyP');
+    expect(surface).toHaveAttribute('data-look-yaw', '-0.5');
+    const cycle: string[] = [];
+    for (let i = 0; i < 4; i += 1) {
+      press('KeyO');
+      cycle.push((lights as HTMLSelectElement).value);
+    }
+    expect(cycle).toEqual(['position', 'low', 'high', 'off']);
+    press('KeyZ');
+    expect(leftSignal).toHaveAttribute('aria-pressed', 'true');
+    press('KeyZ');
+    expect(leftSignal).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  it('looks around while the primary pointer drags on the windscreen, and stops when it lets go', () => {
+    // Arrange: pointers with ids, which jsdom does not provide.
+    class FakePointerEvent extends MouseEvent {
+      readonly pointerId: number;
+      constructor(type: string, init: PointerEventInit = {}) {
+        super(type, init);
+        this.pointerId = init.pointerId ?? 1;
+      }
+    }
+    vi.stubGlobal('PointerEvent', FakePointerEvent);
+    const looks: CockpitCommand[] = [];
+    const { surface } = renderCanvas('manual', {
+      onObservation: (observation) => {
+        if (observation.type === 'cockpit' && observation.command.type === 'look') looks.push(observation.command);
+      },
+    });
+    surface.setPointerCapture = vi.fn();
+    const drag = (end: () => void) => {
+      fireEvent.pointerDown(surface, { button: 0, pointerId: 1, clientX: 100, clientY: 100 });
+      end();
+      fireEvent.pointerMove(surface, { pointerId: 1, clientX: 300, clientY: 100 });
+    };
+
+    // Act
+    fireEvent.pointerDown(surface, { button: 2, pointerId: 1, clientX: 100, clientY: 100 });
+    fireEvent.pointerMove(surface, { pointerId: 1, clientX: 300, clientY: 100 });
+    fireEvent.pointerDown(surface, { button: 0, pointerId: 1, clientX: 100, clientY: 100 });
+    fireEvent.pointerMove(surface, { pointerId: 2, clientX: 300, clientY: 300 });
+    fireEvent.pointerMove(surface, { pointerId: 1, clientX: 150, clientY: 130 });
+    fireEvent.pointerUp(surface, { pointerId: 1 });
+    fireEvent.pointerMove(surface, { pointerId: 1, clientX: 300, clientY: 100 });
+    drag(() => fireEvent.pointerCancel(surface, { pointerId: 1 }));
+    drag(() => fireEvent.lostPointerCapture(surface, { pointerId: 1 }));
+
+    // Assert: only the primary pointer's own moves turn the head (50 px right and 30 px down).
+    expect(surface).toHaveFocus();
+    expect(surface.setPointerCapture).toHaveBeenCalledTimes(3);
+    expect(looks).toHaveLength(1);
+    expect(looks[0]).toMatchObject({ type: 'look' });
+    const [look] = looks as Extract<CockpitCommand, { type: 'look' }>[];
+    expect(look?.yaw).toBeCloseTo(-0.3, 6);
+    expect(look?.pitch).toBeCloseTo(0.18, 6);
+    expect(surface).toHaveAttribute('data-look-yaw', String(look?.yaw));
+  });
+
+  it('sizes the renderer to the view at no more than twice the pixel ratio, following ResizeObserver', () => {
+    // Arrange
+    let notify: (() => void) | undefined;
+    const disconnect = vi.fn();
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: () => void) {
+          notify = callback;
+        }
+        observe() {}
+        disconnect = disconnect;
+      },
+    );
+    vi.stubGlobal('devicePixelRatio', 3);
+    const width = vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(640);
+    vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(360);
+
+    // Act
+    const { renderer, unmount } = renderCanvas('manual');
+    width.mockReturnValue(800);
+    act(() => notify?.());
+    unmount();
+
+    // Assert
+    expect(renderer.setPixelRatio).toHaveBeenCalledWith(2);
+    expect(renderer.setSize.mock.calls).toEqual([
+      [640, 360, false],
+      [800, 360, false],
+    ]);
+    expect(disconnect).toHaveBeenCalledOnce();
+    expect(renderer.dispose).toHaveBeenCalledOnce();
+  });
+
+  it('follows window resizes without ResizeObserver, skipping a view that has no size yet', () => {
+    // Arrange
+    vi.stubGlobal('ResizeObserver', undefined);
+    vi.stubGlobal('devicePixelRatio', 0);
+    const { renderer, unmount } = renderCanvas('manual');
+    const unsized = renderer.setSize.mock.calls.length;
+
+    // Act
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(320);
+    vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(240);
+    act(() => window.dispatchEvent(new Event('resize')));
+    unmount();
+    window.dispatchEvent(new Event('resize'));
+
+    // Assert: a missing pixel ratio counts as 1, and the listener goes with the view.
+    expect(renderer.setPixelRatio).toHaveBeenCalledWith(1);
+    expect(unsized).toBe(0);
+    expect(renderer.setSize.mock.calls).toEqual([[320, 240, false]]);
+  });
+
+  it('shows the moving actors of a world with traffic', () => {
+    // The pedestrian steps off the kerb once the car is 30 m from the stop line.
+    renderCanvas('automatic', { world: FIRST_BLOCK, start: { ...FIRST_BLOCK_START, z: 100 } });
+
+    expect(screen.getByTestId('driving-canvas')).toHaveAttribute('data-actors', '1');
+  });
+
+  it('falls back to the unavailable message when the default WebGL renderer cannot start', () => {
+    // jsdom has no WebGL: the real renderer cannot get a context.
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    render(<DrivingCanvas world={PRACTICE_YARD} start={PRACTICE_YARD_START} transmission="manual" {...texts} />);
+    runFrames(0.05);
+
+    expect(screen.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'unavailable');
+    expect(console.warn).toHaveBeenCalledWith('WebGL renderer could not be created', expect.any(Error));
+  });
+});
+
+describe('DrivingCanvas audio and key settings', () => {
+  let callbacks: FrameRequestCallback[];
+
+  beforeEach(() => {
+    callbacks = [];
+    localStorage.clear();
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => callbacks.push(callback));
+    vi.stubGlobal('cancelAnimationFrame', vi.fn());
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  function renderReady(extra: Partial<ComponentProps<typeof DrivingCanvas>> = {}) {
+    const utils = render(
+      <DrivingCanvas
+        world={PRACTICE_YARD}
+        start={PRACTICE_YARD_START}
+        transmission="manual"
+        createRenderer={() => createFakeRenderer()}
+        {...texts}
+        {...extra}
+      />,
+    );
+    act(() => callbacks.shift()?.(0));
+    return utils;
+  }
+
+  it('mutes, unmutes and sets the volume, starting the sound with the gesture and saving the choice', async () => {
+    // Arrange
+    const { context, calls, nodes } = fakeAudio();
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(function () {
+        return context;
+      }),
+    );
+    renderReady();
+    const sound = screen.getByRole('group', { name: 'Sonido de conducción' });
+    const masterVolume = () => nodes[0]?.gain.setTargetAtTime.mock.lastCall?.[0];
+
+    // Act and assert: the first click is the gesture that starts the audio, silent while muted.
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Silenciar' })));
+    expect(screen.getByRole('button', { name: 'Activar sonido' })).toHaveAttribute('aria-pressed', 'true');
+    expect(sound).toHaveTextContent('Audio silenciado.');
+    expect(masterVolume()).toBe(0);
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Activar sonido' })));
+    expect(masterVolume()).toBe(0.45);
+    await act(async () =>
+      fireEvent.change(screen.getByRole('slider', { name: 'Volumen' }), { target: { value: '70' } }),
+    );
+    expect(masterVolume()).toBe(0.7);
+    expect(calls.resume).toHaveBeenCalledOnce();
+    expect(sound).toHaveTextContent('Audio de motor y tránsito activo.');
+    expect(screen.getByRole('slider', { name: 'Volumen' })).toHaveValue('70');
+    expect(JSON.parse(localStorage.getItem(AUDIO_STORAGE_KEY) ?? 'null')).toEqual({ muted: false, volume: 0.7 });
+  });
+
+  it('keeps the chosen volume when it cannot be saved, and says so', async () => {
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('Denied');
+    });
+    renderReady();
+
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Silenciar' })));
+
+    expect(screen.getByText('El volumen funciona, pero no se pudo guardar la preferencia.')).toHaveAttribute(
+      'role',
+      'status',
+    );
+  });
+
+  it('rebinds a command from the panel, drives with the new key, saves it and tells the page', () => {
+    // Arrange
+    const seen: Bindings[] = [];
+    renderReady({ onBindingsChange: (bindings) => seen.push(bindings) });
+    const surface = screen.getByTestId('driving-canvas');
+    fireEvent.click(screen.getByText('Configurar teclado'));
+    const keyBinding = screen.getByRole('button', { name: /^Accionar llave\s?K$/ });
+
+    // Act: bind Digit1, then a conflicting key on another command.
+    fireEvent.click(keyBinding);
+    fireEvent.keyDown(keyBinding, { code: 'Digit1' });
+    const doorBinding = screen.getByRole('button', { name: /^Abrir la puerta y bajar\s?G$/ });
+    fireEvent.click(doorBinding);
+    fireEvent.keyDown(doorBinding, { code: 'Digit1' });
+    fireEvent.keyDown(surface, { code: 'Digit1' });
+    fireEvent.keyDown(surface, { code: 'Digit1' });
+    act(() => callbacks.shift()?.(1000 / 60));
+
+    // Assert
+    const saved = JSON.parse(localStorage.getItem(BINDINGS_STORAGE_KEY) ?? 'null') as Bindings;
+    expect(saved.key).toEqual(['Digit1']);
+    expect(seen.at(0)).toEqual(DEFAULT_BINDINGS);
+    expect(seen.at(-1)?.key).toEqual(['Digit1']);
+    expect(screen.getByText('Esa tecla está ocupada o reservada. Probá otra.')).toBeInTheDocument();
+    expect(surface).toHaveAttribute('data-engine', 'running');
+  });
+
+  it('restores the default keys from the panel', () => {
+    localStorage.setItem(BINDINGS_STORAGE_KEY, JSON.stringify({ ...DEFAULT_BINDINGS, key: ['Digit1'] }));
+    renderReady();
+    fireEvent.click(screen.getByText('Configurar teclado'));
+    expect(screen.getByRole('button', { name: /^Accionar llave\s?1$/ })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Restaurar teclas' }));
+
+    expect(screen.getByRole('button', { name: /^Accionar llave\s?K$/ })).toBeInTheDocument();
+    expect(JSON.parse(localStorage.getItem(BINDINGS_STORAGE_KEY) ?? 'null')).toEqual(DEFAULT_BINDINGS);
+  });
+
+  it('drives with the default keys when the saved ones cannot be read or saved', () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('Denied');
+    });
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('Denied');
+    });
+    renderReady();
+    fireEvent.click(screen.getByText('Configurar teclado'));
+    const keyBinding = screen.getByRole('button', { name: /^Accionar llave\s?K$/ });
+
+    fireEvent.click(keyBinding);
+    fireEvent.keyDown(keyBinding, { code: 'Digit1' });
+
+    expect(screen.getByRole('button', { name: /^Accionar llave\s?1$/ })).toBeInTheDocument();
+    expect(
+      screen.getByText('No se pudo guardar el teclado en este navegador. Los cambios funcionan durante esta sesión.'),
+    ).toHaveAttribute('role', 'status');
   });
 });

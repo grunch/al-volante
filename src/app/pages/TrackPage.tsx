@@ -23,20 +23,24 @@ const still = (kind: TransmissionKind): Telemetry => ({
 });
 
 /** Plain-language feedback for each simulation event. */
-function describe(event: CarEvent, kind: TransmissionKind): string {
+export function describeEvent(event: CarEvent, kind: TransmissionKind): string {
   const events = TRACK_COPY.events;
   switch (event.type) {
     case 'contact':
       return TRACK_COPY.contact(TRACK_COPY.obstacleNames[event.kind]);
     case 'start-refused':
       if (event.reason === 'key') return events.startKey;
+      if (event.reason === 'running') return events.startRunning;
       return kind === 'manual' ? events.startInGearManual : events.startInGearAutomatic;
-    case 'shift-refused':
-      return event.reason === 'clutch'
-        ? events.shiftClutch
-        : event.reason === 'brake'
-          ? events.shiftBrake
-          : events.shiftMoving;
+    case 'shift-refused': {
+      const refusals: Record<typeof event.reason, string> = {
+        clutch: events.shiftClutch,
+        brake: events.shiftBrake,
+        moving: events.shiftMoving,
+        invalid: events.shiftInvalid,
+      };
+      return refusals[event.reason];
+    }
     case 'handbrake':
       return event.engaged ? events.handbrakeOn : events.handbrakeOff;
     case 'engine-started':
@@ -131,7 +135,7 @@ export function TrackPage() {
           <dd>{TRACK_COPY.keyStates[powertrain.key]}</dd>
         </div>
       </dl>
-      <p role="status">{telemetry.lastEvent ? describe(telemetry.lastEvent, transmission) : ''}</p>
+      <p role="status">{telemetry.lastEvent ? describeEvent(telemetry.lastEvent, transmission) : ''}</p>
       <p>
         <button type="button" className="button" onClick={reset}>
           {TRACK_COPY.reset}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Presentation } from '../engine.ts';
 
 type DecisionPresentation = Extract<Presentation, { kind: 'decision' }>;
@@ -16,13 +16,23 @@ export function DecisionQuestion({ presentation, answered, resolve, onAnswer }: 
   const [path, setPath] = useState<Array<{ nodeId: string; choiceId: string }>>([]);
   const [nodeId, setNodeId] = useState(presentation.start);
   const node = presentation.nodes[nodeId];
+  const prompt = useRef<HTMLParagraphElement>(null);
+  /** Set by a choice that opens another situation: the chosen button disappears, so the focus goes to the new one. */
+  const stepped = useRef(false);
+
+  useEffect(() => {
+    if (!stepped.current) return;
+    stepped.current = false;
+    prompt.current?.focus();
+  }, [nodeId]);
 
   const choose = (choiceId: string) => {
     const nextPath = [...path, { nodeId, choiceId }];
     setPath(nextPath);
     const next = resolve(nodeId, choiceId);
-    if (next === null) onAnswer(nextPath.map((step) => step.choiceId));
-    else setNodeId(next);
+    if (next === null) return onAnswer(nextPath.map((step) => step.choiceId));
+    stepped.current = true;
+    setNodeId(next);
   };
 
   return (
@@ -37,7 +47,9 @@ export function DecisionQuestion({ presentation, answered, resolve, onAnswer }: 
       })}
       {!answered && node && (
         <>
-          <p className="question__prompt">{node.text}</p>
+          <p className="question__prompt" ref={prompt} tabIndex={-1}>
+            {node.text}
+          </p>
           <div className="decision__choices">
             {node.choices.map((choice) => (
               <button key={choice.id} type="button" className="button button--choice" onClick={() => choose(choice.id)}>

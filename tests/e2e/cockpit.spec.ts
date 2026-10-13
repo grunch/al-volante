@@ -33,7 +33,7 @@ test('rebinds the key command and retains it after reload', async ({ page }) => 
   const view = page.getByTestId('driving-canvas');
   await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await page.getByText('Configurar teclado', { exact: true }).click();
-  const binding = page.getByRole('button', { name: 'Accionar llave KeyK', exact: true });
+  const binding = page.getByRole('button', { name: 'Accionar llave K', exact: true });
   await binding.click();
   await page.keyboard.press('Digit1');
   await view.focus();

@@ -159,4 +159,14 @@ describe('driving soundscape', () => {
     expect(sound.sample(carAt(0.65), cabin, null).cues).toEqual(['tick', 'wiper']);
     expect(sound.sample(carAt(0.65), cabin, null).cues).toEqual([]);
   });
+
+  it('never hands a non-finite value to the audio graph', () => {
+    const car = carAt(0, Number.NaN);
+    car.powertrain = { ...car.powertrain, engineRunning: true, engineRadS: Number.NaN };
+    car.controls = { ...car.controls, throttle: Number.NaN };
+
+    const mix = new Soundscape().sample(car, initialCockpit(), null);
+
+    expect(mix).toMatchObject({ engineHz: 18, engineGain: 0.1, roadGain: 0, windGain: 0 });
+  });
 });

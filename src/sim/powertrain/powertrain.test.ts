@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { EXAM_POWERTRAIN, applyCommand, initialPowertrain, stepPowertrain } from './powertrain.ts';
 import type { Pedals, PowertrainState } from './powertrain.ts';
-import { radSToRpm, rpmToRadS } from './engine.ts';
+import { clutchEngagement, radSToRpm, rpmToRadS } from './engine.ts';
 
 const MASS = 1150;
 const DT = 1 / 120;
@@ -38,6 +38,31 @@ describe('powertrain', () => {
     const settled = idleFor(running({ engineRadS: rpmToRadS(3000) }), NO_PEDALS, 0, 5);
 
     expect(radSToRpm(settled.state.engineRadS)).toBeCloseTo(EXAM_POWERTRAIN.engine.idleRpm, -1);
+  });
+
+  it('revs above the gearbox when the throttle overpowers a slipping clutch, even from synchronised speeds', () => {
+    // Arrange: rolling in first at 2 m/s with the engine turning with the gearbox, clutch half up, full throttle.
+    const ratio =
+      (EXAM_POWERTRAIN.manual.ratios['1'] * EXAM_POWERTRAIN.manual.finalDrive) / EXAM_POWERTRAIN.wheelRadiusM;
+    let speedMps = 2;
+    let state = running({ manualGear: '1', engineRadS: speedMps * ratio });
+    const pedals: Pedals = { throttle: 1, brake: 0, clutch: 0.6 };
+    let tractionN = 0;
+
+    // Act: half a second, the car accelerated by what the clutch passes.
+    for (let step = 0; step < 60; step += 1) {
+      const result = stepPowertrain(EXAM_POWERTRAIN, state, pedals, speedMps, MASS, DT);
+      state = result.state;
+      tractionN = result.tractionN;
+      speedMps += (result.tractionN / MASS) * DT;
+    }
+
+    // Assert: the clutch slips at its capacity and the engine, with torque to spare, pulls ahead of the wheels.
+    const capacityN =
+      clutchEngagement(pedals.clutch) * EXAM_POWERTRAIN.manual.clutchMaxNm * ratio * EXAM_POWERTRAIN.efficiency;
+    expect(tractionN).toBeCloseTo(capacityN, 6);
+    expect(state.engineRunning).toBe(true);
+    expect(state.engineRadS - speedMps * ratio).toBeGreaterThan(10);
   });
 
   it('shifts the automatic up and down with speed, with hysteresis', () => {
@@ -119,5 +144,27 @@ describe('powertrain', () => {
     expect(applyCommand(EXAM_POWERTRAIN, automatic, { type: 'shift', to: '3' }, NO_PEDALS, 0).events[0]).toMatchObject({
       reason: 'invalid',
     });
+  });
+
+  it('answers key turns without a key, a second insert, a stop with the engine off and a start while running', () => {
+    // Arrange
+    const keyOut = initialPowertrain('manual');
+    const keyOff = { ...keyOut, key: 'off' as const };
+    const turn = (state: PowertrainState, to: 'on' | 'off' | 'start') =>
+      applyCommand(EXAM_POWERTRAIN, state, { type: 'turn-key', to }, NO_PEDALS, 0);
+
+    // Act
+    const startWithoutKey = turn(keyOut, 'start');
+    const onWithoutKey = turn(keyOut, 'on');
+    const secondInsert = applyCommand(EXAM_POWERTRAIN, keyOff, { type: 'insert-key' }, NO_PEDALS, 0);
+    const offWhileStopped = turn({ ...keyOff, key: 'on' }, 'off');
+    const startWhileRunning = turn(running(), 'start');
+
+    // Assert
+    expect(startWithoutKey).toEqual({ state: keyOut, events: [{ type: 'start-refused', reason: 'key' }] });
+    expect(onWithoutKey).toEqual({ state: keyOut, events: [] });
+    expect(secondInsert).toEqual({ state: keyOff, events: [] });
+    expect(offWhileStopped).toEqual({ state: { ...keyOff, engineRadS: 0 }, events: [] });
+    expect(startWhileRunning).toEqual({ state: running(), events: [{ type: 'start-refused', reason: 'running' }] });
   });
 });

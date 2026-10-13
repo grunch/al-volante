@@ -30,8 +30,8 @@ export interface StageCard {
 
 export type Verdict =
   | { kind: 'approved'; points: number }
-  | { kind: 'disapproved'; cause: 'interruption'; interruption: Interruption; rule: Rule | null }
-  | { kind: 'disapproved'; cause: 'eliminatory'; rule: Rule }
+  | { kind: 'disapproved'; cause: 'interruption'; interruption: Interruption; rule: Rule | null; fault: Fault | null }
+  | { kind: 'disapproved'; cause: 'eliminatory'; rule: Rule; fault: Fault }
   | { kind: 'disapproved'; cause: 'over-points'; points: number }
   | { kind: 'pending'; points: number };
 
@@ -46,6 +46,28 @@ export interface ExamCard {
 
 const inScope = (stage: Stage, scope: StageScope) =>
   STAGES.indexOf(stage) >= STAGES.indexOf(scope.from) && STAGES.indexOf(stage) <= STAGES.indexOf(scope.to);
+
+export type FichaRow = Rule['fichaRows'][number];
+
+/**
+ * The ficha row a fault is consigned in (decision D1): a row of the stage it was scored in and, when the judge told
+ * it, of the group of its context (a turn or a crossing). A conduct the ficha lists only in another stage takes the
+ * row of that stage: the unlock checks (minor e and f, «Desbloqueo del vehículo», PDF 10 and 15) are stage I although
+ * the game asks for them when the engine starts and the car first moves.
+ */
+export function fichaRowOf(rule: Rule, fault: Pick<Fault, 'stage' | 'group'>): FichaRow {
+  const ofStage = rule.fichaRows.filter((row) => row.stage === fault.stage);
+  const rows = ofStage.length > 0 ? ofStage : rule.fichaRows;
+  const row = rows.find((candidate) => candidate.group === fault.group) ?? rows[0];
+  if (!row) throw new Error(`${rule.id} has no ficha row`);
+  return row;
+}
+
+/** The stage of the card a fault goes in: its ficha row's, unless the session did not run that stage (a practice). */
+function cardStageOf(session: Session, fault: Fault): Stage {
+  const { stage } = fichaRowOf(ruleById(session.rules, fault.ruleId), fault);
+  return inScope(stage, session.scope) ? stage : fault.stage;
+}
 
 /** The stage of a recorded transition, by the session's own mapping (`finished` closes the last one). */
 const transitionStage = (session: Session, phase: Phase): Stage | null =>
@@ -71,7 +93,7 @@ function stageCard(session: Session, stage: Stage): StageCard {
   const scoped = inScope(stage, session.scope);
   const startedAtS = scoped ? startOf(session, stage) : null;
   const faults = session.ledger.faults
-    .filter((fault) => fault.stage === stage)
+    .filter((fault) => cardStageOf(session, fault) === stage)
     .map((fault) => ({ fault, rule: ruleById(session.rules, fault.ruleId) }));
   return {
     stage,
@@ -93,10 +115,13 @@ function verdictOf(session: Session, stages: readonly StageCard[], result: ExamR
   const { interruption } = session.ledger;
   if (interruption) {
     const rule = interruption.ruleId ? ruleById(session.rules, interruption.ruleId) : null;
-    return { kind: 'disapproved', cause: 'interruption', interruption, rule };
+    // The fault that interrupted, for the ficha row of its context (D1).
+    const fault = session.ledger.faults.findLast((item) => item.ruleId === interruption.ruleId) ?? null;
+    return { kind: 'disapproved', cause: 'interruption', interruption, rule, fault };
   }
   const eliminatory = stages.flatMap((stage) => stage.faults).find(isEliminatory);
-  if (eliminatory) return { kind: 'disapproved', cause: 'eliminatory', rule: eliminatory.rule };
+  if (eliminatory)
+    return { kind: 'disapproved', cause: 'eliminatory', rule: eliminatory.rule, fault: eliminatory.fault };
   return { kind: 'disapproved', cause: 'over-points', points };
 }
 

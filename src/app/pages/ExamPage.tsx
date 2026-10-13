@@ -6,13 +6,13 @@ import { buildCard } from '../../exam/card.ts';
 import { buildCircuit } from '../../exam/circuit.ts';
 import type { Circuit } from '../../exam/circuit.ts';
 import { guideSteps } from '../../exam/guide.ts';
-import type { Notice } from '../../exam/circulation.ts';
 import {
   DRIVING_MODES,
   STAGES,
   aidsOf,
   isPersisted,
   modeFromSlug,
+  preparedCabinFor,
   preparedFor,
   slugOfMode,
   slugOfStage,
@@ -33,10 +33,11 @@ import type { TransmissionKind } from '../../sim/powertrain/powertrain.ts';
 import { createTraffic, trafficSourceOf } from '../../traffic/traffic.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
-import { EXAM_COPY as copy, formatNumber } from '../../i18n/es-AR.ts';
+import { EXAM_COPY as copy } from '../../i18n/es-AR.ts';
 import { DRIVING_GUIDE_COPY as guideCopy } from '../../i18n/drivingGuide.ts';
-import { ExamCardView, FaultItem, FaultList } from './ExamCardView.tsx';
+import { ExamCardView, FaultList } from './ExamCardView.tsx';
 import { ExamGuide } from './ExamGuide.tsx';
+import { ExamHud, LearnPanel, examinerSays } from './ExamHud.tsx';
 
 // Three.js stays in its own chunk, as on the home page.
 const ExamDrive = lazy(() => import('../../city/ExamDrive.tsx').then((module) => ({ default: module.ExamDrive })));
@@ -50,78 +51,20 @@ const DEFAULT_STAGE: Stage = 'I';
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'failed';
 
-function noticeText(notice: Notice | null): string {
-  if (!notice) return copy.nothingAhead;
-  const text = copy.notices[notice.kind](notice.distanceM);
-  return notice.light ? `${text} ${copy.lightStates[notice.light]}.` : text;
-}
-
-/** What the examiner says aloud: the prompt of the phase, the next turn and the parking notice (every mode). */
-function examinerSays(session: Session, kind: TransmissionKind): string {
-  const { prompt } = session;
-  if (prompt.kind === 'recognise') {
-    const text = copy.prompts[prompt.target as keyof typeof copy.prompts] ?? prompt.target;
-    if (!prompt.target.startsWith('gear-')) return text;
-    return `${text} ${kind === 'manual' ? copy.gearHintManual : copy.gearHintAutomatic}`;
-  }
-  const detail =
-    prompt.message === 'reverse' || prompt.message === 'forward' || prompt.message === 'firstMetres'
-      ? ` ${copy.phases[`${prompt.message}${kind === 'manual' ? 'Manual' : 'Automatic'}`]}`
-      : '';
-  const { instruction, parkingAheadM } = session.street;
-  const turn =
-    (prompt.message === 'firstMetres' || prompt.message === 'circulation') && instruction
-      ? ` ${copy.instruction(instruction.turn, instruction.street)}`
-      : '';
-  // The parking is announced 100 m before the bay, while still circulating (protocolo PDF 24).
-  const notice =
-    prompt.message === 'circulation' && parkingAheadM !== null ? ` ${copy.parkingNotice(parkingAheadM)}` : '';
-  return `${copy.phases[prompt.message]}${detail}${turn}${notice}`;
-}
-
-/** What the driver still has to do before opening the door, read from the car and the cabin at the last step. */
-function descentText(session: Session, kind: TransmissionKind): string {
-  const { parking } = session;
-  const steps = [
-    kind === 'manual' ? copy.descentSteps.neutral : copy.descentSteps.park,
-    copy.descentSteps.handbrake,
-    copy.descentSteps.lightsOff,
-    copy.descentSteps.engineOff,
-    copy.descentSteps.keyOut,
-    `${copy.descentSteps.mirror}${parking.leftMirrorChecked ? ' ✓' : ''}`,
-  ];
-  return steps.join(' · ');
-}
-
-/** Guided learning: what the current phase checks, and the last fault explained as it happens. */
-function LearnPanel({ session }: { session: Session }) {
-  const hints = copy.learnHints[session.phase];
-  const last = session.ledger.faults.at(-1);
-  const rule = last ? session.rules.find((candidate) => candidate.id === last.ruleId) : undefined;
-  return (
-    <section className="exam-learn" data-testid="exam-hints" aria-live="polite">
-      <p>
-        <b>{copy.learnChecks}:</b> {hints.checks}
-      </p>
-      {last && rule && (
-        <div data-testid="exam-last-fault">
-          <b>{copy.lastFault}:</b> <FaultItem item={{ fault: last, rule }} explain />
-        </div>
-      )}
-    </section>
-  );
-}
-
 function Exam({ content }: { content: Content }) {
   const rules = content.rules.rules;
   const createRenderer = useContext(RendererContext);
   const { now, recordAttempt } = useProgress();
   const [params, setParams] = useSearchParams();
   const mode = modeFromSlug(params.get('modo')) ?? DEFAULT_MODE;
-  const stage: Stage | null = mode === 'practice' ? (stageFromSlug(params.get('etapa')) ?? DEFAULT_STAGE) : null;
+  // The stage the practice runs: read in every mode, so the stage picker and the mode radios need no fallback.
+  const practiceStage: Stage = stageFromSlug(params.get('etapa')) ?? DEFAULT_STAGE;
+  const stage: Stage | null = mode === 'practice' ? practiceStage : null;
   const aids = aidsOf(mode);
   const [transmission, setTransmission] = useState<TransmissionKind>('manual');
   const [seed, setSeed] = useState(DEFAULT_SEED);
+  // What the seed field shows while editing: it may be empty, but only a valid seed restarts the exam.
+  const [seedText, setSeedText] = useState(String(DEFAULT_SEED));
   const [resetCount, setResetCount] = useState(0);
   const [saveState, setSaveState] = useState<SaveState>('idle');
   // The keys the driver bound in the cabin, so the guide names the ones that work.
@@ -134,6 +77,7 @@ function Exam({ content }: { content: Content }) {
   const world = useMemo(() => ({ ...city.world, traffic: source }), [city, source]);
   const start = useMemo(() => startPoseFor(city, stage), [city, stage]);
   const prepared = useMemo(() => preparedFor(stage), [stage]);
+  const preparedCabin = useMemo(() => preparedCabinFor(stage), [stage]);
   const bands = content.rules.parkingBands;
   const newSession = useCallback(
     (kind: TransmissionKind, nextSeed: number, nextCircuit: Circuit, nextStage: Stage | null) =>
@@ -214,24 +158,16 @@ function Exam({ content }: { content: Content }) {
     setSession(sessionRef.current);
   }, []);
 
-  const chooseMode = (nextMode: DrivingMode, nextStage: Stage | null) => {
+  const chooseMode = (nextMode: DrivingMode, nextStage: Stage) => {
     const next: Record<string, string> = { modo: slugOfMode(nextMode) };
-    if (nextMode === 'practice') next.etapa = slugOfStage(nextStage ?? DEFAULT_STAGE);
+    if (nextMode === 'practice') next.etapa = slugOfStage(nextStage);
     setParams(next);
   };
 
-  const { ledger, street } = session;
+  const { street } = session;
   const finished = session.phase === 'finished';
   const card = finished ? buildCard(session) : null;
   const show = (aid: Aid) => aids.has(aid);
-  const cm = (value: number | null) => (value === null ? copy.pendingMeasure : `${formatNumber(value, 0)} cm`);
-  const { parking } = session;
-  const kerb = parking.final ?? parking.kerb;
-  const parkingText =
-    session.phase === 'parking' && parking.startedAtS === null && parking.aheadM !== null
-      ? copy.bayAhead(parking.aheadM)
-      : copy.parkingCountersOf(parking.manoeuvres, parking.attempts);
-  const currentLeg = city.legs.find((leg) => leg.number === street.leg);
   const step = session.phase === 'finished' ? null : session.phase;
   return (
     <>
@@ -244,7 +180,7 @@ function Exam({ content }: { content: Content }) {
               name="exam-mode"
               value={candidate}
               checked={mode === candidate}
-              onChange={() => chooseMode(candidate, stage)}
+              onChange={() => chooseMode(candidate, practiceStage)}
             />{' '}
             {copy.modes[candidate]}
           </label>
@@ -255,7 +191,7 @@ function Exam({ content }: { content: Content }) {
             <label>
               {copy.stage}{' '}
               <select
-                value={slugOfStage(stage ?? DEFAULT_STAGE)}
+                value={slugOfStage(practiceStage)}
                 onChange={(event) => chooseMode('practice', stageFromSlug(event.target.value) ?? DEFAULT_STAGE)}
               >
                 {STAGES.map((candidate) => (
@@ -266,7 +202,7 @@ function Exam({ content }: { content: Content }) {
               </select>
             </label>
             <p className="exam-mode__help" data-testid="exam-stage-help">
-              {copy.practiceStart[stage ?? DEFAULT_STAGE]}
+              {copy.practiceStart[practiceStage]}
             </p>
           </>
         )}
@@ -292,11 +228,19 @@ function Exam({ content }: { content: Content }) {
             min={1}
             max={MAX_SEED}
             step={1}
-            value={seed}
+            value={seedText}
             onChange={(event) => {
-              const next = Number.parseInt(event.target.value, 10);
-              if (Number.isInteger(next) && next > 0 && next <= MAX_SEED) begin(transmission, next, stage);
+              const text = event.target.value;
+              if (text.trim() === '') {
+                setSeedText('');
+                return;
+              }
+              const next = Number(text);
+              if (!Number.isInteger(next) || next < 1 || next > MAX_SEED) return;
+              setSeedText(text);
+              begin(transmission, next, stage);
             }}
+            onBlur={() => setSeedText(String(seed))}
           />
         </label>
       </fieldset>
@@ -356,6 +300,7 @@ function Exam({ content }: { content: Content }) {
           transmission={transmission}
           start={start}
           prepared={prepared}
+          preparedCabin={preparedCabin}
           resetCount={resetCount}
           onObservation={onObservation}
           onTelemetry={onTelemetry}
@@ -364,97 +309,7 @@ function Exam({ content }: { content: Content }) {
           {...(createRenderer ? { createRenderer } : {})}
         />
       </Suspense>
-      <dl className="hud" data-testid="exam-hud" data-aids={[...aids].join(' ')}>
-        {(show('points') || finished) && (
-          <div>
-            <dt>{copy.points}</dt>
-            <dd data-testid="exam-points">{ledger.points}</dd>
-          </div>
-        )}
-        <div>
-          <dt>{copy.currentLeg}</dt>
-          <dd data-testid="exam-leg">
-            {currentLeg ? copy.leg(currentLeg.number, currentLeg.street) : copy.pendingMeasure}
-          </dd>
-        </div>
-        <div>
-          <dt>{copy.nextInstruction}</dt>
-          <dd data-testid="exam-instruction">
-            {street.instruction
-              ? copy.instruction(street.instruction.turn, street.instruction.street)
-              : copy.pendingMeasure}
-          </dd>
-        </div>
-        {show('notice') && (
-          <div>
-            <dt>{copy.notice}</dt>
-            <dd data-testid="exam-notice">{noticeText(street.notice)}</dd>
-          </div>
-        )}
-        {show('limits') && (
-          <div>
-            <dt>{copy.limits}</dt>
-            <dd data-testid="exam-limits">
-              {street.road ? copy.limitsOf(street.road.examKmh, street.road.postedKmh) : copy.pendingMeasure}
-            </dd>
-          </div>
-        )}
-        {show('measurements') && (
-          <>
-            <div>
-              <dt>{copy.reverseCm}</dt>
-              <dd>{cm(session.measurements.reverseCm)}</dd>
-            </div>
-            <div>
-              <dt>{copy.forwardCm}</dt>
-              <dd>{cm(session.measurements.forwardCm)}</dd>
-            </div>
-            <div>
-              <dt>{copy.exitManoeuvres}</dt>
-              <dd>{session.measurements.exitManoeuvres}</dd>
-            </div>
-            <div>
-              <dt>{copy.firstMetresTopKmh}</dt>
-              <dd>
-                {session.measurements.firstMetresTopKmh === null
-                  ? copy.pendingMeasure
-                  : `${formatNumber(session.measurements.firstMetresTopKmh, 0)} km/h`}
-              </dd>
-            </div>
-          </>
-        )}
-        {show('light') && (
-          <div>
-            <dt>{copy.light}</dt>
-            {/* Only a signal ahead has a light to show: elsewhere the traffic reports green by default. */}
-            <dd data-testid="exam-light">
-              {street.notice?.kind === 'signal' && street.notice.light
-                ? copy.lightStates[street.notice.light]
-                : copy.noSignalAhead}
-            </dd>
-          </div>
-        )}
-        {show('parkingCounters') && (
-          <div>
-            <dt>{copy.parkingCounters}</dt>
-            <dd data-testid="exam-parking">{parkingText}</dd>
-          </div>
-        )}
-        {show('kerbDistance') && (
-          <div>
-            <dt>{copy.kerbDistance}</dt>
-            <dd data-testid="exam-kerb">
-              {kerb ? copy.kerbDistanceOf(kerb.frontCm, kerb.rearCm) : copy.pendingMeasure}
-            </dd>
-          </div>
-        )}
-        {show('descentChecklist') && session.phase === 'leaving' && (
-          <div>
-            <dt>{copy.descentChecklist}</dt>
-            <dd data-testid="exam-descent">{descentText(session, transmission)}</dd>
-          </div>
-        )}
-      </dl>
+      <ExamHud session={session} aids={aids} legs={city.legs} transmission={transmission} />
       {mode === 'exam' && !finished && <p data-testid="exam-no-aids">{copy.examNoAids}</p>}
       {card && <ExamCardView card={card} takeover={street.takeover} />}
       {finished && (

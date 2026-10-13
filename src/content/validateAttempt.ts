@@ -1,3 +1,5 @@
+import { z } from 'zod';
+import { THEORY_SUBJECT } from '../theory/attempt.ts';
 import type { Attempt, Rule, RuleCatalog } from './schemas.ts';
 
 /** Repetition policies under which a rule can appear only once in an attempt (REGLAS.md). */
@@ -10,7 +12,8 @@ const COUNTED_ONCE: ReadonlySet<Rule['repetition']> = new Set(['once', 'single-c
 export function attemptErrors(attempt: Attempt, rules: RuleCatalog): string[] {
   const errors: string[] = [];
   const byId = new Map(rules.rules.map((rule) => [rule.id, rule]));
-  if (attempt.kind === 'activity') errors.push(...activityErrors(attempt));
+  if (attempt.kind === 'activity')
+    errors.push(...(attempt.subjectId === THEORY_SUBJECT ? theoryErrors(attempt) : activityErrors(attempt)));
   const seen = new Set<string>();
   attempt.faults.forEach((fault, index) => {
     const rule = byId.get(fault.ruleId);
@@ -31,6 +34,35 @@ export function attemptErrors(attempt: Attempt, rules: RuleCatalog): string[] {
   const total = attempt.faults.reduce((sum, fault) => sum + fault.points, 0);
   if (attempt.result.points !== null && attempt.result.points !== total)
     errors.push(`${attempt.id}: result points ${attempt.result.points} do not match the faults (${total})`);
+  return errors;
+}
+
+/** The grade a mock theory exam keeps in its `finished` event (createTheoryAttempt). */
+export const TheoryGradeSchema = z.object({
+  correct: z.int().nonnegative(),
+  total: z.int().nonnegative(),
+  passed: z.boolean(),
+});
+
+/**
+ * What a handed-in mock theory exam looks like (createTheoryAttempt): finished, one grade and a result that follows
+ * it (passing does not need a full score), no faults or points. It is an activity attempt with no single answer.
+ */
+function theoryErrors(attempt: Attempt): string[] {
+  const errors: string[] = [];
+  const { correct, score, points } = attempt.result;
+  if (attempt.faults.length > 0) errors.push(`${attempt.id}: mock exams cannot have driving faults`);
+  if (attempt.finishedAt === null) errors.push(`${attempt.id}: a mock exam is finished when it is handed in`);
+  if (points !== null) errors.push(`${attempt.id}: mock exams have no exam points`);
+  const grades = attempt.events.filter((event) => event.type === 'finished');
+  if (grades.length !== 1)
+    return [...errors, `${attempt.id}: a mock exam has exactly one grade (found ${grades.length})`];
+  const grade = TheoryGradeSchema.safeParse((grades[0] as Attempt['events'][number]).payload);
+  if (!grade.success || grade.data.correct > grade.data.total)
+    return [...errors, `${attempt.id}: the grade of the mock exam is unreadable`];
+  const { total, passed } = grade.data;
+  if (correct !== passed || score !== (total === 0 ? 0 : grade.data.correct / total))
+    errors.push(`${attempt.id}: the result does not match the grade of the mock exam`);
   return errors;
 }
 

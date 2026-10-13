@@ -120,4 +120,37 @@ describe('track scene scenario', () => {
     expect(pedestrian?.position.x).toBeLessThan(FIRST_BLOCK.scenario!.actors[0]!.from.x);
     view.dispose();
   });
+
+  it('poses only the actors it drew and keeps its aspect through a collapsed resize', () => {
+    // Arrange
+    const view = createTrackScene(FIRST_BLOCK, EXAM_CAR, { reducedMotion: true });
+    view.resize(1600, 900);
+    const state = createScenarioState(FIRST_BLOCK.scenario!);
+    const [known] = state.poses;
+    const stranger = { ...known!, id: 'stranger', x: 3, z: 4 };
+
+    // Act
+    view.update(FIRST_BLOCK_START, { ...state, poses: [stranger, { ...known!, x: 1, z: 2, headingRad: 0.5 }] });
+    view.resize(0, 900);
+    view.resize(1600, 0);
+
+    // Assert
+    expect(view.scene.getObjectByName('actor-stranger')).toBeUndefined();
+    const drawn = view.scene.getObjectByName(`actor-${known!.id}`)!;
+    expect([drawn.position.x, drawn.position.z, drawn.rotation.y]).toEqual([1, 2, 0.5]);
+    expect(view.camera.aspect).toBeCloseTo(16 / 9, 9);
+    view.dispose();
+  });
+});
+
+describe('track scene without markings', () => {
+  it('grounds a world that has obstacles only, sized to them', () => {
+    const { markings, ...bare } = PRACTICE_YARD;
+    const view = createTrackScene(bare, EXAM_CAR, { reducedMotion: true });
+    expect(markings?.length).toBeGreaterThan(0);
+    expect(view.scene.getObjectByName('marking-0')).toBeUndefined();
+    const ground = view.scene.getObjectByName('ground') as THREE.Mesh<THREE.PlaneGeometry>;
+    expect(ground.geometry.parameters.width).toBeGreaterThanOrEqual(200);
+    view.dispose();
+  });
 });

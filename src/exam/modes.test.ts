@@ -9,12 +9,14 @@ import {
   aidsOf,
   isPersisted,
   modeFromSlug,
+  preparedCabinFor,
   preparedFor,
   slugOfMode,
   slugOfStage,
   stageFromSlug,
   startPoseFor,
 } from './modes.ts';
+import { commandCockpit, initialCockpit } from '../practice/cockpit.ts';
 import { createPracticeSession } from './session.ts';
 
 describe('driving modes (F04-T05, REGLAS.md D15)', () => {
@@ -60,6 +62,15 @@ describe('driving modes (F04-T05, REGLAS.md D15)', () => {
     expect(preparedFor('III').map((command) => command.type)).toEqual(['insert-key', 'turn-key', 'turn-key']);
     expect(preparedFor('I').map((command) => command.type)).toEqual(['insert-key', 'turn-key']);
     expect(preparedFor(null)).toEqual(preparedFor('I'));
+  });
+
+  it('starts stage III with the belt fastened and the low beams on, as a real exam reaches the last leg (PDF 7, 30)', () => {
+    const cabin = (stage: 'I' | 'II' | 'III' | null) =>
+      preparedCabinFor(stage).reduce(commandCockpit, initialCockpit());
+
+    expect(cabin('III')).toMatchObject({ belt: true, lights: 'low' });
+    // Stages I and II begin in the box, where fastening the belt and switching the lights on are part of the exam.
+    for (const stage of ['I', 'II', null] as const) expect(cabin(stage)).toEqual(initialCockpit());
   });
 
   it('creates a practice of stage III on the last leg, before the parking notice, with the result pending', () => {

@@ -33,10 +33,12 @@ export const esAR = {
   mapComplementary: 'Material complementario',
   mapPractical: 'Examen práctico: protocolo y recorridos',
   unitsCount: 'unidades',
+  unitsCountOne: 'unidad',
   unitsWithActivities: 'con actividades',
   unitsForConsultation: 'de consulta',
   sectionPractice: 'Practicá esta sección',
   sectionPracticeCount: 'actividades sobre esta sección',
+  sectionPracticeCountOne: 'actividad sobre esta sección',
   sectionNoActivities: 'Esta sección todavía no tiene actividades.',
   unitPracticedIn: 'Practicala en',
   unitConsultation: 'Material de consulta',
@@ -159,6 +161,9 @@ export function sectionLabel(source: string, section: string): string {
   return SECTION_LABELS[source]?.[section] ?? section;
 }
 
+/** "1 intento", "2 intentos": a number with the noun (or phrase) that agrees with it. */
+const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
 export const SEVERITY_LABELS: Record<string, string> = {
   minor: 'Leve',
   low: 'Deficiente baja',
@@ -170,14 +175,14 @@ export const THEORY_COPY = {
   heading: 'Sala de examen',
   introHeading: 'Simulacro del examen teórico',
   introSummary: (questions: number, pass: number, options: number, minutes: number) =>
-    `${questions} preguntas de opción múltiple con ${options} opciones y una sola correcta, tomadas de todo el material de la licencia B y repartidas por tema. Aprobás con ${pass} correctas. Tenés ${minutes} minutos.`,
+    `${count(questions, 'pregunta', 'preguntas')} de opción múltiple con ${options} opciones y una sola correcta, tomadas de todo el material de la licencia B y repartidas por tema. Aprobás con ${count(pass, 'correcta', 'correctas')}. Tenés ${minutes} minutos.`,
   notOfficial:
     'Es un simulacro propio, armado con las actividades revisadas del juego: no es el banco oficial. La cantidad de preguntas, el puntaje y el tiempo siguen las fuentes citadas abajo, que no coinciden en el tiempo: 45 minutos según la disposición de 2023 y 40 según el informe de gestión de 2024.',
   timeLegend: 'Tiempo',
   timeDefault: (minutes: number) => `${minutes} minutos (Disposición 860/2023)`,
   timeShort: (minutes: number) => `${minutes} minutos (informe de gestión 2024, más exigente)`,
   shortBank: (available: number, questions: number) =>
-    `Por ahora hay ${available} preguntas disponibles de las ${questions} del examen: este simulacro no puede aprobarse.`,
+    `Por ahora hay ${count(available, 'pregunta disponible', 'preguntas disponibles')} de las ${questions} del examen: este simulacro no puede aprobarse.`,
   start: 'Empezar el simulacro',
   another: 'Otro simulacro',
   sourcesHeading: 'Fuentes de los parámetros',
@@ -189,9 +194,10 @@ export const THEORY_COPY = {
   passed: 'Aprobado',
   failed: 'No aprobado',
   score: (correct: number, total: number, pass: number) =>
-    `${correct} de ${total} respuestas correctas (se necesitan ${pass}).`,
+    `${correct} de ${total} respuestas correctas (se ${pass === 1 ? 'necesita' : 'necesitan'} ${pass}).`,
   timedOut: 'Se terminó el tiempo: el examen se entregó solo.',
-  unanswered: (count: number) => `Sin responder: ${count} (cuentan como incorrectas).`,
+  unanswered: (unanswered: number) =>
+    `Sin responder: ${unanswered} (${unanswered === 1 ? 'cuenta como incorrecta' : 'cuentan como incorrectas'}).`,
   notSaved: 'No pudimos guardar este simulacro en tu bitácora; el resto de tu progreso está intacto.',
   bySectionHeading: 'Resultado por tema',
   sectionColumn: 'Tema',
@@ -275,6 +281,7 @@ export const ACTIVITY_COPY = {
   activityOne: 'actividad',
   activityMany: 'actividades',
   unitsInSection: 'unidades en la sección',
+  unitsInSectionOne: 'unidad en la sección',
   answer: 'Responder',
   check: 'Comprobar',
   correct: '¡Correcto!',
@@ -289,9 +296,7 @@ export const ACTIVITY_COPY = {
   moveDown: 'Bajar',
   position: 'Posición',
   restart: 'Empezar de nuevo',
-  chooseOption: 'Elegí una opción',
   scoreLabel: 'Puntaje',
-  notFound: 'No encontramos esa actividad.',
   signToIdentify: 'Señal a identificar',
   notSaved:
     'No pudimos guardar este resultado en tu bitácora. Podés seguir practicando; el resto de tu progreso está intacto.',
@@ -311,8 +316,6 @@ export const SOURCE_SHORT_LABELS: Record<string, string> = {
   siniestros: 'Guía de siniestros',
 };
 
-const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
-
 export const LOGBOOK_COPY = {
   heading: 'Mi bitácora',
   intro:
@@ -322,10 +325,12 @@ export const LOGBOOK_COPY = {
   retry: 'Reintentar',
   notPersistent:
     'Este navegador no permite guardar datos (por ejemplo, en modo privado): tu progreso se pierde al cerrar la pestaña. Descargá un respaldo para conservarlo.',
-  quarantined: (count: number) =>
-    `${count === 1 ? 'Un registro guardado estaba dañado y lo' : `${count} registros guardados estaban dañados y los`} apartamos sin modificarlos. No afectan el resto de tu progreso.`,
-  unsaved: (count: number) =>
-    `${count === 1 ? 'Un resultado no se pudo guardar' : `${count} resultados no se pudieron guardar`} en este navegador. El resto de tu progreso está intacto.`,
+  quarantined: (records: number) =>
+    records === 1
+      ? 'Un registro guardado estaba dañado y lo apartamos sin modificarlo. No afecta el resto de tu progreso.'
+      : `${records} registros guardados estaban dañados y los apartamos sin modificarlos. No afectan el resto de tu progreso.`,
+  unsaved: (results: number) =>
+    `${results === 1 ? 'Un resultado no se pudo guardar' : `${results} resultados no se pudieron guardar`} en este navegador. El resto de tu progreso está intacto.`,
   acknowledge: 'Entendido',
   reviewHeading: 'Repaso recomendado',
   reviewEmpty: 'No tenés repasos pendientes por ahora.',
@@ -339,7 +344,7 @@ export const LOGBOOK_COPY = {
   masteryHelp:
     'Un concepto queda dominado con tres respuestas correctas seguidas y espaciadas: la primera, otra al menos un día después y otra al menos tres días más tarde. Responder de nuevo antes de tiempo no suma, y un error lo vuelve al principio. No calculamos una probabilidad de aprobar.',
   groupSummary: (total: number, withActivities: number) =>
-    `${total} conceptos; ${withActivities} ya tienen actividades para practicar.`,
+    `${count(total, 'concepto', 'conceptos')}; ${count(withActivities, 'ya tiene', 'ya tienen')} actividades para practicar.`,
   practicedCount: 'Practicados',
   masteredCount: 'Dominados',
   stateLabels: { practiced: 'Practicado', mastered: 'Dominado' },
@@ -376,7 +381,9 @@ export const LOGBOOK_COPY = {
   drivingLink: 'Ir al examen práctico',
   drivingModes: { learn: 'Aprender', practice: 'Práctica', review: 'Repaso', run: 'Recorrido', exam: 'Examen' },
   drivingStages: (stages: readonly string[]) =>
-    stages.length === 0 ? 'ninguna etapa completa' : `etapas completas: ${stages.join(', ')}`,
+    stages.length === 0
+      ? 'ninguna etapa completa'
+      : `${stages.length === 1 ? 'etapa completa' : 'etapas completas'}: ${stages.join(', ')}`,
   drivingPoints: (points: number | null) =>
     points === null ? 'sin puntaje' : `${points} ${points === 1 ? 'punto' : 'puntos'}`,
   drivingResults: { approved: 'Aprobado', disapproved: 'Desaprobado', pending: 'Pendiente' },
@@ -398,7 +405,7 @@ export const formatDateTime = (iso: string) => DATE_TIME_FORMAT.format(new Date(
 export const TRACK_COPY = {
   heading: 'Pista de prueba',
   intro:
-    'Probá cómo se maneja el auto en un predio cerrado, con un cajón de estacionamiento de 6 m marcado con postes y un cordón. Practicá desde el habitáculo: regulá los espejos, prepará tu posición y probá los mandos. Esta pista todavía no evalúa el examen.',
+    'Probá cómo se maneja el auto en un predio cerrado, con un cajón de estacionamiento de 6 m marcado con postes y un cordón. Practicá desde el habitáculo: regulá los espejos, prepará tu posición y probá los mandos. Acá no se evalúa nada: para rendir con examinador y ficha, andá al examen práctico.',
   transmission: 'Caja de cambios',
   manual: 'Manual',
   automatic: 'Automática',
@@ -437,10 +444,12 @@ export const TRACK_COPY = {
     stall: 'Se caló el motor. Para volver a arrancar, pisá el embrague y accioná la llave.',
     startInGearManual: 'Para arrancar, poné punto muerto (N) o pisá el embrague.',
     startInGearAutomatic: 'Para arrancar, poné la palanca en P o en N.',
+    startRunning: 'El motor ya está en marcha.',
     startKey: 'Primero poné la llave en contacto.',
     shiftClutch: 'Para cambiar de marcha, pisá el embrague a fondo.',
     shiftBrake: 'Para sacar la palanca de P, pisá el freno.',
     shiftMoving: 'Con el auto en movimiento no se puede poner esa posición.',
+    shiftInvalid: 'Esa posición no existe en esta caja.',
     'moved-with-handbrake': 'Arrancaste con el freno de mano puesto.',
     handbrakeOn: 'Freno de mano puesto.',
     handbrakeOff: 'Freno de mano liberado.',
@@ -640,7 +649,6 @@ export const EXAM_COPY = {
     'per-episode': 'una por episodio',
     unspecified: 'una por episodio (decisión D3)',
   },
-  interrupted: 'El examen se interrumpió.',
   interruptionCauses: {
     fault: 'Falla eliminatoria que interrumpe el examen.',
     cutoff: 'Con 8 puntos o más no se sale a circular (protocolo, PDF 10).',
@@ -649,14 +657,6 @@ export const EXAM_COPY = {
   },
   interruptedBy: (rule: string) => `Motivo: ${rule}.`,
   takeover: 'El examinador frenó el auto.',
-  results: {
-    approved: 'Aprobado',
-    disapproved: 'Desaprobado',
-    pending: 'Resultado parcial: el examen terminó sin completar las tres etapas.',
-  },
-  approvedWith: (points: number) => `con ${points} ${points === 1 ? 'punto' : 'puntos'} (protocolo, PDF 14).`,
-  overPoints: 'con 8 puntos o más el examen está desaprobado (protocolo, PDF 14).',
-  measurements: 'Mediciones',
   reverseCm: 'Retroceso',
   forwardCm: 'Avance',
   exitManoeuvres: 'Maniobras de salida',
@@ -690,7 +690,7 @@ export const EXAM_COPY = {
   readMore: 'Repasar en el protocolo',
   protocolPage: (page: number) => `PDF ${page}`,
   approximations:
-    'Aproximaciones del juego, no reglas del protocolo: tolerancia de ±10 cm en los 30 cm (V2); un poste tocado a menos de 1 m/s es un roce y a más, un derribo; chequear los espejos se registra al mirar un espejo lateral (un giro corto de la cabeza, D4); girar del todo la cabeza no lo reemplaza (X6); el cordón tocado a menos de 1 m/s es un roce de la rueda y a más, subirse a la vereda; en manual, frenar durante los 30 cm solo vale al final; los límites de velocidad se juzgan con 1 km/h de margen; en los primeros 100 m, la marcha se exige por encima de 15 km/h. En la circulación: distancia de 2 s medida contra el vehículo de adelante en movimiento durante más de 1,5 s; reducir antes de girar o de un cruce sin semáforo es ir a 20 km/h o menos a 12 m; el PARE exige detenerse del todo a menos de 3 m de la línea; bloquear el cruce es estar 2 s parado sobre la calzada cruzada; la velocidad precautoria se exige a 20 km/h o menos a 15 m de una senda con peatones; el lomo de burro se pasa a 20 km/h o menos; la mínima es 10 km/h durante 8 s con la vía libre; una detención innecesaria es 1 s parado sin nada a menos de 8 m; la pérdida de control es una aceleración lateral mayor a 6 m/s²; el examinador toma el control cuando frenar ya no alcanza (más de 7 m/s²) para evitar a alguien de frente; al vehículo de emergencia se le cede el paso bajando a 10 km/h o corriéndose 0,7 m a la derecha mientras está a menos de 30 m detrás, hasta que pasa. En el estacionamiento: la primera detención, que alinea el auto en doble fila, cuenta entre 8 m antes y 12 m después del centro del cajón, con el centro del auto a no más de 5 m a la izquierda de la línea del cajón; una maniobra es cada cambio de sentido desde la primera marcha atrás; un intento nuevo es volver a la doble fila (1,2 m o más a la izquierda de la línea del cajón) después de haber entrado al cajón; las líneas pintadas hacen de vallas (tocarlas a menos de 1 m/s es un roce; a más, un golpe); centrado es quedar a menos de 0,5 m del centro del cajón; 50 cm exactos del cordón es la segunda franja (V1); bloquear la dirección es sacar la llave con el motor apagado. No se evalúan las dos manos en el volante, el uso de celular ni la autoridad de tránsito. Ver REGLAS.md §7 y §9.',
+    'Aproximaciones del juego, no reglas del protocolo: tolerancia de ±10 cm en los 30 cm (V2); un poste tocado a menos de 1 m/s es un roce y a más, un derribo; chequear los espejos se registra al mirar un espejo lateral (un giro corto de la cabeza, D4); girar del todo la cabeza no lo reemplaza (X6); el cordón tocado a menos de 1 m/s es un roce de la rueda y a más, subirse a la vereda; en manual, frenar durante los 30 cm solo vale al final; los límites de velocidad se juzgan con 1 km/h de margen; en los primeros 100 m, la marcha se exige por encima de 15 km/h. En la circulación: distancia de 2 s medida contra el vehículo de adelante en movimiento durante más de 1,5 s; reducir antes de girar o de un cruce sin semáforo es ir a 20 km/h o menos a 12 m; el PARE exige detenerse del todo a menos de 3 m de la línea; bloquear el cruce es estar 2 s parado sobre la calzada cruzada; la velocidad precautoria se exige a 20 km/h o menos a 15 m de una senda con peatones; el lomo de burro se pasa a 20 km/h o menos; la mínima es 10 km/h durante 8 s con la vía libre; una detención innecesaria es 1 s parado sin nada a menos de 8 m; la pérdida de control es una aceleración lateral mayor a 6 m/s²; el examinador toma el control cuando frenar ya no alcanza (más de 7 m/s²) para evitar a alguien de frente; al vehículo de emergencia se le cede el paso bajando a 10 km/h o corriéndose 0,7 m a la derecha mientras está a menos de 30 m detrás, hasta que pasa. En el estacionamiento: la primera detención, que alinea el auto en doble fila, cuenta entre 8 m antes y 12 m después del centro del cajón, con el centro del auto a no más de 5 m a la izquierda de la línea del cajón; una maniobra es cada cambio de sentido desde la primera marcha atrás; un intento nuevo es volver a la doble fila (1,2 m o más a la izquierda de la línea del cajón) después de haber entrado al cajón; las líneas pintadas hacen de vallas (tocarlas a menos de 1 m/s es un roce; a más, un golpe); centrado es quedar a 0,5 m o menos del centro del cajón; 50 cm exactos del cordón es la segunda franja (V1); bloquear la dirección es sacar la llave con el motor apagado. No se evalúan las dos manos en el volante, el uso de celular, la autoridad de tránsito, el tiempo de arranque, el arranque brusco, la aceleración en vacío, el cinturón mal colocado (el juego solo sabe si está puesto o no), la frenada innecesaria ni la falta de bocina cuando hacía falta. Ver REGLAS.md §7 y §9.',
   source:
     'Protocolo: etapa I (PDF 9–10), maniobrabilidad y salida del cajón (PDF 11), circulación (PDF 12), estacionamiento y descenso (PDF 13, 21), puntaje (PDF 14), anexo II (PDF 22–33). Máximas de la vía: OpenStreetMap, sin relevamiento en calle.',
   homeLink: 'Examen práctico',
@@ -706,7 +706,6 @@ export const EXAM_COPY = {
     exam: 'Como el examen real: solo lo que dice el examinador, sin paso a paso (las teclas siguen a la vista). Puntos, fallas y ficha recién al final. Se guarda en la bitácora.',
   },
   stage: 'Etapa a practicar',
-  stageNames: { I: 'Etapa I', II: 'Etapa II', III: 'Etapa III' },
   stageTitles: {
     I: 'Etapa I · reconocimiento y preparación',
     II: 'Etapa II · 30 cm, salida del cajón y circulación',
@@ -758,7 +757,7 @@ export const EXAM_COPY = {
     },
     parking: {
       checks:
-        'Balizas 3 s o más antes de parar en doble fila: si no, 2 puntos. Espejos antes de retroceder: 3 puntos si no. Cuarta maniobra: 1 punto. Tercer intento: eliminatorio. Pisar una línea del cajón despacio, 3 puntos; a 1 m/s o más, eliminatorio. Posición final: menos de 15 cm, 1 punto; entre 25 y 50 cm, 1 punto; más de 50 cm, eliminatorio; inclinada o descentrada más de 0,5 m, 1 punto.',
+        'Balizas 3 s o más antes de parar en doble fila: si no, 2 puntos. Espejos (o mirar hacia atrás) en doble fila, antes de retroceder, y otra vez durante la marcha atrás: si falta alguna de las dos, 3 puntos. Cuarta maniobra: 1 punto. Tercer intento: eliminatorio. Pisar una línea del cajón despacio, 3 puntos; a 1 m/s o más, eliminatorio. Posición final: a menos de 15 cm del cordón, 1 punto; a más de 25 cm y hasta 50 cm, 1 punto; a más de 50 cm, eliminatorio; inclinada (más de 30 cm de diferencia entre los ejes) o descentrada (más de 0,5 m), 1 punto.',
     },
     leaving: {
       checks:
@@ -777,7 +776,10 @@ export const EXAM_COPY = {
   stageIncomplete: 'incompleta',
   stageOutOfScope: 'no se rindió en este modo',
   stageDuration: (seconds: number) => `${formatNumber(seconds, 0)} s`,
-  faultAt: (seconds: number) => `a los ${formatNumber(seconds, 0)} s`,
+  faultAt: (seconds: number) => {
+    const shown = formatNumber(seconds, 0);
+    return shown === '1' ? 'a 1 s' : `a los ${shown} s`;
+  },
   subtotal: (points: number) => `Subtotal: ${points} ${points === 1 ? 'punto' : 'puntos'}`,
   total: (points: number) => `Total: ${points} ${points === 1 ? 'punto' : 'puntos'}`,
   verdicts: {
@@ -826,7 +828,8 @@ export const CITY_COPY = {
   canvasLabel: 'Vista tridimensional del recorrido A',
   unavailable: 'No se pudo iniciar la vista 3D. Podés consultar el mapa y las fuentes del recorrido.',
   scope:
-    'Exploración con tránsito: autos, colectivos, bicis y peatones circulan según la semilla y los semáforos tienen ciclo. La evaluación del circuito completo llega en las próximas tareas; acá no se puntúa nada.',
+    'Exploración libre con tránsito: autos, colectivos, bicis y peatones circulan según la semilla y los semáforos tienen ciclo. Acá no se puntúa nada: el circuito completo, con examinador y ficha, se rinde en el examen práctico.',
+  examLink: 'Ir al examen práctico',
   seed: 'Semilla del tránsito',
   seedHelp: 'La misma semilla repite el mismo tránsito y los mismos ciclos de semáforo.',
   approximation:

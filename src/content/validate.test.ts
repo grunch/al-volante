@@ -47,6 +47,43 @@ describe('validateContent', () => {
     expect(result.errors.every((error) => error.startsWith('rules: missing annex item'))).toBe(true);
   });
 
+  it('prefixes the errors of every cross-reference check with the catalog that has to change', () => {
+    // Arrange: one problem per catalog.
+    const raw = rawFixture();
+    raw.units = catalog().units; // practised by the activity, but only transcribed
+    raw.issues = [{ source: 'manual', page: 99, type: 'typo', description: 'Errata' }];
+    raw.figures = [
+      {
+        id: 'fig.manual-p2-ghost',
+        source: 'manual',
+        page: 2,
+        box: { x: 0, y: 0, width: 1, height: 1 },
+        alt: 'Figura',
+        unitIds: ['manual.ch3.ghost'],
+      },
+    ];
+    raw.theoryExam = theoryExamConfig({ sections: ['manual-ch9'] });
+    raw.activities = {
+      'manual-ch3': [choiceActivity({ unitIds: ['manual.ch3.roundabout-priority', 'manual.ch3.ghost'] })],
+    };
+
+    // Act
+    const result = validateContent(raw);
+
+    // Assert
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        'catalog: issue 0: page manual:99 is not classified',
+        'activities: act.speed-street: unknown unit manual.ch3.ghost',
+        'figures: fig.manual-p2-ghost: unknown unit manual.ch3.ghost',
+        'treatment: manual.ch3.roundabout-priority: covered by an activity but its status is transcribed',
+        'theory exam: unknown section manual-ch9',
+      ]),
+    );
+  });
+
   it('reports activity errors with the file of their section', () => {
     const raw = rawFixture();
     raw.activities = { 'manual-ch3': [{ id: 'act.broken' }], 'manual-ch1': [choiceActivity({ id: 'act.misplaced' })] };
@@ -266,6 +303,19 @@ describe('computeCoverage', () => {
     });
 
     expect(rows[1]).toMatchObject({ unitsWithActivities: 0, consultationUnits: 1, reviewedUnits: 1 });
+  });
+
+  it('counts figure-based units and leaves out units of a section with no classified page', () => {
+    const data = catalog();
+    const units = [
+      { ...data.units[0]!, figureBased: true },
+      { ...data.units[0]!, id: 'manual.ch9.orphan', section: 'ch9' },
+    ];
+
+    const rows = computeCoverage({ pages: data.pages, units, activities: [] });
+
+    expect(rows.find((row) => row.section === 'ch3')).toMatchObject({ units: 1, figureBasedUnits: 1 });
+    expect(rows.some((row) => row.section === 'ch9')).toBe(false);
   });
 
   it('counts pages, units and units with activities per section', () => {

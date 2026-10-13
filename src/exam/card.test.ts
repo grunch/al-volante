@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { REAL_BANDS, REAL_RULES } from '../test/realRules.ts';
 import { Driver, IDLE } from '../test/examDriver.ts';
-import { buildCard, STAGES } from './card.ts';
-import { interrupt, recordFault } from './scoring.ts';
+import { buildCard, fichaRowOf, STAGES } from './card.ts';
+import { FICHA_GROUPS, interrupt, recordFault, ruleById } from './scoring.ts';
 import type { FaultReport, Stage } from './scoring.ts';
 import { createPracticeSession, createSession, stageOf } from './session.ts';
 import type { Session, Transition } from './session.ts';
@@ -117,6 +117,13 @@ describe('buildCard (protocolo PDF 14–17)', () => {
     ]);
   });
 
+  it('reports the cutoff before circulating with no rule nor fault of its own (PDF 10)', () => {
+    const base = finished([{ ruleId: 'rule.high.a-mirrors-not-checked', stage: 'I' }], { completed: ['I'] });
+    const card = buildCard({ ...base, ledger: interrupt(base.ledger, 20, 'cutoff') });
+
+    expect(card.verdict).toMatchObject({ kind: 'disapproved', cause: 'interruption', rule: null, fault: null });
+  });
+
   it('reports an interruption by an eliminatory fault (q: third attempt) as such', () => {
     const card = buildCard(
       finished([{ ruleId: 'rule.eliminatory.q-parking-over-two-attempts', stage: 'III' }], { completed: ['I', 'II'] }),
@@ -198,7 +205,76 @@ describe('buildCard (protocolo PDF 14–17)', () => {
     expect(driver.session.transitions.map((item) => item.phase)).toEqual(['familiarisation', 'recognition']);
   });
 
-  it('assigns the faults scored at the instant stage I ends to stage I, and the next one to stage II', () => {
+  it('shows the unlock checks of stage I (neutral, handbrake) under stage I, as the ficha lists them (PDF 15)', () => {
+    // The game asks for them when the engine starts and the car first moves, which is already stage II.
+    const card = buildCard(
+      finished([
+        { ruleId: 'rule.minor.e-neutral-check-before-start', stage: 'II' },
+        { ruleId: 'rule.minor.f-handbrake-on-start', stage: 'II', episode: 'handbrake-0' },
+        { ruleId: 'rule.low.d-engine-stall', stage: 'II' },
+      ]),
+    );
+
+    expect(card.stages[0]?.faults.map((item) => item.rule.id)).toEqual([
+      'rule.minor.e-neutral-check-before-start',
+      'rule.minor.f-handbrake-on-start',
+    ]);
+    expect(card.stages[1]?.faults.map((item) => item.rule.id)).toEqual(['rule.low.d-engine-stall']);
+    expect(card.stages.map((stage) => stage.points)).toEqual([2, 2, 0]);
+  });
+
+  it('consigns a conduct with two rows in the row of its context, a turn or a crossing (D1, PDF 16–17)', () => {
+    const slowdown = ruleById(REAL_RULES, 'rule.high.m-no-slowdown-before-maneuver');
+
+    expect(fichaRowOf(slowdown, { stage: 'II', group: FICHA_GROUPS.turns }).text).toBe(
+      'No reduce la velocidad para efectuar la maniobra con seguridad',
+    );
+    expect(fichaRowOf(slowdown, { stage: 'II', group: FICHA_GROUPS.crossings }).text).toBe(
+      'No reduce la velocidad para efectuar el cruce con seguridad en esquinas no semaforizadas',
+    );
+    // A judge that cannot tell the context leaves the first row of the stage.
+    expect(fichaRowOf(slowdown, { stage: 'II' }).group).toBe(FICHA_GROUPS.crossings);
+  });
+
+  it('names the fault of the verdict in the row of its context: a pedestrian hit while turning', () => {
+    const card = buildCard(
+      finished(
+        [
+          {
+            ruleId: 'rule.high.l-yield-to-pedestrians-cyclists',
+            stage: 'II',
+            episode: 'crosswalk',
+            group: FICHA_GROUPS.turns,
+            escalate: true,
+          },
+        ],
+        { completed: ['I'] },
+      ),
+    );
+
+    if (card.verdict.kind !== 'disapproved' || card.verdict.cause !== 'interruption' || !card.verdict.rule)
+      throw new Error('no interruption');
+    expect(fichaRowOf(card.verdict.rule, card.verdict.fault ?? { stage: 'II' }).text).toBe(
+      'No cede el paso a peatones y/o ciclistas al girar',
+    );
+  });
+
+  it('keeps the unlock checks in stage II when a practice of stage II leaves stage I off the card', () => {
+    const practice = createPracticeSession(REAL_RULES, 'manual', 1, null, REAL_BANDS, 'II');
+    const ledger = recordFault(practice.ledger, {
+      ruleId: 'rule.minor.e-neutral-check-before-start',
+      atS: 1,
+      stage: 'II',
+    });
+
+    const card = buildCard({ ...practice, phase: 'finished', ledger, timeS: 5 });
+
+    expect(card.stages[0]?.faults).toEqual([]);
+    expect(card.stages[1]?.faults.map((item) => item.rule.id)).toEqual(['rule.minor.e-neutral-check-before-start']);
+    expect(card.stages[1]?.points).toBe(1);
+  });
+
+  it('assigns the faults scored at the instant stage I ends to stage I, and the next one where the ficha lists it', () => {
     const driver = new Driver('manual');
     driver.ready();
     driver.recognise();
@@ -221,10 +297,12 @@ describe('buildCard (protocolo PDF 14–17)', () => {
     ]);
     // The three faults of stage I share the simulation time of the transition to stage II: time alone cannot split them.
     expect(driver.session.ledger.faults.slice(0, 3).every((fault) => fault.atS === unlock?.atS)).toBe(true);
-    expect(card.stages[0]?.faults.map((item) => item.rule.id)).toEqual(driver.faults.slice(0, 3));
-    expect(card.stages[1]?.faults.map((item) => item.rule.id)).toEqual(['rule.minor.e-neutral-check-before-start']);
-    expect(card.stages[0]?.points).toBe(5);
-    expect(card.stages[1]?.points).toBe(1);
+    // Neutral is checked when the engine starts, in stage II for the game; the ficha lists it in stage I (PDF 15).
+    expect(driver.session.ledger.faults[3]?.stage).toBe('II');
+    expect(card.stages[0]?.faults.map((item) => item.rule.id)).toEqual(driver.faults);
+    expect(card.stages[1]?.faults).toEqual([]);
+    expect(card.stages[0]?.points).toBe(6);
+    expect(card.stages[1]?.points).toBe(0);
     expect(card.finished).toBe(false);
     expect(card.verdict).toEqual({ kind: 'pending', points: 6 });
   });

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import type { Observation } from '../exam/session.ts';
 import type { Bindings } from '../practice/bindings.ts';
+import type { CockpitCommand } from '../practice/cockpit.ts';
 import { DrivingCanvas } from '../practice/DrivingCanvas.tsx';
 import type { Telemetry } from '../practice/telemetry.ts';
 import type { RendererFactory } from '../scene/SceneCanvas.tsx';
@@ -20,6 +21,7 @@ export function ExamDrive({
   start,
   resetCount,
   prepared,
+  preparedCabin,
   onObservation,
   onTelemetry,
   halted,
@@ -34,6 +36,8 @@ export function ExamDrive({
   start?: VehicleState;
   resetCount: number;
   prepared: readonly PowertrainCommand[];
+  /** The cabin a practice of stage III arrives with (belt fastened, low beams on). */
+  preparedCabin?: readonly CockpitCommand[];
   onObservation: (observation: Observation) => void;
   onTelemetry: (telemetry: Telemetry) => void;
   halted: boolean | (() => boolean);
@@ -52,6 +56,7 @@ export function ExamDrive({
       loadingText={copy.loading}
       unavailableText={copy.unavailable}
       prepared={prepared}
+      preparedCabin={preparedCabin}
       resetCount={resetCount}
       onObservation={onObservation}
       onTelemetry={onTelemetry}

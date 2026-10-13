@@ -1,12 +1,15 @@
 import routeData from '../../specs/route/comuna13-a.json';
 import { RouteSchema } from '../content/schemas.ts';
 import { buildCity, distance, offsetPoint, projectOnRoad } from '../city/model.ts';
+import type { City, Road } from '../city/model.ts';
 import { overlaps } from '../sim/collision.ts';
-import type { OrientedBox } from '../sim/collision.ts';
+import type { OrientedBox, Point } from '../sim/collision.ts';
+import { DRY_ASPHALT } from '../sim/dynamics.ts';
 import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import { EXAM_CAR, bodyBox, restingVehicle } from '../sim/vehicle.ts';
+import { planEmergency } from './emergency.ts';
 import { CYCLE_PERIOD_S, intersectionLight } from './lights.ts';
-import { locateOnPath, pointAlong } from './network.ts';
+import { buildNetwork, locateOnPath, pointAlong } from './network.ts';
 import type { Approach, Path } from './network.ts';
 import {
   ACTIVE_RADIUS_M,
@@ -415,6 +418,26 @@ describe('seeded traffic', () => {
     expect(walks).toBeGreaterThan(0);
   });
 
+  it('keeps pedestrians on the kerb of a signalled crosswalk, even on their phase, while the car passes close by', () => {
+    // Arrange: the car circles 10 m around the crosswalk at 6 m/s, or stands there.
+    const crosswalk = base.network.crosswalks.find((item) => item.controlId === 'control-1')!;
+    const traffic = { ...base, vehicles: [] };
+    const circling = (timeS: number) =>
+      carAt(crosswalk.center.x + 10 * Math.cos(timeS * 0.6), crosswalk.center.z + 10 * Math.sin(timeS * 0.6), 0);
+    const standing = carAt(crosswalk.center.x + 10, crosswalk.center.z, 0);
+    const walkers = (carBody: OrientedBox | ((timeS: number) => OrientedBox)) => {
+      let count = 0;
+      run(traffic, carBody, CYCLE_PERIOD_S * 2, (state) => {
+        count += state.poses.filter((pose) => pose.kind === 'pedestrian' && pose.id.includes(crosswalk.id)).length;
+      });
+      return count;
+    };
+
+    // Act / Assert: never in front of the moving car; on the walk phase as usual beside the standing one.
+    expect(walkers(circling)).toBe(0);
+    expect(walkers(standing)).toBeGreaterThan(0);
+  });
+
   it('lets pedestrians step off an unsignalled crosswalk only in a gap, and vehicles stop for them', () => {
     // The exit crosswalk of Cuba onto Quesada: unsignalled, with no stop line just before it.
     const crossing = lap.crosswalks.find(
@@ -534,6 +557,30 @@ describe('seeded traffic', () => {
     expect(respawned).toBe(true);
   });
 
+  it('fails loudly when a vehicle names a path the network does not have', () => {
+    const traffic = only([car({ pathId: 'nowhere', startS: 0 })]);
+    expect(() => run(traffic, FAR_AWAY, SIM_STEP_S)).toThrow('Missing path');
+  });
+
+  it('steps a network without the lap, with no ambulance to plan or pose', () => {
+    // Arrange: the ambulance trigger point of the full network, with the lap removed.
+    const triggerS = base.emergency!.triggerS;
+    const trigger = pointAlong(lap, triggerS + 5);
+    const body = carAt(trigger.point.x, trigger.point.z, trigger.headingRad);
+    const network = { ...base.network, paths: base.network.paths.filter((path) => path.id !== 'lap') };
+    const lapless: Traffic = { ...base, network, vehicles: [], walks: {} };
+
+    // Act
+    const state = run(lapless, body, 1);
+
+    // Assert
+    expect(planEmergency(network)).toBeNull();
+    expect(state.poses.some((pose) => pose.kind === 'emergency')).toBe(false);
+    expect(run({ ...base, vehicles: [], walks: {} }, body, 1).poses.some((pose) => pose.kind === 'emergency')).toBe(
+      true,
+    );
+  });
+
   it('exposes the light the car faces next on the route, green where none applies', () => {
     const stop = stopOn(lap, 'leg-1-1');
     const place = pointAlong(lap, stop.atS - 30);
@@ -544,5 +591,83 @@ describe('seeded traffic', () => {
       expect(state.lights['control-0']).toBe(state.light);
     });
     expect(run(base, FAR_AWAY, 0.5).light).toBe('green');
+  });
+});
+
+describe('priority across the seam of the cyclic lap', () => {
+  /** A square block of four one-way legs plus a street that crosses the first leg 25 m after the lap starts. */
+  const street = (id: string, name: string, a: Point, b: Point, leg: number | null): Road => ({
+    id,
+    leg,
+    street: name,
+    a,
+    b,
+    lengthM: distance(a, b),
+    headingRad: Math.atan2(b.x - a.x, b.z - a.z),
+    widthM: 8.8,
+    widthStatus: 'approximation',
+    lanes: 1,
+    lanesStatus: 'approximation',
+    cycleTrack: false,
+    kind: leg === null ? 'context' : 'route',
+    postedMaxKmh: null,
+    examMaxKmh: leg === null ? null : 30,
+  });
+  const corners: Point[] = [
+    { x: 0, z: 0 },
+    { x: 0, z: 200 },
+    { x: 200, z: 200 },
+    { x: 200, z: 0 },
+  ];
+  const names = ['North', 'East', 'South', 'West'];
+  const legs = corners.map((from, index) =>
+    street(`leg-${index + 1}`, names[index]!, from, corners[(index + 1) % 4]!, index + 1),
+  );
+  const block: City = {
+    legs: legs.map((road) => ({
+      number: road.leg!,
+      street: road.street,
+      path: [road.a, road.b],
+      lengthM: road.lengthM,
+      turn: 'left',
+    })),
+    // Crossing from x = 60 to x = -60: the first leg (heading +z) arrives from this street's right.
+    roads: [...legs, street('cross', 'Cross', { x: 60, z: 25 }, { x: -60, z: 25 }, null)],
+    controls: [],
+    world: { surface: DRY_ASPHALT, obstacles: [], markings: [] },
+    start: { status: 'approximation', pose: restingVehicle({ x: 0, z: 0, headingRad: 0 }) },
+  };
+
+  it('yields to a lap vehicle arriving from the right while that one is still before the lap seam', () => {
+    // Arrange: the crossing vehicle waits at its line; the lap vehicle is 19.45 m from its own line, but that line
+    // lies just past the start of the lap while the vehicle is still at the end of it.
+    const network = buildNetwork(block);
+    const blockLap = network.paths.find((path) => path.id === 'lap')!;
+    const cross = network.paths.find((path) => path.id === 'cross:forward')!;
+    const lapStop = blockLap.stops[0]!;
+    const crossStop = cross.stops[0]!;
+    expect(lapStop.approach.intersectionId).toBe(crossStop.approach.intersectionId);
+    expect(lapStop.atS).toBeCloseTo(18.6, 6);
+    const halfLengthM = ACTOR_SIZES.vehicle.lengthM / 2;
+    const waiting = car({ pathId: cross.id, startS: crossStop.atS - halfLengthM }, 0);
+    const arriving = car({ pathId: blockLap.id, startS: blockLap.lengthM - 3 }, 1);
+    const traffic: Traffic = {
+      seed: 0,
+      network,
+      plan: { cycles: {} },
+      vehicles: [waiting, arriving],
+      walks: {},
+      emergency: null,
+    };
+
+    // Act
+    const state = run(traffic, FAR_AWAY, 0.25);
+
+    // Assert: still on the far side of the seam, the lap vehicle keeps its priority from the right.
+    expect(frontOf(traffic, state, arriving.id)).toBeLessThan(blockLap.lengthM);
+    expect(vehicle(state, arriving.id).speedMps).toBeGreaterThan(0);
+    expect(vehicle(state, waiting.id).speedMps).toBe(0);
+    expect(vehicle(state, waiting.id).s).toBe(waiting.startS);
+    expect(vehicle(state, waiting.id).waitingS).toBeGreaterThan(0);
   });
 });

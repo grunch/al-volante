@@ -181,3 +181,85 @@ describe('activity attempt invariants', () => {
     }
   });
 });
+
+describe('mock theory exam invariants', () => {
+  /** What createTheoryAttempt stores for a paper of two questions with one right: passed, half the score. */
+  function mock(overrides: Partial<Attempt> = {}): Attempt {
+    return {
+      id: 't1',
+      kind: 'activity',
+      subjectId: 'theory.mock',
+      contentVersion: 'deadbeef',
+      mode: 'exam',
+      startedAt: AT,
+      finishedAt: AT,
+      events: [
+        { at: AT, type: 'start', payload: { seed: 4, configVersion: '2026-10-12', minutes: 45, questions: [] } },
+        {
+          at: AT,
+          type: 'finished',
+          payload: { answers: {}, correct: 1, total: 2, passed: true, timedOut: false },
+        },
+      ],
+      faults: [],
+      result: { correct: true, score: 0.5, points: null },
+      ...overrides,
+    };
+  }
+  const finished = (payload: Record<string, unknown>) => [{ at: AT, type: 'finished', payload }];
+
+  it('accepts a graded mock exam, which has no single answer and passes without a full score', () => {
+    expect(attemptErrors(mock(), rules)).toEqual([]);
+    expect(
+      attemptErrors(
+        mock({
+          events: finished({ correct: 0, total: 0, passed: false }),
+          result: { correct: false, score: 0, points: null },
+        }),
+        rules,
+      ),
+    ).toEqual([]);
+  });
+
+  it('rejects unfinished mock exams, faults, points and grades that are missing, repeated or contradict the result', () => {
+    const cases: Record<string, [Partial<Attempt>, string]> = {
+      unfinished: [{ finishedAt: null }, 't1: a mock exam is finished when it is handed in'],
+      faults: [
+        { faults: [{ ruleId: 'rule.minor.a-item', at: AT, points: 1 }] },
+        't1: mock exams cannot have driving faults',
+      ],
+      points: [{ result: { correct: true, score: 0.5, points: 0 } }, 't1: mock exams have no exam points'],
+      'no grade': [{ events: [] }, 't1: a mock exam has exactly one grade (found 0)'],
+      'two grades': [
+        {
+          events: [
+            ...finished({ correct: 1, total: 2, passed: true }),
+            ...finished({ correct: 1, total: 2, passed: true }),
+          ],
+        },
+        't1: a mock exam has exactly one grade (found 2)',
+      ],
+      'unreadable grade': [{ events: finished({ correct: 'many' }) }, 't1: the grade of the mock exam is unreadable'],
+      'more right than asked': [
+        { events: finished({ correct: 3, total: 2, passed: true }) },
+        't1: the grade of the mock exam is unreadable',
+      ],
+      'score off the grade': [
+        { result: { correct: true, score: 1, points: null } },
+        't1: the result does not match the grade of the mock exam',
+      ],
+      'verdict off the grade': [
+        { result: { correct: false, score: 0.5, points: null } },
+        't1: the result does not match the grade of the mock exam',
+      ],
+      'no verdict': [
+        { result: { correct: null, score: null, points: null } },
+        't1: the result does not match the grade of the mock exam',
+      ],
+    };
+
+    for (const [name, [patch, error]] of Object.entries(cases)) {
+      expect(attemptErrors(mock(patch), rules), name).toEqual([error]);
+    }
+  });
+});

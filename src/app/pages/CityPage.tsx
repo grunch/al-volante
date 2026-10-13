@@ -134,7 +134,9 @@ function CityExplorer({ route }: { route: Route }) {
           </Suspense>
         </section>
       </div>
-      <p className="city-notice">{copy.scope}</p>
+      <p className="city-notice">
+        {copy.scope} <Link to="/examen">{copy.examLink}</Link>
+      </p>
       <details className="city-sources">
         <summary>{copy.sources}</summary>
         <p>{copy.approximation}</p>
