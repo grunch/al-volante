@@ -137,7 +137,7 @@ export const DRIVING_GUIDE_COPY = {
   controlsHeading: 'Teclas',
   /** The controls of the cabin, as they work for the gearbox chosen. */
   controls: (k: KeyNames, kind: TransmissionKind): string[] => [
-    `Hacé clic en la vista 3D, o llegá a ella con Tab, para manejar con el teclado. Si cambiás las teclas en «${COCKPIT_COPY.bindings}», esta guía muestra las tuyas. Los botones debajo de la vista hacen lo mismo con el mouse o el dedo.`,
+    `Tocá «${COCKPIT_COPY.focusDriving}», hacé clic en la vista 3D o llegá a ella con Tab. Las teclas también funcionan desde los botones del habitáculo; podés combinarlos sin soltar los pedales. Si cambiás las teclas en «${COCKPIT_COPY.bindings}», esta guía muestra las tuyas. Los botones debajo de la vista hacen lo mismo con el mouse o el dedo.`,
     kind === 'manual'
       ? `Pedales: ${k.throttle} acelerador, ${k.brake} freno y ${k.clutch} embrague. Mientras mantenés la tecla, el pedal baja hasta el fondo; al soltarla, sube. El embrague sube despacio: con toques cortos queda a medio camino.`
       : `Pedales: ${k.throttle} acelerador y ${k.brake} freno. Mientras mantenés la tecla, el pedal baja hasta el fondo; al soltarla, sube.`,

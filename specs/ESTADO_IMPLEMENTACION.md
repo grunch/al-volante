@@ -2,11 +2,13 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-13 (KAIT02, PR #45; registro de la implementación corregida en `66b1e37` y de sus revisiones).
+Última actualización: 2026-10-13 (F04-T05-FIX02: reproducción de problemas de arranque y prueba jugable del recorrido).
 
 ## Fase activa
 
-- **KAIT02 — Kait de Blender en el inicio (pedido puntual, 2026-10-13):** rama `kait02-home-preview`, desde `main` (`ecda93a`, #43 fusionado), en worktree independiente. Sustituye el auto de presentación con una exportación ligera del estudio solicitado previamente. No inicia otra fase. Detalle y reproducción en [MODELO_KAIT.md](MODELO_KAIT.md); [PR #45](https://github.com/grunch/al-volante/pull/45) abierto.
+- **F04-T05-FIX02 — arranque y prueba jugable del práctico:** pedido puntual del usuario tras fusionar #45. Rama `f04-t05-fix02-driving-playtest`, base `main` (`b2a57ad`), worktree independiente. Implementación y validación local completas; PR pendiente de creación. No inicia fase 6. [Alcance y reproducción](PRUEBA_MANEJO.md).
+
+- **KAIT02 — Kait de Blender en el inicio (pedido puntual, 2026-10-13):** rama `kait02-home-preview`, desde `main` (`ecda93a`, #43 fusionado), en worktree independiente. Sustituye el auto de presentación con una exportación ligera del estudio solicitado previamente. No inicia otra fase. Detalle y reproducción en [MODELO_KAIT.md](MODELO_KAIT.md); [PR #45](https://github.com/grunch/al-volante/pull/45) fusionado por el usuario en `b2a57ad` (2026-10-13).
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
@@ -642,8 +644,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
-| PWA01-T01 — diseño adaptable a todas las pantallas | `pwa01-t01-responsive` | `main` (`72a1e87`) | [#43](https://github.com/grunch/al-volante/pull/43) | abierto; findings de Codex y CodeRabbit resueltos |
-| PWA01-T02 — aplicación instalable y sin conexión | `pwa01-t02-pwa` | `pwa01-t01-responsive` (#43) | [#44](https://github.com/grunch/al-volante/pull/44) | abierto; findings de Codex resueltos |
+| PWA01-T01 — diseño adaptable a todas las pantallas | `pwa01-t01-responsive` | `main` (`72a1e87`) | [#43](https://github.com/grunch/al-volante/pull/43) | fusionado en `ecda93a`; findings de Codex y CodeRabbit resueltos |
+| PWA01-T02 — aplicación instalable y sin conexión | `pwa01-t02-pwa` | `pwa01-t01-responsive` (#43) | [#44](https://github.com/grunch/al-volante/pull/44) | fusionado en `e71390f`; findings de Codex resueltos |
 
 ### PWA01-T01 — Diseño adaptable
 
@@ -660,7 +662,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ## Pedido puntual KAIT02 — Kait de Blender en el inicio
 
-- Pedido: «en la pagina de inicio del juego se muestra un auto pobremente animado en 3d, sustituyelo con el kait que acabas de hacer en blender». Rama `kait02-home-preview`, base `main` (`ecda93a`), [PR #45](https://github.com/grunch/al-volante/pull/45) abierto; independiente de PWA01-T02 (#44, abierto al comenzar).
+- Pedido: «en la pagina de inicio del juego se muestra un auto pobremente animado en 3d, sustituyelo con el kait que acabas de hacer en blender». Rama `kait02-home-preview`, base `main` (`ecda93a`), [PR #45](https://github.com/grunch/al-volante/pull/45) fusionado por el usuario en `b2a57ad`; independiente de PWA01-T02 (#44, abierto al comenzar).
 - Resultado implementado: GLB original del Kait (87.934 triángulos, 24 materiales, 1.848.348 bytes), iluminación y reflejos de estudio, sombras, órbita de 70 segundos, encuadre adaptable y movimiento reducido. Carga cancelable, errores accesibles y liberación de recursos al navegar.
 - Fuente del estudio y exportador de Blender versionados; fotos, `.blend` y renders pesados quedan fuera de Git. Procedencia, simplificaciones, reproducción y medición en [MODELO_KAIT.md](MODELO_KAIT.md).
 - Verificación: lint, formato, tipos, catálogo y build aprobados; 28 pruebas focalizadas y 24 E2E de inicio/navegación aprobados (los seis E2E del Kait repetidos tras la última aserción). La corrida completa terminó con 1.754 pruebas aprobadas y un timeout de 5 s en CityPreview (105 archivos, 686,65 s); sus siete pruebas pasaron al repetirlas aisladas sin modificar ese código. No se declara `npm run check` verde: la corrida fallida no emitió cobertura total. Los controles posteriores de catálogo y build se ejecutaron por separado; el job remoto de lint, tipos, pruebas unitarias, catálogo y build pasó sobre `66b1e37`; todavía falta completar los E2E de CI. Inspección visual de cuatro tamaños con RTX 2060 aprobada; sin errores de consola ni desbordes. Medición del dibujo: 1,78 ms de media y 4,5 ms p95 en 1120 × 630, DPR 1 (método y límites en el documento).
@@ -682,9 +684,17 @@ Correctivos posteriores, cada uno desde `main` y sin pila: #34 (`f3d2f60`), #36 
 
 El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34) en `f3d2f60` y F04-T05-FIX01 (#36) en `c71a289`. Desde #34, el E2E de `main` se cancela por tiempos de reloj justos con WebGL por software. F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37)) amplió los márgenes, pero **la CI de `main` sigue sin un E2E verde**: en `132409a` (#35) y `aa9dbf9` (#38) los checks aprobaron y el job E2E se canceló al llegar a su límite de 30 min. La corrida de `a39dd41` (#37) se canceló por la fusión siguiente. En los PRs, el E2E pasó en #37 (`c036dbc`) y en #38 (`367c524`), y agotó los 30 min en #35 (`5b0b970`). Resolverlo exige medir el costo del render por software después de #35 y #38 y decidir entre achicar la suite, dividir el job o subir el límite; CONTINUIDAD pide medir antes de ampliar márgenes. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31. REV01-T02 opta por dividir el job: el E2E corre en tres shards de Playwright, cada uno con un worker y sin ampliar márgenes de las pruebas. **Resuelto:** con #42 fusionado, la CI de `main` en `72a1e87` terminó en verde, con los tres shards (el primer E2E verde de `main` desde #31).
 
+## Correctivo F04-T05-FIX02 — Arranque y prueba jugable
+
+- Pedido: reproducir el problema de arranque jugando en el navegador, automatizar la conducción y corregir los problemas encontrados. Rama `f04-t05-fix02-driving-playtest`, base `main` (`b2a57ad`, #45 fusionado). No cambia la física ni las reglas del examen.
+- Corregidos con reproducción en Chromium: pérdida del embrague al pasar del lienzo al botón de marcha, atajos ignorados desde botones, falta de mensajes de rechazo en el examen y comandos que ignoraban el segundo dedo mientras otro sostenía un pedal.
+- `npm run test:drive` prepara el auto y conduce mediante teclado/botones, con registro JSON, capturas por tramo y traza ante un fallo. Semilla 1, manual y automática. Termina al volver a la consigna de estacionamiento; no certifica la ficha completa. [Método, límites y comandos](PRUEBA_MANEJO.md).
+- Revisión independiente local: sin findings pendientes de producción. Se corrigió la estimación de velocidad de bicicletas en el conductor del test para usar el tiempo de observaciones distintas y se eliminó una dependencia de la liberación parcial de dedos no documentada por CDP. Segundo finding corregido y cubierto por regresión: un auto detenido por interrupción no puede contar como vuelta completada; el cierre exige fase de estacionamiento y motor en marcha. Ambos findings cerrados en revisión independiente local.
+- Validación: 1.813 pruebas en 111 archivos; líneas 99,81 %, sentencias 99,36 %, funciones 99,70 % y ramas 97,26 %. Lint, formato, tipos, catálogo y build aprobados. 39 E2E focalizados sobre producción aprobados, con once omisiones previstas. Vueltas completas hasta estacionamiento aprobadas en ambas cajas: automática 1.467,81 m / 475,45 s de simulación; manual 1.468,14 m / 589,45 s. Observaciones finales verificadas: estacionamiento, motor en marcha y velocidad cero. La regresión contra interrupciones y el gesto táctil sobre el build final también pasaron. PR pendiente de creación.
+
 ## Siguiente acción
 
-KAIT02 ([#45](https://github.com/grunch/al-volante/pull/45)): comprobar CI y revisiones de la cabeza actual del PR, que incluye la implementación corregida `66b1e37`. Codex GitHub y CodeRabbit revisaron ese commit; la revisión independiente local de la corrección cubre la selección de dispositivo y sus pruebas. El hallazgo documental de Codex sobre la referencia al commit se corrigió en los registros. Incorporar la base con #44 ya fusionado (`e71390f`) y ajustar/verificar el precache del Kait antes de integrar #45. No inicia una fase nueva.
+F04-T05-FIX02: publicar el PR correctivo y solicitar Codex y CodeRabbit; comprobaciones locales y vueltas en ambas cajas completas. No fusionar como parte de este pedido. #45 ya está fusionado; persiste el pendiente previo del precache del GLB del Kait (excluido por `globPatterns`, con límite de 1.800.000 bytes), ajeno a los controles de manejo.
 
 PWA01 fusionada (pedido puntual del usuario; no inicia las fases 6 ni 7): PWA01-T01 en `ecda93a` (#43) y PWA01-T02 en `e71390f` (#44). REV01 fusionada completa (#39 y #42, con #40 y #41); el E2E de `main` corre en tres shards desde `72a1e87`. Decisiones pendientes del usuario de REV01 en su sección. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 

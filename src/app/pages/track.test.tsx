@@ -6,7 +6,7 @@ import { App } from '../App.tsx';
 import { routes } from '../routes.tsx';
 import { readyContent, renderApp } from '../../test/renderApp.tsx';
 import { TRACK_COPY, esAR } from '../../i18n/es-AR.ts';
-import { describeEvent } from './TrackPage.tsx';
+import { describeEvent } from '../../practice/telemetry.ts';
 
 // The driving view loads lazily: with other suites running beside it, the first mount can take seconds.
 describe('practice yard page', { timeout: 30000 }, () => {

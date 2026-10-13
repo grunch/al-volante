@@ -21,7 +21,8 @@
     "test:audio": "node scripts/verify-audio.ts",
     "test:e2e": "playwright test",
     "check": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run validate:content && npm run build",
-    "validate:content": "node scripts/validate-content.ts"
+    "validate:content": "node scripts/validate-content.ts",
+    "test:drive": "playwright test --config playwright.driving.config.ts"
   },
   "dependencies": {
     "idb": "8.0.3",

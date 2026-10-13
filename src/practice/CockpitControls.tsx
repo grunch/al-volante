@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 import type { Action, Bindings } from './bindings.ts';
 import { ACTIONS } from './bindings.ts';
 import type { Adjustment, CockpitCommand, CockpitState, Toggle } from './cockpit.ts';
@@ -16,6 +17,43 @@ interface Props {
   restore: () => void;
   storageError: boolean;
   automatic: boolean;
+}
+
+/** Secondary fingers do not synthesize clicks; activate each captured pointer once on release inside. */
+function CommandButton({
+  activate,
+  ...props
+}: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & { activate: () => void }) {
+  const pointers = useRef(new Set<number>());
+  return (
+    <button
+      {...props}
+      type="button"
+      className="cockpit-command"
+      onPointerDown={(event) => {
+        if (event.button !== 0) return;
+        pointers.current.add(event.pointerId);
+        event.currentTarget.setPointerCapture(event.pointerId);
+      }}
+      onPointerUp={(event) => {
+        if (!pointers.current.delete(event.pointerId)) return;
+        const bounds = event.currentTarget.getBoundingClientRect();
+        if (
+          event.clientX >= bounds.left &&
+          event.clientX <= bounds.right &&
+          event.clientY >= bounds.top &&
+          event.clientY <= bounds.bottom
+        )
+          activate();
+      }}
+      onPointerCancel={(event) => pointers.current.delete(event.pointerId)}
+      onLostPointerCapture={(event) => pointers.current.delete(event.pointerId)}
+      onClick={(event) => {
+        // Keyboard and assistive technology activate semantically, without a pointer sequence.
+        if (event.detail === 0) activate();
+      }}
+    />
+  );
 }
 
 /** Pointer capture keeps pedals reliable while a finger slides outside the button. */
@@ -87,19 +125,19 @@ export function CockpitControls({
           ),
         )}
         {(['key', 'handbrake', 'gearDown', 'gearUp'] as const).map((action) => (
-          <button type="button" key={action} onClick={() => invoke(action)}>
+          <CommandButton key={action} activate={() => invoke(action)}>
             {copy.actions[action]}
-          </button>
+          </CommandButton>
         ))}
-        <button type="button" aria-pressed={state.door} onClick={() => invoke('door')}>
+        <CommandButton aria-pressed={state.door} activate={() => invoke('door')}>
           {copy.actions.door}
-        </button>
+        </CommandButton>
       </div>
       <div className="cockpit-look-row" role="group" aria-label={copy.look}>
         {(['glanceLeft', 'lookLeft', 'lookCenter', 'lookRight', 'glanceRight', 'lookBack'] as const).map((action) => (
-          <button type="button" key={action} onClick={() => invoke(action)}>
+          <CommandButton key={action} activate={() => invoke(action)}>
             {copy.actions[action]}
-          </button>
+          </CommandButton>
         ))}
       </div>
       <div className="cockpit-panels">
@@ -107,25 +145,23 @@ export function CockpitControls({
           <summary>{copy.instruments}</summary>
           <div className="cockpit-switches">
             {(Object.keys(copy.toggles) as Exclude<Toggle, 'door'>[]).map((control) => (
-              <button
-                type="button"
+              <CommandButton
                 key={control}
                 aria-pressed={state[control]}
-                onClick={() => command({ type: 'toggle', control })}
+                activate={() => command({ type: 'toggle', control })}
               >
                 {copy.toggles[control]}
                 <span>{state[control] ? copy.on : copy.off}</span>
-              </button>
+              </CommandButton>
             ))}
             {(['left', 'right'] as const).map((value) => (
-              <button
-                type="button"
+              <CommandButton
                 key={value}
                 aria-pressed={state.signal === value}
-                onClick={() => command({ type: 'signal', value: state.signal === value ? 'off' : value })}
+                activate={() => command({ type: 'signal', value: state.signal === value ? 'off' : value })}
               >
                 {copy.actions[value === 'left' ? 'signalLeft' : 'signalRight']}
-              </button>
+              </CommandButton>
             ))}
             <HoldButton action="horn" start={start} stop={stop} />
           </div>

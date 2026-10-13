@@ -332,6 +332,82 @@ describe('DrivingCanvas', () => {
     runFrames(2);
     expect(Number(surface.dataset.rpm)).toBeLessThan(rpm);
   });
+  it('keeps held keyboard pedals when focus moves from the view to a cockpit button', () => {
+    const { surface, press } = renderCanvas('manual');
+    press('KeyK');
+    press('KeyK');
+    act(() => surface.focus());
+    fireEvent.keyDown(surface, { code: 'ShiftLeft' });
+    runFrames(0.4);
+    const up = screen.getByRole('button', { name: 'Subir marcha' });
+    act(() => up.focus());
+    fireEvent.click(up);
+    runFrames(3);
+
+    expect(surface.dataset.gear).toBe('1');
+    expect(surface.dataset.engine).toBe('running');
+    fireEvent.keyUp(up, { code: 'ShiftLeft' });
+    runFrames(3);
+    expect(surface.dataset.engine).toBe('off');
+    expect(screen.getByTestId('driving-feedback')).toHaveTextContent('Se caló el motor');
+    fireEvent.keyDown(up, { code: 'ShiftLeft' });
+    runFrames(0.4);
+    fireEvent.keyDown(up, { code: 'KeyK' });
+    runFrames(0.1);
+    expect(surface.dataset.engine).toBe('running');
+  });
+
+  it('reserves button activation keys and editable fields while accepting cockpit shortcuts', () => {
+    const { surface } = renderCanvas('manual');
+    const key = screen.getByRole('button', { name: 'Accionar llave' });
+    act(() => key.focus());
+    fireEvent.keyDown(key, { code: 'KeyK' });
+    runFrames(0.1);
+    fireEvent.keyDown(key, { code: 'KeyK' });
+    runFrames(0.1);
+    expect(surface.dataset.engine).toBe('running');
+    fireEvent.keyDown(key, { code: 'Space' });
+    fireEvent.keyUp(key, { code: 'Space' });
+    runFrames(0.1);
+    expect(surface.dataset.handbrake).toBe('true');
+    fireEvent.keyDown(key, { code: 'KeyK', ctrlKey: true });
+    runFrames(0.1);
+    expect(surface.dataset.engine).toBe('running');
+    fireEvent.keyDown(key, { code: 'ShiftLeft' });
+    runFrames(0.4);
+    expect(surface.dataset.clutch).toBe('1.0000');
+    const lights = screen.getByRole('combobox', { name: /Iluminación/ });
+    act(() => lights.focus());
+    fireEvent.keyDown(lights, { code: 'KeyK' });
+    fireEvent.keyUp(lights, { code: 'KeyK' });
+    runFrames(2);
+    expect(surface.dataset.engine).toBe('running');
+    expect(surface.dataset.clutch).toBe('0.0000');
+    fireEvent.click(screen.getByRole('button', { name: 'Activar teclado para manejar' }));
+    expect(surface).toHaveFocus();
+  });
+
+  it('reports a refused gear and start in the cockpit, then clears the feedback on reset', () => {
+    const { surface, props, rerender } = renderCanvas('manual');
+    fireEvent.click(screen.getByRole('button', { name: 'Subir marcha' }));
+    runFrames(0.1);
+    expect(screen.getByTestId('driving-feedback')).toHaveTextContent('pisá el embrague a fondo');
+    fireEvent.keyDown(surface, { code: 'ShiftLeft' });
+    runFrames(0.4);
+    fireEvent.click(screen.getByRole('button', { name: 'Subir marcha' }));
+    runFrames(0.1);
+    fireEvent.keyUp(surface, { code: 'ShiftLeft' });
+    runFrames(2);
+    fireEvent.click(screen.getByRole('button', { name: 'Accionar llave' }));
+    runFrames(0.1);
+    fireEvent.click(screen.getByRole('button', { name: 'Accionar llave' }));
+    runFrames(0.1);
+    expect(screen.getByTestId('driving-feedback')).toHaveTextContent('poné punto muerto (N) o pisá el embrague');
+    rerender(<DrivingCanvas {...props} resetCount={1} />);
+    runFrames(0.1);
+    expect(screen.getByTestId('driving-feedback')).toBeEmptyDOMElement();
+  });
+
   it('renders a horn tap released between frames and clears it on the following frame', () => {
     renderCanvas('manual');
     vi.stubGlobal('PointerEvent', MouseEvent);
