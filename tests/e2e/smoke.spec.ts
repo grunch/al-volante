@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures.ts';
 
 test.describe('home page', () => {
   test('loads, renders the 3D garage and has no console errors', async ({ page }) => {

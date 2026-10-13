@@ -1,0 +1,78 @@
+/* Installable app (PWA): offline indicator, offline-ready notice and update prompt. Uses the tokens of ui/theme.css. */
+.pwa-status {
+  position: fixed;
+  inset-inline: var(--space-3);
+  bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  /* The empty stack never blocks the page; only the notices with buttons take clicks. */
+  pointer-events: none;
+}
+
+.pwa-status__offline {
+  margin: 0;
+  max-width: 100%;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius);
+  background: var(--color-night);
+  color: var(--color-ivory);
+  font-size: 0.875rem;
+  box-shadow: 0 0.25rem 0.75rem rgb(19 35 58 / 0.25);
+}
+
+.pwa-status__offline::before {
+  content: '';
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  margin-inline-end: var(--space-2);
+  border-radius: 50%;
+  background: var(--color-road-yellow);
+}
+
+.pwa-toast {
+  max-width: min(28rem, 100%);
+  padding: var(--space-3);
+  border: 2px solid var(--color-night);
+  border-radius: var(--radius);
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  box-shadow: 0 0.5rem 1.5rem rgb(19 35 58 / 0.25);
+  pointer-events: auto;
+}
+
+.pwa-toast__text {
+  margin: 0 0 var(--space-2);
+}
+
+.pwa-toast__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.pwa-toast .button[aria-disabled='true'] {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pwa-toast {
+    animation: pwa-toast-in 160ms ease-out;
+  }
+}
+
+@keyframes pwa-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+.external-link__offline {
+  font-size: 0.875em;
+}

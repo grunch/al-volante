@@ -45,6 +45,11 @@ interface ProgressContextValue {
   exportSnapshot: () => Promise<ProgressSnapshot>;
   /** Attempts lost on failed writes since the person last acknowledged it; a later success does not reset it. */
   unsaved: number;
+  /**
+   * Resolves once every queued task (loads, saves, imports) has settled, tasks queued meanwhile included; never
+   * rejects. A reload must wait for it, or it would abort the IndexedDB write of the attempt just finished.
+   */
+  whenIdle: () => Promise<void>;
   acknowledgeUnsaved: () => void;
 }
 
@@ -296,9 +301,18 @@ export function ProgressProvider({
 
   const acknowledgeUnsaved = useCallback(() => setUnsaved(0), []);
 
+  const whenIdle = useCallback(async () => {
+    // The queue tail never rejects; a task queued while waiting moves it, so wait again until it stays put.
+    let tail: Promise<void>;
+    do {
+      tail = queueRef.current;
+      await tail;
+    } while (tail !== queueRef.current);
+  }, []);
+
   const value = useMemo(
-    () => ({ state, now, retry, recordAttempt, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved }),
-    [state, now, retry, recordAttempt, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved],
+    () => ({ state, now, retry, recordAttempt, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved, whenIdle }),
+    [state, now, retry, recordAttempt, replaceAll, exportSnapshot, unsaved, acknowledgeUnsaved, whenIdle],
   );
   return (
     <ProgressContext.Provider value={value}>

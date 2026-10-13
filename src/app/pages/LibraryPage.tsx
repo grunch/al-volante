@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { ExternalLink } from '../../pwa/ExternalLink.tsx';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
 import { SIGN_COPY, t } from '../../i18n/es-AR.ts';
@@ -28,9 +29,7 @@ export function LibraryPage() {
                   <Link className="button" to={`/biblioteca/${source.id}/1`}>
                     {t('browseSource')}
                   </Link>{' '}
-                  <a href={source.provenance.url} target="_blank" rel="noopener noreferrer">
-                    {t('officialPdf')}
-                  </a>
+                  <ExternalLink href={source.provenance.url}>{t('officialPdf')}</ExternalLink>
                 </p>
               </li>
             ))}

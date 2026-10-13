@@ -5,6 +5,8 @@ import { SEED_LIMIT } from '../../activities/engine.ts';
 import { SignGraphic } from '../../activities/ui/SignGraphic.tsx';
 import type { Content } from '../../content/validate.ts';
 import { useProgress } from '../../progress/ProgressProvider.tsx';
+import { ExternalLink } from '../../pwa/ExternalLink.tsx';
+import { useUpdateHold } from '../../pwa/useUpdates.ts';
 import { createTheoryAttempt } from '../../theory/attempt.ts';
 import { composeExam, gradeExam } from '../../theory/exam.ts';
 import type { ExamGrade, ExamPaper, ExamQuestion } from '../../theory/exam.ts';
@@ -106,6 +108,8 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
   const config = content.theoryExam;
   const { recordAttempt } = useProgress();
   const [stage, setStage] = useState<Stage>('intro');
+  // No update prompt while the paper is being answered (see src/pwa).
+  useUpdateHold(stage === 'running');
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [grade, setGrade] = useState<ExamGrade | null>(null);
   const [timedOut, setTimedOut] = useState(false);
@@ -196,10 +200,7 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
           <ul>
             {config.sources.map((source) => (
               <li key={source.parameter}>
-                {source.text}{' '}
-                <a href={source.url} target="_blank" rel="noopener noreferrer">
-                  {source.reference}
-                </a>
+                {source.text} <ExternalLink href={source.url}>{source.reference}</ExternalLink>
               </li>
             ))}
           </ul>
