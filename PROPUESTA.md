@@ -2,7 +2,7 @@
 
 Propuesta de juego web para preparar el examen teórico y práctico de licencia B/B.1 en CABA.
 
-Fecha: 11 de octubre de 2026. Estado: propuesta aceptada; fase 1 iniciada el 2026-10-11 (ver [estado](specs/ESTADO_IMPLEMENTACION.md)). La ejecución se rige por [el plan de fases y PRs](specs/PLAN_IMPLEMENTACION.md); cada fase requiere inicio manual del usuario.
+Fecha: 11 de octubre de 2026. Estado: propuesta aceptada; la implementación empezó con la fase 1 el 2026-10-11 y las fases 1–5 ya están fusionadas (ver [estado](specs/ESTADO_IMPLEMENTACION.md)). La ejecución se rige por [el plan de fases y PRs](specs/PLAN_IMPLEMENTACION.md); cada fase requiere inicio manual del usuario.
 
 ## 1. La experiencia
 
@@ -17,7 +17,7 @@ Al terminar, una repetición muestra tus decisiones: qué viste, qué hiciste, q
 | Espacio | Qué hacés | Para qué sirve |
 |---|---|---|
 | **Mi garaje** | Explorás un auto, ajustás postura y espejos, accionás instrumental y revisás elementos de seguridad. | Preparar la primera etapa y aprender el vehículo. |
-| **La ciudad te pregunta** | Resolves escenas: ordenar prioridades, elegir luces, detectar peligros, ubicar documentación y decidir dónde estacionar. | Aprender todo el contenido, con explicaciones y referencias. |
+| **La ciudad te pregunta** | Resolvés escenas: ordenar prioridades, elegir luces, detectar peligros, ubicar documentación y decidir dónde estacionar. | Aprender todo el contenido, con explicaciones y referencias. |
 | **Laboratorio vial** | Comparás distancias de reacción y frenado, lluvia, visibilidad, puntos ciegos y cargas. | Entender consecuencias mediante experimentos visuales. |
 | **Ruta 13** | Conducís desde el interior del auto por el recorrido A, con instructor o en simulacro. | Preparar circulación y estacionamiento. |
 | **Sala de examen** | Respondés preguntas equilibradas por tema, sin ayudas y con tiempo configurable. | Ensayar el teórico y medir progreso. |

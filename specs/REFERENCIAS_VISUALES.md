@@ -32,7 +32,7 @@ Todos los archivos tienen el patrón `Screenshot_2026-10-12_HH-MM-SS.png`. La co
 
 El resultado es una interpretación estilizada más próxima al carácter de las calles. No reproduce cada parcela ni equivale a fotogrametría. Alturas, colores, anchuras, separación de árboles, modelos de luminaria y posición de comercios son aproximaciones. No se cambia la geometría de conducción, la posición evaluada del cajón, las colisiones, las reglas, el tránsito ni las evidencias del catálogo. Las vallas son detalle visual, sin colisión adicional.
 
-Las fotos muestran detalles que todavía difieren del modelo: el pintado verde de la ciclovía se concentra en ciertos cruces, mientras el juego mantiene su banda verde continua; hay autos estacionados y cableado que no se reconstruyen. Las señales visibles no se convierten automáticamente en reglas vigentes. No se eleva ninguna evidencia a `surveyed` por estas capturas.
+Las fotos muestran detalles que todavía difieren del modelo: el pintado verde de la ciclovía se concentra en ciertos cruces, mientras el juego mantiene su banda verde continua; hay autos estacionados y cableado que no se reconstruyen. F04-T01-FIX05 corrigió después el pintado de la ciclovía y agregó estacionados y cableado (ver la sección final). Las señales visibles no se convierten automáticamente en reglas vigentes. No se eleva ninguna evidencia a `surveyed` por estas capturas.
 
 ## Verificación
 
@@ -47,3 +47,7 @@ Después de fusionar #31, el usuario pidió mejorar también el manejo. Se volvi
 Después de fusionar #34, se revisaron nuevamente las 35 referencias en orden cronológico. Se tomó como guía el detalle de ramas y follaje, barandas abiertas, marcos de ventanas y equipos de fachada. Blender 5.2 produjo doce familias originales de modelos y los campos de altura de pavimento y vereda. Se integraron también autos, colectivos, personas, bicicletas y carcasas de semáforos más detallados. Las piezas genéricas, como tapas, rejillas o llantas, mejoran la lectura visual sin atribuirles una ubicación o medida relevada.
 
 La fuente reproducible, las comparaciones de la aplicación, la procedencia de los recursos y los límites están en [DETALLE_GRAFICO_BLENDER.md](DETALLE_GRAFICO_BLENDER.md). Se mantienen las aproximaciones y exclusiones descritas arriba; ninguna referencia se convirtió en una nueva regla de examen ni en evidencia `surveyed`.
+
+## Segunda lectura e inmersión — F04-T01-FIX05
+
+Después de fusionar #35, se inspeccionaron otra vez las 35 referencias, agrupadas por calle. De esa lectura salen los autos estacionados, el cableado, el pintado de la ciclovía con verde solo en los cruces, contenedores, scooters, bicicleteros y detalles de planta baja, todos como interpretaciones aproximadas. La tabla de correspondencia, los modelos nuevos de Blender, el sonido y las mediciones están en [INMERSION_RECORRIDO.md](INMERSION_RECORRIDO.md). Ninguna referencia se convirtió en una regla de examen ni en evidencia `surveyed`.
