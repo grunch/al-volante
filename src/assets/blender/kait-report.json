@@ -1,8 +1,8 @@
 {
   "asset": "kait.glb",
   "source": "KAIT01 photographic Blender study",
-  "builder_sha256": "3558715f1bcbf508dfdae7863dd9f2e240642268d03ebfc81594bec85d68fd83",
-  "asset_sha256": "57c65bb563fe511e6aea9b70857afe33de1c1d362a25c886104239fdb871e983",
+  "builder_sha256": "1fb43bc318ca8575b9bcb417678c4e311f0ddf27a7d459b2785546c5e25e8d85",
+  "asset_sha256": "189dae63801c18aae5ffffaa39d7f9f2c2bfb5f0ba477053d7e9d0098b14d13e",
   "triangles": 87934,
   "material_slots": 24,
   "removed_micro_details": 214,

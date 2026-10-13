@@ -10,6 +10,10 @@ import math
 from pathlib import Path
 import sys
 
+# Blender does not add the script directory to Python's module search path.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from render_device import configure_cycles_device
+
 import bpy
 import bmesh
 from mathutils import Matrix, Vector
@@ -930,11 +934,7 @@ scene.cycles.transparent_max_bounces=10
 scene.cycles.transmission_bounces=6
 scene.cycles.seed=1303
 prefs=bpy.context.preferences.addons['cycles'].preferences
-prefs.compute_device_type='OPTIX'
-prefs.get_devices()
-for device in prefs.devices:
-    device.use=device.type=='OPTIX'
-scene.cycles.device='GPU' if any(device.use for device in prefs.devices) else 'CPU'
+configure_cycles_device(scene, prefs)
 scene.render.resolution_x=1000 if args.draft else 1800
 scene.render.resolution_y=680 if args.draft else 1224
 scene.render.resolution_percentage=100

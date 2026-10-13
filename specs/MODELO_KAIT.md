@@ -25,7 +25,7 @@ Las inscripciones identifican el auto de referencia; el estudio no es un product
 
 ## Reproducción
 
-Blender 5.2.0 LTS, Cycles, GPU OptiX cuando está disponible. Desde la raíz del repositorio:
+Blender 5.2.0 LTS, Cycles, GPU OptiX cuando está disponible y CPU si el backend no existe, no detecta dispositivos o falla su consulta. La selección vive en `scripts/blender/render_device.py`; sus cinco regresiones se ejecutan sin Blender con `python3 -m unittest discover -s scripts/blender -p '*_test.py'`, también en CI. Desde la raíz del repositorio:
 
 ```sh
 flatpak run --filesystem="$PWD" org.blender.Blender \
@@ -88,6 +88,8 @@ La escena aplica iluminación de estudio, reflejos suaves, sombras estáticas y 
 
 Medición local en Chromium 153.0.8010.12 con ANGLE/OpenGL y RTX 2060 de 6 GB, 180 cuadros tras 40 de calentamiento, una vuelta de cámara incluyendo el calentamiento, tiempo de `render` más `gl.finish()` (incluye espera de GPU), sombras reutilizadas. Con lienzo 1120 × 630 y DPR 1: el modelo anterior dibuja 418 triángulos/11 llamadas y promedia 0,85 ms (p95 4,0 ms); el Kait completo con suelo dibuja 89.596 triángulos/32 llamadas y promedia 1,78 ms (p95 4,5 ms). En lienzo móvil emulado 358 × 224 con DPR 2: 1,95 ms (p95 5,1 ms). Es una muestra con otros procesos de prueba activos en el equipo; mide costo del dibujo, no FPS garantizados ni rendimiento de teléfonos reales. La versión con movimiento reducido dibuja una vez y vuelve a dibujar solo si cambia el tamaño.
 
-Se verificó también la ruta de reconstrucción desde código sin `--source`: produce las mismas cantidades de objetos, materiales, triángulos, dimensiones y bytes. El orden binario de parte de los vértices difiere respecto de exportar el `.blend` guardado, por lo que no se promete identidad SHA-256 entre ambas rutas. El hash del informe identifica el GLB concreto entregado.
+Se verificó también la ruta de reconstrucción desde código sin `--source`: produce las mismas cantidades de objetos, materiales, triángulos, dimensiones y bytes. El orden binario y parte de la triangulación simplificada pueden variar entre ejecuciones o respecto de exportar el `.blend` guardado; no se promete identidad SHA-256 ni igualdad vértice por vértice entre reconstrucciones. El hash del informe identifica el GLB concreto entregado.
 
 **Compatibilidad pendiente con #44:** al revisar esta integración, la PWA seguía en un PR separado. Su patrón de precache debe incluir `glb` y admitir al menos 1.848.348 bytes por archivo (el límite propuesto allí era 1.800.000). Hasta integrar ese ajuste no se afirma disponibilidad del Kait sin conexión. No se modifica la rama de PWA desde este trabajo.
+
+La corrección posterior a la revisión de Codex reconstruyó nuevamente el GLB desde código con el helper de selección de dispositivo. Conserva los presupuestos y la aproximación visual; el informe identifica el nuevo artefacto. Las cinco regresiones de dispositivo, las 28 pruebas focalizadas del garaje y los seis E2E del Kait aprobaron después de regenerarlo; se volvió a inspeccionar en los cuatro tamaños y se actualizó la captura.
