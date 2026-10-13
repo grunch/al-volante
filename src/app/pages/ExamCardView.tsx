@@ -1,6 +1,8 @@
 import { Link } from 'react-router';
 import type { Rule } from '../../content/schemas.ts';
+import { fichaRowOf } from '../../exam/card.ts';
 import type { CardFault, ExamCard, StageCard, Verdict } from '../../exam/card.ts';
+import type { Fault } from '../../exam/scoring.ts';
 import type { Session } from '../../exam/session.ts';
 import { EXAM_COPY as copy } from '../../i18n/es-AR.ts';
 
@@ -18,10 +20,14 @@ export function RuleLinks({ rule }: { rule: Rule }) {
   );
 }
 
+/** The ficha text of a fault: the row of the stage and context it was consigned in (decision D1). */
+const fichaText = (rule: Rule, fault: Fault | null) =>
+  fault ? fichaRowOf(rule, fault).text : (rule.fichaRows[0]?.text ?? rule.id);
+
 /** One fault with its ficha text, points and, when explaining, what the protocol evaluates and where to read it. */
 export function FaultItem({ item, explain, when }: { item: CardFault; explain: boolean; when?: boolean }) {
   const { fault, rule } = item;
-  const text = rule.fichaRows[0]?.text ?? rule.id;
+  const text = fichaText(rule, fault);
   return (
     <>
       <strong>{copy.faultPoints(fault.points)}</strong> · {text}
@@ -65,10 +71,9 @@ function verdictText(verdict: Verdict): string {
       return copy.verdicts.pending;
     case 'disapproved':
       if (verdict.cause === 'over-points') return copy.verdicts.overPoints(verdict.points);
-      if (verdict.cause === 'eliminatory')
-        return copy.verdicts.eliminatory(verdict.rule.fichaRows[0]?.text ?? verdict.rule.id);
+      if (verdict.cause === 'eliminatory') return copy.verdicts.eliminatory(fichaText(verdict.rule, verdict.fault));
       return `${copy.verdicts.interruption} ${copy.interruptionCauses[verdict.interruption.cause]}${
-        verdict.rule ? ` ${copy.interruptedBy(verdict.rule.fichaRows[0]?.text ?? verdict.rule.id)}` : ''
+        verdict.rule ? ` ${copy.interruptedBy(fichaText(verdict.rule, verdict.fault))}` : ''
       }`;
   }
 }

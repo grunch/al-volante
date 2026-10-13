@@ -3,6 +3,7 @@ import type { Action, Bindings } from './bindings.ts';
 import { ACTIONS } from './bindings.ts';
 import type { Adjustment, CockpitCommand, CockpitState, Toggle } from './cockpit.ts';
 import { MIRROR_IDS } from './cockpit.ts';
+import { keyNames } from './keyLabels.ts';
 import { COCKPIT_COPY as copy } from '../i18n/es-AR.ts';
 
 interface Props {
@@ -71,6 +72,8 @@ export function CockpitControls({
 }: Props) {
   const [capture, setCapture] = useState<Action | null>(null);
   const [conflict, setConflict] = useState(false);
+  // Key codes are technical ids ("KeyK", "ArrowUp"): the panel shows the names the driving guide uses ("K", "↑").
+  const keys = keyNames(bindings);
   const invoke = (action: Action) => {
     start(action, 'command');
     stop('command');
@@ -218,7 +221,7 @@ export function CockpitControls({
                 }}
               >
                 {copy.actions[action]}
-                <kbd>{capture === action ? copy.waiting : bindings[action].join(' / ')}</kbd>
+                <kbd>{capture === action ? copy.waiting : keys[action]}</kbd>
               </button>
             ))}
           </div>

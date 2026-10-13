@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
 import { choiceActivity, page, rule, ruleCatalog, sign, unit } from '../../content/testing/fixtures.ts';
 import { ACTIVITY_COPY, GARAGE_COPY, SIGN_COPY, esAR } from '../../i18n/es-AR.ts';
+import { familyOf, groupSigns } from './SignsPage.tsx';
 import { loadPageText, splitPages } from '../../content/sourceText.ts';
 import type * as SourceTextModule from '../../content/sourceText.ts';
 
@@ -18,7 +19,7 @@ describe('learning map', () => {
       .getAllByRole('link')
       .map((link) => link.textContent);
     expect(links).toEqual(['Cap. 3 · Normas básicas de conducción', 'Anexo IV · Señales viales']);
-    expect(within(campaign).getByText('1 unidades · 1 con actividades')).toBeInTheDocument();
+    expect(within(campaign).getByText('1 unidad · 1 con actividades')).toBeInTheDocument();
     expect(screen.getByRole('region', { name: esAR.mapComplementary })).toBeInTheDocument();
   });
 
@@ -41,7 +42,7 @@ describe('learning map', () => {
   it('links each unit to the activities that practice it and the section to its activity list', async () => {
     renderApp('/mapa/manual/ch3');
 
-    expect(await screen.findByRole('link', { name: `1 ${esAR.sectionPracticeCount}` })).toHaveAttribute(
+    expect(await screen.findByRole('link', { name: '1 actividad sobre esta sección' })).toHaveAttribute(
       'href',
       '/actividades?seccion=manual-ch3',
     );
@@ -99,6 +100,51 @@ describe('learning map', () => {
     await user.click(screen.getByRole('button', { name: ACTIVITY_COPY.answer }));
 
     expect(await screen.findByRole('img', { name: /Rotonda/ })).toBeInTheDocument();
+  });
+
+  it('counts several units and activities in the plural, and the consultation units apart', async () => {
+    // Arrange: three units in ch3, one of them for consultation, practised by two activities.
+    const content = testContent();
+    content.units = [
+      ...content.units,
+      unit({ id: 'manual.ch3.second', title: 'Segunda' }),
+      unit({ id: 'manual.ch3.third', title: 'Tercera', consultationReason: 'Dato a verificar.' }),
+    ];
+    content.activities = [
+      choiceActivity(),
+      choiceActivity({ id: 'act.second', title: 'Segunda actividad', unitIds: ['manual.ch3.second'] }),
+    ];
+
+    // Act
+    renderApp('/mapa', readyContent(content));
+
+    // Assert
+    const campaign = await screen.findByRole('region', { name: esAR.mapCampaignB });
+    expect(within(campaign).getByText('3 unidades · 2 con actividades · 1 de consulta')).toBeInTheDocument();
+  });
+
+  it('lists the key facts and the figure-based mark of a unit, and spans the pages of its section', async () => {
+    const content = testContent();
+    content.pages = [
+      ...content.pages,
+      page({ source: 'manual', page: 3, section: 'ch3', category: 'B', kind: 'instructional', summary: 'Más' }),
+    ];
+    content.manifest = content.manifest.map((item) => (item.id === 'manual' ? { ...item, pages: 3 } : item));
+    content.units = content.units.map((item) => ({
+      ...item,
+      keyFacts: ['Dentro de la rotonda tiene prioridad quien ya circula.'],
+      figureBased: true,
+    }));
+    content.activities = [choiceActivity(), choiceActivity({ id: 'act.second', title: 'Segunda actividad' })];
+
+    renderApp('/mapa/manual/ch3', readyContent(content));
+
+    expect(await screen.findByText('Dentro de la rotonda tiene prioridad quien ya circula.')).toBeInTheDocument();
+    expect(screen.getByText(esAR.figureBased)).toBeInTheDocument();
+    expect(screen.getByText(`${esAR.sectionPages} 2–3`, { exact: false })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '2 actividades sobre esta sección' })).toBeInTheDocument();
+    const practised = screen.getByText(`${esAR.unitPracticedIn}:`, { exact: false });
+    expect(practised).toHaveTextContent('Velocidad en calle · Segunda actividad');
   });
 
   it('shows not found for a section that does not exist', async () => {
@@ -214,6 +260,52 @@ describe('sign catalog', () => {
     expect(router.state.location.search).toMatch(/^\?variante=second&semilla=\d+$/);
   });
 
+  it('groups the signs by family and group in page order, with a heading for each subgroup', () => {
+    const signs = [
+      sign({ id: 'sign.c', page: 9, group: 'Reglamentarias / De prohibición', name: 'C' }),
+      sign({ id: 'sign.a', page: 4, group: 'Reglamentarias / De prohibición / Giros', name: 'A' }),
+      sign({ id: 'sign.b', page: 5, group: 'Semáforos', name: 'B' }),
+      sign({ id: 'sign.d', page: 2, group: 'Reglamentarias / De prohibición', name: 'D' }),
+    ];
+
+    const families = groupSigns(signs);
+
+    expect(families.map(({ family }) => family)).toEqual(['Reglamentarias', 'Semáforos']);
+    expect(families[0]?.groups.map(([group, list]) => [group, list.map((item) => item.name)])).toEqual([
+      ['Reglamentarias / De prohibición', ['D', 'C']],
+      ['Reglamentarias / De prohibición / Giros', ['A']],
+    ]);
+    expect(familyOf({ group: 'Semáforos' })).toBe('Semáforos');
+  });
+
+  it('heads each subgroup without repeating its family, and links each sign to the first reviewed activity', async () => {
+    const content = testContent();
+    content.signs = [
+      sign({ id: 'sign.regulatory.stop', page: 3, group: 'Reglamentarias / De prioridad', name: 'PARE' }),
+    ];
+    const identify = (id: string, status: 'reviewed' | 'draft') => ({
+      ...choiceActivity(),
+      id,
+      status,
+      type: 'sign-identification' as const,
+      variants: [{ ...choiceActivity().variants[0]!, signId: 'sign.regulatory.stop' }],
+    });
+    content.activities = [
+      identify('act.draft', 'draft'),
+      identify('act.first', 'reviewed'),
+      identify('act.second', 'reviewed'),
+    ];
+
+    renderApp('/senales', readyContent(content));
+
+    const family = await screen.findByRole('region', { name: 'Reglamentarias' });
+    expect(within(family).getByRole('heading', { level: 3, name: 'De prioridad' })).toBeInTheDocument();
+    expect(within(family).getByRole('link', { name: SIGN_COPY.practise })).toHaveAttribute(
+      'href',
+      '/actividad/act.first?variante=v1',
+    );
+  });
+
   it('marks signs kept for reference and is linked from the library', async () => {
     const user = userEvent.setup();
     const content = testContent();
@@ -269,6 +361,19 @@ describe('library', () => {
     expect(screen.getByText('PARE')).toBeInTheDocument();
   });
 
+  it('gives the printed page number, and describes a sign without a stated meaning by its drawing', async () => {
+    const content = testContent();
+    content.pages = content.pages.map((item) =>
+      item.source === 'manual' && item.page === 3 ? { ...item, printedPage: 1 } : item,
+    );
+    content.signs = content.signs.map((item) => ({ ...item, meaning: '' }));
+
+    renderApp('/biblioteca/manual/3', readyContent(content));
+
+    expect(await screen.findByText(`${esAR.printedPageLabel} 1`, { exact: false })).toBeInTheDocument();
+    expect(screen.getByText('Círculo rojo', { exact: false })).toHaveTextContent('PARE: Círculo rojo');
+  });
+
   it('shows the page summary and the exam rules on protocol pages', async () => {
     renderApp('/biblioteca/protocolo/32');
 
@@ -320,6 +425,22 @@ describe('library', () => {
 
     expect(router.state.location.pathname).toBe('/biblioteca/manual/1');
     expect(screen.queryByRole('link', { name: `← ${esAR.previousPage}` })).not.toBeInTheDocument();
+  });
+
+  it('stays on the page when the page form is sent empty instead of opening a page that does not exist', async () => {
+    // Arrange
+    const user = userEvent.setup();
+    const { router } = renderApp('/biblioteca/manual/2');
+    const input = await screen.findByLabelText(esAR.goToPage);
+
+    // Act
+    await user.clear(input);
+    await user.click(screen.getByRole('button', { name: esAR.go }));
+
+    // Assert
+    expect(router.state.location.pathname).toBe('/biblioteca/manual/2');
+    expect(screen.queryByRole('heading', { level: 1, name: esAR.notFoundHeading })).not.toBeInTheDocument();
+    expect(input).toBeInvalid();
   });
 
   it('rejects pages outside the source and unknown sources', async () => {

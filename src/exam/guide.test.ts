@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { DEFAULT_BINDINGS } from '../practice/bindings.ts';
 import { keyNames } from '../practice/keyLabels.ts';
 import { DRIVING_GUIDE_COPY } from '../i18n/drivingGuide.ts';
+import { EXAM_COPY } from '../i18n/es-AR.ts';
 import { GUIDE_STEPS, guideSteps } from './guide.ts';
 
 const KEYS = keyNames(DEFAULT_BINDINGS);
@@ -70,5 +71,35 @@ describe('driving guide copy', () => {
 
     expect(DRIVING_GUIDE_COPY.steps.parking.how(custom, 'manual')).toContain('(9)');
     expect(DRIVING_GUIDE_COPY.controls(custom, 'manual').join(' ')).toContain('9');
+  });
+});
+
+describe('exam copy: what the game judges', () => {
+  it('asks for the mirrors at both moments the parking judges, before and during the reverse (high p)', () => {
+    // parking.ts scores high p unless there is a look before the reverse and another one while reversing (PDF 13, 29).
+    const { checks } = EXAM_COPY.learnHints.parking;
+
+    expect(checks).toContain('antes de retroceder');
+    expect(checks).toContain('durante la marcha atrás');
+  });
+
+  it('names every fault of the ficha that the game does not score (REGLAS.md §9)', () => {
+    // Low f, eliminatory m and e, minor g, low b and c, low a, low e and the missing horn: no judge reports them.
+    for (const conduct of [
+      'las dos manos en el volante',
+      'celular',
+      'autoridad de tránsito',
+      'tiempo de arranque',
+      'arranque brusco',
+      'aceleración en vacío',
+      'cinturón mal colocado',
+      'frenada innecesaria',
+      'bocina',
+    ])
+      expect(EXAM_COPY.approximations).toContain(conduct);
+  });
+
+  it('calls a final position exactly 0.5 m off the centre of the bay centred, as the parking judge does (V3)', () => {
+    expect(EXAM_COPY.approximations).toContain('a 0,5 m o menos del centro del cajón');
   });
 });

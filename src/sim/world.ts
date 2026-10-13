@@ -84,17 +84,22 @@ export function stepWorld(
     return { vehicle: next, timeS, contacts: [] };
   let free = 0;
   let blocked = 1;
+  // What the body touches where it is first blocked: an obstacle only the unobstructed step reaches is not hit.
+  let touching = touched;
   for (let round = 0; round < IMPACT_SEARCH_ROUNDS; round += 1) {
     const middle = (free + blocked) / 2;
-    if (hits(spec, world, interpolateVehicle(state.vehicle, next, middle)).length > 0) blocked = middle;
-    else free = middle;
+    const atMiddle = hits(spec, world, interpolateVehicle(state.vehicle, next, middle));
+    if (atMiddle.length > 0) {
+      blocked = middle;
+      touching = atMiddle;
+    } else free = middle;
   }
   // Speed where the bisection found the contact, not where the step began.
   const impactSpeedMps = Math.abs(state.vehicle.speedMps + (next.speedMps - state.vehicle.speedMps) * free);
   return {
     vehicle: { ...interpolateVehicle(state.vehicle, next, free), speedMps: 0 },
     timeS,
-    contacts: touched.map((obstacle) => ({ obstacleId: obstacle.id, kind: obstacle.kind, impactSpeedMps })),
+    contacts: touching.map((obstacle) => ({ obstacleId: obstacle.id, kind: obstacle.kind, impactSpeedMps })),
   };
 }
 

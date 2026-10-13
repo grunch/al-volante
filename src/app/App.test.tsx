@@ -4,6 +4,9 @@ import { describe, expect, it, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { App } from './App.tsx';
 import { renderApp } from '../test/renderApp.tsx';
+import { createFakeRenderer } from '../test/fakeRenderer.ts';
+import { createMemoryRouter } from 'react-router';
+import { routes } from './routes.tsx';
 import { HOME_SPACES, esAR, t } from '../i18n/es-AR.ts';
 
 describe('layout and home', () => {
@@ -32,8 +35,11 @@ describe('layout and home', () => {
       'Sala de examen',
       'Mi bitácora',
     ]);
-    // Only the road lab and Ruta 13 are still to come.
-    expect(within(spaces).getAllByText(esAR.comingSoon)).toHaveLength(2);
+    // Only the road lab (F06-T02) is still to come. Ruta 13 is the route A drive with an instructor or as a mock
+    // exam (PROPUESTA §2): the practical exam page and its modes (F04-T03 to F04-T05).
+    expect(within(spaces).getAllByText(esAR.comingSoon)).toHaveLength(1);
+    expect(within(spaces).queryByRole('link', { name: 'Laboratorio vial' })).not.toBeInTheDocument();
+    expect(within(spaces).getByRole('link', { name: 'Ruta 13' })).toHaveAttribute('href', '/examen');
     expect(within(spaces).getByRole('link', { name: 'Sala de examen' })).toHaveAttribute('href', '/teorico');
     expect(within(spaces).getByRole('link', { name: 'Mi garaje' })).toHaveAttribute('href', '/garaje');
     expect(within(spaces).getByRole('link', { name: 'La ciudad te pregunta' })).toHaveAttribute('href', '/actividades');
@@ -95,6 +101,25 @@ describe('layout and home', () => {
   });
 });
 
+describe('bundled content', () => {
+  it('loads and validates the bundled catalogs when no content is injected', async () => {
+    // Arrange
+    const router = createMemoryRouter(routes, { initialEntries: ['/biblioteca'] });
+
+    // Act
+    render(<App router={router} createRenderer={createFakeRenderer} />);
+
+    // Assert: the four official sources of the manifest, each with its page browser.
+    const browse = await screen.findAllByRole('link', { name: esAR.browseSource }, { timeout: 15000 });
+    expect(browse.map((link) => link.getAttribute('href'))).toEqual([
+      '/biblioteca/manual/1',
+      '/biblioteca/protocolo/1',
+      '/biblioteca/recorridos/1',
+      '/biblioteca/siniestros/1',
+    ]);
+  });
+});
+
 describe('content states', () => {
   it('shows an accessible loading state while content loads', () => {
     renderApp('/mapa', () => new Promise(() => undefined));
@@ -135,10 +160,12 @@ describe('real WebGL fallback', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
     render(<App loadContent={() => new Promise(() => undefined)} />);
-    await screen.findByRole('img', { name: esAR.garageSceneLabel });
+    // While loading, the scene is not an ARIA image yet: its status stays announced to screen readers.
+    expect(await screen.findByText(esAR.garageSceneLoading)).toHaveAttribute('role', 'status');
+    expect(screen.queryByRole('img', { name: esAR.garageSceneLabel })).not.toBeInTheDocument();
     act(() => frames.shift()?.(0));
 
-    expect(screen.getByText(esAR.garageSceneUnavailable)).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent(esAR.garageSceneUnavailable);
     vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });

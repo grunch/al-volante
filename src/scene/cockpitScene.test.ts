@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { createCockpitScene } from './cockpitScene.ts';
+import { COCKPIT_COPY } from '../i18n/es-AR.ts';
 import { initialCockpit, commandCockpit } from '../practice/cockpit.ts';
 import { EXAM_CAR } from '../sim/vehicle.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../sim/tracks/practiceYard.ts';
@@ -130,6 +131,100 @@ describe('cockpit scene', () => {
     }
     expect(positions).toEqual([2, 2, 2, 4, 4, 4]);
     expect(view.mirrors.every((entry) => entry.mirror.visible)).toBe(true);
+    view.dispose();
+  });
+
+  it('points the speedometer and rev counter needles at the values printed on their dials', () => {
+    // Arrange: a 2D context that records where each dial number is printed.
+    const printed: { dial: number; text: string; x: number; y: number }[] = [];
+    const red: number[] = [];
+    let dial = -1;
+    const context = {
+      fillStyle: '',
+      strokeStyle: '',
+      lineWidth: 0,
+      font: '',
+      textAlign: '',
+      textBaseline: '',
+      fillRect: () => {
+        dial += 1;
+      },
+      beginPath: () => undefined,
+      moveTo: () => undefined,
+      lineTo: () => undefined,
+      stroke: () => {
+        if (context.strokeStyle === '#db715e') red.push(dial);
+      },
+      fillText: (text: string, x: number, y: number) => printed.push({ dial, text, x, y }),
+    };
+    // The dials draw only where the browser has a 2D canvas.
+    vi.stubGlobal('CanvasRenderingContext2D', vi.fn());
+    const getContext = vi
+      .spyOn(HTMLCanvasElement.prototype, 'getContext')
+      .mockReturnValue(context as unknown as CanvasRenderingContext2D);
+    const view = createCockpitScene(PRACTICE_YARD, EXAM_CAR);
+    const [speedometer, revCounter] = view.scene
+      .getObjectsByProperty('name', 'gauge-needle')
+      .map((needle) => needle.parent!);
+    const angleOf = (dialIndex: number, text: string) => {
+      const label = printed.find((item) => item.dial === dialIndex && item.text === text)!;
+      return Math.atan2(label.x - 128, 128 - label.y);
+    };
+
+    // Assert: 0–120 km/h every 10, 0–6 ×1000 rpm with the last 4 ticks in red, and each needle on its value.
+    expect(printed.filter((item) => item.dial === 0).map((item) => item.text)).toEqual([
+      ...Array.from({ length: 13 }, (_, index) => String(index * 10)),
+      COCKPIT_COPY.speed,
+    ]);
+    expect(printed.filter((item) => item.dial === 1).map((item) => item.text)).toEqual([
+      ...Array.from({ length: 7 }, (_, index) => String(index)),
+      COCKPIT_COPY.instrumentRpmScale,
+    ]);
+    expect(red).toEqual([1, 1, 1, 1]);
+    for (const [kmh, rpm] of [
+      [0, 0],
+      [30, 1000],
+      [60, 3000],
+      [110, 5000],
+    ] as const) {
+      view.update({ ...PRACTICE_YARD_START, speedMps: kmh / 3.6 }, initialCockpit(), rpm, 0);
+      expect(speedometer!.rotation.z).toBeCloseTo(angleOf(0, String(kmh)), 6);
+      expect(revCounter!.rotation.z).toBeCloseTo(angleOf(1, String(rpm / 1000)), 6);
+    }
+    // Beyond the scale the needles rest on its end, whatever the direction of travel.
+    view.update({ ...PRACTICE_YARD_START, speedMps: -50 }, initialCockpit(), 9000, 0);
+    expect(speedometer!.rotation.z).toBeCloseTo(angleOf(0, '120'), 6);
+    expect(revCounter!.rotation.z).toBeCloseTo(angleOf(1, '6'), 6);
+    view.dispose();
+    getContext.mockRestore();
+    vi.unstubAllGlobals();
+  });
+
+  it('dims the headlights by light mode and blinks only the signalled side, half a second on', () => {
+    // Arrange
+    const view = createCockpitScene(PRACTICE_YARD, EXAM_CAR);
+    const spots: THREE.SpotLight[] = [];
+    view.scene.traverse((object) => {
+      if (object instanceof THREE.SpotLight) spots.push(object);
+    });
+    const lamps = view.scene.getObjectsByProperty('name', 'turn-lamp') as THREE.Mesh<
+      THREE.BufferGeometry,
+      THREE.MeshStandardMaterial
+    >[];
+    const left = lamps.find((lamp) => lamp.position.x > 0)!;
+    const right = lamps.find((lamp) => lamp.position.x < 0)!;
+    const lit = () => [left, right].map((lamp) => lamp.material.emissive.getHexString() !== '000000');
+
+    // Act / Assert
+    view.update(PRACTICE_YARD_START, { ...initialCockpit(), lights: 'position' }, 0, 0);
+    expect(spots.map((spot) => spot.intensity)).toEqual([2, 2]);
+    view.update(PRACTICE_YARD_START, { ...initialCockpit(), lights: 'low', signal: 'left' }, 0, 0.2);
+    expect(spots.map((spot) => spot.intensity)).toEqual([30, 30]);
+    expect(lit()).toEqual([true, false]);
+    view.update(PRACTICE_YARD_START, { ...initialCockpit(), signal: 'left' }, 0, 0.7);
+    expect(lit()).toEqual([false, false]);
+    view.update(PRACTICE_YARD_START, { ...initialCockpit(), signal: 'right' }, 0, 1.1);
+    expect(lit()).toEqual([false, true]);
     view.dispose();
   });
 });

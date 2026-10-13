@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { choiceActivity, unit } from '../content/testing/fixtures.ts';
 import type { Activity, Attempt } from '../content/schemas.ts';
-import { drivingLog, progressByGroup, recentErrors, recommendedReview } from './logbook.ts';
+import { drivingLog, progressByGroup, recentErrors, recommendedReview, theoryLog } from './logbook.ts';
 import { MASTERY_BOX, createAttempt } from './model.ts';
 import type { ConceptProgress } from './model.ts';
 
@@ -163,5 +163,68 @@ describe('drivingLog (F04-T05)', () => {
 
     expect(rows[0]).toMatchObject({ mode: 'run', completedStages: [], points: 9, result: 'disapproved' });
     expect(rows[1]).toMatchObject({ mode: 'run', completedStages: [], points: 3, result: 'pending' });
+  });
+});
+
+describe('drivingLog of unfinished drives', () => {
+  it('dates a drive that never finished by its start and orders it with the others', () => {
+    const unfinished: Attempt = {
+      id: 'u',
+      kind: 'driving',
+      subjectId: 'route.comuna13-a',
+      contentVersion: 'deadbeef',
+      mode: 'run',
+      startedAt: daysAgo(1),
+      finishedAt: null,
+      events: [],
+      faults: [],
+      result: { correct: true, score: null, points: 0 },
+    };
+    const older = { ...unfinished, id: 'o', startedAt: daysAgo(3), finishedAt: daysAgo(2) };
+
+    const rows = drivingLog([older, unfinished]);
+
+    expect(rows.map((row) => [row.attempt.id, row.at, row.result])).toEqual([
+      ['u', daysAgo(1), 'approved'],
+      ['o', daysAgo(2), 'approved'],
+    ]);
+  });
+});
+
+describe('theoryLog (F05-T05)', () => {
+  const mock = (id: string, at: string, grade: Record<string, unknown> | null): Attempt => ({
+    id,
+    kind: 'activity',
+    subjectId: 'theory.mock',
+    contentVersion: 'deadbeef',
+    mode: 'exam',
+    startedAt: at,
+    finishedAt: at,
+    events: grade ? [{ at, type: 'finished', payload: { answers: {}, timedOut: false, ...grade } }] : [],
+    faults: [],
+    result: { correct: grade?.passed === true, score: 0.5, points: null },
+  });
+
+  it('lists the mock exams newest first with their grade, leaving activity answers out', () => {
+    // Arrange
+    const passed = mock('t1', daysAgo(2), { correct: 35, total: 40, passed: true });
+    const failed = mock('t2', daysAgo(1), { correct: 20, total: 40, passed: false });
+
+    // Act
+    const rows = theoryLog([passed, attempt('act.x', false, daysAgo(0)), failed]);
+
+    // Assert
+    expect(rows.map(({ attempt: row, ...grade }) => [row.id, grade])).toEqual([
+      ['t2', { correct: 20, total: 40, passed: false, at: daysAgo(1) }],
+      ['t1', { correct: 35, total: 40, passed: true, at: daysAgo(2) }],
+    ]);
+  });
+
+  it('leaves out mock exams whose grade is missing or unreadable, and dates an unfinished one by its start', () => {
+    const unfinished = { ...mock('t3', daysAgo(3), { correct: 1, total: 2, passed: false }), finishedAt: null };
+
+    const rows = theoryLog([mock('t1', daysAgo(1), null), mock('t2', daysAgo(2), { correct: 'all' }), unfinished]);
+
+    expect(rows.map((row) => [row.attempt.id, row.at])).toEqual([['t3', daysAgo(3)]]);
   });
 });

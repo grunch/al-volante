@@ -69,6 +69,12 @@ function waitFor(exam: CityExam, light: 'red' | 'green') {
   exam.driver.hold({ ...IDLE, brake: 1 }, () => exam.driver.session.street.notice?.light === light, 60);
 }
 
+/** A whole green phase ahead: the next green after a red, not the end of the current one. */
+function waitForFreshGreen(exam: CityExam) {
+  waitFor(exam, 'red');
+  waitFor(exam, 'green');
+}
+
 function poseAt(id: string, kind: ActorKind, x: number, z: number, headingRad: number): ActorPose {
   const size = ACTOR_SIZES[kind];
   const box: OrientedBox = {
@@ -190,7 +196,7 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
 
   it('stopping past the line scores a high fault, once per stop', () => {
     const exam = stoppedAtTheFirstCorner();
-    waitFor(exam, 'green');
+    waitForFreshGreen(exam);
     cruise(exam, { until: () => toLine(exam, corner(exam, 1)) < -0.5, maxS: 20, speed: () => 2 });
     stopNow(exam.driver);
     exam.driver.hold({ ...IDLE, brake: 1 }, (_, t) => t > 0.5);
@@ -199,7 +205,7 @@ describe('the corner of Av. Cabildo (protocolo PDF 12)', () => {
 
   it('standing on the avenue for two seconds blocks the intersection', () => {
     const exam = stoppedAtTheFirstCorner();
-    waitFor(exam, 'green');
+    waitForFreshGreen(exam);
     const first = corner(exam, 1);
     cruise(exam, {
       until: (driver) => first.pavements.some((box) => overlaps(bodyBox(EXAM_CAR, driver.car.world.vehicle), box)),

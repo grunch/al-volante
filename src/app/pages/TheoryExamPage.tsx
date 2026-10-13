@@ -7,7 +7,7 @@ import type { Content } from '../../content/validate.ts';
 import { useProgress } from '../../progress/ProgressProvider.tsx';
 import { createTheoryAttempt } from '../../theory/attempt.ts';
 import { composeExam, gradeExam } from '../../theory/exam.ts';
-import type { ExamGrade, ExamPaper } from '../../theory/exam.ts';
+import type { ExamGrade, ExamPaper, ExamQuestion } from '../../theory/exam.ts';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
 import { SOURCE_SHORT_LABELS, THEORY_COPY, sectionLabel } from '../../i18n/es-AR.ts';
@@ -23,6 +23,19 @@ const sectionName = (key: string) => {
   const [source = '', ...rest] = key.split('-');
   return sectionLabel(source, rest.join('-'));
 };
+
+/** The sign a question asks about, drawn on the paper and again in the review ("¿Qué indica esta señal?"). */
+function QuestionSign({ content, question }: { content: Content; question: ExamQuestion }) {
+  const sign = question.signId ? content.signs.find((item) => item.id === question.signId) : undefined;
+  if (!sign) return null;
+  return (
+    <SignGraphic
+      signId={sign.id}
+      description={`${THEORY_COPY.signLabel}: ${sign.visual}`}
+      hasCrop={sign.box !== undefined}
+    />
+  );
+}
 
 /** "Sala de examen": a timed mock of the theoretical exam, reproducible by its seed (?semilla=, ?minutos=). */
 export function TheoryExamPage() {
@@ -63,8 +76,9 @@ function TheoryExam({ content }: { content: Content }) {
   );
   if (!validSeed) return null;
   return (
+    // Keyed by the seed only: choosing the time must not rebuild the intro under the focused radio button.
     <ExamRun
-      key={`${seed}:${minutes}`}
+      key={seed}
       content={content}
       paper={paper}
       minutes={minutes}
@@ -97,6 +111,8 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
   const [timedOut, setTimedOut] = useState(false);
   const [saved, setSaved] = useState<'idle' | 'saved' | 'failed'>('idle');
   const startedAt = useRef<number>(0);
+  // The time is fixed when the exam starts: a later change of ?minutos= (the back button) does not move the deadline.
+  const runMinutes = useRef(minutes);
   const [remainingMs, setRemainingMs] = useState(minutes * 60_000);
   const finish = (outOfTime: boolean) => {
     const result = gradeExam(paper, answers, content.activities, config);
@@ -110,7 +126,7 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
         contentVersion: context.contentVersion,
         startedAt: startedIso,
         finishedAt: context.at,
-        minutes,
+        minutes: runMinutes.current,
         timedOut: outOfTime,
       }),
     ).then((outcome) => setSaved(outcome === 'saved' ? 'saved' : 'failed'));
@@ -121,7 +137,7 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
 
   useEffect(() => {
     if (stage !== 'running') return undefined;
-    const deadline = startedAt.current + minutes * 60_000;
+    const deadline = startedAt.current + runMinutes.current * 60_000;
     const tick = () => {
       const left = deadline - Date.now();
       setRemainingMs(left);
@@ -132,7 +148,7 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
     };
     const timer = window.setInterval(tick, 1000);
     return () => window.clearInterval(timer);
-  }, [stage, minutes]);
+  }, [stage]);
 
   if (stage === 'intro') {
     return (
@@ -164,6 +180,7 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
             className="button"
             onClick={() => {
               startedAt.current = Date.now();
+              runMinutes.current = minutes;
               setRemainingMs(minutes * 60_000);
               setStage('running');
             }}
@@ -208,37 +225,28 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
           · {THEORY_COPY.progress(answered, paper.questions.length)}
         </p>
         <ol className="theory-questions">
-          {paper.questions.map((question, index) => {
-            const sign = question.signId ? content.signs.find((item) => item.id === question.signId) : undefined;
-            return (
-              <li key={question.id}>
-                <fieldset className="question">
-                  <legend className="question__prompt">
-                    {index + 1}. {question.prompt}
-                  </legend>
-                  {sign && (
-                    <SignGraphic
-                      signId={sign.id}
-                      description={`${THEORY_COPY.signLabel}: ${sign.visual}`}
-                      hasCrop={sign.box !== undefined}
+          {paper.questions.map((question, index) => (
+            <li key={question.id}>
+              <fieldset className="question">
+                <legend className="question__prompt">
+                  {index + 1}. {question.prompt}
+                </legend>
+                <QuestionSign content={content} question={question} />
+                {question.options.map((option) => (
+                  <label key={option.id} className="option">
+                    <input
+                      type="radio"
+                      name={question.id}
+                      value={option.id}
+                      checked={answers[question.id] === option.id}
+                      onChange={() => setAnswers((current) => ({ ...current, [question.id]: option.id }))}
                     />
-                  )}
-                  {question.options.map((option) => (
-                    <label key={option.id} className="option">
-                      <input
-                        type="radio"
-                        name={question.id}
-                        value={option.id}
-                        checked={answers[question.id] === option.id}
-                        onChange={() => setAnswers((current) => ({ ...current, [question.id]: option.id }))}
-                      />
-                      <span>{option.text}</span>
-                    </label>
-                  ))}
-                </fieldset>
-              </li>
-            );
-          })}
+                    <span>{option.text}</span>
+                  </label>
+                ))}
+              </fieldset>
+            </li>
+          ))}
         </ol>
         <p className="card__actions">
           <button type="submit" className="button">
@@ -322,6 +330,7 @@ function Results({
             {wrong.map((result) => (
               <li key={result.question.id}>
                 <p className="question__prompt">{result.question.prompt}</p>
+                <QuestionSign content={content} question={result.question} />
                 <p>
                   {result.chosenId === null
                     ? THEORY_COPY.notAnswered

@@ -4,7 +4,7 @@ import { RouteSchema } from '../content/schemas.ts';
 import { overlaps } from '../sim/collision.ts';
 import { buildCity, roadBox } from './model.ts';
 import { addFrontages, planFrontages } from './frontages.ts';
-import { planStreetFurniture } from './streetFurniture.ts';
+import { addBayBarriers, planStreetFurniture } from './streetFurniture.ts';
 import { disposeSector, instantiate } from './geometry.ts';
 import { createCityLighting } from './lighting.ts';
 import type { Part } from './geometry.ts';
@@ -68,6 +68,29 @@ describe('reference-based city environment', () => {
       };
       expect(city.roads.some((road) => overlaps(box, roadBox(road)))).toBe(false);
     }
+  });
+
+  it('leaves out the furniture, plaques and bay barriers of legs the route does not have', () => {
+    // Arrange
+    const withoutCabildo = { ...city, legs: city.legs.filter((leg) => leg.number !== 2) };
+    const { markings, ...unmarked } = city.world;
+    const barriers = (from: typeof city) => {
+      const parts: Part[] = [];
+      addBayBarriers(from, (part) => parts.push(part));
+      return parts;
+    };
+
+    // Act
+    const full = planStreetFurniture(city);
+    const partial = planStreetFurniture(withoutCabildo);
+
+    // Assert: no Cabildo shelters, and no plaques at the turn into or out of the missing leg.
+    expect(full.labels).toHaveLength(city.legs.length * 2 + 2);
+    expect(partial.parts.some((part) => part.position[1] === 3.15)).toBe(false);
+    expect(partial.labels).toHaveLength((withoutCabildo.legs.length - 1) * 2);
+    expect(barriers(city)).toHaveLength((markings?.length ?? 0) * 9);
+    expect(barriers({ ...city, roads: city.roads.filter((road) => road.leg !== 1) })).toEqual([]);
+    expect(barriers({ ...city, world: unmarked })).toEqual([]);
   });
 
   it('batches different facade colors together and preserves instance transforms', () => {

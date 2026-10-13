@@ -5,8 +5,13 @@ import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
 import { SIGN_COPY } from '../../i18n/es-AR.ts';
 
+const GROUP_SEPARATOR = ' / ';
+
 /** `Reglamentarias / De prohibición` → `Reglamentarias`: the family that heads each part of the catalog. */
-export const familyOf = (sign: Pick<Sign, 'group'>) => sign.group.split(' / ')[0] ?? sign.group;
+export function familyOf(sign: Pick<Sign, 'group'>): string {
+  const separator = sign.group.indexOf(GROUP_SEPARATOR);
+  return separator === -1 ? sign.group : sign.group.slice(0, separator);
+}
 
 /** Groups preserving catalog order (page order): family → group → signs. */
 export function groupSigns(signs: readonly Sign[]): Array<{ family: string; groups: Array<[string, Sign[]]> }> {
@@ -41,7 +46,7 @@ export function SignsPage() {
               <h2 id={`signs-family-${index}`}>{family}</h2>
               {groups.map(([group, signs]) => (
                 <div key={group}>
-                  {group !== family && <h3>{group.split(' / ').slice(1).join(' / ') || group}</h3>}
+                  {group !== family && <h3>{group.slice(family.length + GROUP_SEPARATOR.length)}</h3>}
                   <ul className="sign-grid">
                     {signs.map((sign) => (
                       <SignCard key={sign.id} sign={sign} practiceLink={practice.get(sign.id)} />

@@ -42,6 +42,18 @@ const PRECAUTION_MPS = 5;
 /** How far ahead (seconds) the driver projects a cyclist riding towards a crossing it is about to enter. */
 const CYCLIST_HORIZON_S = [0.5, 1, 1.5, 2, 2.5, 3];
 /**
+ * Yielding to a cyclist coming across its way, the driver stops this far short of its line: at some corners the
+ * cycle track's crossing runs right past the line, and a car standing there blocks the cyclist, who waits for it; both
+ * then set off into each other. Nearly standing (under PULL_AWAY_MPS), the driver looks further, since pulling away
+ * takes longer: cyclists within CYCLIST_PULL_AWAY_HORIZON_S at their speed, or held up (for a pedestrian, say) within
+ * CYCLIST_NEAR_M of the crossing on their way into it. Heuristics of this test driver, not protocol thresholds.
+ */
+const CYCLIST_ROOM_M = 1.5;
+const PULL_AWAY_MPS = 0.5;
+const CYCLIST_PULL_AWAY_HORIZON_S = [...CYCLIST_HORIZON_S, 3.5, 4, 4.5, 5];
+const CYCLIST_NEAR_M = 12;
+const CYCLIST_NEAR_STEPS_M = Array.from({ length: CYCLIST_NEAR_M + 1 }, (_, metres) => metres);
+/**
  * Before turning across the cycle track, the driver lets through cyclists this far behind on the side of the turn,
  * no farther to that side than the track can be (heuristics of this test driver, not protocol thresholds).
  */
@@ -224,9 +236,11 @@ export function cruise(exam: CityExam, options: CruiseOptions): void {
         if (pose.kind !== 'bicycle' || !across(pose.headingRad, vehicle.headingRad)) return false;
         const before = lastSeen.get(pose.id);
         const speed = before ? distance(before, pose) / SIM_STEP_S : 0;
-        return CYCLIST_HORIZON_S.some((seconds) =>
-          crossing.conflicts.some((box) => overlaps(projected(pose, speed * seconds), box)),
-        );
+        const pullingAway = vehicle.speedMps < PULL_AWAY_MPS;
+        const reachesM = pullingAway
+          ? [...CYCLIST_PULL_AWAY_HORIZON_S.map((seconds) => speed * seconds), ...CYCLIST_NEAR_STEPS_M]
+          : CYCLIST_HORIZON_S.map((seconds) => speed * seconds);
+        return reachesM.some((metres) => crossing.conflicts.some((box) => overlaps(projected(pose, metres), box)));
       });
       // Turning across the cycle track: cyclists riding straight on, beside or behind on the side of the turn, go first.
       const cyclistAlongside =
@@ -263,7 +277,7 @@ export function cruise(exam: CityExam, options: CruiseOptions): void {
         (inside ||
           (distanceM >= 0 && (cyclistComing || cyclistAlongside || (crossing.rule === 'priority' && fromRight))))
       )
-        wanted = Math.min(wanted, toStop(distanceM));
+        wanted = Math.min(wanted, toStop(distanceM >= 0 && cyclistComing ? distanceM - CYCLIST_ROOM_M : distanceM));
       if (
         options.slowAtCorners !== false &&
         (crossing.corner || crossing.rule !== 'signal') &&

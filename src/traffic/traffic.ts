@@ -4,10 +4,10 @@ import { distance, offsetPoint } from '../city/model.ts';
 import { overlaps } from '../sim/collision.ts';
 import type { OrientedBox, Point } from '../sim/collision.ts';
 import { EXAM_CAR } from '../sim/vehicle.ts';
-import type { ActorKind, ActorPose, TrafficSnapshot, TrafficSource } from '../sim/scenario.ts';
+import type { ActorKind, ActorPose, LightState, TrafficSnapshot, TrafficSource } from '../sim/scenario.ts';
 import { createEmergencyState, emergencyPose, planEmergency, stepEmergency } from './emergency.ts';
 import type { EmergencyPlan, EmergencyState } from './emergency.ts';
-import { controlLights, createSignalPlan, intersectionLight, redRemainingS } from './lights.ts';
+import { controlLights, createSignalPlan, crosswalkLight, intersectionLight, redRemainingS } from './lights.ts';
 import type { SignalPlan } from './lights.ts';
 import { governingLight } from './lookahead.ts';
 import { buildNetwork, headingDifference, locateOnPath, pointAlong, travelDistance } from './network.ts';
@@ -349,6 +349,13 @@ function speedLimitAhead(path: Path, frontS: number): number {
   return allowed;
 }
 
+/**
+ * Whether a light `distanceM` ahead holds the vehicle: always on red; on yellow only while it can still stop before
+ * the line at full braking. Stop lines and signalled crossings share this rule.
+ */
+const mustStopAtLight = (light: LightState | null, distanceM: number, speedMps: number) =>
+  light === 'red' || (light === 'yellow' && distanceM >= (speedMps * speedMps) / (2 * BRAKE_MAX_MPS2));
+
 /** Allowed speed now so that the vehicle can stop, at comfort braking, in `distanceM`. */
 function speedToStop(distanceM: number): number {
   return distanceM <= 0.3 ? 0 : Math.sqrt(2 * BRAKE_COMFORT_MPS2 * distanceM);
@@ -447,7 +454,12 @@ function holdersAt(
       (stop) =>
         stop.approach.intersectionId === intersectionId &&
         hasPriorityOver(stop.approach) &&
-        arriving(stop.atS - (other.state.s + other.plan.halfLengthM), other.state.speedMps, other.state.stoppedS),
+        // Wrapped on the cyclic lap: a line just past its start is ahead of a vehicle still at its end.
+        arriving(
+          aheadM(other.path, other.state.s + other.plan.halfLengthM, stop.atS),
+          other.state.speedMps,
+          other.state.stoppedS,
+        ),
     );
     if (withPriority || crossingInside(other.box)) holders.push(other);
   }
@@ -629,12 +641,17 @@ function decide(
       else target = Math.min(target, speedBehind(Math.max(0, gap), behind ? Math.max(0, awayMps) : car.speedMps, room));
     }
   }
-  // Pedestrians on the crosswalks ahead.
+  // Pedestrians on the crosswalks ahead, and the lights of the signalled crossings (they bind like a stop line).
   for (const crossing of path.crosswalks) {
     const remaining = aheadM(path, frontS, crossing.atS);
-    if (remaining < -0.5 || remaining > LOOKAHEAD_M) continue;
-    for (const box of pedestrians.values())
-      if (overlaps(box, crossing.crosswalk.box)) target = Math.min(target, speedToStop(remaining));
+    if (remaining < -STOP_TOLERANCE_M || remaining > LOOKAHEAD_M) continue;
+    const { crosswalk } = crossing;
+    const light = crosswalk.controlId ? crosswalkLight(traffic.plan, crosswalk, timeS) : null;
+    const walkedOn = remaining >= -0.5 && [...pedestrians.values()].some((box) => overlaps(box, crosswalk.box));
+    // The light binds only before the crosswalk: a vehicle already on it when it turns red clears it instead of
+    // stopping there and keeping the pedestrians on the kerb. Anyone already walking on it still stops the vehicle.
+    if (walkedOn || (remaining >= 0 && mustStopAtLight(light, remaining, state.speedMps)))
+      target = Math.min(target, speedToStop(remaining));
   }
   // Signals, STOP signs and priorities at the next crossings.
   let yielding = false;
@@ -654,10 +671,7 @@ function decide(
     const { approach } = stop;
     const intersection = required(indexOf(traffic).intersections.get(approach.intersectionId), 'intersection');
     const light = intersectionLight(traffic.plan, intersection, approach.group, timeS);
-    if (
-      light === 'red' ||
-      (light === 'yellow' && remaining >= (state.speedMps * state.speedMps) / (2 * BRAKE_MAX_MPS2))
-    ) {
+    if (mustStopAtLight(light, remaining, state.speedMps)) {
       target = Math.min(target, speedToStop(remaining));
       continue;
     }

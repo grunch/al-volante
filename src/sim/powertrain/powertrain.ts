@@ -231,7 +231,9 @@ function manualDrive(spec: PowertrainSpec, state: PowertrainState, pedals: Pedal
   const slip = Math.abs(difference) < LOCK_EPSILON_RAD_S ? Math.sign(torque) : Math.sign(difference);
   const clutchNm = capacity * slip;
   let omega = spin(spec, state.engineRadS, pedals.throttle, clutchNm, dt);
-  if (Math.sign(omega - gearboxOmega) !== Math.sign(state.engineRadS - gearboxOmega)) omega = gearboxOmega;
+  // The clutch only pulls the engine towards the gearbox: it never drags it past it. Checked against the slip
+  // direction, not the noisy difference, so an engine with torque to spare can still rev above the wheels.
+  if (Math.sign(omega - gearboxOmega) === -slip) omega = gearboxOmega;
   return { omega, tractionN: toWheelsN(clutchNm), dragged: engagement > 0.05 };
 }
 

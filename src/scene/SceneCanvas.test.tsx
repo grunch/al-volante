@@ -2,6 +2,23 @@ import { act, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SceneCanvas } from './SceneCanvas.tsx';
 import { createFakeRenderer } from '../test/fakeRenderer.ts';
+import type { FakeRenderer } from '../test/fakeRenderer.ts';
+import type * as THREE from 'three';
+
+/** The renderers built by the default factory; jsdom has no WebGL, so `THREE.WebGLRenderer` records instead. */
+const webgl = vi.hoisted(() => ({ built: [] as { parameters: unknown; renderer: FakeRenderer }[] }));
+vi.mock('three', async (importOriginal) => {
+  const actual = await importOriginal<typeof THREE>();
+  const { createFakeRenderer: fake } = await import('../test/fakeRenderer.ts');
+  return {
+    ...actual,
+    WebGLRenderer: function WebGLRenderer(parameters: unknown) {
+      const renderer = fake();
+      webgl.built.push({ parameters, renderer });
+      return renderer;
+    },
+  };
+});
 
 const props = { label: 'Garaje 3D', loadingText: 'Cargando…', unavailableText: 'Sin WebGL' };
 
@@ -145,5 +162,21 @@ describe('SceneCanvas', () => {
     expect(cancelAnimationFrame).toHaveBeenCalled();
     expect(renderer.dispose).toHaveBeenCalled();
     expect(renderer.domElement.isConnected).toBe(false);
+  });
+
+  it('creates an antialiased WebGL renderer by default, at most at twice the CSS pixel density', () => {
+    vi.stubGlobal('devicePixelRatio', 3);
+    const { unmount } = render(<SceneCanvas {...props} />);
+    const { parameters, renderer } = webgl.built.at(-1)!;
+    expect(parameters).toEqual({ antialias: true });
+    expect(renderer.setPixelRatio).toHaveBeenCalledWith(2);
+    unmount();
+    expect(renderer.dispose).toHaveBeenCalledOnce();
+  });
+
+  it('assumes one device pixel per CSS pixel when the browser reports none', () => {
+    vi.stubGlobal('devicePixelRatio', 0);
+    render(<SceneCanvas {...props} />);
+    expect(webgl.built.at(-1)!.renderer.setPixelRatio).toHaveBeenCalledWith(1);
   });
 });

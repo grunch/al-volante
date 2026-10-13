@@ -127,6 +127,6 @@ test('runs seeded traffic in the cockpit, with actors active and no page errors'
   const view = page.getByTestId('driving-canvas');
   await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await expect.poll(async () => Number(await view.getAttribute('data-actors')), { timeout: 20000 }).toBeGreaterThan(0);
-  await expect(page.getByText('Exploración con tránsito', { exact: false })).toBeVisible();
+  await expect(page.getByText('Exploración libre con tránsito', { exact: false })).toBeVisible();
   expect(errors).toEqual([]);
 });

@@ -5,7 +5,7 @@ import type { ActorPose } from '../sim/scenario.ts';
 import routeData from '../../specs/route/comuna13-a.json';
 import { buildCity, offsetPoint } from '../city/model.ts';
 import { RouteSchema } from '../content/schemas.ts';
-import { leaderAhead, lookAhead } from './lookahead.ts';
+import { governingLight, leaderAhead, lookAhead } from './lookahead.ts';
 import { pointAlong } from './network.ts';
 import { createTraffic, createTrafficState } from './traffic.ts';
 
@@ -43,6 +43,10 @@ describe('the vehicle ahead', () => {
     expect(leaderAhead([ahead], turning, route(0, 0))).toBeNull();
   });
 
+  it('has no gap to a vehicle already overlapping the car', () => {
+    expect(leaderAhead([vehicleAt('touching', 3, 0)], car)?.gapM).toBe(0);
+  });
+
   it('ignores traffic crossing the car’s way or coming the other way: those are conflicts, not leaders', () => {
     expect(leaderAhead([vehicleAt('crossing', 8, Math.PI / 2)], car)).toBeNull();
     expect(leaderAhead([vehicleAt('oncoming', 8, Math.PI)], car)).toBeNull();
@@ -78,5 +82,53 @@ describe('the vehicle ahead on the route', () => {
   it('follows the vehicle on the route’s line while the car keeps to it, not from the next lane', () => {
     expect(view(at(285, 0))?.gapM).toBeCloseTo(15 - 2.15 - 2.15, 1);
     expect(view(at(285, 2.6))).toBeNull();
+  });
+
+  it('reports the signal ahead across the whole band the caller counts as on the route', () => {
+    // Arrange: 30 m before Cabildo's signal at Iberá (a signalled crosswalk comes first), on the lap line and 9 m to
+    // its left (the busway side).
+    const stop = lap.stops.find((item) => item.approach.rule === 'signal' && item.approach.road.leg === 2)!;
+    const state = createTrafficState(traffic);
+    const onLine = at(stop.atS - 30 - 2.15, 0);
+    const besideLine = at(stop.atS - 30 - 2.15, 9);
+
+    // Act
+    const reference = lookAhead(traffic, state, onLine, 14);
+    const beside = lookAhead(traffic, state, besideLine, 14);
+
+    // Assert: the examiner widens the band to judge the busway side; the light must not vanish inside it.
+    expect(reference.signal?.distanceM).toBeGreaterThan(0);
+    expect(reference.signal?.distanceM).toBeLessThanOrEqual(30);
+    expect(beside.routeS).toBeCloseTo(reference.routeS!, 1);
+    expect(beside.crossing).toBeNull();
+    expect(beside.signal).toEqual(reference.signal);
+  });
+
+  it('off the route, reports no route controls but still the vehicle straight ahead', () => {
+    // Arrange: 20 m to the left of the lap line, beyond its 6 m band, with a vehicle 12 m ahead.
+    const off = at(285, 20);
+    const forward = offsetPoint({ x: off.centerX, z: off.centerZ }, off.headingRad, 0, 12);
+    const box = { ...off, centerX: forward.x, centerZ: forward.z };
+    const ahead: ActorPose = { ...vehicleOnLap(300), x: box.centerX, z: box.centerZ, box };
+    const state = { ...createTrafficState(traffic), poses: [ahead] };
+
+    // Act
+    const view = lookAhead(traffic, state, off);
+
+    // Assert
+    expect(view.routeS).toBeNull();
+    expect(view.signal).toBeNull();
+    expect(view.crossing).toBeNull();
+    expect(view.crosswalk).toBeNull();
+    expect(view.leader?.gapM).toBeCloseTo(12 - 2.15 - 2.15, 6);
+    expect(governingLight(traffic, state.lights, off, 0)).toBeNull();
+  });
+
+  it('without a lap, nothing on the route governs the car', () => {
+    const lapless = { ...traffic, network: { ...traffic.network, paths: [] } };
+    const state = createTrafficState(lapless);
+    const view = lookAhead(lapless, state, at(285, 0));
+    expect(view).toEqual({ routeS: null, signal: null, crossing: null, crosswalk: null, leader: null });
+    expect(governingLight(lapless, state.lights, at(285, 0), 0)).toBeNull();
   });
 });

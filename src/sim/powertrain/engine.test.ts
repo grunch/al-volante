@@ -20,6 +20,19 @@ describe('engine', () => {
   it('cuts fuel at the rev limiter', () => {
     expect(engineTorqueNm(EXAM_ENGINE, rpmToRadS(EXAM_ENGINE.maxRpm + 10), 1)).toBeLessThan(0);
   });
+
+  it('keeps the full-throttle torque flat beyond the last point of its table', () => {
+    const shortCurve = {
+      ...EXAM_ENGINE,
+      torqueCurve: [
+        [1000, 90],
+        [3000, 120],
+      ] as const,
+    };
+
+    expect(combustionTorqueNm(shortCurve, rpmToRadS(4500), 1)).toBe(120);
+    expect(combustionTorqueNm(shortCurve, rpmToRadS(2000), 1)).toBeCloseTo(105, 9);
+  });
 });
 
 describe('clutch engagement', () => {

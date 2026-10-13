@@ -63,6 +63,8 @@ export interface CircuitCrosswalk {
   /** A `crossing-traffic_signals` control with its own vehicle light. */
   controlId: string | null;
   leg: number;
+  /** Just past a corner's stop line: crossed while turning (the ficha's «Giros» row, decision D1). */
+  atCorner: boolean;
 }
 
 export interface CircuitBump {
@@ -220,13 +222,23 @@ function crossingsOf(city: City, traffic: Traffic, lap: Path, legs: readonly Cir
   return crossings.sort((a, b) => a.lineS - b.lineS);
 }
 
-function crosswalksOf(lap: Path): CircuitCrosswalk[] {
+/**
+ * A crosswalk starting this far past a corner's stop line or less is crossed while turning: the one just past the
+ * line and the one on the street turned into (up to about 18 m on route A), not a mid-block one further on.
+ */
+const CORNER_CROSSWALK_M = 20;
+
+function crosswalksOf(lap: Path, crossings: readonly CircuitCrossing[]): CircuitCrosswalk[] {
   return lap.crosswalks.map((item) => ({
     id: item.crosswalk.id,
     startS: item.atS,
     box: item.crosswalk.box,
     controlId: item.crosswalk.controlId,
     leg: required(item.crosswalk.road.leg ?? undefined, 'leg of a crosswalk road'),
+    atCorner: crossings.some((crossing) => {
+      const pastLineM = aheadOnLap(lap, crossing.lineS, item.atS);
+      return crossing.corner !== null && pastLineM >= 0 && pastLineM <= CORNER_CROSSWALK_M;
+    }),
   }));
 }
 
@@ -308,13 +320,14 @@ export function buildCircuit(city: City, traffic: Traffic): Circuit {
   );
   const legs = legsOf(city, lap);
   const busways = city.roads.filter((road) => road.kind === 'busway');
+  const crossings = crossingsOf(city, traffic, lap, legs);
   return {
     traffic,
     lap,
     bay: bayOf(city, lap),
     legs,
-    crossings: crossingsOf(city, traffic, lap, legs),
-    crosswalks: crosswalksOf(lap),
+    crossings,
+    crosswalks: crosswalksOf(lap, crossings),
     bumps: bumpsOf(city, lap),
     busways: busways.map(roadBoxOf),
     solidLineLeft: new Set(

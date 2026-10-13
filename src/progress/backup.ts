@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { canonicalIso } from './dates.ts';
 import type { RuleCatalog } from '../content/schemas.ts';
 import { attemptErrors } from '../content/validateAttempt.ts';
+import type { TheoryPassRule } from '../content/validateAttempt.ts';
 import { AttemptSchema } from '../content/schemas.ts';
 import { ConceptProgressSchema } from './model.ts';
 import type { ProgressSnapshot } from './storage.ts';
@@ -115,7 +116,7 @@ function dateProblem(snapshot: ProgressSnapshot, exportedAt: string, now: Date):
  */
 export function parseBackup(
   text: string,
-  { now, rules }: { now: Date; rules: RuleCatalog },
+  { now, rules, theoryExam }: { now: Date; rules: RuleCatalog; theoryExam?: TheoryPassRule },
   migrations = MIGRATIONS,
 ): BackupParseResult {
   let data: unknown;
@@ -149,7 +150,7 @@ export function parseBackup(
     return { ok: false, error: 'invalid-data', details: 'duplicate concept' };
   const problem = dateProblem({ attempts, concepts }, exportedAt, now);
   if (problem) return { ok: false, error: 'invalid-data', details: problem };
-  const attemptProblem = attempts.flatMap((attempt) => attemptErrors(attempt, rules))[0];
+  const attemptProblem = attempts.flatMap((attempt) => attemptErrors(attempt, rules, theoryExam))[0];
   if (attemptProblem) return { ok: false, error: 'invalid-data', details: attemptProblem };
   return { ok: true, snapshot: canonicalDates({ attempts, concepts }), contentVersion, exportedAt, fromVersion };
 }

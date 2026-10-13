@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
+import type { CarEvent } from '../sim/car.ts';
 import type { TransmissionKind } from '../sim/powertrain/powertrain.ts';
+import { cityExam } from '../test/circuitDriver.ts';
 import { Driver, IDLE } from '../test/examDriver.ts';
-import { settleCirculation } from './session.ts';
+import { resultOf } from './scoring.ts';
+import { observe, settleCirculation } from './session.ts';
+import type { Session } from './session.ts';
 
 function throughStageOne(kind: TransmissionKind): Driver {
   const driver = new Driver(kind);
@@ -19,7 +23,8 @@ function inTheBoxAfterThirtyCentimetres(kind: TransmissionKind): Driver {
   return driver;
 }
 
-const MANUAL_GEAR_ROUND = ['1', '2', '3', '4', '5', '4', '3', '2', '1', 'N', 'R', 'N'].map((gear) => `gear-${gear}`);
+/** Protocolo PDF 30: from N, first to fifth in order, then reverse through neutral, ending in neutral. */
+const MANUAL_GEAR_ROUND = ['1', '2', '3', '4', '5', 'N', 'R', 'N'].map((gear) => `gear-${gear}`);
 const ALL_TARGETS = [
   'clutch',
   'brake',
@@ -74,8 +79,9 @@ describe('exam session: familiarisation and stage I (protocolo PDF 9–10)', () 
     const targets = driver.recognise();
 
     expect(targets).not.toContain('clutch');
+    // Protocolo PDF 30: from P through R, N and D (the simulated lever has no L), back to P at the end.
     expect(targets.filter((target) => target.startsWith('gear-'))).toEqual(
-      ['R', 'N', 'D', 'N', 'R', 'P'].map((gear) => `gear-${gear}`),
+      ['R', 'N', 'D', 'P'].map((gear) => `gear-${gear}`),
     );
     expect(driver.faults).toEqual([]);
   });
@@ -132,6 +138,21 @@ describe('exam session: familiarisation and stage I (protocolo PDF 9–10)', () 
     expect(driver.session.prompt).toEqual({ kind: 'recognise', target: 'gear-3' });
     driver.answer('gear-3');
     expect(driver.session.prompt).toEqual({ kind: 'recognise', target: 'gear-4' });
+  });
+
+  it('asks for neutral right after fifth, taking the gears the sequential lever passes on the way as steps', () => {
+    const driver = new Driver('manual', 5);
+    driver.ready();
+    while (driver.session.prompt.kind === 'recognise' && driver.session.prompt.target !== 'gear-5')
+      driver.answer(driver.session.prompt.target);
+    driver.answer('gear-5');
+    expect(driver.session.prompt).toEqual({ kind: 'recognise', target: 'gear-N' });
+
+    driver.hold({ ...IDLE, clutch: 1 }, (_, t) => t > 0.1);
+    for (const gear of ['4', '3', '2', '1', 'N'] as const) driver.drive({ type: 'shift', to: gear });
+
+    expect(driver.faults).toEqual([]);
+    expect(driver.session.prompt).toEqual({ kind: 'recognise', target: 'gear-R' });
   });
 
   it('scores seat, headrest and mirrors never adjusted when the driver says the preparation is done', () => {
@@ -250,6 +271,31 @@ describe('exam session: unlocking and the engine (protocolo PDF 10, anexo II)', 
 
     expect(driver.faults).toEqual(['rule.minor.f-handbrake-on-start', 'rule.eliminatory.c-no-seatbelt']);
     expect(driver.phase).toBe('finished');
+  });
+});
+
+describe('exam session: the unlock checks belong to stage I (protocolo PDF 10, 15)', () => {
+  it('does not judge neutral again when the engine is restarted in gear after the unlock', () => {
+    const driver = inTheBoxAfterThirtyCentimetres('manual');
+    driver.drive({ type: 'turn-key', to: 'off' });
+    driver.hold({ ...IDLE, clutch: 1 }, (_, t) => t > 0.1);
+    driver.drive({ type: 'shift', to: '1' });
+    driver.hold(IDLE, (_, t) => t > 0.2);
+
+    driver.drive({ type: 'turn-key', to: 'start' });
+
+    expect(driver.car.powertrain.engineRunning).toBe(false);
+    expect(driver.faults).toEqual([]);
+  });
+
+  it('does not judge the handbrake again when the car moves off with it after having moved', () => {
+    const driver = inTheBoxAfterThirtyCentimetres('automatic');
+    expect(driver.session.movedOff).toBe(true);
+    driver.drive({ type: 'handbrake', engaged: true });
+
+    driver.hold({ ...IDLE, throttle: 1 }, (car) => car.world.vehicle.speedMps > 0.3);
+
+    expect(driver.faults).not.toContain('rule.minor.f-handbrake-on-start');
   });
 });
 
@@ -459,5 +505,180 @@ describe('car events in stage III (protocolo PDF 15–17)', () => {
       scenario: null,
     });
     expect(circulating.faults).toContain('rule.low.d-engine-stall');
+  });
+});
+
+describe('exam session: other observations (protocolo PDF 7–8)', () => {
+  /** A driver whose session is already in a phase, to feed it one step of car events. */
+  function inPhase(phase: Session['phase'], events: CarEvent[]): Driver {
+    const driver = new Driver('manual');
+    driver.session = { ...driver.session, phase, movedOff: true };
+    driver.see({
+      type: 'step',
+      car: driver.car,
+      cockpit: { ...driver.cockpit, belt: true },
+      events,
+      dt: 0,
+      scenario: null,
+    });
+    return driver;
+  }
+
+  it('asking to stop the exam interrupts it and disapproves it, whatever the points (PDF 8)', () => {
+    const driver = new Driver('automatic');
+    driver.ready();
+
+    driver.see({ type: 'request-stop' });
+
+    expect(driver.phase).toBe('finished');
+    expect(driver.session.ledger.interruption).toMatchObject({ ruleId: null, cause: 'driver-request' });
+    expect(resultOf(driver.session.ledger, driver.session.completedStages)).toBe('disapproved');
+    // A finished exam takes nothing more.
+    const after = observe(driver.session, { type: 'ready' });
+    expect(after).toBe(driver.session);
+  });
+
+  it('hitting a pedestrian or a cyclist is the examiner’s intervention on high l; a car, a reckless manoeuvre', () => {
+    for (const actor of ['pedestrian', 'bicycle'] as const) {
+      const driver = inPhase('circulation', [{ type: 'actor-contact', actor }]);
+      expect(driver.session.ledger.faults).toEqual([
+        expect.objectContaining({
+          ruleId: 'rule.high.l-yield-to-pedestrians-cyclists',
+          points: 8,
+          escalated: true,
+          episode: 'contact',
+        }),
+      ]);
+      expect(driver.session.ledger.interruption?.cause).toBe('examiner');
+      expect(driver.session.street.takeover).toBe(true);
+    }
+    const crash = inPhase('exit', [{ type: 'actor-contact', actor: 'vehicle' }]);
+    expect(crash.faults).toEqual(['rule.eliminatory.i-reckless-maneuver']);
+    expect(crash.session.ledger.interruption?.cause).toBe('examiner');
+    expect(crash.phase).toBe('finished');
+  });
+
+  it('hitting the pedestrian of a crosswalk already scored raises that fault instead of adding one (D7)', () => {
+    const driver = new Driver('manual');
+    const yielding = settleCirculation(
+      { ...driver.session, phase: 'circulation', movedOff: true },
+      {
+        reports: [{ ruleId: 'rule.high.l-yield-to-pedestrians-cyclists', episode: 'cw-1' }],
+        takeover: false,
+        done: false,
+      },
+    );
+    driver.session = {
+      ...yielding,
+      street: {
+        ...yielding.street,
+        escalatable: [{ ruleId: 'rule.high.l-yield-to-pedestrians-cyclists', episode: 'cw-1', atS: 0 }],
+      },
+    };
+
+    driver.see({
+      type: 'step',
+      car: driver.car,
+      cockpit: { ...driver.cockpit, belt: true },
+      events: [{ type: 'actor-contact', actor: 'pedestrian' }],
+      dt: 0,
+      scenario: null,
+    });
+
+    expect(driver.session.ledger.faults).toEqual([
+      expect.objectContaining({ ruleId: 'rule.high.l-yield-to-pedestrians-cyclists', episode: 'cw-1', points: 8 }),
+    ]);
+    expect(driver.session.ledger.points).toBe(8);
+  });
+
+  it('a parked car is hit like a moving one; a wall is not a demarcation element and scores nothing', () => {
+    const parked = inPhase('circulation', [
+      { type: 'contact', obstacleId: 'car-1', kind: 'vehicle', impactSpeedMps: 2 },
+    ]);
+    expect(parked.faults).toEqual(['rule.eliminatory.i-reckless-maneuver']);
+    const wall = inPhase('exit', [{ type: 'contact', obstacleId: 'wall-1', kind: 'wall', impactSpeedMps: 2 }]);
+    expect(wall.faults).toEqual([]);
+  });
+
+  it('a refused start for want of the key is not a fault of its own', () => {
+    const driver = inPhase('unlock', [{ type: 'start-refused', reason: 'key' }]);
+    expect(driver.faults).toEqual([]);
+  });
+
+  it('switching a light or the signal off, adjusting the seat or stalling answers nothing in the recognition', () => {
+    const driver = new Driver('manual', 1);
+    driver.ready();
+    const asked = driver.session.prompt;
+
+    driver.cabin({ type: 'lights', value: 'off' });
+    driver.cabin({ type: 'signal', value: 'off' });
+    driver.cabin({ type: 'adjust', control: 'seatDistance', value: 0.6 });
+    driver.see({ type: 'step', car: driver.car, cockpit: driver.cockpit, events: [{ type: 'stall' }], dt: 0 });
+
+    expect(driver.session.prompt).toEqual(asked);
+    expect(driver.faults).toEqual([]);
+  });
+
+  it('a gear engaged while a light or a pedal is asked is no answer, but is remembered for the gearbox round', () => {
+    const driver = new Driver('manual', 1);
+    driver.ready();
+    while (driver.session.prompt.kind === 'recognise' && driver.session.prompt.target.startsWith('gear-'))
+      driver.answer(driver.session.prompt.target);
+    const asked = driver.session.prompt;
+
+    driver.see({
+      type: 'step',
+      car: driver.car,
+      cockpit: driver.cockpit,
+      events: [{ type: 'gear-engaged', gear: '1' }],
+      dt: 0,
+    });
+
+    expect(driver.session.prompt).toEqual(asked);
+    expect(driver.session.lastGear).toBe('1');
+    expect(driver.faults).toEqual([]);
+  });
+
+  it('advancing the 30 cm backwards is not the manoeuvre asked for', () => {
+    const driver = throughStageOne('automatic');
+    driver.startEngine();
+    driver.moveInBox(-0.3);
+    expect(driver.phase).toBe('forward');
+
+    driver.moveInBox(-0.3);
+
+    expect(driver.faults).toEqual(['rule.high.c-forward-30cm-fail']);
+  });
+
+  it('a glance in the circulation is kept for the next lane change (D4)', () => {
+    const { driver } = cityExam('automatic', 1, { practice: 'III' });
+
+    driver.cabin({ type: 'look', yaw: 0.5, pitch: 0 });
+
+    expect(driver.session.street.lastGlance).toEqual({ yaw: 0.5, atS: driver.session.timeS });
+  });
+
+  it('a practice of stage II ends with the lap: stage II complete and the result pending (D15)', () => {
+    const { driver } = cityExam('automatic', 1, { practice: 'II' });
+
+    const settled = settleCirculation(driver.session, { reports: [], takeover: false, done: true });
+
+    expect(settled.phase).toBe('finished');
+    expect(settled.completedStages).toEqual(['II']);
+    expect(resultOf(settled.ledger, settled.completedStages)).toBe('pending');
+  });
+
+  it('after a fault that interrupts, the rest of the step is not scored unless the examiner took over', () => {
+    const driver = new Driver('automatic');
+    driver.session = { ...driver.session, phase: 'circulation' };
+
+    const settled = settleCirculation(driver.session, {
+      reports: [{ ruleId: 'rule.eliminatory.k-red-light' }, { ruleId: 'rule.high.m-no-slowdown-before-maneuver' }],
+      takeover: false,
+      done: false,
+    });
+
+    expect(settled.ledger.faults.map((fault) => fault.ruleId)).toEqual(['rule.eliminatory.k-red-light']);
+    expect(settled.phase).toBe('finished');
   });
 });

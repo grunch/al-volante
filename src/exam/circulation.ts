@@ -13,6 +13,7 @@ import type { Circuit, CircuitCrossing } from './circuit.ts';
 import { imminentContact, judgeEmergency, judgeLane, judgeOvertaking } from './circulationActors.ts';
 import { CIRCULATION, across, kmhOf, poseSpeed, remember } from './street.ts';
 import type { Frame, Notice, Report, Street } from './street.ts';
+import { FICHA_GROUPS } from './scoring.ts';
 
 export { CIRCULATION, createStreet } from './street.ts';
 export type { Notice, Report, Street } from './street.ts';
@@ -188,7 +189,11 @@ function judgeCrossings(street: Street, frame: Frame, reports: Report[]): Street
     // Gradual slowing before a turn or an unsignalised crossing (high m); a STOP already demands the full stop.
     const slowing = crossing.rule === 'priority' || (crossing.corner !== null && crossing.rule === 'signal');
     if (slowing && distanceM >= 0 && distanceM <= CIRCULATION.approachM && frame.kmh > CIRCULATION.approachKmh)
-      reports.push({ ruleId: 'rule.high.m-no-slowdown-before-maneuver', episode: crossing.intersectionId });
+      reports.push({
+        ruleId: 'rule.high.m-no-slowdown-before-maneuver',
+        episode: crossing.intersectionId,
+        group: crossing.corner ? FICHA_GROUPS.turns : FICHA_GROUPS.crossings,
+      });
   }
   // Standing on the crossed street (high i): the last line crossed, while the body is still on its carriageway.
   // Waiting for a pedestrian on the crosswalk just ahead is yielding, not blocking.
@@ -252,7 +257,11 @@ function judgeCrosswalks(street: Street, frame: Frame, reports: Report[]): Stree
         reports.push({ ruleId: 'rule.minor.o-precautionary-speed', episode: crosswalk.id });
     }
     if (occupied && !frame.stopped && overlaps(frame.body, crosswalk.box)) {
-      reports.push({ ruleId: 'rule.high.l-yield-to-pedestrians-cyclists', episode: crosswalk.id });
+      reports.push({
+        ruleId: 'rule.high.l-yield-to-pedestrians-cyclists',
+        episode: crosswalk.id,
+        group: crosswalk.atCorner ? FICHA_GROUPS.turns : FICHA_GROUPS.crossings,
+      });
       next = remember(next, 'rule.high.l-yield-to-pedestrians-cyclists', crosswalk.id, frame.timeS);
     }
     const previous =
@@ -281,7 +290,11 @@ function judgeCrosswalks(street: Street, frame: Frame, reports: Report[]): Stree
       (pose) => pose.kind === 'bicycle' && across(pose.headingRad, heading) && entering.some((box) => pose.inside(box)),
     );
     if (cyclist) {
-      reports.push({ ruleId: 'rule.high.l-yield-to-pedestrians-cyclists', episode: last.intersectionId });
+      reports.push({
+        ruleId: 'rule.high.l-yield-to-pedestrians-cyclists',
+        episode: last.intersectionId,
+        group: last.corner ? FICHA_GROUPS.turns : FICHA_GROUPS.crossings,
+      });
       next = remember(next, 'rule.high.l-yield-to-pedestrians-cyclists', last.intersectionId, frame.timeS);
     }
   }

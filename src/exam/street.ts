@@ -105,6 +105,8 @@ export interface Report {
   episode?: string;
   /** Withdraws the fault of this episode instead of scoring it (decision D2). */
   withdraw?: boolean;
+  /** The ficha group of the context, for a conduct with rows in several groups (decision D1; `Fault.group`). */
+  group?: string;
 }
 
 export interface Notice {

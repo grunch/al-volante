@@ -101,12 +101,17 @@ export function SceneCanvas({
     <div
       className="scene-canvas"
       ref={containerRef}
-      // Without WebGL there is no image to describe, and an ARIA image would hide the status message inside it.
-      {...(state === 'unavailable' ? {} : { role: 'img', 'aria-label': label })}
+      // Only the finished view is an image: an ARIA image hides its descendants, so while loading (or without WebGL)
+      // the status message must stay exposed to screen readers.
+      {...(state === 'ready' ? { role: 'img', 'aria-label': label } : {})}
       data-state={state}
       data-testid="garage-scene"
     >
-      {state === 'loading' && <p className="scene-canvas__status">{loadingText}</p>}
+      {state === 'loading' && (
+        <p className="scene-canvas__status" role="status">
+          {loadingText}
+        </p>
+      )}
       {state === 'unavailable' && (
         <p className="scene-canvas__status" role="status">
           {unavailableText}

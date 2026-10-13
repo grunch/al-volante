@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { activitiesBySection, sectionKey } from '../../activities/sections.ts';
 import type { Activity } from '../../content/schemas.ts';
@@ -14,6 +15,16 @@ import { GROUP_TITLES, LEARNING_PATH } from '../learningPath.ts';
 export function ActivitiesPage() {
   const [params] = useSearchParams();
   const selected = params.get('seccion');
+  const firstRender = useRef(true);
+  useEffect(() => {
+    // The overview and a section share the path, so the layout does not move focus between them; the link that was
+    // followed unmounts with the old list, and focus would fall back to the document body.
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    document.getElementById('page-title')?.focus();
+  }, [selected]);
   return (
     <ContentGate>
       {(content) => {
@@ -45,15 +56,18 @@ function Overview({
         </p>
       )}
       {LEARNING_PATH.map((group) => {
-        const sections = group.sections.filter(({ source, section }) => groups.has(sectionKey(source, section)));
+        // The sections of the group that have activities, with how many.
+        const sections = group.sections.flatMap(({ source, section }) => {
+          const key = sectionKey(source, section);
+          const count = groups.get(key)?.length;
+          return count === undefined ? [] : [{ source, section, key, count }];
+        });
         if (sections.length === 0) return null;
         return (
           <section key={group.id} aria-labelledby={`activities-${group.id}`} className="map-group">
             <h2 id={`activities-${group.id}`}>{GROUP_TITLES[group.id]}</h2>
             <ul className="card-grid">
-              {sections.map(({ source, section }) => {
-                const key = sectionKey(source, section);
-                const count = groups.get(key)?.length ?? 0;
+              {sections.map(({ source, section, key, count }) => {
                 const units = content.units.filter((unit) => unit.source === source && unit.section === section);
                 return (
                   <li key={key} className="card">
@@ -62,7 +76,7 @@ function Overview({
                     </h3>
                     <p className="card__meta">
                       {count} {count === 1 ? ACTIVITY_COPY.activityOne : ACTIVITY_COPY.activityMany} · {units.length}{' '}
-                      {ACTIVITY_COPY.unitsInSection}
+                      {units.length === 1 ? ACTIVITY_COPY.unitsInSectionOne : ACTIVITY_COPY.unitsInSection}
                     </p>
                   </li>
                 );

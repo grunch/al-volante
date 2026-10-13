@@ -233,10 +233,14 @@ const BOX_SEQUENCE: Record<TransmissionKind, readonly string[]> = {
   automatic: ['P', 'R', 'N', 'D'],
 };
 
-/** The gearbox is run through whole and back to N or P (protocolo PDF 9), one neighbour at a time. */
+/**
+ * The gearbox round of protocolo PDF 30. Manual: from N, first to fifth in order, then reverse through neutral, and
+ * back to N. Automatic: from P through R, N and D (the simulated lever has no L), and back to P. The gears a
+ * sequential lever passes on its way to the asked one are steps, not answers (`judgeGear`).
+ */
 const GEAR_ROUND: Record<TransmissionKind, readonly string[]> = {
-  manual: ['1', '2', '3', '4', '5', '4', '3', '2', '1', 'N', 'R', 'N'],
-  automatic: ['R', 'N', 'D', 'N', 'R', 'P'],
+  manual: ['1', '2', '3', '4', '5', 'N', 'R', 'N'],
+  automatic: ['R', 'N', 'D', 'P'],
 };
 
 /** Pedals, lights and instruments in a seeded random order; the gearbox round keeps its order, as one block. */
@@ -347,9 +351,10 @@ function fault(
   episode?: string,
   escalate = false,
   cause?: 'fault' | 'examiner',
+  group?: string,
 ): Session {
   const stage = stageOf(session.phase, session.scope);
-  const ledger = recordFault(session.ledger, { ruleId, atS: session.timeS, stage, episode, escalate, cause });
+  const ledger = recordFault(session.ledger, { ruleId, atS: session.timeS, stage, episode, escalate, cause, group });
   const next: Session = { ...session, ledger };
   if (ledger.interruption && session.phase !== 'recognition') return finish(next);
   return cutoff(next);
@@ -380,7 +385,7 @@ function applyReports(session: Session, reports: readonly Report[], all = false)
       next = { ...next, ledger: withdrawFault(next.ledger, report.ruleId, report.episode) };
       continue;
     }
-    next = fault(next, report.ruleId, report.episode);
+    next = fault(next, report.ruleId, report.episode, false, undefined, report.group);
   }
   return next;
 }
@@ -693,7 +698,9 @@ function onEvent(session: Session, event: CarEvent): Session {
   if (!driving(session)) return session;
   switch (event.type) {
     case 'start-refused':
-      if (event.reason === 'in-gear') return eventFault(session, 'rule.minor.e-neutral-check-before-start');
+      // Neutral is a check of the unlock (stage I, «Desbloqueo», protocolo PDF 10 and 15): only before the first start.
+      if (event.reason === 'in-gear')
+        return session.phase === 'unlock' ? eventFault(session, 'rule.minor.e-neutral-check-before-start') : session;
       if (event.reason === 'running')
         return eventFault(session, 'rule.minor.h-start-while-running', `run-${session.engineStarts}`);
       return session;
@@ -708,6 +715,8 @@ function onEvent(session: Session, event: CarEvent): Session {
     case 'handbrake':
       return { ...session, handbrakeEpisodes: session.handbrakeEpisodes + 1 };
     case 'moved-with-handbrake':
+      // So is the handbrake (PDF 10, 15): judged when the car first moves, not at a later move-off.
+      if (session.movedOff) return session;
       return eventFault(session, 'rule.minor.f-handbrake-on-start', `handbrake-${session.handbrakeEpisodes}`);
     case 'stall':
       return eventFault(session, 'rule.low.d-engine-stall');

@@ -172,6 +172,8 @@ function PageNavigation({ source, page }: { source: Source; page: number }) {
         <input
           id="page-jump"
           type="number"
+          // An empty field would navigate to /biblioteca/<source>/, which is no page at all.
+          required
           min={1}
           max={source.pages}
           value={target}
