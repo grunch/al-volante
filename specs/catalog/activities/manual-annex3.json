@@ -109,7 +109,7 @@
       },
       {
         "id": "over-65",
-        "prompt": "Una persona de 67 años quiere obtener por primera vez una licencia profesional. Además del curso de capacitación y del examen teórico, ¿qué tiene que rendir?",
+        "prompt": "Una persona de 67 años quiere obtener por primera vez una licencia profesional. Según el manual, además del curso de capacitación y del examen teórico, ¿qué tiene que rendir?",
         "options": [
           {
             "id": "a",
@@ -133,7 +133,7 @@
       },
       {
         "id": "scope",
-        "prompt": "Además del transporte de cargas y mercaderías, ¿qué otro tema abarca este anexo del manual?",
+        "prompt": "Además del transporte de cargas y mercaderías, ¿qué otro tema abarca el anexo de transporte de carga del manual?",
         "options": [
           {
             "id": "a",
@@ -443,7 +443,7 @@
             "id": "b",
             "text": "Camión tractor",
             "correct": false,
-            "feedback": "El camión tractor está hecho para arrastrar un remolque o semirremolque, no para llevar la carga encima."
+            "feedback": "El camión tractor está hecho para arrastrar un remolque o semirremolque, no para transportar mercancías."
           },
           {
             "id": "c",
@@ -674,7 +674,7 @@
       },
       {
         "id": "n3",
-        "prompt": "¿Y un vehículo de transporte de carga con un peso máximo de 15.000 kg?",
+        "prompt": "Un vehículo de transporte de carga tiene un peso máximo de 15.000 kg. ¿En qué categoría está?",
         "options": [
           {
             "id": "n1",
@@ -770,7 +770,7 @@
     "variants": [
       {
         "id": "linti",
-        "prompt": "¿Cuándo hace falta la Licencia Nacional de Transporte Interjurisdiccional (LiNTI)?",
+        "prompt": "Según el manual, ¿cuándo hace falta la Licencia Nacional de Transporte Interjurisdiccional (LiNTI)?",
         "options": [
           {
             "id": "a",
@@ -1363,7 +1363,7 @@
             "id": "a",
             "text": "Lo más cerca posible del cuerpo",
             "correct": true,
-            "feedback": "¡Bien! Pegada al cuerpo el esfuerzo es menor; por eso el manual también dice colocarse lo más cerca posible de la carga."
+            "feedback": "¡Bien! El manual pide mantener el objeto lo más cerca que se pueda del cuerpo, y la infografía, colocarse lo más cerca posible de la carga: es el esfuerzo menor y menos peligroso."
           },
           {
             "id": "b",
@@ -1495,7 +1495,7 @@
               },
               {
                 "id": "jump",
-                "text": "Bajo de un salto: es más rápido y el escalón de la cabina es alto",
+                "text": "Bajo de un salto: es más rápido que usar los escalones",
                 "outcome": "jump"
               },
               {
@@ -1627,7 +1627,7 @@
           },
           {
             "id": "d",
-            "text": "Bajar con una mano libre para llevar la documentación",
+            "text": "Bajar llevando la documentación en una mano",
             "correct": false,
             "feedback": "Las manos tienen que ir libres para sostenerse: dos manos y un pie, o dos pies y una mano."
           }
@@ -1799,7 +1799,7 @@
         "outcomes": {
           "good": {
             "correct": true,
-            "feedback": "¡Bien! La parada programada te permite recuperar la atención y resolver otras tareas sin pensar en ellas al manejar (manual PDF 159). Cuidar el tipo y la cantidad de comida evita la somnolencia de la digestión (PDF 161), y la elongación previene dolores y mejora la irrigación de las piernas (PDF 160)."
+            "feedback": "¡Bien! La parada programada te permite recuperar la atención y resolver otras tareas sin pensar en ellas al manejar (manual PDF 159). Cuidar el tipo y la cantidad de comida importa porque la digestión puede inducir somnolencia (PDF 161), y la elongación previene dolores y mejora la irrigación de las piernas (PDF 160)."
           },
           "phone": {
             "correct": false,
@@ -1834,7 +1834,7 @@
         "page": 160
       }
     ],
-    "explanation": "Material complementario para conductores/as profesionales. Los ejercicios de elongación en las paradas previenen dolores musculares y mejoran la irrigación sanguínea, comprometida sobre todo en los miembros inferiores. El manual propone estiramientos sostenidos durante 10 segundos (talón hacia el glúteo, cuello, omóplato, piernas contra una superficie vertical), rotaciones de tobillos y brazos, y caminar, un ejercicio simple para las paradas de descanso (manual PDF 160).",
+    "explanation": "Material complementario para conductores/as profesionales. Los ejercicios de elongación en las paradas previenen dolores musculares y mejoran la irrigación sanguínea, comprometida sobre todo en los miembros inferiores. El manual propone estiramientos sostenidos durante 10 segundos (talón hacia el glúteo, cuello, omóplato, una pierna estirada hacia atrás con las manos apoyadas en una superficie vertical), rotaciones de tobillos y brazos, y caminar, un ejercicio simple para las paradas de descanso (manual PDF 160).",
     "status": "reviewed",
     "variants": [
       {
@@ -2071,9 +2071,9 @@
         "options": [
           {
             "id": "a",
-            "text": "Cerca, para maniobrar con libertad y sin tensar los hombros",
+            "text": "Lo bastante cerca para ir relajados, sin tensar los hombros",
             "correct": true,
-            "feedback": "¡Correcto! Lo bastante cerca para que estén relajados, sin tensionar los hombros, y con libertad para maniobrar."
+            "feedback": "¡Correcto! A una altura del volante que permita maniobrar con libertad, pero lo bastante cerca para que estén relajados, sin tensionar los hombros."
           },
           {
             "id": "b",
@@ -2153,7 +2153,7 @@
     "figureIds": [
       "fig.manual-p166-blocked-intersection"
     ],
-    "explanation": "Material complementario para conductores/as de vehículos de carga. La presión por el tiempo de entrega favorece el exceso de velocidad, y en vehículos de gran porte el peligro se potencia: la velocidad máxima no es garantía de seguridad y siempre hay que circular a velocidad precautoria, con distancia de seguridad (manual PDF 166–167). Forzar una onda verde que se corta, cruzar en amarillo, pasar muy cerca de otros o zigzaguear es conducir «al límite» (PDF 162). En zonas de mucho tránsito, antes de entrar a la bocacalle hay que asegurarse de tener espacio para cruzarla completa, incluida la senda peatonal de la cuadra siguiente (PDF 166).",
+    "explanation": "Material complementario para conductores/as de vehículos de carga. La presión por el tiempo de entrega favorece el exceso de velocidad, y en vehículos de gran porte el peligro se potencia: la velocidad máxima no es garantía de seguridad y siempre hay que circular a velocidad precautoria, con distancia de seguridad (manual PDF 166–167). Procurar continuar una onda verde que está por cortarse hace muy difícil detener el vehículo, y cruzar en amarillo, pasar muy cerca de otros o zigzaguear es conducir «al límite» (PDF 162). En zonas de mucho tránsito, antes de entrar a la bocacalle hay que asegurarse de tener espacio para cruzarla completa, incluida la senda peatonal de la cuadra siguiente (PDF 166).",
     "status": "reviewed",
     "variants": [
       {
@@ -2252,7 +2252,7 @@
         "outcomes": {
           "good": {
             "correct": true,
-            "feedback": "¡Bien! La velocidad máxima no es garantía de seguridad: hay que circular a velocidad precautoria y con la distancia mínima de seguridad (manual PDF 167). En un vehículo de gran porte, el exceso de velocidad potencia el peligro (PDF 166)."
+            "feedback": "¡Bien! La velocidad máxima no es garantía de seguridad: hay que circular a velocidad precautoria y con la distancia mínima de seguridad (manual PDF 167). En un vehículo de gran porte, el peligro del exceso de velocidad se potencia (PDF 166)."
           },
           "tailgate": {
             "correct": false,
@@ -2389,7 +2389,7 @@
             "id": "a",
             "text": "La congestión, el tiempo, la falta de solidaridad y el estrés",
             "correct": true,
-            "feedback": "¡Correcto! Son los factores que destaca el manual, junto con la presión de los tiempos de entrega."
+            "feedback": "¡Correcto! Son los factores que destaca el manual; el tiempo pesa, por ejemplo, cuando el traslado se pide con el tiempo justo."
           },
           {
             "id": "b",
@@ -2596,7 +2596,7 @@
         "options": [
           {
             "id": "a",
-            "text": "Bloquean la visión y la posibilidad de ser visto",
+            "text": "Porque bloquean la visión y la posibilidad de ser visto",
             "correct": true,
             "feedback": "¡Correcto! Además, hacen que los vehículos vayan más lento o más rápido de lo que es seguro."
           },
@@ -2719,7 +2719,7 @@
           },
           {
             "id": "b",
-            "text": "Porque cualquier volantazo hace volcar siempre a un camión cargado",
+            "text": "Cualquier volantazo hace volcar siempre a un camión cargado",
             "correct": false,
             "feedback": "El manual no habla de vuelco: el riesgo es que se vuelve un obstáculo grande que encierra a otros."
           },
@@ -2731,7 +2731,7 @@
           },
           {
             "id": "d",
-            "text": "Porque está prohibido girar el volante con el camión cargado",
+            "text": "Está prohibido girar el volante con el camión cargado",
             "correct": false,
             "feedback": "No hay tal prohibición: el problema es el obstáculo de gran volumen que genera un volantazo."
           }
@@ -2855,7 +2855,7 @@
     "figureIds": [
       "fig.manual-p165-cyclist-distance"
     ],
-    "explanation": "La distancia de 1,5 m con ciclistas rige para cualquier vehículo, y este material complementario la refuerza para camiones y colectivos: un mínimo contacto puede hacer caer a quien va en bici, y en los giros, por el off tracking, la parte trasera puede tocarla y hacerla caer cerca de las ruedas traseras; para sobrepasar se pone la luz de giro (manual PDF 164–165). Al girar en intersecciones hay que mirar antes a ambos lados, sobre todo donde cruzan ciclovías o bicisendas (PDF 164). Si para girar o tomar una rotonda un vehículo de gran porte necesita «abrirse» a la izquierda y ocupar un segundo carril para que el semirremolque no suba al cordón, debe respetar la prioridad de quienes van por ese carril y anunciar la maniobra con la luz de giro (PDF 167).",
+    "explanation": "Con cualquier vehículo es importante mantener 1,5 m de distancia de seguridad con ciclistas, y este material complementario lo refuerza para camiones y colectivos: un mínimo contacto puede hacer caer a quien va en bici, y en los giros, por el off tracking, la parte trasera puede tocarla y hacerla caer cerca de las ruedas traseras; para sobrepasar se pone la luz de giro (manual PDF 164–165). Al girar en intersecciones hay que mirar antes a ambos lados, sobre todo donde cruzan ciclovías o bicisendas (PDF 164). Si para girar o tomar una rotonda un vehículo de gran porte necesita «abrirse» a la izquierda y ocupar un segundo carril para que el semirremolque no suba al cordón, debe respetar la prioridad de quienes van por ese carril y anunciar la maniobra con la luz de giro (PDF 167).",
     "status": "reviewed",
     "variants": [
       {
@@ -2954,7 +2954,7 @@
         "outcomes": {
           "good": {
             "correct": true,
-            "feedback": "¡Bien! Para sobrepasar a un/a ciclista hay que dejar 1,5 m de distancia y poner la luz de giro; con un vehículo de gran porte, más todavía (manual PDF 164–165)."
+            "feedback": "¡Bien! Para sobrepasar a un/a ciclista hay que dejar 1,5 m de distancia y poner la luz de giro; con un vehículo de gran porte es todavía más importante (manual PDF 164–165)."
           },
           "close": {
             "correct": false,
@@ -3175,7 +3175,7 @@
       },
       {
         "id": "leave",
-        "prompt": "En esa avenida de más de dos carriles por mano, ¿cuándo podés dejar el segundo y el tercer carril?",
+        "prompt": "Vas con un camión por una avenida de más de dos carriles por mano que no es autopista ni vía rápida. ¿Cuándo podés dejar el segundo y el tercer carril desde la acera derecha?",
         "options": [
           {
             "id": "a",
@@ -3994,7 +3994,7 @@
           },
           "neutral": {
             "correct": false,
-            "feedback": "En punto muerto perdés la retención del motor, que es la que más ayuda en una pendiente pronunciada, y todo el trabajo queda para los frenos, con su desgaste prematuro (manual PDF 170)."
+            "feedback": "En punto muerto perdés la retención del motor, que se emplea especialmente en pendientes descendentes pronunciadas, y todo el trabajo queda para los frenos, con su desgaste prematuro (manual PDF 170)."
           },
           "pedal": {
             "correct": false,
@@ -4176,7 +4176,7 @@
     "variants": [
       {
         "id": "large-vehicle-depth",
-        "prompt": "En un vehículo de gran porte, ¿con qué profundidad del dibujo recomienda el manual cambiar el neumático?",
+        "prompt": "Según el anexo de transporte de carga, ¿con qué profundidad del dibujo se recomienda cambiar el neumático de un vehículo de gran porte?",
         "options": [
           {
             "id": "2",
@@ -4415,7 +4415,7 @@
         "start": "light",
         "nodes": {
           "light": {
-            "text": "Estás detenido con el camión, primero en la fila ante un semáforo en rojo. Un peatón cruzó muy cerca del frente de la cabina y ya no lo ves. El semáforo se pone en verde.",
+            "text": "Estás detenido con el camión, primero en la fila ante un semáforo en rojo. Un peatón empezó a cruzar muy cerca del frente de la cabina y ya no lo ves. El semáforo se pone en verde.",
             "choices": [
               {
                 "id": "make-sure",
@@ -4805,25 +4805,25 @@
         "options": [
           {
             "id": "inertia",
-            "text": "Las personas siguen a la velocidad que traían",
+            "text": "Porque las personas siguen a la velocidad que traían",
             "correct": true,
             "feedback": "¡Correcto! El vehículo se desacelera de golpe, pero las personas siguen a la misma velocidad y, si nada las detiene, impactan contra lo que encuentren en su trayectoria (manual PDF 175)."
           },
           {
             "id": "deform",
-            "text": "Evita que el vehículo se deforme",
+            "text": "Porque evita que el vehículo se deforme",
             "correct": false,
             "feedback": "El cinturón no actúa sobre la carrocería: sujeta a las personas, que siguen a la velocidad que traían (manual PDF 175)."
           },
           {
             "id": "airbag",
-            "text": "Hace que el airbag se infle antes",
+            "text": "Porque hace que el airbag se infle antes",
             "correct": false,
             "feedback": "No es así: el cinturón sujeta a las personas, que después de un impacto siguen a la velocidad que traían (manual PDF 175)."
           },
           {
             "id": "brake",
-            "text": "Ayuda a frenar el vehículo más rápido",
+            "text": "Porque ayuda a frenar el vehículo más rápido",
             "correct": false,
             "feedback": "El cinturón no frena el vehículo: frena a las personas, que seguirían a la velocidad que traían (manual PDF 175)."
           }

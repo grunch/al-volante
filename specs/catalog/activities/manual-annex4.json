@@ -20,9 +20,13 @@
       {
         "source": "manual",
         "page": 64
+      },
+      {
+        "source": "manual",
+        "page": 61
       }
     ],
-    "explanation": "Las señales reglamentarias transmiten órdenes de cumplimiento obligatorio. PARE y CEDA EL PASO indican que se pierde la prioridad en la bocacalle: ante PARE hay que frenar a cero antes de la senda peatonal; ante CEDA EL PASO la detención total solo es obligatoria si hace falta para dejar pasar. CONTRAMANO prohíbe circular en ese sentido, y NO ESTACIONAR prohíbe estacionar (detenerse sí está permitido, a diferencia de NO ESTACIONAR NI DETENERSE).",
+    "explanation": "Las señales reglamentarias transmiten órdenes de cumplimiento obligatorio (manual PDF 61). PARE y CEDA EL PASO indican que se pierde la prioridad de paso en una bocacalle sin semáforo: ante PARE hay que frenar a cero antes de la senda peatonal; ante CEDA EL PASO la detención total solo es obligatoria cuando hace falta para dejar pasar a quien tiene preferencia (manual PDF 64 y 186). CONTRAMANO prohíbe circular en ese sentido, y NO ESTACIONAR prohíbe estacionar, pero no detenerse, a diferencia de NO ESTACIONAR NI DETENERSE (manual PDF 185).",
     "status": "reviewed",
     "variants": [
       {
@@ -34,19 +38,19 @@
             "id": "a",
             "text": "Pare: detenerse por completo y ceder el paso",
             "correct": true,
-            "feedback": "¡Correcto! Ante PARE hay que frenar a cero antes de la senda peatonal."
+            "feedback": "¡Correcto! Ante PARE hay que frenar a cero antes de la senda peatonal y cederle el paso a quien circula por la otra vía (manual PDF 64)."
           },
           {
             "id": "b",
             "text": "Ceda el paso: detenerse solo si hace falta",
             "correct": false,
-            "feedback": "Esa es CEDA EL PASO (triángulo invertido)."
+            "feedback": "No: esa es CEDA EL PASO, un triángulo con el vértice hacia abajo (manual PDF 186). El octógono rojo es PARE: hay que frenar a cero (manual PDF 64)."
           },
           {
             "id": "c",
             "text": "Prohibido estacionar",
             "correct": false,
-            "feedback": "No: el octógono rojo es PARE."
+            "feedback": "No: NO ESTACIONAR es un círculo con una E tachada (manual PDF 185). El octógono rojo es PARE."
           }
         ]
       },
@@ -59,19 +63,19 @@
             "id": "a",
             "text": "Ceda el paso: detenerse solo si hace falta",
             "correct": true,
-            "feedback": "¡Correcto! Se pierde la prioridad, pero la detención total no siempre es obligatoria."
+            "feedback": "¡Correcto! Se pierde la prioridad de paso, pero la detención total solo es obligatoria cuando hace falta para dejar pasar a quien tiene preferencia (manual PDF 64)."
           },
           {
             "id": "b",
             "text": "Pare: detenerse por completo y ceder el paso",
             "correct": false,
-            "feedback": "Esa es PARE (octógono rojo)."
+            "feedback": "No: esa es PARE, el octógono rojo (manual PDF 186). El triángulo con el vértice hacia abajo es CEDA EL PASO."
           },
           {
             "id": "c",
             "text": "Peligro: cruce de peatones",
             "correct": false,
-            "feedback": "No: el triángulo invertido blanco con borde rojo es CEDA EL PASO."
+            "feedback": "No: CRUCE DE PEATONES es un triángulo con la base hacia abajo y una persona sobre la senda (manual PDF 188). El triángulo invertido blanco con borde rojo es CEDA EL PASO."
           }
         ]
       },
@@ -84,19 +88,19 @@
             "id": "a",
             "text": "Contramano: no circular en ese sentido",
             "correct": true,
-            "feedback": "¡Correcto! Círculo rojo con barra blanca horizontal: contramano."
+            "feedback": "¡Correcto! Círculo rojo con barra blanca horizontal: CONTRAMANO (manual PDF 185)."
           },
           {
             "id": "b",
             "text": "Prohibido estacionar en toda la cuadra",
             "correct": false,
-            "feedback": "No: prohibido estacionar es un círculo blanco con borde rojo, barra diagonal y una E."
+            "feedback": "No: NO ESTACIONAR es un círculo blanco con borde rojo, barra diagonal y una E (manual PDF 185). El círculo rojo con franja blanca es CONTRAMANO."
           },
           {
             "id": "c",
             "text": "Calle sin salida a la vuelta de la esquina",
             "correct": false,
-            "feedback": "No: esa es una señal informativa rectangular."
+            "feedback": "No: CAMINO O CALLE SIN SALIDA es una informativa azul y cuadrada (manual PDF 189). El círculo rojo con franja blanca es CONTRAMANO."
           }
         ]
       },
@@ -109,19 +113,19 @@
             "id": "a",
             "text": "Prohibido estacionar",
             "correct": true,
-            "feedback": "¡Correcto! La E tachada prohíbe estacionar; detenerse sí está permitido."
+            "feedback": "¡Correcto! La E tachada es NO ESTACIONAR: prohíbe estacionar, pero no detenerse (manual PDF 185)."
           },
           {
             "id": "b",
             "text": "Prohibido estacionar y detenerse",
             "correct": false,
-            "feedback": "Casi: esa variante no lleva la E, sino una figura rectangular tachada."
+            "feedback": "Casi: NO ESTACIONAR NI DETENERSE no lleva la E, sino una figura cruzada por un aspa roja (manual PDF 185). Esta es NO ESTACIONAR."
           },
           {
             "id": "c",
             "text": "Estacionamiento exclusivo",
             "correct": false,
-            "feedback": "No: la barra diagonal roja indica prohibición."
+            "feedback": "No: ESTACIONAMIENTO EXCLUSIVO es azul y sin barra (manual PDF 186); la barra diagonal roja indica prohibición: NO ESTACIONAR."
           }
         ]
       }
@@ -157,7 +161,7 @@
         "page": 188
       }
     ],
-    "explanation": "Según el manual, las señales reglamentarias transmiten órdenes de cumplimiento obligatorio: suelen ser círculos de fondo blanco, borde rojo y símbolo negro; si el fondo es azul se trata de una señal de restricción, y las excepciones de forma son PARE, CEDA EL PASO y CONTRAMANO (manual PDF 61). Las preventivas advierten circunstancias sorpresivas o peligrosas: no imparten directivas, pero ante ellas hay que adoptar una conducta adecuada; suelen ser rombos amarillos con borde y símbolo negros, y las de máximo peligro son triángulos blancos con borde rojo y base hacia abajo (manual PDF 61). El anexo IV las ilustra en las páginas PDF 185 a 188.",
+    "explanation": "Según el manual, las señales reglamentarias transmiten órdenes de cumplimiento obligatorio: suelen ser círculos de fondo blanco, borde rojo y símbolo negro; si el fondo es azul se trata de una señal de restricción, y el manual nombra como excepciones a ese aspecto a PARE, CEDA EL PASO y CONTRAMANO (manual PDF 61). Las preventivas advierten circunstancias sorpresivas o peligrosas: no imparten directivas, pero ante ellas hay que adoptar una conducta adecuada; suelen ser rombos amarillos con borde y símbolo negros, y las de máximo peligro son triángulos blancos con borde rojo y base hacia abajo (manual PDF 61). El anexo IV las ilustra en las páginas PDF 185 a 188.",
     "status": "reviewed",
     "variants": [
       {
@@ -168,7 +172,7 @@
             "id": "a",
             "text": "Reglamentaria: da una orden obligatoria",
             "correct": true,
-            "feedback": "¡Correcto! Es la forma habitual de las reglamentarias, que transmiten órdenes de cumplimiento obligatorio (manual PDF 61)."
+            "feedback": "¡Correcto! Es el aspecto habitual de las reglamentarias, que transmiten órdenes de cumplimiento obligatorio (manual PDF 61)."
           },
           {
             "id": "b",
@@ -222,31 +226,31 @@
       },
       {
         "id": "shape-exception",
-        "prompt": "El manual menciona señales reglamentarias que no tienen la forma habitual. ¿Cuál es una de ellas?",
+        "prompt": "Las reglamentarias suelen ser círculos de fondo blanco, borde rojo y símbolo negro. ¿Cuál de estas señales nombra el manual como una excepción?",
         "options": [
           {
             "id": "a",
             "text": "Contramano",
             "correct": true,
-            "feedback": "¡Correcto! Las excepciones de forma son PARE, CEDA EL PASO y CONTRAMANO (manual PDF 61)."
+            "feedback": "¡Correcto! El manual nombra como excepciones a PARE, CEDA EL PASO y CONTRAMANO (manual PDF 61); CONTRAMANO es un círculo rojo con una franja blanca (manual PDF 185)."
           },
           {
             "id": "b",
             "text": "No estacionar",
             "correct": false,
-            "feedback": "No: NO ESTACIONAR es un círculo blanco con borde y barra rojos, la forma habitual (manual PDF 185)."
+            "feedback": "No: NO ESTACIONAR es un círculo blanco con borde y barra rojos y símbolo negro, el aspecto habitual (manual PDF 185). La excepción es CONTRAMANO."
           },
           {
             "id": "c",
             "text": "Límite de velocidad máxima",
             "correct": false,
-            "feedback": "No: es un círculo blanco con borde rojo y el número en negro, la forma habitual (manual PDF 186)."
+            "feedback": "No: es un círculo blanco con borde rojo y el número en negro, el aspecto habitual (manual PDF 186). La excepción es CONTRAMANO."
           },
           {
             "id": "d",
             "text": "No girar en U",
             "correct": false,
-            "feedback": "No: es un círculo blanco con borde y barra rojos, la forma habitual (manual PDF 185)."
+            "feedback": "No: es un círculo blanco con borde y barra rojos y símbolo negro, el aspecto habitual (manual PDF 185). La excepción es CONTRAMANO."
           }
         ]
       },
@@ -727,7 +731,7 @@
         "page": 61
       }
     ],
-    "explanation": "Las prohibiciones de maniobra son círculos blancos con borde rojo y barra diagonal roja sobre la maniobra que no se puede hacer: avanzar, girar a la izquierda o a la derecha, girar en U, adelantar o cambiar de carril (manual PDF 185). CONTRAMANO es una excepción de forma: círculo rojo con una franja horizontal blanca (manual PDF 61 y 185). La señal rotulada FIN DE LA PRESCRIPCIÓN es blanca con borde negro y muestra los autos en gris, cruzados por franjas diagonales negras (manual PDF 186).",
+    "explanation": "Las prohibiciones de maniobra son círculos blancos con borde rojo y barra diagonal roja sobre la maniobra que no se puede hacer: avanzar, girar a la izquierda o a la derecha, girar en U, adelantar o cambiar de carril (manual PDF 185). CONTRAMANO es una de las excepciones que nombra el manual a ese aspecto habitual: círculo rojo con una franja horizontal blanca (manual PDF 61 y 185). La señal rotulada FIN DE LA PRESCRIPCIÓN es blanca con borde negro y muestra los autos en gris, cruzados por franjas diagonales negras (manual PDF 186).",
     "status": "reviewed",
     "variants": [
       {
@@ -3051,7 +3055,7 @@
             "id": "d",
             "text": "Encrucijada (Bifurcación)",
             "correct": false,
-            "feedback": "No: la bifurcación muestra una Y (manual PDF 187)."
+            "feedback": "No: con ese rótulo el anexo dibuja una Y y una T, no una cruz (manual PDF 187)."
           }
         ]
       },
@@ -3761,13 +3765,13 @@
             "id": "a",
             "text": "Un cruce de más de dos vías",
             "correct": true,
-            "feedback": "¡Correcto! Es CRUZ DE SAN ANDRÉS (Mas de dos vías) (manual PDF 188)."
+            "feedback": "¡Correcto! El aspa doble es CRUZ DE SAN ANDRÉS (Más de dos vías) (manual PDF 188)."
           },
           {
             "id": "b",
             "text": "Un cruce de hasta dos vías",
             "correct": false,
-            "feedback": "No: para hasta dos vías se usa el aspa simple (manual PDF 188)."
+            "feedback": "No: para hasta dos vías se usa el aspa simple; esta es doble: más de dos vías (manual PDF 188)."
           },
           {
             "id": "c",
@@ -3886,7 +3890,7 @@
         "page": 187
       }
     ],
-    "explanation": "Las señales de anticipo avisan que más adelante hay otro dispositivo de control: un semáforo o una señal restrictiva (PARE, CEDA EL PASO u otras) a 200 m, o una flecha direccional (manual PDF 188). Ante el PARE vas a tener que frenar a cero antes de la senda peatonal (manual PDF 64). El rombo blanco con borde negro y franjas diagonales negras sobre el dibujo de una advertencia está bajo el subtítulo «Fin de prevención» (manual PDF 188).",
+    "explanation": "Bajo el subtítulo «Anticipo de otros dispositivos de control del tránsito», el anexo muestra la FLECHA DIRECCIONAL (dos dibujos en rectángulos amarillos), la PROXIMIDAD DE SEMÁFORO y la PROXIMIDAD DE SEÑAL RESTRICTIVA (PARE, CEDA EL PASO u otras), que con la leyenda «A 200 m» avisa que esa señal está más adelante (manual PDF 188). Ante el PARE vas a tener que frenar a cero antes de la senda peatonal (manual PDF 64). El rombo blanco con borde negro y franjas diagonales negras sobre el dibujo de una advertencia está bajo el subtítulo «Fin de prevención» (manual PDF 188).",
     "status": "reviewed",
     "variants": [
       {
@@ -4233,7 +4237,7 @@
           },
           "must-yield": {
             "correct": false,
-            "feedback": "La detención total no es obligatoria solo cuando no hace falta para dejar pasar a otros; acá sí hace falta, porque la moto tiene preferencia (manual PDF 64)."
+            "feedback": "Con CEDA EL PASO perdés la prioridad: la moto tiene preferencia, así que tenés que dejarla pasar, frenando lo que haga falta. La detención total solo deja de ser obligatoria cuando no hace falta para facilitar su paso (manual PDF 64)."
           }
         }
       }
@@ -4438,7 +4442,7 @@
             ]
           },
           "animals": {
-            "text": "Más adelante, un rombo amarillo con una vaca, y ves animales sueltos en la banquina.",
+            "text": "Más adelante aparece un rombo amarillo con una vaca, y ves animales sueltos en la banquina.",
             "choices": [
               {
                 "id": "careful",
@@ -4648,9 +4652,9 @@
           },
           {
             "id": "d",
-            "text": "Que está permitido girar a la derecha",
+            "text": "Que podés estacionar en esa calle",
             "correct": false,
-            "feedback": "No: PERMITIDO GIRAR es un círculo azul con una flecha blanca que dobla."
+            "feedback": "No: ESTACIONAMIENTO PERMITIDO es un círculo azul con una E blanca (manual PDF 189). Esta señal informa que la calle no tiene salida."
           }
         ]
       },
@@ -6263,7 +6267,7 @@
         "page": 27
       }
     ],
-    "explanation": "La NOMENCLATURA URBANA tiene dos formas en el anexo IV: el cartel negro con nombre de calle, numeración, barrio y comuna, y el que orienta a pie hacia un destino con el tiempo de caminata; el manual describe estos direccionadores peatonales como señales que informan distancias, tiempos, destinos y medios de transporte para combinar (manual PDF 27 y 190). Los carteles de ORIENTACIÓN indican con flechas hacia dónde queda cada destino (verdes en caminos primarios y secundarios, blancos en caminos secundarios). Los carteles verdes o blancos con solo un nombre identifican una región o localidad, o marcan el comienzo o fin de una zona urbana.",
+    "explanation": "La NOMENCLATURA URBANA tiene dos formas en el anexo IV: el cartel negro con nombre de calle, numeración, barrio y comuna, y el que orienta a pie hacia un destino con el tiempo de caminata; el manual describe estos direccionadores peatonales como señales que informan distancias, tiempos, destinos y medios de transporte para combinar (manual PDF 27 y 190). Los carteles de ORIENTACIÓN indican con flechas hacia dónde queda cada destino (verdes en caminos primarios y secundarios, blancos en caminos secundarios). Los carteles con solo un nombre identifican una región o localidad (verdes o blancos) o una jurisdicción o accidente (verdes), o marcan el comienzo o fin de una zona urbana (verdes) (manual PDF 190).",
     "status": "reviewed",
     "variants": [
       {
@@ -6787,7 +6791,7 @@
       {
         "id": "curves-bridges",
         "signId": "sign.informative.educational.no-overtaking-curves-bridges",
-        "prompt": "Ves este cartel y más adelante hay un puente. Vas detrás de un auto lento. ¿Qué hacés?",
+        "prompt": "Ves este cartel y estás por llegar a un puente. Vas detrás de un auto lento. ¿Qué hacés?",
         "options": [
           {
             "id": "a",
@@ -7131,7 +7135,7 @@
         "page": 83
       }
     ],
-    "explanation": "Entre las señales de servicios del anexo IV están AEROPUERTO, TERMINAL DE ÓMNIBUS, ESTACIÓN DE FERROCARRIL («ESTACIÓN DE FFCC»), TELEFÉRICO, TAXI y la ZONA DE DETENCIÓN TRANSPORTE PÚBLICO DE PASAJEROS, que dice «PARADA DE COLECTIVOS» (manual PDF 191). Ojo: que haya una parada de colectivos o de taxis no te habilita a frenar ahí; en esos sectores está prohibido detenerse (manual PDF 83).",
+    "explanation": "Entre las señales de servicios del anexo IV están AEROPUERTO, TERMINAL DE ÓMNIBUS, ESTACIÓN DE FERROCARRIL («ESTACIÓN DE FFCC»), TELEFÉRICO, TAXI y la ZONA DE DETENCIÓN TRANSPORTE PÚBLICO DE PASAJEROS, que dice «PARADA DE COLECTIVOS» (manual PDF 191). Ojo: que haya una parada de colectivos o de taxis no te habilita a detenerte ahí; en esos sectores está prohibido detenerse (manual PDF 83).",
     "status": "reviewed",
     "variants": [
       {
@@ -7574,9 +7578,9 @@
           },
           {
             "id": "c",
-            "text": "Una oficina de turismo",
+            "text": "Una zona de ascenso de turistas",
             "correct": false,
-            "feedback": "No: turismo muestra una persona con una valija."
+            "feedback": "No: esa es la señal TURISMO («Ascenso y descenso de turistas»), con una persona con una valija."
           },
           {
             "id": "d",
@@ -8652,7 +8656,7 @@
         "page": 61
       }
     ],
-    "explanation": "Los rombos naranjas transitorios advierten cambios en la calzada por obras: estrechamiento de un lado, calzada dividida o personas trabajando; los carteles rectangulares «A 100 m» anticipan lo que viene: giro anulado, reducción de calzada o calzada dividida (manual PDF 193). Por su color naranja se reconocen como transitorias: señalizan trabajos de construcción o mantenimiento y tienen prioridad sobre la señalización habitual (PDF 59 y 61).",
+    "explanation": "Los rombos naranjas transitorios advierten situaciones de obra en la calzada: estrechamiento de un lado, calzada dividida o personas trabajando; los carteles rectangulares «A 100 m» anticipan lo que viene: giro anulado, reducción de calzada o calzada dividida (manual PDF 193). Por su color naranja se reconocen como transitorias: señalizan trabajos de construcción o mantenimiento y tienen prioridad sobre la señalización habitual (PDF 59 y 61).",
     "status": "reviewed",
     "variants": [
       {
@@ -9222,17 +9226,17 @@
           {
             "id": "ahead",
             "text": "A X m INICIO OBRAS",
-            "reason": "Va primero: anticipa a cierta distancia que empieza la zona de obras."
+            "reason": "va primero: anticipa a cierta distancia que empieza la zona de obras."
           },
           {
             "id": "start",
             "text": "INICIO OBRAS",
-            "reason": "Marca el lugar donde empieza la zona de obras."
+            "reason": "marca el lugar donde empieza la zona de obras."
           },
           {
             "id": "end",
             "text": "FIN OBRAS",
-            "reason": "Va al final: marca dónde termina la zona de obras."
+            "reason": "va al final: marca dónde termina la zona de obras."
           }
         ]
       }
@@ -10246,7 +10250,7 @@
       {
         "id": "traffic-light",
         "signId": "sign.temporary.other-devices.traffic-light",
-        "prompt": "Este dispositivo de dos luces ámbar aparece en el anexo entre los transitorios. ¿Cómo se llama?",
+        "prompt": "El manual incluye este dispositivo de dos luces ámbar entre los transitorios. ¿Cómo se llama?",
         "options": [
           {
             "id": "a",
@@ -11059,7 +11063,7 @@
         "page": 60
       }
     ],
-    "explanation": "Las marcas canalizadoras de tránsito e isletas, para circulación bidireccional (flechas en sentidos opuestos) o unidireccional (flechas del mismo sentido), no se pueden pisar: no se puede circular sobre ellas (manual PDF 196). Las líneas que marcan cajones o un recuadro indican espacios destinados a estacionamiento, y la línea en zigzag marca espacios restringidos al estacionamiento (PDF 196). Todas son marcas especiales (PDF 60).",
+    "explanation": "Sobre las marcas canalizadoras de tránsito e isletas, para circulación bidireccional (flechas en sentidos opuestos) o unidireccional (flechas del mismo sentido), no se puede circular (manual PDF 196). Las líneas que marcan cajones o un recuadro indican espacios destinados a estacionamiento, y la línea en zigzag marca espacios restringidos al estacionamiento (PDF 196). Todas son marcas especiales (PDF 60).",
     "status": "reviewed",
     "variants": [
       {
@@ -11108,7 +11112,7 @@
             "id": "b",
             "text": "Separadores físicos de tránsito",
             "correct": false,
-            "feedback": "No: el separador es una franja con relieve a lo largo de la calzada (PDF 196)."
+            "feedback": "No: el separador es una franja amarilla con triángulos naranjas a lo largo de la calzada (PDF 196)."
           },
           {
             "id": "c",
@@ -11407,7 +11411,7 @@
             "id": "d",
             "text": "Carril exclusivo para emergencias",
             "correct": true,
-            "feedback": "¡Correcto! Es CARRIL EXCLUSIVO (Emergencias) (manual PDF 196). Según la página 63, ese carril debe liberarse por completo cuando se acerca un vehículo de emergencia."
+            "feedback": "¡Correcto! Es CARRIL EXCLUSIVO (Emergencias) (manual PDF 196). Según el manual (PDF 63), ese carril debe liberarse por completo cuando se acerca un vehículo de emergencia."
           }
         ]
       },
@@ -11563,7 +11567,7 @@
         "page": 79
       }
     ],
-    "explanation": "El cordón pintado de amarillo indica que está prohibido estacionar (en otros detalles, las páginas 60 y 196 no coinciden del todo); el anaranjado, según la página 60, marca lugares de estacionamiento exclusivo de ciclorodados y motovehículos (manual PDF 60 y 196). Las marcas para niebla indican la velocidad máxima según cuántas distinguís: si ves una, 40 km/h; si ves dos, 60 km/h (PDF 196 y 79). Los delineadores canalizan o guían el tránsito y destacan variaciones en la vía; también hay tachas reflectivas y no reflectivas y separadores físicos de tránsito (PDF 196).",
+    "explanation": "El cordón pintado de amarillo indica que está prohibido estacionar (manual PDF 60 y 196; en otros detalles, esas dos páginas no coinciden del todo); el anaranjado, según el manual (PDF 60), marca lugares de estacionamiento exclusivo de ciclorodados y motovehículos. Las marcas para niebla indican la velocidad máxima según cuántas distinguís: si ves una, 40 km/h; si ves dos, 60 km/h (PDF 196 y 79). Los delineadores canalizan o guían el tránsito y destacan variaciones en la vía; también hay tachas reflectivas y no reflectivas y separadores físicos de tránsito (PDF 196).",
     "status": "reviewed",
     "variants": [
       {
@@ -11581,7 +11585,7 @@
             "id": "b",
             "text": "Que es estacionamiento exclusivo de motos y bicicletas",
             "correct": false,
-            "feedback": "No: eso indica el cordón anaranjado, según la página 60. El amarillo prohíbe estacionar."
+            "feedback": "No: eso indica el cordón anaranjado, según el manual (PDF 60). El amarillo prohíbe estacionar."
           },
           {
             "id": "c",
@@ -11618,7 +11622,7 @@
             "id": "c",
             "text": "Separadores físicos de tránsito",
             "correct": false,
-            "feedback": "No: el separador es una franja continua con relieve (PDF 196)."
+            "feedback": "No: el separador es una franja continua amarilla con triángulos naranjas (PDF 196)."
           },
           {
             "id": "d",
@@ -11655,7 +11659,7 @@
             "id": "d",
             "text": "Separadores físicos de tránsito",
             "correct": false,
-            "feedback": "No: el separador es una franja continua con relieve (PDF 196)."
+            "feedback": "No: el separador es una franja continua amarilla con triángulos naranjas (PDF 196)."
           }
         ]
       },
@@ -11668,7 +11672,7 @@
             "id": "a",
             "text": "Separan físicamente los dos sentidos de circulación",
             "correct": false,
-            "feedback": "No: eso hacen los separadores físicos de tránsito (PDF 196)."
+            "feedback": "No: los delineadores no separan los sentidos; canalizan o guían el tránsito y destacan variaciones en la vía (PDF 196)."
           },
           {
             "id": "b",
@@ -11711,7 +11715,7 @@
             "id": "c",
             "text": "A la máxima permitida en la vía",
             "correct": false,
-            "feedback": "No: según la página 79, eso vale si distinguís tres; con una, 40 km/h."
+            "feedback": "No: según el manual (PDF 79), eso vale si distinguís tres; con una, 40 km/h."
           },
           {
             "id": "d",
@@ -11742,7 +11746,7 @@
             "id": "c",
             "text": "Doble línea amarilla de sentido opuesto",
             "correct": false,
-            "feedback": "No: esa marca son dos líneas amarillas pintadas, sin relieve (PDF 195)."
+            "feedback": "No: esa marca son dos líneas amarillas continuas, sin triángulos (PDF 195)."
           },
           {
             "id": "d",
@@ -11962,7 +11966,7 @@
         "page": 59
       }
     ],
-    "explanation": "Los semáforos transmiten órdenes con colores, flechas o figuras de ubicación y forma predeterminadas, con luz continua o intermitente (manual PDF 59). Rojo: detenerse antes de la senda peatonal o de la línea de detención; amarillo: detenerse si no se llega a transponer la encrucijada antes del rojo (la página 64 dice «detenerse si aún no se ha iniciado el cruce»); verde: avanzar, sin iniciar el cruce si no hay espacio del otro lado y dejando terminar a quien ya cruzaba (PDF 197 y 64). Las unidades ópticas se disponen en vertical, con la luz roja arriba, o en horizontal, con la roja a la izquierda (PDF 197).",
+    "explanation": "Los semáforos transmiten órdenes con colores, flechas o figuras de ubicación y forma predeterminadas, con luz continua o intermitente (manual PDF 59). Rojo: detenerse antes de la senda peatonal o de la línea de detención; amarillo: detenerse si no se llega a transponer la encrucijada antes del rojo (en PDF 64, el manual dice «detenerse si aún no se ha iniciado el cruce»); verde: avanzar, sin iniciar el cruce si no hay espacio del otro lado y dejando terminar a quien ya cruzaba (PDF 197 y 64). Las unidades ópticas se disponen en vertical, con la luz roja arriba, o en horizontal, con la roja a la izquierda (PDF 197).",
     "status": "reviewed",
     "variants": [
       {
@@ -12061,7 +12065,7 @@
       {
         "id": "arrows",
         "signId": "sign.light-signals.directional-arrows",
-        "prompt": "¿Cómo se llama esta unidad de dos luces con flechas en el anexo?",
+        "prompt": "Según el manual, ¿cómo se llama esta unidad de dos luces con flechas?",
         "options": [
           {
             "id": "a",
@@ -12104,7 +12108,7 @@
             "id": "b",
             "text": "La del centro, la amarilla",
             "correct": false,
-            "feedback": "No: la amarilla pide detenerse si no llegás a cruzar antes del rojo; la que manda detenerse es la roja, a la izquierda (PDF 197)."
+            "feedback": "No: la amarilla pide detenerse si no llegás a cruzar antes del rojo; la que indica detenerse antes de la senda o de la línea de detención es la roja, a la izquierda (PDF 197)."
           },
           {
             "id": "c",

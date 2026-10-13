@@ -3803,7 +3803,7 @@
     ],
     "figureBased": false,
     "status": "tested",
-    "notes": "La lista surge de los subtítulos bajo 'Documentación obligatoria' (pp. 46-48) y de la nota 21; el manual no la presenta como lista única. Placas de dominio y RVA (p. 50) se tratan en el mismo capítulo como obligaciones del vehículo. Revisada contra PDF 46-48 (F05-T01): sin cambios."
+    "notes": "La lista surge de los subtítulos bajo 'Documentación obligatoria' (pp. 46-48) y de la nota 21; el manual no la presenta como lista única. Placas de dominio y RVA (PDF 50) se tratan en el mismo capítulo como obligaciones del vehículo. Revisada contra PDF 46-48 (F05-T01): sin cambios."
   },
   {
     "id": "manual.ch2.national-id",
@@ -8873,10 +8873,10 @@
     "title": "Airbag: características y uso seguro",
     "category": "B",
     "type": "rule",
-    "summary": "El airbag es una bolsa de gas que se infla automáticamente sobre las personas en caso de colisión. No es obligatorio. Es complementario al cinturón de seguridad y no lo reemplaza: si no se usa el cinturón, el airbag puede provocar lesiones graves. Su uso es seguro con una distancia mínima de 25 cm del cuerpo para que pueda desplegarse.",
+    "summary": "El airbag es una bolsa de gas que se infla automáticamente sobre las personas en caso de colisión. Según el manual, no es obligatorio. Es complementario al cinturón de seguridad y no lo reemplaza: si no se usa el cinturón, el airbag puede provocar lesiones graves. Su uso es seguro con una distancia mínima de 25 cm del cuerpo para que pueda desplegarse.",
     "keyFacts": [
       "Bolsa de gas que se infla automáticamente en una colisión.",
-      "No es obligatorio.",
+      "Según el manual, no es obligatorio.",
       "Complementa al cinturón, no lo reemplaza.",
       "Sin cinturón, el airbag puede provocar lesiones graves.",
       "Distancia mínima segura del cuerpo: 25 cm."
@@ -9959,9 +9959,9 @@
     "title": "Airbag",
     "category": "D",
     "type": "concept",
-    "summary": "Bolsa de gas que se infla automáticamente frente a quien conduce o sus pasajeros/as en caso de colisión. Complementa al cinturón, no lo reemplaza: sin cinturón puede provocar lesiones graves. No es obligatorio. Es seguro con una distancia mínima de 25 cm del cuerpo. Funciones: absorbe parte de la energía cinética, evita impactos contra elementos interiores, reduce heridas por fragmentos de cristal (cara y ojos) y disminuye el movimiento de la cabeza y el riesgo de lesiones cervicales.",
+    "summary": "Bolsa de gas que se infla automáticamente frente a quien conduce o sus pasajeros/as en caso de colisión. Complementa al cinturón, no lo reemplaza: sin cinturón puede provocar lesiones graves. Según el manual, no es obligatorio. Es seguro con una distancia mínima de 25 cm del cuerpo. Funciones: absorbe parte de la energía cinética, evita impactos contra elementos interiores, reduce heridas por fragmentos de cristal (cara y ojos) y disminuye el movimiento de la cabeza y el riesgo de lesiones cervicales.",
     "keyFacts": [
-      "No es obligatorio",
+      "Según el manual, no es obligatorio",
       "Complementa al cinturón, no lo reemplaza",
       "Distancia mínima de 25 cm del cuerpo",
       "Reduce el riesgo de lesiones cervicales"
@@ -13101,12 +13101,12 @@
     "title": "Señales reglamentarias",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 61, las señales reglamentarias transmiten órdenes específicas de cumplimiento obligatorio en el lugar para el cual están destinadas. Suelen ser circulares con fondo blanco, borde rojo y símbolo negro; si el fondo es azul se trata de una señal de restricción. Excepciones: Pare, Ceda el paso y Contramano. Tipos: de prohibición, de restricción, de prioridad y de fin de prescripción.",
+    "summary": "Según el manual (PDF 61), las señales reglamentarias transmiten órdenes específicas de cumplimiento obligatorio en el lugar para el cual están destinadas. Suelen ser circulares con fondo blanco, borde rojo y símbolo negro; si el fondo es azul se trata de una señal de restricción. Excepciones a ese aspecto: Pare, Ceda el paso y Contramano. Tipos: de prohibición, de restricción, de prioridad y de fin de prescripción.",
     "keyFacts": [
       "Transmiten órdenes de cumplimiento obligatorio",
       "Forma habitual: círculo con fondo blanco, borde rojo y símbolo negro",
       "Fondo azul: señal de restricción",
-      "Excepciones de forma: Pare, Ceda el paso y Contramano",
+      "Excepciones a ese aspecto habitual: Pare, Ceda el paso y Contramano",
       "Tipos: prohibición, restricción, prioridad y fin de prescripción"
     ],
     "figureBased": true,
@@ -13204,12 +13204,12 @@
     "title": "Señales preventivas",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 61, las señales preventivas advierten la proximidad de una circunstancia o variación de la normalidad de la vía que puede resultar sorpresiva o peligrosa para la circulación. No imparten directivas, pero ante una advertencia se debe adoptar una actitud o conducta adecuada. Suelen ser cuadradas colocadas con una diagonal en vertical (rombo), amarillas con borde y símbolo negros; las de máximo peligro son triángulos con base hacia abajo, blancos con borde rojo; las especiales tienen formas variadas.",
+    "summary": "Según el manual (PDF 61), las señales preventivas advierten la proximidad de una circunstancia o variación de la normalidad de la vía que puede resultar sorpresiva o peligrosa para la circulación. No imparten directivas, pero ante una advertencia se debe adoptar una actitud o conducta adecuada. Suelen ser cuadradas colocadas con una diagonal en vertical (rombo), amarillas con borde y símbolo negros; las de máximo peligro son triángulos con base hacia abajo, blancos con borde rojo; las especiales tienen formas variadas.",
     "keyFacts": [
       "Advierten circunstancias sorpresivas o peligrosas; no imparten directivas",
       "Forma habitual: rombo amarillo con borde y símbolo negros",
       "Máximo peligro: triángulo blanco con borde rojo, base hacia abajo",
-      "Tipos (p. 61): características físicas de la vía, posibilidad de riesgo eventual, dispositivos de control de tránsito, advertencia de máximo peligro"
+      "Tipos (PDF 61): características físicas de la vía, posibilidad de riesgo eventual, dispositivos de control de tránsito, advertencia de máximo peligro"
     ],
     "figureBased": true,
     "status": "tested",
@@ -13330,7 +13330,7 @@
     "title": "Señales informativas",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 61, las señales informativas identifican, orientan y hacen referencia a los servicios, lugares o brindan información útil. Suelen ser rectangulares y el color de fondo varía según la información brindada: verde, azul, blanco o negro. Tipos: nomenclatura vial y urbana; destinos y distancias; características de la vía; informaciones institucionales, turísticas y de servicios; educativas y anuncios especiales.",
+    "summary": "Según el manual (PDF 61), las señales informativas identifican, orientan y hacen referencia a los servicios, lugares o brindan información útil. Suelen ser rectangulares y el color de fondo varía según la información brindada: verde, azul, blanco o negro. Tipos: nomenclatura vial y urbana; destinos y distancias; características de la vía; informaciones institucionales, turísticas y de servicios; educativas y anuncios especiales.",
     "keyFacts": [
       "Identifican, orientan e informan",
       "Suelen ser rectangulares",
@@ -13523,12 +13523,12 @@
     "title": "Señales transitorias",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 61, las señales transitorias señalizan la ejecución de trabajos de construcción y mantenimiento en la vía o en zonas próximas, buscando evitar riesgos y demoras innecesarias; suelen ser un rombo o rectángulo de color naranja con símbolo o leyenda en negro. Según la página 59, están presentes durante un tiempo y luego son removidas, tienen prioridad sobre la señalización habitual y su color predominante es el naranja; los conos indican que está prohibido sobrepasar la línea imaginaria que los une.",
+    "summary": "Según el manual (PDF 61), las señales transitorias señalizan la ejecución de trabajos de construcción y mantenimiento en la vía o en zonas próximas, buscando evitar riesgos y demoras innecesarias; suelen ser un rombo o rectángulo de color naranja con símbolo o leyenda en negro. Según el manual (PDF 59), están presentes durante un tiempo y luego son removidas, tienen prioridad sobre la señalización habitual y su color predominante es el naranja; los conos indican que está prohibido sobrepasar la línea imaginaria que los une.",
     "keyFacts": [
       "Señalizan obras de construcción y mantenimiento",
       "Color predominante: naranja",
-      "Tienen prioridad sobre la señalización habitual (p. 59)",
-      "Prohibido sobrepasar la línea imaginaria que une los conos (p. 59)"
+      "Tienen prioridad sobre la señalización habitual (PDF 59)",
+      "Prohibido sobrepasar la línea imaginaria que une los conos (PDF 59)"
     ],
     "figureBased": true,
     "status": "tested",
@@ -13581,7 +13581,7 @@
     "title": "Marcas longitudinales",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 59, son líneas a lo largo de la calzada que indican la propia ubicación, delimitan carriles o áreas e indican dónde es seguro sobrepasar y dónde está prohibido. El anexo muestra: línea de separación de circulación y doble línea amarilla de sentido opuesto (no deben ser traspasadas ni circular sobre ellas); línea discontinua de separación de sentido (puede ser traspasada); línea para sentido reversible; líneas continuas y discontinuas paralelas (traspaso autorizado del lado de la discontinua); divisorias de carriles del mismo sentido; carril exclusivo y preferencial; bordes de calzada.",
+    "summary": "Según el manual (PDF 59), son líneas a lo largo de la calzada que indican la propia ubicación, delimitan carriles o áreas e indican dónde es seguro sobrepasar y dónde está prohibido. El anexo muestra: línea de separación de circulación y doble línea amarilla de sentido opuesto (no deben ser traspasadas ni circular sobre ellas); línea discontinua de separación de sentido (puede ser traspasada); línea para sentido reversible; líneas continuas y discontinuas paralelas (traspaso autorizado del lado de la discontinua); divisorias de carriles del mismo sentido; carril exclusivo y preferencial; bordes de calzada.",
     "keyFacts": [
       "Línea continua: no debe ser traspasada ni circular sobre ella",
       "Doble línea amarilla: separa sentidos opuestos; no se traspasa",
@@ -13602,7 +13602,7 @@
     "title": "Marcas transversales",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 60, se ubican perpendiculares al eje de la calzada para indicar sectores de reducción de velocidad y líneas que no pueden sobrepasarse sin una acción respecto del derecho de paso. El anexo muestra: línea de detención, senda peatonal (prohibido detener o estacionar vehículos sobre ella), senda con línea de frenado previa, sendas peatonales o para ciclistas (dos variantes) y líneas auxiliares de reducción de velocidad (distribución logarítmica).",
+    "summary": "Según el manual (PDF 60), se ubican perpendiculares al eje de la calzada para indicar sectores de reducción de velocidad y líneas que no pueden sobrepasarse sin una acción respecto del derecho de paso. El anexo muestra: línea de detención, senda peatonal (prohibido detener o estacionar vehículos sobre ella), senda con línea de frenado previa, sendas peatonales o para ciclistas (dos variantes) y líneas auxiliares de reducción de velocidad (distribución logarítmica).",
     "keyFacts": [
       "Senda peatonal: prohibido detener o estacionar sobre ella",
       "Línea de detención antes de la senda",
@@ -13623,10 +13623,10 @@
     "title": "Señales horizontales (demarcación)",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 59, la demarcación horizontal son señales marcadas sobre la calzada para regular, transmitir órdenes, advertir circunstancias, encauzar la circulación o indicar zonas prohibidas; tiene el mismo orden de prioridad que la señalización vertical. El anexo las divide en marcas longitudinales, transversales y especiales.",
+    "summary": "Según el manual (PDF 59), la demarcación horizontal son señales marcadas sobre la calzada para regular, transmitir órdenes, advertir circunstancias, encauzar la circulación o indicar zonas prohibidas; tiene el mismo orden de prioridad que la señalización vertical. El anexo las divide en marcas longitudinales, transversales y especiales.",
     "keyFacts": [
       "Marcadas sobre la calzada",
-      "Igual prioridad que la señalización vertical (p. 59)",
+      "Igual prioridad que la señalización vertical (PDF 59)",
       "Tipos: longitudinales, transversales y especiales"
     ],
     "figureBased": true,
@@ -13643,11 +13643,11 @@
     "title": "Marcas especiales",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 60, son símbolos y leyendas que delimitan áreas seguras y refuerzan la señalización vertical; incluyen marcas canalizadoras, isletas, marcas para niebla, separadores y cordones pintados. El anexo muestra: marcas canalizadoras e isletas (no se puede circular sobre ellas), espacios de estacionamiento y restringidos (zigzag), ceda el paso, velocidad máxima, carril exclusivo de emergencias, parada de transporte, advertencia de cruce ferroviario, separadores físicos, flechas en el carril, PARE (obligación de detener totalmente la marcha), cordones amarillos (prohibición de estacionar, pudiendo detenerse), tachas, delineadores y marcas para niebla (una visible: máx. 40 km/h; dos: máx. 60 km/h).",
+    "summary": "Según el manual (PDF 60), son símbolos y leyendas que delimitan áreas seguras y refuerzan la señalización vertical; incluyen marcas canalizadoras, isletas, marcas para niebla, separadores y cordones pintados. El anexo muestra: marcas canalizadoras e isletas (no se puede circular sobre ellas), espacios de estacionamiento y restringidos (zigzag), ceda el paso, velocidad máxima, carril exclusivo de emergencias, parada de transporte, advertencia de cruce ferroviario, separadores físicos, flechas en el carril, PARE (obligación de detener totalmente la marcha), cordones amarillos (prohibición de estacionar, pudiendo detenerse), tachas, delineadores y marcas para niebla (una visible: máx. 40 km/h; dos: máx. 60 km/h).",
     "keyFacts": [
       "Marcas canalizadoras e isletas: no se puede circular sobre ellas",
       "PARE pintado: obligación de detener totalmente la marcha",
-      "Cordón amarillo: prohibición de estacionar, pudiendo detenerse (p. 196)",
+      "Cordón amarillo: prohibición de estacionar, pudiendo detenerse (PDF 196)",
       "Marcas para niebla: si se ve una, máx. 40 km/h; si se ven dos, máx. 60 km/h",
       "Delineadores: canalizan o guían el tránsito y destacan variaciones en la vía"
     ],
@@ -13665,9 +13665,9 @@
     "title": "Señalamiento luminoso",
     "category": "B",
     "type": "sign-group",
-    "summary": "Según la página 59, los semáforos son señales luminosas que transmiten órdenes o prohibiciones, advierten circunstancias y encauzan y regulan la circulación con colores, flechas o figuras de ubicación y forma predeterminadas; su luz puede ser continua o intermitente. La página 197 muestra el significado de las luces (con un semáforo vertical de tres luces, otro horizontal colgado de un brazo y flechas direccionales), la disposición de unidades ópticas (vertical, con la luz roja arriba, y horizontal, con la roja a la izquierda; con luces y flechas rojas, amarillas y verdes) y semáforos especiales.",
+    "summary": "Según el manual (PDF 59), los semáforos son señales luminosas que transmiten órdenes o prohibiciones, advierten circunstancias y encauzan y regulan la circulación con colores, flechas o figuras de ubicación y forma predeterminadas; su luz puede ser continua o intermitente. El manual (PDF 197) muestra el significado de las luces (con un semáforo vertical de tres luces, otro horizontal colgado de un brazo y flechas direccionales), la disposición de unidades ópticas (vertical, con la luz roja arriba, y horizontal, con la roja a la izquierda; con luces y flechas rojas, amarillas y verdes) y semáforos especiales.",
     "keyFacts": [
-      "Luz continua o intermitente (p. 59)",
+      "Luz continua o intermitente (PDF 59)",
       "Disposición de unidades ópticas vertical u horizontal",
       "Vertical: luz roja arriba; horizontal: luz roja a la izquierda"
     ],

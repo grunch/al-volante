@@ -107,11 +107,11 @@
       },
       {
         "id": "data",
-        "prompt": "Según la presentación, ¿para qué conviene conocer algunos datos estadísticos?",
+        "prompt": "Según la presentación del manual, ¿para qué conviene conocer algunos datos estadísticos?",
         "options": [
           {
             "id": "a",
-            "text": "Para reconocer la problemática y pensar nuevas prácticas saludables de movilidad",
+            "text": "Para reconocer la problemática y proyectar prácticas saludables de movilidad",
             "correct": true,
             "feedback": "¡Bien! Saber algunos datos estadísticos permite conocer y reconocer la problemática y pensar cómo proyectar a futuro nuevas prácticas saludables de movilidad (manual PDF 2)."
           },

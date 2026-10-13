@@ -115,6 +115,86 @@ describe('validateActivities', () => {
     expect(errors).toContain('act.sign#v1: unknown sign sign.regulatory.ghost');
   });
 
+  describe('choice options', () => {
+    /** A one-variant activity whose right option and wrong options have the given texts. */
+    function withOptions(right: string, wrong: readonly string[], type: 'single-choice' | 'sign-identification') {
+      const options = [
+        { id: 'right', text: right, correct: true, feedback: 'Bien' },
+        ...wrong.map((text, index) => ({ id: `wrong-${index}`, text, correct: false, feedback: 'No' })),
+      ];
+      const base = choiceActivity();
+      if (type === 'single-choice') return { ...base, variants: [{ id: 'v7', prompt: '¿Cuál?', options }] };
+      return {
+        ...base,
+        id: 'act.stop-sign',
+        type,
+        variants: [{ id: 'v7', prompt: '¿Cuál?', options, signId: 'sign.regulatory.stop' }],
+      } satisfies Activity;
+    }
+
+    it('accepts a right option exactly 10 characters longer than the longest wrong option', () => {
+      // Arrange: 15 characters against a longest wrong option of 5.
+      const activity = withOptions('a'.repeat(15), ['b'.repeat(5), 'c'.repeat(3)], 'single-choice');
+
+      // Act
+      const errors = validateActivities([activity], context);
+
+      // Assert
+      expect(errors).toEqual([]);
+    });
+
+    it('rejects a right option 11 characters longer, naming the activity, the variant and the lengths', () => {
+      const activity = withOptions('a'.repeat(16), ['b'.repeat(5), 'c'.repeat(3)], 'single-choice');
+
+      const errors = validateActivities([activity], context);
+
+      expect(errors).toEqual([
+        'act.speed-street#v7: the correct option "right" has 16 characters, 11 more than the longest wrong option ' +
+          '(5); at most 10 more, or its length gives it away',
+      ]);
+    });
+
+    it('applies the length rule to sign identification variants too', () => {
+      const activity = withOptions('a'.repeat(20), ['b'.repeat(5), 'c'.repeat(5)], 'sign-identification');
+
+      expect(validateActivities([activity], context)).toEqual([
+        'act.stop-sign#v7: the correct option "right" has 20 characters, 15 more than the longest wrong option (5); ' +
+          'at most 10 more, or its length gives it away',
+      ]);
+    });
+
+    it('counts what a reader sees as one character, also for accents written as combining marks', () => {
+      // Arrange: "é" decomposed (e + U+0301) is two UTF-16 units but one character; 15 characters against 5.
+      const decomposed = `${'é'.repeat(5)}${'a'.repeat(10)}`;
+      const activity = withOptions(decomposed, ['b'.repeat(5), 'c'.repeat(5)], 'single-choice');
+
+      expect(validateActivities([activity], context)).toEqual([]);
+    });
+
+    it('requires at least two wrong options, as the mock theory exam shows two distractors', () => {
+      const single = withOptions('Sí', ['No'], 'single-choice');
+      const sign = withOptions('PARE', ['Ceda el paso'], 'sign-identification');
+
+      expect(validateActivities([single, sign], context)).toEqual([
+        'act.speed-street#v7: needs at least 2 wrong options (found 1)',
+        'act.stop-sign#v7: needs at least 2 wrong options (found 1)',
+      ]);
+    });
+
+    it('reports only the missing distractors when every option is right', () => {
+      const activity = choiceActivity();
+      activity.variants[0]!.options = [
+        { id: 'a', text: 'Una respuesta muy larga', correct: true, feedback: 'Bien' },
+        { id: 'b', text: 'Otra', correct: true, feedback: 'Bien' },
+      ];
+
+      expect(validateActivities([activity], context)).toEqual([
+        'act.speed-street#v1: needs exactly one correct option (found 2)',
+        'act.speed-street#v1: needs at least 2 wrong options (found 0)',
+      ]);
+    });
+  });
+
   it('rejects duplicate ordering items', () => {
     const ordering: Activity = {
       ...choiceActivity(),

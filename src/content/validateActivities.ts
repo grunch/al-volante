@@ -2,6 +2,15 @@ import { pageCountsOf, refErrors } from './refs.ts';
 import type { Activity, Source } from './schemas.ts';
 
 type DecisionVariant = Extract<Activity, { type: 'decision' }>['variants'][number];
+type ChoiceOption = Extract<Activity, { type: 'single-choice' }>['variants'][number]['options'][number];
+
+/** Authoring rule (CONTENIDO.md): the right option is at most this many characters longer than any wrong one. */
+export const MAX_CORRECT_OPTION_EXTRA_CHARS = 10;
+/** Wrong options every choice variant offers: the mock theory exam shows the right one and two wrong ones. */
+export const MIN_WRONG_OPTIONS = 2;
+
+/** Characters as a reader counts them: code points of the composed (NFC) text, so "é" is one either way. */
+const charCount = (text: string) => Array.from(text.normalize('NFC')).length;
 
 export interface ActivityContext {
   manifest: readonly Source[];
@@ -59,6 +68,33 @@ function decisionErrors(label: string, variant: DecisionVariant): string[] {
   return errors;
 }
 
+/**
+ * A choice question has one right option, enough distractors for the mock exam and no right option that gives
+ * itself away by being much longer than the wrong ones.
+ */
+function choiceErrors(label: string, options: readonly ChoiceOption[]): string[] {
+  const errors: string[] = [];
+  const right = options.filter((option) => option.correct);
+  const wrong = options.filter((option) => !option.correct);
+  if (right.length !== 1) errors.push(`${label}: needs exactly one correct option (found ${right.length})`);
+  if (wrong.length < MIN_WRONG_OPTIONS)
+    errors.push(`${label}: needs at least ${MIN_WRONG_OPTIONS} wrong options (found ${wrong.length})`);
+  for (const optionId of duplicates(options.map((option) => option.id)))
+    errors.push(`${label}: duplicate option ${optionId}`);
+  // The length rule compares one right option with the wrong ones; without them the errors above already apply.
+  if (right.length !== 1 || wrong.length === 0) return errors;
+  const answer = right[0] as ChoiceOption;
+  const longestWrong = Math.max(...wrong.map((option) => charCount(option.text)));
+  const length = charCount(answer.text);
+  const extra = length - longestWrong;
+  if (extra > MAX_CORRECT_OPTION_EXTRA_CHARS)
+    errors.push(
+      `${label}: the correct option "${answer.id}" has ${length} characters, ${extra} more than the longest wrong ` +
+        `option (${longestWrong}); at most ${MAX_CORRECT_OPTION_EXTRA_CHARS} more, or its length gives it away`,
+    );
+  return errors;
+}
+
 /** Cross-record checks for activities: concepts, citations, signs and per-type answer consistency. */
 export function validateActivities(
   activities: readonly Activity[],
@@ -79,10 +115,7 @@ export function validateActivities(
       const label = `${id}#${variant.id}`;
       if (activity.type === 'single-choice' || activity.type === 'sign-identification') {
         const { options } = variant as Extract<Activity, { type: 'single-choice' }>['variants'][number];
-        const correct = options.filter((option) => option.correct).length;
-        if (correct !== 1) errors.push(`${label}: needs exactly one correct option (found ${correct})`);
-        for (const optionId of duplicates(options.map((option) => option.id)))
-          errors.push(`${label}: duplicate option ${optionId}`);
+        errors.push(...choiceErrors(label, options));
       }
       if (activity.type === 'sign-identification') {
         const { signId } = variant as Extract<Activity, { type: 'sign-identification' }>['variants'][number];

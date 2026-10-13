@@ -2031,7 +2031,7 @@
         "outcomes": {
           "good": {
             "correct": true,
-            "feedback": "¡Bien! Las luces son parte del control antes de conducir, y la VTV exige que estén en buen estado y sin faltantes (manual PDF 105–106)."
+            "feedback": "¡Bien! Las luces son parte del control antes de conducir, y la VTV controla que estén en buen estado y sin faltantes (manual PDF 105–106)."
           },
           "later": {
             "correct": false,
@@ -2096,7 +2096,7 @@
             "id": "d",
             "text": "Reemplazan al cinturón cuando alguien no lo usa",
             "correct": false,
-            "feedback": "No. El cinturón es uno de ellos y nada lo reemplaza: incluso el airbag puede lastimar si no se lo usa (PDF 114). La seguridad pasiva minimiza las consecuencias de un siniestro ya ocurrido."
+            "feedback": "No. El cinturón es uno de ellos y nada lo reemplaza: sin cinturón, incluso el airbag puede provocar lesiones graves (PDF 114). La seguridad pasiva minimiza las consecuencias de un siniestro ya ocurrido."
           }
         ]
       },
@@ -2230,7 +2230,7 @@
             "id": "c",
             "text": "Persona que maneja despacio por las calles de su barrio",
             "correct": false,
-            "feedback": "No. Se usa siempre, también a baja velocidad. Las excepciones son solo para personal de ambulancias y de autobombas en ciertas plazas (PDF 111)."
+            "feedback": "No. Se usa siempre, también a baja velocidad. Las únicas excepciones son médicos/as o paramédicos/as que asisten a personas enfermas atrás en una ambulancia y bomberos/as que no viajan adelante en la autobomba (PDF 111)."
           },
           {
             "id": "d",
@@ -2428,7 +2428,7 @@
             "id": "c",
             "text": "Por debajo del brazo, para que no roce el cuello",
             "correct": false,
-            "feedback": "No. Así no sujeta el torso como corresponde: la banda diagonal pasa por la clavícula, entre el hombro y el cuello, y baja por el centro del pecho (PDF 112)."
+            "feedback": "No. La banda diagonal no va por debajo del brazo: pasa por la clavícula, entre el hombro y el cuello, y baja por el centro del pecho (PDF 112)."
           },
           {
             "id": "d",
@@ -2658,7 +2658,7 @@
         "outcomes": {
           "good": {
             "correct": true,
-            "feedback": "¡Bien! Con la parte más elevada a la altura superior de la cabeza, la central queda a la altura de la línea de los ojos, y así el apoyacabeza disminuye el efecto látigo. La altura se regula con el botón de desbloqueo (manual PDF 113)."
+            "feedback": "¡Bien! La parte más elevada va a la altura superior de la cabeza y la central, a la altura de la línea de los ojos: así el apoyacabeza disminuye el efecto látigo. La altura se regula con el botón de desbloqueo (manual PDF 113)."
           },
           "mandatory": {
             "correct": false,
@@ -2871,7 +2871,7 @@
         "page": 111
       }
     ],
-    "explanation": "El airbag es una bolsa de gas que se infla automáticamente en caso de colisión. No es obligatorio y es complementario al cinturón: no lo reemplaza, y si no se usa el cinturón puede provocar lesiones graves; su uso es seguro con una distancia mínima de 25 cm del cuerpo (manual PDF 114). Absorbe parte de la energía cinética del cuerpo, evita el impacto contra el volante o el parabrisas, reduce las heridas por fragmentos de cristal y disminuye el movimiento de la cabeza. Los frontales están en el volante y en el panel del acompañante; los laterales, en los asientos o las puertas; los de techo o cortina protegen la cabeza, sobre todo en un vuelco.",
+    "explanation": "El airbag es una bolsa de gas que se infla automáticamente en caso de colisión. Es complementario al cinturón: no lo reemplaza, y si no se usa el cinturón puede provocar lesiones graves; su uso es seguro con una distancia mínima de 25 cm del cuerpo (manual PDF 114). Absorbe parte de la energía cinética del cuerpo, evita el impacto contra el volante o el parabrisas, reduce las heridas por fragmentos de cristal y disminuye el movimiento de la cabeza. Los frontales están en el volante y en el panel del acompañante; los laterales, en los asientos o las puertas; los de techo o cortina protegen la cabeza, sobre todo en un vuelco.",
     "status": "reviewed",
     "variants": [
       {
@@ -3504,22 +3504,22 @@
           {
             "id": "rear",
             "text": "Silla mirando hacia atrás, en el asiento trasero",
-            "reason": "Es la de los grupos 0 y +0, la de prematuros y bebés: asiento trasero, mirando hacia atrás (manual PDF 115)."
+            "reason": "es la de los grupos 0 y +0, la de prematuros y bebés: asiento trasero, mirando hacia atrás (manual PDF 115)."
           },
           {
             "id": "forward",
             "text": "Silla con respaldo mirando hacia adelante, en el asiento trasero",
-            "reason": "Corresponde a los grupos 1 y 2. Se cambia de silla y de dirección cuando el chico supera el peso máximo recomendado o su cabeza sobresale del respaldo (PDF 115–116)."
+            "reason": "corresponde a los grupos 1 y 2. Se cambia de silla y de dirección cuando el chico supera el peso máximo recomendado o su cabeza sobresale del respaldo (PDF 115–116)."
           },
           {
             "id": "booster",
             "text": "Elevador mirando hacia adelante, en el asiento trasero",
-            "reason": "Es el grupo 3, hasta los 12 años: el pictograma muestra al chico sentado sobre un elevador, en el asiento trasero y hacia adelante (PDF 115)."
+            "reason": "es el grupo 3, hasta los 12 años: el pictograma muestra al chico sentado sobre un elevador, en el asiento trasero y hacia adelante (PDF 115)."
           },
           {
             "id": "belt",
             "text": "Cualquier asiento, con el cinturón de tres puntos del auto",
-            "reason": "Recién cuando supera la edad, la estatura y el peso que fija la ley puede viajar en cualquier asiento, usando el cinturón de tres puntos (PDF 114)."
+            "reason": "recién cuando supera la edad, la estatura y el peso que fija la ley puede viajar en cualquier asiento, usando el cinturón de tres puntos (PDF 114)."
           }
         ]
       }
@@ -4090,7 +4090,7 @@
         "page": 120
       }
     ],
-    "explanation": "Es obligatorio llevar un matafuego de 1 kg del tipo ABC: la clase A corresponde a sólidos (maderas, plásticos, caucho), la B a líquidos (petróleo, alcohol, inflamables) y la C a riesgo eléctrico (motores, tableros) (manual PDF 120). Va dentro del habitáculo, al alcance de quien conduce, en un soporte que no represente un riesgo para los ocupantes y con un sistema de aseguramiento metálico, nunca una abrazadera elástica, para que resista una colisión o un vuelco y se libere fácilmente. Al abrir la válvula, su contenido sale a presión y la manguera se dirige a la base del fuego.",
+    "explanation": "Es obligatorio llevar un matafuego de 1 kg del tipo ABC: la clase A corresponde a sólidos (maderas, plásticos, caucho), la B a líquidos (petróleo, alcohol, inflamables) y la C a riesgo eléctrico (motores, tableros) (manual PDF 120). Va dentro del habitáculo, al alcance de quien conduce, con su soporte en un lugar que no represente un riesgo para quien conduce o acompaña y con un sistema de aseguramiento metálico, nunca una abrazadera elástica, para que resista una colisión o un vuelco y se libere fácilmente. Al abrir la válvula, su contenido sale a presión y la manguera se dirige a la base del fuego.",
     "status": "reviewed",
     "variants": [
       {

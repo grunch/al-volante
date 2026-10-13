@@ -73,7 +73,7 @@
             "id": "d",
             "text": "Exhibicionista",
             "correct": false,
-            "feedback": "No. Exhibicionista es una actitud negativa: busca llamar la atención con conductas peligrosas. Lo que hacés vos es ser solidario."
+            "feedback": "No. Exhibicionista es una actitud negativa: busca llamar la atención con conductas peligrosas. Lo que hacés vos refleja la actitud solidaria."
           }
         ]
       },
@@ -192,7 +192,7 @@
         "page": 110
       }
     ],
-    "explanation": "El manual describe actitudes positivas (tolerante, solidaria, comprensiva y prudente) y negativas (prepotente, desconsiderada, exhibicionista y transgresora) (PDF 99). La conducción preventiva o anticipada parte de que todas las personas pueden equivocarse aunque conozcan la normativa: por eso se analiza, se piensa y se decide con la premisa «anticiparse a todo, esperar todo, suponer todo» (PDF 101).",
+    "explanation": "El manual describe actitudes positivas (tolerante, solidaria, comprensiva y prudente) y negativas (prepotente, desconsiderada, exhibicionista y transgresora) (PDF 99). La conducción preventiva o anticipada parte de que todas las personas pueden equivocarse aunque conozcan la normativa: por eso se analiza, se piensa y se decide con la premisa «anticiparse a todo, esperar todo, suponer todo» (PDF 101). La bocina solo se usa para advertir a otras personas de una situación potencialmente peligrosa, cuando no se puede usar otro tipo de señal (PDF 110).",
     "status": "reviewed",
     "variants": [
       {
@@ -227,7 +227,7 @@
           },
           "close": {
             "correct": false,
-            "feedback": "Cerrarle el paso para «darle una lección» es una actitud prepotente: querer hacer «justicia» según tu propio juicio (manual PDF 99). Además, provoca un riesgo."
+            "feedback": "Cerrarle el hueco para pasar vos primero entorpece la maniobra ajena y te prioriza por sobre el resto: es la actitud desconsiderada que describe el manual (PDF 99). Además, provoca un riesgo."
           },
           "horn": {
             "correct": false,
@@ -583,7 +583,7 @@
             "id": "a",
             "text": "Bajar costos y consumo, alargar la vida del auto y reducir siniestros",
             "correct": true,
-            "feedback": "¡Correcto! Además cuida el ambiente; y se logra con medidas simples y concretas (manual PDF 101)."
+            "feedback": "¡Correcto! Reduce los riesgos y la gravedad de los siniestros y, además, aporta al cuidado del ambiente; se logra con medidas simples y concretas (manual PDF 101)."
           },
           {
             "id": "b",

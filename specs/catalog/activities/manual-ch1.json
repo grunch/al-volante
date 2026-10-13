@@ -21,7 +21,7 @@
         "page": 29
       }
     ],
-    "explanation": "Aunque tengas luz verde, si al girar hay peatones cruzando la calle a la que entrás, tenés que frenar y cederles el paso. El giro se prepara 30 m antes: carril del lado del giro, luz de giro y reducción de velocidad. En el examen práctico, no ceder el paso a peatones o ciclistas que cruzan es una falla deficiente alta.",
+    "explanation": "Aunque tengas luz verde, si al girar hay peatones cruzando la calle a la que entrás, tenés que frenar y cederles el paso. El giro se prepara con anticipación: como mínimo 30 m antes, por el carril más cercano al lado del giro y con la luz de giro encendida, reduciendo la velocidad paulatinamente antes de girar. En el examen práctico, no ceder el paso a peatones o ciclistas que cruzan es una falla deficiente alta.",
     "status": "reviewed",
     "variants": [
       {
@@ -313,7 +313,7 @@
       },
       {
         "id": "function",
-        "prompt": "Frente a ese desafío, ¿qué función deberían tener las calles según el manual?",
+        "prompt": "Frente a la enorme cantidad de viajes diarios en la Ciudad, ¿qué función deberían tener las calles según el manual?",
         "options": [
           {
             "id": "a",
@@ -475,7 +475,7 @@
             "id": "c",
             "text": "Solo tienen quienes cuentan con licencia de conducir",
             "correct": false,
-            "feedback": "No. Cada persona elige su medio según el desplazamiento; los límites del derecho tienen que ver con los impactos de cada medio de transporte."
+            "feedback": "No. El manual no lo limita a quienes conducen: cada persona elige su medio según el desplazamiento, y los límites del derecho tienen que ver con los impactos de cada medio de transporte."
           },
           {
             "id": "d",
@@ -573,32 +573,32 @@
           {
             "id": "pedestrians",
             "text": "Peatones",
-            "reason": "1°: van sin carrocería ni protección frente a un impacto"
+            "reason": "van sin carrocería ni protección frente a un impacto"
           },
           {
             "id": "cyclists",
             "text": "Ciclistas",
-            "reason": "2°: la bici tampoco tiene carrocería que los proteja"
+            "reason": "la bici tampoco tiene carrocería que los proteja"
           },
           {
             "id": "moto",
             "text": "Moto",
-            "reason": "3°: también sin carrocería, después de peatones y ciclistas"
+            "reason": "también sin carrocería, después de peatones y ciclistas"
           },
           {
             "id": "bus",
             "text": "Colectivo",
-            "reason": "4°: el primero de los vehículos con carrocería; la distinción considera también cuántas personas viajan y cómo"
+            "reason": "el primero de los vehículos con carrocería; la distinción considera también cuántas personas viajan y cómo"
           },
           {
             "id": "car",
             "text": "Taxi/automóvil",
-            "reason": "5°: va después del colectivo en el gráfico del manual"
+            "reason": "va después del colectivo en el gráfico del manual"
           },
           {
             "id": "truck",
             "text": "Camión",
-            "reason": "6°: cierra el orden que da el manual"
+            "reason": "cierra el orden que da el manual"
           }
         ]
       }
@@ -651,7 +651,7 @@
       },
       {
         "id": "most",
-        "prompt": "En el mismo pictograma, ¿en qué medio ocupan muchísimo más espacio esas 60 personas?",
+        "prompt": "Según el pictograma del manual, ¿en qué medio ocupan más espacio 60 personas para movilizarse?",
         "options": [
           {
             "id": "car",
@@ -738,22 +738,22 @@
           {
             "id": "contact",
             "text": "Contacto: el paragolpes golpea las extremidades inferiores",
-            "reason": "Es la primera fase: el golpe inicial del paragolpes en las piernas"
+            "reason": "es la primera fase; el golpe inicial del paragolpes en las piernas"
           },
           {
             "id": "flip",
             "text": "Volteo: gira y cae sobre el capó; luego golpea sobre el parabrisas",
-            "reason": "Después del contacto, el cuerpo gira y cae sobre el vehículo"
+            "reason": "después del contacto, el cuerpo gira y cae sobre el vehículo"
           },
           {
             "id": "projection",
             "text": "Proyección: es impulsado por encima del vehículo",
-            "reason": "Tras el volteo, el cuerpo sale despedido por encima del vehículo"
+            "reason": "tras el volteo, el cuerpo sale despedido por encima del vehículo"
           },
           {
             "id": "drag",
             "text": "Arrastre: se desliza sobre la calzada",
-            "reason": "Es la última fase: el cuerpo termina deslizándose sobre la calzada"
+            "reason": "es la última fase; el cuerpo termina deslizándose sobre la calzada"
           }
         ]
       }
@@ -1021,7 +1021,7 @@
           },
           {
             "id": "c",
-            "text": "Porque cruzar en la esquina es siempre el recorrido más corto",
+            "text": "Porque cruzar en la esquina es siempre el recorrido más corto y rápido",
             "correct": false,
             "feedback": "No es por la distancia: en la esquina se es más visible y es donde se espera que aparezcan peatones."
           },
@@ -1286,7 +1286,7 @@
           },
           "creep": {
             "correct": false,
-            "feedback": "La prioridad es del peatón: no avances esperando que frene. Detenete y dejalo pasar (manual PDF 26)."
+            "feedback": "La prioridad es de la persona que camina: no avances esperando que frene. Detenete y dejala pasar (manual PDF 26)."
           }
         }
       },
@@ -2180,7 +2180,7 @@
           },
           {
             "id": "b",
-            "text": "Porque son más rápidos que el auto en cualquier recorrido",
+            "text": "Porque son más rápidos que el auto particular en cualquier recorrido",
             "correct": false,
             "feedback": "No es el motivo que da el manual: son primordiales porque ayudan a disminuir la contaminación y benefician la circulación."
           },
@@ -2230,7 +2230,7 @@
       },
       {
         "id": "fast",
-        "prompt": "Según la misma infografía, ¿por qué la bici es «rápida»?",
+        "prompt": "En la infografía del manual, ¿por qué la bici es «rápida»?",
         "options": [
           {
             "id": "a",
@@ -2246,7 +2246,7 @@
           },
           {
             "id": "c",
-            "text": "Tiene una larga vida útil y poco mantenimiento",
+            "text": "Tiene una larga vida útil y bajo costo de mantenimiento",
             "correct": false,
             "feedback": "Eso la hace económica. Es rápida porque no hay transbordos ni esperas y se estaciona fácil."
           },
@@ -2420,7 +2420,7 @@
         "options": [
           {
             "id": "a",
-            "text": "Usar un casco en buen estado: un golpe fuerte puede haber afectado sus materiales",
+            "text": "Usar un casco en buen estado: el golpe pudo afectar sus materiales",
             "correct": true,
             "feedback": "¡Correcto! El casco tiene que ser homologado, vigente, de tu talle y en buen estado, sin fuertes golpes (manual PDF 31)."
           },
@@ -2450,7 +2450,7 @@
         "options": [
           {
             "id": "a",
-            "text": "Horizontal, con la hebilla bajo la mandíbula y correas tensas que permitan abrir la boca",
+            "text": "Horizontal, hebilla bajo la mandíbula y correas tensas que dejen abrir la boca",
             "correct": true,
             "feedback": "¡Exacto! Ni hacia adelante ni hacia atrás, y con las correas tensas pero de modo que puedas abrir y cerrar la boca (manual PDF 31)."
           },
@@ -2617,7 +2617,7 @@
       },
       {
         "id": "bicycles-only",
-        "prompt": "Ves un cartel circular azul con una bicicleta blanca en el centro. ¿Qué indica?",
+        "prompt": "Ves un cartel circular azul con una bicicleta blanca sola en el centro. ¿Qué indica?",
         "options": [
           {
             "id": "exclusive",
@@ -2778,7 +2778,7 @@
             "id": "handlebar",
             "text": "Si va sentada en el manubrio y bien agarrada",
             "correct": false,
-            "feedback": "No. Quien acompaña va sentado por detrás, en un asiento adicional con posapiés y agarradera, nunca en el manubrio."
+            "feedback": "No. La persona que acompaña va sentada por detrás, en un asiento adicional con posapiés y agarradera, nunca en el manubrio."
           },
           {
             "id": "short",
@@ -2899,7 +2899,7 @@
       },
       {
         "id": "distance",
-        "prompt": "Durante ese tiempo de reacción, ¿cuánto avanza aproximadamente la bici?",
+        "prompt": "En condiciones óptimas, ¿cuánto avanza aproximadamente una bici mientras quien la conduce reacciona ante un imprevisto y acciona el freno?",
         "options": [
           {
             "id": "car",
@@ -4093,7 +4093,7 @@
           },
           {
             "id": "priority",
-            "text": "Porque el colectivo siempre tiene prioridad sobre las bicis",
+            "text": "Porque el colectivo siempre tiene prioridad de paso sobre las bicis",
             "correct": false,
             "feedback": "No es eso. El manual explica el peligro por el punto ciego y por el arco más cerrado de las ruedas traseras al girar."
           }
@@ -4255,7 +4255,7 @@
           },
           {
             "id": "wide",
-            "text": "Siempre que la vereda sea ancha, aunque haya ciclovía en la calzada",
+            "text": "Siempre que la vereda sea ancha, aunque ya haya una ciclovía en la calzada",
             "correct": false,
             "feedback": "No. La bicisenda sobre la vereda se hace cuando no existe la posibilidad de construir una ciclovía sobre la calzada."
           },
@@ -4629,7 +4629,7 @@
           },
           {
             "id": "free-avenues",
-            "text": "Deja las avenidas libres para los autos particulares",
+            "text": "Deja las avenidas libres para que circulen los autos particulares",
             "correct": false,
             "feedback": "Al revés: los carriles exclusivos priorizan el transporte público en las avenidas (manual PDF 40). El beneficio es menos CO2 y una circulación más fluida."
           },
@@ -4653,7 +4653,7 @@
           },
           {
             "id": "metrobus",
-            "text": "Refugios en el centro de la avenida, como los del Metrobus",
+            "text": "Refugios ubicados en el centro de la avenida, como los del Metrobus",
             "correct": false,
             "feedback": "No. Los bulbos son plataformas elevadas junto al cordón, que evitan las maniobras de entrada y salida del carril."
           },
@@ -4691,7 +4691,7 @@
             "id": "long-distance",
             "text": "Terminales exclusivas de micros de larga distancia",
             "correct": false,
-            "feedback": "No. Están pensados para combinar medios de la Ciudad: colectivos, trenes, subtes y bicicletas."
+            "feedback": "No. Están pensados para facilitar las combinaciones de colectivos, trenes, subtes y bicicletas."
           },
           {
             "id": "depot",

@@ -22,7 +22,7 @@
         "options": [
           {
             "id": "a",
-            "text": "Porque la velocidad, el tamaño y el peso del vehículo generan más riesgo",
+            "text": "Porque la velocidad, el tamaño de la carrocería y el peso transportado generan más riesgo",
             "correct": true,
             "feedback": "¡Correcto! Por eso el manual dice que conducir es un acto de responsabilidad: tus decisiones involucran a quienes comparten la vía."
           },
@@ -30,7 +30,7 @@
             "id": "b",
             "text": "Porque paga patente y seguro, y eso le da más derechos que al resto en la calle",
             "correct": false,
-            "feedback": "No. La mayor responsabilidad viene del riesgo que genera un vehículo por su velocidad, tamaño y peso, no de lo que se paga."
+            "feedback": "No. La mayor responsabilidad viene del riesgo que genera un vehículo por su velocidad, el tamaño de su carrocería y el peso que transporta, no de lo que se paga."
           },
           {
             "id": "c",
@@ -193,7 +193,7 @@
       },
       {
         "id": "contraventional",
-        "prompt": "Un conductor roza otro auto, nadie resulta herido, y se va del lugar sin detenerse. Según el manual, ¿qué tipo de responsabilidad genera darse a la fuga?",
+        "prompt": "Un conductor roza otro auto, nadie resulta herido, y se va del lugar sin detenerse. ¿En qué tipo de responsabilidad ubica el manual darse a la fuga?",
         "options": [
           {
             "id": "a",
@@ -205,7 +205,7 @@
             "id": "b",
             "text": "Administrativa",
             "correct": false,
-            "feedback": "No. El manual ubica la fuga entre las conductas contravencionales, consideradas cuasidelito."
+            "feedback": "No. La administrativa corresponde a faltas sin daños ni lesiones. El manual ubica la fuga entre las conductas contravencionales, consideradas cuasidelito (aunque eso no exime de la sanción administrativa por el mismo hecho)."
           },
           {
             "id": "c",
@@ -687,7 +687,7 @@
         "options": [
           {
             "id": "a",
-            "text": "Que está habilitado/a para conducir determinado vehículo",
+            "text": "Que su titular está habilitado/a para conducir determinado vehículo",
             "correct": true,
             "feedback": "¡Correcto! La expide la autoridad competente después de que la persona cumple ciertos requisitos."
           },
@@ -1425,7 +1425,7 @@
         "page": 50
       }
     ],
-    "explanation": "La VTV puede dar tres resultados (manual PDF 50). Apto: sin defectos graves ni leves; se entregan un certificado, un informe y una oblea, que el personal técnico adhiere al parabrisas (en motos, al dorso del certificado). Condicional: uno o más defectos leves; el vehículo puede circular, pero hay que resolverlos y volver a verificar sin cargo, con turno previo. Rechazado: uno o más defectos graves; el vehículo no está en condiciones de circular hasta repararlo y reverificar.",
+    "explanation": "La VTV puede dar tres resultados (manual PDF 50). Apto: sin defectos graves ni leves (a lo sumo, observaciones); se entregan un certificado, un informe y una oblea con el mes y año del próximo vencimiento, que el personal técnico adhiere al parabrisas (en motos, al dorso del certificado). Condicional: uno o más defectos leves; el vehículo puede circular, pero hay que resolverlos y volver a verificar sin cargo, con turno previo. Rechazado: uno o más defectos graves; el vehículo no está en condiciones de circular hasta repararlo y reverificar, también sin cargo y con turno previo.",
     "status": "reviewed",
     "variants": [
       {
@@ -1787,7 +1787,7 @@
           },
           {
             "id": "call",
-            "text": "Llamar a emergencias e informar el lugar, qué pasó y cuántas víctimas hay",
+            "text": "Llamar a emergencias e informar el lugar, qué pasó, cuántas víctimas hay y en qué estado están",
             "reason": "es el paso Alertar, que va después de proteger la zona"
           },
           {
@@ -1938,7 +1938,7 @@
             "choices": [
               {
                 "id": "act",
-                "text": "Pido auxilio: llamo al 107 y al 911 y ayudo a señalizar la zona",
+                "text": "Pido auxilio: ayudo a señalizar la zona y llamo al 107 y al 911",
                 "outcome": "good"
               },
               {
@@ -1993,7 +1993,7 @@
         "page": 10
       }
     ],
-    "explanation": "Mientras llega emergencias, no hay que mover a la persona herida por posibles lesiones ocultas, ni retirarle un objeto clavado, porque puede producirse una hemorragia, ni sacarle el casco (manual PDF 53; guía PDF 10). Si está consciente, se la tranquiliza, se le pide que no se mueva y se le pregunta por dolor, pérdida de sensibilidad o dificultad de movimiento. La reanimación se intenta solo si se conocen las técnicas y se cuenta con habilitación; si no, se espera al servicio de emergencias (manual PDF 53).",
+    "explanation": "Mientras llega el servicio de emergencias, no hay que mover a la persona herida por posibles lesiones ocultas, ni retirarle un objeto clavado, porque puede producirse una hemorragia, ni sacarle el casco (manual PDF 53; guía PDF 10). El manual admite dos excepciones: moverla si existe posibilidad de atropello y retirarle el casco si hay vómito o asfixia. Si está consciente, se la tranquiliza, se le pide que no se mueva y se le pregunta por dolor, pérdida de sensibilidad o dificultad de movimiento. La reanimación se intenta solo si se conocen las técnicas y se cuenta con habilitación; si no, se espera al servicio de emergencias (manual PDF 53).",
     "status": "reviewed",
     "variants": [
       {
@@ -2259,7 +2259,7 @@
             "id": "d",
             "text": "Si quiere que la lleves al hospital en tu auto",
             "correct": false,
-            "feedback": "No hay que moverla; la guía propone preguntas cerradas, como nombre y edad, mientras llega emergencias (PDF 9–10)."
+            "feedback": "No hay que moverla; la guía propone preguntas cerradas, como nombre y edad, mientras llega el servicio de emergencias (PDF 9–10)."
           }
         ]
       }
@@ -2318,7 +2318,7 @@
       },
       {
         "id": "passenger",
-        "prompt": "Viajabas como acompañante en un auto que chocó y hay una persona herida. ¿Te alcanzan esas obligaciones?",
+        "prompt": "Viajabas como acompañante en un auto que chocó y hay una persona herida. ¿Te alcanzan las obligaciones de pedir auxilio, evitar mayores daños y ayudar a esclarecer los hechos?",
         "options": [
           {
             "id": "a",
@@ -2531,7 +2531,7 @@
           },
           "no-vest": {
             "correct": false,
-            "feedback": "La guía pide ponerse el chaleco reflectante antes de descender (guía PDF 9); el manual también lo pide al bajar, para ser visto (manual PDF 51–52)."
+            "feedback": "La guía pide ponerse el chaleco reflectante antes de descender (guía PDF 9); el manual también lo pide al bajar del vehículo en un túnel o en una autopista, para ser visto/a (manual PDF 51–52)."
           },
           "front": {
             "correct": false,
@@ -2575,7 +2575,7 @@
     "figureIds": [
       "fig.manual-p52-highway-lanes"
     ],
-    "explanation": "En un túnel, el manual indica mantener encendidas las luces de posición y las balizas, apagar el motor, abandonar el vehículo con mucha precaución usando el chaleco reflectante y después colocar las balizas portátiles y llamar a asistencia mecánica (manual PDF 51). En autopista lo ideal es usar una dársena de emergencia; si no se puede, en los carriles centrales o izquierdo hay que quedarse en el vehículo con el cinturón abrochado y las balizas encendidas, y llamar a la autopista, porque bajarse puede costar lesiones o la vida (manual PDF 52; guía PDF 8). En el carril derecho se acerca el auto a la banquina, se baja con chaleco, se señaliza y se espera detrás de una defensa; solo la empresa de la autopista puede remover el vehículo (manual PDF 51–52).",
+    "explanation": "En un túnel, el manual indica mantener encendidas las luces de posición y las balizas, apagar el motor, abandonar el vehículo con mucha precaución usando el chaleco reflectante y después colocar las balizas portátiles y llamar a asistencia mecánica (manual PDF 51). En autopista lo ideal es usar una dársena de emergencia; si no se puede, en los carriles centrales o izquierdo hay que quedarse en el vehículo con el cinturón abrochado y las balizas encendidas, y llamar a la autopista, porque bajarse puede costar lesiones o la vida (manual PDF 52; guía PDF 8). En el carril derecho se acerca el auto lo más posible a la banquina, se encienden las balizas, se baja con chaleco, se señaliza con las balizas portátiles, se llama a la autopista y se espera a resguardo, detrás de una defensa si la hay (manual PDF 52; guía PDF 8). Solo la empresa de la autopista está autorizada a remover el vehículo (manual PDF 51).",
     "status": "reviewed",
     "variants": [
       {
@@ -2924,7 +2924,7 @@
     "figureIds": [
       "fig.manual-p53-data-icons"
     ],
-    "explanation": "En el lugar del siniestro se recaban los datos de los vehículos (dominio, marca, modelo, color, aseguradora, póliza y titular), de quien conduce, de testigos y lesionados (nombre, DNI, dirección y teléfono), del siniestro (fecha, hora, lugar, estado de la calzada y del tiempo) y, en lo posible, fotos panorámicas, de los daños y de las marcas de frenado (manual PDF 53; guía PDF 11). Los datos de testigos pueden ser importantes en un posterior proceso judicial. Con los otros conductores se intercambian los datos de la licencia y del seguro, y dentro de las 72 horas hay que informar el siniestro a la compañía aseguradora (manual PDF 53; guía PDF 7).",
+    "explanation": "En el lugar del siniestro se recaban los datos de los vehículos (dominio, marca, modelo, color, aseguradora, póliza y titular), de quien conduce (nombre, DNI, domicilio, teléfono y licencia), de testigos y lesionados (nombre, DNI, dirección y teléfono), del siniestro (fecha, hora, lugar, estado de la calzada y del tiempo) y, en lo posible, fotos panorámicas, de los daños y de las marcas de frenado (manual PDF 53; guía PDF 11). Los datos de testigos pueden ser importantes en un posterior proceso judicial. Con los otros conductores se intercambian los datos de la licencia y del seguro, y dentro de las 72 horas hay que informar el siniestro a la compañía aseguradora (manual PDF 53; guía PDF 7).",
     "status": "reviewed",
     "variants": [
       {
@@ -3109,7 +3109,7 @@
             "choices": [
               {
                 "id": "note",
-                "text": "Escribo mis datos personales y un teléfono, los de mi licencia y los de mi seguro, y los dejo bien sujetos en el auto",
+                "text": "Escribo mis datos personales y un teléfono, los de mi auto, mi licencia y mi seguro, y los dejo bien sujetos en el auto",
                 "outcome": "good"
               },
               {
@@ -3128,7 +3128,7 @@
         "outcomes": {
           "good": {
             "correct": true,
-            "feedback": "¡Bien! Datos personales y de contacto, de la licencia y del seguro, bien sujetos para que lleguen a quien es dueño o dueña del auto (manual PDF 54; guía PDF 12)."
+            "feedback": "¡Bien! Datos personales y de contacto, del vehículo, de la licencia y del seguro, bien sujetos para que lleguen a quien es dueño o dueña del auto (manual PDF 54; guía PDF 12)."
           },
           "leave": {
             "correct": false,
@@ -3468,7 +3468,7 @@
         "page": 55
       }
     ],
-    "explanation": "Según el manual, el Sistema de Evaluación Permanente de Conductores (Scoring) asigna 20 puntos al obtener la licencia por primera vez y descuenta puntos según el tipo de infracción (PDF 55). Si en tres años desde la última infracción no se perdieron todos los puntos, los descuentos quedan sin efecto; se pueden recuperar 4 puntos con un curso de educación vial, una vez por año y sin haber llegado a 0, y con el pago voluntario de las infracciones y un curso de reasignación se recupera el 50% de lo descontado, salvo algunas infracciones que el manual excluye. Al llegar a 0 puntos hay inhabilitación para conducir (de 60 días a 5 años) y un curso de educación vial y prevención que permite reasignar 10 puntos; en algunos casos caduca la licencia.",
+    "explanation": "Según el manual, el Sistema de Evaluación Permanente de Conductores (Scoring) asigna 20 puntos al obtener la licencia por primera vez y descuenta puntos según el tipo de infracción (PDF 55). Si en tres años desde la última infracción no se perdieron todos los puntos, los descuentos quedan sin efecto; se pueden recuperar 4 puntos con un curso especializado de educación vial, una vez por año y sin haber llegado a 0, y con el pago voluntario de las infracciones y un curso de reasignación se recupera el 50 % de lo descontado, salvo algunas infracciones que el manual excluye. Al llegar a 0 puntos hay inhabilitación para conducir (de 60 días a 5 años) y un curso de educación vial y prevención que permite reasignar 10 puntos; en algunos casos caduca la licencia.",
     "status": "reviewed",
     "variants": [
       {
@@ -3521,7 +3521,7 @@
             "id": "c",
             "text": "Se recupera solo la mitad",
             "correct": false,
-            "feedback": "El 50% se reasigna con el pago voluntario y un curso; a los tres años, los descuentos directamente quedan sin efecto (manual PDF 55)."
+            "feedback": "El 50 % se reasigna con el pago voluntario y un curso; a los tres años, los descuentos directamente quedan sin efecto (manual PDF 55)."
           },
           {
             "id": "d",
@@ -3567,7 +3567,7 @@
         "options": [
           {
             "id": "a",
-            "text": "Reasignar el 50% de los puntos descontados",
+            "text": "Reasignar el 50 % de los puntos descontados",
             "correct": true,
             "feedback": "¡Correcto! Salvo algunas infracciones que el manual excluye (PDF 55)."
           },
@@ -3575,19 +3575,19 @@
             "id": "b",
             "text": "Recuperar todos los puntos descontados",
             "correct": false,
-            "feedback": "No todos: se reasigna el 50% de los puntos descontados (manual PDF 55)."
+            "feedback": "No todos: se reasigna el 50 % de los puntos descontados (manual PDF 55)."
           },
           {
             "id": "c",
             "text": "Recuperar exactamente 10 puntos",
             "correct": false,
-            "feedback": "10 son los que reasigna el curso al llegar a 0; con el pago voluntario y el curso de reasignación se recupera el 50% (manual PDF 55)."
+            "feedback": "10 son los que reasigna el curso al llegar a 0; con el pago voluntario y el curso de reasignación se recupera el 50 % (manual PDF 55)."
           },
           {
             "id": "d",
             "text": "Evitar que la licencia caduque en cualquier caso",
             "correct": false,
-            "feedback": "No es eso: el pago voluntario con el curso de reasignación devuelve el 50% de los puntos descontados (manual PDF 55)."
+            "feedback": "No es eso: el pago voluntario con el curso de reasignación devuelve el 50 % de los puntos descontados (manual PDF 55)."
           }
         ]
       },
