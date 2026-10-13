@@ -82,6 +82,13 @@ function theoryErrors(attempt: Attempt, theoryExam: TheoryPassRule | undefined):
   const start = TheoryStartSchema.safeParse(starts[0]?.payload);
   if (starts.length !== 1 || !start.success)
     return [...errors, `${attempt.id}: a mock exam has exactly one readable start (found ${starts.length})`];
+  // createTheoryAttempt stores one id per question of the paper, and the grade counts every question.
+  const { questions } = start.data;
+  if (questions.length !== total || new Set(questions).size !== questions.length)
+    return [
+      ...errors,
+      `${attempt.id}: the paper of the mock exam does not match its grade (${questions.length} questions, ${total} graded)`,
+    ];
   // The verdict is data from outside: under the current configuration it must follow its threshold (gradeExam). An
   // attempt of another configuration version keeps its own verdict, since its threshold is not known here.
   if (theoryExam && start.data.configVersion === theoryExam.version) {

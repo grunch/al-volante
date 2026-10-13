@@ -194,7 +194,11 @@ describe('mock theory exam invariants', () => {
       startedAt: AT,
       finishedAt: AT,
       events: [
-        { at: AT, type: 'start', payload: { seed: 4, configVersion: '2026-10-12', minutes: 45, questions: [] } },
+        {
+          at: AT,
+          type: 'start',
+          payload: { seed: 4, configVersion: '2026-10-12', minutes: 45, questions: ['q1', 'q2'] },
+        },
         {
           at: AT,
           type: 'finished',
@@ -206,12 +210,22 @@ describe('mock theory exam invariants', () => {
       ...overrides,
     };
   }
-  const start = {
+  /** The start event of a paper of `count` questions, as createTheoryAttempt stores it. */
+  const paper = (count: number) => ({
     at: AT,
     type: 'start',
-    payload: { seed: 4, configVersion: '2026-10-12', minutes: 45, questions: [] },
-  };
-  const finished = (payload: Record<string, unknown>) => [start, { at: AT, type: 'finished', payload }];
+    payload: {
+      seed: 4,
+      configVersion: '2026-10-12',
+      minutes: 45,
+      questions: Array.from({ length: count }, (_, index) => `q${index + 1}`),
+    },
+  });
+  const start = paper(40);
+  const finished = (payload: Record<string, unknown>) => [
+    paper(typeof payload.total === 'number' ? payload.total : 2),
+    { at: AT, type: 'finished', payload },
+  ];
 
   it('accepts a graded mock exam, which has no single answer and passes without a full score', () => {
     expect(attemptErrors(mock(), rules)).toEqual([]);
@@ -263,6 +277,29 @@ describe('mock theory exam invariants', () => {
 
       // Assert
       expect(errors, name).toEqual([`t1: a mock exam has exactly one readable start (found ${found})`]);
+    }
+  });
+
+  it('rejects a paper that does not match the grade it was graded with', () => {
+    // Arrange: a "passed" 34 of 40 whose stored paper has no questions, fewer questions, or one question twice.
+    const passRule = { version: '2026-10-12', questions: 40, passCorrect: 34 };
+    const grade = { at: AT, type: 'finished', payload: { answers: {}, correct: 34, total: 40, passed: true } };
+    const result = { correct: true, score: 34 / 40, points: null };
+    const withQuestions = (questions: string[]) => ({ ...start, payload: { ...start.payload, questions } });
+    const cases: Record<string, [string[], number]> = {
+      'empty paper': [[], 0],
+      'shorter paper': [paper(39).payload.questions, 39],
+      'repeated question': [[...paper(39).payload.questions, 'q1'], 40],
+    };
+
+    for (const [name, [questions, count]] of Object.entries(cases)) {
+      // Act
+      const errors = attemptErrors(mock({ events: [withQuestions(questions), grade], result }), rules, passRule);
+
+      // Assert
+      expect(errors, name).toEqual([
+        `t1: the paper of the mock exam does not match its grade (${count} questions, 40 graded)`,
+      ]);
     }
   });
 
