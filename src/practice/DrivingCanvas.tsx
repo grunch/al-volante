@@ -7,7 +7,7 @@ import { usePrefersReducedMotion } from '../ui/usePrefersReducedMotion.ts';
 import { HeldInput } from './heldInput.ts';
 import { KEY_BINDINGS } from './controls.ts';
 import { driveFrame, startDriving } from './drivingLoop.ts';
-import { gearLabel } from './telemetry.ts';
+import { describeEvent, gearLabel } from './telemetry.ts';
 import type { Telemetry } from './telemetry.ts';
 import { createCockpitScene } from '../scene/cockpitScene.ts';
 import { CockpitControls } from './CockpitControls.tsx';
@@ -27,6 +27,8 @@ import type { Action, Bindings } from './bindings.ts';
 import type { Observation } from '../exam/session.ts';
 import { COCKPIT_COPY as copy } from '../i18n/es-AR.ts';
 import type { RendererFactory, SceneRenderer } from '../scene/SceneCanvas.tsx';
+import { initialPowertrain } from '../sim/powertrain/powertrain.ts';
+import { TRACK_COPY } from '../i18n/es-AR.ts';
 import { EXAM_SPECS } from '../sim/car.ts';
 import type { CarEvent, CarState } from '../sim/car.ts';
 import type { TrafficSnapshot } from '../sim/scenario.ts';
@@ -83,8 +85,8 @@ const HALT_KEYS: ReadonlySet<string> = new Set([KEY_BINDINGS.brake[0], KEY_BINDI
 const isNotable = (event: CarEvent) => event.type !== 'gear-engaged' && event.type !== 'key-inserted';
 
 /**
- * Drives the car in a 3D view. Keys are read only while the view has focus, so the rest of the page keeps its
- * keyboard. The simulation advances in fixed steps (FPS-independent) and the view interpolates between them.
+ * Drives the car in a 3D view. Driving shortcuts work within the cockpit, except editable fields and native
+ * button activation keys; the rest of the page keeps its keyboard. The simulation advances in fixed steps (FPS-independent) and the view interpolates between them.
  */
 export function DrivingCanvas({
   world,
@@ -152,7 +154,13 @@ export function DrivingCanvas({
   useEffect(() => {
     onBindingsChange?.(bindings);
   }, [bindings, onBindingsChange]);
-  const [readout, setReadout] = useState({ speed: 0, rpm: 0, gear: transmission === 'manual' ? 'N' : 'P' });
+  const [readout, setReadout] = useState({
+    speed: 0,
+    rpm: 0,
+    gear: transmission === 'manual' ? 'N' : 'P',
+    powertrain: initialPowertrain(transmission),
+    lastEvent: null as CarEvent | null,
+  });
   const dragRef = useRef<{ id: number; x: number; y: number } | null>(null);
   const command = (value: CockpitCommand) => {
     const before = cockpitRef.current;
@@ -363,6 +371,13 @@ export function DrivingCanvas({
       container.dataset.rpm = rpm.toFixed(0);
       container.dataset.gear = gearLabel(car.powertrain);
       container.dataset.engine = car.powertrain.engineRunning ? 'running' : 'off';
+      container.dataset.headingRad = car.world.vehicle.headingRad.toFixed(6);
+      container.dataset.steer = driving.controls.steer.toFixed(4);
+      container.dataset.clutch = driving.controls.clutch.toFixed(4);
+      container.dataset.brake = driving.controls.brake.toFixed(4);
+      container.dataset.throttle = driving.controls.throttle.toFixed(4);
+      container.dataset.handbrake = String(car.powertrain.handbrake);
+      container.dataset.key = car.powertrain.key;
       container.dataset.positionX = car.world.vehicle.x.toFixed(2);
       container.dataset.positionZ = car.world.vehicle.z.toFixed(2);
       container.dataset.sectors = String(track.scene.userData.activeSectors ?? 0);
@@ -372,10 +387,26 @@ export function DrivingCanvas({
       sinceTelemetryS += frameS;
       if (notable || sinceTelemetryS >= TELEMETRY_INTERVAL_S) {
         sinceTelemetryS = 0;
+        // Read-only observations for the development playtest driver. Production never publishes actor snapshots.
+        if (import.meta.env.DEV && driving.scenario) {
+          container.dataset.traffic = JSON.stringify({
+            timeS: driving.scenario.timeS,
+            light: driving.scenario.light,
+            lights: driving.scenario.lights,
+            poses: driving.scenario.poses,
+            contacts: driving.scenario.contacts,
+          });
+        }
         // Readouts are low priority: as urgent updates, arriving every frame, they would keep interrupting a
         // navigation (React Router renders it in a transition) and the page could never leave the drive.
         startTransition(() => {
-          setReadout({ speed: Math.abs(car.world.vehicle.speedMps * 3.6), rpm, gear: gearLabel(car.powertrain) });
+          setReadout({
+            speed: Math.abs(car.world.vehicle.speedMps * 3.6),
+            rpm,
+            gear: gearLabel(car.powertrain),
+            powertrain: car.powertrain,
+            lastEvent,
+          });
           telemetryRef.current?.({
             speedKmh: car.world.vehicle.speedMps * 3.6,
             odometerM: car.world.vehicle.odometerM,
@@ -406,8 +437,17 @@ export function DrivingCanvas({
     };
   }, [createRenderer, createScene, world, start, transmission, prepared, preparedCabin, audioRef]);
 
-  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.ctrlKey || event.altKey || event.metaKey) return;
+  const isEditable = (target: EventTarget) =>
+    target instanceof HTMLElement && Boolean(target.closest('input, select, textarea, [contenteditable="true"]'));
+  const ownsShortcut = (event: KeyboardEvent<HTMLElement>) =>
+    !isEditable(event.target) &&
+    !(
+      event.target instanceof HTMLElement &&
+      event.target.closest('button, summary, a') &&
+      (event.code === 'Space' || event.code === 'Enter')
+    );
+  const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey || !ownsShortcut(event)) return;
     const action = actionForCode(bindings, event.code);
     if (!action) return;
     event.preventDefault();
@@ -419,6 +459,17 @@ export function DrivingCanvas({
       ref={shellRef}
       className="cockpit-shell"
       aria-label={copy.title}
+      onKeyDown={onKeyDown}
+      onKeyUp={(event) => {
+        if (ownsShortcut(event) && actionForCode(bindings, event.code)) event.preventDefault();
+        stopAction(`key-${event.code}`);
+      }}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) release();
+      }}
+      onFocusCapture={(event) => {
+        if (isEditable(event.target)) release();
+      }}
       onClickCapture={() => void audioRef.current?.unlock()}
       onPointerDownCapture={() => void audioRef.current?.unlock()}
       onKeyDownCapture={() => void audioRef.current?.unlock()}
@@ -429,6 +480,9 @@ export function DrivingCanvas({
       </div>
       <div className="cockpit-view-options">
         <p className="cockpit-help">{copy.help}</p>
+        <button type="button" onClick={() => containerRef.current?.focus()}>
+          {copy.focusDriving}
+        </button>
         <button type="button" onClick={() => void toggleFullscreen()} aria-pressed={fullscreen}>
           {fullscreen ? copy.exitFullscreen : copy.fullscreen}
         </button>
@@ -468,12 +522,6 @@ export function DrivingCanvas({
           data-testid="driving-canvas"
           data-look-yaw={cockpit.lookYaw}
           tabIndex={0}
-          onKeyDown={onKeyDown}
-          onKeyUp={(event) => {
-            if (actionForCode(bindings, event.code)) event.preventDefault();
-            stopAction(`key-${event.code}`);
-          }}
-          onBlur={release}
           onPointerDown={(event) => {
             if (event.button !== 0) return;
             event.currentTarget.focus();
@@ -530,6 +578,20 @@ export function DrivingCanvas({
           </div>
         )}
       </div>
+      {state === 'ready' && (
+        <div className="cockpit-help cockpit-status">
+          <p data-testid="driving-status">
+            {TRACK_COPY.engine}: {readout.powertrain.engineRunning ? copy.engineRunning : TRACK_COPY.engineOff}
+            {' · '}
+            {TRACK_COPY.key}: {TRACK_COPY.keyStates[readout.powertrain.key]}
+            {' · '}
+            {TRACK_COPY.handbrake}: {readout.powertrain.handbrake ? TRACK_COPY.handbrakeOn : TRACK_COPY.handbrakeOff}
+          </p>
+          <p role="status" data-testid="driving-feedback">
+            {readout.lastEvent ? describeEvent(readout.lastEvent, transmission) : ''}
+          </p>
+        </div>
+      )}
       {state === 'ready' && (
         <CockpitControls
           state={cockpit}

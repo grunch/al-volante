@@ -2,7 +2,6 @@ import { Suspense, lazy, useContext, useState } from 'react';
 import { gearLabel } from '../../practice/telemetry.ts';
 import type { Telemetry } from '../../practice/telemetry.ts';
 import { RendererContext } from '../../scene/RendererContext.ts';
-import type { CarEvent } from '../../sim/car.ts';
 import { initialPowertrain } from '../../sim/powertrain/powertrain.ts';
 import type { TransmissionKind } from '../../sim/powertrain/powertrain.ts';
 import { PRACTICE_YARD, PRACTICE_YARD_START } from '../../sim/tracks/practiceYard.ts';
@@ -21,39 +20,6 @@ const still = (kind: TransmissionKind): Telemetry => ({
   powertrain: initialPowertrain(kind),
   lastEvent: null,
 });
-
-/** Plain-language feedback for each simulation event. */
-export function describeEvent(event: CarEvent, kind: TransmissionKind): string {
-  const events = TRACK_COPY.events;
-  switch (event.type) {
-    case 'contact':
-      return TRACK_COPY.contact(TRACK_COPY.obstacleNames[event.kind]);
-    case 'start-refused':
-      if (event.reason === 'key') return events.startKey;
-      if (event.reason === 'running') return events.startRunning;
-      return kind === 'manual' ? events.startInGearManual : events.startInGearAutomatic;
-    case 'shift-refused': {
-      const refusals: Record<typeof event.reason, string> = {
-        clutch: events.shiftClutch,
-        brake: events.shiftBrake,
-        moving: events.shiftMoving,
-        invalid: events.shiftInvalid,
-      };
-      return refusals[event.reason];
-    }
-    case 'handbrake':
-      return event.engaged ? events.handbrakeOn : events.handbrakeOff;
-    case 'engine-started':
-    case 'engine-stopped':
-    case 'stall':
-    case 'moved-with-handbrake':
-    case 'key-removed':
-    case 'key-refused':
-      return events[event.type];
-    default:
-      return '';
-  }
-}
 
 /** Practice yard: drives the simulation (F03-T01) with the gearbox, key and handbrake (F03-T02). */
 export function TrackPage() {
@@ -135,7 +101,6 @@ export function TrackPage() {
           <dd>{TRACK_COPY.keyStates[powertrain.key]}</dd>
         </div>
       </dl>
-      <p role="status">{telemetry.lastEvent ? describeEvent(telemetry.lastEvent, transmission) : ''}</p>
       <p>
         <button type="button" className="button" onClick={reset}>
           {TRACK_COPY.reset}

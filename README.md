@@ -15,7 +15,10 @@ npm run check          # lint, formatting, types, coverage, validators and build
 npx playwright install --with-deps chromium   # once for E2E; Linux system libraries require sudo
 npm run test:e2e       # end-to-end tests in Chromium (desktop and mobile)
 npm run test:audio     # real Web Audio PCM checks in Chromium
+npm run test:drive -- --headed  # optional browser driving session
 ```
+
+Prueba que arranca el auto y conduce por el recorrido: [instrucciones, registros y límites](specs/PRUEBA_MANEJO.md).
 
 Pila, estructura y convenciones: [specs/ARQUITECTURA.md](specs/ARQUITECTURA.md).
 

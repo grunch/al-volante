@@ -6,7 +6,7 @@ import type { APIResponse, Page } from '@playwright/test';
 
 // The other specs block service workers to stay fast; these ones install the app as a player would.
 test.use({ serviceWorkers: 'allow' });
-// The worker, the cache and the manifest are the same in both projects; precaching ~17 MB twice adds nothing.
+// The worker, the cache and the manifest are the same in both projects; precaching ~19 MB twice adds nothing.
 test.skip(({ isMobile }) => isMobile, 'Covered by the desktop project');
 // Installing downloads the whole precache; CI runners (software WebGL, shared CPU) need more than the default 30 s.
 test.describe.configure({ timeout: 90_000 });

@@ -849,6 +849,10 @@ a {
   background: #345c53;
   border-color: #a4e9d6;
 }
+.cockpit-shell .cockpit-command {
+  touch-action: manipulation;
+  user-select: none;
+}
 .cockpit-shell .cockpit-hold {
   touch-action: none;
   user-select: none;

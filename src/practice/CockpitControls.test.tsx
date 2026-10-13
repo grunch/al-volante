@@ -121,6 +121,61 @@ describe('cockpit hold buttons', () => {
 });
 
 describe('cockpit command buttons', () => {
+  it('activates a secondary finger once and cancels a drag away or a cancelled pointer', () => {
+    class TestPointerEvent extends MouseEvent {
+      readonly pointerId: number;
+      constructor(type: string, init: PointerEventInit = {}) {
+        super(type, init);
+        this.pointerId = init.pointerId ?? 1;
+      }
+    }
+    vi.stubGlobal('PointerEvent', TestPointerEvent);
+    try {
+      const { start } = renderControls();
+      const gear = screen.getByRole('button', { name: 'Subir marcha' });
+      gear.setPointerCapture = vi.fn();
+      vi.spyOn(gear, 'getBoundingClientRect').mockReturnValue({
+        x: 10,
+        y: 10,
+        left: 10,
+        top: 10,
+        right: 90,
+        bottom: 60,
+        width: 80,
+        height: 50,
+        toJSON: () => ({}),
+      });
+      const pointer = { pointerId: 2, button: 0, clientX: 30, clientY: 30, isPrimary: false, pointerType: 'touch' };
+      fireEvent.pointerDown(gear, pointer);
+      fireEvent.pointerUp(gear, pointer);
+      fireEvent.click(gear, { detail: 1 });
+      fireEvent.lostPointerCapture(gear, pointer);
+      expect(start).toHaveBeenCalledExactlyOnceWith('gearUp', 'command');
+
+      fireEvent.pointerDown(gear, pointer);
+      fireEvent.pointerUp(gear, { ...pointer, clientX: 100 });
+      fireEvent.pointerDown(gear, pointer);
+      fireEvent.pointerUp(gear, { ...pointer, clientY: 100 });
+      fireEvent.pointerDown(gear, pointer);
+      fireEvent.pointerUp(gear, { ...pointer, clientX: 0 });
+      fireEvent.pointerDown(gear, pointer);
+      fireEvent.pointerUp(gear, { ...pointer, clientY: 0 });
+      fireEvent.pointerDown(gear, pointer);
+      fireEvent.pointerCancel(gear, pointer);
+      fireEvent.pointerUp(gear, pointer);
+      fireEvent.pointerDown(gear, pointer);
+      fireEvent.lostPointerCapture(gear, pointer);
+      fireEvent.pointerUp(gear, pointer);
+      fireEvent.pointerDown(gear, { ...pointer, button: 2 });
+      fireEvent.pointerUp(gear, pointer);
+      expect(start).toHaveBeenCalledOnce();
+      fireEvent.click(gear, { detail: 0 });
+      expect(start).toHaveBeenCalledTimes(2);
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it('sends key, handbrake, gears, door and look buttons as one-off actions', () => {
     // Arrange
     const { start, stop } = renderControls({ state: { ...initialCockpit(), door: true } });
