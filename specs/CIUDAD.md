@@ -2,7 +2,7 @@
 
 ## Alcance
 
-`#/recorrido` permite explorar las ocho partes del recorrido A o conducir desde una entrada de cada tramo, con caja manual o automática. La vista aérea muestra una cuadra o el circuito completo; el mapa conserva norte arriba y una escala de 100 m. El habitáculo y sus tres espejos usan el mismo mundo 3D. Desde F04-T02 la conducción lleva tránsito por semilla y semáforos con ciclo; la página informa que la evaluación del circuito completo corresponde a F04-T03–T05 y que nada se puntúa. `#/examen` conserva el primer tramo evaluado de F03.
+`#/recorrido` permite explorar las ocho partes del recorrido A o conducir desde una entrada de cada tramo, con caja manual o automática. La vista aérea muestra una cuadra o el circuito completo; el mapa conserva norte arriba y una escala de 100 m. El habitáculo y sus tres espejos usan el mismo mundo 3D. Desde F04-T02 la conducción lleva tránsito por semilla y semáforos con ciclo; la página informa que la evaluación del circuito completo corresponde a F04-T03–T05 y que nada se puntúa. Hasta F04-T03, `#/examen` conservó el primer tramo evaluado de F03; desde entonces corre sobre esta ciudad (ver «Tránsito»).
 
 ## Tránsito (F04-T02)
 
@@ -66,6 +66,6 @@ Ejecución del 2026-10-12 UTC, producción, un worker, AMD Ryzen 7 4800H, Chromi
 
 ## Referencias visuales — F04-T01-FIX01
 
-Mejora puntual autorizada mientras Opus implementa la fase 5 en otro árbol de trabajo. Se desarrolla en una rama independiente desde `main`, sin iniciar la fase 6. Inventario de imágenes, criterios visuales y límites en [REFERENCIAS_VISUALES.md](REFERENCIAS_VISUALES.md). El entorno incorpora balcones, comercios, casas bajas, arboleda y refugios del Metrobús; las dimensiones siguen siendo aproximadas. `lighting.ts` mantiene una sombra local de 1024 × 1024, actualizada al cambiar una celda de 24 m o cargar/descargar sectores, para no recalcularla en cada cuadro. Los materiales se agrupan por forma y superficie, con color por instancia.
+Mejora puntual autorizada mientras Opus implementa la fase 5 en otro árbol de trabajo. Se desarrolla en una rama independiente desde `main`, sin iniciar la fase 6. Inventario de imágenes, criterios visuales y límites en [REFERENCIAS_VISUALES.md](REFERENCIAS_VISUALES.md). El entorno incorpora balcones, comercios, casas bajas, arboleda y refugios del Metrobús; las dimensiones siguen siendo aproximadas. `lighting.ts` mantiene una sombra local de 1024 × 1024 (2048 × 2048 desde F04-T01-FIX03, ver [DETALLE_GRAFICO_BLENDER.md](DETALLE_GRAFICO_BLENDER.md)), actualizada al cambiar una celda de 24 m o cargar/descargar sectores, para no recalcularla en cada cuadro. Los materiales se agrupan por forma y superficie, con color por instancia.
 
 Medición de F04-T01-FIX01 sobre `5f8f226` (2026-10-12, mismo equipo/Chromium/SwiftShader, producción, 15 sectores, tres espejos y tránsito): escritorio 1280 × 720, DPR 1, 7 cuadros en 5472 ms, media 778,19 ms y p95 1000 ms; Pixel 7 emulado 412 × 839, DPR 2,625, 8 cuadros en 5209 ms, media 648,01 ms y p95 833,3 ms. El render por software sigue siendo lento; las cifras históricas de F04-T01 no son una comparación controlada porque entonces no corría el tránsito del circuito. No se midió GPU física y no se acredita el objetivo de FPS.

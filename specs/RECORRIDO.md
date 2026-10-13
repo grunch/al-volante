@@ -31,7 +31,7 @@ Define qué calles construir y conducir en el práctico 3D. Los datos están en 
 
 ## 4. Tramos
 
-El inicio (E) está dentro del tramo 1, por eso ese tramo cubre los pasos oficiales 9 (llegada) y 1 (salida). Longitud total del circuito: **1507 m** (1506.8 m). Los ocho tramos se rutearon sobre la red de OSM con sus restricciones de mano única: todos son legales en el sentido indicado y se encadenan nodo a nodo, cerrando el circuito.
+El inicio (E) está dentro del tramo 1, por eso ese tramo cubre los pasos oficiales 9 (llegada) y 1 (salida). Longitud total del circuito: **1507 m** (1506,8 m). Los ocho tramos se rutearon sobre la red de OSM con sus restricciones de mano única: todos son legales en el sentido indicado y se encadenan nodo a nodo, cerrando el circuito.
 
 | Tramo | Pasos | Calle | Desde → hasta | Sentido | m | Límite de examen (km/h) | Ciclovía a la izquierda | Controles en el tramo | Giro siguiente |
 |---|---|---|---|---|---:|---:|---|---|---|
