@@ -6,6 +6,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 ## Fase activa
 
+- **PAGES01 — publicación de `main` en GitHub Pages (pedido puntual, 2026-10-13):** rama `pages01-deploy`, base `main` (`d18fa00`, con #46). Agrega `.github/workflows/deploy.yml`; no cambia código del juego ni inicia otra fase. Detalle en la sección «Pedido puntual PAGES01».
 - **F04-T05-FIX02 — arranque y prueba jugable del práctico:** pedido puntual del usuario tras fusionar #45. Rama `f04-t05-fix02-driving-playtest`, base `main` (`b2a57ad`), worktree independiente. Implementación inicial `bc30b3b`; [PR #46](https://github.com/grunch/al-volante/pull/46) abierto con correcciones de fuentes y CI posteriores a `54c89bf` (sección del correctivo). No inicia fase 6. [Alcance y reproducción](PRUEBA_MANEJO.md).
 
 - **KAIT02 — Kait de Blender en el inicio (pedido puntual, 2026-10-13):** rama `kait02-home-preview`, desde `main` (`ecda93a`, #43 fusionado), en worktree independiente. Sustituye el auto de presentación con una exportación ligera del estudio solicitado previamente. No inicia otra fase. Detalle y reproducción en [MODELO_KAIT.md](MODELO_KAIT.md); [PR #45](https://github.com/grunch/al-volante/pull/45) fusionado por el usuario en `b2a57ad` (2026-10-13).
@@ -671,6 +672,14 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Codex GitHub: la revisión inicial de `97707c6` señaló el P2 de [fallback a CPU sin OptiX](https://github.com/grunch/al-volante/pull/45#discussion_r4259172371), corregido en `66b1e37`. La [revisión posterior de `66b1e37`](https://github.com/grunch/al-volante/pull/45#pullrequestreview-5504333985) señaló una referencia desactualizada a la implementación vigente; aplica y se corrige en este registro, «Siguiente acción» y `CONTINUIDAD.md`. La corrección documental se comprobó contra Git/GitHub y con `git diff --check`; no altera código ni repite las pruebas del juego.
 - CodeRabbit: [revisión completada sobre `66b1e37`](https://github.com/grunch/al-volante/pull/45#issuecomment-6146488603), sin comentarios accionables pendientes. Las revisiones citadas cubren los commits y ámbitos indicados; no acreditan por adelantado las actualizaciones documentales posteriores ni la CI de la cabeza actual del PR.
 - Compatibilidad con la PWA tras fusionar #44 y #45: el E2E de #46 confirmó que el patrón sin `glb` y el límite de 1.800.000 bytes excluían el Kait (1.848.348 bytes). El pedido del usuario de corregir la CI incorpora el arreglo a F04-T05-FIX02: patrón con `glb`, límite de 2 MB y verificación de caché completa/carga sin red. Ver la sección del correctivo para la validación vigente.
+
+## Pedido puntual PAGES01 — publicación en GitHub Pages
+
+- Pedido: publicar `main` en GitHub Pages. `PLAN_IMPLEMENTACION.md` excluye publicar de la fusión de PRs; este pedido lo incorpora como alcance concreto.
+- Estado previo comprobado con la API de GitHub: Pages activado en modo «GitHub Actions» (`build_type: workflow`) para <https://grunch.github.io/al-volante/>, sin ningún workflow que publique; el entorno `github-pages` solo admite despliegues desde `main`. Por eso la publicación ocurre al fusionar este PR, no desde la rama.
+- Resultado: `.github/workflows/deploy.yml` construye con `npm ci` y `npm run build` en cada push a `main` (o a mano con `workflow_dispatch`), sube `dist/` con `actions/upload-pages-artifact` 5.0.0 y publica con `actions/deploy-pages` 5.0.1, ambos fijados por SHA como el resto de la CI y con más de dos semanas publicados (2026-04-10 y 2026-09-01). Despliegues en serie, sin cancelar uno en curso; permisos `pages: write` e `id-token: write` solo en el job que publica.
+- No repite las pruebas: corren en la CI de cada PR y de `main`. Un `main` con E2E rojo igual se publica; gatillar la publicación con la CI verde queda como alternativa si el usuario la prefiere.
+- Verificación local: build de producción (585 archivos, 31 MB con mapas de código; precache de 537 entradas, 18.644 KiB) servido bajo `/al-volante/` con un servidor estático y Chromium de Playwright: inicio y `#/recorrido` cargan, el service worker queda con alcance `/al-volante/`, el aviso de uso sin conexión aparece y no hubo errores de consola ni respuestas 4xx/5xx. YAML validado y Prettier aprobado. El despliegue real se comprueba después de fusionar.
 
 ## Pila y orden de fusión
 

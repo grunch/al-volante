@@ -63,6 +63,7 @@ scripts/verify-audio.ts    Comprueba el PCM del audio en Chromium (npm run test:
 scripts/blender/           Generador del catálogo de modelos (Blender 5.2).
 specs/                     Documentación, fuentes y catálogos de datos.
 .github/workflows/ci.yml   Integración continua.
+.github/workflows/deploy.yml  Publicación de main en GitHub Pages (PAGES01).
 ```
 
 ## Datos y validación (F02-T02)

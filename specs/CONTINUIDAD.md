@@ -2,6 +2,10 @@
 
 Actualizado: 2026-10-13. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el correctivo F04-T04-FIX01, [#27](https://github.com/grunch/al-volante/pull/27), repara las vueltas guionadas que quedaron rojas en `main`); fase 5 (todo el contenido y simulacros teóricos) fusionada, incluido #33 en `9dd6d9e`; correctivos #34 y #36 fusionados (`f3d2f60`, `c71a289`); #37 (E2E de `main`) y #35 fusionados en `a39dd41` y `132409a`; correctivo F04-T01-FIX05 ([#38](https://github.com/grunch/al-volante/pull/38)) fusionado en `aa9dbf9`. De esa serie no queda ningún PR abierto. La revisión integral REV01 está fusionada completa en `main` (#39 en `782bb37` y [#42](https://github.com/grunch/al-volante/pull/42), con #40 y #41, en `72a1e87`); desde entonces el E2E de `main` corre en tres shards. PWA01 fusionada: [#43](https://github.com/grunch/al-volante/pull/43) en `ecda93a` y [#44](https://github.com/grunch/al-volante/pull/44) en `e71390f`. KAIT02 (#45) fusionado por el usuario en `b2a57ad`. Trabajo activo: F04-T05-FIX02 (sección siguiente). Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
+## Trabajo puntual activo — PAGES01 (publicación en GitHub Pages)
+
+Pedido del 2026-10-13: publicar `main` en GitHub Pages. Rama `pages01-deploy`, desde `main` (`d18fa00`). Pages ya estaba en modo «GitHub Actions» y el entorno `github-pages` solo acepta `main`, así que la primera publicación ocurre al fusionar el PR que agrega `.github/workflows/deploy.yml`. Decisión a respetar: el workflow construye y publica sin repetir las pruebas de la CI; la base relativa `./` de Vite y las rutas con hash son lo que permite servir bajo `/al-volante/`, no cambiarlas a una base absoluta. Estado y verificación en `ESTADO_IMPLEMENTACION.md` («Pedido puntual PAGES01»).
+
 ## Trabajo puntual activo — F04-T05-FIX02 (arranque y prueba jugable)
 
 Pedido del 2026-10-13, después de fusionar #45: el usuario no pudo arrancar el auto y pidió una prueba que opere el juego para encontrar y arreglar problemas del recorrido. Rama `f04-t05-fix02-driving-playtest`, desde `main` (`b2a57ad`), en worktree independiente. No inicia otra fase.

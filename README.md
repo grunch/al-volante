@@ -4,6 +4,8 @@ Juego web para preparar el examen teórico y práctico de licencia B/B.1 en CABA
 
 Estado: **en construcción.** Fases 1–5 integradas, incluido el tránsito y el examen práctico completo. Ver el [estado operativo](specs/ESTADO_IMPLEMENTACION.md).
 
+Versión publicada: <https://grunch.github.io/al-volante/>.
+
 ## Arranque
 
 Requisitos: Node.js 24 desde la 24.15, o 26 en adelante; jsdom 30 no admite la 25 (`.nvmrc` fija 24.21.0, la versión usada en la CI).
@@ -33,6 +35,10 @@ La versión publicada se instala como aplicación: en Chrome, Edge o Android, co
 - El service worker existe solo en el build de producción (`npm run build && npx vite preview`), no en `npm run dev`.
 
 Detalle, límites y pruebas: [Arquitectura, «Aplicación instalable y sin conexión»](specs/ARQUITECTURA.md#aplicación-instalable-y-sin-conexión-pwa01-t02).
+
+## Publicación
+
+Cada fusión en `main` publica el build de producción en GitHub Pages (`.github/workflows/deploy.yml`); también se puede lanzar a mano desde Actions con «Run workflow». El workflow solo instala, construye y publica; las pruebas corren en la CI de cada PR y de `main`. La base relativa de Vite y las rutas con hash permiten servir el mismo build bajo `/al-volante/` sin configuración adicional.
 
 ## Documentación
 
