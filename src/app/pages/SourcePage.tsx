@@ -115,7 +115,7 @@ function SourcePageView({ content, source, page }: { content: Content; source: S
               </li>
             ))}
           </ul>
-          <p>
+          <p className="link-row">
             <Link to="/senales">{SIGN_COPY.libraryLink}</Link>
           </p>
         </section>
@@ -148,7 +148,7 @@ function SourcePageView({ content, source, page }: { content: Content; source: S
         </section>
       )}
       <ExtractedText source={source.id} page={page} />
-      <p>
+      <p className="link-row">
         <a href={`${source.provenance.url}#page=${page}`} target="_blank" rel="noopener noreferrer">
           {t('officialPdfAtPage')}
         </a>

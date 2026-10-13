@@ -48,7 +48,7 @@ export function GaragePage() {
                     </li>
                   ))}
                 </ul>
-                <p>
+                <p className="link-row">
                   <Link to="/mapa/manual/annex1">{GARAGE_COPY.studyAnnex}</Link>
                 </p>
               </>

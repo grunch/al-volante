@@ -446,3 +446,60 @@ La interrupción y la toma de control (D7) funcionan igual en los cuatro modos: 
 `src/audio/soundscape.ts` deriva una mezcla de presentación desde auto, cabina y actores, sin mutarlos. `drivingAudio.ts` posee un grafo Web Audio acotado; `session.ts` controla gesto inicial, suspensión y cierre. `useDrivingAudio.ts` conecta preferencias y foco con React. El volumen no reinicia la física. Los sonidos son síntesis original; no hay descargas ni dependencia adicional. `npm run test:audio` verifica PCM real en Chromium además de las pruebas unitarias y E2E.
 
 `streetParking.ts` planifica estacionados solo donde queda espacio en el modelo actual; `neighborhoodDetails.ts` traduce rasgos de las fotos a elementos originales. Los estacionados se agregan al mundo como obstáculos `vehicle`, con la intervención de examen ya aplicada al tránsito móvil. `geometry.ts` usa variantes Blender por distancia, conserva instancias, actualiza solo particiones modificadas y libera recursos por sector. Las aproximaciones, referencias, modelos y mediciones están en [INMERSION_RECORRIDO.md](INMERSION_RECORRIDO.md).
+
+## Diseño adaptable (PWA01-T01)
+
+La aplicación se adapta a cualquier pantalla, de un teléfono de 320 px a un monitor 4K, en vertical y en horizontal. Es solo CSS (`src/ui/theme.css`, `src/city/city.css`) más unos pocos atributos: no cambió la identidad visual ni la lógica de los renderers, que ya seguían el tamaño de su contenedor con `ResizeObserver`.
+
+**Estrategia**
+
+- **Una columna**: el contenido mide como máximo `--content-max` (72rem) y se centra; el encabezado y el pie alinean su contenido con esa columna (`--column-left`/`--column-right`), así en pantallas anchas la marca y el menú no quedan pegados a los bordes.
+- **Tipografía**: el tamaño base es el del navegador hasta 2560 px de ancho; de 2560 a 3840 px la raíz crece de 100 % a 125 % (`clamp(1rem, 0.5rem + 0.3125vw, 1.25rem)`), para que un 4K al 100 % no muestre texto de 16 px en una franja angosta. Los títulos y las lecturas del examen (`.hud dd`: 18 px en teléfono, 24 px en escritorio) usan `clamp()`.
+- **Medida de lectura**: párrafos, ítems, `dd`, leyendas, opciones y tablas dentro de `main` no pasan de `--measure` (72ch). La regla usa `:where()` (especificidad cero), así cualquier regla de componente la reemplaza; tarjetas y paneles conservan su ancho.
+- **Sin desbordes**: `overflow-wrap: break-word` en `body`; grillas con `minmax(0, 1fr)` y `min-width: 0` en sus hijos; `img`, `video` y `svg` con `max-width: 100%`; el texto extraído de los PDF usa `pre-wrap` (conserva los saltos del PDF y ajusta las líneas largas en vez de esconderlas detrás de un desplazamiento horizontal); los nombres largos de señales («ESTACIONAMIENTO») se dividen con `hyphens: auto` o, si el navegador no tiene diccionario, en cualquier punto.
+- **Alto y zonas seguras**: `100dvh` para el alto mínimo de la página y `svh` (con `vh` de respaldo) para los lienzos 3D, que no cambian de tamaño cuando aparece o se oculta la barra del navegador. `index.html` declara `viewport-fit=cover` sin desactivar el zoom; los márgenes laterales valen `max(1rem, env(safe-area-inset-*))`, y el encabezado, el pie y la cabina en pantalla completa respetan las zonas seguras de arriba y de abajo.
+- **Objetivos táctiles**: con `(pointer: coarse)`, botones, campos, `summary`, opciones, radios de los modos y los enlaces que no están dentro de una oración (títulos de tarjetas, referencias de página, filas y listas de enlaces, navegación de páginas) miden al menos 44 × 44 px (`--touch-target`); los enlaces del menú y la marca lo cumplen siempre. Los enlaces dentro de texto corrido conservan su tamaño (excepción «inline» de WCAG 2.5.8). Las filas o listas de enlaces sueltos llevan la clase `link-row` o `link-list`.
+- **Lienzos 3D**: el garaje (16:9) no supera `100svh - 2rem`; la vista del recorrido mide `clamp(min(20rem, 100svh - 2rem), 65svh, 33.75rem)`; la cabina sigue 16:9 (mínimo 330 px) en escritorio y 4:3 (mínimo 280 px) en teléfonos verticales.
+- **Accesibilidad**: el foco de la vista de la cabina se dibuja hacia adentro, en el amarillo de la cabina y con una franja oscura por dentro, así se distingue sobre el cielo claro y sobre el tablero (antes el contorno turquesa quedaba recortado a los costados por el borde de la cabina y casi no contrastaba con la escena). Se mantienen `prefers-reduced-motion`, el salto al contenido y el orden de tabulación.
+
+**Puntos de corte** (en `rem`, elegidos por el contenido y no por modelos de dispositivo):
+
+| Condición | Efecto |
+|---|---|
+| `max-width: 25rem` (400 px), o apaisado con `max-height: 32rem` | Encabezado con menos relleno: de 137 a 112 px de alto en 844×390 y de 176 a 160 px en 568×320; en 320×568 baja de 223 a 208 px aunque los enlaces del menú pasaron a 44 px. |
+| `max-width: 37.5rem` (600 px) | Cabina 4:3 y mandos más chicos (ya existía). En vertical, la pantalla completa deja la vista fija arriba y los mandos se desplazan debajo. |
+| apaisado y `max-height: 32rem` (512 px) | Cabina en dos columnas: debajo de la ayuda, la vista 3D ocupa todo el alto de la pantalla y queda fija (`position: sticky`, con `overflow: clip` en la cabina) mientras la columna de mandos, con los pedales primero, se desplaza al lado. En pantalla completa se desplaza la cabina misma. |
+| `max-width: 56.25rem` (900 px) | Recorrido: el mapa ocupa todo el ancho sobre la vista 3D (antes el corte estaba en 760 px y en tabletas el mapa quedaba de 220 px). |
+| `pointer: coarse` | Objetivos táctiles de 44 × 44 px (ver arriba). |
+
+**Mapa del recorrido** (`RouteMap.tsx`): los números de tramo, el norte y la escala se dibujan en 32 unidades del `viewBox` (antes 15–17). El mapa ocupa entre 230 y 380 px de ancho, de modo que sus rótulos no bajan de 12 px; antes medían entre 4,7 y 7,2 px.
+
+**E2E** (`tests/e2e/responsive.spec.ts`): carga las páginas principales en 320×568, 568×320, 768×1024 (con emulación táctil), 1920×1080 y 3840×2160 y comprueba que la página no se desplace en horizontal y que encabezado, `main`, pie, título, grillas, texto extraído, preguntas, lecturas, cabina, mandos, recorrido y lienzos queden dentro del ancho de la pantalla. En pantallas táctiles exige 44 px en enlaces del menú, botones y opciones. En las páginas 3D solo revisa la disposición, sin manejar: el examen sin esperar la ciudad, la vista del recorrido y la pista cuando están listas; la vista de la cabina debe tener alto útil (≥ 280 px o el alto de la pantalla) sin pasar el alto de la pantalla y, en el teléfono apaisado, los pedales deben quedar a la derecha de la vista y empezar en su mitad superior. Corre en el proyecto `chromium-desktop` (cada viewport emula su dispositivo), en unos 40 s con dos workers y WebGL por software. Contra el CSS anterior falla en 320×568 (desborde de `#/mapa/manual/ch3`), 568×320 (100 objetivos táctiles chicos y una vista de 400 px de alto en una pantalla de 320) y 768×1024 (126 objetivos táctiles chicos).
+
+**Auditoría medida** (2026-10-13; script de Playwright fuera del repositorio, build de producción con `vite preview`, Chromium 153 de Playwright con la GPU local; la GPU solo acelera la auditoría y no cambia la disposición). Se recorrieron 31 estados en 14 viewports (434 combinaciones): 320×568, 360×640, 375×667, 390×844, 412×915, 568×320 y 844×390 (teléfono apaisado), 768×1024 y 1024×768 (tableta), todos con DPR 2–3 y emulación táctil; 1280×800, 1440×900, 1920×1080, 2560×1440 y 3840×2160 con DPR 1. Los estados incluyen inicio, garaje, mapa, una sección y la de circuitos, actividades (lista, sección y una de cada tipo con su devolución), catálogo de señales, biblioteca, dos páginas de fuente, simulacro teórico (introducción, en curso y resultado), bitácora con datos, examen práctico (antes de arrancar, manejando con el tablero y con la ficha), recorrido (vista y cabina), pista y 404. Por cada uno se midió desplazamiento horizontal, cajas fuera de la pantalla, contenido que desborda su caja, texto recortado o superpuesto, texto < 12 px, objetivos táctiles < 44 px, controles tapados o más grandes que la pantalla, lienzos de tamaño cero, deformados o más altos que la pantalla, y renglones de más de 90ch; además se revisaron capturas de cada página en teléfono chico, teléfono apaisado, tableta, 1080p y 4K.
+
+| Hallazgo antes | Dónde | Corrección |
+|---|---|---|
+| La página se desplaza en horizontal (490 px de contenido en pantallas de 320–412 px) | `#/mapa/manual/ch3`: URL largas en unidades | `minmax(0, 1fr)`, `min-width: 0` y `overflow-wrap` |
+| Nombres de señales más anchos que su tarjeta | `#/senales` en 412 y 1024 px | `hyphens` + `overflow-wrap: anywhere` |
+| Texto del PDF con desplazamiento horizontal sin indicio visible (815 px en 286 en 320×568) y caja más alta que un teléfono apaisado | `#/biblioteca/…` en teléfonos y tabletas; la página 16 de recorridos, también en escritorio (1288 px en 1118) | `pre-wrap` y `max-height: min(28rem, 70vh)` |
+| Vista 3D más alta que la pantalla (534×401 en 568×320; 810×456 en 844×390) y pedales debajo, fuera de la vista | examen, pista, cabina del recorrido, garaje | cabina apaisada en dos columnas con vista fija; `max-height` en `svh` |
+| Rótulos del mapa de 4,7–7,2 px | recorrido, en los 14 viewports | rótulos de 32 unidades y mapa a todo el ancho por debajo de 900 px |
+| Texto de las señales dibujadas de 11,5 px | actividades de señales y catálogo en 320 px | gráfico de 10rem siempre que entre |
+| Renglones de 92–157ch | 22 estados, de 768 px de ancho en adelante | `--measure: 72ch` |
+| 12 941 objetivos táctiles < 44 px (8 753 < 24 px) en 279 combinaciones táctiles | menú, botones, opciones, radios, `summary`, enlaces sueltos | reglas `pointer: coarse` y clases `link-row`/`link-list` |
+| Numeración repetida al lado de la primera opción | simulacro en curso | lista sin marcador (la leyenda ya numera) |
+| Encabezado de 137 px en una pantalla de 390 (844×390); marca y menú en los bordes de un 4K, con el contenido en una franja de 1152 px y texto de 16 px | todas las páginas | encabezado compacto; columna compartida; tipografía fluida desde 2560 px |
+| Panel de iluminación más ancho que la columna de mandos | cabina apaisada (detectado al rehacerla) | `flex-wrap` en `.cockpit-select` |
+
+Después de los cambios, las 434 combinaciones dan cero en todas las mediciones, sin errores de página.
+
+**Límites**
+
+- En un teléfono apaisado de 568×320 la vista 3D queda de 320×320 px y la columna de mandos de 214 px (dos botones por fila, pedales primero); en uno vertical de 320×568 la vista es de 286×280 px, como antes. Se puede manejar, pero la vista es chica; la pantalla completa la fija arriba y casi no la agranda. No se midió rendimiento en estos tamaños.
+- Las indicaciones del examinador y el tablero del examen (`.hud`) siguen debajo de la cabina: en un teléfono apaisado o en pantalla completa no se ven al mismo tiempo que la vista; dentro de la vista solo están velocidad, marcha, rpm, luces y giros. Moverlos a la cabina es otro cambio de diseño.
+- La emulación de Chromium no reemplaza dispositivos reales: las zonas seguras (`env(safe-area-inset-*)`) valen 0 en la emulación y no se comprobaron en un teléfono con muesca; tampoco se probaron Safari ni Firefox.
+- Sobre 2560 px la tipografía crece con el ancho: al ampliar con el zoom del navegador el texto crece algo menos que el zoom (con 200 % en 3840 px pasa de 20 a 32 px de pantalla, 1,6 veces; 250 % lo duplica).
+- El texto extraído ajustado pierde la alineación en columnas de las tablas del PDF en pantallas angostas; la página oficial sigue enlazada.
+- La división de palabras depende de los diccionarios del navegador; sin ellos «ESTACIONAMIENTO» se corta sin guion.
+- En 320 px el menú ocupa tres renglones; se mantuvo sin menú desplegable para no cambiar la navegación ni el orden de tabulación.

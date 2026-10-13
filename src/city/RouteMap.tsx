@@ -1,6 +1,11 @@
 import type { City } from './model.ts';
 import { CITY_COPY as copy } from '../i18n/es-AR.ts';
 
+// The map is drawn 230-380 px wide (scale 0.39-0.64 of the view box): labels this size stay at 12 px or more.
+const LEG_LABEL_SIZE = 32;
+const LEG_MARKER_RADIUS = 19;
+const CAPTION_SIZE = 32;
+
 /** Geographic overview stays accessible and available without WebGL. */
 export function RouteMap({ city, selected }: { city: City; selected: number }) {
   return (
@@ -28,20 +33,27 @@ export function RouteMap({ city, selected }: { city: City; selected: number }) {
           <circle
             cx={leg.path[0]?.x}
             cy={leg.path[0]?.z}
-            r="12"
+            r={LEG_MARKER_RADIUS}
             fill={leg.number === selected ? '#16766c' : '#243f47'}
           />
-          <text x={leg.path[0]?.x} y={(leg.path[0]?.z ?? 0) + 5} textAnchor="middle" fill="white" fontSize="15">
+          <text
+            x={leg.path[0]?.x}
+            y={(leg.path[0]?.z ?? 0) + LEG_LABEL_SIZE * 0.36}
+            textAnchor="middle"
+            fill="white"
+            fontSize={LEG_LABEL_SIZE}
+            fontWeight="700"
+          >
             {leg.number}
           </text>
         </g>
       ))}
-      <path d="M355,-260 v-35 m0,0 l-6,10 m6,-10 l6,10" stroke="#243f47" strokeWidth="3" fill="none" />
-      <text x="355" y="-305" textAnchor="middle" fontSize="17" fill="#243f47">
+      <path d="M355,-250 v-35 m0,0 l-6,10 m6,-10 l6,10" stroke="#243f47" strokeWidth="3" fill="none" />
+      <text x="355" y="-290" textAnchor="middle" fontSize={CAPTION_SIZE} fontWeight="700" fill="#243f47">
         {copy.north}
       </text>
       <path d="M-145,155 h100 m-100,-5 v10 m100,-10 v10" stroke="#243f47" strokeWidth="2" />
-      <text x="-95" y="182" textAnchor="middle" fontSize="15" fill="#243f47">
+      <text x="-95" y="188" textAnchor="middle" fontSize={CAPTION_SIZE} fill="#243f47">
         {copy.mapScale}
       </text>
     </svg>
