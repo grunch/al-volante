@@ -1,6 +1,6 @@
 # Plan de implementación por fases y PRs
 
-Fecha: 2026-10-11. Propuesta de producto aceptada por el usuario. Fase 1 cerrada y fase 2 iniciada el 2026-10-11; estado vivo en [ESTADO_IMPLEMENTACION.md](ESTADO_IMPLEMENTACION.md).
+Fecha: 2026-10-11. Propuesta de producto aceptada por el usuario. Fases 1 y 2 cerradas el 2026-10-11 y fases 3–5 el 2026-10-12; estado vivo en [ESTADO_IMPLEMENTACION.md](ESTADO_IMPLEMENTACION.md).
 
 Este documento concreta la ejecución de [PROPUESTA.md](../PROPUESTA.md). Cada tarea numerada corresponde a **un PR de GitHub**. Los identificadores siguientes son identificadores de planificación, no números de PR creados.
 
