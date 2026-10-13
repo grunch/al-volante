@@ -206,7 +206,12 @@ describe('mock theory exam invariants', () => {
       ...overrides,
     };
   }
-  const finished = (payload: Record<string, unknown>) => [{ at: AT, type: 'finished', payload }];
+  const start = {
+    at: AT,
+    type: 'start',
+    payload: { seed: 4, configVersion: '2026-10-12', minutes: 45, questions: [] },
+  };
+  const finished = (payload: Record<string, unknown>) => [start, { at: AT, type: 'finished', payload }];
 
   it('accepts a graded mock exam, which has no single answer and passes without a full score', () => {
     expect(attemptErrors(mock(), rules)).toEqual([]);
@@ -226,10 +231,7 @@ describe('mock theory exam invariants', () => {
     const passRule = { version: '2026-10-12', questions: 40, passCorrect: 34 };
     const graded = (correct: number, passed: boolean) =>
       mock({
-        events: [
-          { at: AT, type: 'start', payload: { seed: 4, configVersion: '2026-10-12', minutes: 45, questions: [] } },
-          ...finished({ answers: {}, correct, total: 40, passed, timedOut: false }),
-        ],
+        events: finished({ answers: {}, correct, total: 40, passed, timedOut: false }),
         result: { correct: passed, score: correct / 40, points: null },
       });
 
@@ -242,6 +244,26 @@ describe('mock theory exam invariants', () => {
     expect(attemptErrors(graded(40, false), rules, passRule)).toEqual([
       't1: 40 of 40 passes the mock exam (34 of 40 needed), but the grade says otherwise',
     ]);
+  });
+
+  it('rejects a mock exam without exactly one readable start, so its threshold cannot be skipped', () => {
+    // Arrange: a "passed" with 0 of 40 that hides its configuration by dropping or breaking the start event.
+    const passRule = { version: '2026-10-12', questions: 40, passCorrect: 34 };
+    const grade = { at: AT, type: 'finished', payload: { answers: {}, correct: 0, total: 40, passed: true } };
+    const result = { correct: true, score: 0, points: null };
+    const cases: Record<string, [Attempt['events'], number]> = {
+      'no start': [[grade], 0],
+      'unreadable start': [[{ at: AT, type: 'start', payload: { seed: 'x' } }, grade], 1],
+      'two starts': [[start, start, grade], 2],
+    };
+
+    for (const [name, [events, found]] of Object.entries(cases)) {
+      // Act
+      const errors = attemptErrors(mock({ events, result }), rules, passRule);
+
+      // Assert
+      expect(errors, name).toEqual([`t1: a mock exam has exactly one readable start (found ${found})`]);
+    }
   });
 
   it('keeps the verdict of a mock exam from another configuration version, whose threshold is not known', () => {

@@ -54,7 +54,13 @@ export const TheoryGradeSchema = z.object({
  * What a handed-in mock theory exam looks like (createTheoryAttempt): finished, one grade and a result that follows
  * it (passing does not need a full score), no faults or points. It is an activity attempt with no single answer.
  */
-const TheoryStartSchema = z.object({ configVersion: z.string() });
+/** The paper a mock exam records when it starts (createTheoryAttempt). */
+const TheoryStartSchema = z.object({
+  seed: z.int(),
+  configVersion: z.string().min(1),
+  minutes: z.number().positive(),
+  questions: z.array(z.string()),
+});
 
 function theoryErrors(attempt: Attempt, theoryExam: TheoryPassRule | undefined): string[] {
   const errors: string[] = [];
@@ -71,10 +77,14 @@ function theoryErrors(attempt: Attempt, theoryExam: TheoryPassRule | undefined):
   const { total, passed } = grade.data;
   if (correct !== passed || score !== (total === 0 ? 0 : grade.data.correct / total))
     errors.push(`${attempt.id}: the result does not match the grade of the mock exam`);
+  // Every mock exam records its paper when it starts; without it the configuration of the verdict is unknown.
+  const starts = attempt.events.filter((event) => event.type === 'start');
+  const start = TheoryStartSchema.safeParse(starts[0]?.payload);
+  if (starts.length !== 1 || !start.success)
+    return [...errors, `${attempt.id}: a mock exam has exactly one readable start (found ${starts.length})`];
   // The verdict is data from outside: under the current configuration it must follow its threshold (gradeExam). An
   // attempt of another configuration version keeps its own verdict, since its threshold is not known here.
-  const start = TheoryStartSchema.safeParse(attempt.events.find((event) => event.type === 'start')?.payload);
-  if (theoryExam && start.success && start.data.configVersion === theoryExam.version) {
+  if (theoryExam && start.data.configVersion === theoryExam.version) {
     const shouldPass = total >= theoryExam.questions && grade.data.correct >= theoryExam.passCorrect;
     if (passed !== shouldPass)
       errors.push(
