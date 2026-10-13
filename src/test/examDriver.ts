@@ -9,7 +9,7 @@ import type { CarControls, CarEvent, CarState } from '../sim/car.ts';
 import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import type { AutomaticLever, ManualGear, PowertrainCommand, TransmissionKind } from '../sim/powertrain/powertrain.ts';
 import type { TrafficSnapshot, TrafficSource } from '../sim/scenario.ts';
-import { preparedFor } from '../exam/modes.ts';
+import { preparedCabinFor, preparedFor } from '../exam/modes.ts';
 import { PRACTICE_YARD } from '../sim/tracks/practiceYard.ts';
 import { EXAM_CAR, bodyBox } from '../sim/vehicle.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
@@ -47,7 +47,8 @@ export class Driver {
     this.traffic = trafficOf(world) ?? null;
     this.scenario = this.traffic ? this.traffic.create() : null;
     // Stage I starts with the key in contact (protocolo PDF 9), as the exam page does; a practice of stage III
-    // arrives with the engine running.
+    // arrives with the engine running, the belt fastened and the low beams on.
+    this.cockpit = preparedCabinFor(practice).reduce(commandCockpit, initialCockpit());
     this.drive(...preparedFor(practice));
   }
 

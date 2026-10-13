@@ -59,6 +59,8 @@ interface DrivingCanvasProps {
   resetCount?: number;
   /** Commands applied at the start and on every reset (an exam begins with the key in contact). */
   prepared?: readonly PowertrainCommand[];
+  /** Cabin commands applied at the start and on every reset (a practice of stage III arrives belted, lights on). */
+  preparedCabin?: readonly CockpitCommand[];
   /** Receives every cabin command and every simulation step, for the exam evaluation (F03-T04). */
   onObservation?: (observation: Observation) => void;
   /**
@@ -72,6 +74,8 @@ interface DrivingCanvasProps {
 
 const defaultRendererFactory: RendererFactory = () => new THREE.WebGLRenderer({ antialias: true });
 const EMPTY_COMMANDS: readonly PowertrainCommand[] = [];
+const EMPTY_CABIN: readonly CockpitCommand[] = [];
+const cabinOf = (commands: readonly CockpitCommand[]) => commands.reduce(commandCockpit, initialCockpit());
 /** What the examiner's pedals press when they take over: the brake, and the clutch so a manual does not stall. */
 const HALT_KEYS: ReadonlySet<string> = new Set([KEY_BINDINGS.brake[0], KEY_BINDINGS.clutch[0]]);
 
@@ -95,6 +99,7 @@ export function DrivingCanvas({
   onTelemetry,
   resetCount = 0,
   prepared = EMPTY_COMMANDS,
+  preparedCabin = EMPTY_CABIN,
   onObservation,
   halted = false,
   onBindingsChange,
@@ -134,7 +139,7 @@ export function DrivingCanvas({
       setDisplayError(true);
     }
   };
-  const [cockpit, setCockpit] = useState(initialCockpit);
+  const [cockpit, setCockpit] = useState(() => cabinOf(preparedCabin));
   const cockpitRef = useRef(cockpit);
   const [bindings, setBindings] = useState<Bindings>(() => {
     try {
@@ -304,12 +309,13 @@ export function DrivingCanvas({
       lastTime = now;
       if (appliedReset !== resetRef.current) {
         appliedReset = resetRef.current;
+        // The cabin goes back first: `fresh` reports the prepared commands with the cabin of the new session.
+        releaseKeys();
+        cockpitRef.current = cabinOf(preparedCabin);
+        setCockpit(cockpitRef.current);
         driving = fresh();
         audioSession?.reset();
         lastEvent = null;
-        releaseKeys();
-        cockpitRef.current = initialCockpit();
-        setCockpit(cockpitRef.current);
       }
       let hornSampled = false;
       const pressed = pendingRef.current.splice(0);
@@ -394,7 +400,7 @@ export function DrivingCanvas({
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [createRenderer, createScene, world, start, transmission, prepared, audioRef]);
+  }, [createRenderer, createScene, world, start, transmission, prepared, preparedCabin, audioRef]);
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.ctrlKey || event.altKey || event.metaKey) return;

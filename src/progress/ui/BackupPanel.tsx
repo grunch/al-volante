@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { RuleCatalog } from '../../content/schemas.ts';
 import type { ChangeEvent } from 'react';
 import { createBackup, parseBackup } from '../backup.ts';
+import { localDay } from '../dates.ts';
 import type { BackupParseResult } from '../backup.ts';
 import { downloadText } from '../download.ts';
 import type { ProgressSnapshot } from '../storage.ts';
@@ -42,8 +43,12 @@ export function BackupPanel({
     setMessage(null);
     try {
       const snapshot = await exportSnapshot();
-      const at = now().toISOString();
-      downloadText(`al-volante-progreso-${at.slice(0, 10)}.json`, createBackup(snapshot, contentVersion, at));
+      const at = now();
+      // The file is named after the person's calendar day; the backup itself keeps the exact UTC instant.
+      downloadText(
+        `al-volante-progreso-${localDay(at)}.json`,
+        createBackup(snapshot, contentVersion, at.toISOString()),
+      );
     } catch (error) {
       console.error('Could not export the backup', error);
       setMessage({ kind: 'error', text: LOGBOOK_COPY.exportFailed });

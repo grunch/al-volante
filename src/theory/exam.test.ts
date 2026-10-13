@@ -84,6 +84,51 @@ describe('allocate', () => {
   });
 });
 
+describe('allocate: edge cases', () => {
+  it('shares equally when no section has units to weigh it', () => {
+    const none = new Map([
+      ['a', 0],
+      ['b', 0],
+    ]);
+    const capacity = new Map([
+      ['a', 10],
+      ['b', 10],
+    ]);
+
+    expect(Object.fromEntries(allocate(none, capacity, 4))).toEqual({ a: 2, b: 2 });
+  });
+
+  it('gives a section left at zero one question of the largest, while the largest keeps one', () => {
+    const weights = new Map([
+      ['a', 100],
+      ['b', 1],
+      ['c', 1],
+    ]);
+    const capacity = new Map([
+      ['a', 10],
+      ['b', 10],
+      ['c', 10],
+    ]);
+
+    // Two questions for three sections: the heavy one gives one away and keeps the other.
+    expect(Object.fromEntries(allocate(weights, capacity, 2))).toEqual({ a: 1, b: 1, c: 0 });
+  });
+
+  it('asks for no more than all the sections can offer together', () => {
+    const weights = new Map([
+      ['a', 1],
+      ['b', 1],
+      ['missing', 1],
+    ]);
+    const capacity = new Map([
+      ['a', 2],
+      ['b', 1],
+    ]);
+
+    expect(Object.fromEntries(allocate(weights, capacity, 10))).toEqual({ a: 2, b: 1 });
+  });
+});
+
 describe('composeExam', () => {
   it('is reproducible: the same seed gives the same paper, another seed another one', () => {
     const { activities, units } = bank();
@@ -138,7 +183,101 @@ describe('composeExam', () => {
   });
 });
 
+describe('composeExam: what enters the paper', () => {
+  it('takes only reviewed single-choice and sign questions, and a second variant only when a section runs short', () => {
+    const { units } = bank();
+    const [ch3] = units;
+    const two = choiceActivity({
+      id: 'act.two-variants',
+      unitIds: [ch3!.id],
+      variants: [
+        { id: 'v1', prompt: 'Uno', options: three('two.1') },
+        { id: 'v2', prompt: 'Dos', options: three('two.2') },
+      ],
+    });
+    const draft = { ...choiceActivity({ id: 'act.draft', unitIds: [ch3!.id] }), status: 'draft' as const };
+    const ordering: Activity = {
+      id: 'act.ordering',
+      type: 'ordering',
+      title: 'Orden',
+      unitIds: [ch3!.id],
+      refs: [{ source: 'manual', page: 2 }],
+      explanation: 'Explicación.',
+      status: 'reviewed',
+      variants: [
+        {
+          id: 'v1',
+          prompt: 'Ordená',
+          items: [
+            { id: 'a', text: 'A', reason: 'Primero' },
+            { id: 'b', text: 'B', reason: 'Después' },
+          ],
+        },
+      ],
+    };
+    const sectionConfig = { ...config, questions: 2, sections: ['manual-ch3'] };
+
+    const paper = composeExam([draft, ordering, two], units, sectionConfig, 1);
+
+    expect(paper.questions.map((question) => question.id).sort()).toEqual([
+      'act.two-variants#v1',
+      'act.two-variants#v2',
+    ]);
+  });
+
+  it('carries the sign of a sign question to the paper, and none for a single-choice one', () => {
+    const { activities, units } = bank();
+    const sign: Activity = {
+      id: 'act.sign',
+      type: 'sign-identification',
+      title: 'Señal',
+      unitIds: ['manual.ch1.a'],
+      refs: [{ source: 'manual', page: 2 }],
+      explanation: 'Explicación.',
+      status: 'reviewed',
+      variants: [
+        { id: 'v1', prompt: '¿Qué indica esta señal?', signId: 'sign.regulatory.stop', options: three('sign') },
+      ],
+    };
+    const signConfig = { ...config, questions: 2, sections: ['manual-ch1'] };
+
+    const paper = composeExam([...activities.filter((item) => item.id === 'act.ch1-one'), sign], units, signConfig, 2);
+
+    expect(Object.fromEntries(paper.questions.map((question) => [question.activityId, question.signId]))).toEqual({
+      'act.ch1-one': null,
+      'act.sign': 'sign.regulatory.stop',
+    });
+  });
+
+  it('leaves out an activity that practises a unit the catalog does not have', () => {
+    const { activities, units } = bank();
+    const orphan = activities.map((activity) =>
+      activity.id === 'act.ch1-two' ? { ...activity, unitIds: [...activity.unitIds, 'manual.ch9.gone'] } : activity,
+    );
+
+    const paper = composeExam(orphan, units, config, 3);
+
+    expect(paper.questions.map((question) => question.activityId)).not.toContain('act.ch1-two');
+  });
+});
+
 describe('gradeExam', () => {
+  it('refuses a paper whose question is no longer in the content', () => {
+    const { activities, units } = bank();
+    const paper = composeExam(activities, units, config, 5);
+
+    expect(() => gradeExam(paper, {}, activities.slice(1, 2), config)).toThrow(/is not in the content/);
+  });
+
+  it('lists only the sections that had questions, in the order of the configuration', () => {
+    const { activities, units } = bank();
+    const paper = composeExam(activities, units, { ...config, sections: ['manual-ch3'] }, 5);
+
+    const grade = gradeExam(paper, {}, activities, { ...config, sections: ['manual-ch1', 'manual-ch3'] });
+
+    expect(grade.bySection.map((row) => row.sectionKey)).toEqual(['manual-ch3']);
+  });
+
   it('passes from the threshold, counts unanswered as wrong and points to the concepts to review', () => {
     const { activities, units } = bank();
     const paper = composeExam(activities, units, config, 5);

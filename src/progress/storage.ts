@@ -257,6 +257,11 @@ export async function openProgressStore(): Promise<ProgressStore> {
           attempts.createIndex('by-finished', 'finishedAt');
         }
       },
+      // A newer release open in another tab needs to upgrade: this connection steps aside instead of blocking that
+      // tab forever. Writes from here then fail, and say so, until this tab is reloaded.
+      blocking(_currentVersion, _blockedVersion, event) {
+        (event.target as IDBDatabase).close();
+      },
     });
     return new IndexedDbStore(db);
   } catch (error) {

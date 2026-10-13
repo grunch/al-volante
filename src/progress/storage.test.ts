@@ -264,6 +264,26 @@ describe('IndexedDB progress store', () => {
     expect(snapshot.attempts.map((item) => item.id)).toEqual(['old']);
     expect(quarantined).toBe(0);
   });
+
+  it('lets a tab with a newer version of the app upgrade the database instead of blocking it forever', async () => {
+    // Arrange: this tab keeps its connection open, as a tab left in the background does.
+    const store = await openProgressStore();
+    await practise(store, 'a1');
+    let blocked = false;
+
+    // Act: the next release opens the database with a higher version.
+    const newer = await openDB(DB_NAME, DB_VERSION + 1, {
+      blocked() {
+        blocked = true;
+      },
+    });
+
+    // Assert: the open tab stepped aside without being asked twice; its progress is still there.
+    expect(blocked).toBe(false);
+    expect((await newer.getAll('attempts')).map((item) => item.id)).toEqual(['a1']);
+    newer.close();
+    await expect(store.load()).rejects.toThrow();
+  });
 });
 
 describe('fallback without IndexedDB', () => {

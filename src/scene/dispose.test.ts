@@ -28,4 +28,19 @@ describe('disposeScene', () => {
     // Assert
     for (const spy of disposed) expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('releases a geometry or material shared by several drawables only once', () => {
+    // Arrange
+    const scene = new THREE.Scene();
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial();
+    scene.add(new THREE.Mesh(geometry, material), new THREE.Mesh(geometry, [material, material]));
+    const releases = [vi.spyOn(geometry, 'dispose'), vi.spyOn(material, 'dispose')];
+
+    // Act
+    disposeScene(scene);
+
+    // Assert
+    for (const release of releases) expect(release).toHaveBeenCalledOnce();
+  });
 });

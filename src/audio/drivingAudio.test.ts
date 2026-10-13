@@ -53,4 +53,24 @@ describe('bounded Web Audio synthesis', () => {
     expect(nodes[count]!.disconnect).toHaveBeenCalledOnce();
     audio.dispose();
   });
+
+  it('silences the horn as soon as the mix releases it, and honks for traffic only when asked', () => {
+    // Arrange: the horn bus is the gain right after the engine, road and wind layers.
+    const { context, nodes } = fakeAudio();
+    const audio = createDrivingAudio(context);
+    const hornTargets = () =>
+      nodes.flatMap((node) => node.gain.setTargetAtTime.mock.calls.filter((call) => call[2] === 0.012));
+
+    const quietCar = { ...mix.traffic[0]!, horn: false, siren: false };
+
+    // Act
+    audio.update({ ...mix, traffic: [], cues: [] });
+    const before = nodes.length;
+    audio.update({ ...mix, horn: false, traffic: [quietCar], cues: [] });
+
+    // Assert: the driver's horn fades out, and a passing car that does not honk adds no transient.
+    expect(hornTargets().map((call) => call[0])).toEqual([0.11, 0]);
+    expect(nodes).toHaveLength(before);
+    audio.dispose();
+  });
 });

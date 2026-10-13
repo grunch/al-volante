@@ -1,8 +1,14 @@
 import routeData from '../../specs/route/comuna13-a.json';
 import { RouteSchema } from '../content/schemas.ts';
 import { buildCity, distance, projectOnRoad } from '../city/model.ts';
+import type { City, CityControl, Road } from '../city/model.ts';
+import { createRandom } from '../activities/random.ts';
 import { overlaps } from '../sim/collision.ts';
-import { buildNetwork, locateOnPath, pointAlong, travelDirections } from './network.ts';
+import type { Point } from '../sim/collision.ts';
+import { DRY_ASPHALT } from '../sim/dynamics.ts';
+import { restingVehicle } from '../sim/vehicle.ts';
+import { controlLights, createSignalPlan } from './lights.ts';
+import { buildNetwork, laneSpeedMps, locateOnPath, pointAlong, travelDirections } from './network.ts';
 
 const city = buildCity(RouteSchema.parse(routeData));
 const network = buildNetwork(city);
@@ -138,5 +144,112 @@ describe('traffic network', () => {
     expect(locateOnPath(lap, { x: 1000, z: 1000 }, 5)).toBeNull();
     const bus = network.paths.find((path) => path.kind === 'bus')!;
     expect(pointAlong(bus, bus.lengthM + 50).point).toEqual(pointAlong(bus, bus.lengthM).point);
+  });
+});
+
+describe('lane speeds', () => {
+  const route = city.roads.find((road) => road.kind === 'route')!;
+  const context = city.roads.find((road) => road.id === 'ibera')!;
+  const busway = city.roads.find((road) => road.kind === 'busway')!;
+
+  it('keeps the lower of the exam limit and the posted maximum, and the street limit without either', () => {
+    expect(laneSpeedMps({ ...route, examMaxKmh: 30, postedMaxKmh: 20 })).toBeCloseTo(20 / 3.6, 9);
+    expect(laneSpeedMps({ ...route, examMaxKmh: 45, postedMaxKmh: null })).toBeCloseTo(45 / 3.6, 9);
+    expect(laneSpeedMps({ ...route, examMaxKmh: null, postedMaxKmh: null })).toBeCloseTo(30 / 3.6, 9);
+  });
+
+  it('gives context streets the street or avenue limit by name or width, and the busway its own', () => {
+    expect(laneSpeedMps({ ...context, street: 'Iberá', widthM: 8.8 })).toBeCloseTo(30 / 3.6, 9);
+    expect(laneSpeedMps({ ...context, street: 'Iberá', widthM: 18 })).toBeCloseTo(45 / 3.6, 9);
+    expect(laneSpeedMps({ ...context, street: 'Av. Congreso', widthM: 8.8 })).toBeCloseTo(45 / 3.6, 9);
+    expect(laneSpeedMps(busway)).toBeCloseTo(40 / 3.6, 9);
+  });
+});
+
+describe('controls of a synthetic block', () => {
+  /** Four one-way legs around a 200 m block and a street crossing the first leg 25 m after its start. */
+  const street = (id: string, name: string, a: Point, b: Point, leg: number | null): Road => ({
+    id,
+    leg,
+    street: name,
+    a,
+    b,
+    lengthM: distance(a, b),
+    headingRad: Math.atan2(b.x - a.x, b.z - a.z),
+    widthM: 8.8,
+    widthStatus: 'approximation',
+    lanes: 1,
+    lanesStatus: 'approximation',
+    cycleTrack: false,
+    kind: leg === null ? 'context' : 'route',
+    postedMaxKmh: null,
+    examMaxKmh: leg === null ? null : 30,
+  });
+  const corners: Point[] = [
+    { x: 0, z: 0 },
+    { x: 0, z: 200 },
+    { x: 200, z: 200 },
+    { x: 200, z: 0 },
+  ];
+  const legs = corners.map((from, index) =>
+    street(`leg-${index + 1}`, `Leg ${index + 1}`, from, corners[(index + 1) % 4]!, index + 1),
+  );
+  const control = (id: string, type: string, road: Road, position: Point): CityControl => ({
+    id,
+    type,
+    sourcePosition: position,
+    position,
+    road,
+    status: 'single-source',
+    sources: [],
+  });
+  const first = legs[0]!;
+  const second = legs[1]!;
+  const block: City = {
+    legs: legs.map((road) => ({
+      number: road.leg!,
+      street: road.street,
+      path: [road.a, road.b],
+      lengthM: road.lengthM,
+      turn: 'left',
+    })),
+    roads: [...legs, street('cross', 'Cross', { x: 60, z: 25 }, { x: -60, z: 25 }, null)],
+    controls: [
+      // Two controls near one crossing: the nearer governs it.
+      control('far-stop', 'stop', first, { x: -5.5, z: 8 }),
+      control('signal', 'traffic_signals', first, { x: -5, z: 17 }),
+      // A signalled crosswalk on the crossing replaces the corner crosswalk of the approach.
+      control('crossing', 'crossing-traffic_signals', first, { x: 0, z: 23 }),
+      // A signalled crosswalk mid-block, with no signal near it.
+      control('mid-block', 'crossing-traffic_signals', second, { x: 100, z: 200 }),
+    ],
+    world: { surface: DRY_ASPHALT, obstacles: [], markings: [] },
+    start: { status: 'approximation', pose: restingVehicle({ x: 0, z: 0, headingRad: 0 }) },
+  };
+  const blockNetwork = buildNetwork(block);
+  const crossing = blockNetwork.intersections.find((item) => distance(item.center, { x: 0, z: 25 }) < 1)!;
+
+  it('lets the nearest control govern a crossing and orders crossings on the same x by z', () => {
+    expect(crossing.kind).toBe('signal');
+    expect(crossing.control?.id).toBe('signal');
+    expect(crossing.approaches.map((approach) => approach.rule)).toEqual(['signal', 'signal']);
+    const onTheFirstLeg = blockNetwork.intersections.filter((item) => Math.abs(item.center.x) < 1);
+    expect(onTheFirstLeg.map((item) => item.center.z)).toEqual([0, 25, 200]);
+    expect(onTheFirstLeg.map((item) => item.id)).toEqual(['intersection-0', 'intersection-1', 'intersection-2']);
+  });
+
+  it('ties a signalled crosswalk to its crossing, drops the duplicate corner one and leaves a lone one unlit', () => {
+    const signalled = blockNetwork.crosswalks.find((item) => item.controlId === 'crossing')!;
+    expect(signalled.intersectionId).toBe(crossing.id);
+    expect(signalled.group).toBe(0);
+    const approach = crossing.approaches.find((item) => item.road.id === first.id)!;
+    expect(blockNetwork.crosswalks.some((item) => item.id === `crosswalk-${approach.id}`)).toBe(false);
+    const lone = blockNetwork.crosswalks.find((item) => item.controlId === 'mid-block')!;
+    expect(lone.intersectionId).toBeNull();
+    expect(lone.group).toBe(1);
+    const plan = createSignalPlan(blockNetwork, createRandom(1));
+    const lights = controlLights(plan, blockNetwork, 0);
+    expect(lights['crossing']).toBeDefined();
+    expect(lights['mid-block']).toBeUndefined();
   });
 });

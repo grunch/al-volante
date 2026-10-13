@@ -108,5 +108,34 @@ describe('circuit derived from the city and its traffic network (RECORRIDO.md §
     expect(distanceAlong(circuit, corner.lineS + 5, corner.lineS)).toBeCloseTo(-5, 5);
     // Inside a corner link there is no road under the car.
     expect(roadAt(circuit.lap, circuit.legs[0]!.endS + 0.5)).toBeNull();
+    expect(legAt(circuit, circuit.legs[0]!.endS + 0.5)).toBeNull();
+  });
+
+  it('marks the two crosswalks of every corner as crossed while turning, and no mid-block one (D1)', () => {
+    const atCorner = circuit.crosswalks.filter((crosswalk) => crosswalk.atCorner).map((crosswalk) => crosswalk.id);
+
+    // The one just past each corner's line and the one on the street turned into.
+    expect(atCorner).toHaveLength(2 * corners.length);
+    expect(atCorner).toEqual(
+      expect.arrayContaining(['crosswalk-intersection-4:leg-1-1', 'crosswalk-intersection-4:leg-2-0:exit']),
+    );
+    // A pedestrian light 22 m past the Cabildo corner, and the far side of a crossing gone straight through.
+    expect(atCorner).not.toContain('crosswalk-control-1');
+    expect(atCorner).not.toContain('crosswalk-intersection-13:leg-6-1:exit');
+  });
+
+  it('leaves out a speed hump on a street the route does not take', () => {
+    const hump = CITY.controls.find((control) => control.type === 'traffic-calming-hump')!;
+    const elsewhere = CITY.roads.find((road) => road.kind === 'context')!;
+    const city = { ...CITY, controls: [...CITY.controls, { ...hump, id: 'hump-elsewhere', road: elsewhere }] };
+
+    expect(buildCircuit(city, createTraffic(CITY, 1)).bumps.map((bump) => bump.id)).toEqual([hump.id]);
+  });
+
+  it('falls back to the 6 m bay of the protocol when the city paints no bay lines (PDF 21)', () => {
+    const unpainted = buildCircuit({ ...CITY, world: { ...CITY.world, markings: undefined } }, createTraffic(CITY, 1));
+
+    expect(unpainted.bay.halfLengthM).toBe(3);
+    expect(unpainted.bay.lines).toEqual([]);
   });
 });

@@ -25,9 +25,13 @@ export function createSignalPlan(network: Network, random: () => number): Signal
   return { cycles };
 }
 
+/** The cycle's own period: plans use SIGNAL_CYCLE, but any cycle handed in is phased by its own durations. */
+const periodOf = (cycle: LightCycle) => cycle.greenS + cycle.yellowS + cycle.redS;
+
 /** Phase time inside the cycle, in [0, period). */
 function phaseS(cycle: LightCycle, timeS: number): number {
-  return (((timeS + cycle.offsetS) % CYCLE_PERIOD_S) + CYCLE_PERIOD_S) % CYCLE_PERIOD_S;
+  const period = periodOf(cycle);
+  return (((timeS + cycle.offsetS) % period) + period) % period;
 }
 
 export function groupLight(cycle: LightCycle, group: 0 | 1, timeS: number): LightState {
@@ -35,14 +39,14 @@ export function groupLight(cycle: LightCycle, group: 0 | 1, timeS: number): Ligh
   const phase = phaseS(cycle, timeS);
   const greenStart = cycle.greenS + cycle.yellowS + ALL_RED_S;
   if (phase < greenStart) return 'red';
-  return phase < CYCLE_PERIOD_S - SIGNAL_CYCLE.yellowS ? 'green' : 'yellow';
+  return phase < periodOf(cycle) - cycle.yellowS ? 'green' : 'yellow';
 }
 
 /** Seconds of red still ahead for a group, or 0 when it is not red. */
 export function redRemainingS(cycle: LightCycle, group: 0 | 1, timeS: number): number {
   if (groupLight(cycle, group, timeS) !== 'red') return 0;
   const phase = phaseS(cycle, timeS);
-  if (group === 0) return CYCLE_PERIOD_S - phase;
+  if (group === 0) return periodOf(cycle) - phase;
   return cycle.greenS + cycle.yellowS + ALL_RED_S - phase;
 }
 

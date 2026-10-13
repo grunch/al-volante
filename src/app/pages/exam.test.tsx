@@ -1,4 +1,4 @@
-import { act, fireEvent, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import routeData from '../../../specs/route/comuna13-a.json';
@@ -8,9 +8,12 @@ import { createSession } from '../../exam/session.ts';
 import { createDrivingAttempt } from '../../progress/model.ts';
 import { createMemoryStore } from '../../progress/storage.ts';
 import type { ProgressStore } from '../../progress/storage.ts';
+import { createMemoryRouter } from 'react-router';
+import { App } from '../App.tsx';
+import { routes } from '../routes.tsx';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
 import { REAL_RULES } from '../../test/realRules.ts';
-import { CITY_COPY, EXAM_COPY, LOGBOOK_COPY, TRACK_COPY } from '../../i18n/es-AR.ts';
+import { CITY_COPY, COCKPIT_COPY, EXAM_COPY, LOGBOOK_COPY, TRACK_COPY } from '../../i18n/es-AR.ts';
 import { DRIVING_GUIDE_COPY } from '../../i18n/drivingGuide.ts';
 import { BINDINGS_STORAGE_KEY, DEFAULT_BINDINGS } from '../../practice/bindings.ts';
 import { keyNames } from '../../practice/keyLabels.ts';
@@ -141,7 +144,7 @@ describe('exam page', { timeout: 30000 }, () => {
     await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
     runFrames(5);
 
-    expect(screen.getByTestId('exam-result')).toHaveTextContent(EXAM_COPY.results.disapproved);
+    expect(screen.getByTestId('exam-result')).toHaveTextContent(EXAM_COPY.verdicts.interruption);
     expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'finished');
     expect(screen.getByText(EXAM_COPY.feedbackClean)).toBeInTheDocument();
     // In the box there is no signal ahead: no light is shown, never a default green.
@@ -172,6 +175,49 @@ describe('exam page', { timeout: 30000 }, () => {
     expect(screen.getByTestId('exam-points')).toHaveTextContent('0');
   });
 
+  it('lets the seed field be emptied to type another seed, and restores the seed in use if left empty', async () => {
+    // Arrange
+    await openExam();
+    const seed = screen.getByRole('spinbutton', { name: EXAM_COPY.seed });
+
+    // Act: clearing the field must not snap it back to the old seed, or typing "25" would give seed 125.
+    fireEvent.change(seed, { target: { value: '' } });
+
+    // Assert
+    expect(seed).toHaveValue(null);
+    fireEvent.blur(seed);
+    expect(seed).toHaveValue(1);
+    fireEvent.change(seed, { target: { value: '' } });
+    fireEvent.change(seed, { target: { value: '25' } });
+    fireEvent.blur(seed);
+    expect(seed).toHaveValue(25);
+    // Out of range or not an integer: the field keeps the last valid seed.
+    fireEvent.change(seed, { target: { value: '0' } });
+    fireEvent.blur(seed);
+    expect(seed).toHaveValue(25);
+  });
+
+  it('says the exam is unavailable where WebGL is missing, and keeps what the examiner says', async () => {
+    // Arrange: the real renderer factory, which jsdom cannot serve.
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const router = createMemoryRouter(routes, { initialEntries: ['/examen'] });
+
+    // Act
+    render(<App router={router} loadContent={readyContent(content())} />);
+
+    // Assert
+    await waitFor(
+      () => {
+        runFrames(1);
+        expect(screen.getByText(EXAM_COPY.unavailable)).toBeInTheDocument();
+      },
+      { timeout: 15000 },
+    );
+    expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'familiarisation');
+    vi.restoreAllMocks();
+  });
+
   it('is linked from the home page', async () => {
     renderApp('/');
 
@@ -179,7 +225,7 @@ describe('exam page', { timeout: 30000 }, () => {
   });
 });
 
-describe('exam modes, card and logbook (F04-T05)', () => {
+describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
   let callbacks: FrameRequestCallback[];
   let clock: number;
 
@@ -202,7 +248,7 @@ describe('exam modes, card and logbook (F04-T05)', () => {
 
   async function openExam(path: string, store?: ProgressStore) {
     renderApp(path, readyContent(content()), store);
-    const canvas = await screen.findByRole('application', { name: EXAM_COPY.canvasLabel });
+    const canvas = await screen.findByRole('application', { name: EXAM_COPY.canvasLabel }, { timeout: 15000 });
     await waitFor(() => {
       runFrames(10);
       expect(canvas).toHaveAttribute('data-state', 'ready');
@@ -373,6 +419,42 @@ describe('exam modes, card and logbook (F04-T05)', () => {
     expect((await store.load()).snapshot.attempts).toHaveLength(2);
   });
 
+  it('says so when the finished attempt cannot be stored', async () => {
+    // Arrange: every write fails, as with a full disk.
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const memory = createMemoryStore();
+    const store: ProgressStore = { ...memory, record: () => Promise.reject(new Error('quota exceeded')) };
+    await openExam('/examen?modo=rendir', store);
+
+    // Act
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
+    runFrames(5);
+
+    // Assert
+    await waitFor(() => expect(screen.getByTestId('exam-saved')).toHaveAttribute('data-save', 'failed'));
+    expect(screen.getByTestId('exam-saved')).toHaveTextContent(EXAM_COPY.saveFailed);
+    vi.mocked(console.error).mockRestore();
+  });
+
+  it('practises stage I when the URL names no stage, and the practice radio starts there', async () => {
+    // Arrange
+    const { router } = renderApp('/examen', readyContent(content()));
+    const picker = await screen.findByRole('group', { name: EXAM_COPY.mode });
+
+    // Act
+    await userEvent.click(within(picker).getByRole('radio', { name: EXAM_COPY.modes.practice }));
+
+    // Assert
+    expect(router.state.location.search).toBe('?modo=practicar&etapa=1');
+    expect(screen.getByRole('combobox', { name: EXAM_COPY.stage })).toHaveValue('1');
+    expect(screen.getByTestId('exam-stage-help')).toHaveTextContent(EXAM_COPY.practiceStart.I);
+
+    // A URL without a stage practises stage I too.
+    await act(() => router.navigate('/examen?modo=practicar'));
+    expect(screen.getByRole('combobox', { name: EXAM_COPY.stage })).toHaveValue('1');
+    expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'familiarisation');
+  });
+
   it('does not store the guided learning, and says so', async () => {
     const store = createMemoryStore();
     await openExam('/examen?modo=aprender', store);
@@ -393,12 +475,15 @@ describe('exam modes, card and logbook (F04-T05)', () => {
     expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'circulation');
     expect(screen.getByTestId('exam-leg')).toHaveTextContent(EXAM_COPY.leg(8, 'Vuelta de Obligado'));
     expect(canvas).toHaveAttribute('data-engine', 'running');
+    // As a real exam reaches the last leg: the belt check is taken as done, so the belt is fastened (PDF 30).
+    expect(screen.getByText(COCKPIT_COPY.beltOn)).toBeInTheDocument();
 
     fireEvent.change(screen.getByRole('combobox', { name: EXAM_COPY.stage }), { target: { value: '1' } });
     runFrames(5);
 
     expect(screen.getByTestId('exam-stage-help')).toHaveTextContent(EXAM_COPY.practiceStart.I);
     expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'familiarisation');
+    expect(screen.getByText(COCKPIT_COPY.beltOff)).toBeInTheDocument();
   });
 
   it('lists the stored drives in the logbook', async () => {

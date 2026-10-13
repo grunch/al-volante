@@ -1,11 +1,10 @@
 import * as THREE from 'three';
 import { createSurfaceTexture } from './surfaceTexture.ts';
-import { createFoliageGeometry } from './foliageGeometry.ts';
 import { createBlenderMeshes } from '../scene/blenderAssets.ts';
 import type { BlenderAssetName } from '../scene/blenderAssets.ts';
 
-export type Shape = 'box' | 'sphere' | 'cylinder';
-export type Surface = 'matte' | 'glass' | 'brick' | 'pavement' | 'sidewalk' | 'foliage';
+export type Shape = 'box' | 'cylinder';
+export type Surface = 'matte' | 'glass' | 'brick' | 'pavement' | 'sidewalk';
 export interface Part {
   shape: Shape;
   model?: BlenderAssetName;
@@ -118,17 +117,11 @@ export function instantiate(parts: readonly Part[]): THREE.Group {
     if (first.model) near = modelMeshes(first.model, batch.length);
     else {
       const geometry =
-        first.shape === 'box'
-          ? new THREE.BoxGeometry(1, 1, 1)
-          : first.shape === 'sphere'
-            ? first.surface === 'foliage'
-              ? createFoliageGeometry()
-              : new THREE.IcosahedronGeometry(0.5, 1)
-            : new THREE.CylinderGeometry(0.5, 0.5, 1, 8);
+        first.shape === 'box' ? new THREE.BoxGeometry(1, 1, 1) : new THREE.CylinderGeometry(0.5, 0.5, 1, 8);
       const mesh = new THREE.InstancedMesh(geometry, createMaterial(first.surface ?? 'matte'), batch.length);
       mesh.name = `batch-${first.shape}-${first.surface ?? 'matte'}`;
       mesh.castShadow = first.surface !== 'pavement' && first.surface !== 'sidewalk';
-      mesh.receiveShadow = first.surface !== 'foliage';
+      mesh.receiveShadow = true;
       root.add(mesh);
       near = [mesh];
     }
@@ -150,10 +143,6 @@ function createMaterial(surface: Surface): THREE.MeshStandardMaterial {
   const material = new THREE.MeshStandardMaterial({
     roughness: surface === 'glass' ? 0.28 : 0.9,
     metalness: surface === 'glass' ? 0.4 : 0,
-    side: surface === 'foliage' ? THREE.DoubleSide : THREE.FrontSide,
-    vertexColors: surface === 'foliage',
-    emissive: surface === 'foliage' ? '#364821' : '#000000',
-    emissiveIntensity: surface === 'foliage' ? 0.18 : 0,
   });
   if (surface === 'pavement' || surface === 'sidewalk') {
     material.map = createSurfaceTexture(surface === 'sidewalk');

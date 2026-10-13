@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { BACKUP_FORMAT, CURRENT_BACKUP_VERSION, createBackup, migrateBackup, parseBackup } from './backup.ts';
-import { rule, ruleCatalog } from '../content/testing/fixtures.ts';
+import { choiceActivity, rule, ruleCatalog, theoryExamConfig, unit } from '../content/testing/fixtures.ts';
+import { createTheoryAttempt } from '../theory/attempt.ts';
+import { composeExam, gradeExam } from '../theory/exam.ts';
+import type { ExamQuestion } from '../theory/exam.ts';
 import { createAttempt, updateConcept } from './model.ts';
 
 const AT = '2026-10-11T12:00:00.000Z';
@@ -124,6 +127,41 @@ describe('backup date normalisation', () => {
   });
 });
 
+describe('backup of unfinished drives', () => {
+  it('keeps a drive that never finished as unfinished, with its dates in canonical form', () => {
+    // Arrange: an interrupted page left a drive without an end; its start is written without milliseconds.
+    const drive = {
+      id: 'd1',
+      kind: 'driving' as const,
+      subjectId: 'route.comuna13-a',
+      contentVersion: 'deadbeef',
+      mode: 'run' as const,
+      startedAt: '2026-10-11T11:00:00Z',
+      finishedAt: null,
+      events: [],
+      faults: [{ ruleId: 'rule.minor.a-item', at: '2026-10-11T11:05:00Z', points: 1 }],
+      result: { correct: null, score: null, points: 1 },
+    };
+
+    // Act
+    const parsed = parse(createBackup({ attempts: [drive], concepts: [] }, 'deadbeef', AT));
+
+    // Assert
+    expect(parsed).toMatchObject({
+      ok: true,
+      snapshot: {
+        attempts: [
+          {
+            ...drive,
+            startedAt: '2026-10-11T11:00:00.000Z',
+            faults: [{ ruleId: 'rule.minor.a-item', at: '2026-10-11T11:05:00.000Z', points: 1 }],
+          },
+        ],
+      },
+    });
+  });
+});
+
 describe('backup attempt chronology', () => {
   it('rejects an attempt that finishes before it starts', () => {
     const reversed = JSON.parse(createBackup(snapshot, 'deadbeef', AT));
@@ -213,6 +251,38 @@ describe('backup dates', () => {
       error: 'invalid-data',
       details: expect.stringContaining('exported after'),
     });
+  });
+});
+
+describe('backup of mock theory exams', () => {
+  it('restores a passed mock exam that was not perfect, exactly as the exam page stored it', () => {
+    // Arrange: a paper of two questions with one right answer is passed with half the score.
+    const activities = ['act.one', 'act.two'].map((id) => choiceActivity({ id }));
+    const config = theoryExamConfig();
+    const paper = composeExam(activities, [unit({ id: 'manual.ch3.roundabout-priority' })], config, 4);
+    const [first, second] = paper.questions as [ExamQuestion, ExamQuestion];
+    // Option ids on the paper are positions; option `a` is the right one in the fixture.
+    const answers = {
+      [first.id]: first.options[first.optionIds.indexOf('a')]!.id,
+      [second.id]: second.options[second.optionIds.findIndex((id) => id !== 'a')]!.id,
+    };
+    const grade = gradeExam(paper, answers, activities, config);
+    const mock = createTheoryAttempt(paper, grade, {
+      id: 't1',
+      contentVersion: 'deadbeef',
+      startedAt: later(-HOUR),
+      finishedAt: AT,
+      minutes: 45,
+      timedOut: false,
+    });
+    const text = createBackup({ attempts: [attempt, mock], concepts: updates }, 'deadbeef', AT);
+
+    // Act
+    const parsed = parse(text);
+
+    // Assert
+    expect(grade).toMatchObject({ correct: 1, total: 2, passed: true });
+    expect(parsed).toMatchObject({ ok: true, snapshot: { attempts: [attempt, mock], concepts: updates } });
   });
 });
 

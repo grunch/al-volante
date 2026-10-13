@@ -6,6 +6,15 @@ export function canonicalIso(iso: string): string {
   return new Date(iso).toISOString();
 }
 
+/**
+ * The calendar day of `date` where the person is (the device's time zone), as YYYY-MM-DD, for names they read.
+ * Slicing `toISOString()` would give the UTC day: in Buenos Aires, tomorrow from 21:00 on.
+ */
+export function localDay(date: Date): string {
+  const pad = (value: number) => String(value).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
 const isValidIso = (value: unknown): value is string => typeof value === 'string' && !Number.isNaN(Date.parse(value));
 
 /** Same attempt with its readable dates rewritten canonically. Callers apply it only to attempts that pass the schema. */

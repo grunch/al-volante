@@ -122,4 +122,31 @@ describe('scripted actors', () => {
     expect(poseOf(state, 'pedestrian')?.inside(road)).toBe(true);
     expect(poseOf(state, 'bus')?.inside(road)).toBe(false);
   });
+
+  it('keeps an actor without a path standing where it is, never moving nor colliding', () => {
+    // Arrange: a parked car on the car's way, triggered at once.
+    const parked: Scenario = {
+      light: { cycle, stopLineZ: 50 },
+      actors: [
+        {
+          id: 'parked',
+          kind: 'vehicle',
+          halfLengthM: 2,
+          halfWidthM: 1,
+          from: { x: 0, z: 10 },
+          to: { x: 0, z: 10 },
+          speedMps: 5,
+          trigger: { carZAtLeast: 0 },
+        },
+      ],
+    };
+
+    // Act
+    const state = stepScenario(parked, createScenarioState(parked), carAt(0, 10), 1);
+
+    // Assert
+    expect(state.started['parked']).toBe(1);
+    expect(poseOf(state, 'parked')).toMatchObject({ x: 0, z: 10, active: false });
+    expect(state.contacts).toEqual([]);
+  });
 });

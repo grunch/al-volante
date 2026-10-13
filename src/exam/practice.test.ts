@@ -39,6 +39,16 @@ describe('practising one stage (F04-T05)', () => {
     expect(driver.session.transitions).toEqual([{ phase: 'unlock', atS: 0 }]);
   });
 
+  it('stage III alone arrives belted with the low beams on, so taking the belt off there eliminates (PDF 7, 30)', () => {
+    const { driver } = cityExam('automatic', 1, { practice: 'III' });
+    expect(driver.cockpit).toMatchObject({ belt: true, lights: 'low' });
+
+    driver.cabin({ type: 'toggle', control: 'belt' });
+
+    expect(driver.faults).toEqual(['rule.eliminatory.c-no-seatbelt']);
+    expect(driver.phase).toBe('finished');
+  });
+
   it('stage III alone starts on leg 8 before the notice, parks cleanly and ends pending with stage III complete', () => {
     const exam = cityExam('automatic', 1, { practice: 'III' });
     const { driver } = exam;

@@ -18,9 +18,11 @@ export function SectionPage() {
       {(content) => {
         const units = content.units.filter((unit) => unit.source === source && unit.section === section);
         const pages = content.pages.filter((page) => page.source === source && page.section === section);
-        if (pages.length === 0) return <NotFoundPage />;
-        const first = pages[0];
-        const last = pages[pages.length - 1];
+        const [first] = pages;
+        if (!first) return <NotFoundPage />;
+        // The range does not rely on the catalog order of the pages.
+        const pageNumbers = pages.map((item) => item.page);
+        const pageRange = `${Math.min(...pageNumbers)}–${Math.max(...pageNumbers)}`;
         const key = sectionKey(source, section);
         const sectionActivities = activitiesBySection(content.activities, content.units).get(key) ?? [];
         const practicing = (unitId: string) =>
@@ -30,15 +32,15 @@ export function SectionPage() {
           <>
             <PageTitle>{sectionLabel(source, section)}</PageTitle>
             <p className="card__meta">
-              {first ? CATEGORY_LABELS[first.category] : ''} · {t('sectionPages')}{' '}
-              {first && last ? `${first.page}–${last.page}` : ''}
+              {CATEGORY_LABELS[first.category]} · {t('sectionPages')} {pageRange}
             </p>
             <section aria-labelledby="section-practice">
               <h2 id="section-practice">{t('sectionPractice')}</h2>
               {sectionActivities.length > 0 ? (
                 <p>
                   <Link className="button" to={`/actividades?seccion=${key}`}>
-                    {sectionActivities.length} {t('sectionPracticeCount')}
+                    {sectionActivities.length}{' '}
+                    {sectionActivities.length === 1 ? t('sectionPracticeCountOne') : t('sectionPracticeCount')}
                   </Link>
                 </p>
               ) : (

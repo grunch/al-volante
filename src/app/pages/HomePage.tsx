@@ -15,6 +15,8 @@ const SceneCanvas = lazy(() =>
 const SPACE_ROUTES: Partial<Record<HomeSpaceId, string>> = {
   garage: '/garaje',
   city: '/actividades',
+  // Route A from the cabin, with an instructor (learn, practice, run) or as a mock exam (exam): F04-T03 to F04-T05.
+  route: '/examen',
   exam: '/teorico',
   logbook: '/bitacora',
 };

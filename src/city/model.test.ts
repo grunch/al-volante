@@ -94,4 +94,22 @@ describe('metric city derived from the validated route', () => {
         last!.halfLengthM,
     ).toBeCloseTo(6);
   });
+
+  it('rejects route data whose geometry is incomplete instead of guessing it', () => {
+    // Arrange
+    const withoutSegments = structuredClone(route);
+    withoutSegments.legs[0]!.segments = [];
+    const withoutAnchor = structuredClone(route);
+    for (const point of withoutAnchor.legs.flatMap((leg) => leg.path))
+      if (point.osmNode === 437539781) point.osmNode = 1;
+    const unplacedControl = structuredClone(route);
+    unplacedControl.controls[0]!.legs = [99];
+
+    // Act / Assert
+    expect(() => buildCity(withoutSegments)).toThrow('Missing road segment for leg 1');
+    expect(() => buildCity(withoutAnchor)).toThrow('Missing context anchor 437539781');
+    expect(() => buildCity(unplacedControl)).toThrow('Missing route geometry');
+    const single = { number: 1, street: 'Quesada', path: [{ x: 0, z: 0 }], lengthM: 0, turn: 'right' as const };
+    expect(() => sampleLeg({ legs: [single] }, 1, 0)).toThrow('Empty route leg');
+  });
 });

@@ -13,7 +13,15 @@ export interface Fault {
   episode: string | undefined;
   /** A high fault raised to an eliminatory one because the examiner had to intervene (protocolo PDF 7). */
   escalated: boolean;
+  /**
+   * The ficha group of the context it happened in (`fichaRows[].group` of rules.json), for a rule the ficha lists in
+   * several groups of one stage: the row it is consigned in (decision D1).
+   */
+  group?: string;
 }
+
+/** Ficha groups of stage II where one conduct has two rows (protocolo PDF 16–17): high l and high m. */
+export const FICHA_GROUPS = { crossings: 'Cruce en intersecciones', turns: 'Giros' } as const;
 
 export type InterruptionCause = 'fault' | 'cutoff' | 'driver-request' | 'examiner';
 
@@ -55,6 +63,8 @@ export interface FaultReport {
   escalate?: boolean;
   /** The interruption this fault causes is the examiner's takeover, not the fault itself (protocolo PDF 7). */
   cause?: Extract<InterruptionCause, 'fault' | 'examiner'>;
+  /** The ficha group of the context, when the judge can tell it (see `Fault.group`). */
+  group?: string;
 }
 
 /**
@@ -105,6 +115,7 @@ export function recordFault(ledger: Ledger, report: FaultReport): Ledger {
     stage: report.stage,
     episode: report.episode,
     escalated,
+    ...(report.group === undefined ? {} : { group: report.group }),
   };
   const interrupts = escalated || rule.interrupts || report.cause === 'examiner';
   return {

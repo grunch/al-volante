@@ -1,6 +1,7 @@
 import { entryPose } from '../city/model.ts';
 import type { City } from '../city/model.ts';
 import type { Attempt } from '../content/schemas.ts';
+import type { CockpitCommand } from '../practice/cockpit.ts';
 import type { PowertrainCommand } from '../sim/powertrain/powertrain.ts';
 import type { VehicleState } from '../sim/vehicle.ts';
 import type { Stage } from './scoring.ts';
@@ -87,4 +88,19 @@ const ENGINE_RUNNING: readonly PowertrainCommand[] = [...KEY_IN, { type: 'turn-k
 
 export function preparedFor(stage: Stage | null): readonly PowertrainCommand[] {
   return stage === 'III' ? ENGINE_RUNNING : KEY_IN;
+}
+
+/**
+ * The cabin a practice of stage III arrives with, as a real exam reaches the last leg: the belt fastened since the
+ * car first moved (protocolo PDF 30) and the low beams on during the whole exam (PDF 7–8). Its session takes the
+ * belt check as done, so the cabin has to match. Stages I and II start as the cabin is: those checks are theirs.
+ */
+const BELTED_WITH_LOW_BEAMS: readonly CockpitCommand[] = [
+  { type: 'toggle', control: 'belt' },
+  { type: 'lights', value: 'low' },
+];
+const CABIN_AS_IS: readonly CockpitCommand[] = [];
+
+export function preparedCabinFor(stage: Stage | null): readonly CockpitCommand[] {
+  return stage === 'III' ? BELTED_WITH_LOW_BEAMS : CABIN_AS_IS;
 }

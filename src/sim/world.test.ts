@@ -3,7 +3,9 @@ import { SIM_STEP_S } from './fixedStep.ts';
 import { DRY_ASPHALT } from './dynamics.ts';
 import type { DriveInput } from './dynamics.ts';
 import { EXAM_CAR, bodyBox, restingVehicle } from './vehicle.ts';
-import { initialWorldState, nearestObstacle, stepWorld } from './world.ts';
+import { createScenarioState } from './scenario.ts';
+import type { Scenario, TrafficSource } from './scenario.ts';
+import { initialWorldState, nearestObstacle, stepWorld, trafficOf } from './world.ts';
 import type { World, WorldState } from './world.ts';
 
 /** A wall whose near face is the plane z = 10 m. */
@@ -76,6 +78,35 @@ describe('world step', () => {
     expect(next.contacts[0]?.impactSpeedMps).toBeGreaterThan(unobstructedEnd - 0.05);
   });
 
+  it('reports only what the car touches where it stops, not an obstacle just behind it', () => {
+    // Arrange: a kerb right behind a 10 cm post, and a car at 50 km/h whose next step (11.6 cm) would reach both.
+    const postAndKerb: World = {
+      surface: DRY_ASPHALT,
+      obstacles: [
+        {
+          id: 'post',
+          kind: 'pole',
+          box: { centerX: 0, centerZ: 10.05, halfLengthM: 0.05, halfWidthM: 0.05, headingRad: 0 },
+        },
+        {
+          id: 'kerb',
+          kind: 'curb',
+          box: { centerX: 0, centerZ: 10.25, halfLengthM: 0.15, halfWidthM: 5, headingRad: 0 },
+        },
+      ],
+    };
+    const body = bodyBox(EXAM_CAR, restingVehicle());
+    const gapZ = 10 - 0.01 - (body.centerZ + body.halfLengthM);
+    const start = initialWorldState({ ...restingVehicle({ z: gapZ }), speedMps: 50 / 3.6 });
+
+    // Act
+    const next = stepWorld(EXAM_CAR, postAndKerb, start, { tractionN: 0, brake: 0, steer: 0 }, SIM_STEP_S);
+
+    // Assert: the car stops at the post; the kerb behind it was never reached.
+    expect(frontOf(next)).toBeLessThan(10.1);
+    expect(next.contacts.map((contact) => contact.obstacleId)).toEqual(['post']);
+  });
+
   it('passes beside a pole without touching it, and measures how close it was', () => {
     // The car's right side is at x = -0.875 + 0 ... the pole stands at x = 2, so the gap is 2 - 0.875 - 0.05.
     const start = initialWorldState(restingVehicle({ z: -2 }));
@@ -95,5 +126,24 @@ describe('world step', () => {
 
     expect(next.timeS).toBeCloseTo(SIM_STEP_S, 12);
     expect(next.contacts).toEqual([]);
+  });
+
+  it('steps no traffic in a closed yard, the scripted scenario in a scenario world, and seeded traffic first', () => {
+    // Arrange
+    const scenario: Scenario = {
+      light: { cycle: { greenS: 5, yellowS: 2, redS: 5, offsetS: 0 }, stopLineZ: 9 },
+      actors: [],
+    };
+    const seeded: TrafficSource = { create: () => createScenarioState(scenario), step: (state) => state };
+
+    // Act
+    const none = trafficOf(world);
+    const scripted = trafficOf({ ...world, scenario });
+    const both = trafficOf({ ...world, scenario, traffic: seeded });
+
+    // Assert
+    expect(none).toBeUndefined();
+    expect(scripted?.create()).toMatchObject({ light: 'green', poses: [] });
+    expect(both).toBe(seeded);
   });
 });

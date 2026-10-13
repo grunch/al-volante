@@ -136,7 +136,10 @@ function evaluateChoice(activity: ChoiceActivity, variantId: string, optionId: s
 function evaluateOrdering(activity: OrderingActivity, variantId: string, order: string[]) {
   const variant = variantById(activity.variants, variantId, activity.id);
   const expected = variant.items.map((item) => item.id);
-  if (order.length !== expected.length || [...order].sort().join() !== [...expected].sort().join()) {
+  // Compared id by id: joining them would let ids that contain commas pass as a different set.
+  const sortedExpected = [...expected].sort();
+  const sameItems = order.length === expected.length && [...order].sort().every((id, i) => id === sortedExpected[i]);
+  if (!sameItems) {
     throw new Error(`Ordering response for ${activity.id} must contain each item exactly once`);
   }
   const placed = order.filter((id, index) => id === expected[index]).length;

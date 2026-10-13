@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { validateFigures } from './validateFigures.ts';
-import { choiceActivity, source, unit } from './testing/fixtures.ts';
-import type { Figure } from './schemas.ts';
+import { choiceActivity, sign, source, unit } from './testing/fixtures.ts';
+import type { Activity, Figure } from './schemas.ts';
 
 const UNIT_ID = 'manual.ch3.roundabout-priority';
 
@@ -55,6 +55,33 @@ describe('validateFigures', () => {
       'fig.manual-p2-roundabout: unknown unit manual.ch3.nothing',
       'act.speed-street: shows fig.manual-p2-roundabout but does not cite manual:2',
       'act.other: unknown figure fig.missing',
+    ]);
+  });
+
+  it('requires the crop of every sign asked about, inside its page', () => {
+    // Arrange: one sign is cropped beyond its page, the other one is not cropped at all.
+    const signs = [
+      sign({ id: 'sign.regulatory.stop', box: { x: 0.5, y: 0.5, width: 0.6, height: 0.2 } }),
+      sign({ id: 'sign.regulatory.yield' }),
+    ];
+    const identification: Activity = {
+      ...choiceActivity(),
+      id: 'act.signs',
+      type: 'sign-identification',
+      variants: ['stop', 'yield'].map((name) => ({
+        ...choiceActivity().variants[0]!,
+        id: name,
+        signId: `sign.regulatory.${name}`,
+      })),
+    };
+
+    // Act
+    const errors = validateFigures([], { ...context([]), activities: [identification], signs });
+
+    // Assert
+    expect(errors).toEqual([
+      'sign.regulatory.stop: box goes beyond the page',
+      'act.signs#yield: sign sign.regulatory.yield has no crop',
     ]);
   });
 });
