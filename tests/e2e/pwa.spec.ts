@@ -166,3 +166,33 @@ test.describe('installable app', () => {
     await expect(concept).toBeVisible();
   });
 });
+
+test.describe('installable app where the browser refuses the service worker', () => {
+  test.use({ serviceWorkers: 'block' });
+
+  test('says that offline use could not be prepared, never claims it, and retries on request', async ({
+    page,
+    context,
+  }) => {
+    // Arrange
+    const failures: string[] = [];
+    page.on('console', (message) => {
+      if (message.text().startsWith('Service worker registration failed')) failures.push(message.text());
+    });
+
+    // Act
+    await page.goto('./');
+    const notice = page.getByRole('region', { name: /^No se pudo preparar la app para usarla sin conexión\./ });
+    await expect(notice).toBeVisible();
+    await notice.getByRole('button', { name: 'Reintentar' }).click();
+    await expect.poll(() => failures.length).toBe(2);
+    await context.setOffline(true);
+
+    // Assert
+    await expect(notice).toBeVisible();
+    await expect(page.getByRole('status').filter({ hasText: /^Sin conexión\./ })).toContainText(
+      'todavía no quedó guardada',
+    );
+    await expect(page.getByText(OFFLINE_READY)).toHaveCount(0);
+  });
+});

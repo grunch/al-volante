@@ -9,16 +9,25 @@ export type RegisterServiceWorker = (options: RegisterSWOptions) => (reloadPage?
  */
 export type UpdateNotice = 'waiting' | 'applying' | 'activated-elsewhere';
 
+/**
+ * Whether this page works offline: `ready` once a service worker controls it, `failed` when the registration failed
+ * and none does, `pending` before that (installing, the development server, tests or browsers without workers).
+ */
+export type OfflineSupport = 'pending' | 'ready' | 'failed';
+
 export interface UpdateSnapshot {
   /** The one-time notice that the app finished caching itself and works offline. */
   readonly offlineReady: boolean;
   /** The update notice to show, or null. */
   readonly update: UpdateNotice | null;
+  readonly offline: OfflineSupport;
+  /** The notice that offline use could not be prepared, with «Reintentar». */
+  readonly registrationFailed: boolean;
 }
 
 /** What the store needs from the browser; tests pass a fake. */
 export interface ServiceWorkerEnvironment {
-  /** True when a service worker already controlled the page at start (an installed app, not the first visit). */
+  /** True when a service worker controls the page (an installed app, not the first visit). */
   isControlled(): boolean;
   onControllerChange(listener: () => void): void;
   isOnline(): boolean;
@@ -30,16 +39,27 @@ export interface UpdateStore {
   getSnapshot(): UpdateSnapshot;
   /** Registers the service worker; only the first call does anything. */
   start(register: RegisterServiceWorker): void;
-  /** «Actualizar»: activates the waiting version and reloads this page once it controls it. */
+  /** «Reintentar» after a failed registration. */
+  retryRegistration(): void;
+  dismissRegistrationFailure(): void;
+  /**
+   * «Actualizar»: once every guarded write has settled, activates the waiting version, and reloads this page once it
+   * controls it (again after the guarded writes).
+   */
   applyUpdate(): void;
-  /** «Más tarde»: hides the prompt in this page; it comes back on the next load while the version still waits. */
+  /** «Más tarde»: hides the prompt for this version; a newer one, or the next load, shows it again. */
   dismissUpdate(): void;
   dismissOfflineReady(): void;
   /**
-   * Defers both notices while a driving or theory exam runs, so nothing invites a reload in the middle of it.
+   * Defers the notices while a driving or theory exam runs, so nothing invites a reload in the middle of it.
    * Returns the release; the notices reappear when the last hold is released.
    */
   hold(): () => void;
+  /**
+   * Work a reload must not cut, such as progress still being written to IndexedDB: activation and reload wait until
+   * `wait()` settles, also when it rejects. Returns the unregistration.
+   */
+  guardReload(wait: () => Promise<unknown>): () => void;
 }
 
 /** A tab left open (hash routes never navigate) still learns about new versions. */
@@ -56,38 +76,100 @@ interface State {
   offlineReady: boolean;
   pending: 'none' | UpdateNotice;
   updateDismissed: boolean;
+  offline: OfflineSupport;
+  failureDismissed: boolean;
   holds: number;
 }
 
+function snapshotOf(state: State): UpdateSnapshot {
+  const free = state.holds === 0;
+  return {
+    offlineReady: free && state.offlineReady && state.offline === 'ready',
+    update: free && !state.updateDismissed && state.pending !== 'none' ? state.pending : null,
+    offline: state.offline,
+    registrationFailed: free && state.offline === 'failed' && !state.failureDismissed,
+  };
+}
+
+const sameSnapshot = (a: UpdateSnapshot, b: UpdateSnapshot) =>
+  a.offlineReady === b.offlineReady &&
+  a.update === b.update &&
+  a.offline === b.offline &&
+  a.registrationFailed === b.registrationFailed;
+
 export function createUpdateStore(environment: ServiceWorkerEnvironment = browserEnvironment): UpdateStore {
-  let state: State = { offlineReady: false, pending: 'none', updateDismissed: false, holds: 0 };
-  let snapshot: UpdateSnapshot = { offlineReady: false, update: null };
+  let state: State = {
+    offlineReady: false,
+    pending: 'none',
+    updateDismissed: false,
+    offline: 'pending',
+    failureDismissed: false,
+    holds: 0,
+  };
+  let snapshot = snapshotOf(state);
   const listeners = new Set<() => void>();
+  const guards = new Set<() => Promise<unknown>>();
+  let register: RegisterServiceWorker | undefined;
   let activate: ((reloadPage?: boolean) => Promise<void>) | undefined;
+  let registration: ServiceWorkerRegistration | undefined;
+  /** The waiting worker the player put off with «Más tarde». */
+  let dismissedWorker: ServiceWorker | null = null;
+  let checking = false;
   let reloading = false;
 
   const setState = (changes: Partial<State>) => {
     state = { ...state, ...changes };
-    const free = state.holds === 0;
-    const update = free && !state.updateDismissed && state.pending !== 'none' ? state.pending : null;
-    const offlineReady = free && state.offlineReady;
-    if (update === snapshot.update && offlineReady === snapshot.offlineReady) return;
-    snapshot = { offlineReady, update };
+    const next = snapshotOf(state);
+    if (sameSnapshot(next, snapshot)) return;
+    snapshot = next;
     listeners.forEach((listener) => listener());
   };
 
-  const reloadOnce = () => {
+  /** Settles every guarded write; never rejects, so a failed save cannot block the update forever. */
+  const settleGuards = () => Promise.allSettled([...guards].map((wait) => Promise.resolve().then(wait)));
+
+  const reloadWhenSafe = () => {
     if (reloading) return;
     reloading = true;
-    environment.reload();
+    // A reload aborts the IndexedDB transactions in flight: the attempt of an exam that just ended is stored first.
+    void settleGuards().then(() => environment.reload());
   };
 
-  const checkPeriodically = (registration: ServiceWorkerRegistration) => {
+  const checkPeriodically = (registered: ServiceWorkerRegistration) => {
+    if (checking) return;
+    checking = true;
     setInterval(() => {
-      if (!environment.isOnline() || registration.installing) return;
+      if (!environment.isOnline() || registered.installing) return;
       // A failed check (server down, flaky network) changes nothing; the next one retries.
-      registration.update().catch(() => undefined);
+      registered.update().catch(() => undefined);
     }, UPDATE_CHECK_INTERVAL_MS);
+  };
+
+  const registerWorker = (registerSW: RegisterServiceWorker) => {
+    activate = registerSW({
+      onNeedRefresh: () => {
+        // A late report must not undo «Actualizar», or this page would take its own reload for another tab's.
+        if (state.pending === 'applying') return;
+        // Workbox reports an external worker twice ('installed', then 'waiting' 200 ms later): only a different
+        // waiting worker, a newer version, undoes «Más tarde».
+        const waiting = registration?.waiting ?? null;
+        if (state.updateDismissed && waiting !== null && waiting === dismissedWorker) return;
+        setState({ pending: 'waiting', updateDismissed: false });
+      },
+      onOfflineReady: () => setState({ offlineReady: true, offline: 'ready' }),
+      // The controller-change listener decides; without this callback the plugin would reload every tab.
+      onNeedReload: () => undefined,
+      onRegisteredSW: (_url, registered) => {
+        if (!registered) return;
+        registration = registered;
+        checkPeriodically(registered);
+      },
+      onRegisterError: (error: unknown) => {
+        console.warn('Service worker registration failed; the app keeps working online only', error);
+        // A worker installed on an earlier visit still serves this page offline; otherwise nothing does.
+        if (!environment.isControlled()) setState({ offline: 'failed', offlineReady: false, failureDismissed: false });
+      },
+    });
   };
 
   return {
@@ -96,43 +178,44 @@ export function createUpdateStore(environment: ServiceWorkerEnvironment = browse
       return () => listeners.delete(listener);
     },
     getSnapshot: () => snapshot,
-    start(register) {
-      if (activate) return;
+    start(registerSW) {
+      if (register) return;
+      register = registerSW;
       let controlled = environment.isControlled();
+      if (controlled) setState({ offline: 'ready' });
       environment.onControllerChange(() => {
         // Only the page where the player chose «Actualizar» reloads. Any other tab keeps running, even mid-exam,
         // and offers the reload instead. The first claim of a fresh install is no update at all.
-        if (state.pending === 'applying') reloadOnce();
+        if (state.pending === 'applying') reloadWhenSafe();
         else if (controlled) setState({ pending: 'activated-elsewhere', updateDismissed: false });
         controlled = true;
+        setState({ offline: 'ready' });
       });
-      activate = register({
-        // Workbox reports an external worker twice ('installed', then 'waiting' 200 ms later): a late report must
-        // not undo «Actualizar», or this page would take its own reload for another tab's and never reload.
-        onNeedRefresh: () => {
-          if (state.pending !== 'applying') setState({ pending: 'waiting', updateDismissed: false });
-        },
-        onOfflineReady: () => setState({ offlineReady: true }),
-        // The controller-change listener above decides; without this callback the plugin would reload every tab.
-        onNeedReload: () => undefined,
-        onRegisteredSW: (_url, registration) => {
-          if (registration) checkPeriodically(registration);
-        },
-        onRegisterError: (error: unknown) => {
-          console.warn('Service worker registration failed; the app keeps working online only', error);
-        },
-      });
+      registerWorker(registerSW);
     },
+    retryRegistration() {
+      if (state.offline !== 'failed' || !register) return;
+      setState({ offline: 'pending', failureDismissed: false });
+      registerWorker(register);
+    },
+    dismissRegistrationFailure: () => setState({ failureDismissed: true }),
     applyUpdate() {
-      if (state.pending === 'activated-elsewhere') return reloadOnce();
-      if (state.pending !== 'waiting' || !activate) return;
+      if (state.pending === 'activated-elsewhere') return reloadWhenSafe();
+      const activateWaiting = activate;
+      if (state.pending !== 'waiting' || !activateWaiting) return;
       setState({ pending: 'applying' });
-      activate().catch((error: unknown) => {
-        console.warn('Could not activate the new version', error);
-        setState({ pending: 'waiting' });
-      });
+      // The attempt of an exam that just ended may still be saving: the new version takes over after it.
+      settleGuards()
+        .then(() => activateWaiting())
+        .catch((error: unknown) => {
+          console.warn('Could not activate the new version', error);
+          setState({ pending: 'waiting' });
+        });
     },
-    dismissUpdate: () => setState({ updateDismissed: true }),
+    dismissUpdate() {
+      dismissedWorker = registration?.waiting ?? null;
+      setState({ updateDismissed: true });
+    },
     dismissOfflineReady: () => setState({ offlineReady: false }),
     hold() {
       setState({ holds: state.holds + 1 });
@@ -141,6 +224,12 @@ export function createUpdateStore(environment: ServiceWorkerEnvironment = browse
         if (released) return;
         released = true;
         setState({ holds: state.holds - 1 });
+      };
+    },
+    guardReload(wait) {
+      guards.add(wait);
+      return () => {
+        guards.delete(wait);
       };
     },
   };

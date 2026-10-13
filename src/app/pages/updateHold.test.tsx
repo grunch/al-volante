@@ -5,7 +5,9 @@ import routeData from '../../../specs/route/comuna13-a.json';
 import { RouteSchema } from '../../content/schemas.ts';
 import { choiceActivity } from '../../content/testing/fixtures.ts';
 import { appUpdates } from '../../pwa/updates.ts';
-import { fakeServiceWorker } from '../../test/fakeServiceWorker.ts';
+import { createMemoryStore } from '../../progress/storage.ts';
+import type { ProgressStore } from '../../progress/storage.ts';
+import { fakeServiceWorker, flushPromises } from '../../test/fakeServiceWorker.ts';
 import { REAL_RULES } from '../../test/realRules.ts';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
 import { PWA_COPY, THEORY_COPY, t } from '../../i18n/es-AR.ts';
@@ -31,24 +33,29 @@ afterEach(() => {
 
 const updateButton = () => screen.queryByRole('button', { name: PWA_COPY.update });
 
+/** Two questions with two options each, as the fixture configuration of the theory exam asks. */
+function theoryContent() {
+  const content = testContent();
+  const variant = (prompt: string) => ({
+    id: 'v1',
+    prompt,
+    options: [
+      { id: 'a', text: `${prompt}: correcta`, correct: true, feedback: 'Bien' },
+      { id: 'b', text: `${prompt}: incorrecta`, correct: false, feedback: 'No' },
+    ],
+  });
+  content.activities = [
+    choiceActivity({ id: 'act.one', title: 'Uno', variants: [variant('Pregunta uno')] }),
+    choiceActivity({ id: 'act.two', title: 'Dos', variants: [variant('Pregunta dos')] }),
+  ];
+  return content;
+}
+
 describe('update prompt during exams', { timeout: 30000 }, () => {
   it('waits for the theory paper to be handed in', async () => {
     // Arrange
     const user = userEvent.setup();
-    const content = testContent();
-    const variant = (prompt: string) => ({
-      id: 'v1',
-      prompt,
-      options: [
-        { id: 'a', text: `${prompt}: correcta`, correct: true, feedback: 'Bien' },
-        { id: 'b', text: `${prompt}: incorrecta`, correct: false, feedback: 'No' },
-      ],
-    });
-    content.activities = [
-      choiceActivity({ id: 'act.one', title: 'Uno', variants: [variant('Pregunta uno')] }),
-      choiceActivity({ id: 'act.two', title: 'Dos', variants: [variant('Pregunta dos')] }),
-    ];
-    renderApp('/teorico?semilla=4', readyContent(content));
+    renderApp('/teorico?semilla=4', readyContent(theoryContent()));
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
 
     // Act
@@ -79,5 +86,32 @@ describe('update prompt during exams', { timeout: 30000 }, () => {
     expect(duringDrive).not.toBeInTheDocument();
     await waitFor(() => expect(updateButton()).toBeInTheDocument());
     expect(worker.reload).not.toHaveBeenCalled();
+  });
+
+  // Last: it leaves the app's store applying an update, which the other tests must not inherit.
+  it('activates the new version only after the paper just handed in is stored', async () => {
+    // Arrange: the attempt write is slow, as IndexedDB can be.
+    const user = userEvent.setup();
+    const memory = createMemoryStore();
+    let finishWrite: () => void = () => undefined;
+    const store: ProgressStore = {
+      ...memory,
+      record: (...args) => new Promise((resolve) => (finishWrite = () => resolve(memory.record(...args)))),
+    };
+    renderApp('/teorico?semilla=4', readyContent(theoryContent()), store);
+    await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
+    act(() => worker.needRefresh());
+    await user.click(screen.getByRole('button', { name: THEORY_COPY.handIn }));
+
+    // Act: «Actualizar» while the attempt is still being written.
+    await user.click(await screen.findByRole('button', { name: PWA_COPY.update }));
+    await flushPromises();
+    const activatedWhileSaving = worker.activate.mock.calls.length;
+    await act(async () => finishWrite());
+
+    // Assert
+    expect(activatedWhileSaving).toBe(0);
+    await waitFor(() => expect(worker.activate).toHaveBeenCalledTimes(1));
+    expect((await memory.load()).snapshot.attempts).toHaveLength(1);
   });
 });

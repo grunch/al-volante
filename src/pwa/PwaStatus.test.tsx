@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { PWA_COPY } from '../i18n/es-AR.ts';
@@ -82,14 +82,14 @@ describe('PwaStatus', () => {
     expect(screen.getByRole('region', { name: PWA_COPY.updateAvailable })).toBeVisible();
     expect(focusAfterNotice).toHaveTextContent('Contenido de la página');
     expect(firstStop).toBe(PWA_COPY.update);
-    expect(worker.activate).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(worker.activate).toHaveBeenCalledTimes(1));
     // The pressed button keeps the focus while the new version activates.
     expect(document.activeElement).toBe(screen.getByRole('button', { name: PWA_COPY.updating }));
     expect(document.activeElement).toHaveAttribute('aria-disabled', 'true');
     expect(screen.queryByRole('button', { name: PWA_COPY.later })).not.toBeInTheDocument();
     expect(worker.reload).not.toHaveBeenCalled();
     act(() => worker.changeController());
-    expect(worker.reload).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(worker.reload).toHaveBeenCalledTimes(1));
   });
 
   it('hides the prompt on «Más tarde» without activating anything', async () => {
@@ -115,7 +115,7 @@ describe('PwaStatus', () => {
 
     expect(text).toBe(PWA_COPY.updateActivatedElsewhere);
     expect(reloadsBeforeClick).toBe(0);
-    expect(worker.reload).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(worker.reload).toHaveBeenCalledTimes(1));
   });
 
   it('keeps the prompt away while an exam runs and shows it when the exam ends', () => {
@@ -141,5 +141,44 @@ describe('PwaStatus', () => {
     expect(duringExam).toEqual([]);
     expect(screen.getByRole('button', { name: PWA_COPY.update })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: PWA_COPY.gotIt })).toBeInTheDocument();
+  });
+  it('does not promise that the app keeps working offline before it is ready to', () => {
+    renderStatus({ controlled: false });
+
+    setConnection(false);
+
+    expect(screen.getByRole('status')).toHaveTextContent(PWA_COPY.offlineNotReady);
+  });
+
+  it('says when offline use could not be prepared, never claims it, and registers again on «Reintentar»', async () => {
+    // Arrange
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const user = userEvent.setup();
+    const { worker } = renderStatus({ controlled: false });
+
+    // Act
+    act(() => worker.registerError(new TypeError('Failed to register a ServiceWorker: 404')));
+    const failure = screen.getByRole('region', { name: PWA_COPY.registrationFailed });
+    setConnection(false);
+    const offlineText = screen.getAllByRole('status')[0]?.textContent;
+    await user.click(screen.getByRole('button', { name: PWA_COPY.retry }));
+
+    // Assert
+    expect(failure).not.toBeInTheDocument();
+    expect(offlineText).toBe(PWA_COPY.offlineNotReady);
+    expect(worker.register).toHaveBeenCalledTimes(2);
+    expect(screen.queryByText(PWA_COPY.offlineReady)).not.toBeInTheDocument();
+  });
+
+  it('closes the failure notice on request', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const user = userEvent.setup();
+    const { worker } = renderStatus({ controlled: false });
+    act(() => worker.registerError(new TypeError('blocked')));
+
+    await user.click(screen.getByRole('button', { name: PWA_COPY.close }));
+
+    expect(screen.queryByRole('region')).not.toBeInTheDocument();
+    expect(worker.register).toHaveBeenCalledTimes(1);
   });
 });

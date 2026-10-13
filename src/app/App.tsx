@@ -3,7 +3,7 @@ import { RouterProvider, createHashRouter } from 'react-router';
 import type { createMemoryRouter } from 'react-router';
 import { ContentProvider } from '../content/ContentProvider.tsx';
 import { ProgressProvider } from '../progress/ProgressProvider.tsx';
-import { PwaStatus } from '../pwa/PwaStatus.tsx';
+import { AppPwaStatus } from '../pwa/PwaStatus.tsx';
 import type { ProgressStore } from '../progress/storage.ts';
 import type { ContentResult } from '../content/validate.ts';
 import { RendererContext } from '../scene/RendererContext.ts';
@@ -31,7 +31,7 @@ export function App({ router, createRenderer, loadContent, openProgressStore, no
       <ProgressProvider {...(openProgressStore ? { openStore: openProgressStore } : {})} {...(now ? { now } : {})}>
         <RendererContext.Provider value={createRenderer}>
           <RouterProvider router={appRouter} />
-          <PwaStatus />
+          <AppPwaStatus />
         </RendererContext.Provider>
       </ProgressProvider>
     </ContentProvider>

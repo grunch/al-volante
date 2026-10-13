@@ -46,3 +46,29 @@ export function fakeServiceWorker({ controlled = false } = {}) {
     },
   };
 }
+
+/** A registration whose waiting worker the test sets, as the browser exposes it to the page. */
+export function fakeRegistration(waiting: ServiceWorker | null = null) {
+  return {
+    installing: null,
+    waiting,
+    update: vi.fn(() => Promise.resolve()),
+  } as unknown as ServiceWorkerRegistration & { waiting: ServiceWorker | null };
+}
+
+/** A distinct waiting worker: a new version is a new object, the same version reported twice is the same one. */
+export const fakeWorker = (scriptURL = './sw.js') => ({ scriptURL }) as ServiceWorker;
+
+/** A promise the test settles by hand, standing for a progress write still in flight. */
+export function deferred() {
+  let resolve: () => void = () => undefined;
+  let reject: (error: unknown) => void = () => undefined;
+  const promise = new Promise<void>((onResolve, onReject) => {
+    resolve = onResolve;
+    reject = onReject;
+  });
+  return { promise, resolve, reject };
+}
+
+/** Lets pending promise callbacks run. */
+export const flushPromises = () => new Promise<void>((resolve) => setTimeout(resolve, 0));

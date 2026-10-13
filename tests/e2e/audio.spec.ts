@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures.ts';
 
 test('unlocks real audio on a gesture, adjusts volume without resetting the car, suspends and closes', async ({
   page,

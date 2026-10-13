@@ -13,7 +13,8 @@ export default defineConfig({
   use: {
     baseURL: `http://127.0.0.1:${PORT}`,
     trace: 'retain-on-failure',
-    // The production build registers a worker that precaches ~17 MB: specs other than pwa.spec.ts stay without it.
+    // The production build registers a worker that precaches ~17 MB. Specs other than pwa.spec.ts run as in a browser
+    // without service workers (tests/e2e/fixtures.ts); blocking them too keeps a spec that skips the fixture fast.
     serviceWorkers: 'block',
   },
   projects: [

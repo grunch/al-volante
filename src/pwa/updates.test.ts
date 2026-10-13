@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { fakeServiceWorker } from '../test/fakeServiceWorker.ts';
+import { deferred, fakeRegistration, fakeServiceWorker, fakeWorker, flushPromises } from '../test/fakeServiceWorker.ts';
 import { UPDATE_CHECK_INTERVAL_MS, appUpdates, createUpdateStore } from './updates.ts';
 
 function startedStore(options: { controlled?: boolean } = {}) {
@@ -7,6 +7,15 @@ function startedStore(options: { controlled?: boolean } = {}) {
   const store = createUpdateStore(worker.environment);
   store.start(worker.register);
   return { worker, store };
+}
+
+/** A store with a version waiting for the player, as the plugin reports it. */
+function storeWithWaitingVersion() {
+  const started = startedStore({ controlled: true });
+  const registration = fakeRegistration(fakeWorker());
+  started.worker.registered(registration);
+  started.worker.needRefresh();
+  return { ...started, registration };
 }
 
 afterEach(() => {
@@ -26,9 +35,20 @@ describe('offline-ready notice', () => {
     store.dismissOfflineReady();
 
     // Assert
-    expect(initial).toEqual({ offlineReady: false, update: null });
-    expect(ready).toEqual({ offlineReady: true, update: null });
-    expect(store.getSnapshot()).toEqual({ offlineReady: false, update: null });
+    expect(initial).toEqual({ offlineReady: false, update: null, offline: 'pending', registrationFailed: false });
+    expect(ready).toEqual({ offlineReady: true, update: null, offline: 'ready', registrationFailed: false });
+    expect(store.getSnapshot()).toEqual({
+      offlineReady: false,
+      update: null,
+      offline: 'ready',
+      registrationFailed: false,
+    });
+  });
+
+  it('knows the app works offline when a worker already controls the page at start', () => {
+    const { store } = startedStore({ controlled: true });
+
+    expect(store.getSnapshot().offline).toBe('ready');
   });
 
   it('treats the first claim of a fresh install as no update: nothing to offer and no reload', () => {
@@ -37,6 +57,7 @@ describe('offline-ready notice', () => {
     worker.changeController();
 
     expect(store.getSnapshot().update).toBeNull();
+    expect(store.getSnapshot().offline).toBe('ready');
     expect(worker.reload).not.toHaveBeenCalled();
   });
 });
@@ -53,32 +74,33 @@ describe('update prompt', () => {
     expect(worker.reload).not.toHaveBeenCalled();
   });
 
-  it('activates the waiting version on «Actualizar» and reloads once, when it controls the page', () => {
+  it('activates the waiting version on «Actualizar» and reloads once, when it controls the page', async () => {
     const { worker, store } = startedStore({ controlled: true });
     worker.needRefresh();
 
     store.applyUpdate();
     const applying = store.getSnapshot().update;
+    await vi.waitFor(() => expect(worker.activate).toHaveBeenCalledTimes(1));
     const reloadsBeforeControl = worker.reload.mock.calls.length;
     worker.changeController();
     worker.changeController();
+    await flushPromises();
 
     expect(applying).toBe('applying');
-    expect(worker.activate).toHaveBeenCalledTimes(1);
     expect(reloadsBeforeControl).toBe(0);
     expect(worker.reload).toHaveBeenCalledTimes(1);
   });
 
-  it('still reloads when the same waiting version is reported again right after «Actualizar»', () => {
+  it('still reloads when the same waiting version is reported again right after «Actualizar»', async () => {
     // Arrange: Workbox reports an external worker on 'installed' and again on 'waiting', 200 ms later.
-    const { worker, store } = startedStore({ controlled: true });
-    worker.needRefresh();
+    const { worker, store } = storeWithWaitingVersion();
     store.applyUpdate();
 
     // Act
     worker.needRefresh();
     const afterLateReport = store.getSnapshot().update;
     worker.changeController();
+    await flushPromises();
 
     // Assert
     expect(afterLateReport).toBe('applying');
@@ -97,7 +119,29 @@ describe('update prompt', () => {
     expect(store.getSnapshot().update).toBe('waiting');
   });
 
-  it('does not reload a tab when the update was accepted in another one, but offers the reload', () => {
+  it('keeps «Más tarde» when Workbox reports the same waiting version a second time', () => {
+    // Arrange: an external worker is reported on 'installed' and again on 'waiting', 200 ms later.
+    const { worker, store } = storeWithWaitingVersion();
+
+    // Act
+    store.dismissUpdate();
+    worker.needRefresh();
+
+    // Assert
+    expect(store.getSnapshot().update).toBeNull();
+  });
+
+  it('offers a newer version again after «Más tarde» was chosen for an older one', () => {
+    const { worker, store, registration } = storeWithWaitingVersion();
+    store.dismissUpdate();
+
+    registration.waiting = fakeWorker();
+    worker.needRefresh();
+
+    expect(store.getSnapshot().update).toBe('waiting');
+  });
+
+  it('does not reload a tab when the update was accepted in another one, but offers the reload', async () => {
     const { worker, store } = startedStore({ controlled: true });
     worker.needRefresh();
     store.dismissUpdate();
@@ -105,16 +149,18 @@ describe('update prompt', () => {
     worker.changeController();
     const offered = store.getSnapshot().update;
     store.applyUpdate();
+    await flushPromises();
 
     expect(offered).toBe('activated-elsewhere');
     expect(worker.activate).not.toHaveBeenCalled();
     expect(worker.reload).toHaveBeenCalledTimes(1);
   });
 
-  it('ignores «Actualizar» when no version is waiting', () => {
+  it('ignores «Actualizar» when no version is waiting', async () => {
     const { worker, store } = startedStore({ controlled: true });
 
     store.applyUpdate();
+    await flushPromises();
 
     expect(worker.activate).not.toHaveBeenCalled();
     expect(store.getSnapshot().update).toBeNull();
@@ -144,8 +190,152 @@ describe('update prompt', () => {
   });
 });
 
+describe('progress being saved', () => {
+  it('delays the activation and the reload until the pending save resolves', async () => {
+    // Arrange: an exam just ended and its attempt is still being written.
+    const { worker, store } = storeWithWaitingVersion();
+    const save = deferred();
+    store.guardReload(() => save.promise);
+
+    // Act
+    store.applyUpdate();
+    await flushPromises();
+    const activatedWhileSaving = worker.activate.mock.calls.length;
+    save.resolve();
+    await vi.waitFor(() => expect(worker.activate).toHaveBeenCalledTimes(1));
+
+    // Assert
+    expect(activatedWhileSaving).toBe(0);
+    expect(store.getSnapshot().update).toBe('applying');
+  });
+
+  it('does not reload while a save started after «Actualizar» is still running', async () => {
+    const { worker, store } = storeWithWaitingVersion();
+    let save = Promise.resolve();
+    store.guardReload(() => save);
+    store.applyUpdate();
+    await vi.waitFor(() => expect(worker.activate).toHaveBeenCalled());
+    const late = deferred();
+    save = late.promise;
+
+    worker.changeController();
+    await flushPromises();
+    const reloadsWhileSaving = worker.reload.mock.calls.length;
+    late.resolve();
+    await flushPromises();
+
+    expect(reloadsWhileSaving).toBe(0);
+    expect(worker.reload).toHaveBeenCalledTimes(1);
+  });
+
+  it('lets the update go on once a failed save has settled', async () => {
+    const { worker, store } = storeWithWaitingVersion();
+    const save = deferred();
+    store.guardReload(() => save.promise);
+
+    store.applyUpdate();
+    save.reject(new Error('QuotaExceededError'));
+    await vi.waitFor(() => expect(worker.activate).toHaveBeenCalledTimes(1));
+    worker.changeController();
+    await flushPromises();
+
+    expect(worker.reload).toHaveBeenCalledTimes(1);
+  });
+
+  it('waits for the save before reloading for an update accepted in another tab, and forgets released guards', async () => {
+    const { worker, store } = startedStore({ controlled: true });
+    const save = deferred();
+    store.guardReload(() => save.promise);
+    const released = store.guardReload(() => new Promise<void>(() => undefined));
+    released();
+    worker.needRefresh();
+    worker.changeController();
+
+    store.applyUpdate();
+    await flushPromises();
+    const reloadsWhileSaving = worker.reload.mock.calls.length;
+    save.resolve();
+    await flushPromises();
+
+    expect(reloadsWhileSaving).toBe(0);
+    expect(worker.reload).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('failed registration', () => {
+  it('says the app is not ready offline, never claims it is, and warns in the console', () => {
+    // Arrange
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const { worker, store } = startedStore();
+    const failure = new TypeError('Failed to register a ServiceWorker: 404');
+
+    // Act
+    worker.registerError(failure);
+
+    // Assert
+    expect(store.getSnapshot()).toEqual({
+      offlineReady: false,
+      update: null,
+      offline: 'failed',
+      registrationFailed: true,
+    });
+    expect(warn).toHaveBeenCalledWith('Service worker registration failed; the app keeps working online only', failure);
+  });
+
+  it('registers again on «Reintentar» and reports the offline readiness of the retry', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const { worker, store } = startedStore();
+    worker.registerError(new TypeError('blocked'));
+
+    store.retryRegistration();
+    const retrying = store.getSnapshot();
+    worker.offlineReady();
+
+    expect(worker.register).toHaveBeenCalledTimes(2);
+    expect(retrying).toEqual({ offlineReady: false, update: null, offline: 'pending', registrationFailed: false });
+    expect(store.getSnapshot()).toEqual({
+      offlineReady: true,
+      update: null,
+      offline: 'ready',
+      registrationFailed: false,
+    });
+  });
+
+  it('hides the failure notice when dismissed, still without promising offline use', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const { worker, store } = startedStore();
+    worker.registerError(new TypeError('blocked'));
+
+    store.dismissRegistrationFailure();
+
+    expect(store.getSnapshot()).toEqual({
+      offlineReady: false,
+      update: null,
+      offline: 'failed',
+      registrationFailed: false,
+    });
+  });
+
+  it('keeps promising offline use when a worker installed on an earlier visit still controls the page', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const { worker, store } = startedStore({ controlled: true });
+
+    worker.registerError(new TypeError('sw.js unreachable'));
+
+    expect(store.getSnapshot()).toMatchObject({ offline: 'ready', registrationFailed: false });
+  });
+
+  it('retries nothing unless the registration failed', () => {
+    const { worker, store } = startedStore();
+
+    store.retryRegistration();
+
+    expect(worker.register).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe('exam holds', () => {
-  it('defer both notices while an exam runs and bring them back when the last hold is released', () => {
+  it('defer the notices while an exam runs and bring them back when the last hold is released', () => {
     const { worker, store } = startedStore({ controlled: true });
     const releaseDrive = store.hold();
     const releaseTheory = store.hold();
@@ -158,9 +348,14 @@ describe('exam holds', () => {
     const stillHeld = store.getSnapshot();
     releaseTheory();
 
-    expect(held).toEqual({ offlineReady: false, update: null });
-    expect(stillHeld).toEqual({ offlineReady: false, update: null });
-    expect(store.getSnapshot()).toEqual({ offlineReady: true, update: 'waiting' });
+    expect(held).toEqual({ offlineReady: false, update: null, offline: 'ready', registrationFailed: false });
+    expect(stillHeld).toEqual(held);
+    expect(store.getSnapshot()).toEqual({
+      offlineReady: true,
+      update: 'waiting',
+      offline: 'ready',
+      registrationFailed: false,
+    });
   });
 
   it('keep a tab mid-exam running when another tab applies the update', () => {
@@ -200,16 +395,6 @@ describe('registration', () => {
     store.start(worker.register);
 
     expect(worker.register).toHaveBeenCalledTimes(1);
-  });
-
-  it('warns that the app works online only when the registration fails', () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    const { worker } = startedStore();
-    const failure = new TypeError('blocked');
-
-    worker.registerError(failure);
-
-    expect(warn).toHaveBeenCalledWith('Service worker registration failed; the app keeps working online only', failure);
   });
 
   it('checks for a new version every hour while online, skipping checks offline or during an install', async () => {
@@ -272,6 +457,11 @@ describe('browser environment', () => {
     appUpdates.start(worker.register);
     worker.offlineReady();
 
-    expect(appUpdates.getSnapshot()).toEqual({ offlineReady: true, update: null });
+    expect(appUpdates.getSnapshot()).toEqual({
+      offlineReady: true,
+      update: null,
+      offline: 'ready',
+      registrationFailed: false,
+    });
   });
 });

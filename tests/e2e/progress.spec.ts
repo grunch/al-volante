@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, withoutServiceWorkers } from './fixtures.ts';
 import type { Page } from '@playwright/test';
 
 const CONCEPT = 'Ceder el paso a peatones al girar con luz verde';
@@ -31,6 +31,7 @@ test.describe('progress and logbook', () => {
 
     // A new context has its own, empty IndexedDB: a different browser for the purposes of the backup.
     const fresh = await browser.newContext({ baseURL: testInfo.project.use.baseURL });
+    await withoutServiceWorkers(fresh);
     const other = await fresh.newPage();
     await other.goto('./#/bitacora');
     await expect(campaignB(other).getByText('Todavía no practicaste conceptos de esta parte.')).toBeVisible();

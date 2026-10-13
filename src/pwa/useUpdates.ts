@@ -14,3 +14,8 @@ export function useUpdateSnapshot(store: UpdateStore = appUpdates): UpdateSnapsh
 export function useUpdateHold(active: boolean, store: UpdateStore = appUpdates): void {
   useEffect(() => (active ? store.hold() : undefined), [active, store]);
 }
+
+/** Makes activating a new version, and the reload after it, wait until `wait()` settles (progress being saved). */
+export function useReloadGuard(wait: () => Promise<unknown>, store: UpdateStore = appUpdates): void {
+  useEffect(() => store.guardReload(wait), [wait, store]);
+}

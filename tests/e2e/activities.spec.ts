@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures.ts';
 
 test.describe('activities', () => {
   test('answers a sign activity with the keyboard and follows its source to the library', async ({ page }) => {
