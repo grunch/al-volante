@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures.ts';
 
 test.describe('theory mock exam', () => {
   test('opens the exam room from home, grades a paper handed in early and keeps it in the logbook', async ({

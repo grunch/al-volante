@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures.ts';
 
 // Cold shader compilation with city shadows and three mirrors needs extra time on software WebGL.
 test.describe.configure({ timeout: 120_000 });

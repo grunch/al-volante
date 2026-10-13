@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { loadPageText } from '../../content/sourceText.ts';
 import type { Rule, Source, SourceId } from '../../content/schemas.ts';
 import type { Content } from '../../content/validate.ts';
+import { ExternalLink } from '../../pwa/ExternalLink.tsx';
 import { ContentGate } from '../../ui/ContentGate.tsx';
 import { PageTitle } from '../../ui/PageTitle.tsx';
 import {
@@ -149,9 +150,7 @@ function SourcePageView({ content, source, page }: { content: Content; source: S
       )}
       <ExtractedText source={source.id} page={page} />
       <p className="link-row">
-        <a href={`${source.provenance.url}#page=${page}`} target="_blank" rel="noopener noreferrer">
-          {t('officialPdfAtPage')}
-        </a>
+        <ExternalLink href={`${source.provenance.url}#page=${page}`}>{t('officialPdfAtPage')}</ExternalLink>
       </p>
     </>
   );

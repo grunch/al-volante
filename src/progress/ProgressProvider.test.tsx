@@ -191,6 +191,64 @@ describe('ProgressProvider failures', () => {
     expect(screen.getByText(/unsaved: 0/)).toBeInTheDocument();
   });
 
+  it('tells when every queued save has settled, a failed one included, which stays counted as unsaved', async () => {
+    // Arrange: a slow write that ends up failing, as an exam attempt saved right before an update.
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    let failWrite: (error: Error) => void = () => undefined;
+    const store: ProgressStore = {
+      ...createMemoryStore(),
+      record: () => new Promise((_resolve, reject) => (failWrite = reject)),
+    };
+    const { progress, record } = renderProbe(() => Promise.resolve(store));
+    await screen.findByText(/attempts: 0 .*content: ready/);
+    let idle = false;
+
+    // Act
+    const outcome = record(answerResult());
+    void progress()
+      .whenIdle()
+      .then(() => (idle = true));
+    await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+    const idleWhileSaving = idle;
+    await act(async () => failWrite(new Error('QuotaExceededError')));
+    await waitFor(() => expect(idle).toBe(true));
+
+    // Assert
+    expect(idleWhileSaving).toBe(false);
+    expect(await outcome).toBe('failed');
+    expect(screen.getByText(/unsaved: 1/)).toBeInTheDocument();
+  });
+
+  it('also waits for a save queued while it was already waiting', async () => {
+    // Arrange: every write waits until the test lets it through.
+    const memory = createMemoryStore();
+    const gates: Array<() => void> = [];
+    const store: ProgressStore = {
+      ...memory,
+      record: (...args) => new Promise((resolve) => gates.push(() => resolve(memory.record(...args)))),
+    };
+    const { progress, record } = renderProbe(() => Promise.resolve(store));
+    await screen.findByText(/attempts: 0 .*content: ready/);
+    let idle = false;
+    void record(answerResult());
+    void progress()
+      .whenIdle()
+      .then(() => (idle = true));
+
+    // Act: a second answer arrives while the first is still being written.
+    void record(answerResult());
+    await waitFor(() => expect(gates).toHaveLength(1));
+    await act(async () => gates.shift()?.());
+    await waitFor(() => expect(gates).toHaveLength(1));
+    const idleWithSecondPending = idle;
+    await act(async () => gates.shift()?.());
+
+    // Assert
+    expect(idleWithSecondPending).toBe(false);
+    await waitFor(() => expect(idle).toBe(true));
+    expect(gates).toHaveLength(0);
+  });
+
   it('still shows its own answer when the write worked but reading it back failed', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const memory = createMemoryStore();

@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures.ts';
 
 // The detailed cabin (F04-T01-FIX02) renders slowly on software WebGL: the default 30 s per test ran out on a slower
 // CI runner while the same build passed on another one.

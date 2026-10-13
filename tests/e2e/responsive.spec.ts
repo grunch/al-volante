@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures.ts';
 import type { Locator, Page } from '@playwright/test';
 
 // PWA01-T01: every page fits every screen, from a 320 px phone to a 4K monitor, upright and sideways.

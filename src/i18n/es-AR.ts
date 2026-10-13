@@ -875,3 +875,23 @@ export const AUDIO_COPY = {
 export const NEIGHBORHOOD_COPY = {
   shops: ['ALMACÉN', 'CAFÉ', 'PANADERÍA', 'KIOSCO', 'VERDULERÍA', 'ÓPTICA', 'LIBRERÍA', 'CAFÉ'],
 } as const;
+
+/** Installable app: offline state, the one-time offline notice and the update prompt (src/pwa). */
+export const PWA_COPY = {
+  offline:
+    'Sin conexión. La app sigue funcionando; solo los enlaces externos, como los PDF oficiales, necesitan internet.',
+  offlineNotReady:
+    'Sin conexión. La app todavía no quedó guardada en este dispositivo: las pantallas que no abriste pueden no cargar hasta que vuelva internet.',
+  offlineReady: 'Listo: la app ya funciona sin conexión en este dispositivo.',
+  registrationFailed: 'No se pudo preparar la app para usarla sin conexión. Mientras tengas internet funciona igual.',
+  retry: 'Reintentar',
+  close: 'Cerrar',
+  gotIt: 'Entendido',
+  updateAvailable: 'Hay una versión nueva. Al actualizar se recarga la página; tu progreso queda guardado.',
+  updateActivatedElsewhere:
+    'Se instaló una versión nueva desde otra pestaña. Recargá cuando quieras; tu progreso queda guardado.',
+  update: 'Actualizar',
+  updating: 'Actualizando…',
+  later: 'Más tarde',
+  needsConnection: '(necesita conexión)',
+} as const;

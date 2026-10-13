@@ -10,6 +10,8 @@ Todas las dependencias están fijadas con versión exacta en `package.json` y `p
 
 Las fechas de publicación salen del registro de npm (`npm view <paquete> time`) y, para Node.js, de `https://nodejs.org/dist/index.json`. Se verificaron el 2026-10-11, así que el límite era el 2026-09-27.
 
+PWA01-T02 (2026-10-13, límite 2026-09-29) instaló el plugin con `npm install --before=2026-09-29`, para que también las 295 dependencias transitivas nuevas (sobre todo `workbox-build`: Babel, Rollup y sus binarios) salieran de versiones con dos semanas publicadas; sin esa opción, npm resolvía 31 publicadas en los últimos 14 días, entre ellas `rollup` 4.64.6, del mismo día. Las entradas existentes del lockfile no cambiaron. Licencias de las nuevas: MIT (268), ISC, BSD-2/3-Clause, Apache-2.0, BlueOak-1.0.0 y MIT/CC0; todas permisivas y, salvo `workbox-window` y el runtime de Workbox que va dentro de `sw.js` (ambos MIT), solo se usan para construir.
+
 | Paquete | Versión | Publicada | Uso |
 |---|---|---|---|
 | Node.js | 24.21.0 (`.nvmrc`; `engines` `^24.15.0 \|\| >=26.0.0`) | 2026-09-07 | Desarrollo, pruebas y CI. El mínimo sale de jsdom 30.1.1 y tres dependencias suyas (`^22.22.2 \|\| ^24.15.0 \|\| >=26.0.0`). |
@@ -26,6 +28,8 @@ Las fechas de publicación salen del registro de npm (`npm view <paquete> time`)
 | React Router | 8.4.0 | 2026-09-15 | Navegación con URLs con hash (desde F02-T03). |
 | idb | 8.0.3 | 2025-05-07 | Envoltorio con promesas de IndexedDB para el progreso (desde F02-T05). La 8.0.4 es del 2026-10-06 y todavía no cumplía las dos semanas. |
 | fake-indexeddb | 6.2.5 | 2025-11-07 | IndexedDB en memoria para las pruebas (solo desarrollo). |
+| vite-plugin-pwa | 1.3.0 | 2026-05-05 | Manifiesto y service worker generados en el build (desde PWA01-T02; licencia MIT; solo desarrollo). Declara compatibilidad con Vite `^8.0.0`. La 2.0.0 es del 2026-10-03 y todavía no cumplía las dos semanas. |
+| Workbox (`workbox-window`, `workbox-build`) | 7.4.1 | 2026-05-04 | `workbox-window` (MIT) registra el service worker en la página y se incluye en el bundle; `workbox-build` (MIT, dependencia del plugin) genera `sw.js`. |
 
 ## Estructura
 
@@ -48,11 +52,13 @@ src/
   audio/                   Sonido de conducción con Web Audio (F04-T01-FIX05).
   assets/blender/          Catálogo de modelos exportado por Blender (F04-T01-FIX03).
   ui/                      Estilos (tokens de diseño), compuerta de contenido, título de página y hooks compartidos.
+  pwa/                     Aplicación instalable: registro del service worker, aviso de actualización, estado sin conexión y enlaces externos (PWA01-T02).
   test/                    Configuración, dobles de prueba y conductores con guion.
-public/                    Recortes de figuras y señales de los PDF (F05-T01, F05-T02).
+public/                    Recortes de figuras y señales de los PDF (F05-T01, F05-T02); favicon e íconos de la app (PWA01-T02).
 tests/e2e/                 Pruebas de punta a punta con Playwright.
 scripts/validate-content.ts Valida los catálogos desde la terminal (Node ≥ 24 ejecuta TypeScript).
 scripts/crop-figures.ts    Genera los recortes de public/ (poppler e ImageMagick).
+scripts/render-icons.ts    Dibuja el ícono original y genera favicon.svg y los PNG de public/icons/ (ImageMagick).
 scripts/verify-audio.ts    Comprueba el PCM del audio en Chromium (npm run test:audio).
 scripts/blender/           Generador del catálogo de modelos (Blender 5.2).
 specs/                     Documentación, fuentes y catálogos de datos.
@@ -503,3 +509,73 @@ Después de los cambios, las 434 combinaciones dan cero en todas las mediciones,
 - El texto extraído ajustado pierde la alineación en columnas de las tablas del PDF en pantallas angostas; la página oficial sigue enlazada.
 - La división de palabras depende de los diccionarios del navegador; sin ellos «ESTACIONAMIENTO» se corta sin guion.
 - En 320 px el menú ocupa tres renglones; se mantuvo sin menú desplegable para no cambiar la navegación ni el orden de tabulación.
+
+## Aplicación instalable y sin conexión (PWA01-T02)
+
+La app es una PWA: se puede instalar (Chrome y Edge en escritorio y Android; «Agregar a inicio» en Safari de iOS) y, después de una primera visita con conexión, funciona entera sin red. La genera `vite-plugin-pwa` con la estrategia `generateSW` (configuración en `vite.config.ts`); el código de la app está en `src/pwa/`.
+
+**Manifiesto** (`manifest.webmanifest`, generado en el build; el plugin agrega su `<link>` a `index.html`): nombre «Al volante: Comuna 13», nombre corto «Al volante», la descripción de `index.html`, `lang` `es-AR`, `id`, `start_url` y `scope` relativos (`./`, así sirve desde cualquier subdirectorio), `display: standalone`, `orientation: any`, categoría `education`, `theme_color` `#13233a` (azul noche) y `background_color` `#f7f2e8` (marfil, el fondo de la página y de la pantalla de arranque). `index.html` suma el favicon SVG y uno PNG de 32 px, `apple-touch-icon` de 180 px y las metas de Apple (`apple-mobile-web-app-capable`, título «Al volante» y barra de estado `black`, que no se superpone al encabezado).
+
+**Íconos.** Son obra original del proyecto, creada para este repositorio el 2026-10-13, sin arte, tipografías ni recursos de terceros: un volante de tres rayos marfil con centro turquesa y marca amarilla arriba, sobre azul noche (colores de `theme.css`). El dibujo vive en `scripts/render-icons.ts`, que escribe `public/favicon.svg` y genera con ImageMagick (`convert`; dibuja a 2048 px y reduce) los PNG de `public/icons/`:
+
+| Archivo | Uso |
+|---|---|
+| `icon-192.png`, `icon-512.png` | Manifiesto, `purpose: any` (esquinas redondeadas transparentes). |
+| `icon-maskable-512.png` | Manifiesto, `purpose: maskable`: fondo a sangre y volante al 80 %, dentro de la zona segura (círculo del 40 % del lado). |
+| `apple-touch-icon-180.png` | iOS: opaco, el mismo dibujo que el enmascarable. |
+| `favicon-32.png` | Favicon para navegadores sin SVG. |
+
+Regenerarlos: `node scripts/render-icons.ts` (con `--out <dir>` para previsualizar en otro lado). `-strip` quita las marcas de tiempo, así el mismo dibujo da siempre los mismos archivos. En la máquina de desarrollo no había `rsvg-convert` ni Inkscape, así que se usó el renderizador SVG interno de ImageMagick 6; con un ImageMagick que use librsvg los píxeles pueden variar levemente.
+
+**Qué se precachea.** El build de PWA01-T02 informa 536 archivos y 16 757 KiB (unos 17,2 MB):
+
+| Grupo | Archivos | Tamaño |
+|---|---|---|
+| JS y CSS de `assets/`: shell, páginas diferidas, Three.js y escenas, catálogos de contenido y texto extraído de las fuentes | 45 | 6,7 MB |
+| Figuras de los PDF (`figures/*.png`) | 128 | 9,5 MB |
+| Señales (`signs/*.png`) | 355 | 0,9 MB |
+| `index.html`, manifiesto, favicon e íconos | 8 | 0,1 MB |
+
+- Patrón `**/*.{html,js,css,png,svg}`; el manifiesto lo agrega el plugin. Quedan afuera los `*.map` (el build los emite para depurar y duplicarían la descarga) y el propio `sw.js` con su runtime `workbox-*.js`.
+- `maximumFileSizeToCacheInBytes` es 1 800 000: el archivo más grande es el chunk de la escena del habitáculo (`cockpitScene`, 1 698 520 bytes). Workbox omite sin error lo que supera el límite; por eso `tests/e2e/pwa.spec.ts` compara la caché con todos los archivos de `dist/` y falla si falta alguno. Si un chunk crece, hay que subir el límite.
+- Los archivos con hash de `assets/` se guardan sin revisión; el resto (figuras, señales, íconos, `index.html`) lleva su MD5 como revisión, así un recorte regenerado se vuelve a descargar.
+- `navigateFallback: 'index.html'`: las rutas con hash siempre cargan `index.html`, así que cualquier enlace profundo (`#/biblioteca/manual/72`) abre sin conexión. `cleanupOutdatedCaches` borra cachés de versiones viejas de Workbox, y cada versión nueva quita de la suya lo que ya no usa.
+- `clientsClaim`: en la primera visita, apenas termina de guardar todo, el service worker controla la pestaña, y los chunks diferidos que esa pestaña pida después también salen de la caché. No hay `skipWaiting` automático.
+- La primera visita descarga esos 17 MB en segundo plano, después del evento `load`, sin bloquear la página. No hay una opción para descargar menos.
+
+**Flujo de actualización** (`registerType: 'prompt'`):
+
+1. `main.tsx` llama a `startServiceWorker()` (`src/pwa/registerServiceWorker.ts`). Solo en el build de producción registra `./sw.js` con alcance `./` mediante `virtual:pwa-register` (que usa `workbox-window`); el servidor de desarrollo y las pruebas no registran nada.
+2. El navegador busca un `sw.js` nuevo al cargar la página. Como las rutas con hash nunca navegan, `src/pwa/updates.ts` además lo pide cada hora si hay conexión. Una versión nueva se instala y queda **en espera**: la página sigue con el código que tenía.
+3. `PwaStatus`, montado una vez en `App.tsx` (dentro de `ProgressProvider`, como `AppPwaStatus`), muestra abajo, sin tomar el foco, «Hay una versión nueva. Al actualizar se recarga la página; tu progreso queda guardado.» con «Actualizar» y «Más tarde». El texto es un `role="status"` (anuncio cortés) dentro de una región con nombre, y los botones quedan al final del orden de tabulación.
+4. «Actualizar» envía `SKIP_WAITING` a la versión en espera; cuando esta toma el control, **solo esa pestaña** se recarga. «Más tarde» oculta el aviso de esa versión en la página: vuelve en la próxima carga mientras siga esperando, o antes si llega otra versión más nueva (otro service worker en espera; el mismo informado de nuevo no cuenta, ver el punto 7). Si se cierran todas las pestañas, el navegador activa la versión nueva en la visita siguiente (ciclo estándar de los service workers), nunca dentro de una página abierta.
+5. **Otras pestañas.** El plugin recargaría por su cuenta toda pestaña que hubiera mostrado el aviso; la app le pasa `onNeedReload` para impedirlo y decide con su propio `controllerchange`. Si la versión nueva se aceptó en otra pestaña, esta sigue funcionando y ofrece «Se instaló una versión nueva desde otra pestaña. Recargá cuando quieras; tu progreso queda guardado.» con «Actualizar» (solo recarga) y «Más tarde».
+6. **Exámenes.** `useUpdateHold(activo)` posterga los dos avisos (actualización y «ya funciona sin conexión») mientras `ExamPage` tiene un manejo sin terminar (`session.phase !== 'finished'`, en los cuatro modos) y mientras el simulacro de `TheoryExamPage` está en curso. El aviso aparece al terminar o al salir de la página. Así nada invita a recargar en medio de un examen, y ninguna pestaña se recarga sin el clic de quien juega, tampoco cuando la actualización se acepta en otra.
+7. Workbox informa dos veces una versión instalada desde otra pestaña (`installed` y, 200 ms después, `waiting`). El segundo aviso no deshace un «Actualizar» ya pulsado (antes de corregirlo, el E2E mostró que un clic dentro de esos 200 ms dejaba la pestaña sin recargar) ni un «Más tarde»: el store recuerda qué service worker en espera se postergó y solo uno distinto vuelve a mostrar el aviso (revisión de Codex en #44).
+8. **Escrituras pendientes.** Al terminar un examen, el aviso reaparece mientras su intento todavía se está guardando. Una recarga en ese momento abortaría la transacción de IndexedDB y perdería el intento. Por eso `AppPwaStatus` registra `whenIdle` de `ProgressProvider` (se resuelve cuando la cola de progreso, con lo que se encole mientras tanto, terminó; nunca se rechaza) con `guardReload`: «Actualizar» espera a que termine antes de activar la versión nueva, y la recarga posterior vuelve a esperar. Un guardado que falla no bloquea la actualización: sigue adelante cuando termina, y el error sigue a la vista como siempre (la página avisa que no se guardó y la bitácora cuenta los resultados sin guardar). La recarga por una actualización aceptada en otra pestaña espera igual (revisión de Codex en #44). Después de esa espera se vuelve a mirar si hay un examen en curso: si la persona empezó un manejo o un simulacro mientras se guardaba, la versión nueva no se activa y el aviso vuelve al terminar, para un nuevo «Actualizar»; si el cambio de control llega con un examen en curso, la página no se recarga y ofrece recargar al terminar.
+
+**Progreso.** El service worker no toca IndexedDB (`al-volante`, versión 3). La recarga tras actualizar abre la misma base; si una versión futura sube `DB_VERSION`, la migración corre en `upgrade` como siempre, y las pestañas con el código viejo cierran su conexión por `versionchange` (REV01). El E2E guarda una respuesta, aplica una actualización y comprueba que la bitácora la conserva.
+
+**Sin conexión.** `useOnlineStatus` (`navigator.onLine` y los eventos `online` y `offline`) muestra «Sin conexión. La app sigue funcionando; solo los enlaces externos, como los PDF oficiales, necesitan internet.» solo si un service worker controla la página (`offline: 'ready'` en el store). Si no (primera visita sin terminar, registro fallido, servidor de desarrollo), no promete nada: «Sin conexión. La app todavía no quedó guardada en este dispositivo: las pantallas que no abriste pueden no cargar hasta que vuelva internet.» `ExternalLink` agrega «(necesita conexión)» a los enlaces externos: «PDF oficial» de la biblioteca, «Abrir el PDF oficial en esta página» y las fuentes del simulacro teórico. Un aviso único, «Listo: la app ya funciona sin conexión en este dispositivo.», confirma la primera instalación. Los estilos están en `src/pwa/pwa.css`.
+
+**Registro fallido** (revisión de Codex en #44). Si el registro falla (navegador que bloquea service workers, `sw.js` inaccesible) y ningún service worker instalado antes controla la página, el store pasa a `offline: 'failed'`: nunca muestra «Listo…», el indicador sin conexión no promete nada y aparece, como `role="status"` dentro de una región con nombre, «No se pudo preparar la app para usarla sin conexión. Mientras tengas internet funciona igual.» con «Reintentar» (vuelve a registrar) y «Cerrar». Si la página ya estaba controlada por un service worker de una visita anterior, el fallo solo queda en la consola: ese service worker sigue sirviendo la app sin conexión. Como los demás avisos, se posterga durante los exámenes.
+
+**Límites**:
+- Los PDF oficiales y las páginas del GCBA son enlaces externos y no se guardan; el texto extraído de cada página sí, porque es un chunk de JS.
+- Hace falta una primera visita con conexión hasta el aviso «Listo…»; si se corta antes, la instalación se reintenta en la visita siguiente.
+- `navigator.onLine` puede decir «en línea» en una red sin internet. La app no depende de él (todo sale de la caché); solo lo informa.
+- El navegador puede borrar la caché y el progreso si le falta espacio. La app no pide almacenamiento persistente (`navigator.storage.persist`); la protección del progreso sigue siendo el respaldo de la bitácora.
+- Una pestaña que sigue con el código viejo después de que otra aceptó la actualización puede no encontrar un chunk diferido que todavía no había cargado, porque la versión nueva quita de la caché los archivos que ya no usa y el hosting ya no los sirve. Por eso esa pestaña ofrece recargar.
+- iOS y Safari no muestran un aviso de instalación (se instala con «Compartir → Agregar a inicio») y pueden borrar los datos de un sitio que no se usa durante semanas. No se probó en un dispositivo iOS.
+
+**Cómo probarlo**:
+- E2E: `npx playwright test tests/e2e/pwa.spec.ts`, solo en Chromium de escritorio; el proyecto móvil lo omite porque el service worker y el manifiesto son los mismos. Comprueba:
+  - el manifiesto y los íconos (HTTP 200 y el tamaño real de cada PNG);
+  - que el service worker controla la página y precachea todo `dist/` salvo los mapas;
+  - que, con `context.setOffline(true)`, una recarga muestra el inicio con el garaje 3D, una actividad con el recorte de su señal, el texto de una página de la biblioteca (recargando su enlace profundo) y el simulacro teórico;
+  - el aviso de actualización: aparece sin recargar nada, y «Actualizar» recarga la página y conserva el progreso.
+- La actualización se simula registrando el mismo `sw.js` con otra URL (`./sw.js?e2e-update=1`): el navegador lo instala como versión nueva aunque los bytes sean iguales, y Playwright no puede reescribir la petición del script del service worker (se probó `context.route`, también con `PW_EXPERIMENTAL_SERVICE_WORKER_NETWORK_EVENTS`). Después de aceptar, la página recargada vuelve a registrar `./sw.js`, lo ve como otra versión y muestra el aviso de nuevo; es un efecto de la simulación.
+- Las demás pruebas E2E corren como en un navegador sin service workers: importan `test` de `tests/e2e/fixtures.ts`, que quita `navigator.serviceWorker` con un script de inicio (también en el contexto nuevo de `progress.spec.ts`, con `withoutServiceWorkers`). Así no descargan 17 MB por contexto y la app no muestra avisos de instalación. `serviceWorkers: 'block'` (en `playwright.config.ts`) no alcanza: para la app es un registro fallido y el aviso «No se pudo preparar…» tapaba lo que esas pruebas tocan (cinco fallaron así). Queda igual como respaldo para una prueba nueva que no use el fixture.
+- `pwa.spec.ts` prueba ese camino a propósito: con `serviceWorkers: 'block'`, el aviso aparece, «Reintentar» vuelve a registrar, el indicador sin conexión no promete nada y nunca aparece «Listo…».
+- Unitarias: `src/pwa/*.test.ts(x)` (estado de la actualización, escrituras pendientes, «Más tarde» por versión, registro fallido y reintento, avisos y teclado, enlaces externos, conexión, registro), `src/progress/ProgressProvider.test.tsx` (`whenIdle`) y `src/app/pages/updateHold.test.tsx` (los dos exámenes postergan el aviso; la versión nueva se activa recién cuando el simulacro entregado quedó guardado), con `src/test/fakeServiceWorker.ts` en lugar del plugin.
+- Manual: `npm run build && npx vite preview`; abrir la app en Chromium y esperar «Listo…»; en DevTools, Network → Offline (o Application → Service workers → Offline) y recargar. Application → Manifest muestra el manifiesto, los íconos y si se puede instalar. Para un subdirectorio: `npx vite preview --base /al-volante/`.

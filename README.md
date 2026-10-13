@@ -21,6 +21,16 @@ Pila, estructura y convenciones: [specs/ARQUITECTURA.md](specs/ARQUITECTURA.md).
 
 Desde el inicio, «Explorar Comuna 13» abre `#/recorrido`: ocho entradas, vista de cuadra o circuito completo y conducción manual/automática. [Fuentes, aproximaciones y rendimiento](specs/CIUDAD.md).
 
+## Instalar la app y usarla sin conexión
+
+La versión publicada se instala como aplicación: en Chrome, Edge o Android, con el ícono de instalar de la barra de direcciones o «Instalar app» en el menú; en iPhone o iPad, desde Safari con «Compartir → Agregar a inicio».
+
+- La primera visita con conexión guarda la app entera (unos 17 MB, en segundo plano) y avisa «Listo: la app ya funciona sin conexión». Desde ahí todo funciona sin internet, también el manejo 3D y el simulacro teórico; solo los enlaces externos, como los PDF oficiales, necesitan conexión, y lo dicen.
+- Cuando hay una versión nueva, la app la ofrece con «Actualizar» o «Más tarde». Nunca se recarga sola ni durante un examen, y el progreso se conserva.
+- El service worker existe solo en el build de producción (`npm run build && npx vite preview`), no en `npm run dev`.
+
+Detalle, límites y pruebas: [Arquitectura, «Aplicación instalable y sin conexión»](specs/ARQUITECTURA.md#aplicación-instalable-y-sin-conexión-pwa01-t02).
+
 ## Documentación
 
 - [Propuesta](PROPUESTA.md): producto, evaluación y arquitectura.

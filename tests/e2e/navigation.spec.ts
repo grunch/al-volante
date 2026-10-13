@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures.ts';
 
 test.describe('navigation and library', () => {
   test('is fully usable with the keyboard and focuses each new page title', async ({ page }) => {
