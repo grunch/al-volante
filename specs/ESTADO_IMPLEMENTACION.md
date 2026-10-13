@@ -641,8 +641,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
-| PWA01-T01 — diseño adaptable a todas las pantallas | `pwa01-t01-responsive` | `main` (`72a1e87`) | [#43](https://github.com/grunch/al-volante/pull/43) | abierto; revisiones solicitadas |
-| PWA01-T02 — aplicación instalable y sin conexión | `pwa01-t02-pwa` | `pwa01-t01-responsive` (#43) | [#44](https://github.com/grunch/al-volante/pull/44) | abierto; revisiones solicitadas |
+| PWA01-T01 — diseño adaptable a todas las pantallas | `pwa01-t01-responsive` | `main` (`72a1e87`) | [#43](https://github.com/grunch/al-volante/pull/43) | abierto; findings de Codex y CodeRabbit resueltos |
+| PWA01-T02 — aplicación instalable y sin conexión | `pwa01-t02-pwa` | `pwa01-t01-responsive` (#43) | [#44](https://github.com/grunch/al-volante/pull/44) | abierto; findings de Codex resueltos |
 
 ### PWA01-T01 — Diseño adaptable
 
@@ -652,6 +652,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ### PWA01-T02 — Aplicación instalable y sin conexión
 
+- Revisiones: Codex sobre `3271d42`, tres findings corregidos en `6995537` con pruebas de regresión: «Actualizar» espera que terminen los guardados de progreso antes de activar y de recargar (antes podía cortar el guardado del intento recién terminado); «Más tarde» se mantiene ante el aviso duplicado de la misma versión; un registro fallido del service worker se muestra con «Reintentar» y la app no promete uso sin conexión. Los E2E que no son de la PWA corren como en un navegador sin service workers (`tests/e2e/fixtures.ts`). Validación: `npm run check` (1.793 pruebas) y la suite E2E completa (82 pasan, 14 omitidas a propósito).
 - `vite-plugin-pwa` 1.3.0 (MIT, 2026-05-05; la 2.0.0 tiene menos de dos semanas) con Workbox 7.4.1. Manifiesto en español con alcance relativo, íconos originales (`scripts/render-icons.ts`) y service worker que precachea la interfaz, todo el código, el contenido y los recortes de figuras y señales (536 archivos, unos 17 MB, sin mapas de código).
 - Las actualizaciones esperan a quien juega: aviso accesible con «Actualizar» y «Más tarde», solo se recarga la pestaña que acepta, y no aparece durante un manejo del examen ni un simulacro teórico en curso. El progreso en IndexedDB no se toca. Indicador sin conexión y enlaces a los PDF oficiales que avisan que necesitan conexión.
 - Verificación: pruebas unitarias del registro, el aviso, la conexión y la espera durante los exámenes; E2E del manifiesto, los íconos, el control del service worker, recargas sin conexión (inicio, actividad con su señal, biblioteca y teórico) y una actualización simulada que conserva una respuesta guardada. Detalle en `ARQUITECTURA.md` («Aplicación instalable y sin conexión (PWA01-T02)»).
