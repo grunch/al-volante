@@ -10,11 +10,13 @@ import { BackupPanel, MAX_BACKUP_BYTES } from './BackupPanel.tsx';
 
 const AT = '2026-10-11T12:00:00.000Z';
 const rules = ruleCatalog([rule({ id: 'rule.minor.a-item', severity: 'minor', annexItem: 'a', points: 1 })]);
+const theoryExam = { version: '2026-10-12', questions: 40, passCorrect: 34 };
 const stored: ProgressSnapshot = { attempts: [], concepts: [updateConcept(undefined, 'manual.ch3.a', true, AT)] };
 
 function renderPanel(overrides: Partial<Parameters<typeof BackupPanel>[0]> = {}) {
   const props = {
     rules,
+    theoryExam,
     attemptCount: 3,
     exportSnapshot: vi.fn(() => Promise.resolve(stored)),
     contentVersion: 'deadbeef',

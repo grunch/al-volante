@@ -433,6 +433,31 @@ describe('DrivingCanvas', () => {
     expect(screen.getByRole('combobox', { name: 'Iluminación' })).toHaveValue('low');
   });
 
+  it('starts a new world (another seed) from the prepared cabin, not from the cabin of the previous session', () => {
+    // Arrange: the driver unbuckles; then the page changes the seed, which brings a new world and a reset together.
+    const observations: Observation[] = [];
+    const preparedCabin = [
+      { type: 'toggle', control: 'belt' },
+      { type: 'lights', value: 'low' },
+    ] as const;
+    const { press, rerender, props } = renderCanvas('manual', {
+      prepared: [{ type: 'insert-key' }],
+      preparedCabin,
+      onObservation: (observation) => observations.push(observation),
+    });
+    press('KeyC');
+    observations.length = 0;
+
+    // Act
+    rerender(<DrivingCanvas {...props} world={{ ...props.world }} resetCount={1} />);
+    runFrames(1 / 60);
+
+    // Assert
+    const first = observations[0];
+    expect(first?.type === 'step' && first.cockpit).toMatchObject({ belt: true, lights: 'low' });
+    expect(screen.getByText('Cinturón abrochado')).toBeVisible();
+  });
+
   it('leaves shortcuts with Ctrl, Alt or Meta and unbound keys to the browser', () => {
     // Arrange
     const telemetry: Telemetry[] = [];

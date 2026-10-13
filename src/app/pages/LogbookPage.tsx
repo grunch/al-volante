@@ -73,6 +73,7 @@ function Logbook({ content }: { content: Content }) {
       <DrivingSection rows={drivingLog(attempts)} />
       <BackupPanel
         rules={content.rules}
+        theoryExam={content.theoryExam}
         attemptCount={attempts.length}
         exportSnapshot={exportSnapshot}
         contentVersion={contentState.version}

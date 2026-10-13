@@ -221,6 +221,35 @@ describe('mock theory exam invariants', () => {
     ).toEqual([]);
   });
 
+  it('rejects an imported verdict that contradicts the pass threshold of the same configuration version', () => {
+    // Arrange: 34 of 40 to pass, as in theory-exam.json; the mock attempt was stored under that version.
+    const passRule = { version: '2026-10-12', questions: 40, passCorrect: 34 };
+    const graded = (correct: number, passed: boolean) =>
+      mock({
+        events: [
+          { at: AT, type: 'start', payload: { seed: 4, configVersion: '2026-10-12', minutes: 45, questions: [] } },
+          ...finished({ answers: {}, correct, total: 40, passed, timedOut: false }),
+        ],
+        result: { correct: passed, score: correct / 40, points: null },
+      });
+
+    // Act and assert: the verdict has to follow the threshold both ways.
+    expect(attemptErrors(graded(34, true), rules, passRule)).toEqual([]);
+    expect(attemptErrors(graded(33, false), rules, passRule)).toEqual([]);
+    expect(attemptErrors(graded(0, true), rules, passRule)).toEqual([
+      't1: 0 of 40 does not pass the mock exam (34 of 40 needed), but the grade says otherwise',
+    ]);
+    expect(attemptErrors(graded(40, false), rules, passRule)).toEqual([
+      't1: 40 of 40 passes the mock exam (34 of 40 needed), but the grade says otherwise',
+    ]);
+  });
+
+  it('keeps the verdict of a mock exam from another configuration version, whose threshold is not known', () => {
+    const otherVersion = { version: '2027-01-01', questions: 40, passCorrect: 34 };
+
+    expect(attemptErrors(mock(), rules, otherVersion)).toEqual([]);
+  });
+
   it('rejects unfinished mock exams, faults, points and grades that are missing, repeated or contradict the result', () => {
     const cases: Record<string, [Partial<Attempt>, string]> = {
       unfinished: [{ finishedAt: null }, 't1: a mock exam is finished when it is handed in'],
