@@ -92,9 +92,9 @@
           },
           {
             "id": "b",
-            "text": "Con caja automática",
+            "text": "Sin ningún equipamiento especial",
             "correct": false,
-            "feedback": "El documento no habla del tipo de caja: lo que asegura es que los vehículos tendrán doble comando (recorridos PDF 4)."
+            "feedback": "Sí tienen un equipamiento especial: según la presentación, los vehículos del examen estarán equipados con doble comando (recorridos PDF 4)."
           },
           {
             "id": "c",

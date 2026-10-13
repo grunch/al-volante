@@ -125,7 +125,7 @@
       },
       {
         "id": "emergency-vehicle",
-        "prompt": "Una ambulancia con sirena se acerca por detrás y no hacés ninguna maniobra para cederle el paso. ¿Qué pasa?",
+        "prompt": "Una ambulancia con la sirena y las luces de emergencia encendidas se acerca por detrás y no hacés ninguna maniobra para cederle el paso. ¿Qué pasa?",
         "options": [
           {
             "id": "interrupt",
@@ -174,7 +174,7 @@
         "page": 32
       }
     ],
-    "explanation": "Durante el examen práctico el límite es 30 km/h en calles y 45 km/h en avenidas, salvo en los tramos donde la señalización o la normativa fijen uno más restrictivo (protocolo PDF 8 y 10). Ese límite es más bajo que la máxima de la vía: superarlo es una falla deficiente alta, 3 puntos (PDF 28), y superar la velocidad máxima de la vía es una falla eliminatoria (PDF 32).",
+    "explanation": "Durante el examen práctico el límite es 30 km/h en calles y 45 km/h en avenidas, salvo en los tramos donde la señalización o la normativa fijen uno más restrictivo (protocolo PDF 8 y 10). Es un límite propio del examen, distinto de la máxima de la vía: superarlo es una falla deficiente alta, 3 puntos (PDF 28), y superar la velocidad máxima de la vía es una falla eliminatoria (PDF 32).",
     "status": "reviewed",
     "variants": [
       {
@@ -185,7 +185,7 @@
             "id": "20",
             "text": "20 km/h",
             "correct": false,
-            "feedback": "Es menos de lo necesario: sin un cartel o una norma que fije un límite menor, en las calles del examen podés llegar a 30 km/h."
+            "feedback": "Es más bajo que el límite: sin un cartel o una norma que fije uno menor, en las calles del examen podés llegar a 30 km/h."
           },
           {
             "id": "30",

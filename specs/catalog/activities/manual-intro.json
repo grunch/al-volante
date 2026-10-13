@@ -14,7 +14,7 @@
         "page": 15
       }
     ],
-    "explanation": "La OMS categorizó a los siniestros viales como una «pandemia» por la gran cantidad de muertes que generan en todo el mundo, y las cifras mundiales que muestra el manual suman, además, muchas más personas lesionadas que fallecidas (manual PDF 15). En la Ciudad, según el informe del Observatorio de Seguridad Vial del GCBA de mayo de 2022 que cita el manual, los motociclistas y los peatones fueron la mayor parte de las víctimas fatales, y la gran mayoría de las víctimas fueron de sexo masculino. Las cifras exactas no se evalúan: el manual no indica a qué año corresponden.",
+    "explanation": "La OMS categorizó a los siniestros viales como una «pandemia» por la gran cantidad de muertes que generan en todo el mundo, y las cifras mundiales que muestra el manual cuentan, además, muchas más personas lesionadas que fallecidas (manual PDF 15). En la Ciudad, según el informe del Observatorio de Seguridad Vial del GCBA de mayo de 2022 que cita el manual, los motociclistas y los peatones fueron la mayor parte de las víctimas fatales, y la gran mayoría de las víctimas fueron de sexo masculino. Las cifras exactas no se evalúan: el manual no indica a qué año corresponden.",
     "status": "reviewed",
     "variants": [
       {
@@ -109,7 +109,7 @@
       },
       {
         "id": "caba-sex",
-        "prompt": "¿Qué muestra ese mismo informe sobre el sexo de las víctimas fatales en la Ciudad?",
+        "prompt": "Según el informe del Observatorio de Seguridad Vial del GCBA que cita el manual, ¿qué se sabe del sexo de las víctimas fatales en la Ciudad?",
         "options": [
           {
             "id": "a",
@@ -761,7 +761,7 @@
       },
       {
         "id": "health",
-        "prompt": "¿Qué consecuencias reúne el grupo «Salud» de esa infografía?",
+        "prompt": "En la infografía del manual sobre las consecuencias de un siniestro vial, ¿qué reúne el grupo «Salud»?",
         "options": [
           {
             "id": "a",
@@ -876,7 +876,7 @@
             "id": "a",
             "text": "Que se cometen aunque se conozcan las normas de tránsito",
             "correct": true,
-            "feedback": "¡Exacto! Así, cuando un error ocurre, el diseño evita que haya víctimas fatales."
+            "feedback": "¡Exacto! Por eso el diseño de la infraestructura debe contemplar esos errores, para que cuando ocurran no haya víctimas fatales."
           },
           {
             "id": "b",
@@ -1012,7 +1012,7 @@
       },
       {
         "id": "infrastructure",
-        "prompt": "¿Qué eje de trabajo del plan agrupa las acciones relacionadas con el diseño del espacio público?",
+        "prompt": "¿Qué eje de trabajo del Plan de Seguridad Vial de la Ciudad agrupa las acciones relacionadas con el diseño del espacio público?",
         "options": [
           {
             "id": "a",
@@ -1042,7 +1042,7 @@
       },
       {
         "id": "control",
-        "prompt": "Las acciones que promueven el ordenamiento del tránsito y el cumplimiento de las normas, ¿a qué eje del plan pertenecen?",
+        "prompt": "Las acciones que promueven el ordenamiento del tránsito y el cumplimiento de las normas, ¿a qué eje del Plan de Seguridad Vial de la Ciudad pertenecen?",
         "options": [
           {
             "id": "a",
@@ -1072,7 +1072,7 @@
       },
       {
         "id": "participation",
-        "prompt": "Una iniciativa que suma en forma conjunta a la ciudadanía, ONG, empresas y dependencias, ¿a qué eje del plan corresponde?",
+        "prompt": "Una iniciativa que suma en forma conjunta a la ciudadanía, ONG, empresas y dependencias, ¿a qué eje del Plan de Seguridad Vial de la Ciudad corresponde?",
         "options": [
           {
             "id": "a",

@@ -206,9 +206,9 @@
           },
           {
             "id": "thirty",
-            "text": "Recorre menos de 30 km por viaje",
+            "text": "Recorre más de 200 km por viaje",
             "correct": false,
-            "feedback": "No. «Menos de 30 km» es el interurbano de corta distancia. El urbano se define por recorrer dentro de la Ciudad."
+            "feedback": "No. «Más de 200 km» es el interurbano de larga distancia. El urbano se define por recorrer dentro de la Ciudad."
           },
           {
             "id": "avenues",
@@ -336,7 +336,7 @@
     "figureIds": [
       "fig.manual-p137-driving-factors"
     ],
-    "explanation": "Según el anexo de transporte de pasajeros, quien conduce transporte público tiene un rol clave en la vía pública y vela por la seguridad de miles de personas, por eso debe trabajar con el máximo profesionalismo (manual PDF 124). Repetir el mismo recorrido puede dar la sensación de tener «todo bajo control», pero las situaciones cambian: el exceso de confianza, sumado a jornadas extensas, pide una conducción preventiva que considere las paradas de descanso, la postura corporal, la alimentación y la interacción con pasajeros/as (manual PDF 137). Las paradas programadas permiten recuperar la atención y no son una pérdida de tiempo (manual PDF 137 y 138). Es contenido pensado para conductores/as profesionales.",
+    "explanation": "Según el anexo de transporte de pasajeros, quien conduce transporte público tiene un rol clave en la vía pública y vela por la seguridad de miles de personas, por eso debe trabajar con el máximo profesionalismo (manual PDF 124). Repetir el mismo recorrido puede dar la sensación de tener «todo bajo control», pero las situaciones cambian. El exceso de confianza expone las habilidades al límite y promueve maniobras temerarias que no se perciben como riesgosas; sumado a jornadas extensas, pide una conducción preventiva que considere las paradas de descanso, la postura corporal, la alimentación y la interacción con pasajeros/as. La conducción se compone además de otras tareas (interactuar con pasajeros/as, regular los tiempos de viaje, velar por la seguridad integral, calcular las distancias y mantener la higiene) y exige tomar miles de decisiones en continuo: ese estado de alerta constante es una fuente muy significativa de estrés y fatiga (manual PDF 137). Las paradas programadas permiten recuperar la atención y no son una pérdida de tiempo (manual PDF 137 y 138). Es contenido pensado para conductores/as profesionales.",
     "status": "reviewed",
     "variants": [
       {
@@ -509,7 +509,7 @@
         "page": 138
       }
     ],
-    "explanation": "En la conducción profesional, la alerta constante es una fuente muy significativa de estrés y fatiga, y el exceso de confianza de conocer el recorrido no la compensa. Por eso el anexo de transporte de pasajeros pide programar paradas de descanso, que recuperan la atención en el corto plazo y preservan el organismo en el largo plazo. Algunas pueden usarse para resolver otras tareas y así no pensar en ellas mientras se maneja, lo que reduce la ansiedad y las distracciones; no son una pérdida de tiempo (manual PDF 137 y 138).",
+    "explanation": "En la conducción profesional, la alerta constante es una fuente muy significativa de estrés y fatiga, y el exceso de confianza de quien conoce el recorrido expone sus habilidades al límite. Por eso el anexo de transporte de pasajeros pide programar paradas de descanso, que recuperan la atención en el corto plazo y preservan el organismo en el largo plazo. Algunas pueden usarse para resolver otras tareas y así no pensar en ellas mientras se maneja, lo que reduce la ansiedad y las distracciones; no son una pérdida de tiempo (manual PDF 137 y 138).",
     "status": "reviewed",
     "variants": [
       {
@@ -729,7 +729,7 @@
           },
           "normal-hardening": {
             "correct": false,
-            "feedback": "A altas velocidades la dirección se endurece por diseño, para dar estabilidad. Pero una dirección dura, inestable o con ruidos extraños es una irregularidad: conviene revisarla en un taller (manual PDF 127)."
+            "feedback": "A altas velocidades la dirección se endurece para evitar posibles siniestros, interviniendo en la estabilidad. Pero una dirección dura, inestable o con ruidos extraños es una irregularidad: conviene revisarla en un taller (manual PDF 127)."
           },
           "ignored": {
             "correct": false,
@@ -1231,7 +1231,7 @@
     "figureIds": [
       "fig.manual-p127-tread-life"
     ],
-    "explanation": "Un neumático con abultamientos, roturas o un dibujo de menos de 1,6 mm debe reemplazarse, y en vehículos de gran porte el anexo de transporte de pasajeros recomienda cambiarlo con 2 mm. Tampoco conviene usar neumáticos con más de 5 años desde su fabricación, aunque no estén gastados, porque pierden flexibilidad y adherencia. Además, está prohibido usar neumáticos reconstruidos (recapados) en los ejes delanteros de camiones y ómnibus de media y larga distancia (manual PDF 127 y 128). La recomendación de 2 mm y la prohibición de recapados son propias de los vehículos de gran porte, no del auto particular.",
+    "explanation": "Un neumático con abultamientos, roturas o un dibujo de menos de 1,6 mm debe reemplazarse, y en vehículos de gran porte el anexo de transporte de pasajeros recomienda cambiarlo con 2 mm. Tampoco conviene usar neumáticos con más de 5 años desde su fabricación, aunque no estén gastados, porque pierden flexibilidad y adherencia. La tabla de vida útil del manual ubica de 8 a 6 mm en la franja segura, de 5 a 3 mm en la de atención y de 2,5 a 1,6 mm en la de peligro, donde 1,6 mm equivale a 0 % de vida útil. Además, está prohibido usar neumáticos reconstruidos (recapados) en los ejes delanteros de camiones y ómnibus de media y larga distancia (manual PDF 127 y 128). La recomendación de 2 mm y la prohibición de recapados son propias de los vehículos de gran porte, no del auto particular.",
     "status": "reviewed",
     "variants": [
       {
@@ -2288,7 +2288,7 @@
         "page": 118
       }
     ],
-    "explanation": "El paragolpes, delantero y trasero, absorbe la energía cinética de un choque y la devuelve en forma de rebote hacia el centro: reduce los daños, pero no el impacto, y la Ley 2148 lo hace obligatorio junto con los guardabarros. El anexo de transporte de pasajeros dice que los cristales son templados o laminados según su ubicación y finalidad (el de automóviles dice que generalmente son laminados, aunque también pueden ser templados, manual PDF 118), y que al quebrarse producen pequeños pedazos que suelen ser inofensivos. El habitáculo debe ser lo más indeformable posible, mientras las zonas delantera y trasera se deforman de forma programada; por inercia, lo que viaja suelto sigue a la velocidad del vehículo y, a 50 km/h, su fuerza de impacto puede llegar a 40 veces su peso (manual PDF 133).",
+    "explanation": "El paragolpes, delantero y trasero, absorbe la energía cinética de un choque y la empuja en forma de rebote hacia el centro del choque: reduce los daños, pero no el impacto, y la Ley 2148 lo hace obligatorio junto con los guardabarros. El anexo de transporte de pasajeros dice que los cristales son templados o laminados según su ubicación y finalidad (el de automóviles dice que generalmente son laminados, aunque también pueden ser templados, manual PDF 118), y que al quebrarse producen pequeños pedazos que suelen ser inofensivos. El habitáculo debe ser lo más indeformable posible, mientras las zonas delantera y trasera se deforman de forma programada; por inercia, lo que viaja suelto sigue a la velocidad del vehículo y, a 50 km/h, su fuerza de impacto puede llegar a 40 veces su peso (manual PDF 133).",
     "status": "reviewed",
     "variants": [
       {
@@ -2996,7 +2996,7 @@
             "id": "a",
             "text": "Previenen dolores musculares y mejoran la irrigación sanguínea",
             "correct": true,
-            "feedback": "¡Exacto! Y la irrigación está comprometida sobre todo en las piernas, después de muchas horas sentado/a al volante (manual PDF 138)."
+            "feedback": "¡Exacto! La elongación previene la aparición de dolores musculares y mejora la irrigación sanguínea, comprometida sobre todo en los miembros inferiores (manual PDF 138)."
           },
           {
             "id": "b",
@@ -3074,7 +3074,7 @@
             "id": "d",
             "text": "Girarlos diez veces hacia un solo lado",
             "correct": false,
-            "feedback": "Casi: son giros, pero cinco hacia adelante y cinco hacia atrás."
+            "feedback": "No. Son giros, pero cinco hacia adelante y cinco hacia atrás, con los dos brazos a la vez."
           }
         ]
       },
@@ -3131,7 +3131,7 @@
     "variants": [
       {
         "id": "arms",
-        "prompt": "Según la infografía del manual, ¿cómo deben quedar los brazos respecto del volante?",
+        "prompt": "Según la infografía de postura del manual, ¿cómo deben quedar los brazos respecto del volante?",
         "options": [
           {
             "id": "a",
@@ -3161,7 +3161,7 @@
       },
       {
         "id": "legs",
-        "prompt": "¿Cómo deben quedar las piernas al manejar, según la infografía?",
+        "prompt": "Según la infografía de postura del manual, ¿cómo deben quedar las piernas al manejar?",
         "options": [
           {
             "id": "a",
@@ -3185,13 +3185,13 @@
             "id": "d",
             "text": "Flexionadas al máximo, con las rodillas contra el volante",
             "correct": false,
-            "feedback": "Tampoco. Las piernas no van rectas, pero sí con margen de movimiento y llegando cómodas a los pedales."
+            "feedback": "No. Las piernas no van completamente rectas, pero necesitan un margen de movimiento, y tenés que llegar a los pedales sin despegar la espalda del asiento."
           }
         ]
       },
       {
         "id": "back",
-        "prompt": "¿Qué indica la infografía sobre la espalda?",
+        "prompt": "Según la infografía de postura del manual, ¿cómo debe ir la espalda al manejar?",
         "options": [
           {
             "id": "a",
@@ -3221,7 +3221,7 @@
       },
       {
         "id": "head",
-        "prompt": "Según la infografía, ¿cómo debe ir la cabeza respecto del apoyacabeza?",
+        "prompt": "Según la infografía de postura del manual, ¿cómo debe ir la cabeza respecto del apoyacabeza?",
         "options": [
           {
             "id": "a",
@@ -3251,7 +3251,7 @@
       },
       {
         "id": "seat",
-        "prompt": "¿Qué altura del asiento recomienda la infografía?",
+        "prompt": "¿Qué altura del asiento recomienda la infografía de postura del manual?",
         "options": [
           {
             "id": "a",
@@ -3937,7 +3937,7 @@
         "page": 148
       }
     ],
-    "explanation": "En el colectivo, el ascenso y descenso se hace en las paradas habilitadas, deteniéndose en forma paralela a la vereda y junto a ella: así no se obstruye la circulación y se evita que motos y bicicletas sobrepasen por la derecha mientras la gente sube o baja. Si la parada no está señalizada, se hace sobre el sector derecho antes de la bocacalle, y está prohibido circular con las puertas abiertas. Ante un pedido antirreglamentario, mencionar lo que dispone la ley evita el conflicto, y explicar el motivo de una demora ayuda a la convivencia (manual PDF 142). Son obligaciones y pautas para conductores/as de colectivos (categoría D), material complementario.",
+    "explanation": "En el colectivo, el ascenso y descenso se hace en las paradas habilitadas, deteniéndose en forma paralela a la vereda y junto a ella: así no se obstruye la circulación y se evita que motos y bicicletas sobrepasen por la derecha mientras la gente sube o baja. Si la parada no está señalizada, se hace sobre el sector derecho antes de la bocacalle, y está prohibido circular con las puertas abiertas. Ante un pedido antirreglamentario, mencionar lo que dispone la ley evita el conflicto, y explicar el motivo de una demora ayuda a la convivencia (manual PDF 142). Apurarse para recuperar el tiempo no es la respuesta: a pasajeros/as se les ofrece más seguridad y no más celeridad (manual PDF 148). Son obligaciones y pautas para conductores/as de colectivos (categoría D), material complementario.",
     "status": "reviewed",
     "type": "decision",
     "variants": [
@@ -4149,7 +4149,7 @@
       },
       {
         "id": "guide-dog",
-        "prompt": "Sube una persona ciega con su perro guía. ¿Qué corresponde?",
+        "prompt": "Sube al colectivo una persona ciega con su perro guía. ¿Qué corresponde?",
         "options": [
           {
             "id": "a",
@@ -4686,7 +4686,7 @@
     "variants": [
       {
         "id": "lights",
-        "prompt": "¿Qué tiene que pasar cuando se abre cualquiera de las puertas del vehículo?",
+        "prompt": "En un vehículo de transporte de personas con movilidad reducida, ¿qué tiene que pasar cuando se abre cualquiera de sus puertas?",
         "options": [
           {
             "id": "a",
@@ -4716,7 +4716,7 @@
       },
       {
         "id": "device",
-        "prompt": "Un pasajero necesita un dispositivo de seguridad especial para viajar. ¿Quién lo provee?",
+        "prompt": "En un servicio de transporte de personas con movilidad reducida, un pasajero necesita un dispositivo de seguridad especial para viajar. ¿Quién lo provee?",
         "options": [
           {
             "id": "a",
@@ -4746,7 +4746,7 @@
       },
       {
         "id": "first-aid",
-        "prompt": "¿Qué debe acreditar la persona acompañante de este servicio?",
+        "prompt": "En el transporte de personas con movilidad reducida, ¿qué debe acreditar la persona acompañante?",
         "options": [
           {
             "id": "a",
@@ -4776,7 +4776,7 @@
       },
       {
         "id": "floors",
-        "prompt": "¿Cómo deben ser los pisos del vehículo?",
+        "prompt": "¿Cómo deben ser los pisos de un vehículo de transporte de personas con movilidad reducida?",
         "options": [
           {
             "id": "a",
@@ -4921,7 +4921,7 @@
       },
       {
         "id": "anticipation",
-        "prompt": "El manual dice que de poco sirve atender a lo que pasa 10 ó 15 segundos delante si…",
+        "prompt": "El manual dice que de poco sirve atender a lo que pasa 10 o 15 segundos delante si…",
         "options": [
           {
             "id": "a",
@@ -5098,7 +5098,7 @@
         "options": [
           {
             "id": "a",
-            "text": "Bloquean la visión hacia adelante y que te vean",
+            "text": "Impiden ver hacia adelante y que los demás te vean",
             "correct": true,
             "feedback": "¡Correcto! Además hacen que los vehículos se muevan más lenta o rápidamente de lo seguro; por eso hay que ir lo bastante lento para poder detenerse (manual PDF 145)."
           },
@@ -5448,19 +5448,19 @@
           },
           {
             "id": "b",
-            "text": "Porque estos vehículos no tienen dirección asistida",
+            "text": "Los vehículos de gran porte no tienen dirección asistida",
             "correct": false,
             "feedback": "No es el motivo. Por su tamaño, el vehículo se vuelve un obstáculo de gran volumen y revertir la maniobra lleva más tiempo."
           },
           {
             "id": "c",
-            "text": "Porque obliga a tocar bocina durante la maniobra",
+            "text": "Obliga a tocar bocina durante toda la maniobra",
             "correct": false,
             "feedback": "No. El riesgo es que se transforma en un obstáculo de gran volumen y revertirlo lleva más tiempo y distancia."
           },
           {
             "id": "d",
-            "text": "Porque hace que se apaguen las luces de giro",
+            "text": "Hace que se apaguen las luces de giro",
             "correct": false,
             "feedback": "No. El riesgo es que el vehículo se vuelve un obstáculo de gran volumen que encierra a otros."
           }

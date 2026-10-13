@@ -231,3 +231,46 @@ describe('the shipped bank (integration)', () => {
     }
   });
 });
+
+describe('options shown on a paper', () => {
+  it('always shows a wrong option long enough that the right one does not give itself away', () => {
+    // Arrange: the right option keeps the rule only against the longest wrong one (30 vs 24 characters); the other
+    // two are so short that showing both would leave the right one 26 characters longer than any shown option.
+    const units = [unit({ id: 'manual.ch3.a', section: 'ch3' })];
+    const activities = [
+      choiceActivity({
+        id: 'act.length',
+        unitIds: ['manual.ch3.a'],
+        variants: [
+          {
+            id: 'v1',
+            prompt: '¿Cuál?',
+            options: [
+              { id: 'a', text: 'La respuesta correcta y larguísima', correct: true, feedback: 'Bien' },
+              { id: 'b', text: 'Corta', correct: false, feedback: 'No' },
+              { id: 'c', text: 'Breve', correct: false, feedback: 'No' },
+              { id: 'd', text: 'Un distractor bastante largo', correct: false, feedback: 'No' },
+            ],
+          },
+        ],
+      }),
+    ];
+    const oneQuestion = theoryExamConfig({
+      questions: 1,
+      passCorrect: 1,
+      optionsPerQuestion: 3,
+      sections: ['manual-ch3'],
+    });
+
+    // Act
+    const shownSets = Array.from({ length: 60 }, (_, index) =>
+      composeExam(activities, units, oneQuestion, index + 1),
+    ).map((paper) => paper.questions[0]?.optionIds ?? []);
+
+    // Assert: every paper keeps the long distractor, and the short ones still alternate.
+    expect(shownSets.every((ids) => ids.length === 3 && ids.includes('a') && ids.includes('d'))).toBe(true);
+    expect(new Set(shownSets.map((ids) => ids.filter((id) => id === 'b' || id === 'c').join()))).toEqual(
+      new Set(['b', 'c']),
+    );
+  });
+});

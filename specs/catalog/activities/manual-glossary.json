@@ -32,17 +32,17 @@
           {
             "id": "passage",
             "text": "Pasaje",
-            "reason": "Su calzada tiene un ancho inferior a 5 metros (manual PDF 9)."
+            "reason": "su calzada tiene un ancho inferior a 5 metros (manual PDF 9)."
           },
           {
             "id": "street",
             "text": "Calle",
-            "reason": "En sentido particular, es la arteria con calzada de entre 5 y 13 metros (manual PDF 6)."
+            "reason": "en sentido particular, es la arteria con calzada de entre 5 y 13 metros (manual PDF 6)."
           },
           {
             "id": "avenue",
             "text": "Avenida",
-            "reason": "Su calzada tiene un ancho total de por lo menos 13 metros (manual PDF 5)."
+            "reason": "su calzada tiene un ancho total de por lo menos 13 metros (manual PDF 5)."
           }
         ]
       }
@@ -144,7 +144,7 @@
             "id": "d",
             "text": "Todo espacio afectado al dominio público, incluidos plazas y parques",
             "correct": false,
-            "feedback": "Eso describe la vía pública (manual PDF 11), que es más amplia: incluye calles, pero también plazas, parques y otros espacios del dominio público."
+            "feedback": "Eso describe la vía pública (manual PDF 11), que es más amplia: incluye calles, pero también plazas, parques y otros espacios del dominio público. La calle, en sentido general, son las aceras más las calzadas."
           }
         ]
       },
@@ -301,7 +301,7 @@
             "id": "c",
             "text": "Calzada lateral y paralela a una autopista, con acceso a sus carriles centrales y a veces a frentistas",
             "correct": false,
-            "feedback": "Eso define a la colectora (manual PDF 7), que es una calzada paralela que no pertenece a la autopista."
+            "feedback": "Eso define a la colectora (manual PDF 7), que es una calzada paralela que no pertenece a la autopista. La autopista no tiene cruces a nivel ni ingreso directo desde los frentistas."
           },
           {
             "id": "d",
@@ -493,7 +493,7 @@
             "id": "c",
             "text": "Cordón",
             "correct": false,
-            "feedback": "El cordón es la elevación al borde de la calzada que la separa de las aceras y forma parte de ellas (manual PDF 7); no es el sector por donde circulan los peatones."
+            "feedback": "El cordón es la elevación al borde de la calzada que la separa de las aceras y forma parte de ellas (manual PDF 7); no es el sector por donde circulan los peatones. Ese sector es la acera."
           },
           {
             "id": "d",
@@ -547,7 +547,7 @@
             "id": "b",
             "text": "Eje de calzada",
             "correct": false,
-            "feedback": "El eje de calzada es la línea que separa las áreas con sentido de circulación opuesto (manual PDF 8), no una banda para una fila de vehículos."
+            "feedback": "El eje de calzada es la línea que separa las áreas con sentido de circulación opuesto (manual PDF 8), no una banda para una fila de vehículos. Esa banda es el carril."
           },
           {
             "id": "c",
@@ -601,7 +601,7 @@
             "id": "b",
             "text": "Línea longitudinal, demarcada o no, que separa las áreas con sentido de circulación opuesto",
             "correct": false,
-            "feedback": "Esa es la definición de eje de calzada (manual PDF 8): la línea que separa las manos, no la mano misma."
+            "feedback": "Esa es la definición de eje de calzada (manual PDF 8): la línea que separa las manos, no la mano misma. La mano es el sentido de circulación que deben conservar los vehículos."
           },
           {
             "id": "c",
@@ -666,7 +666,7 @@
             "id": "c",
             "text": "Sector de la calzada destinado al cruce peatonal, esté demarcado o no",
             "correct": false,
-            "feedback": "Eso define a la senda peatonal (manual PDF 10), que forma parte de la bocacalle pero no es toda la bocacalle."
+            "feedback": "Eso define a la senda peatonal (manual PDF 10), que forma parte de la bocacalle pero no es toda la bocacalle: la superficie común a dos o más arterias que concurren a una intersección."
           },
           {
             "id": "d",
@@ -827,7 +827,7 @@
             "id": "b",
             "text": "Reductor de velocidad",
             "correct": false,
-            "feedback": "El reductor es una sobreelevación transversal de la calzada, para obligar a reducir la velocidad (manual PDF 10); no está en su borde."
+            "feedback": "El reductor es una sobreelevación transversal de la calzada, para obligar a reducir la velocidad (manual PDF 10); no está en su borde. La elevación del borde de la calzada es el cordón."
           },
           {
             "id": "c",
@@ -839,7 +839,7 @@
             "id": "d",
             "text": "Banquina",
             "correct": false,
-            "feedback": "La banquina es una zona paralela a la calzada de rutas y autopistas (manual PDF 5), no una elevación que la separa de la acera."
+            "feedback": "La banquina es una zona paralela a la calzada de rutas y autopistas (manual PDF 5), no una elevación que la separa de la acera. Esa elevación es el cordón."
           }
         ]
       },
@@ -857,7 +857,7 @@
             "id": "b",
             "text": "Dispositivo fijo o móvil con luz propia o reflector, usado como marca de advertencia en la vía pública",
             "correct": false,
-            "feedback": "Esa es una de las acepciones de baliza (manual PDF 5). El bolardo no lleva luz: es un elemento vertical bajo que limita el paso o el estacionamiento."
+            "feedback": "Esa es una de las acepciones de baliza (manual PDF 5). El bolardo es un elemento vertical de poca altura, anclado en el pavimento, que limita o impide el paso o el estacionamiento."
           },
           {
             "id": "c",
@@ -939,7 +939,7 @@
         "options": [
           {
             "id": "a",
-            "text": "El puente permite pasar por sobre el nivel de lo atravesado; el túnel, por debajo",
+            "text": "El puente pasa por sobre el nivel de lo atravesado; el túnel, por debajo",
             "correct": true,
             "feedback": "¡Correcto! Los dos son construcciones viales para el paso de personas o vehículos: el puente, por sobre el nivel de lo atravesado (manual PDF 9), y el túnel, por debajo (manual PDF 11)."
           },
@@ -1193,7 +1193,7 @@
             "id": "c",
             "text": "Una bicisenda",
             "correct": false,
-            "feedback": "La bicisenda está en aceras y espacios verdes (manual PDF 6), no en la calzada."
+            "feedback": "La bicisenda está en aceras y espacios verdes (manual PDF 6), no en la calzada. Con separación y circulación exclusiva en la calzada, es una ciclovía."
           }
         ]
       }
@@ -1373,15 +1373,15 @@
           },
           {
             "id": "c",
-            "text": "Dispositivo de movilidad personal",
+            "text": "Dispositivo de movilidad personal eléctrico",
             "correct": false,
-            "feedback": "El dispositivo de movilidad personal se propulsa exclusivamente con motores eléctricos (manual PDF 8); este vehículo avanza con el esfuerzo de quien lo usa."
+            "feedback": "El dispositivo de movilidad personal se propulsa exclusivamente con motores eléctricos (manual PDF 8); este vehículo avanza con el esfuerzo de quien lo usa: es un ciclorodado con pedaleo asistido eléctricamente."
           },
           {
             "id": "d",
             "text": "Motocicleta",
             "correct": false,
-            "feedback": "La motocicleta tiene motor a tracción propia de más de 50 cm³, o de más de 4 kW si es eléctrica (manual PDF 9). Este vehículo, con motor solo auxiliar, avanza con el esfuerzo de quien lo usa."
+            "feedback": "La motocicleta tiene motor a tracción propia de más de 50 cm³, o de más de 4 kW si es eléctrica (manual PDF 9). Este vehículo, con motor solo auxiliar, avanza con el esfuerzo de quien lo usa: es un ciclorodado con pedaleo asistido eléctricamente."
           }
         ]
       }
@@ -1650,13 +1650,13 @@
             "id": "c",
             "text": "Un moto furgón",
             "correct": false,
-            "feedback": "El moto furgón es un triciclo o cuatriciclo motorizado para cargas (manual PDF 9); este vehículo tiene 2 ruedas."
+            "feedback": "El moto furgón es un triciclo o cuatriciclo motorizado para cargas (manual PDF 9); este vehículo tiene 2 ruedas. Con más de 4 kW y más de 50 km/h, es una motocicleta."
           },
           {
             "id": "d",
             "text": "Un ciclorodado con pedaleo asistido eléctricamente",
             "correct": false,
-            "feedback": "Ese ciclorodado tiene un motor solo auxiliar y lo impulsa el esfuerzo de quien lo usa (manual PDF 7); este vehículo se mueve solo con su motor."
+            "feedback": "Ese ciclorodado tiene un motor solo auxiliar y lo impulsa el esfuerzo de quien lo usa (manual PDF 7); este vehículo se mueve solo con su motor. Con más de 4 kW y más de 50 km/h, es una motocicleta."
           }
         ]
       },
@@ -1680,7 +1680,7 @@
             "id": "c",
             "text": "Los vehículos de una o más ruedas, de una plaza y propulsión exclusivamente eléctrica",
             "correct": false,
-            "feedback": "Así define el glosario al dispositivo de movilidad personal (manual PDF 8), que no figura en la lista de motovehículos."
+            "feedback": "Así define el glosario al dispositivo de movilidad personal (manual PDF 8), que no figura en la lista de motovehículos: ciclomotores, triciclos y cuatriciclos motorizados, motocicletas y motofurgones."
           },
           {
             "id": "d",
@@ -1740,7 +1740,7 @@
             "id": "b",
             "text": "Triciclo",
             "correct": false,
-            "feedback": "El triciclo, a secas, es un ciclorodado de tres ruedas no alineadas: no tiene motor (manual PDF 11)."
+            "feedback": "El triciclo, a secas, es un ciclorodado de tres ruedas no alineadas: no tiene motor (manual PDF 11). El motorizado y no carrozado es el triciclo motorizado."
           },
           {
             "id": "c",
@@ -1861,7 +1861,7 @@
           },
           {
             "id": "b",
-            "text": "Sobrepasar la línea de otro vehículo en circulación cambiando de carril",
+            "text": "Maniobra de sobrepasar la línea de otro vehículo en circulación cambiando de carril",
             "correct": false,
             "feedback": "Esa es la definición de sobrepaso (manual PDF 10). En el adelantamiento no es necesario cambiar de carril."
           },
@@ -1899,7 +1899,7 @@
             "id": "c",
             "text": "Giro",
             "correct": false,
-            "feedback": "El giro es cambiar de dirección para pasar a otra arteria (manual PDF 8); vos seguiste por la misma avenida."
+            "feedback": "El giro es cambiar de dirección para pasar a otra arteria (manual PDF 8); vos seguiste por la misma avenida. Pasar a otro vehículo cambiando de carril es un sobrepaso."
           }
         ]
       },
@@ -2114,13 +2114,13 @@
             "id": "c",
             "text": "Detención o estacionamiento",
             "correct": false,
-            "feedback": "La detención y el estacionamiento son la permanencia sin movimiento de un vehículo (manual PDF 7 y 8), no una acumulación que obstruye el tránsito."
+            "feedback": "La detención y el estacionamiento son la permanencia sin movimiento de un vehículo (manual PDF 7 y 8), no una acumulación que obstruye el tránsito. Esa acumulación es el embotellamiento, atascamiento o congestión (manual PDF 8)."
           },
           {
             "id": "d",
             "text": "Encrucijada o bocacalle",
             "correct": false,
-            "feedback": "Encrucijada y bocacalle son sinónimos, pero nombran la superficie común a arterias que se cruzan (manual PDF 6 y 8), no una acumulación de vehículos."
+            "feedback": "Encrucijada y bocacalle son sinónimos, pero nombran la superficie común a arterias que se cruzan (manual PDF 6 y 8), no una acumulación de vehículos. Esa acumulación es el embotellamiento, atascamiento o congestión."
           }
         ]
       }
@@ -2258,15 +2258,15 @@
         "options": [
           {
             "id": "a",
-            "text": "Control de tránsito de la autoridad, ascenso o descenso de pasajeros/as, o carga y descarga",
+            "text": "Control de tránsito, ascenso o descenso de pasajeros/as, o carga y descarga",
             "correct": true,
-            "feedback": "¡Correcto! Esos son los casos de detención junto a la acera; también es detención toda inmovilización de hasta 2 minutos sin que quien conduce abandone el vehículo (manual PDF 7)."
+            "feedback": "¡Correcto! Esos son los casos de detención junto a la acera (el control de tránsito, a cargo de la autoridad competente); también es detención toda inmovilización de hasta 2 minutos sin que quien conduce abandone el vehículo (manual PDF 7)."
           },
           {
             "id": "b",
             "text": "Ruptura de cargas y almacenamiento temporal de mercancías para su distribución",
             "correct": false,
-            "feedback": "Esas actividades se hacen en una microplataforma de distribución urbana (manual PDF 9), no en una detención junto a la acera."
+            "feedback": "Esas actividades se hacen en una microplataforma de distribución urbana (manual PDF 9), no en una detención junto a la acera, que está prevista para control de tránsito, ascenso o descenso de pasajeros/as, o carga y descarga (manual PDF 7)."
           },
           {
             "id": "c",
@@ -2278,7 +2278,7 @@
             "id": "d",
             "text": "Trámites breves fuera del vehículo, siempre que no pasen de veinte minutos",
             "correct": false,
-            "feedback": "No: si quien conduce deja el vehículo más tiempo del necesario para ser detención, es estacionamiento (manual PDF 8)."
+            "feedback": "No: si quien conduce deja el vehículo más tiempo del necesario para ser detención, es estacionamiento (manual PDF 8). La detención está prevista para control de tránsito, ascenso o descenso de pasajeros/as, o carga y descarga (manual PDF 7)."
           }
         ]
       },
@@ -2318,9 +2318,9 @@
         "options": [
           {
             "id": "a",
-            "text": "Ordenamiento del tránsito en los entornos de instituciones educativas, que agiliza la entrada y salida de alumnos",
+            "text": "Ordenamiento del tránsito en los entornos escolares, que agiliza la entrada y salida de alumnos",
             "correct": true,
-            "feedback": "¡Exacto! Busca mejorar la seguridad vial y la convivencia con demarcación horizontal, señalización vertical y pautas de operatoria acordadas con cada institución educativa que lo solicite (manual PDF 10)."
+            "feedback": "¡Exacto! Ordena el tránsito en los entornos de las instituciones educativas y busca mejorar la seguridad vial y la convivencia con demarcación horizontal, señalización vertical y pautas de operatoria acordadas con cada institución que lo solicite (manual PDF 10)."
           },
           {
             "id": "b",
@@ -2428,7 +2428,7 @@
             "id": "c",
             "text": "Dársena de estacionamiento o detención",
             "correct": false,
-            "feedback": "La dársena es un espacio resguardado para estacionar o detenerse (manual PDF 7), no un indicador vertical."
+            "feedback": "La dársena es un espacio resguardado para estacionar o detenerse (manual PDF 7), no un indicador vertical. El indicador para el ascenso y descenso de pasajeros es la parada."
           },
           {
             "id": "d",
@@ -2556,7 +2556,7 @@
             "id": "c",
             "text": "Microplataforma de distribución urbana",
             "correct": false,
-            "feedback": "La microplataforma está en garajes comerciales, playas de estacionamiento o lugares autorizados (manual PDF 9), no sobre la calzada ni la acera."
+            "feedback": "La microplataforma está en garajes comerciales, playas de estacionamiento o lugares autorizados (manual PDF 9), no sobre la calzada ni la acera. Ese espacio es el cajón azul."
           },
           {
             "id": "d",
@@ -2602,9 +2602,9 @@
         "options": [
           {
             "id": "a",
-            "text": "En garajes comerciales, playas de estacionamiento y lugares autorizados por la Autoridad de Aplicación",
+            "text": "En garajes comerciales, playas de estacionamiento y lugares autorizados",
             "correct": true,
-            "feedback": "¡Correcto! Allí se hacen la ruptura de cargas, la carga y descarga y el almacenamiento temporal de mercancías para su distribución (manual PDF 9)."
+            "feedback": "¡Correcto! Se emplaza en garajes comerciales, playas de estacionamiento y los lugares que autorice la Autoridad de Aplicación; allí se hacen la ruptura de cargas, la carga y descarga y el almacenamiento temporal de mercancías para su distribución (manual PDF 9)."
           },
           {
             "id": "b",
@@ -2708,7 +2708,7 @@
             "id": "c",
             "text": "El dispositivo luminoso que asigna en forma alternativa el derecho de paso",
             "correct": false,
-            "feedback": "Así define el glosario al semáforo (manual PDF 10). La baliza advierte; no asigna el derecho de paso."
+            "feedback": "Así define el glosario al semáforo (manual PDF 10). La baliza advierte; no asigna el derecho de paso. Una de sus acepciones son las luces intermitentes de emergencia de los vehículos."
           },
           {
             "id": "d",
@@ -2724,7 +2724,7 @@
         "options": [
           {
             "id": "a",
-            "text": "Asignar en forma alternativa el derecho de paso a vehículos y, con otras características, a peatones",
+            "text": "Asignar en forma alternativa el derecho de paso a vehículos y también a peatones",
             "correct": true,
             "feedback": "¡Exacto! El semáforo asigna el paso, en forma alternativa, a los vehículos que confluyen en un punto de la calzada y, con otras características, también a peatones (manual PDF 10)."
           },

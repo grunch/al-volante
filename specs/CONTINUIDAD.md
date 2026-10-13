@@ -2,6 +2,10 @@
 
 Actualizado: 2026-10-12. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el correctivo F04-T04-FIX01, [#27](https://github.com/grunch/al-volante/pull/27), repara las vueltas guionadas que quedaron rojas en `main`); fase 5 (todo el contenido y simulacros teóricos) fusionada, incluido #33 en `9dd6d9e`; correctivos #34 y #36 fusionados (`f3d2f60`, `c71a289`); #37 (E2E de `main`) y #35 fusionados en `a39dd41` y `132409a`; nuevo correctivo F04-T01-FIX05 publicado en [#38](https://github.com/grunch/al-volante/pull/38). Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
+## Trabajo puntual activo — REV01 (revisión integral)
+
+Pedido del usuario (2026-10-12): revisión profunda del sistema, cobertura al máximo, consistencia de toda la documentación y revisión de preguntas y respuestas de actividades y exámenes. No inicia la fase 6. Se entrega en tres PRs apilados desde `main` (`aa9dbf9`): REV01-T01 contenido ([#39](https://github.com/grunch/al-volante/pull/39)), REV01-T02 código, bugs, cobertura y CI, y REV01-T03 documentación. Estado y findings en `ESTADO_IMPLEMENTACION.md` («Revisión integral REV01»); método y decisión D-REV01-1 en `CONTENIDO.md`. Decisiones a respetar: la regla de largo de las opciones se valida contra la incorrecta más larga y el simulacro siempre muestra una incorrecta que la cumpla; ningún id de actividad o variante cambia. Próximo paso: publicar T02 y T03, atender findings y esperar la fusión del usuario.
+
 ## Trabajo puntual activo — F04-T01-FIX05
 
 El usuario pidió volver a inspeccionar las 35 imágenes cronológicas, reproducir más detalles, usar Blender, sumar sonidos de arranque/motor/bocinas/tránsito, ampliar las pruebas y crear otro PR. Rama `f04-t01-fix05-route-immersion`, desde `main` (`132409a`), en worktree independiente. No inicia la fase 6 completa.

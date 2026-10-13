@@ -43,7 +43,7 @@ Escala común (`COBERTURA.md`): `pending` → `transcribed` → `reviewed` → `
 ## Reglas de autoría
 
 - **Tipos:** `single-choice` para definiciones y datos; `ordering` solo para procedimientos cuyo orden fija la fuente; `decision` para conductas en situación; `sign-identification` para señales (desde F05-T02): una variante por señal, con distractores del mismo grupo y, cuando el capítulo 3 da la conducta, preguntas de aplicación.
-- **Largo de las opciones:** la correcta no supera en más de 10 caracteres a la más larga de las incorrectas (se delataría).
+- **Largo de las opciones:** la correcta no supera en más de 10 caracteres a la más larga de las incorrectas (se delataría). Desde REV01 lo controla el validador (`validateActivities.ts`), junto con el mínimo de dos opciones incorrectas que necesita el simulacro. Como el simulacro muestra solo dos incorrectas, su sorteo conserva siempre una que cumpla la regla (`src/theory/exam.ts`).
 - **Texto para quien juega:** sin ids internos (decisiones, issues, archivos). Vale para enunciados, opciones y devoluciones, y también para los motivos de consulta, que se muestran en la página de sección y en el catálogo de señales (ver «Consulta»).
 - **Una sola respuesta defendible** según la página citada. Distractores plausibles pero claramente incorrectos para quien estudió esa página; sin «todas/ninguna de las anteriores» ni opciones que se delaten por su largo.
 - **Devolución por opción:** la correcta confirma y explica; cada incorrecta dice por qué no y cuál es el dato correcto. La `explanation` enseña la regla completa con su cita.
@@ -182,6 +182,20 @@ Además, en F05-T01 se revisaron contra sus páginas las 14 unidades (cap. 1, 3 
 - **Reparto por tema:** proporcional a las unidades de cada sección, con al menos una pregunta por sección. Una prueba de integración compone hojas con el banco real: 40 preguntas, todas las secciones representadas y una sola opción correcta de tres.
 - **Parámetros:** 40 preguntas, 34 para aprobar, 45 minutos (40 como variante), con sus fuentes en `REGLAS.md` §8 y en la propia configuración (`catalog/theory-exam.json`). Cantidad, formato y umbral: Disposición 860/2023 (DGHC), anexo, p. 96. Tiempo: 45 minutos en esa misma disposición (anexo, p. 96) y en la página oficial de material de estudio; 40 minutos en el informe final de gestión 2024 (IF-2024-05928354-GCABA-AJG), p. 17. Los dos documentos se descargaron del Boletín Oficial y no están versionados en `fuentes/` (ver `REGLAS.md`, tabla de fuentes). La interfaz cita la fuente de cada tiempo y no declara vigente a ninguno.
 - **Auditoría global** (fin de la fase 5): 753 de 753 unidades tratadas (697 practicadas y 56 de consulta), 355 de 355 señales tratadas y recortadas y ninguna página sin clasificar en las cuatro fuentes (285 páginas). `npm run validate:content` imprime este resumen y una prueba de integración lo exige.
+
+## Revisión integral (REV01, 2026-10-12)
+
+Pedido puntual del usuario («revisa las preguntas y respuestas de las actividades y exámenes y asegúrate de que todo esté perfecto»); no inicia la fase 6.
+
+- **Alcance:** las 394 actividades y sus 1.443 variantes, sin muestreo, en once lotes por archivo. Cada variante se contrastó con el texto y la imagen de sus páginas citadas, con la lista de control de este documento y con el uso en el simulacro (la correcta y dos incorrectas sorteadas, sin devolución; desde REV01 el sorteo es condicionado: si las dos sorteadas no cumplen la regla de largo, la segunda se cambia por una que la cumpla).
+- **Ninguna respuesta correcta estaba mal.** Las correcciones fueron de estas clases:
+  - distractores defendibles o en parte ciertos, reemplazados por otros claramente falsos según la página (por ejemplo, el carril exclusivo de emergencias, los colores de las informativas, el servicio urbano de menos de 30 km);
+  - enunciados que dependían de la variante anterior o del título («ese informe», «esa infografía», «del plan», «este anexo»), que en el simulacro se leen solos;
+  - correctas que se delataban por largo (la regla de los 10 caracteres no la controlaba ningún validador; ahora sí) o por forma (la única opción con «Porque…»);
+  - devoluciones y explicaciones con datos ausentes en la fuente o imprecisos, devoluciones incorrectas que no daban el dato correcto, citas «la página n» que se confunden con la numeración impresa, y redacción (concordancia, voseo, mayúscula después de dos puntos en las razones de los ordenamientos).
+- **Señales:** las cajas de `sign.informative.road-naming.urban-pedestrian-wayfinding` y `…urban-street-name` (PDF 190) estaban intercambiadas, así que cada variante mostraba la imagen de la otra; se corrigieron y se regeneraron los recortes. Las otras 353 señales coinciden con su recorte y su página.
+- **Unidades:** el airbag «no obligatorio» (PDF 114 y 133) pasa a atribuirse al manual, como el ABS (D-T04-14), y la unidad de señales reglamentarias habla de excepciones al aspecto habitual (forma y colores), no solo a la forma (PDF 61).
+- **D-REV01-1 Aviso del cambio de carril** (manual PDF 68: luz de giro «al menos 5 segundos» antes; protocolo PDF 12: «al menos 3 segundos»): se evalúa «al menos 5 segundos», que cumple las dos fuentes, y ningún distractor ofrece 3 segundos. La explicación cita el manual.
 
 ## Cómo validar
 

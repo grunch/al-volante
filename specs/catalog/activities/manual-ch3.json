@@ -17,7 +17,7 @@
         "page": 8
       }
     ],
-    "explanation": "El manual fija las velocidades máximas en CABA para vehículos de hasta 3500 kg: pasajes 20 km/h, calles y colectoras 40 km/h, avenidas 60 km/h y autopistas 100 km/h. Las calles de convivencia y peatonales no entran en esta actividad: el material oficial les asigna valores distintos (manual PDF 26 y 72) y todavía no está resuelto cuál rige. La autoridad puede modificarlas en algunos tramos y lo indica con señales; durante el examen práctico, además, el límite es 30 km/h en calles y 45 km/h en avenidas.",
+    "explanation": "El manual fija las velocidades máximas en CABA para vehículos de hasta 3500 kg: pasajes 20 km/h, calles y colectoras de vías rápidas 40 km/h, avenidas 60 km/h y autopistas de CABA 100 km/h (manual PDF 72). La velocidad de las calles de convivencia no entra en esta actividad: el manual les asigna valores distintos (PDF 26 y 72) y todavía no está resuelto cuál rige. Por seguridad, la autoridad puede modificar los límites en algunos tramos y lo indica con señales viales. Durante el examen práctico, además, el límite es 30 km/h en calles y 45 km/h en avenidas, salvo que haya uno más restrictivo (protocolo PDF 8).",
     "status": "reviewed",
     "variants": [
       {
@@ -160,7 +160,7 @@
         "page": 12
       }
     ],
-    "explanation": "En todos los giros hay que anticipar la maniobra 30 metros antes con la luz de giro, circular como mínimo esos 30 metros por el carril más cercano al lado del giro, reducir la velocidad paulatinamente y girar a marcha moderada. En el examen práctico, señalizar o ubicarse a menos de 30 m de la bocacalle es una falla.",
+    "explanation": "En todos los giros hay que anticipar la maniobra 30 metros antes con la luz de giro, reducir la velocidad paulatinamente antes de la bocacalle y girar a marcha moderada. Además, hay que circular como mínimo 30 metros antes por el carril más cercano al lado del giro; para girar a la izquierda en una vía de doble sentido, por el carril cercano al eje, sin invadir la mano contraria y girando en la intersección, no antes (manual PDF 75). En el examen práctico se verifica que uses el carril más próximo al lado del giro y acciones la luz de giro 30 metros antes de la intersección (protocolo PDF 12).",
     "status": "reviewed",
     "variants": [
       {
@@ -201,19 +201,19 @@
             "id": "a",
             "text": "Por el carril del lado del giro, desde 30 m antes",
             "correct": true,
-            "feedback": "¡Correcto! Así lo indica el manual (PDF 75)."
+            "feedback": "¡Correcto! Hay que circular, como mínimo 30 m antes, por el carril más cercano al lado hacia el que vas a girar (manual PDF 75)."
           },
           {
             "id": "b",
             "text": "Por cualquier carril, y cambiar al llegar a la esquina",
             "correct": false,
-            "feedback": "Cambiar de carril en la esquina es peligroso; hay que ubicarse antes."
+            "feedback": "No: cambiar de carril en la esquina es peligroso. Hay que circular por el carril del lado del giro como mínimo 30 m antes (manual PDF 75)."
           },
           {
             "id": "c",
             "text": "Por el carril izquierdo, para tener más radio de giro",
             "correct": false,
-            "feedback": "No: se dobla desde el carril más cercano al lado del giro."
+            "feedback": "No: se dobla desde el carril más cercano al lado del giro, acá el derecho, como mínimo 30 m antes (manual PDF 75)."
           }
         ]
       }
@@ -240,7 +240,7 @@
         "page": 197
       }
     ],
-    "explanation": "Verde: avanzar, pero sin iniciar el cruce si no hay lugar del otro lado y dejando terminar a quien ya cruzaba. Amarillo: detenerse si aún no se inició el cruce (PDF 64); el anexo IV lo formula como detenerse si no se llega a atravesar la encrucijada antes del rojo (PDF 197). Amarillo intermitente: cruzar con precaución. Rojo: detenerse antes de la senda peatonal o de la línea de detención. Rojo intermitente: detenerse antes de la encrucijada y reiniciar solo con la certeza de que no hay riesgo.",
+    "explanation": "Verde: avanzar, pero sin iniciar el cruce si no hay lugar del otro lado y dejando terminar a quien ya cruzaba. Amarillo: detenerse si aún no se inició el cruce (manual PDF 64); el anexo IV lo formula como detenerse si no se llega a atravesar la encrucijada antes del rojo (PDF 197). Amarillo intermitente: cruzar con precaución. Rojo: detenerse antes de la senda peatonal o de la línea de detención. Rojo intermitente: detenerse antes de la encrucijada y reiniciar solo con la certeza de que no hay riesgo (PDF 64).",
     "status": "reviewed",
     "variants": [
       {
@@ -257,13 +257,13 @@
             "id": "b",
             "text": "Acelero para pasar antes del rojo",
             "correct": false,
-            "feedback": "No: no llegarías a cruzar antes del rojo, y el amarillo pide detenerse si todavía no empezaste a cruzar (PDF 64 y 197)."
+            "feedback": "No: no llegarías a cruzar antes del rojo, y el amarillo pide detenerse si todavía no empezaste a cruzar (manual PDF 64 y 197)."
           },
           {
             "id": "c",
             "text": "Cruzo con precaución",
             "correct": false,
-            "feedback": "Eso corresponde al amarillo intermitente, no al fijo."
+            "feedback": "Eso corresponde al amarillo intermitente, no al fijo: con amarillo hay que detenerse si todavía no empezaste a cruzar (manual PDF 64)."
           }
         ]
       },
@@ -275,19 +275,19 @@
             "id": "a",
             "text": "Detenerme y reiniciar solo cuando sea seguro",
             "correct": true,
-            "feedback": "¡Correcto! Así lo define el manual (PDF 64)."
+            "feedback": "¡Correcto! Hay que detener la marcha antes de la encrucijada y reiniciarla solo con la certeza de que no hay riesgo de cruzar (manual PDF 64)."
           },
           {
             "id": "b",
             "text": "Que el semáforo no funciona y tengo prioridad",
             "correct": false,
-            "feedback": "No: el rojo intermitente obliga a detenerse."
+            "feedback": "No: el rojo intermitente obliga a detenerse antes de la encrucijada y a reiniciar solo con la certeza de que no hay riesgo (manual PDF 64)."
           },
           {
             "id": "c",
             "text": "Cruzar con precaución, sin necesidad de detenerme",
             "correct": false,
-            "feedback": "Eso es el amarillo intermitente."
+            "feedback": "Eso es el amarillo intermitente. Con rojo intermitente hay que detenerse antes de la encrucijada y reiniciar solo cuando no haya riesgo (manual PDF 64)."
           }
         ]
       },
@@ -305,7 +305,7 @@
             "id": "b",
             "text": "Avanzo igual porque tengo verde",
             "correct": false,
-            "feedback": "Bloquearías la encrucijada; en el examen además es una falla deficiente alta."
+            "feedback": "No: bloquearías la encrucijada. Con verde no hay que iniciar el cruce si no hay espacio del otro lado de la bocacalle (manual PDF 64); en el examen, además, bloquearla es una falla deficiente alta (protocolo PDF 29)."
           },
           {
             "id": "c",
@@ -447,7 +447,7 @@
         "page": 63
       }
     ],
-    "explanation": "Un vehículo de emergencia con señales lumínicas y sonoras encendidas está en cumplimiento de sus funciones: hay que facilitarle el paso, despejar el carril preferencial y, si hace falta, detenerse. En vías de dos carriles por sentido, quien va por el derecho se aparta hacia la derecha y quien va por el izquierdo, hacia la izquierda. No hay que ubicarse delante ni inmediatamente detrás. Si solo lleva balizas, está en servicio pero no en emergencia.",
+    "explanation": "Un vehículo de emergencia con señales lumínicas y sonoras encendidas está en cumplimiento de sus funciones: hay que facilitarle el paso, despejar el carril preferencial y, si hace falta, detenerse. En vías de dos carriles por sentido, quien va por el derecho se aparta hacia la derecha y quien va por el izquierdo, hacia la izquierda. No hay que ubicarse delante ni inmediatamente detrás (manual PDF 62 y 63). Si solo lleva balizas, está en servicio pero no en emergencia y no tiene prioridad de paso; pero si por razones médicas lleva solo la señal luminosa y activa la sonora cuando necesita su prioridad, en ese momento hay que cederle el paso (PDF 62).",
     "status": "reviewed",
     "variants": [
       {
@@ -482,7 +482,7 @@
           },
           "wrong-side": {
             "correct": false,
-            "feedback": "Cruzarte puede cerrarle el paso: el carril izquierdo se aparta hacia la izquierda (manual PDF 63)."
+            "feedback": "Cruzarte puede cerrarle el paso: en dos carriles por sentido, quien va por el izquierdo se aparta hacia la izquierda (manual PDF 63)."
           },
           "tailgate": {
             "correct": false,
@@ -495,11 +495,11 @@
         "start": "beacons",
         "nodes": {
           "beacons": {
-            "text": "Una ambulancia circula delante tuyo con las balizas encendidas, pero sin sirena.",
+            "text": "Una ambulancia circula delante de vos con las balizas encendidas, pero sin sirena.",
             "choices": [
               {
                 "id": "normal",
-                "text": "Circulo normalmente: está en servicio, pero no en emergencia",
+                "text": "Circulo normalmente, atento por si activa la sirena",
                 "outcome": "good"
               },
               {
@@ -513,7 +513,7 @@
         "outcomes": {
           "good": {
             "correct": true,
-            "feedback": "¡Bien! Con solo balizas está en servicio, no en emergencia, y no tiene prioridad de paso (manual PDF 62). Atención: por razones médicas a veces activa la sirena solo cuando necesita su prioridad."
+            "feedback": "¡Bien! Con solo balizas está en servicio, no en emergencia, y no tiene prioridad de paso (manual PDF 62). Atención: por razones médicas a veces lleva solo la señal luminosa y activa la sonora cuando necesita su prioridad; en ese momento hay que cederle el paso."
           },
           "not-emergency": {
             "correct": false,
@@ -611,7 +611,7 @@
             "id": "a",
             "text": "Sí: el personal autorizado de obra puede darte órdenes en su tramo",
             "correct": true,
-            "feedback": "¡Correcto! El manual incluye al personal autorizado de obra, en el tramo donde trabaja, entre quienes dan órdenes que hay que obedecer (PDF 58)."
+            "feedback": "¡Correcto! El manual incluye al personal autorizado de obra, en el tramo donde trabaja, entre quienes dan órdenes que hay que obedecer (manual PDF 58)."
           },
           {
             "id": "b",
@@ -1419,9 +1419,9 @@
           },
           {
             "id": "b",
-            "text": "Que por ese carril solo pueden circular vehículos de emergencia",
+            "text": "Que por ese carril se puede circular más rápido que por los demás",
             "correct": false,
-            "feedback": "No dice que sea exclusivo: indica que hay que liberarlo por completo cuando se aproxima un vehículo de emergencia (manual PDF 63)."
+            "feedback": "No. El rombo con una E no habla de velocidad: es el símbolo de carril de emergencia, que hay que liberar por completo cuando se aproxima un vehículo de emergencia (manual PDF 63)."
           },
           {
             "id": "c",
@@ -1457,7 +1457,7 @@
     "figureIds": [
       "fig.manual-p61-vertical-signage"
     ],
-    "explanation": "La señalización vertical se divide en 4 categorías, que se reconocen por su forma y su color. Preventivas: advierten un peligro o una situación sorpresiva; suelen ser rombos amarillos con borde y símbolo negros. Reglamentarias: dan órdenes de cumplimiento obligatorio; suelen ser círculos blancos con borde rojo y símbolo negro, con excepciones como Pare, Ceda el paso y Contramano. Transitorias: señalizan obras; suelen ser rombos o rectángulos naranjas con símbolo o leyenda negros. Informativas: orientan e informan sobre servicios y lugares; suelen ser rectangulares, con fondo verde, azul, blanco o negro (manual PDF 61).",
+    "explanation": "La señalización vertical se divide en 4 categorías, que se reconocen por su forma y su color. Preventivas: advierten un peligro o una situación sorpresiva; suelen ser rombos amarillos con borde y símbolo negros, y las de máximo peligro, triángulos blancos con borde rojo y la base hacia abajo. Reglamentarias: dan órdenes de cumplimiento obligatorio; suelen ser círculos blancos con borde rojo y símbolo negro (con fondo azul son de restricción), con excepciones como Pare, Ceda el paso y Contramano. Transitorias: señalizan obras; suelen ser rombos o rectángulos naranjas con símbolo o leyenda negros. Informativas: orientan e informan sobre servicios y lugares; suelen ser rectangulares, con fondo verde, azul, blanco o negro (manual PDF 61).",
     "status": "reviewed",
     "variants": [
       {
@@ -1818,9 +1818,9 @@
           },
           {
             "id": "d",
-            "text": "Blanco con borde rojo, como las reglamentarias",
+            "text": "Rojo, con símbolo o leyenda en blanco",
             "correct": false,
-            "feedback": "Esa es la forma habitual de las reglamentarias. Las informativas tienen fondo verde, azul, blanco o negro (manual PDF 61)."
+            "feedback": "No. El rojo no está entre los fondos de las informativas: verde, azul, blanco o negro, según la información que brindan (manual PDF 61)."
           }
         ]
       }
@@ -2092,7 +2092,7 @@
       },
       {
         "id": "extreme-yield",
-        "prompt": "Detrás tuyo se acerca un auto particular con balizas, tocando bocina de forma intermitente y con alguien que agita un pañuelo. ¿Qué corresponde?",
+        "prompt": "Detrás de vos se acerca un auto particular con balizas, tocando bocina de forma intermitente y con alguien que agita un pañuelo. ¿Qué corresponde?",
         "options": [
           {
             "id": "a",
@@ -2122,13 +2122,13 @@
       },
       {
         "id": "extreme-rules",
-        "prompt": "Ese auto particular en extrema necesidad, ¿tiene que respetar las reglas de tránsito?",
+        "prompt": "Un auto particular hace, por extrema necesidad, un servicio similar al de emergencia. ¿Tiene que respetar las reglas de tránsito?",
         "options": [
           {
             "id": "a",
             "text": "Sí: tiene prioridad de paso, pero las reglas siguen rigiendo",
             "correct": true,
-            "feedback": "¡Correcto! Para ellos no hay una suspensión momentánea de las reglas de tránsito, aunque sí prioridad de paso (manual PDF 62)."
+            "feedback": "¡Correcto! Para él no hay una suspensión momentánea de las reglas de tránsito, aunque sí tiene prioridad de paso (manual PDF 62)."
           },
           {
             "id": "b",
@@ -2609,7 +2609,7 @@
       },
       {
         "id": "slope-trailer",
-        "prompt": "Bajás por esa misma pendiente angosta con un trailer enganchado al auto, y otro auto sube. ¿Quién tiene prioridad?",
+        "prompt": "Bajás con un trailer enganchado al auto por una pendiente tan angosta que no pasan dos vehículos a la vez, y otro auto sube. ¿Quién tiene prioridad?",
         "options": [
           {
             "id": "a",
@@ -2729,7 +2729,7 @@
               },
               {
                 "id": "fast",
-                "text": "Lo paso rápido, antes de que arranque",
+                "text": "Lo paso rápido, para no quedar atrás cuando arranque",
                 "outcome": "fast"
               }
             ]
@@ -2813,7 +2813,7 @@
             "id": "c",
             "text": "Solo las luces de posición",
             "correct": false,
-            "feedback": "Las de posición marcan el sentido de marcha y el ancho del vehículo, pero no iluminan el camino. Con lluvia y poca luz van las bajas."
+            "feedback": "Las de posición indican el sentido de marcha y el ancho del vehículo. Con poca luminosidad, también de día con lluvia, el manual indica las bajas (manual PDF 67)."
           },
           {
             "id": "d",
@@ -2989,17 +2989,17 @@
             "choices": [
               {
                 "id": "flash",
-                "text": "Le hago una guiñada, miro hacia el borde del camino, bajo la velocidad y aumento la distancia con el de adelante",
+                "text": "Hago una guiñada, miro al borde, bajo la velocidad y aumento la distancia",
                 "next": "mirror"
               },
               {
                 "id": "retaliate",
-                "text": "Vuelvo a poner las altas para que sienta lo mismo",
+                "text": "Vuelvo a poner las altas para que sienta lo mismo que siento yo",
                 "outcome": "retaliates"
               },
               {
                 "id": "stare",
-                "text": "Miro fijo sus luces para no perderlo de vista",
+                "text": "Miro fijo sus luces para no perderlo de vista hasta que lo cruce",
                 "outcome": "stares"
               }
             ]
@@ -3014,7 +3014,7 @@
               },
               {
                 "id": "brake",
-                "text": "Freno de golpe para que se aleje",
+                "text": "Freno de golpe para que se aleje de mi auto",
                 "outcome": "brake-check"
               }
             ]
@@ -3023,7 +3023,7 @@
         "outcomes": {
           "good": {
             "correct": true,
-            "feedback": "¡Bien! Bajas al cruzar a otro vehículo; guiñada y vista al borde del camino si te encandilan de frente; espejos movidos un momento si te encandilan desde atrás (manual PDF 67)."
+            "feedback": "¡Bien! Bajas al cruzar a otro vehículo; si te encandilan de frente, guiñada, vista al borde del camino, menos velocidad y más distancia con el de adelante; si te encandilan desde atrás, espejos movidos por un momento (manual PDF 67)."
           },
           "keeps-high": {
             "correct": false,
@@ -3035,7 +3035,7 @@
           },
           "stares": {
             "correct": false,
-            "feedback": "Mirar sus luces aumenta el encandilamiento: mirá hacia el borde del camino, bajá la velocidad y aumentá la distancia con el de adelante (manual PDF 67)."
+            "feedback": "Mirar sus luces te encandila más: el manual indica mirar hacia el borde del camino para evitar el encandilamiento, bajar la velocidad y aumentar la distancia con el de adelante (manual PDF 67)."
           },
           "brake-check": {
             "correct": false,
@@ -3070,7 +3070,7 @@
     "variants": [
       {
         "id": "reverse",
-        "prompt": "El auto estacionado delante tuyo enciende atrás una o dos luces blancas. ¿Qué te avisa?",
+        "prompt": "El auto estacionado delante de vos enciende atrás una o dos luces blancas. ¿Qué te avisa?",
         "options": [
           {
             "id": "a",
@@ -3388,7 +3388,7 @@
           },
           {
             "id": "signal",
-            "text": "Encender el giro izquierdo al menos 5 segundos (Señal)",
+            "text": "Encender el giro izquierdo al menos 5 segundos antes (Señal)",
             "reason": "después se avisa lo que se quiere hacer"
           },
           {
@@ -3418,7 +3418,7 @@
         "page": 71
       }
     ],
-    "explanation": "Para cambiar de carril se sigue el orden RSM: primero Retrovisión (mirar los espejos y el contexto), después Señal (el giro, al menos 5 segundos antes) y por último Maniobra. Ya en el nuevo carril, mantené con el vehículo de adelante la distancia de seguridad, que la ley fija en general en un mínimo de dos segundos según el clima, el momento del día y el estado de la calzada (manual PDF 68 y 71).",
+    "explanation": "Para cambiar de carril se sigue el orden RSM: primero Retrovisión (mirar los espejos y el contexto), después Señal (el giro, al menos 5 segundos antes) y por último Maniobra. Ya en el nuevo carril, mantené con el vehículo de adelante la distancia de seguridad, que según la ley es, en términos generales, de dos segundos como mínimo, teniendo siempre en cuenta el clima, el momento del día y el estado de la calzada o del tránsito (manual PDF 68 y 71).",
     "status": "reviewed",
     "variants": [
       {
@@ -3450,7 +3450,7 @@
             "choices": [
               {
                 "id": "five",
-                "text": "Enciendo el giro izquierdo y espero al menos 5 segundos antes de moverme",
+                "text": "Pongo el giro izquierdo y espero al menos 5 segundos",
                 "next": "gap"
               },
               {
@@ -3470,7 +3470,7 @@
             "choices": [
               {
                 "id": "two",
-                "text": "Al menos dos segundos, y más si el clima o la calzada lo piden",
+                "text": "Al menos dos segundos, más según el clima y la calzada",
                 "outcome": "good"
               },
               {
@@ -3706,7 +3706,7 @@
             "id": "d",
             "text": "Menos de una décima de segundo",
             "correct": false,
-            "feedback": "Es mucho más: en promedio, alrededor de 1 segundo, y aumenta si tu estado psicofísico no es bueno."
+            "feedback": "Es mucho más: en promedio, alrededor de 1 segundo, y varía según tu estado psicofísico (manual PDF 70)."
           }
         ]
       },
@@ -3904,7 +3904,7 @@
       },
       {
         "id": "rain-90",
-        "prompt": "Vas a 90 km/h y empieza a llover. Según el gráfico, ¿qué parte de la distancia de detención cambia?",
+        "prompt": "Vas a 90 km/h y empieza a llover: el asfalto pasa de seco a mojado. Según el gráfico del manual, ¿qué parte de la distancia de detención cambia?",
         "options": [
           {
             "id": "a",
@@ -3934,7 +3934,7 @@
       },
       {
         "id": "dry-120",
-        "prompt": "Según el gráfico, ¿cuál es la distancia de detención a 120 km/h en asfalto seco?",
+        "prompt": "Según el gráfico del manual, ¿cuál es la distancia de detención a 120 km/h en asfalto seco?",
         "options": [
           {
             "id": "a",
@@ -3964,7 +3964,7 @@
       },
       {
         "id": "reaction-50",
-        "prompt": "A 50 km/h, según el gráfico, ¿cuántos metros recorrés solo mientras reaccionás, antes de empezar a frenar?",
+        "prompt": "A 50 km/h, según el gráfico del manual, ¿cuántos metros recorrés solo mientras reaccionás, antes de empezar a frenar?",
         "options": [
           {
             "id": "a",
@@ -4408,7 +4408,7 @@
       {
         "id": "45",
         "signId": "sign.ch3.regulatory.max-speed-45",
-        "prompt": "Esta máxima aparece en la infografía de vehículos especiales en CABA. ¿A quiénes y en qué vías se aplica?",
+        "prompt": "Esta máxima aparece en la infografía de máximas especiales en CABA. ¿A quiénes y en qué vías se aplica?",
         "options": [
           {
             "id": "a",
@@ -4553,7 +4553,7 @@
       {
         "id": "80",
         "signId": "sign.ch3.speed.max-80-trucks-hazmat",
-        "prompt": "Según la infografía, ¿para qué vehículos esta es la máxima en ruta, semiautopista y autopista nacional por igual?",
+        "prompt": "Según la infografía de máximas fuera de CABA, ¿para qué vehículos esta es la máxima en ruta, semiautopista y autopista nacional por igual?",
         "options": [
           {
             "id": "a",
@@ -4615,7 +4615,7 @@
       {
         "id": "100",
         "signId": "sign.ch3.speed.max-100-buses-highway",
-        "prompt": "Según la infografía, ¿para qué vehículos esta es la máxima en autopistas nacionales?",
+        "prompt": "Según la infografía de máximas fuera de CABA, ¿para qué vehículos esta es la máxima en autopistas nacionales?",
         "options": [
           {
             "id": "a",
@@ -4677,7 +4677,7 @@
       {
         "id": "110-pickups",
         "signId": "sign.ch3.speed.max-110-pickups",
-        "prompt": "Según la infografía, esta máxima es la misma en ruta, semiautopistas y autopistas nacionales para un tipo de vehículo. ¿Cuál?",
+        "prompt": "Según la infografía de máximas fuera de CABA, esta máxima es la misma en ruta, semiautopistas y autopistas nacionales para un tipo de vehículo. ¿Cuál?",
         "options": [
           {
             "id": "a",
@@ -4708,7 +4708,7 @@
       {
         "id": "120",
         "signId": "sign.ch3.speed.max-120-cars-semi-highway",
-        "prompt": "Ves esta señal en una semiautopista. Según la infografía, ¿para qué vehículos es esa la máxima?",
+        "prompt": "Ves esta señal en una semiautopista. Según la infografía de máximas fuera de CABA, ¿para qué vehículos es esa la máxima?",
         "options": [
           {
             "id": "a",
@@ -4811,7 +4811,7 @@
             "id": "c",
             "text": "80 km/h",
             "correct": false,
-            "feedback": "80 km/h es la máxima de camiones y otros vehículos pesados. En una ruta que atraviesa zona urbana rige 60 km/h para todos."
+            "feedback": "80 km/h es la máxima de camiones, transporte de sustancias peligrosas y automotores con casa rodante acoplada. En una ruta que atraviesa zona urbana rige 60 km/h para todos."
           },
           {
             "id": "d",
@@ -4901,7 +4901,7 @@
         "page": 74
       }
     ],
-    "explanation": "El manual muestra dos tipos de límites especiales. Los mínimos especiales, en círculos azules, son de 40 km/h en semiautopistas y rutas y de 60 km/h en autopistas: no se puede circular más despacio. Las máximas precautorias, en círculos blancos con borde rojo, son de 20 km/h en un cruce a nivel ferroviario y de 30 km/h en bocacalles sin semáforos circulando por la calle o 40 km/h circulando por avenida; cerca de escuelas, clubes y lugares de gran afluencia de público, en los horarios de ingreso y egreso, se circula a la velocidad mínima de la arteria (manual PDF 73 y 74).",
+    "explanation": "El manual muestra dos tipos de límites especiales. Los mínimos especiales, en círculos azules, son de 40 km/h en semiautopistas y rutas y de 60 km/h en autopistas: no se puede circular más despacio. Las máximas precautorias, en círculos blancos con borde rojo, son de 20 km/h en un cruce a nivel ferroviario y de 30 km/h en bocacalles sin semáforos circulando por la calle o 40 km/h circulando por avenida; cerca de establecimientos escolares, deportivos y de gran afluencia de público, en los horarios de ingreso y egreso, se circula a la velocidad mínima de la arteria (manual PDF 73 y 74).",
     "status": "reviewed",
     "figureIds": [
       "fig.manual-p73-minimum-speeds",
@@ -5197,9 +5197,9 @@
           },
           {
             "id": "c",
-            "text": "Solo el horario, porque de noche el riesgo de un incidente se triplica",
+            "text": "Solo el horario: de día alcanza con respetar la máxima de la vía",
             "correct": false,
-            "feedback": "La noche reduce la visibilidad, que es uno de los factores, pero no el único: también cuentan tu salud, el vehículo, la calzada, el clima y el tránsito."
+            "feedback": "El horario influye en la visibilidad, que es uno de los factores, pero no el único: también cuentan tu salud, el vehículo y su carga, la calzada, el clima y el tránsito. Y la máxima puede dejar de ser adecuada."
           },
           {
             "id": "d",
@@ -5230,7 +5230,7 @@
         "page": 74
       }
     ],
-    "explanation": "Además de las máximas de cada vía, el manual fija límites máximos especiales de velocidad precautoria: 20 km/h en un cruce a nivel ferroviario, 30 km/h en bocacalles sin semáforos circulando por una calle y 40 km/h circulando por una avenida. Cerca de escuelas, clubes deportivos y lugares de gran afluencia de público, en los horarios de ingreso y egreso, se circula a la velocidad mínima de la arteria. Al ver la señal de cruce ferroviario, además, hay que disminuir la velocidad y prestar atención a la posible aproximación de trenes (manual PDF 72 y 74).",
+    "explanation": "Además de las máximas de cada vía, el manual fija límites máximos especiales de velocidad precautoria: 20 km/h en un cruce a nivel ferroviario, 30 km/h en bocacalles sin semáforos circulando por una calle y 40 km/h circulando por una avenida. Cerca de establecimientos escolares, deportivos y de gran afluencia de público, en los horarios de ingreso y egreso, se circula a la velocidad mínima de la arteria. Al ver la señal de cruce ferroviario, además, hay que disminuir la velocidad y prestar atención a la posible aproximación de trenes (manual PDF 72 y 74).",
     "status": "reviewed",
     "figureIds": [
       "fig.manual-p74-precautionary-limits"
@@ -5561,7 +5561,7 @@
         "page": 75
       }
     ],
-    "explanation": "Para girar a la izquierda en una vía de doble sentido, anticipá la maniobra 30 metros antes con el giro, colocate en el carril cercano al eje de la calzada sin invadir el sentido contrario y girá en la intersección, no antes, a marcha moderada. El manual lo ilustra sin semáforos y con semáforo de giro; si el semáforo no tiene giro, está prohibido hacer esta maniobra (manual PDF 75).",
+    "explanation": "Para girar a la izquierda en una vía de doble sentido, anticipá la maniobra 30 metros antes con la luz de giro, reducí la velocidad paulatinamente antes de la bocacalle, colocate en el carril cercano al eje de la calzada sin invadir el sentido contrario y girá en la intersección, no antes, a marcha moderada. El manual lo ilustra sin semáforos y con semáforo de giro; si el semáforo no tiene giro, está prohibido hacer esta maniobra (manual PDF 75).",
     "status": "reviewed",
     "figureIds": [
       "fig.manual-p75-turns"
@@ -5738,9 +5738,9 @@
           },
           {
             "id": "c",
-            "text": "Sí, pero solo si antes le hacés una guiñada",
+            "text": "Sí, pero solo si la avenida tiene tres carriles",
             "correct": false,
-            "feedback": "La guiñada no es lo que lo habilita: se puede usar el carril derecho porque el de adelante indicó que gira a la izquierda."
+            "feedback": "La cantidad de carriles no es lo que lo habilita: se puede usar el carril derecho porque el de adelante indicó con claridad que gira a la izquierda (manual PDF 76)."
           },
           {
             "id": "d",
@@ -6038,7 +6038,7 @@
           },
           "passed": {
             "correct": false,
-            "feedback": "Al revés: según el manual, la luz de giro izquierda del vehículo de adelante indica la inconveniencia de adelantarse, y ante ella tenés que abstenerte del sobrepaso (PDF 77)."
+            "feedback": "Al revés: según el manual, la luz de giro izquierda del vehículo de adelante indica la inconveniencia de adelantarse, y ante ella tenés que abstenerte del sobrepaso (manual PDF 77)."
           }
         }
       },
@@ -6093,7 +6093,7 @@
         "start": "column",
         "nodes": {
           "column": {
-            "text": "En una ruta de doble mano, cuatro vehículos marchan en columna detrás de un tractor lento. Vos vas tercero: entre el tractor y vos hay un auto. El carril contrario se libera.",
+            "text": "En una ruta de doble mano, varios vehículos marchan en columna detrás de un tractor lento. Vos vas tercero en la columna: entre el tractor y vos hay un auto. El carril contrario se libera.",
             "choices": [
               {
                 "id": "wait-turn",
@@ -6160,7 +6160,7 @@
           },
           "race": {
             "correct": false,
-            "feedback": "Acelerar le complica la maniobra. El manual pide lo contrario: facilitar el sobrepaso, mantenerte a la derecha y, eventualmente, reducir la velocidad (PDF 77)."
+            "feedback": "Acelerar le complica la maniobra. El manual pide lo contrario: facilitar el sobrepaso, mantenerte a la derecha y, eventualmente, reducir la velocidad (manual PDF 77)."
           },
           "block": {
             "correct": false,
@@ -6392,9 +6392,9 @@
           },
           {
             "id": "jam",
-            "text": "Para circular cuando el derecho va lento",
+            "text": "Para detenerse si el auto tiene una falla",
             "correct": false,
-            "feedback": "No. El carril derecho es justamente el del tránsito lento; el izquierdo debe quedar libre para los sobrepasos."
+            "feedback": "No. El carril izquierdo debe quedar libre y se usa solo para sobrepasar. Ante una avería, lo que se puede usar como emergencia es la banquina."
           }
         ]
       },
@@ -7771,7 +7771,7 @@
     "variants": [
       {
         "id": "avenue-weekday",
-        "prompt": "Es martes a las 10 y querés estacionar junto a la acera en una avenida sin señales. ¿Podés?",
+        "prompt": "Es un martes no feriado, a las 10, y querés estacionar junto a la acera en una avenida sin señales. Según las normas generales, ¿podés?",
         "options": [
           {
             "id": "no",
@@ -7801,7 +7801,7 @@
       },
       {
         "id": "avenue-weekend",
-        "prompt": "Es domingo a la tarde. ¿Podés estacionar junto a la acera en una avenida sin señales?",
+        "prompt": "Es domingo a la tarde. Según las normas generales, ¿podés estacionar junto a la acera en una avenida sin señales?",
         "options": [
           {
             "id": "yes",
@@ -7831,7 +7831,7 @@
       },
       {
         "id": "street",
-        "prompt": "¿Cuándo se puede estacionar junto a la acera en una calle (no avenida) sin señales?",
+        "prompt": "Según las normas generales, ¿cuándo se puede estacionar junto a la acera en una calle (no avenida) sin señales?",
         "options": [
           {
             "id": "always",
@@ -8272,7 +8272,7 @@
         "start": "spot",
         "nodes": {
           "spot": {
-            "text": "Es martes a las 11 y buscás dónde estacionar en una calle (no avenida) sin carteles. En la cuadra hay tres lugares libres.",
+            "text": "Es martes a las 11 y buscás dónde estacionar en una calle (no avenida) de tu barrio, fuera del Macrocentro y sin carteles. En la cuadra hay tres lugares libres.",
             "choices": [
               {
                 "id": "garage",
@@ -8873,7 +8873,7 @@
           },
           {
             "id": "all-day",
-            "text": "Las 24 horas, como dice la señal",
+            "text": "Todo el día, si el cartel dice «las 24 horas»",
             "correct": false,
             "feedback": "No. «Las 24 horas» es el horario del espacio; cada vehículo puede usarlo hasta 30 minutos, salvo otra indicación."
           }

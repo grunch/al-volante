@@ -2656,7 +2656,7 @@
     "id": "sign.warning.maximum-danger.st-andrews-cross-double",
     "page": 188,
     "group": "Preventivas / Advertencias de máximo peligro",
-    "name": "CRUZ DE SAN ANDRÉS (Mas de dos vías)",
+    "name": "CRUZ DE SAN ANDRÉS (Más de dos vías)",
     "meaning": "",
     "visual": "Aspa blanca con borde rojo, en forma de X, con un segundo par de brazos debajo que forma una V invertida.",
     "printedCode": null,
@@ -3683,10 +3683,10 @@
     "status": "tested",
     "notes": "Primer dibujo con este rótulo (orientación peatonal). Recorte y descripción revisados contra PDF 190 (F05-T02).",
     "box": {
-      "x": 0.7122,
-      "y": 0.4983,
-      "width": 0.1596,
-      "height": 0.0487
+      "x": 0.5296,
+      "y": 0.5068,
+      "width": 0.1644,
+      "height": 0.0333
     }
   },
   {
@@ -3700,10 +3700,10 @@
     "status": "tested",
     "notes": "Segundo dibujo con este rótulo (nombre de calle, altura, barrio y comuna). Recorte y descripción revisados contra PDF 190 (F05-T02).",
     "box": {
-      "x": 0.5296,
-      "y": 0.5068,
-      "width": 0.1644,
-      "height": 0.0333
+      "x": 0.7122,
+      "y": 0.4983,
+      "width": 0.1596,
+      "height": 0.0487
     }
   },
   {

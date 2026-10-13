@@ -52,7 +52,7 @@
             "id": "experience",
             "text": "Cuando la persona tiene poca experiencia manejando en la ciudad",
             "correct": false,
-            "feedback": "La experiencia no define la aptitud. Se considera disminuida cuando se alteran la coordinación motora, la atención, la percepción sensorial o el juicio crítico (manual PDF 90)."
+            "feedback": "El manual no usa la experiencia como criterio: la aptitud se considera disminuida cuando se alteran la coordinación motora, la atención, la percepción sensorial o el juicio crítico (manual PDF 90)."
           }
         ]
       },
@@ -82,7 +82,7 @@
             "id": "driving",
             "text": "Para ver cómo manejás en la calle, con tránsito real",
             "correct": false,
-            "feedback": "No es una prueba de manejo. El psicofísico evalúa la capacidad de la persona: coordinación, atención, percepción y juicio (manual PDF 90)."
+            "feedback": "No es una prueba de manejo. Con el psicofísico, el Estado pone a prueba la capacidad de la persona aspirante, porque la salud influye en la conducción (manual PDF 90)."
           }
         ]
       },
@@ -285,7 +285,7 @@
           },
           "no-sleep": {
             "correct": false,
-            "feedback": "No sentir sueño en el momento no alcanza: algunos medicamentos afectan la capacidad de conducir y sus efectos pueden durar horas. Leé el prospecto y consultá al médico (manual PDF 90)."
+            "feedback": "No sentir sueño en el momento no alcanza: algunos medicamentos afectan la capacidad de conducir y sus efectos pueden durar horas. Leé el prospecto y consultá a un/a médico/a (manual PDF 90)."
           },
           "friend": {
             "correct": false,
@@ -664,22 +664,22 @@
           {
             "id": "stop",
             "text": "Dejás de tomar alcohol",
-            "reason": "Es el punto de partida, pero no el final: los efectos no terminan con la última copa (manual PDF 92)."
+            "reason": "es el punto de partida, pero no el final: los efectos no terminan con la última copa (manual PDF 92)."
           },
           {
             "id": "rise",
             "text": "Durante la primera hora, la concentración sigue subiendo",
-            "reason": "En promedio, la concentración continúa subiendo durante la primera hora después de dejar de tomar (manual PDF 92)."
+            "reason": "en promedio, la concentración continúa subiendo durante la primera hora después de dejar de tomar (manual PDF 92)."
           },
           {
             "id": "fall",
             "text": "Después empieza a bajar de a poco",
-            "reason": "Recién entonces desciende paulatinamente: la eliminación por el hígado, los riñones y los pulmones lleva tiempo (manual PDF 92)."
+            "reason": "recién entonces desciende paulatinamente: la eliminación por el hígado, los riñones y los pulmones lleva tiempo (manual PDF 92)."
           },
           {
             "id": "clear",
             "text": "Los efectos terminan cuando se eliminó todo rastro",
-            "reason": "Los efectos se extienden hasta eliminar todo rastro del organismo; por eso también es riesgoso manejar al día siguiente (manual PDF 92)."
+            "reason": "los efectos se extienden hasta eliminar todo rastro del organismo; por eso también es riesgoso manejar al día siguiente (manual PDF 92)."
           }
         ]
       }
@@ -1170,7 +1170,7 @@
           },
           {
             "id": "fine-only",
-            "text": "Cobrar una multa en el lugar y dejarla seguir con cuidado",
+            "text": "Cobrar una multa en el lugar y dejar que siga viaje con cuidado",
             "correct": false,
             "feedback": "No. El manual no prevé que se siga conduciendo: se sanciona la falta, se retiene la licencia y se remite el vehículo (manual PDF 92)."
           }
@@ -2032,7 +2032,7 @@
     "figureIds": [
       "fig.manual-p95-mate-distraction"
     ],
-    "explanation": "Distracción es desviar la atención de aquello a lo que se debe atender; al volante, cualquier tarea que te saque la vista, las manos o la atención de la conducción te deja con menos capacidad de respuesta ante imprevistos. Comer, beber, tomar mate o fumar suman la distracción y además obligan a sacar las manos del volante: a 100 km/h un auto recorre 27,7 metros por segundo, así que 4 segundos cebando mate son como manejar una cuadra entera con los ojos tapados (manual PDF 95). El cinturón y el espejo retrovisor se ajustan antes de emprender la marcha, y mientras manejás no hay que maquillarse, sacarse el abrigo, estirarse a la guantera ni buscar cosas (PDF 96). Los ejemplos del manual con radio, CD o DVD son de otra época, pero la regla es la misma para cualquier aparato.",
+    "explanation": "Distracción es desviar la atención de aquello a lo que se debe atender; al volante, cualquier tarea que te saque la vista, las manos o la atención de la conducción te deja con menos capacidad de respuesta ante imprevistos. Comer, beber, tomar mate o fumar suman la distracción y además exigen manipulación, por lo que las manos no pueden estar firmes en el volante: a 100 km/h un auto recorre 27,7 metros por segundo, así que 4 segundos cebando mate son como manejar una cuadra entera con los ojos tapados (manual PDF 95). El cinturón se abrocha y el espejo retrovisor se ajusta antes de emprender la marcha, y mientras manejás no hay que maquillarse, sacarse el abrigo, estirarse a la guantera ni buscar cosas (PDF 96). Los ejemplos del manual con radio, CD o DVD son de otra época, pero la regla es la misma para cualquier aparato.",
     "status": "reviewed",
     "variants": [
       {
@@ -2210,7 +2210,7 @@
         "page": 111
       }
     ],
-    "explanation": "Cualquier tarea que te saque la vista, las manos o la atención del manejo es una distracción y reduce tu capacidad de respuesta ante imprevistos (manual PDF 95). El cinturón y el espejo retrovisor se ajustan antes de emprender la marcha, y mientras manejás no hay que sacarse el abrigo, estirarse para cerrar una puerta o buscar algo en la guantera, maquillarse ni mirar a otros ocupantes (PDF 96). Comer, tomar mate o fumar también distraen y obligan a sacar las manos del volante (PDF 95).",
+    "explanation": "Cualquier tarea que te saque la vista, las manos o la atención del manejo es una distracción y reduce tu capacidad de respuesta ante imprevistos (manual PDF 95). El cinturón se abrocha y el espejo retrovisor se ajusta antes de emprender la marcha, y mientras manejás no hay que sacarse el abrigo, estirarse para cerrar una puerta o buscar algo en la guantera, maquillarse ni mirar a otros ocupantes (PDF 96). Comer, tomar mate o fumar también distraen y exigen manipulación, así que las manos no pueden estar firmes en el volante (PDF 95).",
     "status": "reviewed",
     "variants": [
       {
@@ -2325,7 +2325,7 @@
           },
           "drive": {
             "correct": false,
-            "feedback": "Cebar mate mientras manejás distrae y obliga a sacar las manos del volante: a 100 km/h, 4 segundos cebando son como manejar una cuadra con los ojos tapados (manual PDF 95)."
+            "feedback": "Cebar mate mientras manejás distrae y exige manipulación, así que las manos no están firmes en el volante: a 100 km/h, 4 segundos cebando son como manejar una cuadra con los ojos tapados (manual PDF 95)."
           },
           "straight": {
             "correct": false,

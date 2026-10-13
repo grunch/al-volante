@@ -1,6 +1,7 @@
 import { createRandom, shuffle } from '../activities/random.ts';
 import { activitiesBySection } from '../activities/sections.ts';
 import type { Activity, KnowledgeUnit, SourceRef, TheoryExamConfig } from '../content/schemas.ts';
+import { MAX_CORRECT_OPTION_EXTRA_CHARS, optionLength } from '../content/validateActivities.ts';
 
 type ChoiceActivity = Extract<Activity, { type: 'single-choice' | 'sign-identification' }>;
 type ChoiceVariant = ChoiceActivity['variants'][number];
@@ -140,6 +141,31 @@ function pick(pool: readonly Candidate[], count: number, random: () => number): 
   return [...first, ...rest].slice(0, count);
 }
 
+type ChoiceOption = ChoiceVariant['options'][number];
+
+/**
+ * The wrong options a question shows. The authoring rule bounds the right option by the LONGEST wrong one
+ * (`validateActivities`), but a paper shows only some of them: when the drawn ones are all too short, the last one is
+ * swapped for a wrong option that keeps the rule, so the right option never gives itself away by its length.
+ */
+function shownWrongOptions(
+  right: ChoiceOption,
+  options: readonly ChoiceOption[],
+  count: number,
+  random: () => number,
+): ChoiceOption[] {
+  const drawn = shuffle(
+    options.filter((option) => !option.correct),
+    random,
+  );
+  const shown = drawn.slice(0, count);
+  const keepsRule = (option: ChoiceOption) =>
+    optionLength(right.text) - optionLength(option.text) <= MAX_CORRECT_OPTION_EXTRA_CHARS;
+  if (shown.length === 0 || shown.some(keepsRule)) return shown;
+  const long = drawn.find(keepsRule);
+  return long ? [...shown.slice(0, -1), long] : shown;
+}
+
 /**
  * A reproducible mock exam: the same seed and content always give the same paper. Each question keeps the right
  * option and `optionsPerQuestion - 1` wrong ones, in a shuffled order.
@@ -160,10 +186,7 @@ export function composeExam(
   const chosen = config.sections.flatMap((key) => pick(pools.get(key) ?? [], quota.get(key) ?? 0, random));
   const questions = shuffle(chosen, random).map(({ activity, variant, sectionKey }) => {
     const right = variant.options.find((option) => option.correct) as ChoiceVariant['options'][number];
-    const wrong = shuffle(
-      variant.options.filter((option) => !option.correct),
-      random,
-    ).slice(0, config.optionsPerQuestion - 1);
+    const wrong = shownWrongOptions(right, variant.options, config.optionsPerQuestion - 1, random);
     const shown = shuffle([right, ...wrong], random);
     return {
       id: `${activity.id}#${variant.id}`,

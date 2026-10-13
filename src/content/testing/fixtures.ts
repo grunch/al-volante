@@ -256,6 +256,7 @@ export function choiceActivity(
         options: [
           { id: 'a', text: 'A', correct: true, feedback: 'Bien' },
           { id: 'b', text: 'B', correct: false, feedback: 'No' },
+          { id: 'c', text: 'C', correct: false, feedback: 'Tampoco' },
         ],
       },
     ],
