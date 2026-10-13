@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { RuleCatalog } from '../../content/schemas.ts';
+import type { TheoryPassRule } from '../../content/validateAttempt.ts';
 import type { ChangeEvent } from 'react';
 import { createBackup, parseBackup } from '../backup.ts';
 import { localDay } from '../dates.ts';
@@ -17,6 +18,8 @@ type ImportError = keyof typeof LOGBOOK_COPY.importErrors;
 interface BackupPanelProps {
   /** Exam rules, to check the faults of imported attempts. */
   rules: RuleCatalog;
+  /** Mock theory exam configuration, to check the verdict of imported mock exams. */
+  theoryExam: TheoryPassRule;
   /** Attempts shown in this tab, for the replacement warning. */
   attemptCount: number;
   /** Reads everything stored when the backup is made, so another tab's progress is never left out. */
@@ -29,6 +32,7 @@ interface BackupPanelProps {
 /** Export, and import with an explicit confirmation; a rejected or failed import never touches current progress. */
 export function BackupPanel({
   rules,
+  theoryExam,
   attemptCount,
   exportSnapshot,
   contentVersion,
@@ -74,7 +78,7 @@ export function BackupPanel({
       console.error('Could not read the backup file', error);
       return reject('unreadable');
     }
-    const parsed = parseBackup(text, { now: now(), rules });
+    const parsed = parseBackup(text, { now: now(), rules, theoryExam });
     if (!parsed.ok) return reject(parsed.error);
     setPending(parsed);
   };
