@@ -443,7 +443,7 @@
             "id": "b",
             "text": "Camión tractor",
             "correct": false,
-            "feedback": "El camión tractor está hecho para arrastrar un remolque o semirremolque, no para transportar mercancías."
+            "feedback": "No. Según las definiciones del anexo, el camión tractor está diseñado y fabricado para arrastrar un remolque o semirremolque; el diseñado para transportar mercancías es el camión rígido (manual PDF 154)."
           },
           {
             "id": "c",

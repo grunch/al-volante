@@ -17,6 +17,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **F04-T05-FIX01 — guía de manejo del examen práctico:** [#36](https://github.com/grunch/al-volante/pull/36), fusionado por el usuario en `main` (`c71a289`). Pedido puntual del usuario; no inicia fase 6. Detalle en la sección de la tarea.
 - **F04-T01-FIX01 — referencias visuales, fusionado en `9bc0257`:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
 - **F04-T01-FIX04 — E2E con margen para WebGL por software, fusionado en `a39dd41`:** rama `f04-t01-fix04-e2e-budgets`, desde `main` (`f3d2f60`), [#37](https://github.com/grunch/al-volante/pull/37). Repara la CI roja de `main` tras #34 (tiempos de reloj justos, sin error de código); #37 integra `main` con #36 (`c71a289`) y #35 integra #37.
+- **REV01 — revisión integral (pedido puntual del usuario, 2026-10-12):** «haz una revisión profunda del sistema, sube el code coverage lo máximo posible, luego lee toda la documentación y revisa que nos hayan inconsistencias, revisa las preguntas y respuestas de las actividades y exámenes y asegúrate de que todo esté perfecto». Tres PRs apilados desde `main` (`aa9dbf9`): REV01-T01 contenido ([#39](https://github.com/grunch/al-volante/pull/39)), REV01-T02 código, bugs, cobertura y CI, y REV01-T03 documentación. No inicia la fase 6. Detalle en la sección «Revisión integral REV01».
 - Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
 
@@ -584,6 +585,26 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - CI sobre `54b0674`: unitarias, catálogo, build y E2E aprobados.
 - Cierre de la fase: cobertura total auditable y simulacros disponibles. El dominio personal (bitácora) se distingue de la disponibilidad del contenido (mapa y auditoría).
 
+## Revisión integral REV01
+
+| Tarea | Rama | Base | PR | Estado |
+|---|---|---|---|---|
+| REV01-T01 — contenido de actividades y exámenes | `rev01-t01-content` | `main` (`aa9dbf9`) | [#39](https://github.com/grunch/al-volante/pull/39) | abierto; findings de Codex y CodeRabbit corregidos |
+| REV01-T02 — revisión de código, bugs, cobertura y CI | `rev01-t02-code-coverage` | `rev01-t01-content` | pendiente de publicar | en preparación |
+| REV01-T03 — documentación y registro | `rev01-t03-docs` | `rev01-t02-code-coverage` | pendiente de publicar | en preparación |
+
+### REV01-T01 — Contenido de actividades y exámenes
+
+- Alcance: las 394 actividades y sus 1.443 variantes, sin muestreo, en once lotes por archivo contra el texto y la imagen de cada página citada; una segunda revisión independiente de cada línea cambiada. Método, clases de corrección y la decisión D-REV01-1 en `CONTENIDO.md` («Revisión integral (REV01)»).
+- Resultado: ninguna respuesta correcta estaba mal. Se corrigieron distractores defendibles, enunciados que dependían de la variante anterior, correctas que se delataban por largo o forma, devoluciones con datos ausentes en la fuente y redacción; las dos señales de nomenclatura urbana de manual PDF 190 tenían las cajas intercambiadas (recortes regenerados). El validador exige ahora una correcta, al menos dos incorrectas y la regla de los 10 caracteres.
+- Verificación: `npm run check` en un worktree limpio (lint, formato, tipos, 1.444 de 1.445 pruebas; la restante, un timeout de 5 s por carga en `exam.test.tsx`, pasa aislada), `validate:content` y build.
+- Revisiones sobre `1cfb198`: CodeRabbit, 3 findings; Codex (pedido con `@codex review`; el primer intento respondió que faltaba un entorno y el segundo sí revisó), 3 findings. Resolución:
+  - Regla de largo en el simulacro (CodeRabbit y Codex): el simulacro muestra la correcta con dos de las incorrectas al azar, así que podía dejar afuera la única incorrecta larga. Corregido en el sorteo (`src/theory/exam.ts`): si las dos sorteadas son demasiado cortas, la última se cambia por una que cumpla la regla; los exámenes que ya la cumplían no cambian. Prueba de regresión que falla sin el arreglo. Exigir la regla contra las dos incorrectas más cortas habría dejado 172 variantes en falta sin mejorar lo que ve quien juega.
+  - Encandilamiento (Codex): la opción correcta vuelve a incluir «aumento la distancia» (manual PDF 67); se alargaron los distractores para respetar la regla de largo.
+  - Camión tractor (CodeRabbit): la devolución usa la definición del anexo (manual PDF 154).
+  - Luz amarilla (CodeRabbit): las dos devoluciones del anexo IV usan el caso en que coinciden PDF 64 y 197 (D-T02-18).
+  - Registro operativo (Codex): esta sección y `CONTINUIDAD.md` se actualizan desde este PR.
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) y F05-T01 ([#28](https://github.com/grunch/al-volante/pull/28)) también están fusionados (`367b484`, `78b5cee`).
@@ -596,7 +617,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-Fase 5 y correctivos #31, #34–#37 fusionados. F04-T01-FIX05 publicado en [#38](https://github.com/grunch/al-volante/pull/38), con Codex y CodeRabbit solicitados. Siguiente: registrar CI y revisiones remotas, revisar findings con el usuario y corregir los aplicables. No fusionar el nuevo PR como parte de este pedido de creación. La fase 6 completa requiere inicio explícito del usuario.
+REV01 en curso (pedido puntual, no inicia la fase 6): #39 abierto con sus findings corregidos; siguen REV01-T02 y REV01-T03 apilados. Fase 5 y correctivos #31, #34–#37 fusionados. F04-T01-FIX05 publicado en [#38](https://github.com/grunch/al-volante/pull/38), con Codex y CodeRabbit solicitados. Siguiente: registrar CI y revisiones remotas, revisar findings con el usuario y corregir los aplicables. No fusionar el nuevo PR como parte de este pedido de creación. La fase 6 completa requiere inicio explícito del usuario.
 
 ### Cierre de la fase 4 contra el plan
 

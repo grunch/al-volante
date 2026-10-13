@@ -10,7 +10,7 @@ export const MAX_CORRECT_OPTION_EXTRA_CHARS = 10;
 export const MIN_WRONG_OPTIONS = 2;
 
 /** Characters as a reader counts them: code points of the composed (NFC) text, so "é" is one either way. */
-const charCount = (text: string) => Array.from(text.normalize('NFC')).length;
+export const optionLength = (text: string) => Array.from(text.normalize('NFC')).length;
 
 export interface ActivityContext {
   manifest: readonly Source[];
@@ -84,8 +84,8 @@ function choiceErrors(label: string, options: readonly ChoiceOption[]): string[]
   // The length rule compares one right option with the wrong ones; without them the errors above already apply.
   if (right.length !== 1 || wrong.length === 0) return errors;
   const answer = right[0] as ChoiceOption;
-  const longestWrong = Math.max(...wrong.map((option) => charCount(option.text)));
-  const length = charCount(answer.text);
+  const longestWrong = Math.max(...wrong.map((option) => optionLength(option.text)));
+  const length = optionLength(answer.text);
   const extra = length - longestWrong;
   if (extra > MAX_CORRECT_OPTION_EXTRA_CHARS)
     errors.push(

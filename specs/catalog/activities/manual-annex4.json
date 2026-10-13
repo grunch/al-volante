@@ -12009,7 +12009,7 @@
             "id": "a",
             "text": "Acelero para cruzar antes de que cambie a rojo",
             "correct": false,
-            "feedback": "No: el amarillo pide detenerse si no llegás a cruzar antes del rojo (PDF 197)."
+            "feedback": "No: el amarillo pide detenerse si todavía no empezaste a cruzar y no llegarías antes del rojo (manual PDF 64 y 197)."
           },
           {
             "id": "b",
@@ -12108,7 +12108,7 @@
             "id": "b",
             "text": "La del centro, la amarilla",
             "correct": false,
-            "feedback": "No: la amarilla pide detenerse si no llegás a cruzar antes del rojo; la que indica detenerse antes de la senda o de la línea de detención es la roja, a la izquierda (PDF 197)."
+            "feedback": "No: la amarilla pide detenerse si todavía no empezaste a cruzar y no llegarías antes del rojo (manual PDF 64 y 197); la que indica detenerse antes de la senda o de la línea de detención es la roja, a la izquierda (PDF 197)."
           },
           {
             "id": "c",

@@ -2989,17 +2989,17 @@
             "choices": [
               {
                 "id": "flash",
-                "text": "Hago una guiñada, miro al borde y bajo la velocidad",
+                "text": "Hago una guiñada, miro al borde, bajo la velocidad y aumento la distancia",
                 "next": "mirror"
               },
               {
                 "id": "retaliate",
-                "text": "Vuelvo a poner las altas para que sienta lo mismo",
+                "text": "Vuelvo a poner las altas para que sienta lo mismo que siento yo",
                 "outcome": "retaliates"
               },
               {
                 "id": "stare",
-                "text": "Miro fijo sus luces para no perderlo de vista",
+                "text": "Miro fijo sus luces para no perderlo de vista hasta que lo cruce",
                 "outcome": "stares"
               }
             ]

@@ -43,7 +43,7 @@ Escala común (`COBERTURA.md`): `pending` → `transcribed` → `reviewed` → `
 ## Reglas de autoría
 
 - **Tipos:** `single-choice` para definiciones y datos; `ordering` solo para procedimientos cuyo orden fija la fuente; `decision` para conductas en situación; `sign-identification` para señales (desde F05-T02): una variante por señal, con distractores del mismo grupo y, cuando el capítulo 3 da la conducta, preguntas de aplicación.
-- **Largo de las opciones:** la correcta no supera en más de 10 caracteres a la más larga de las incorrectas (se delataría). Desde REV01 lo controla el validador (`validateActivities.ts`), junto con el mínimo de dos opciones incorrectas que necesita el simulacro.
+- **Largo de las opciones:** la correcta no supera en más de 10 caracteres a la más larga de las incorrectas (se delataría). Desde REV01 lo controla el validador (`validateActivities.ts`), junto con el mínimo de dos opciones incorrectas que necesita el simulacro. Como el simulacro muestra solo dos incorrectas, su sorteo conserva siempre una que cumpla la regla (`src/theory/exam.ts`).
 - **Texto para quien juega:** sin ids internos (decisiones, issues, archivos). Vale para enunciados, opciones y devoluciones, y también para los motivos de consulta, que se muestran en la página de sección y en el catálogo de señales (ver «Consulta»).
 - **Una sola respuesta defendible** según la página citada. Distractores plausibles pero claramente incorrectos para quien estudió esa página; sin «todas/ninguna de las anteriores» ni opciones que se delaten por su largo.
 - **Devolución por opción:** la correcta confirma y explica; cada incorrecta dice por qué no y cuál es el dato correcto. La `explanation` enseña la regla completa con su cita.
