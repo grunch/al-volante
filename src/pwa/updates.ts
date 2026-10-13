@@ -132,7 +132,12 @@ export function createUpdateStore(environment: ServiceWorkerEnvironment = browse
     if (reloading) return;
     reloading = true;
     // A reload aborts the IndexedDB transactions in flight: the attempt of an exam that just ended is stored first.
-    void settleGuards().then(() => environment.reload());
+    void settleGuards().then(() => {
+      if (state.holds === 0) return environment.reload();
+      // An exam started meanwhile is never cut: the page offers the reload once it is over.
+      reloading = false;
+      setState({ pending: 'activated-elsewhere', updateDismissed: false });
+    });
   };
 
   const checkPeriodically = (registered: ServiceWorkerRegistration) => {
@@ -206,7 +211,14 @@ export function createUpdateStore(environment: ServiceWorkerEnvironment = browse
       setState({ pending: 'applying' });
       // The attempt of an exam that just ended may still be saving: the new version takes over after it.
       settleGuards()
-        .then(() => activateWaiting())
+        .then(() => {
+          // A drive or mock exam started while the save was settling: the new version waits for a new «Actualizar».
+          if (state.holds > 0) {
+            setState({ pending: 'waiting', updateDismissed: false });
+            return;
+          }
+          return activateWaiting();
+        })
         .catch((error: unknown) => {
           console.warn('Could not activate the new version', error);
           setState({ pending: 'waiting' });

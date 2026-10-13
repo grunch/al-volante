@@ -228,6 +228,48 @@ describe('progress being saved', () => {
     expect(worker.reload).toHaveBeenCalledTimes(1);
   });
 
+  it('does not activate when an exam starts while the save settles, and offers the update again after it', async () => {
+    // Arrange: «Actualizar» waits for a slow save; meanwhile the player starts another drive or mock exam.
+    const { worker, store } = storeWithWaitingVersion();
+    const save = deferred();
+    store.guardReload(() => save.promise);
+    store.applyUpdate();
+    await flushPromises();
+    const release = store.hold();
+
+    // Act
+    save.resolve();
+    await flushPromises();
+    const activatedDuringExam = worker.activate.mock.calls.length;
+    const offeredDuringExam = store.getSnapshot().update;
+    release();
+
+    // Assert: nothing happened mid-exam; afterwards the player decides again.
+    expect(activatedDuringExam).toBe(0);
+    expect(offeredDuringExam).toBeNull();
+    expect(store.getSnapshot().update).toBe('waiting');
+    expect(worker.reload).not.toHaveBeenCalled();
+  });
+
+  it('does not reload in the middle of an exam that starts before the new version takes control', async () => {
+    // Arrange: the new version was activated, and an exam starts before the controller change arrives.
+    const { worker, store } = storeWithWaitingVersion();
+    store.applyUpdate();
+    await vi.waitFor(() => expect(worker.activate).toHaveBeenCalled());
+    const release = store.hold();
+
+    // Act
+    worker.changeController();
+    await flushPromises();
+    const reloadsDuringExam = worker.reload.mock.calls.length;
+    release();
+
+    // Assert: after the exam the page offers the reload instead of reloading on its own.
+    expect(reloadsDuringExam).toBe(0);
+    expect(worker.reload).not.toHaveBeenCalled();
+    expect(store.getSnapshot().update).toBe('activated-elsewhere');
+  });
+
   it('lets the update go on once a failed save has settled', async () => {
     const { worker, store } = storeWithWaitingVersion();
     const save = deferred();
