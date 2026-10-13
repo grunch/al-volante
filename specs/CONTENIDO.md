@@ -187,7 +187,7 @@ Además, en F05-T01 se revisaron contra sus páginas las 14 unidades (cap. 1, 3 
 
 Pedido puntual del usuario («revisa las preguntas y respuestas de las actividades y exámenes y asegúrate de que todo esté perfecto»); no inicia la fase 6.
 
-- **Alcance:** las 394 actividades y sus 1.443 variantes, sin muestreo, en once lotes por archivo. Cada variante se contrastó con el texto y la imagen de sus páginas citadas, con la lista de control de este documento y con el uso en el simulacro (la correcta más dos distractores al azar, sin devolución).
+- **Alcance:** las 394 actividades y sus 1.443 variantes, sin muestreo, en once lotes por archivo. Cada variante se contrastó con el texto y la imagen de sus páginas citadas, con la lista de control de este documento y con el uso en el simulacro (la correcta y dos incorrectas sorteadas, sin devolución; desde REV01 el sorteo es condicionado: si las dos sorteadas no cumplen la regla de largo, la segunda se cambia por una que la cumpla).
 - **Ninguna respuesta correcta estaba mal.** Las correcciones fueron de estas clases:
   - distractores defendibles o en parte ciertos, reemplazados por otros claramente falsos según la página (por ejemplo, el carril exclusivo de emergencias, los colores de las informativas, el servicio urbano de menos de 30 km);
   - enunciados que dependían de la variante anterior o del título («ese informe», «esa infografía», «del plan», «este anexo»), que en el simulacro se leen solos;

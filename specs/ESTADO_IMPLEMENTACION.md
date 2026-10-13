@@ -599,11 +599,12 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Resultado: ninguna respuesta correcta estaba mal. Se corrigieron distractores defendibles, enunciados que dependían de la variante anterior, correctas que se delataban por largo o forma, devoluciones con datos ausentes en la fuente y redacción; las dos señales de nomenclatura urbana de manual PDF 190 tenían las cajas intercambiadas (recortes regenerados). El validador exige ahora una correcta, al menos dos incorrectas y la regla de los 10 caracteres.
 - Verificación: `npm run check` en un worktree limpio (lint, formato, tipos, 1.444 de 1.445 pruebas; la restante, un timeout de 5 s por carga en `exam.test.tsx`, pasa aislada), `validate:content` y build.
 - Revisiones sobre `1cfb198`: CodeRabbit, 3 findings; Codex (pedido con `@codex review`; el primer intento respondió que faltaba un entorno y el segundo sí revisó), 3 findings. Resolución:
-  - Regla de largo en el simulacro (CodeRabbit y Codex): el simulacro muestra la correcta con dos de las incorrectas al azar, así que podía dejar afuera la única incorrecta larga. Corregido en el sorteo (`src/theory/exam.ts`): si las dos sorteadas son demasiado cortas, la última se cambia por una que cumpla la regla; los exámenes que ya la cumplían no cambian. Prueba de regresión que falla sin el arreglo. Exigir la regla contra las dos incorrectas más cortas habría dejado 172 variantes en falta sin mejorar lo que ve quien juega.
+  - Regla de largo en el simulacro (CodeRabbit y Codex): el simulacro mostraba la correcta con dos incorrectas sorteadas al azar, así que podía dejar afuera la única incorrecta larga. Corregido en el sorteo (`src/theory/exam.ts`): si las dos sorteadas son demasiado cortas, la última se cambia por una que cumpla la regla; los exámenes que ya la cumplían no cambian. Prueba de regresión que falla sin el arreglo. Exigir la regla contra las dos incorrectas más cortas habría dejado 172 variantes en falta sin mejorar lo que ve quien juega.
   - Encandilamiento (Codex): la opción correcta vuelve a incluir «aumento la distancia» (manual PDF 67); se alargaron los distractores para respetar la regla de largo.
   - Camión tractor (CodeRabbit): la devolución usa la definición del anexo (manual PDF 154).
   - Luz amarilla (CodeRabbit): las dos devoluciones del anexo IV usan el caso en que coinciden PDF 64 y 197 (D-T02-18).
   - Registro operativo (Codex): esta sección y `CONTINUIDAD.md` se actualizan desde este PR.
+- Segunda pasada sobre `4bbda99`: CodeRabbit aceptó los tres arreglos y resolvió sus hilos. Codex pidió describir el sorteo condicionado, porque `CONTENIDO.md` seguía diciendo «dos distractores al azar»: corregido en `CONTENIDO.md` y `ARQUITECTURA.md`.
 
 ## Pila y orden de fusión
 
