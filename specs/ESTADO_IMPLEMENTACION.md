@@ -601,8 +601,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
 | REV01-T01 — contenido de actividades y exámenes | `rev01-t01-content` | `main` (`aa9dbf9`) | [#39](https://github.com/grunch/al-volante/pull/39) | abierto; findings de Codex y CodeRabbit corregidos |
-| REV01-T02 — revisión de código, bugs, cobertura y CI | `rev01-t02-code-coverage` | `rev01-t01-content` | pendiente de publicar | en preparación |
-| REV01-T03 — documentación y registro | `rev01-t03-docs` | `rev01-t02-code-coverage` | pendiente de publicar | en preparación |
+| REV01-T02 — revisión de código, bugs, cobertura y CI | `rev01-t02-code-coverage` | `rev01-t01-content` (#39) | [#40](https://github.com/grunch/al-volante/pull/40) | abierto; revisiones solicitadas |
+| REV01-T03 — documentación y registro | `rev01-t03-documentation` | `rev01-t02-code-coverage` (#40) | este PR | abierto; revisiones solicitadas |
 
 ### REV01-T01 — Contenido de actividades y exámenes
 
@@ -616,6 +616,21 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
   - Luz amarilla (CodeRabbit): las dos devoluciones del anexo IV usan el caso en que coinciden PDF 64 y 197 (D-T02-18).
   - Registro operativo (Codex): esta sección y `CONTINUIDAD.md` se actualizan desde este PR.
 - Segunda pasada sobre `4bbda99`: CodeRabbit aceptó los tres arreglos y resolvió sus hilos. Codex pidió describir el sorteo condicionado, porque `CONTENIDO.md` seguía diciendo «dos distractores al azar»: corregido en `CONTENIDO.md` y `ARQUITECTURA.md`.
+
+### REV01-T02 — Revisión profunda del código, cobertura y CI
+
+- Alcance: revisión por áreas (interfaz; simulación, controles y audio; ciudad, escena y tránsito; contenido, progreso y actividades; examen práctico y teórico), con subagentes de revisión y una revisión independiente de todo el diff no-test. Cada bug confirmado tiene una prueba de regresión que falla sin el arreglo.
+- Bugs corregidos (detalle en [#40](https://github.com/grunch/al-volante/pull/40)): un simulacro teórico hacía rechazar cualquier respaldo; fecha UTC en el nombre del respaldo; pestaña vieja que bloqueaba la migración de la base; foco perdido en ordenamientos, decisiones, teórico y actividades; leves e y f limitadas al desbloqueo de la etapa I (PDF 10, 15 y 23); fila de la ficha según el contexto (D1); práctica de la etapa III con cinturón y luces; orden del reconocimiento de la caja (PDF 30); actores que pasaban en rojo las sendas semaforizadas de Cabildo; banda lateral del semáforo en `lookAhead`; prioridad en el inicio de la vuelta; ciclo propio de cada semáforo; embrague patinando; contactos fantasma; habitáculo viejo tras reiniciar; nombres de teclas; semilla que no se podía borrar; teórico reiniciado con «Atrás»; plurales; textos que anunciaban funciones existentes; estado de carga de la escena 3D; código muerto del follaje.
+- Cobertura: de 95,69 / 90,16 / 95,17 / 96,56 % (sentencias, ramas, funciones, líneas) a 99,36 / 97,20 / 99,75 / 99,82 %, con 1.733 pruebas en 103 archivos. Umbrales de 80 % a 99 % (96 % en ramas).
+- CI: el E2E corre en tres shards de Playwright, con un worker cada uno y sin ampliar márgenes, porque el job único agotaba los 30 min en `main` (ver «Bloqueos»).
+- Verificación: `npm run check` completo en verde; 11 E2E de examen, ciudad y audio en Chromium de escritorio.
+- Recalibración de pruebas guionadas: al frenar los actores en las sendas con luz cambió el horario del tránsito de la semilla 1. `lap.test.ts` (el conductor de prueba no avanza contra un vehículo en su mismo sentido a 6 m) y la vuelta legal de `street.test.ts` y `parkingStreet.test.ts` (el conductor cede al ciclista 1,5 m antes de su línea y mira más lejos) siguen verificando lo mismo, sin aserciones borradas ni aflojadas.
+- Pendientes para el usuario: confirmar el alcance de las leves e/f; D5, D14 y luces bajas sin evaluar (sin cambios); ciclista que cruza la línea de detención del auto en Cuba y Quesada; ids de opción visibles en el DOM de las actividades; repaso espaciado por 24 h exactas.
+
+### REV01-T03 — Documentación
+
+- Alcance: lectura de los 21 archivos `.md` contra el código, los datos y GitHub. Se corrigieron estados viejos («abierto», «en ejecución») de PRs ya fusionados, filas que faltaban en las tablas de la fase 4 (#31, #34, #35, #37, #38), la estructura del código en ARQUITECTURA, `npm run test:audio`, conteos de observaciones (243) y de estados de las unidades, la sombra de 2048 × 2048, referencias superadas por FIX05, encabezados y erratas. Los registros históricos se conservan como historia.
+- Hallazgos sin cambio de código: los parámetros de URL y rutas en español (`?semilla=`, `#/recorrido`) se aceptaron en revisiones anteriores; queda a decisión del usuario.
 
 ## Pila y orden de fusión
 
