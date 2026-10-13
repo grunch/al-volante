@@ -648,7 +648,9 @@ function decide(
     const { crosswalk } = crossing;
     const light = crosswalk.controlId ? crosswalkLight(traffic.plan, crosswalk, timeS) : null;
     const walkedOn = remaining >= -0.5 && [...pedestrians.values()].some((box) => overlaps(box, crosswalk.box));
-    if (walkedOn || mustStopAtLight(light, remaining, state.speedMps))
+    // The light binds only before the crosswalk: a vehicle already on it when it turns red clears it instead of
+    // stopping there and keeping the pedestrians on the kerb. Anyone already walking on it still stops the vehicle.
+    if (walkedOn || (remaining >= 0 && mustStopAtLight(light, remaining, state.speedMps)))
       target = Math.min(target, speedToStop(remaining));
   }
   // Signals, STOP signs and priorities at the next crossings.

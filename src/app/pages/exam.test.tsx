@@ -36,7 +36,11 @@ describe('exam page', { timeout: 30000 }, () => {
     vi.stubGlobal('cancelAnimationFrame', vi.fn());
   });
 
-  afterEach(() => vi.unstubAllGlobals());
+  // Restored after each test, passed or failed: a failing assertion must not leave the console spies muting the next.
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
 
   const runFrames = (frames: number) => {
     for (let i = 0; i < frames; i += 1) {
@@ -215,7 +219,6 @@ describe('exam page', { timeout: 30000 }, () => {
       { timeout: 15000 },
     );
     expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'familiarisation');
-    vi.restoreAllMocks();
   });
 
   it('is linked from the home page', async () => {
@@ -236,7 +239,11 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
     vi.stubGlobal('cancelAnimationFrame', vi.fn());
   });
 
-  afterEach(() => vi.unstubAllGlobals());
+  // Restored after each test, passed or failed: a failing assertion must not leave the console spies muting the next.
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
 
   const runFrames = (frames: number) => {
     for (let i = 0; i < frames; i += 1) {
@@ -433,7 +440,6 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
     // Assert
     await waitFor(() => expect(screen.getByTestId('exam-saved')).toHaveAttribute('data-save', 'failed'));
     expect(screen.getByTestId('exam-saved')).toHaveTextContent(EXAM_COPY.saveFailed);
-    vi.mocked(console.error).mockRestore();
   });
 
   it('practises stage I when the URL names no stage, and the practice radio starts there', async () => {
