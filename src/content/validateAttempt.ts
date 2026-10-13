@@ -1,19 +1,25 @@
 import { z } from 'zod';
 import { THEORY_SUBJECT } from '../theory/attempt.ts';
-import type { Attempt, Rule, RuleCatalog } from './schemas.ts';
+import type { Attempt, Rule, RuleCatalog, TheoryExamConfig } from './schemas.ts';
 
 /** Repetition policies under which a rule can appear only once in an attempt (REGLAS.md). */
 const COUNTED_ONCE: ReadonlySet<Rule['repetition']> = new Set(['once', 'single-check']);
 
+/** The pass rule of the mock theory exam, to check the verdict of imported mock exams of the same configuration. */
+export type TheoryPassRule = Pick<TheoryExamConfig, 'version' | 'questions' | 'passCorrect'>;
+
 /**
  * Checks an attempt against the exam rules: every fault cites a known rule with that rule's points, a scored result
  * adds up its faults, and activity attempts carry no driving faults. Used before trusting attempts from a backup.
+ * With the theory configuration, a mock exam of that configuration version must also pass exactly when it should.
  */
-export function attemptErrors(attempt: Attempt, rules: RuleCatalog): string[] {
+export function attemptErrors(attempt: Attempt, rules: RuleCatalog, theoryExam?: TheoryPassRule): string[] {
   const errors: string[] = [];
   const byId = new Map(rules.rules.map((rule) => [rule.id, rule]));
   if (attempt.kind === 'activity')
-    errors.push(...(attempt.subjectId === THEORY_SUBJECT ? theoryErrors(attempt) : activityErrors(attempt)));
+    errors.push(
+      ...(attempt.subjectId === THEORY_SUBJECT ? theoryErrors(attempt, theoryExam) : activityErrors(attempt)),
+    );
   const seen = new Set<string>();
   attempt.faults.forEach((fault, index) => {
     const rule = byId.get(fault.ruleId);
@@ -48,7 +54,9 @@ export const TheoryGradeSchema = z.object({
  * What a handed-in mock theory exam looks like (createTheoryAttempt): finished, one grade and a result that follows
  * it (passing does not need a full score), no faults or points. It is an activity attempt with no single answer.
  */
-function theoryErrors(attempt: Attempt): string[] {
+const TheoryStartSchema = z.object({ configVersion: z.string() });
+
+function theoryErrors(attempt: Attempt, theoryExam: TheoryPassRule | undefined): string[] {
   const errors: string[] = [];
   const { correct, score, points } = attempt.result;
   if (attempt.faults.length > 0) errors.push(`${attempt.id}: mock exams cannot have driving faults`);
@@ -63,6 +71,17 @@ function theoryErrors(attempt: Attempt): string[] {
   const { total, passed } = grade.data;
   if (correct !== passed || score !== (total === 0 ? 0 : grade.data.correct / total))
     errors.push(`${attempt.id}: the result does not match the grade of the mock exam`);
+  // The verdict is data from outside: under the current configuration it must follow its threshold (gradeExam). An
+  // attempt of another configuration version keeps its own verdict, since its threshold is not known here.
+  const start = TheoryStartSchema.safeParse(attempt.events.find((event) => event.type === 'start')?.payload);
+  if (theoryExam && start.success && start.data.configVersion === theoryExam.version) {
+    const shouldPass = total >= theoryExam.questions && grade.data.correct >= theoryExam.passCorrect;
+    if (passed !== shouldPass)
+      errors.push(
+        `${attempt.id}: ${grade.data.correct} of ${total} ${shouldPass ? 'passes' : 'does not pass'} the mock exam ` +
+          `(${theoryExam.passCorrect} of ${theoryExam.questions} needed), but the grade says otherwise`,
+      );
+  }
   return errors;
 }
 

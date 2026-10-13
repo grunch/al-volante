@@ -296,6 +296,10 @@ export function DrivingCanvas({
       if (prepared.length > 0) observeStep(frame.stepper.state, frame.events, 0, frame.scenario);
       return frame;
     };
+    // Each new loop is a new session (another seed, start, gearbox or preparation): it starts from the prepared cabin.
+    // A seed change also bumps the reset counter, but `appliedReset` below already holds the new value.
+    cockpitRef.current = cabinOf(preparedCabin);
+    setCockpit(cockpitRef.current);
     let driving = fresh();
     let appliedReset = resetRef.current;
     let lastTime: number | null = null;
