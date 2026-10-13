@@ -17,6 +17,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 - **F04-T05-FIX01 — guía de manejo del examen práctico:** [#36](https://github.com/grunch/al-volante/pull/36), fusionado por el usuario en `main` (`c71a289`). Pedido puntual del usuario; no inicia fase 6. Detalle en la sección de la tarea.
 - **F04-T01-FIX01 — referencias visuales, fusionado en `9bc0257`:** [#31](https://github.com/grunch/al-volante/pull/31), en worktree independiente, rama `f04-t01-fix01-street-reference`. Partió de `b36fe55` e incorporó `main` hasta `693f692` para resolver conflictos documentales y conservar #27–#30 y #32; no toca el worktree de Opus.
 - **F04-T01-FIX04 — E2E con margen para WebGL por software, fusionado en `a39dd41`:** rama `f04-t01-fix04-e2e-budgets`, desde `main` (`f3d2f60`), [#37](https://github.com/grunch/al-volante/pull/37). Repara la CI roja de `main` tras #34 (tiempos de reloj justos, sin error de código); #37 integra `main` con #36 (`c71a289`) y #35 integra #37. En `main` no llegó a comprobarse solo: la corrida de `a39dd41` se canceló al fusionarse #35 un minuto después, y con el detalle de #35 el E2E de `main` agota el límite de 30 min (ver «Bloqueos»).
+- **PWA01 — aplicación instalable y diseño adaptable (pedido puntual del usuario, 2026-10-13):** «ahora trabaja en hacer que la app sea una PWA, debe ser completamente responsive y funcionar correctamente en todas resoluciones de pantalla». Dos PRs apilados desde `main` (`72a1e87`): PWA01-T01 diseño adaptable y PWA01-T02 PWA. Adelanta el alcance de F07-T03 (instalación, caché sin conexión y actualización de versiones) y la parte de compatibilidad de pantallas de F07-T02, sin iniciar las fases 6 ni 7. Detalle en la sección «Pedido puntual PWA01».
 - **REV01 — revisión integral (pedido puntual del usuario, 2026-10-12):** «haz una revisión profunda del sistema, sube el code coverage lo máximo posible, luego lee toda la documentación y revisa que nos hayan inconsistencias, revisa las preguntas y respuestas de las actividades y exámenes y asegúrate de que todo esté perfecto». Tres PRs apilados desde `main` (`aa9dbf9`): REV01-T01 contenido ([#39](https://github.com/grunch/al-volante/pull/39)), REV01-T02 código, bugs, cobertura y CI, y REV01-T03 documentación. No inicia la fase 6. Detalle en la sección «Revisión integral REV01».
 - Fases 6–7: no iniciadas.
 - Modo de trabajo (usuario, 2026-10-11): etapa A, crear todos los PRs de la fase uno por uno y apilados sin esperar revisiones; etapa B, revisar los findings con el usuario y fusionar en orden. Ver `PLAN_IMPLEMENTACION.md` §1–§3.
@@ -601,7 +602,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
 | REV01-T01 — contenido de actividades y exámenes | `rev01-t01-content` | `main` (`aa9dbf9`) | [#39](https://github.com/grunch/al-volante/pull/39) | fusionado por el usuario en `main` (`782bb37`, 2026-10-13 05:49 UTC) |
-| REV01-T02a — revisión de código y bugs con regresión | `rev01-t02a-fixes` | `main` (tras fusionarse #39) | [#42](https://github.com/grunch/al-volante/pull/42) | abierto; contiene #40 y #41; findings de Codex y CodeRabbit resueltos |
+| REV01-T02a — revisión de código y bugs con regresión | `rev01-t02a-fixes` | `main` (tras fusionarse #39) | [#42](https://github.com/grunch/al-volante/pull/42) | fusionado por el usuario en `main` (`72a1e87`, 2026-10-13 10:07 UTC), con #40 y #41 |
 | REV01-T02 — pruebas nuevas y umbrales de cobertura | `rev01-t02-code-coverage` | `rev01-t02a-fixes` (#42) | [#40](https://github.com/grunch/al-volante/pull/40) | fusionado por el usuario en `rev01-t02a-fixes` (`5ed0dc5`, 05:52 UTC) |
 | REV01-T03 — documentación y registro | `rev01-t03-documentation` | `rev01-t02-code-coverage` (#40) | [#41](https://github.com/grunch/al-volante/pull/41) | fusionado por el usuario en `rev01-t02a-fixes` (`d4843d1`, 05:54 UTC) |
 
@@ -636,6 +637,25 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Alcance: lectura de los 21 archivos `.md` contra el código, los datos y GitHub. Se corrigieron estados viejos («abierto», «en ejecución») de PRs ya fusionados, filas que faltaban en las tablas de la fase 4 (#31, #34, #35, #37, #38), la estructura del código en ARQUITECTURA, `npm run test:audio`, conteos de observaciones (243) y de estados de las unidades, la sombra de 2048 × 2048, referencias superadas por FIX05, encabezados y erratas. Los registros históricos se conservan como historia.
 - Hallazgos sin cambio de código: los parámetros de URL y rutas en español (`?semilla=`, `#/recorrido`) se aceptaron en revisiones anteriores; queda a decisión del usuario.
 
+## Pedido puntual PWA01 — PWA y diseño adaptable
+
+| Tarea | Rama | Base | PR | Estado |
+|---|---|---|---|---|
+| PWA01-T01 — diseño adaptable a todas las pantallas | `pwa01-t01-responsive` | `main` (`72a1e87`) | por publicar | en preparación |
+| PWA01-T02 — aplicación instalable y sin conexión | `pwa01-t02-pwa` | `pwa01-t01-responsive` | por publicar | en preparación |
+
+### PWA01-T01 — Diseño adaptable
+
+- Auditoría con Playwright (Chromium 153, build de producción) de 31 estados en 14 tamaños, de 320×568 a 3840×2160, vertical y apaisado, con emulación táctil y DPR 2–3: 3.153 hallazgos en `main`, 0 después. Método, puntos de corte, hallazgos y límites en `ARQUITECTURA.md` («Diseño adaptable (PWA01-T01)»).
+- `tests/e2e/responsive.spec.ts` controla desbordes, cajas fuera de la pantalla, objetivos táctiles y alto de los lienzos 3D en cinco tamaños; falla con el CSS anterior.
+- Límites medidos: la vista 3D en teléfonos chicos queda de unos 320 × 320 px; el tablero del examen sigue debajo de la cabina; zonas seguras sin probar en un teléfono con muesca, ni Safari ni Firefox.
+
+### PWA01-T02 — Aplicación instalable y sin conexión
+
+- `vite-plugin-pwa` 1.3.0 (MIT, 2026-05-05; la 2.0.0 tiene menos de dos semanas) con Workbox 7.4.1. Manifiesto en español con alcance relativo, íconos originales (`scripts/render-icons.ts`) y service worker que precachea la interfaz, todo el código, el contenido y los recortes de figuras y señales (536 archivos, unos 17 MB, sin mapas de código).
+- Las actualizaciones esperan a quien juega: aviso accesible con «Actualizar» y «Más tarde», solo se recarga la pestaña que acepta, y no aparece durante un manejo del examen ni un simulacro teórico en curso. El progreso en IndexedDB no se toca. Indicador sin conexión y enlaces a los PDF oficiales que avisan que necesitan conexión.
+- Verificación: pruebas unitarias del registro, el aviso, la conexión y la espera durante los exámenes; E2E del manifiesto, los íconos, el control del service worker, recargas sin conexión (inicio, actividad con su señal, biblioteca y teórico) y una actualización simulada que conserva una respuesta guardada. Detalle en `ARQUITECTURA.md` («Aplicación instalable y sin conexión (PWA01-T02)»).
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) y F05-T01 ([#28](https://github.com/grunch/al-volante/pull/28)) también están fusionados (`367b484`, `78b5cee`).
@@ -650,7 +670,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-REV01: #39 fusionado en `main`; #40 y #41 fusionados en la rama de #42, que queda como único PR abierto de la revisión y contiene todo el código, las pruebas, la CI en shards y la documentación. Siguiente: CI de #42 y fusión del usuario; después, el E2E de `main` debería volver a verde con los shards. Decisiones pendientes del usuario en la sección de REV01-T02. Fase 5 y correctivos #31 y #34–#38 fusionados. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
+PWA01 en curso (pedido puntual del usuario; no inicia las fases 6 ni 7): PWA01-T01 (diseño adaptable) y PWA01-T02 (PWA) apilados desde `main`. REV01 fusionada completa (#39 y #42, con #40 y #41); el E2E de `main` corre en tres shards desde `72a1e87`. Decisiones pendientes del usuario de REV01 en su sección. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 
 ### Cierre de la fase 4 contra el plan
 
