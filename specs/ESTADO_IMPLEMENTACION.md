@@ -2,10 +2,11 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-12 (F04-T01-FIX05, #38, fusionado en `aa9dbf9`; estado real de la CI de `main` y revisión de coherencia de la documentación).
+Última actualización: 2026-10-13 (KAIT02, modelo de Blender para el inicio; validación y PR en preparación).
 
 ## Fase activa
 
+- **KAIT02 — Kait de Blender en el inicio (pedido puntual, 2026-10-13):** rama `kait02-home-preview`, desde `main` (`ecda93a`, #43 fusionado), en worktree independiente. Sustituye el auto de presentación con una exportación ligera del estudio solicitado previamente. No inicia otra fase. Detalle y reproducción en [MODELO_KAIT.md](MODELO_KAIT.md); PR en preparación.
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
 - Mensaje de inicio (2026-10-11): «fusionada toda la fase 1, ahora comienza con la fase 2, no pares hasta terminar todos los PRs de esa fase, lee bien la documentacion para que tengas todos los aspectos y contexto antes de implementar el codigo».
 - **Fase 3 — Auto e interior: tareas fusionadas.** #16–#20 y el correctivo #21 están en `main` (`89791fc`). La descripción histórica de cada tarea conserva sus revisiones y limitaciones.
@@ -656,6 +657,15 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Las actualizaciones esperan a quien juega: aviso accesible con «Actualizar» y «Más tarde», solo se recarga la pestaña que acepta, y no aparece durante un manejo del examen ni un simulacro teórico en curso. El progreso en IndexedDB no se toca. Indicador sin conexión y enlaces a los PDF oficiales que avisan que necesitan conexión.
 - Verificación: pruebas unitarias del registro, el aviso, la conexión y la espera durante los exámenes; E2E del manifiesto, los íconos, el control del service worker, recargas sin conexión (inicio, actividad con su señal, biblioteca y teórico) y una actualización simulada que conserva una respuesta guardada. Detalle en `ARQUITECTURA.md` («Aplicación instalable y sin conexión (PWA01-T02)»).
 
+## Pedido puntual KAIT02 — Kait de Blender en el inicio
+
+- Pedido: «en la pagina de inicio del juego se muestra un auto pobremente animado en 3d, sustituyelo con el kait que acabas de hacer en blender». Rama `kait02-home-preview`, base `main` (`ecda93a`), PR en preparación; independiente de PWA01-T02 (#44, abierto al comenzar).
+- Resultado implementado: GLB original del Kait (87.934 triángulos, 24 materiales, 1.848.348 bytes), iluminación y reflejos de estudio, sombras, órbita de 70 segundos, encuadre adaptable y movimiento reducido. Carga cancelable, errores accesibles y liberación de recursos al navegar.
+- Fuente del estudio y exportador de Blender versionados; fotos, `.blend` y renders pesados quedan fuera de Git. Procedencia, simplificaciones, reproducción y medición en [MODELO_KAIT.md](MODELO_KAIT.md).
+- Verificación: lint, formato, tipos, catálogo y build aprobados; 28 pruebas focalizadas y 24 E2E de inicio/navegación aprobados (los seis E2E del Kait repetidos tras la última aserción). La suite completa con cobertura sigue en ejecución: registró un timeout de 5 s en CityPreview; sus siete pruebas pasaron al repetirlas aisladas sin modificar ese código. Inspección visual de cuatro tamaños con RTX 2060 aprobada; sin errores de consola ni desbordes. Medición del dibujo: 1,78 ms de media y 4,5 ms p95 en 1120 × 630, DPR 1 (método y límites en el documento).
+- Revisión independiente local Codex: primer pase completado; un P2 corregido (el error de descarga ya no culpa a WebGL). Segundo pase completado, sin findings pendientes; incluye revisión de código, E2E y capturas de escritorio/móvil/320 px/apaisado. Revisión GitHub Codex y CodeRabbit pendientes de apertura del PR; no se declaran completadas.
+- Compatibilidad con #44 pendiente de integración: incluir `glb` en el precache y admitir el tamaño del modelo. El PR de PWA sigue separado; esta rama no modifica su trabajo. Siguiente paso: completar verificaciones, autorrevisar, publicar el PR y solicitar revisiones.
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) y F05-T01 ([#28](https://github.com/grunch/al-volante/pull/28)) también están fusionados (`367b484`, `78b5cee`).
@@ -669,6 +679,8 @@ Correctivos posteriores, cada uno desde `main` y sin pila: #34 (`f3d2f60`), #36 
 El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34) en `f3d2f60` y F04-T05-FIX01 (#36) en `c71a289`. Desde #34, el E2E de `main` se cancela por tiempos de reloj justos con WebGL por software. F04-T01-FIX04 ([#37](https://github.com/grunch/al-volante/pull/37)) amplió los márgenes, pero **la CI de `main` sigue sin un E2E verde**: en `132409a` (#35) y `aa9dbf9` (#38) los checks aprobaron y el job E2E se canceló al llegar a su límite de 30 min. La corrida de `a39dd41` (#37) se canceló por la fusión siguiente. En los PRs, el E2E pasó en #37 (`c036dbc`) y en #38 (`367c524`), y agotó los 30 min en #35 (`5b0b970`). Resolverlo exige medir el costo del render por software después de #35 y #38 y decidir entre achicar la suite, dividir el job o subir el límite; CONTINUIDAD pide medir antes de ampliar márgenes. Los fallos de la base `b36fe55` pertenecen al registro histórico de #31. REV01-T02 opta por dividir el job: el E2E corre en tres shards de Playwright, cada uno con un worker y sin ampliar márgenes de las pruebas. **Resuelto:** con #42 fusionado, la CI de `main` en `72a1e87` terminó en verde, con los tres shards (el primer E2E verde de `main` desde #31).
 
 ## Siguiente acción
+
+KAIT02: completar validación, abrir el PR y solicitar Codex/CodeRabbit. Revisar la compatibilidad del precache al integrar #44. No inicia una fase nueva.
 
 PWA01 en curso (pedido puntual del usuario; no inicia las fases 6 ni 7): PWA01-T01 (diseño adaptable) y PWA01-T02 (PWA) apilados desde `main`. REV01 fusionada completa (#39 y #42, con #40 y #41); el E2E de `main` corre en tres shards desde `72a1e87`. Decisiones pendientes del usuario de REV01 en su sección. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 

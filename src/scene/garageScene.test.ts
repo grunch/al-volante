@@ -1,18 +1,31 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { APPROXIMATE_PARKING_BOX_WIDTH_M, PARKING_BOX_LENGTH_M, createGarageScene } from './garageScene.ts';
+import {
+  APPROXIMATE_PARKING_BOX_WIDTH_M,
+  PARKING_BOX_LENGTH_M,
+  createGarageScene as buildGarageScene,
+} from './garageScene.ts';
+
+function createGarageScene(options: { reducedMotion: boolean }) {
+  const car = new THREE.Group();
+  car.name = 'kait-car';
+  car.add(new THREE.Mesh(new THREE.BoxGeometry(1.76, 1.61, 4.3), new THREE.MeshStandardMaterial()));
+  return buildGarageScene({ ...options, car });
+}
 
 describe('createGarageScene', () => {
-  it('builds the floor, parking box, lights and placeholder car', () => {
+  it('builds the studio garage around the supplied Kait model', () => {
     // Arrange / Act
     const garage = createGarageScene({ reducedMotion: false });
 
     // Assert
-    for (const name of ['floor', 'parking-box', 'lights', 'placeholder-car']) {
+    for (const name of ['floor', 'parking-box', 'lights', 'kait-car']) {
       expect(garage.scene.getObjectByName(name), name).toBeDefined();
     }
-    const car = garage.scene.getObjectByName('placeholder-car');
-    expect(car?.children.filter((child) => child.name === 'wheel')).toHaveLength(4);
+    const car = garage.scene.getObjectByName('kait-car');
+    expect(car?.rotation.y).toBeCloseTo(Math.PI / 2);
+    expect(garage.scene.environment).toBeInstanceOf(THREE.DataTexture);
+    garage.dispose();
   });
 
   it('draws a parking box 6 m long outside its painted lines, matching protocol graphic 4', () => {
@@ -54,8 +67,9 @@ describe('createGarageScene', () => {
 
   it('disposes every geometry and material', () => {
     const garage = createGarageScene({ reducedMotion: false });
-    const disposals: Array<ReturnType<typeof vi.spyOn>> = [];
+    const disposals: Array<ReturnType<typeof vi.spyOn>> = [vi.spyOn(garage.scene.environment!, 'dispose')];
     garage.scene.traverse((object) => {
+      if (object instanceof THREE.DirectionalLight) disposals.push(vi.spyOn(object.shadow, 'dispose'));
       if (object instanceof THREE.Mesh) {
         disposals.push(vi.spyOn(object.geometry, 'dispose'));
         disposals.push(vi.spyOn(object.material as THREE.Material, 'dispose'));
@@ -67,4 +81,27 @@ describe('createGarageScene', () => {
     expect(disposals.length).toBeGreaterThan(0);
     for (const spy of disposals) expect(spy).toHaveBeenCalled();
   });
+});
+
+it('fits the entire vehicle at narrow aspect ratios and preserves the orbit after resizing', () => {
+  const garage = createGarageScene({ reducedMotion: false });
+  garage.update(12);
+  const angle = Math.atan2(garage.camera.position.x, garage.camera.position.z);
+  const wideDistance = garage.camera.position.length();
+  garage.resize(280, 300);
+  expect(garage.camera.position.length()).toBeGreaterThan(wideDistance);
+  expect(Math.atan2(garage.camera.position.x, garage.camera.position.z)).toBeCloseTo(angle);
+  const car = garage.scene.getObjectByName('kait-car')!;
+  const bounds = new THREE.Box3().setFromObject(car);
+  for (const x of [bounds.min.x, bounds.max.x]) {
+    for (const y of [0, 1.61]) {
+      for (const z of [bounds.min.z, bounds.max.z]) {
+        garage.camera.updateMatrixWorld();
+        const point = new THREE.Vector3(x, y, z).project(garage.camera);
+        expect(Math.abs(point.x)).toBeLessThan(1);
+        expect(Math.abs(point.y)).toBeLessThan(1);
+      }
+    }
+  }
+  garage.dispose();
 });

@@ -11,10 +11,9 @@ export const esAR = {
   navLogbook: 'Mi bitácora',
   navExam: 'Examen',
   garageHeading: 'Mi garaje',
-  garageSceneLabel: 'Vista 3D del garaje con un auto de práctica',
+  garageSceneLabel: 'Vista 3D del Nissan Kait en el garaje',
   garageSceneLoading: 'Cargando el garaje…',
-  garageSceneUnavailable:
-    'Tu navegador no pudo iniciar los gráficos 3D (WebGL). Podés seguir usando la parte teórica sin problemas.',
+  garageSceneUnavailable: 'No pudimos cargar el garaje 3D. Podés seguir usando la parte teórica sin problemas.',
   homeIntro:
     'Estudiá el manual completo y el protocolo del examen práctico. Cada explicación cita la página del material oficial.',
   spacesHeading: 'Espacios',
