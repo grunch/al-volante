@@ -4,11 +4,10 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 /**
- * The largest precached file is the lazily loaded 3D chunk (about 1.66 MB minified); Workbox skips, with only a build
- * warning, any file above this limit, so it sits just above that chunk. tests/e2e/pwa.spec.ts fails if a built file is
- * left out of the precache.
+ * The largest precached file is the Kait GLB (1,848,348 bytes), followed by the lazy 3D chunk (~1.66 MB minified).
+ * Keep a bounded margin for both; tests/e2e/pwa.spec.ts fails if any required built file is left out of the precache.
  */
-const MAX_PRECACHED_FILE_BYTES = 1_800_000;
+const MAX_PRECACHED_FILE_BYTES = 2_000_000;
 
 // Relative base so the build works from any static host or sub-path (e.g. GitHub Pages).
 export default defineConfig({
@@ -43,9 +42,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // The app shell, every JS/CSS chunk (content catalogs and 3D included), the icons and the figure and sign
-        // crops. The plugin adds manifest.webmanifest itself.
-        globPatterns: ['**/*.{html,js,css,png,svg}'],
+        // The app shell, every JS/CSS chunk, the Kait model, the icons and the figure and sign crops.
+        // The plugin adds manifest.webmanifest itself.
+        globPatterns: ['**/*.{html,js,css,png,svg,glb}'],
         // Source maps are for debugging only and would double the download.
         globIgnores: ['**/*.map'],
         maximumFileSizeToCacheInBytes: MAX_PRECACHED_FILE_BYTES,

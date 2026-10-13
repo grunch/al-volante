@@ -54,6 +54,7 @@ async function controls(driver: BrowserDriver, read: Reading, speed: number, ste
   await driver.tick(0.05);
 }
 
+/** Leaves the starting bay using the required reverse/forward gestures and waits for a gap before merging. */
 export async function throughBox(driver: BrowserDriver) {
   for (const [gear, phase] of [
     ['R', 'forward'],

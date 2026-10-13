@@ -527,21 +527,22 @@ La app es una PWA: se puede instalar (Chrome y Edge en escritorio y Android; «A
 
 Regenerarlos: `node scripts/render-icons.ts` (con `--out <dir>` para previsualizar en otro lado). `-strip` quita las marcas de tiempo, así el mismo dibujo da siempre los mismos archivos. En la máquina de desarrollo no había `rsvg-convert` ni Inkscape, así que se usó el renderizador SVG interno de ImageMagick 6; con un ImageMagick que use librsvg los píxeles pueden variar levemente.
 
-**Qué se precachea.** El build de PWA01-T02 informa 536 archivos y 16 757 KiB (unos 17,2 MB):
+**Qué se precachea.** El build de F04-T05-FIX02, con el Kait incluido, contiene 537 archivos y 18 645 KiB (unos 19,1 MB):
 
 | Grupo | Archivos | Tamaño |
 |---|---|---|
 | JS y CSS de `assets/`: shell, páginas diferidas, Three.js y escenas, catálogos de contenido y texto extraído de las fuentes | 45 | 6,7 MB |
+| Modelo del Kait (`assets/kait-*.glb`) | 1 | 1,85 MB |
 | Figuras de los PDF (`figures/*.png`) | 128 | 9,5 MB |
 | Señales (`signs/*.png`) | 355 | 0,9 MB |
 | `index.html`, manifiesto, favicon e íconos | 8 | 0,1 MB |
 
-- Patrón `**/*.{html,js,css,png,svg}`; el manifiesto lo agrega el plugin. Quedan afuera los `*.map` (el build los emite para depurar y duplicarían la descarga) y el propio `sw.js` con su runtime `workbox-*.js`.
-- `maximumFileSizeToCacheInBytes` es 1 800 000: el archivo más grande es el chunk de la escena del habitáculo (`cockpitScene`, 1 698 520 bytes). Workbox omite sin error lo que supera el límite; por eso `tests/e2e/pwa.spec.ts` compara la caché con todos los archivos de `dist/` y falla si falta alguno. Si un chunk crece, hay que subir el límite.
+- Patrón `**/*.{html,js,css,png,svg,glb}`; el manifiesto lo agrega el plugin. Quedan afuera los `*.map` (el build los emite para depurar y duplicarían la descarga) y el propio `sw.js` con su runtime `workbox-*.js`.
+- `maximumFileSizeToCacheInBytes` es 2 000 000: el archivo más grande es el Kait (`glb`, 1 848 348 bytes). Workbox omite sin error lo que supera el límite; por eso `tests/e2e/pwa.spec.ts` compara la caché con todos los archivos de `dist/` y falla si falta alguno. Si un recurso crece, revisar su tamaño y este presupuesto.
 - Los archivos con hash de `assets/` se guardan sin revisión; el resto (figuras, señales, íconos, `index.html`) lleva su MD5 como revisión, así un recorte regenerado se vuelve a descargar.
 - `navigateFallback: 'index.html'`: las rutas con hash siempre cargan `index.html`, así que cualquier enlace profundo (`#/biblioteca/manual/72`) abre sin conexión. `cleanupOutdatedCaches` borra cachés de versiones viejas de Workbox, y cada versión nueva quita de la suya lo que ya no usa.
 - `clientsClaim`: en la primera visita, apenas termina de guardar todo, el service worker controla la pestaña, y los chunks diferidos que esa pestaña pida después también salen de la caché. No hay `skipWaiting` automático.
-- La primera visita descarga esos 17 MB en segundo plano, después del evento `load`, sin bloquear la página. No hay una opción para descargar menos.
+- La primera visita descarga esos 19,1 MB en segundo plano, después del evento `load`, sin bloquear la página. No hay una opción para descargar menos.
 
 **Flujo de actualización** (`registerType: 'prompt'`):
 
@@ -575,7 +576,7 @@ Regenerarlos: `node scripts/render-icons.ts` (con `--out <dir>` para previsualiz
   - que, con `context.setOffline(true)`, una recarga muestra el inicio con el garaje 3D, una actividad con el recorte de su señal, el texto de una página de la biblioteca (recargando su enlace profundo) y el simulacro teórico;
   - el aviso de actualización: aparece sin recargar nada, y «Actualizar» recarga la página y conserva el progreso.
 - La actualización se simula registrando el mismo `sw.js` con otra URL (`./sw.js?e2e-update=1`): el navegador lo instala como versión nueva aunque los bytes sean iguales, y Playwright no puede reescribir la petición del script del service worker (se probó `context.route`, también con `PW_EXPERIMENTAL_SERVICE_WORKER_NETWORK_EVENTS`). Después de aceptar, la página recargada vuelve a registrar `./sw.js`, lo ve como otra versión y muestra el aviso de nuevo; es un efecto de la simulación.
-- Las demás pruebas E2E corren como en un navegador sin service workers: importan `test` de `tests/e2e/fixtures.ts`, que quita `navigator.serviceWorker` con un script de inicio (también en el contexto nuevo de `progress.spec.ts`, con `withoutServiceWorkers`). Así no descargan 17 MB por contexto y la app no muestra avisos de instalación. `serviceWorkers: 'block'` (en `playwright.config.ts`) no alcanza: para la app es un registro fallido y el aviso «No se pudo preparar…» tapaba lo que esas pruebas tocan (cinco fallaron así). Queda igual como respaldo para una prueba nueva que no use el fixture.
+- Las demás pruebas E2E corren como en un navegador sin service workers: importan `test` de `tests/e2e/fixtures.ts`, que quita `navigator.serviceWorker` con un script de inicio (también en el contexto nuevo de `progress.spec.ts`, con `withoutServiceWorkers`). Así no descargan el precache completo por contexto y la app no muestra avisos de instalación. `serviceWorkers: 'block'` (en `playwright.config.ts`) no alcanza: para la app es un registro fallido y el aviso «No se pudo preparar…» tapaba lo que esas pruebas tocan (cinco fallaron así). Queda igual como respaldo para una prueba nueva que no use el fixture.
 - `pwa.spec.ts` prueba ese camino a propósito: con `serviceWorkers: 'block'`, el aviso aparece, «Reintentar» vuelve a registrar, el indicador sin conexión no promete nada y nunca aparece «Listo…».
 - Unitarias: `src/pwa/*.test.ts(x)` (estado de la actualización, escrituras pendientes, «Más tarde» por versión, registro fallido y reintento, avisos y teclado, enlaces externos, conexión, registro), `src/progress/ProgressProvider.test.tsx` (`whenIdle`) y `src/app/pages/updateHold.test.tsx` (los dos exámenes postergan el aviso; la versión nueva se activa recién cuando el simulacro entregado quedó guardado), con `src/test/fakeServiceWorker.ts` en lugar del plugin.
 - Manual: `npm run build && npx vite preview`; abrir la app en Chromium y esperar «Listo…»; en DevTools, Network → Offline (o Application → Service workers → Offline) y recargar. Application → Manifest muestra el manifiesto, los íconos y si se puede instalar. Para un subdirectorio: `npx vite preview --base /al-volante/`.

@@ -1,16 +1,20 @@
-import { expect, test } from './fixtures.ts';
+import { expect as baseExpect, test } from './fixtures.ts';
 import type { Locator } from '@playwright/test';
 
+// CI software WebGL advances less than two simulation seconds in 30 wall-clock seconds. Pedal ramps and stalls
+// must still finish at their normal simulation rate; give these full-city tests time without skipping assertions.
+const expect = baseExpect.configure({ timeout: 60_000 });
+test.describe.configure({ timeout: 360_000 });
+
+/** Waits for simulation time, which can advance much more slowly than wall time on software WebGL. */
 async function advance(canvas: Locator, seconds: number) {
   const start = Number(await canvas.getAttribute('data-time-s'));
   await expect
-    .poll(async () => Number(await canvas.getAttribute('data-time-s')), { timeout: 30_000 })
+    .poll(async () => Number(await canvas.getAttribute('data-time-s')), { timeout: 60_000 })
     .toBeGreaterThanOrEqual(start + seconds);
 }
 
 test.describe('practical driving controls', () => {
-  test.describe.configure({ timeout: 180_000 });
-
   test('manual: combines a held keyboard clutch with a gear button and restarts after a stall', async ({ page }) => {
     await page.goto('./#/examen');
     const canvas = page.getByTestId('driving-canvas');
@@ -26,7 +30,7 @@ test.describe('practical driving controls', () => {
     await advance(canvas, 2);
     await expect(canvas).toHaveAttribute('data-engine', 'running');
     await page.keyboard.up('Shift');
-    await expect(canvas).toHaveAttribute('data-engine', 'off', { timeout: 20_000 });
+    await expect(canvas).toHaveAttribute('data-engine', 'off', { timeout: 60_000 });
     await expect(page.getByTestId('driving-feedback')).toContainText('Se caló el motor');
     // Focus is still on the gear button: shortcuts must keep working here.
     await page.keyboard.press('KeyK');
@@ -41,12 +45,12 @@ test.describe('practical driving controls', () => {
     await advance(canvas, 0.3);
     await page.keyboard.up('Shift');
     await expect
-      .poll(async () => Number(await canvas.getAttribute('data-odometer-m')), { timeout: 20_000 })
+      .poll(async () => Number(await canvas.getAttribute('data-odometer-m')), { timeout: 60_000 })
       .toBeGreaterThan(1);
     await page.keyboard.up('ArrowUp');
     await page.keyboard.down('Shift');
     await page.keyboard.down('ArrowDown');
-    await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh')), { timeout: 20_000 }).toBe(0);
+    await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh')), { timeout: 60_000 }).toBe(0);
     await page.keyboard.up('ArrowDown');
     await page.keyboard.up('Shift');
   });
@@ -72,10 +76,10 @@ test.describe('practical driving controls', () => {
     await expect(canvas).toHaveAttribute('data-handbrake', 'false');
     await page.keyboard.up('ArrowDown');
     await expect
-      .poll(async () => Number(await canvas.getAttribute('data-speed-kmh')), { timeout: 20_000 })
+      .poll(async () => Number(await canvas.getAttribute('data-speed-kmh')), { timeout: 60_000 })
       .toBeLessThan(-0.1);
     await page.keyboard.down('ArrowDown');
-    await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh')), { timeout: 20_000 }).toBe(0);
+    await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh')), { timeout: 60_000 }).toBe(0);
     await page.keyboard.up('ArrowDown');
     await page.getByRole('button', { name: 'Empezar de nuevo', exact: true }).click();
     await expect(canvas).toHaveAttribute('data-engine', 'off');
@@ -91,7 +95,6 @@ test('touchscreen: engages first gear with a two-finger clutch and gear gesture'
   isMobile,
 }) => {
   test.skip(!isMobile, 'Requires a touch-enabled browser context');
-  test.setTimeout(120_000);
   await page.goto('./#/examen');
   const canvas = page.getByTestId('driving-canvas');
   await expect(canvas).toHaveAttribute('data-state', 'ready', { timeout: 30_000 });
@@ -117,7 +120,7 @@ test('touchscreen: engages first gear with a two-finger clutch and gear gesture'
     await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     touching = false;
     await expect(canvas).toHaveAttribute('data-gear', '1');
-    await expect(canvas).toHaveAttribute('data-clutch', '0.0000', { timeout: 20_000 });
+    await expect(canvas).toHaveAttribute('data-clutch', '0.0000', { timeout: 60_000 });
     await expect(canvas).toHaveAttribute('data-engine', 'off');
     await expect(page.getByTestId('driving-feedback')).toContainText('Se caló el motor');
     // Starting a page scroll on a command must remain possible and must not engage another gear.
