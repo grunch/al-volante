@@ -9,6 +9,11 @@ import { createMemoryRouter } from 'react-router';
 import { routes } from './routes.tsx';
 import { HOME_SPACES, esAR, t } from '../i18n/es-AR.ts';
 
+vi.mock('../scene/kaitModel.ts', async () => {
+  const { Group } = await import('three');
+  return { loadKaitModel: vi.fn(async () => new Group()) };
+});
+
 describe('layout and home', () => {
   it('renders the garage home with navigation, skip link and the six spaces', async () => {
     // Arrange / Act

@@ -27,6 +27,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Blender device fallback
+        run: python3 -m unittest discover -s scripts/blender -p '*_test.py'
       - run: npm run lint
       - run: npm run format:check
       - run: npm run typecheck

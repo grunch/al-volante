@@ -1,15 +1,14 @@
 import * as THREE from 'three';
-import { createCarModel } from './carModel.ts';
 import { SCENE_COLORS } from './colors.ts';
 import { disposeScene } from './dispose.ts';
-import { EXAM_CAR } from '../sim/vehicle.ts';
+import { createGarageEnvironment } from './garageEnvironment.ts';
 
 export { SCENE_COLORS } from './colors.ts';
 
 /** Seconds per full camera orbit; slow enough to read as ambient motion. */
-const ORBIT_PERIOD_S = 40;
-const ORBIT_RADIUS_M = 6.5;
-const CAMERA_HEIGHT_M = 2.2;
+const ORBIT_PERIOD_S = 70;
+const ORBIT_RADIUS_M = 5.8;
+const CAMERA_HEIGHT_M = 2.15;
 
 export interface GarageScene {
   readonly scene: THREE.Scene;
@@ -22,35 +21,46 @@ export interface GarageScene {
 
 export interface GarageSceneOptions {
   reducedMotion: boolean;
+  car: THREE.Group;
 }
 
-/**
- * Builds a stylised garage with a placeholder practice car (dimensions in meters, roughly a compact sedan).
- * The detailed cabin arrives in F03-T03; this scene only proves the rendering pipeline.
- */
-export function createGarageScene({ reducedMotion }: GarageSceneOptions): GarageScene {
+/** Presents the Blender Kait in a softly lit garage, independently of the simulated vehicle. */
+export function createGarageScene({ reducedMotion, car }: GarageSceneOptions): GarageScene {
   const scene = new THREE.Scene();
   scene.name = 'garage';
-  scene.background = new THREE.Color(SCENE_COLORS.night);
+  scene.background = new THREE.Color('#182734');
+  scene.fog = new THREE.Fog('#182734', 12, 28);
+  const environment = createGarageEnvironment();
+  scene.environment = environment;
+  scene.environmentIntensity = 1.0;
 
-  const camera = new THREE.PerspectiveCamera(45, 16 / 9, 0.1, 100);
-  scene.add(createLights(), createFloor(), createParkingBox(), createGarageCar());
-  placeCamera(camera, 0);
+  const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.1, 100);
+  car.rotation.y = Math.PI / 2;
+  const lights = createLights();
+  scene.add(lights, createFloor(), createParkingBox(), car);
+  let orbitAngle = 0;
+  placeCamera(camera, orbitAngle);
 
   return {
     scene,
     camera,
     update(elapsedSeconds) {
       if (reducedMotion) return;
-      placeCamera(camera, (elapsedSeconds / ORBIT_PERIOD_S) * Math.PI * 2);
+      orbitAngle = (elapsedSeconds / ORBIT_PERIOD_S) * Math.PI * 2;
+      placeCamera(camera, orbitAngle);
     },
     resize(widthPx, heightPx) {
       if (widthPx <= 0 || heightPx <= 0) return;
       camera.aspect = widthPx / heightPx;
       camera.updateProjectionMatrix();
+      placeCamera(camera, orbitAngle);
     },
     dispose() {
       disposeScene(scene);
+      environment.dispose();
+      for (const light of lights.children) {
+        if (light instanceof THREE.DirectionalLight) light.shadow.dispose();
+      }
     },
   };
 }
@@ -58,27 +68,42 @@ export function createGarageScene({ reducedMotion }: GarageSceneOptions): Garage
 function placeCamera(camera: THREE.PerspectiveCamera, angleRad: number): void {
   // Start at a three-quarter front view and orbit around the car.
   const angle = angleRad + Math.PI / 5;
-  camera.position.set(Math.sin(angle) * ORBIT_RADIUS_M, CAMERA_HEIGHT_M, Math.cos(angle) * ORBIT_RADIUS_M);
-  camera.lookAt(0, 0.6, 0);
+  // Keep the full car visible even when the responsive container becomes nearly square.
+  const radius = ORBIT_RADIUS_M * Math.max(1, 1.4 / camera.aspect);
+  camera.position.set(Math.sin(angle) * radius, CAMERA_HEIGHT_M, Math.cos(angle) * radius);
+  camera.lookAt(0, 0.75, 0);
 }
 
 function createLights(): THREE.Group {
   const lights = new THREE.Group();
   lights.name = 'lights';
-  lights.add(new THREE.HemisphereLight(SCENE_COLORS.ivory, SCENE_COLORS.night, 1.2));
-  const key = new THREE.DirectionalLight(0xffffff, 2.2);
-  key.position.set(4, 6, 3);
-  lights.add(key);
+  lights.add(new THREE.HemisphereLight(0xd9e9ff, 0x27313c, 1.0));
+  const key = new THREE.DirectionalLight(0xfff3e0, 2.1);
+  key.position.set(3, 6, 5);
+  key.castShadow = true;
+  key.shadow.mapSize.set(1024, 1024);
+  key.shadow.camera.left = key.shadow.camera.bottom = -4;
+  key.shadow.camera.right = key.shadow.camera.top = 4;
+  key.shadow.camera.near = 0.5;
+  key.shadow.camera.far = 15;
+  key.shadow.normalBias = 0.025;
+  key.shadow.bias = -0.0001;
+  key.shadow.radius = 3;
+  const rim = new THREE.DirectionalLight(0x8ec7e8, 2);
+  rim.position.set(-4, 3, -4);
+  lights.add(key, rim);
   return lights;
 }
 
 function createFloor(): THREE.Mesh {
   const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(20, 20),
-    new THREE.MeshStandardMaterial({ color: SCENE_COLORS.concrete, roughness: 0.95 }),
+    new THREE.PlaneGeometry(100, 100),
+    new THREE.MeshStandardMaterial({ color: '#394957', roughness: 0.8 }),
   );
   floor.name = 'floor';
   floor.rotation.x = -Math.PI / 2;
+  floor.position.y = -0.006;
+  floor.receiveShadow = true;
   return floor;
 }
 
@@ -114,11 +139,4 @@ function createParkingBox(): THREE.Group {
     box.add(line);
   }
   return box;
-}
-
-/** The simulated car, turned to show its side to the orbiting camera. */
-function createGarageCar(): THREE.Group {
-  const car = createCarModel(EXAM_CAR);
-  car.rotation.y = Math.PI / 2;
-  return car;
 }

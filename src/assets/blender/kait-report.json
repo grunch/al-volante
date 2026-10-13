@@ -1,0 +1,15 @@
+{
+  "asset": "kait.glb",
+  "source": "KAIT01 photographic Blender study",
+  "builder_sha256": "1fb43bc318ca8575b9bcb417678c4e311f0ddf27a7d459b2785546c5e25e8d85",
+  "asset_sha256": "189dae63801c18aae5ffffaa39d7f9f2c2bfb5f0ba477053d7e9d0098b14d13e",
+  "triangles": 87934,
+  "material_slots": 24,
+  "removed_micro_details": 214,
+  "bytes": 1848348,
+  "limits": {
+    "triangles": 100000,
+    "bytes": 4000000
+  },
+  "status": "Photographic approximation for the home-page preview; not a simulation vehicle"
+}
