@@ -259,6 +259,53 @@ describe('buildCard (protocolo PDF 14–17)', () => {
     );
   });
 
+  it('names the fault the examiner raised in the verdict, not a later fault of the same rule in another row', () => {
+    // Arrange: a pedestrian not yielded to at a crossing (t = 1), another one while turning (t = 2), then the
+    // examiner takes over for the first episode, still escalatable: that fault is raised in place (t = 3).
+    const yieldRule = 'rule.high.l-yield-to-pedestrians-cyclists';
+    const session = finished(
+      [
+        { ruleId: yieldRule, stage: 'II', episode: 'crosswalk-a', group: FICHA_GROUPS.crossings },
+        { ruleId: yieldRule, stage: 'II', episode: 'crosswalk-b', group: FICHA_GROUPS.turns },
+        { ruleId: yieldRule, stage: 'II', episode: 'crosswalk-a', escalate: true },
+      ],
+      { completed: ['I'] },
+    );
+    expect(session.ledger.interruption).toEqual({ ruleId: yieldRule, atS: 3, cause: 'examiner' });
+
+    // Act
+    const card = buildCard(session);
+
+    // Assert: the raised fault of the crossing, which keeps the time it was first scored.
+    if (card.verdict.kind !== 'disapproved' || card.verdict.cause !== 'interruption' || !card.verdict.rule)
+      throw new Error('no interruption');
+    expect(card.verdict.fault).toMatchObject({ episode: 'crosswalk-a', escalated: true, atS: 1 });
+    expect(fichaRowOf(card.verdict.rule, card.verdict.fault ?? { stage: 'II' }).text).toBe(
+      'No cede el paso a peatones y a ciclistas que se encuentren cruzando',
+    );
+  });
+
+  it('names the eliminatory fault scored at the interruption, not a later fault of the same rule', () => {
+    // Arrange: a hand-made ledger where the same rule was scored again after the fault that interrupted.
+    const base = finished([{ ruleId: 'rule.eliminatory.k-red-light', stage: 'II', group: FICHA_GROUPS.crossings }], {
+      completed: ['I'],
+    });
+    const [first] = base.ledger.faults;
+    if (!first) throw new Error('no fault');
+    const session: Session = {
+      ...base,
+      ledger: { ...base.ledger, faults: [first, { ...first, atS: 2, group: undefined }] },
+    };
+
+    // Act
+    const card = buildCard(session);
+
+    // Assert
+    if (card.verdict.kind !== 'disapproved' || card.verdict.cause !== 'interruption')
+      throw new Error('no interruption');
+    expect(card.verdict.fault).toBe(first);
+  });
+
   it('keeps the unlock checks in stage II when a practice of stage II leaves stage I off the card', () => {
     const practice = createPracticeSession(REAL_RULES, 'manual', 1, null, REAL_BANDS, 'II');
     const ledger = recordFault(practice.ledger, {
