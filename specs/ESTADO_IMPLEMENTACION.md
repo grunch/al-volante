@@ -602,7 +602,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 |---|---|---|---|---|
 | REV01-T01 — contenido de actividades y exámenes | `rev01-t01-content` | `main` (`aa9dbf9`) | [#39](https://github.com/grunch/al-volante/pull/39) | abierto; findings de Codex y CodeRabbit corregidos |
 | REV01-T02 — revisión de código, bugs, cobertura y CI | `rev01-t02-code-coverage` | `rev01-t01-content` (#39) | [#40](https://github.com/grunch/al-volante/pull/40) | abierto; revisiones solicitadas |
-| REV01-T03 — documentación y registro | `rev01-t03-documentation` | `rev01-t02-code-coverage` (#40) | este PR | abierto; revisiones solicitadas |
+| REV01-T03 — documentación y registro | `rev01-t03-documentation` | `rev01-t02-code-coverage` (#40) | [#41](https://github.com/grunch/al-volante/pull/41) | abierto; revisiones solicitadas |
 
 ### REV01-T01 — Contenido de actividades y exámenes
 
