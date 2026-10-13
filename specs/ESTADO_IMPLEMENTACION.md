@@ -600,10 +600,10 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
-| REV01-T01 — contenido de actividades y exámenes | `rev01-t01-content` | `main` (`aa9dbf9`) | [#39](https://github.com/grunch/al-volante/pull/39) | abierto; findings de Codex y CodeRabbit corregidos |
-| REV01-T02a — revisión de código y bugs con regresión | `rev01-t02a-fixes` | `rev01-t01-content` (#39) | [#42](https://github.com/grunch/al-volante/pull/42) | abierto; findings de Codex en #40 corregidos aquí; revisiones solicitadas |
-| REV01-T02 — pruebas nuevas y umbrales de cobertura | `rev01-t02-code-coverage` | `rev01-t02a-fixes` (#42) | [#40](https://github.com/grunch/al-volante/pull/40) | abierto; CodeRabbit pedido otra vez tras la división |
-| REV01-T03 — documentación y registro | `rev01-t03-documentation` | `rev01-t02-code-coverage` (#40) | [#41](https://github.com/grunch/al-volante/pull/41) | abierto; revisiones solicitadas |
+| REV01-T01 — contenido de actividades y exámenes | `rev01-t01-content` | `main` (`aa9dbf9`) | [#39](https://github.com/grunch/al-volante/pull/39) | fusionado por el usuario en `main` (`782bb37`, 2026-10-13 05:49 UTC) |
+| REV01-T02a — revisión de código y bugs con regresión | `rev01-t02a-fixes` | `main` (tras fusionarse #39) | [#42](https://github.com/grunch/al-volante/pull/42) | abierto; contiene #40 y #41; findings de Codex y CodeRabbit resueltos |
+| REV01-T02 — pruebas nuevas y umbrales de cobertura | `rev01-t02-code-coverage` | `rev01-t02a-fixes` (#42) | [#40](https://github.com/grunch/al-volante/pull/40) | fusionado por el usuario en `rev01-t02a-fixes` (`5ed0dc5`, 05:52 UTC) |
+| REV01-T03 — documentación y registro | `rev01-t03-documentation` | `rev01-t02-code-coverage` (#40) | [#41](https://github.com/grunch/al-volante/pull/41) | fusionado por el usuario en `rev01-t02a-fixes` (`d4843d1`, 05:54 UTC) |
 
 ### REV01-T01 — Contenido de actividades y exámenes
 
@@ -621,6 +621,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 ### REV01-T02 — Revisión profunda del código, cobertura y CI
 
 - División: CodeRabbit saltó #40 por tener 118 archivos (límite 100). Sin reescribir lo publicado, el código fuente y las pruebas existentes ajustadas pasaron a #42 (93 archivos) y #40 quedó con los 24 archivos de prueba nuevos y los umbrales (26 archivos), con base en #42.
+- Revisiones de #42: Codex sobre `023ea13` y `2a1bd3a` pidió exigir en los simulacros importados un inicio legible y un papel que coincida con la nota (corregido en `2a1bd3a` y `30dbb45`). CodeRabbit sobre `30dbb45`, 11 findings: 8 corregidos en `073b98e` (vehículo que frenaba sobre una senda ya ocupada al ponerse en rojo; falta del veredicto de interrupción; esperas de escena en las pruebas; espías de consola restaurados en `afterEach`; docblock; tres precisiones de ARQUITECTURA y REGLAS, entre ellas los 20 m de `CORNER_CROSSWALK_M` como aproximación del juego) y 3 respondidos con evidencia (el recorte del embrague solo actúa dentro de la banda de bloqueo; ningún PARE del recorrido tiene una ciclovía a menos de 12 m; el barrido de `lap.test` excluye a propósito el tránsito de frente).
 - Revisiones: Codex revisó #40 sobre `ff0410d` con dos findings (habitáculo que no volvía al preparado al cambiar la semilla; aprobado de un simulacro importado sin comparar con el umbral), corregidos en `023ea13` (#42) con pruebas de regresión e integrados en #40 (`d377773`).
 - Alcance: revisión por áreas (interfaz; simulación, controles y audio; ciudad, escena y tránsito; contenido, progreso y actividades; examen práctico y teórico), con subagentes de revisión y una revisión independiente de todo el diff no-test. Cada bug confirmado tiene una prueba de regresión que falla sin el arreglo.
 - Bugs corregidos (detalle en [#40](https://github.com/grunch/al-volante/pull/40)): un simulacro teórico hacía rechazar cualquier respaldo; fecha UTC en el nombre del respaldo; pestaña vieja que bloqueaba la migración de la base; foco perdido en ordenamientos, decisiones, teórico y actividades; leves e y f limitadas al desbloqueo de la etapa I (PDF 10, 15 y 23); fila de la ficha según el contexto (D1); práctica de la etapa III con cinturón y luces; orden del reconocimiento de la caja (PDF 30); actores que pasaban en rojo las sendas semaforizadas de Cabildo; banda lateral del semáforo en `lookAhead`; prioridad en el inicio de la vuelta; ciclo propio de cada semáforo; embrague patinando; contactos fantasma; habitáculo viejo tras reiniciar; nombres de teclas; semilla que no se podía borrar; teórico reiniciado con «Atrás»; plurales; textos que anunciaban funciones existentes; estado de carga de la escena 3D; código muerto del follaje.
@@ -649,7 +650,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-REV01 en curso (pedido puntual, no inicia la fase 6): REV01-T01 ([#39](https://github.com/grunch/al-volante/pull/39)) abierto con sus findings corregidos; REV01-T02a ([#42](https://github.com/grunch/al-volante/pull/42), arreglos de código y el E2E en tres shards, que debería devolver a verde el E2E de `main` cuando se fusione), REV01-T02 ([#40](https://github.com/grunch/al-volante/pull/40), pruebas nuevas y umbrales) y REV01-T03 ([#41](https://github.com/grunch/al-volante/pull/41), documentación) apilados encima, en ese orden. Siguiente: atender las revisiones de los cuatro PRs y esperar la fusión del usuario, de la base hacia arriba. Fase 5 y correctivos #31 y #34–#38 fusionados. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
+REV01: #39 fusionado en `main`; #40 y #41 fusionados en la rama de #42, que queda como único PR abierto de la revisión y contiene todo el código, las pruebas, la CI en shards y la documentación. Siguiente: CI de #42 y fusión del usuario; después, el E2E de `main` debería volver a verde con los shards. Decisiones pendientes del usuario en la sección de REV01-T02. Fase 5 y correctivos #31 y #34–#38 fusionados. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 
 ### Cierre de la fase 4 contra el plan
 
