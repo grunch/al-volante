@@ -140,8 +140,8 @@ La propia guía tiene diferencias entre su índice y sus títulos (siniestros PD
 
 ## Limitaciones
 
-- La transcripción la hicieron subagentes; el autor verificó por muestreo cuatro páginas críticas y la integridad estructural completa. Por eso el estado global al cerrar F01-T02 era `transcribed` y no `reviewed`; en la fase 5 cada unidad y señal se revisó contra la imagen de su página (CONTENIDO.md).
-- Al cerrar F01-T02 había 5 observaciones `illegible` (F05-T04 sumó una del protocolo, la cota de PDF 21): rótulos menores del mapa de PDF 28, un pictograma de PDF 29, una etiqueta duplicada del mapa de hospitales (PDF 150), los teléfonos de las placas de acarreo (PDF 185) y la señal «Barreras ferroviarias» (PDF 186), que está incompleta en el propio PDF.
+- La transcripción la hicieron subagentes; el autor verificó por muestreo cuatro páginas críticas y la integridad estructural completa. Por eso el estado global al cerrar F01-T02 era `transcribed` y no `reviewed`; en la fase 5 cada unidad y 354 de las 355 señales se revisaron contra la imagen de su página; la restante (manual PDF 91, ícono de principiante) se recortó y practica desde F05-T03, y en REV01 se volvieron a comparar los 355 recortes con su página (CONTENIDO.md).
+- Al cerrar F01-T02 había 5 observaciones `illegible` (F05-T04 sumó una del protocolo, la cota del gráfico 4 en `fuentes/pdf/protocolo.pdf` PDF 21), todas de `fuentes/pdf/manual.pdf`: rótulos menores del mapa de PDF 28, un pictograma de PDF 29, una etiqueta duplicada del mapa de hospitales (PDF 150), los teléfonos de las placas de acarreo (PDF 185) y la señal «Barreras ferroviarias» (PDF 186), que está incompleta en el propio PDF.
 - La vigencia normativa no se verificó: es tarea de F05 y F07-T04, según la propuesta (§9).
 
 ## Cómo validar

@@ -601,7 +601,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 | Tarea | Rama | Base | PR | Estado |
 |---|---|---|---|---|
 | REV01-T01 — contenido de actividades y exámenes | `rev01-t01-content` | `main` (`aa9dbf9`) | [#39](https://github.com/grunch/al-volante/pull/39) | abierto; findings de Codex y CodeRabbit corregidos |
-| REV01-T02 — revisión de código, bugs, cobertura y CI | `rev01-t02-code-coverage` | `rev01-t01-content` (#39) | [#40](https://github.com/grunch/al-volante/pull/40) | abierto; revisiones solicitadas |
+| REV01-T02a — revisión de código y bugs con regresión | `rev01-t02a-fixes` | `rev01-t01-content` (#39) | [#42](https://github.com/grunch/al-volante/pull/42) | abierto; findings de Codex en #40 corregidos aquí; revisiones solicitadas |
+| REV01-T02 — pruebas nuevas y umbrales de cobertura | `rev01-t02-code-coverage` | `rev01-t02a-fixes` (#42) | [#40](https://github.com/grunch/al-volante/pull/40) | abierto; CodeRabbit pedido otra vez tras la división |
 | REV01-T03 — documentación y registro | `rev01-t03-documentation` | `rev01-t02-code-coverage` (#40) | [#41](https://github.com/grunch/al-volante/pull/41) | abierto; revisiones solicitadas |
 
 ### REV01-T01 — Contenido de actividades y exámenes
@@ -619,6 +620,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 ### REV01-T02 — Revisión profunda del código, cobertura y CI
 
+- División: CodeRabbit saltó #40 por tener 118 archivos (límite 100). Sin reescribir lo publicado, el código fuente y las pruebas existentes ajustadas pasaron a #42 (93 archivos) y #40 quedó con los 24 archivos de prueba nuevos y los umbrales (26 archivos), con base en #42.
+- Revisiones: Codex revisó #40 sobre `ff0410d` con dos findings (habitáculo que no volvía al preparado al cambiar la semilla; aprobado de un simulacro importado sin comparar con el umbral), corregidos en `023ea13` (#42) con pruebas de regresión e integrados en #40 (`d377773`).
 - Alcance: revisión por áreas (interfaz; simulación, controles y audio; ciudad, escena y tránsito; contenido, progreso y actividades; examen práctico y teórico), con subagentes de revisión y una revisión independiente de todo el diff no-test. Cada bug confirmado tiene una prueba de regresión que falla sin el arreglo.
 - Bugs corregidos (detalle en [#40](https://github.com/grunch/al-volante/pull/40)): un simulacro teórico hacía rechazar cualquier respaldo; fecha UTC en el nombre del respaldo; pestaña vieja que bloqueaba la migración de la base; foco perdido en ordenamientos, decisiones, teórico y actividades; leves e y f limitadas al desbloqueo de la etapa I (PDF 10, 15 y 23); fila de la ficha según el contexto (D1); práctica de la etapa III con cinturón y luces; orden del reconocimiento de la caja (PDF 30); actores que pasaban en rojo las sendas semaforizadas de Cabildo; banda lateral del semáforo en `lookAhead`; prioridad en el inicio de la vuelta; ciclo propio de cada semáforo; embrague patinando; contactos fantasma; habitáculo viejo tras reiniciar; nombres de teclas; semilla que no se podía borrar; teórico reiniciado con «Atrás»; plurales; textos que anunciaban funciones existentes; estado de carga de la escena 3D; código muerto del follaje.
 - Cobertura: de 95,69 / 90,16 / 95,17 / 96,56 % (sentencias, ramas, funciones, líneas) a 99,36 / 97,20 / 99,75 / 99,82 %, con 1.733 pruebas en 103 archivos. Umbrales de 80 % a 99 % (96 % en ramas).
@@ -638,7 +641,7 @@ La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `m
 
 Fase 5: la pila `main ← F04-T04-FIX01 (#27) ← F05-T01 ← F05-T02 ← F05-T03 ← F05-T04` quedó toda en `main` (#27, #28, #29, #30 y #32, fusionados en ese orden el 2026-10-12). El correctivo visual #31 se fusionó después (`9bc0257`) y F05-T05 partió de ese `main`; #33 ya está fusionado en `9dd6d9e`.
 
-Correctivos posteriores, cada uno desde `main` y sin pila: #34 (`f3d2f60`), #36 (`c71a289`), #37 (`a39dd41`), #35 (`132409a`) y #38 (`aa9dbf9`), fusionados en ese orden el 2026-10-12. No queda ningún PR abierto.
+Correctivos posteriores, cada uno desde `main` y sin pila: #34 (`f3d2f60`), #36 (`c71a289`), #37 (`a39dd41`), #35 (`132409a`) y #38 (`aa9dbf9`), fusionados en ese orden el 2026-10-12. De esos correctivos no queda ningún PR abierto; los de REV01 están en su sección.
 
 ## Bloqueos
 
@@ -646,7 +649,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-REV01 en curso (pedido puntual, no inicia la fase 6): REV01-T01 ([#39](https://github.com/grunch/al-volante/pull/39)) abierto con sus findings corregidos; REV01-T02 (código, cobertura y E2E en tres shards, que devuelve a verde el E2E de `main`) y REV01-T03 (documentación) apilados encima. Siguiente: atender las revisiones de los tres PRs y esperar la fusión del usuario, de la base hacia arriba. Fase 5 y correctivos #31 y #34–#38 fusionados. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
+REV01 en curso (pedido puntual, no inicia la fase 6): REV01-T01 ([#39](https://github.com/grunch/al-volante/pull/39)) abierto con sus findings corregidos; REV01-T02a ([#42](https://github.com/grunch/al-volante/pull/42), arreglos de código y el E2E en tres shards, que debería devolver a verde el E2E de `main` cuando se fusione), REV01-T02 ([#40](https://github.com/grunch/al-volante/pull/40), pruebas nuevas y umbrales) y REV01-T03 ([#41](https://github.com/grunch/al-volante/pull/41), documentación) apilados encima, en ese orden. Siguiente: atender las revisiones de los cuatro PRs y esperar la fusión del usuario, de la base hacia arriba. Fase 5 y correctivos #31 y #34–#38 fusionados. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 
 ### Cierre de la fase 4 contra el plan
 
