@@ -50,10 +50,6 @@ export const TheoryGradeSchema = z.object({
   passed: z.boolean(),
 });
 
-/**
- * What a handed-in mock theory exam looks like (createTheoryAttempt): finished, one grade and a result that follows
- * it (passing does not need a full score), no faults or points. It is an activity attempt with no single answer.
- */
 /** The paper a mock exam records when it starts (createTheoryAttempt). */
 const TheoryStartSchema = z.object({
   seed: z.int(),
@@ -62,6 +58,10 @@ const TheoryStartSchema = z.object({
   questions: z.array(z.string()),
 });
 
+/**
+ * What a handed-in mock theory exam looks like (createTheoryAttempt): finished, one grade and a result that follows
+ * it (passing does not need a full score), no faults or points. It is an activity attempt with no single answer.
+ */
 function theoryErrors(attempt: Attempt, theoryExam: TheoryPassRule | undefined): string[] {
   const errors: string[] = [];
   const { correct, score, points } = attempt.result;

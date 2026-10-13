@@ -108,6 +108,16 @@ function stageCard(session: Session, stage: Stage): StageCard {
 
 const isEliminatory = (item: CardFault) => item.rule.severity === 'eliminatory' || item.fault.escalated;
 
+/**
+ * The fault that interrupted, for the ficha row of its context (D1): the one the examiner escalated, which a raise
+ * leaves at the time it was first scored (scoring.ts), otherwise the one of its rule scored at the interruption.
+ * A fault of the same rule in another episode, scored before or after it, is not it.
+ */
+function interruptingFault(faults: readonly Fault[], interruption: Interruption): Fault | null {
+  const ofRule = faults.filter((item) => item.ruleId === interruption.ruleId);
+  return ofRule.find((item) => item.escalated) ?? ofRule.find((item) => item.atS === interruption.atS) ?? null;
+}
+
 /** The verdict of PDF 14: approved with the three stages and 7 points or less; otherwise, why not. */
 function verdictOf(session: Session, stages: readonly StageCard[], result: ExamResult, points: number): Verdict {
   if (result === 'approved') return { kind: 'approved', points };
@@ -115,8 +125,7 @@ function verdictOf(session: Session, stages: readonly StageCard[], result: ExamR
   const { interruption } = session.ledger;
   if (interruption) {
     const rule = interruption.ruleId ? ruleById(session.rules, interruption.ruleId) : null;
-    // The fault that interrupted, for the ficha row of its context (D1).
-    const fault = session.ledger.faults.findLast((item) => item.ruleId === interruption.ruleId) ?? null;
+    const fault = interruptingFault(session.ledger.faults, interruption);
     return { kind: 'disapproved', cause: 'interruption', interruption, rule, fault };
   }
   const eliminatory = stages.flatMap((stage) => stage.faults).find(isEliminatory);

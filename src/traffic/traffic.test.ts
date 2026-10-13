@@ -8,8 +8,8 @@ import { DRY_ASPHALT } from '../sim/dynamics.ts';
 import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import { EXAM_CAR, bodyBox, restingVehicle } from '../sim/vehicle.ts';
 import { planEmergency } from './emergency.ts';
-import { CYCLE_PERIOD_S, intersectionLight } from './lights.ts';
-import { buildNetwork, locateOnPath, pointAlong } from './network.ts';
+import { CYCLE_PERIOD_S, crosswalkLight, intersectionLight } from './lights.ts';
+import { CROSSWALK_HALF_LENGTH_M, buildNetwork, locateOnPath, pointAlong } from './network.ts';
 import type { Approach, Path } from './network.ts';
 import {
   ACTIVE_RADIUS_M,
@@ -416,6 +416,52 @@ describe('seeded traffic', () => {
       }
     });
     expect(walks).toBeGreaterThan(0);
+  });
+
+  it('clears a signalled crosswalk it is already on when the light turns red, so its pedestrians can walk', () => {
+    // Arrange: the lap vehicle creeps at 1 m/s with its bonnet 0.2 m onto Cuba's signalled crosswalk just as its
+    // light turns red; pedestrians may step off from then on, and the car stands 25 m behind on the lap.
+    const crossing = lap.crosswalks.find((item) => item.crosswalk.controlId === 'control-1')!;
+    const { crosswalk } = crossing;
+    const halfLengthM = ACTOR_SIZES.vehicle.lengthM / 2;
+    let redAtS = 0;
+    while (crosswalkLight(base.plan, crosswalk, redAtS) !== 'red') redAtS += SIM_STEP_S;
+    const traffic: Traffic = {
+      ...base,
+      vehicles: [car({ pathId: 'lap', startS: crossing.atS + 0.2 - halfLengthM })],
+      walks: { [crosswalk.id]: { ...base.walks[crosswalk.id]!, firstS: redAtS } },
+    };
+    const initial = createTrafficState(traffic);
+    const from: TrafficState = {
+      ...initial,
+      timeS: redAtS,
+      vehicles: initial.vehicles.map((item) => ({ ...item, speedMps: 1 })),
+    };
+    const behind = pointAlong(lap, crossing.atS - 25);
+    const body = carAt(behind.point.x, behind.point.z, behind.headingRad);
+    const farEdgeS = crossing.atS + 2 * CROSSWALK_HALF_LENGTH_M;
+    let stoodOnIt = false;
+    let walkers = 0;
+
+    // Act: five seconds of the red phase.
+    const end = run(
+      traffic,
+      body,
+      5,
+      (state, timeS) => {
+        expect(crosswalkLight(traffic.plan, crosswalk, timeS)).toBe('red');
+        const front = frontOf(traffic, state, 'vehicle-0');
+        if (vehicle(state, 'vehicle-0').speedMps === 0 && front > crossing.atS && front - 2 * halfLengthM < farEdgeS)
+          stoodOnIt = true;
+        walkers += state.pedestrians.filter((item) => item.crosswalkId === crosswalk.id).length;
+      },
+      from,
+    );
+
+    // Assert: it never stands on the crossing, leaves it behind, and the pedestrians get their walk.
+    expect(stoodOnIt).toBe(false);
+    expect(frontOf(traffic, end, 'vehicle-0') - 2 * halfLengthM).toBeGreaterThan(farEdgeS);
+    expect(walkers).toBeGreaterThan(0);
   });
 
   it('keeps pedestrians on the kerb of a signalled crosswalk, even on their phase, while the car passes close by', () => {

@@ -33,8 +33,10 @@ const runFrames = (elapsedMs = 0) =>
     pending.forEach((callback) => callback(now));
   });
 const content = () => readyContent({ ...testContent(), route: RouteSchema.parse(routeData) });
-// Building the 3D city takes seconds, and longer while other suites run beside this one.
+// Building the 3D city takes seconds, and longer while other suites run beside this one: the waits for the scene
+// get far more than the default second, and stay under the test's timeout so a stuck scene reports what it lacks.
 const SCENE_TIMEOUT_MS = 30_000;
+const SCENE_WAIT = { timeout: SCENE_TIMEOUT_MS / 2 };
 
 it(
   'offers every route entry, both transmissions, source evidence and an accessible metric map',
@@ -54,7 +56,7 @@ it(
       'href',
       'https://www.openstreetmap.org/copyright',
     );
-    await screen.findByTestId('city-preview');
+    await screen.findByTestId('city-preview', {}, SCENE_WAIT);
     runFrames();
     fireEvent.click(screen.getByRole('button', { name: copy.whole }));
     const view = screen.getByTestId('city-preview');
@@ -63,7 +65,7 @@ it(
       expect(view).toHaveAttribute('data-state', 'ready');
       expect(Number(view.dataset.sectors)).toBeGreaterThan(0);
       expect(view.dataset.sectors).toBe(view.dataset.totalSectors);
-    });
+    }, SCENE_WAIT);
   },
 );
 
@@ -83,7 +85,7 @@ it(
   { timeout: SCENE_TIMEOUT_MS },
   async () => {
     renderApp('/recorrido', content());
-    await screen.findByTestId('city-preview');
+    await screen.findByTestId('city-preview', {}, SCENE_WAIT);
     const seed = screen.getByRole('spinbutton', { name: copy.seed });
     expect(seed).toHaveValue(1);
     fireEvent.change(seed, { target: { value: '-3' } });
@@ -97,11 +99,11 @@ it(
     expect(seed).toHaveValue(7);
     expect(screen.getByText(copy.seedHelp)).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: copy.drive }));
-    const view = await screen.findByTestId('driving-canvas');
+    const view = await screen.findByTestId('driving-canvas', {}, SCENE_WAIT);
     await waitFor(() => {
       runFrames(50);
       expect(view).toHaveAttribute('data-state', 'ready');
-    });
+    }, SCENE_WAIT);
     // Half a second of simulation activates the actors near the entry.
     for (let frame = 0; frame < 12; frame++) runFrames(50);
     expect(Number(view.dataset.actors)).toBeGreaterThan(0);
