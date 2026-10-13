@@ -35,7 +35,7 @@ Una fase tiene dos etapas consecutivas.
 
 ### Tokens y excepciones de revisión
 
-La condición «siempre y cuando no se acaben los tokens» aplica a las revisiones adicionales por Codex y CodeRabbit. Intentar ambas; no omitirlas por comodidad. Si se agota la cuota o el presupuesto de una, usar la otra si sigue disponible.
+La condición de hacerlas mientras quede cuota de tokens aplica a las revisiones adicionales por Codex y CodeRabbit. Intentar ambas; no omitirlas por comodidad. Si se agota la cuota o el presupuesto de una, usar la otra si sigue disponible.
 
 Registrar el estado por revisor: `pendiente`, `solicitada`, `completada`, `omitida por tokens agotados` o `bloqueada por integración`. Anotar evidencia de cuota/error o límite de sesión conocido; no inventar disponibilidad ni declarar una revisión realizada sin resultado.
 

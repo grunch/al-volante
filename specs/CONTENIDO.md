@@ -185,7 +185,7 @@ Además, en F05-T01 se revisaron contra sus páginas las 14 unidades (cap. 1, 3 
 
 ## Revisión integral (REV01, 2026-10-12)
 
-Pedido puntual del usuario («revisa las preguntas y respuestas de las actividades y exámenes y asegúrate de que todo esté perfecto»); no inicia la fase 6.
+Pedido puntual del usuario: verificar a fondo las preguntas y respuestas de actividades y exámenes; no inicia la fase 6.
 
 - **Alcance:** las 394 actividades y sus 1.443 variantes, sin muestreo, en once lotes por archivo. Cada variante se contrastó con el texto y la imagen de sus páginas citadas, con la lista de control de este documento y con el uso en el simulacro (la correcta y dos incorrectas sorteadas, sin devolución; desde REV01 el sorteo es condicionado: si las dos sorteadas no cumplen la regla de largo, la segunda se cambia por una que la cumpla).
 - **Ninguna respuesta correcta estaba mal.** Las correcciones fueron de estas clases:

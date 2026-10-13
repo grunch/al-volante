@@ -2,6 +2,10 @@
 
 Actualizado: 2026-10-13. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el correctivo F04-T04-FIX01, [#27](https://github.com/grunch/al-volante/pull/27), repara las vueltas guionadas que quedaron rojas en `main`); fase 5 (todo el contenido y simulacros teóricos) fusionada, incluido #33 en `9dd6d9e`; correctivos #34 y #36 fusionados (`f3d2f60`, `c71a289`); #37 (E2E de `main`) y #35 fusionados en `a39dd41` y `132409a`; correctivo F04-T01-FIX05 ([#38](https://github.com/grunch/al-volante/pull/38)) fusionado en `aa9dbf9`. De esa serie no queda ningún PR abierto. La revisión integral REV01 está fusionada completa en `main` (#39 en `782bb37` y [#42](https://github.com/grunch/al-volante/pull/42), con #40 y #41, en `72a1e87`); desde entonces el E2E de `main` corre en tres shards. PWA01 fusionada: [#43](https://github.com/grunch/al-volante/pull/43) en `ecda93a` y [#44](https://github.com/grunch/al-volante/pull/44) en `e71390f`. KAIT02 (#45) fusionado por el usuario en `b2a57ad`. Trabajo activo: F04-T05-FIX02 (sección siguiente). Avance por tarea y PR en `ESTADO_IMPLEMENTACION.md`; detalle de la fase 1 en `historial/FASE-1.md`.
 
+## Trabajo puntual activo — PAGES01 (publicación en GitHub Pages)
+
+Pedido del 2026-10-13: publicar `main` en GitHub Pages. Rama `pages01-deploy`, desde `main` (`d18fa00`), [PR #47](https://github.com/grunch/al-volante/pull/47). Pages ya estaba en modo «GitHub Actions» y el entorno `github-pages` solo acepta `main`, así que la primera publicación ocurre al fusionar el PR que agrega `.github/workflows/deploy.yml`. Decisión a respetar: el workflow construye y publica sin repetir las pruebas de la CI; la base relativa `./` de Vite y las rutas con hash son lo que permite servir bajo `/al-volante/`, no cambiarlas a una base absoluta. Estado y verificación en `ESTADO_IMPLEMENTACION.md` («Pedido puntual PAGES01»).
+
 ## Trabajo puntual activo — F04-T05-FIX02 (arranque y prueba jugable)
 
 Pedido del 2026-10-13, después de fusionar #45: el usuario no pudo arrancar el auto y pidió una prueba que opere el juego para encontrar y arreglar problemas del recorrido. Rama `f04-t05-fix02-driving-playtest`, desde `main` (`b2a57ad`), en worktree independiente. No inicia otra fase.
@@ -144,7 +148,7 @@ El usuario confirmó **Anthropic 200 USD y OpenAI 100 USD**, y aclaró que tiene
 
 ### Actualización: inicio de F03-T03
 
-El usuario autorizó expresamente «haz un git restore . para que trabajes en main limpia y comienza a implementar F03 T03». Se descartó el cambio sin commit de `drivingLoop.test.ts` en el checkout principal y se dejó `main` limpia en `e49dc5b`, que incluye #16 y #17. Se preservó y continuó el trabajo parcial existente en `f03-t03-cockpit`, con esa misma base. Esta autorización reemplaza la exclusión previa de T03; no inicia T04 ni T05.
+El usuario autorizó expresamente ejecutar `git restore .` para trabajar sobre `main` limpia y comenzar F03-T03. Se descartó el cambio sin commit de `drivingLoop.test.ts` en el checkout principal y se dejó `main` limpia en `e49dc5b`, que incluye #16 y #17. Se preservó y continuó el trabajo parcial existente en `f03-t03-cockpit`, con esa misma base. Esta autorización reemplaza la exclusión previa de T03; no inicia T04 ni T05.
 
 T03 incorpora interior procedural, cámara desde el conductor, espejos por reflexión de la escena, tablero y volante animados, preparación e instrumental, mirada, teclado reasignable persistente y mandos en pantalla. Detalles y límites en ARQUITECTURA. PR [#18](https://github.com/grunch/al-volante/pull/18), implementación `db33865`. Validación: 268 pruebas, 34 E2E y cuatro E2E adicionales tras el ajuste visual final. Codex y CodeRabbit solicitados; monitorear y resolver findings antes de pedir otra ronda. Las revisiones se registran en ESTADO_IMPLEMENTACION.
 
@@ -160,7 +164,7 @@ La CI de `5d3a843` aprobó ambos jobs (ejecución 38190546993, 36 E2E). Codex 54
 
 ### Actualización: F03-T04 y F03-T05
 
-El usuario pidió el 2026-10-11: «ya hay un PR del F03 T03, ahora haz T04 en adelante hasta terminar la fase 3». T04 se apila sobre `f03-t03-cockpit` (#18) y T05 sobre T04, sin esperar revisiones (etapa A). Decisiones de T04 que no deben reinterpretarse:
+El usuario pidió el 2026-10-11, con el PR de F03-T03 ya creado, implementar desde T04 hasta terminar la fase 3. T04 se apila sobre `f03-t03-cockpit` (#18) y T05 sobre T04, sin esperar revisiones (etapa A). Decisiones de T04 que no deben reinterpretarse:
 
 - La evaluación es una máquina de estados pura (`observe`) alimentada por paso fijo, no por cuadro: misma entrada, misma puntuación, a cualquier FPS.
 - La ronda de reconocimiento se juzga completa: una respuesta eliminatoria interrumpe cuando el examinador terminó de preguntar, para que la devolución muestre todas las fallas de la ronda.
@@ -178,7 +182,7 @@ Decisiones de T05 que no deben reinterpretarse:
 
 ## Inicio de F04-T01
 
-El usuario indicó «arranca con F04 T01». Solo se ejecuta esa tarea; T02–T05 no se inician. La rama `f04-t01-city` parte de `main` y se actualizó hasta `89791fc`, que incluye #18–#21. El checkout principal conserva sus archivos y `main` limpia.
+El usuario indicó comenzar con F04-T01. Solo se ejecuta esa tarea; T02–T05 no se inician. La rama `f04-t01-city` parte de `main` y se actualizó hasta `89791fc`, que incluye #18–#21. El checkout principal conserva sus archivos y `main` limpia.
 
 `#/recorrido` integra exploración por cuadra o circuito completo, mapa métrico, evidencia de fuentes y conducción por los ocho tramos. La geometría sale del catálogo validado sin espejar ni reescalar; los sectores visuales se liberan sin cambiar colisiones. El predio y el primer tramo evaluado mantienen sus pantallas. Arquitectura, límites y fuentes en `CIUDAD.md`.
 
@@ -186,7 +190,7 @@ No confundir circuito geométrico completo con examen completo: tránsito, ciclo
 
 ## F04-T02: tránsito del circuito
 
-El usuario pidió «ya está el pr de F04 T01, haz el resto de tareas de esta fase»: T02 se apila sobre `f04-t01-city` (#22) sin esperar revisiones; T03–T05 siguen en orden. Decisiones de T02 que no deben reinterpretarse:
+Con el PR de F04-T01 creado, el usuario pidió el resto de las tareas de la fase: T02 se apila sobre `f04-t01-city` (#22) sin esperar revisiones; T03–T05 siguen en orden. Decisiones de T02 que no deben reinterpretarse:
 
 - El tránsito es una capa pura y determinista (`src/traffic/`), creada con una semilla y avanzada por paso fijo; la aleatoriedad se consume solo al crearla. Misma semilla y mismas entradas, mismo estado. No introducir aleatoriedad en el paso ni dependencias del cuadro.
 - `World.traffic` (fuente genérica) convive con `World.scenario` (guion de F03-T05, adaptado por `scenarioSource`); ambos exponen `TrafficSnapshot`. `#/examen` sigue con el primer tramo guionado; la ciudad no lo reemplaza hasta F04-T03.
@@ -198,7 +202,7 @@ El usuario pidió «ya está el pr de F04 T01, haz el resto de tareas de esta fa
 
 ## F04-T03: examinador del circuito
 
-Apilada sobre `f04-t02-traffic` (#23) por el mismo pedido («ya está el pr de F04 T01, haz el resto de tareas de esta fase»). Decisiones de T03 que no deben reinterpretarse:
+Apilada sobre `f04-t02-traffic` (#23) por el mismo pedido (resto de las tareas de la fase 4). Decisiones de T03 que no deben reinterpretarse:
 
 - El examinador de la etapa II es un juez puro por paso fijo (`judgeCirculation`) sobre un `Circuit` derivado de la ciudad y de la red de tránsito, nunca de coordenadas fijas de una cuadra. `#/examen` corre sobre la ciudad con el tránsito de la semilla; el primer tramo con guion (`firstBlock.ts`) queda solo como fixture del escenario.
 - Los umbrales de las reglas de circulación que el protocolo no cifra son decisiones del juego (REGLAS.md §7 D6–D9 y §9, `CIRCULATION`); se muestran como aproximaciones. Cambiarlos no cambia el protocolo ni la fuente.
@@ -213,7 +217,7 @@ Apilada sobre `f04-t02-traffic` (#23) por el mismo pedido («ya está el pr de F
 
 ## F04-T04: estacionamiento y descenso
 
-Apilada sobre `f04-t03-examiner` (#24) por el mismo pedido («ya está el pr de F04 T01, haz el resto de tareas de esta fase»). Decisiones de T04 que no deben reinterpretarse:
+Apilada sobre `f04-t03-examiner` (#24) por el mismo pedido (resto de las tareas de la fase 4). Decisiones de T04 que no deben reinterpretarse:
 
 - La etapa III es un juez puro por paso fijo (`src/exam/parking.ts`) sobre el marco del cajón derivado de la ciudad (`circuit.bay`), nunca de coordenadas fijas; la sesión pasa de `circulation` a `parking` al volver al tramo 1 (antes terminaba ahí), y de `parking` a `leaving` cuando el aspirante avisa con el auto detenido, y a `finished` al abrir la puerta, con `completedStages` I/II/III.
 - Las decisiones D10–D14 y V3 de REGLAS.md §7 (aviso a 100 m sobre el tramo 8, zona del cajón y doble fila, cuenta de maniobras e intentos, marcas pintadas como vallas de 1,2 m desde el cordón con los umbrales de 1 m/s de la etapa I, fin por aviso, descenso juzgado al abrir la puerta, llave afuera como bloqueo de dirección, cinturón libre tras la posición final, descentrado a 0,5 m) son del juego; cambiarlas no cambia el protocolo. 50 cm exactos es la segunda franja (V1); las distancias se redondean a la milésima de centímetro.
@@ -228,7 +232,7 @@ Apilada sobre `f04-t03-examiner` (#24) por el mismo pedido («ya está el pr de 
 
 ## F04-T05: modos, recorrido entero y ficha por etapa
 
-Apilada sobre `f04-t04-parking` (#25), última tarea de la fase 4 (mismo pedido: «haz el resto de tareas de esta fase»). Decisiones de T05 que no deben reinterpretarse:
+Apilada sobre `f04-t04-parking` (#25), última tarea de la fase 4 (mismo pedido). Decisiones de T05 que no deben reinterpretarse:
 
 - Los modos son los del contrato `Attempt` menos `review`: `learn` (aprender), `practice` (practicar), `run` (recorrer), `exam` (rendir), elegidos por la consulta del hash (`?modo=`, `?etapa=`); sin parámetro rige recorrer. La sesión es la misma en los cuatro: las ayudas se ocultan en la interfaz (`aidsOf`, D15), nunca en la evaluación. Lo que el examinador dice (consigna, próxima esquina, aviso de los 100 m) y el tramo actual se ven siempre.
 - `Fault.stage` se asigna al consignar la falla por la fase actual; no deducir la etapa por `atS` (las fallas de la preparación comparten el instante del paso a `unlock`, y los comandos tienen `dt` 0). `Session.transitions` da inicio y fin de cada etapa; `Session.scope` dice qué etapas corre la sesión y `completeStage` solo marca las del alcance.
@@ -249,7 +253,7 @@ Las CI de las fusiones de #25 y #26 quedaron canceladas y `main` tenía rojas la
 
 ## F04-T05-FIX01: guía de manejo del examen práctico
 
-Pedido puntual del usuario (2026-10-12): «incluye intrucciones clara para el manejo en el examen practico». PR [#36](https://github.com/grunch/al-volante/pull/36), desde `main`; no inicia la fase 6. Decisiones que no deben reinterpretarse:
+Pedido puntual del usuario (2026-10-12): instrucciones claras para manejar en el examen práctico. PR [#36](https://github.com/grunch/al-volante/pull/36), desde `main`; no inicia la fase 6. Decisiones que no deben reinterpretarse:
 
 - **D15 ampliada:** el paso a paso (`steps`) es una ayuda; se ve en aprender, practicar y recorrer, y se oculta en rendir. La referencia de teclas se ve en los cuatro modos porque es del juego, no del examen. «Qué hacer ahora» va junto a la consigna del examinador; el panel de aprender conserva solo «Qué se evalúa ahora» y la última falla.
 - **Nunca escribir letras de teclas fijas en instrucciones de manejo:** los textos (`src/i18n/drivingGuide.ts`) son funciones de `keyNames(bindings)`, y `DrivingCanvas` informa las asignaciones del jugador con `onBindingsChange`. Si se agrega una acción o un paso, se agrega su texto con la misma firma.
@@ -273,7 +277,7 @@ Desde #34, el E2E de `main` se cancelaba aunque el mismo árbol pasaba en la cor
 
 ## Fase 5: todo el contenido y simulacros teóricos
 
-Iniciada por el usuario el 2026-10-12 con la fase 4 fusionada: «mejor comienza a implementar la fase 5, desde la tarea 1 hasta la ultima, no te detengas hasta completar la fase 5». Etapa A: T01–T05 apiladas, sin esperar revisiones. El método, los estados y las decisiones están en `CONTENIDO.md`; no reinterpretar:
+Iniciada por el usuario el 2026-10-12 con la fase 4 fusionada, para implementarla completa, de la primera a la última tarea, sin detenerse. Etapa A: T01–T05 apiladas, sin esperar revisiones. El método, los estados y las decisiones están en `CONTENIDO.md`; no reinterpretar:
 
 - **Estados con significado verificable** (`validateTreatment`): `reviewed` = contrastada con la imagen de su página; `implemented` = practicada por una actividad revisada o de consulta con motivo; `tested` = practicada por actividades que la prueba de recorrido del catálogo responde bien y mal. Una unidad de consulta nunca llega a `tested`.
 - **Archivos:** una actividad vive en `specs/catalog/activities/<fuente>-<sección>.json` según su primera unidad; las figuras son recortes de los PDF (`figures.json`, `public/figures/`, `scripts/crop-figures.ts`) que se muestran con la devolución.

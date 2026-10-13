@@ -68,7 +68,7 @@ Ninguno conocido.
 
 ## Siguiente acción
 
-Etapa B en curso, iniciada por el usuario el 2026-10-11 («revisa los findings en los PRs abiertos, comienza por el #2, luego sigue #3 y #4»):
+Etapa B en curso, iniciada por el usuario el 2026-10-11 para revisar los findings de los PRs abiertos, en orden: #2, #3 y #4.
 
 - **#2:** el usuario lo fusionó (merge `58cf109`, 2026-10-11 19:39 UTC) con los findings de Codex y CodeRabbit resueltos. Los dos findings de la re-revisión de Codex que llegaron después están en el PR correctivo **#6 (F01-T02-FIX01)**, abierto contra `main` e independiente de #3 y #4.
 - **#3:** el usuario lo fusionó (merge `f542d2f`) con los findings de Codex resueltos, incluida la re-revisión.
