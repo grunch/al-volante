@@ -7,7 +7,7 @@
 }
 .city-layout {
   display: grid;
-  grid-template-columns: minmax(220px, 0.8fr) minmax(0, 2.3fr);
+  grid-template-columns: minmax(16rem, 0.85fr) minmax(0, 2.3fr);
   gap: 1.5rem;
   align-items: start;
 }
@@ -76,8 +76,9 @@
   color: #243f47;
 }
 .city-preview {
-  height: min(65vh, 540px);
-  min-height: 320px;
+  /* About two thirds of the screen, never taller than a phone held sideways. */
+  height: clamp(min(20rem, 100vh - 2rem), 65vh, 33.75rem);
+  height: clamp(min(20rem, 100svh - 2rem), 65svh, 33.75rem);
   background: #cbdcdd;
   border: 1px solid #a0b8b6;
   border-radius: 0.85rem;
@@ -104,12 +105,10 @@
   font-size: 0.78rem;
   line-height: 1.6;
 }
-@media (max-width: 760px) {
+/* Tablets upright and phones: the map takes the full width above the 3D view, where its labels stay legible. */
+@media (max-width: 56.25rem) {
   .city-layout {
-    grid-template-columns: 1fr;
-  }
-  .city-map {
-    max-height: 200px;
+    grid-template-columns: minmax(0, 1fr);
   }
   .city-sidebar .choice {
     margin-bottom: 0;

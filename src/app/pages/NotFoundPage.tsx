@@ -7,7 +7,7 @@ export function NotFoundPage() {
     <>
       <PageTitle>{t('notFoundHeading')}</PageTitle>
       <p>{t('notFoundBody')}</p>
-      <p>
+      <p className="link-row">
         <Link to="/">{t('backHome')}</Link>
       </p>
     </>

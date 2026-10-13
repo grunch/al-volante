@@ -96,7 +96,7 @@ function SectionActivities({ sectionId, activities }: { sectionId: string; activ
     <>
       <PageTitle>{sectionLabel(source, section)}</PageTitle>
       <p className="lead">{ACTIVITY_COPY.sectionIntro}</p>
-      <p>
+      <p className="link-row">
         <Link to="/actividades">{ACTIVITY_COPY.allSections}</Link> ·{' '}
         <Link to={`/mapa/${source}/${section}`}>{ACTIVITY_COPY.studySection}</Link>
       </p>

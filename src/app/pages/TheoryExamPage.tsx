@@ -310,7 +310,7 @@ function Results({
       {grade.toReview.length > 0 && (
         <>
           <h3>{THEORY_COPY.reviewHeading}</h3>
-          <ul>
+          <ul className="link-list">
             {grade.toReview.map(({ unitId }) => {
               const unit = unitById.get(unitId);
               if (!unit) return null;

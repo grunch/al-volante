@@ -17,6 +17,16 @@
   --space-4: 1.5rem;
   --space-5: 2.5rem;
   --focus-ring: 3px solid var(--color-turquoise-text);
+  /* Responsive layout (PWA01-T01): one content column, readable line length, minimum touch target. */
+  --content-max: 72rem;
+  --measure: 72ch;
+  --touch-target: 2.75rem;
+  /* Side gutters never smaller than the notch or rounded corners (viewport-fit=cover in index.html). */
+  --gutter-left: max(var(--space-3), env(safe-area-inset-left));
+  --gutter-right: max(var(--space-3), env(safe-area-inset-right));
+  /* Header, main and footer share the column: on wide screens the gutter grows to centre it. */
+  --column-left: max(var(--gutter-left), (100% - var(--content-max)) / 2 + var(--space-3));
+  --column-right: max(var(--gutter-right), (100% - var(--content-max)) / 2 + var(--space-3));
   color-scheme: light;
 }
 
@@ -28,17 +38,34 @@
 
 html {
   font-family: var(--font-sans);
-  font-size: 100%;
+  /* The user's base size up to 2560 px wide, growing to 125 % at 3840 px so 4K screens at 100 % stay readable. */
+  font-size: clamp(1rem, 0.5rem + 0.3125vw, 1.25rem);
   line-height: 1.5;
   color: var(--color-ink);
   background: var(--color-ivory);
+  /* Phones must not inflate text on rotation; zoom stays available (the viewport meta never disables it). */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  /* Long ids, URLs and words break instead of widening the page. */
+  overflow-wrap: break-word;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  max-width: 100%;
 }
 
 #root {
@@ -54,7 +81,7 @@ body {
 
 .skip-link {
   position: absolute;
-  left: var(--space-3);
+  left: var(--gutter-left);
   top: -3rem;
   padding: var(--space-2) var(--space-3);
   background: var(--color-ivory);
@@ -70,7 +97,15 @@ body {
 .app-header {
   background: var(--color-night);
   color: var(--color-ivory);
-  padding: var(--space-4) var(--space-3);
+  padding: max(var(--space-4), env(safe-area-inset-top)) var(--column-right) var(--space-4) var(--column-left);
+}
+
+/* Small phones and phones in landscape: the header gives the height back to the page. */
+@media (max-width: 25rem), (orientation: landscape) and (max-height: 32rem) {
+  .app-header {
+    padding-top: max(var(--space-2), env(safe-area-inset-top));
+    padding-bottom: var(--space-2);
+  }
 }
 
 .app-header {
@@ -86,6 +121,9 @@ body {
 }
 
 .app-header__brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
   color: var(--color-ivory);
   font-size: clamp(1.25rem, 3vw, 1.75rem);
   font-weight: 700;
@@ -102,7 +140,9 @@ body {
 }
 
 .app-nav__link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
   padding: var(--space-2) var(--space-1);
   color: var(--color-ivory);
   text-decoration: none;
@@ -127,9 +167,31 @@ a {
   color: var(--color-turquoise-text);
 }
 
+/* Running text keeps a readable measure on wide screens; cards and panels keep their own width. */
+.app-main :where(p, li:not(.card, .unit), dd, figcaption, blockquote, legend, table, .option, .decision__choices) {
+  max-width: var(--measure);
+}
+
 .lead {
   font-size: 1.125rem;
   max-width: 65ch;
+}
+
+.app-main table {
+  border-collapse: collapse;
+  margin-bottom: var(--space-3);
+}
+
+.app-main :is(th, td) {
+  padding: var(--space-1) var(--space-3) var(--space-1) 0;
+  border-bottom: 1px solid var(--color-ivory-strong);
+  text-align: left;
+  vertical-align: top;
+}
+
+.app-main td {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .button {
@@ -161,6 +223,18 @@ a {
 
 .card-grid {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+/* A long URL in a unit must not widen its column past the screen. */
+.unit-list {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.card-grid > *,
+.map-path > *,
+.unit-list > *,
+.sign-grid > * {
+  min-width: 0;
 }
 
 .map-path {
@@ -268,14 +342,17 @@ a {
 }
 
 .extracted-text {
-  max-height: 28rem;
+  /* Never taller than a phone in landscape: the page, not only this box, must stay scrollable. */
+  max-height: min(28rem, 70vh);
   overflow: auto;
   padding: var(--space-3);
   border-radius: var(--radius);
   background: #fffdf8;
   border: 1px solid var(--color-ivory-strong);
   font-size: 0.85rem;
-  white-space: pre;
+  /* The PDF line breaks stay; lines longer than the column wrap instead of hiding behind a horizontal scroll. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .note,
@@ -292,9 +369,9 @@ a {
 .app-main {
   flex: 1;
   width: 100%;
-  max-width: 72rem;
+  max-width: var(--content-max);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-3);
+  padding: var(--space-4) var(--gutter-right) var(--space-4) var(--gutter-left);
 }
 
 .app-main:focus {
@@ -306,6 +383,9 @@ a {
   width: 100%;
   aspect-ratio: 16 / 9;
   min-height: 14rem;
+  /* In landscape phones the 16:9 box would be taller than the screen: it widens instead. */
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100svh - 2rem);
   border-radius: var(--radius);
   overflow: hidden;
   background: var(--color-night);
@@ -329,14 +409,14 @@ a {
 }
 
 .app-footer {
-  padding: var(--space-3);
+  padding: var(--space-3) var(--column-right) max(var(--space-3), env(safe-area-inset-bottom)) var(--column-left);
   background: var(--color-ivory-strong);
   font-size: 0.875rem;
 }
 
 .app-footer p {
-  max-width: 72rem;
-  margin: 0 auto;
+  max-width: var(--measure);
+  margin: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -392,7 +472,8 @@ a {
 }
 
 .sign-graphic {
-  width: min(10rem, 40vw);
+  /* The drawn signs carry text («CEDA EL PASO»): below 10rem it falls under 12 px. */
+  width: min(10rem, 100%);
   height: auto;
 }
 
@@ -421,6 +502,9 @@ a {
 .sign-card__name {
   margin: var(--space-2) 0 0;
   font-weight: 600;
+  /* «ESTACIONAMIENTO» is wider than the narrowest card: hyphenate where the browser can, break otherwise. */
+  hyphens: auto;
+  overflow-wrap: anywhere;
 }
 
 /* Crops of the manual: same height for every sign, wide boards limited by the column. */
@@ -584,13 +668,14 @@ a {
 .hud {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  gap: var(--space-3) var(--space-4);
   margin: var(--space-3) 0;
 }
 
 .hud div {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .hud dt {
@@ -599,7 +684,8 @@ a {
 
 .hud dd {
   margin: 0;
-  font-size: 1.5rem;
+  /* 24 px on a desktop, 18 px on a phone, where a long instruction would otherwise take five lines. */
+  font-size: clamp(1.125rem, 0.75rem + 1.5vw, 1.5rem);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -665,6 +751,7 @@ a {
   margin: 0;
   border: 0;
   border-radius: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 .cockpit-shell:fullscreen .cockpit-viewport {
   flex: 1;
@@ -673,6 +760,7 @@ a {
 .cockpit-shell:fullscreen .driving-canvas {
   height: 100%;
   min-height: 0;
+  max-height: none;
   aspect-ratio: auto;
 }
 .cockpit-shell:fullscreen .cockpit-controls {
@@ -690,6 +778,21 @@ a {
   border: 0;
   border-radius: 0;
   touch-action: none;
+}
+/*
+ * The view spans the whole shell, which clips its overflow: the ring goes inside, in the cabin's yellow, with a dark
+ * band within so it stands out against a light sky as well as against the dashboard.
+ */
+.cockpit-shell .driving-canvas:focus-visible {
+  outline: 3px solid #f4cd82;
+  outline-offset: -3px;
+}
+.cockpit-shell .driving-canvas:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 2px solid #0a1a23;
+  pointer-events: none;
 }
 .cockpit-digital {
   position: absolute;
@@ -761,6 +864,7 @@ a {
 }
 .cockpit-panels {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.7rem;
 }
 .cockpit-panels details {
@@ -799,7 +903,8 @@ a {
 }
 .cockpit-select {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
   align-items: center;
 }
 .cockpit-panels fieldset {
@@ -834,12 +939,120 @@ a {
   }
 }
 
+/*
+ * Phones in landscape: a 16:9 view below the help would be taller than the screen and push the pedals out of
+ * sight. Below the help, the view takes the whole screen height on the left and stays in place (sticky) while the
+ * controls on the right, pedals first, scroll beside it.
+ */
+@media (orientation: landscape) and (max-height: 32rem) {
+  .cockpit-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) min(40%, 18rem);
+    grid-template-areas:
+      'heading heading'
+      'options options'
+      'audio audio'
+      'notice notice'
+      'view controls';
+    align-items: start;
+    /* clip, not hidden: a hidden overflow would turn the shell into the scroller and the view would not stick. */
+    overflow: clip;
+  }
+  .cockpit-heading {
+    grid-area: heading;
+    padding: 0.6rem 0.75rem 0;
+  }
+  .cockpit-view-options {
+    grid-area: options;
+  }
+  .cockpit-audio {
+    grid-area: audio;
+  }
+  .cockpit-shell > .cockpit-help {
+    grid-area: notice;
+  }
+  .cockpit-viewport {
+    grid-area: view;
+    position: sticky;
+    top: 0;
+  }
+  /* Still loading: no controls yet, the view takes both columns. */
+  .cockpit-viewport:last-child {
+    grid-column: 1 / -1;
+  }
+  .cockpit-shell .driving-canvas {
+    aspect-ratio: auto;
+    height: 100vh;
+    height: 100svh;
+    min-height: 0;
+    max-height: none;
+  }
+  .cockpit-controls {
+    grid-area: controls;
+    padding: 0.5rem 0.75rem 0.75rem;
+  }
+  .cockpit-drive-row > button,
+  .cockpit-look-row > button {
+    flex: 1 1 40%;
+    font-size: 0.8rem;
+  }
+  .cockpit-switches,
+  .cockpit-binding-grid {
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  }
+  .cockpit-digital {
+    bottom: 0.4rem;
+    right: 0.4rem;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.55rem;
+  }
+  /* Full screen: the shell itself scrolls; the view sticks to its top. */
+  .cockpit-shell:fullscreen {
+    display: grid;
+    overflow-y: auto;
+  }
+  .cockpit-shell:fullscreen .driving-canvas {
+    height: 100vh;
+    height: 100dvh;
+  }
+  .cockpit-shell:fullscreen .cockpit-controls {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+/* Phones upright in full screen: the view sticks to the top while the controls scroll under it. */
+@media (orientation: portrait) and (max-width: 37.5rem) {
+  .cockpit-shell:fullscreen {
+    display: block;
+    overflow-y: auto;
+  }
+  .cockpit-shell:fullscreen .cockpit-viewport {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  .cockpit-shell:fullscreen .driving-canvas {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    min-height: 280px;
+    max-height: 60vh;
+  }
+  .cockpit-shell:fullscreen .cockpit-controls {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
 .cockpit-shell a {
   color: #a4e9d6;
 }
 
 .exam-mode__help {
   flex-basis: 100%;
+  /* A single line under the radios: with the measure cap it would sit beside them instead. */
+  max-width: none;
   margin: var(--space-1) 0 0;
   font-size: 0.875rem;
 }
@@ -924,4 +1137,72 @@ a {
 }
 .cockpit-audio button {
   min-height: 2.75rem;
+}
+
+/* The legend of each question already carries its number: the list marker would repeat it beside an option. */
+.theory-questions {
+  padding-left: 0;
+  list-style: none;
+}
+
+/*
+ * Touch screens (PWA01-T01): every control that is not a link inside running text gets a 44 × 44 px target.
+ * Inline links in sentences keep their size (WCAG 2.5.8 inline exception).
+ */
+@media (pointer: coarse) {
+  .button,
+  .page-nav__form input,
+  .app-main select,
+  .app-main input:is([type='number'], [type='text'], [type='search']) {
+    min-height: var(--touch-target);
+  }
+
+  .button--small {
+    min-width: var(--touch-target);
+  }
+
+  .app-main summary,
+  .cockpit-panels summary {
+    padding-block: 0.625rem;
+  }
+
+  .option {
+    min-height: var(--touch-target);
+    align-items: center;
+  }
+
+  .option input {
+    margin-top: 0;
+  }
+
+  .choice label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--touch-target);
+  }
+
+  .file-field input {
+    min-height: var(--touch-target);
+  }
+
+  /* Links that stand on their own: titles, page references, lists and rows of links, the page navigation. */
+  .card__title a,
+  .unit__title a,
+  .ref-link,
+  .page-nav > a,
+  .card__meta a,
+  .card__actions a:not(.button),
+  .inline-list a,
+  .logbook-list li > a,
+  .link-list a,
+  .link-row a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-target);
+  }
+
+  .cockpit-shell input[type='range'] {
+    min-height: var(--touch-target);
+  }
 }
