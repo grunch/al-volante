@@ -28,6 +28,7 @@ import type { Bindings } from '../../practice/bindings.ts';
 import { keyNames } from '../../practice/keyLabels.ts';
 import { createDrivingAttempt } from '../../progress/model.ts';
 import { useProgress } from '../../progress/ProgressProvider.tsx';
+import { useUpdateHold } from '../../pwa/useUpdates.ts';
 import { RendererContext } from '../../scene/RendererContext.ts';
 import type { TransmissionKind } from '../../sim/powertrain/powertrain.ts';
 import { createTraffic, trafficSourceOf } from '../../traffic/traffic.ts';
@@ -87,6 +88,8 @@ function Exam({ content }: { content: Content }) {
     [rules, bands],
   );
   const [session, setSession] = useState<Session>(() => newSession('manual', DEFAULT_SEED, circuit, stage));
+  // No update prompt while a drive is under way (see src/pwa).
+  useUpdateHold(session.phase !== 'finished');
   // The latest session, updated 120 times a second by the steps without re-rendering each time.
   const sessionRef = useRef<Session>(session);
   const modeRef = useRef(mode);

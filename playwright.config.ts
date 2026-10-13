@@ -13,6 +13,8 @@ export default defineConfig({
   use: {
     baseURL: `http://127.0.0.1:${PORT}`,
     trace: 'retain-on-failure',
+    // The production build registers a worker that precaches ~17 MB: specs other than pwa.spec.ts stay without it.
+    serviceWorkers: 'block',
   },
   projects: [
     { name: 'chromium-desktop', use: { ...devices['Desktop Chrome'] } },
