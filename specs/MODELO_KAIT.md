@@ -1,6 +1,6 @@
 # Nissan Kait: estudio en Blender y vista del inicio
 
-Dos pedidos puntuales del 2026-10-13: construir el modelo 3D a partir de las imágenes de `recursos/kait/` y mostrar renders (KAIT01); después, sustituir el auto de la página de inicio por ese Kait (KAIT02). El estudio original quedó en la rama local `asset-kait-preview`, base `72a1e87`; la integración del inicio se desarrolla en `kait02-home-preview`, desde `main` (`ecda93a`, con #43), en otro worktree. No inicia una fase del plan.
+Dos pedidos puntuales del 2026-10-13: construir el modelo 3D a partir de las imágenes de `recursos/kait/` y mostrar renders (KAIT01); después, sustituir el auto de la página de inicio por ese Kait (KAIT02). El estudio original quedó en la rama local `asset-kait-preview`, base `72a1e87`; la integración del inicio está en el [PR #45](https://github.com/grunch/al-volante/pull/45), rama `kait02-home-preview`, desde `main` (`ecda93a`, con #43), en otro worktree. No inicia una fase del plan.
 
 ## Referencias
 
