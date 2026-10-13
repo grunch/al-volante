@@ -256,7 +256,7 @@ Los validadores `.mjs` de la fase 1 fueron reemplazados por estos módulos; sus 
 | `npm run dev` | Servidor de desarrollo. |
 | `npm run build` | Chequeo de tipos y build de producción en `dist/`. |
 | `npm run lint` / `npm run format:check` / `npm run typecheck` | Lint, formato y tipos. |
-| `npm test` / `npm run test:coverage` | Pruebas unitarias; la cobertura exige ≥ 80 % en líneas, ramas, funciones y sentencias. |
+| `npm test` / `npm run test:coverage` | Pruebas unitarias; desde REV01 la cobertura exige ≥ 99 % en líneas, funciones y sentencias y ≥ 96 % en ramas (umbrales apenas por debajo de lo medido, para que no retroceda). |
 | `npm run test:e2e` | Build, servidor de vista previa y pruebas Playwright. La primera vez: `npx playwright install chromium`. |
 | `npm run test:audio` | PCM real del audio de conducción en Chromium (desde F04-T01-FIX05; ver INMERSION_RECORRIDO.md). |
 | `npm run validate:content` | Valida todos los catálogos con los esquemas y referencias de `src/content/` e imprime la versión y la cobertura. |

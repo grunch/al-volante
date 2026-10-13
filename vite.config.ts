@@ -21,7 +21,8 @@ export default defineConfig({
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],
       exclude: ['src/**/*.test.{ts,tsx}', 'src/test/**', 'src/main.tsx', 'src/vite-env.d.ts'],
-      thresholds: { lines: 80, functions: 80, branches: 80, statements: 80 },
+      // Kept a little below the measured coverage (REV01-T02: 99.4 % statements, 97.2 % branches) so it cannot drift down.
+      thresholds: { lines: 99, functions: 99, branches: 96, statements: 99 },
     },
   },
 });
