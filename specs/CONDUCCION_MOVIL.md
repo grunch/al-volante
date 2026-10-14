@@ -2,7 +2,7 @@
 
 Pedido puntual del 2026-10-14: especificar cómo se maneja desde un teléfono aprovechando sus sensores, en particular girar el volante inclinando el teléfono. En escritorio el juego sigue igual. No inicia las fases 6 ni 7; adelanta la parte de la compatibilidad móvil del práctico que F07-T02 audita después.
 
-**Estado: implementación en revisión, autorizada por el usuario el 2026-10-14.** MOV01-T01 incorpora el núcleo de entradas y asistencia; MOV01-T02 conecta la interfaz móvil en pista, recorrido y examen. La entrega sigue los dos PRs de §15; la prueba física de §14 sigue pendiente hasta contar con un aparato. Ramas, revisiones y resultados vigentes en [ESTADO_IMPLEMENTACION.md](ESTADO_IMPLEMENTACION.md#pedido-puntual-mov01--conducción-en-el-celular).
+**Estado: implementación fusionada por el usuario el 2026-10-14 (#49 y #50).** MOV01-T01 incorpora el núcleo de entradas y asistencia; MOV01-T02 conecta la interfaz móvil en pista, recorrido y examen. La entrega sigue los dos PRs de §15; la prueba física de §14 sigue pendiente hasta contar con un aparato. Ramas, revisiones y resultados vigentes en [ESTADO_IMPLEMENTACION.md](ESTADO_IMPLEMENTACION.md#pedido-puntual-mov01--conducción-en-el-celular).
 
 ## 1. Alcance
 
@@ -133,6 +133,8 @@ Con el modo inclinación activo y el teléfono apaisado, los pedales y la palanc
 
 Las combinaciones necesarias usan pulgares distintos. En automática: frenar y elegir la posición (salir de P exige freno). En manual: frenar hasta detenerse y elegir primera o reversa.
 
+En modo móvil se omiten del panel lateral los botones «Volante a la izquierda», «Volante a la derecha», «Frenar» y «Acelerar», porque esas acciones ya están en los mandos superpuestos. El resto del panel, incluido «Embrague» en manual, sigue disponible. En escritorio se conservan los cuatro botones, incluso con una ventana pequeña.
+
 ### 8.1 Acelerador y freno (pulgar izquierdo)
 
 - **Forma:** una franja vertical en el borde izquierdo de la vista, de al menos 64 px de ancho y unos dos tercios del alto de la vista.
@@ -147,6 +149,7 @@ Las combinaciones necesarias usan pulgares distintos. En automática: frenar y e
   - al soltar, acelerador y freno vuelven a 0.
 - **Paso fijo:** el valor sigue al pulgar con una variación máxima de 5 por segundo (de 0 a 1 en 0,2 s, valor inicial).
 - **Indicación:** una barra muestra el nivel del acelerador hacia arriba o del freno hacia abajo, con los rótulos «Acelerar ↑» y «Frenar ↓».
+- **Activación accesible:** esos mismos rótulos son botones nativos con foco, ayuda y estado `aria-pressed`. Con Espacio, Enter o activación semántica se mantiene el pedal al máximo; otra activación lo suelta y elegir el otro pedal libera el anterior. Se puede conservar el freno mientras el foco pasa a la palanca. El gesto táctil sigue siendo gradual y momentáneo, sin convertir el clic posterior al gesto en una activación sostenida. Al salir de la cabina, cambiar a otro control editable, perder el foco de la ventana, ocultar la pestaña, reiniciar, cambiar el modo de inclinación o fallar el sensor se liberan los pedales y su estado visual. La sesión comunica cada liberación a la franja, que invalida los gestos anteriores y conserva el foco del botón; la próxima activación vuelve a pisar el pedal.
 - **Examen:** la banda neutra evita acelerar o frenar sin querer, lo que importa en las maniobras de 30 cm. El protocolo pide hacerlas sin acelerador (`specs/fuentes/pdf/protocolo.pdf`, PDF 11), y el simulador considera que se aceleró a partir de 0,05, una aproximación del juego (§11).
 
 ### 8.2 Palanca de cambios (pulgar derecho)

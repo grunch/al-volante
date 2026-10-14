@@ -12,6 +12,7 @@ const snapshot: MobileSnapshot = {
   storageError: false,
   wakeError: false,
   vibrationAvailable: true,
+  pedalResetCount: 0,
 };
 afterEach(() => {
   vi.restoreAllMocks();
@@ -70,7 +71,7 @@ it('changes validated settings, labels sensitivity and exposes unavailable vibra
 it('maps direct taps, dragging outside and simultaneous pointers, releasing every path to neutral', () => {
   vi.stubGlobal('PointerEvent', MouseEvent);
   const send = vi.fn();
-  const { unmount } = render(<PedalStrip send={send} />);
+  const { rerender, unmount } = render(<PedalStrip send={send} />);
   const strip = screen.getByTestId('mobile-pedals');
   strip.setPointerCapture = vi.fn();
   vi.spyOn(strip, 'getBoundingClientRect').mockReturnValue({
@@ -104,8 +105,16 @@ it('maps direct taps, dragging outside and simultaneous pointers, releasing ever
   expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 0 }));
   pointer('lostpointercapture', 1, 300);
   pointer('pointerdown', 3, 100);
-  act(() => window.dispatchEvent(new Event('blur')));
+  rerender(<PedalStrip send={send} resetCount={1} />);
+  expect(screen.getByRole('button', { name: MOBILE_COPY.throttle })).toHaveAttribute('aria-pressed', 'false');
+  send.mockClear();
   pointer('pointermove', 3, 100);
+  pointer('pointerup', 3, 100);
+  expect(send).not.toHaveBeenCalled();
+  pointer('pointerdown', 4, 300);
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 1 }));
+  act(() => window.dispatchEvent(new Event('blur')));
+  pointer('pointermove', 4, 100);
   unmount();
 });
 
@@ -123,4 +132,35 @@ it('selects every manual and automatic position, highlights the current one and 
   expect(screen.queryByRole('group', { name: MOBILE_COPY.steering })).not.toBeInTheDocument();
   for (const gear of ['P', 'R', 'N', 'D']) fireEvent.click(screen.getByRole('button', { name: `Elegir ${gear}` }));
   expect(screen.getByRole('button', { name: 'Elegir D' })).toHaveAttribute('aria-pressed', 'true');
+});
+
+it('toggles sustained pedals through semantic activation without simultaneously pressing both', () => {
+  const send = vi.fn();
+  render(<PedalStrip send={send} />);
+  const throttle = screen.getByRole('button', { name: MOBILE_COPY.throttle });
+  const brake = screen.getByRole('button', { name: MOBILE_COPY.brake });
+  expect(throttle).toHaveAccessibleDescription(MOBILE_COPY.pedalActivationHelp);
+  expect(brake).toHaveAccessibleDescription(MOBILE_COPY.pedalActivationHelp);
+  fireEvent.click(throttle, { detail: 0 });
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 1, brake: 0 }));
+  expect(throttle).toHaveAttribute('aria-pressed', 'true');
+  fireEvent.click(brake, { detail: 0 });
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 1 }));
+  expect(throttle).toHaveAttribute('aria-pressed', 'false');
+  expect(brake).toHaveAttribute('aria-pressed', 'true');
+  fireEvent.click(brake, { detail: 0 });
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 0 }));
+  fireEvent.click(throttle, { detail: 0 });
+  fireEvent.click(throttle, { detail: 0 });
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 0 }));
+  send.mockClear();
+  fireEvent.click(throttle, { detail: 1 });
+  fireEvent.click(brake, { detail: 1 });
+  expect(send).not.toHaveBeenCalled();
+  for (const button of [throttle, brake]) {
+    expect(fireEvent.keyDown(button, { code: 'Enter', repeat: true })).toBe(false);
+    expect(fireEvent.keyDown(button, { code: 'Space', repeat: true })).toBe(false);
+    expect(fireEvent.keyDown(button, { code: 'Enter' })).toBe(true);
+    expect(fireEvent.keyDown(button, { code: 'Tab', repeat: true })).toBe(true);
+  }
 });

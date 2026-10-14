@@ -134,6 +134,10 @@ test('mobile manual: selects gears without clutch and turns while accelerating w
   test.skip(!isMobile, 'Requires multitouch');
   await page.setViewportSize({ width: 915, height: 412 });
   const canvas = await begin(page, true);
+  const pedals = page.getByRole('group', { name: 'Pedalera y caja' });
+  for (const name of ['Volante a la izquierda', 'Volante a la derecha', 'Frenar', 'Acelerar'])
+    await expect(pedals.getByRole('button', { name, exact: true })).toHaveCount(0);
+  await expect(pedals.getByRole('button', { name: 'Embrague', exact: true })).toBeVisible();
   await key(page, canvas);
   await page.getByRole('button', { name: 'Elegir 1', exact: true }).tap();
   await expect(canvas).toHaveAttribute('data-gear', '1');
@@ -225,6 +229,10 @@ test('desktop: never starts sensors, shows mobile controls or requests a wake lo
   await expect(page.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'ready');
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByTestId('mobile-overlay')).toHaveCount(0);
+  await page.setViewportSize({ width: 667, height: 375 });
+  const pedals = page.getByRole('group', { name: 'Pedalera y caja' });
+  for (const name of ['Volante a la izquierda', 'Volante a la derecha', 'Frenar', 'Acelerar'])
+    await expect(pedals.getByRole('button', { name, exact: true })).toBeVisible();
   expect(errors).toEqual([]);
 });
 
@@ -278,4 +286,82 @@ test('mobile: returns focus to driving when fullscreen is unavailable', async ({
   await expect(canvas).toBeFocused();
   await page.keyboard.press('KeyK');
   await expect(canvas).toHaveAttribute('data-key', 'on');
+});
+
+test('mobile: operates the pedal labels with keyboard focus and semantic clicks', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'Mobile pedal accessibility');
+  await page.setViewportSize({ width: 915, height: 412 });
+  const canvas = await begin(page, true);
+  await key(page, canvas);
+  const throttle = page.getByRole('button', { name: 'Acelerar ↑', exact: true });
+  const brake = page.getByRole('button', { name: 'Frenar ↓', exact: true });
+  await throttle.focus();
+  await page.keyboard.press('Tab');
+  await expect(brake).toBeFocused();
+  await page.keyboard.press('Space');
+  await expect(brake).toHaveAttribute('aria-pressed', 'true');
+  await expect(canvas).toHaveAttribute('data-brake', '1.0000');
+  const first = page.getByRole('button', { name: 'Elegir 1', exact: true });
+  await first.focus();
+  await page.keyboard.press('Enter');
+  await expect(canvas).toHaveAttribute('data-gear', '1');
+  await expect(canvas).toHaveAttribute('data-brake', '1.0000');
+  await page.getByRole('button', { name: 'Accionar freno de mano', exact: true }).click();
+  await throttle.focus();
+  await page.keyboard.press('Enter');
+  await expect(brake).toHaveAttribute('aria-pressed', 'false');
+  await expect(canvas).toHaveAttribute('data-throttle', '1.0000');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh'))).toBeGreaterThan(3);
+  // Assistive technology can activate a button without a pointer coordinate or a physical key sequence.
+  await brake.dispatchEvent('click', { detail: 0 });
+  await expect(throttle).toHaveAttribute('aria-pressed', 'false');
+  await expect(canvas).toHaveAttribute('data-throttle', '0.0000');
+  await expect(canvas).toHaveAttribute('data-brake', '1.0000');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh'))).toBe(0);
+  await brake.focus();
+  await page.keyboard.press('Space');
+  await expect(brake).toHaveAttribute('aria-pressed', 'false');
+  await expect(canvas).toHaveAttribute('data-brake', '0.0000');
+});
+
+test('mobile: a sensor error resets a focused pedal without swallowing its next activation', async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, 'Mobile sensor recovery');
+  await page.setViewportSize({ width: 915, height: 412 });
+  await page.addInitScript(() => {
+    Object.defineProperty(DeviceMotionEvent, 'requestPermission', {
+      configurable: true,
+      value: async () => 'granted',
+    });
+    class TestGravitySensor extends EventTarget {
+      x = 0;
+      y = 9.80665;
+      z = 0;
+      timestamp = performance.now();
+      start() {
+        Object.assign(window, { mobileTestGravitySensor: this });
+        this.dispatchEvent(new Event('reading'));
+      }
+      stop() {}
+    }
+    Object.defineProperty(window, 'GravitySensor', { configurable: true, value: TestGravitySensor });
+  });
+  const canvas = await begin(page);
+  const throttle = page.getByRole('button', { name: 'Acelerar ↑', exact: true });
+  await throttle.focus();
+  await page.keyboard.press('Space');
+  await expect(canvas).toHaveAttribute('data-throttle', '1.0000');
+  await page.evaluate(() => {
+    (window as unknown as { mobileTestGravitySensor: EventTarget }).mobileTestGravitySensor.dispatchEvent(
+      new Event('error'),
+    );
+  });
+  await expect(canvas).toHaveAttribute('data-throttle', '0.0000');
+  await expect(throttle).toHaveAttribute('aria-pressed', 'false');
+  await expect(throttle).toBeFocused();
+  await page.keyboard.press('Space');
+  await expect(canvas).toHaveAttribute('data-throttle', '1.0000');
+  await expect(throttle).toHaveAttribute('aria-pressed', 'true');
 });

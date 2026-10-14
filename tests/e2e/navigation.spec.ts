@@ -2,6 +2,8 @@ import { expect, test } from './fixtures.ts';
 
 test.describe('navigation and library', () => {
   test('is fully usable with the keyboard and focuses each new page title', async ({ page }) => {
+    // CI software WebGL took 5–7 s per Tab while rendering the home car, exhausting the default 30 s budget.
+    test.setTimeout(90_000);
     await page.goto('./');
     await expect(page.getByRole('heading', { level: 1, name: 'Mi garaje' })).toBeVisible();
 

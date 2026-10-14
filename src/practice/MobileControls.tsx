@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { PointerEvent } from 'react';
 import { MOBILE_COPY as copy } from '../i18n/es-AR.ts';
 import type { PowertrainCommand } from '../sim/powertrain/powertrain.ts';
@@ -35,29 +35,39 @@ export function MobileIntro({ start }: { start: (buttons: boolean) => void }) {
   );
 }
 
-export function PedalStrip({ send }: { send: (reading: PedalReading) => void }) {
-  const pointers = useRef(new Map<number, number>());
-  const [level, setLevel] = useState(0);
+export function PedalStrip({ send, resetCount = 0 }: { send: (reading: PedalReading) => void; resetCount?: number }) {
+  const helpId = useId();
+  const pointers = useRef({ resetCount, positions: new Map<number, number>() });
+  const [pedalState, setPedalState] = useState({ resetCount, level: 0 });
+  // A release invalidates old input without replacing the focused button in the DOM.
+  const level = pedalState.resetCount === resetCount ? pedalState.level : 0;
+  const currentPointers = () => {
+    if (pointers.current.resetCount !== resetCount)
+      pointers.current = { resetCount, positions: new Map<number, number>() };
+    return pointers.current.positions;
+  };
   const sendPosition = (position: number | null, atMs: number) => {
     const pedals = position === null ? { throttle: 0, brake: 0 } : pedalsAt(position);
-    setLevel(pedals.throttle - pedals.brake);
+    setPedalState({ resetCount, level: pedals.throttle - pedals.brake });
     send({ atMs, ...pedals });
   };
   const move = (event: PointerEvent<HTMLDivElement>) => {
     const bounds = event.currentTarget.getBoundingClientRect();
     const position = (event.clientY - bounds.top) / bounds.height;
-    pointers.current.delete(event.pointerId);
-    pointers.current.set(event.pointerId, position);
+    const positions = currentPointers();
+    positions.delete(event.pointerId);
+    positions.set(event.pointerId, position);
     sendPosition(position, event.timeStamp);
   };
   const release = (event: PointerEvent<HTMLDivElement>) => {
-    if (!pointers.current.delete(event.pointerId)) return;
-    sendPosition([...pointers.current.values()].at(-1) ?? null, event.timeStamp);
+    const positions = currentPointers();
+    if (!positions.delete(event.pointerId)) return;
+    sendPosition([...positions.values()].at(-1) ?? null, event.timeStamp);
   };
   useEffect(() => {
     const clear = () => {
-      pointers.current.clear();
-      setLevel(0);
+      pointers.current.positions.clear();
+      setPedalState({ resetCount, level: 0 });
     };
     window.addEventListener('blur', clear);
     document.addEventListener('visibilitychange', clear);
@@ -65,7 +75,7 @@ export function PedalStrip({ send }: { send: (reading: PedalReading) => void }) 
       window.removeEventListener('blur', clear);
       document.removeEventListener('visibilitychange', clear);
     };
-  }, []);
+  }, [resetCount]);
   return (
     <div
       className="mobile-pedals"
@@ -79,20 +89,52 @@ export function PedalStrip({ send }: { send: (reading: PedalReading) => void }) 
         move(event);
       }}
       onPointerMove={(event) => {
-        if (pointers.current.has(event.pointerId)) move(event);
+        if (currentPointers().has(event.pointerId)) move(event);
       }}
       onPointerUp={release}
       onPointerCancel={release}
       onLostPointerCapture={release}
     >
-      <span>{copy.throttle}</span>
+      <button
+        type="button"
+        aria-pressed={level > 0}
+        aria-describedby={helpId}
+        onKeyDown={(event) => {
+          if (event.repeat && (event.code === 'Enter' || event.code === 'Space')) event.preventDefault();
+        }}
+        onClick={(event) => {
+          // Pointer gestures use the strip's coordinates; semantic activation toggles a sustained pedal instead.
+          if (event.detail !== 0) return;
+          currentPointers().clear();
+          sendPosition(level > 0 ? null : 0, event.timeStamp);
+        }}
+      >
+        {copy.throttle}
+      </button>
       <span
         className="mobile-pedal-level"
         aria-hidden="true"
         style={{ height: `${Math.abs(level) * 42.5}%`, top: level > 0 ? `${42.5 - level * 42.5}%` : '57.5%' }}
       />
       <span className="mobile-pedal-neutral" aria-hidden="true" />
-      <span>{copy.brake}</span>
+      <button
+        type="button"
+        aria-pressed={level < 0}
+        aria-describedby={helpId}
+        onKeyDown={(event) => {
+          if (event.repeat && (event.code === 'Enter' || event.code === 'Space')) event.preventDefault();
+        }}
+        onClick={(event) => {
+          if (event.detail !== 0) return;
+          currentPointers().clear();
+          sendPosition(level < 0 ? null : 1, event.timeStamp);
+        }}
+      >
+        {copy.brake}
+      </button>
+      <span id={helpId} hidden>
+        {copy.pedalActivationHelp}
+      </span>
     </div>
   );
 }
@@ -106,6 +148,7 @@ export function MobileOverlay({
   shift,
   start,
   stop,
+  pedalResetCount = 0,
 }: {
   automatic: boolean;
   gear: string;
@@ -115,11 +158,12 @@ export function MobileOverlay({
   shift: (command: PowertrainCommand) => void;
   start: (action: Action, source: string) => void;
   stop: (source: string) => void;
+  pedalResetCount?: number;
 }) {
   const positions = automatic ? (['P', 'R', 'N', 'D'] as const) : (['1', '3', '5', 'N', '2', '4', 'R'] as const);
   return (
     <div className="mobile-overlay" data-testid="mobile-overlay">
-      <PedalStrip send={send} />
+      <PedalStrip resetCount={pedalResetCount} send={send} />
       {recenter && (
         <button type="button" className="mobile-recenter" onClick={recenter}>
           {copy.recenter}

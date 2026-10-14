@@ -577,6 +577,7 @@ export function DrivingCanvas({
             shift={(command) => directCommandsRef.current.push(command)}
             start={startAction}
             stop={stopAction}
+            pedalResetCount={mobile.pedalResetCount}
           />
         )}
         <div
@@ -671,6 +672,7 @@ export function DrivingCanvas({
           }}
           restore={() => saveBindings(DEFAULT_BINDINGS)}
           storageError={storageError}
+          mobile={mobile !== null}
           mobileSettings={
             mobile ? (
               <MobileSettingsPanel snapshot={mobile} change={(settings) => mobileRef.current?.change(settings)} />

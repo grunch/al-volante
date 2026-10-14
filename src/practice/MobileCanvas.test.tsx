@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { DrivingCanvas } from './DrivingCanvas.tsx';
 import { createFakeRenderer } from '../test/fakeRenderer.ts';
@@ -11,13 +11,15 @@ const motion = vi.hoisted(() => ({
   reading: (reading: GravityReading) => {
     void reading;
   },
+  error: () => {},
 }));
 vi.mock('./motionSensor.ts', () => ({
   MotionSensor: class {
     start = motion.start;
     stop = motion.stop;
-    constructor(reading: typeof motion.reading) {
+    constructor(reading: typeof motion.reading, error: typeof motion.error) {
       motion.reading = reading;
+      motion.error = error;
     }
   },
 }));
@@ -95,7 +97,7 @@ it('connects the sensor independently of pedal focus, calibrates and releases on
   expect(canvas).toHaveFocus();
   frames(0.5);
   expect(canvas).toHaveAttribute('data-steering-source', 'tilt');
-  fireEvent.focus(screen.getByRole('button', { name: 'Acelerar' }));
+  fireEvent.focus(screen.getByRole('button', { name: 'Embrague' }));
   frames(0.5, 40);
   expect(Number(canvas.dataset.steer)).toBeGreaterThan(0.2);
   fireEvent.click(screen.getByRole('button', { name: 'Centrar volante' }));
@@ -168,11 +170,81 @@ it('starts with buttons and drops the mobile session when the primary pointer ch
   expect(motion.start).not.toHaveBeenCalled();
   expect(assisted).not.toHaveBeenCalled();
   expect(screen.getByTestId('driving-canvas')).toHaveAttribute('data-steering-source', 'buttons');
+  const pedals = within(screen.getByRole('group', { name: 'Pedalera y caja' }));
+  const duplicatedControls = ['Volante a la izquierda', 'Volante a la derecha', 'Frenar', 'Acelerar'];
+  for (const name of duplicatedControls) expect(pedals.queryByRole('button', { name })).not.toBeInTheDocument();
+  expect(screen.getByTestId('mobile-pedals')).toBeInTheDocument();
+  expect(screen.getByRole('group', { name: 'Volante con botones' })).toBeInTheDocument();
   coarse = false;
   act(() => mediaChange?.());
   expect(screen.queryByTestId('mobile-overlay')).not.toBeInTheDocument();
+  for (const name of duplicatedControls) expect(pedals.getByRole('button', { name })).toBeInTheDocument();
   coarse = true;
   await act(async () => mediaChange?.());
   expect(screen.getByRole('button', { name: 'Empezar' })).toBeInTheDocument();
   view.unmount();
 });
+
+it('releases semantic pedals and their pressed state when controls reset or focus leaves driving', async () => {
+  const view = render(<DrivingCanvas {...props} />);
+  await act(async () => {});
+  frames(0.05);
+  await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Manejar con botones' })));
+  const canvas = screen.getByTestId('driving-canvas');
+  const throttle = () => screen.getByRole('button', { name: 'Acelerar ↑' });
+  const press = () => {
+    const event = new MouseEvent('click', { bubbles: true, detail: 0 });
+    Object.defineProperty(event, 'timeStamp', { value: clock });
+    fireEvent(throttle(), event);
+    frames(0.3);
+    expect(canvas).toHaveAttribute('data-throttle', '1.0000');
+  };
+  press();
+  fireEvent.blur(throttle(), { relatedTarget: document.body });
+  frames(0.3);
+  expect(throttle()).toHaveAttribute('aria-pressed', 'false');
+  expect(canvas).toHaveAttribute('data-throttle', '0.0000');
+  press();
+  act(() => window.dispatchEvent(new Event('blur')));
+  frames(0.3);
+  expect(throttle()).toHaveAttribute('aria-pressed', 'false');
+  expect(canvas).toHaveAttribute('data-throttle', '0.0000');
+  act(() => window.dispatchEvent(new Event('focus')));
+  press();
+  view.rerender(<DrivingCanvas {...props} resetCount={1} />);
+  frames(0.1);
+  expect(throttle()).toHaveAttribute('aria-pressed', 'false');
+  expect(canvas).toHaveAttribute('data-throttle', '0.0000');
+});
+
+it.each([
+  ['Acelerar ↑', 'throttle'],
+  ['Frenar ↓', 'brake'],
+] as const)(
+  'clears %s after a sensor error and accepts the next semantic activation without losing focus',
+  async (name, pedal) => {
+    render(<DrivingCanvas {...props} />);
+    await act(async () => {});
+    frames(0.05);
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Empezar' })));
+    const canvas = screen.getByTestId('driving-canvas');
+    const button = screen.getByRole('button', { name });
+    act(() => button.focus());
+    const press = () => {
+      const event = new MouseEvent('click', { bubbles: true, detail: 0 });
+      Object.defineProperty(event, 'timeStamp', { value: clock });
+      fireEvent(button, event);
+      frames(0.3);
+    };
+    press();
+    expect(canvas).toHaveAttribute(`data-${pedal}`, '1.0000');
+    act(() => motion.error());
+    frames(0.3);
+    expect(canvas).toHaveAttribute(`data-${pedal}`, '0.0000');
+    expect(button).toHaveAttribute('aria-pressed', 'false');
+    expect(button).toHaveFocus();
+    press();
+    expect(canvas).toHaveAttribute(`data-${pedal}`, '1.0000');
+    expect(button).toHaveAttribute('aria-pressed', 'true');
+  },
+);

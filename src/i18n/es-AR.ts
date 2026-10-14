@@ -921,6 +921,8 @@ export const MOBILE_COPY = {
   pedals: 'Acelerador y freno',
   throttle: 'Acelerar ↑',
   brake: 'Frenar ↓',
+  pedalActivationHelp:
+    'Con teclado o lector de pantalla: activá para mantener el pedal pisado y volvé a activar para soltarlo. Elegir el otro pedal suelta el anterior.',
   neutral: 'Soltá para dejar de accionar',
   gears: 'Palanca de cambios',
   gear: (value: string) => `Elegir ${value}`,
