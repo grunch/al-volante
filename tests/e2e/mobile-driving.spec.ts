@@ -134,6 +134,10 @@ test('mobile manual: selects gears without clutch and turns while accelerating w
   test.skip(!isMobile, 'Requires multitouch');
   await page.setViewportSize({ width: 915, height: 412 });
   const canvas = await begin(page, true);
+  const pedals = page.getByRole('group', { name: 'Pedalera y caja' });
+  for (const name of ['Volante a la izquierda', 'Volante a la derecha', 'Frenar', 'Acelerar'])
+    await expect(pedals.getByRole('button', { name, exact: true })).toHaveCount(0);
+  await expect(pedals.getByRole('button', { name: 'Embrague', exact: true })).toBeVisible();
   await key(page, canvas);
   await page.getByRole('button', { name: 'Elegir 1', exact: true }).tap();
   await expect(canvas).toHaveAttribute('data-gear', '1');
@@ -225,6 +229,10 @@ test('desktop: never starts sensors, shows mobile controls or requests a wake lo
   await expect(page.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'ready');
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByTestId('mobile-overlay')).toHaveCount(0);
+  await page.setViewportSize({ width: 667, height: 375 });
+  const pedals = page.getByRole('group', { name: 'Pedalera y caja' });
+  for (const name of ['Volante a la izquierda', 'Volante a la derecha', 'Frenar', 'Acelerar'])
+    await expect(pedals.getByRole('button', { name, exact: true })).toBeVisible();
   expect(errors).toEqual([]);
 });
 

@@ -671,6 +671,7 @@ export function DrivingCanvas({
           }}
           restore={() => saveBindings(DEFAULT_BINDINGS)}
           storageError={storageError}
+          mobile={mobile !== null}
           mobileSettings={
             mobile ? (
               <MobileSettingsPanel snapshot={mobile} change={(settings) => mobileRef.current?.change(settings)} />

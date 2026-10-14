@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { DrivingCanvas } from './DrivingCanvas.tsx';
 import { createFakeRenderer } from '../test/fakeRenderer.ts';
@@ -95,7 +95,7 @@ it('connects the sensor independently of pedal focus, calibrates and releases on
   expect(canvas).toHaveFocus();
   frames(0.5);
   expect(canvas).toHaveAttribute('data-steering-source', 'tilt');
-  fireEvent.focus(screen.getByRole('button', { name: 'Acelerar' }));
+  fireEvent.focus(screen.getByRole('button', { name: 'Embrague' }));
   frames(0.5, 40);
   expect(Number(canvas.dataset.steer)).toBeGreaterThan(0.2);
   fireEvent.click(screen.getByRole('button', { name: 'Centrar volante' }));
@@ -168,9 +168,15 @@ it('starts with buttons and drops the mobile session when the primary pointer ch
   expect(motion.start).not.toHaveBeenCalled();
   expect(assisted).not.toHaveBeenCalled();
   expect(screen.getByTestId('driving-canvas')).toHaveAttribute('data-steering-source', 'buttons');
+  const pedals = within(screen.getByRole('group', { name: 'Pedalera y caja' }));
+  const duplicatedControls = ['Volante a la izquierda', 'Volante a la derecha', 'Frenar', 'Acelerar'];
+  for (const name of duplicatedControls) expect(pedals.queryByRole('button', { name })).not.toBeInTheDocument();
+  expect(screen.getByTestId('mobile-pedals')).toBeInTheDocument();
+  expect(screen.getByRole('group', { name: 'Volante con botones' })).toBeInTheDocument();
   coarse = false;
   act(() => mediaChange?.());
   expect(screen.queryByTestId('mobile-overlay')).not.toBeInTheDocument();
+  for (const name of duplicatedControls) expect(pedals.getByRole('button', { name })).toBeInTheDocument();
   coarse = true;
   await act(async () => mediaChange?.());
   expect(screen.getByRole('button', { name: 'Empezar' })).toBeInTheDocument();

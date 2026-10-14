@@ -17,6 +17,7 @@ interface Props {
   restore: () => void;
   storageError: boolean;
   automatic: boolean;
+  mobile?: boolean;
   mobileSettings?: ReactNode;
 }
 
@@ -115,6 +116,7 @@ export function CockpitControls({
   restore,
   storageError,
   automatic,
+  mobile = false,
   mobileSettings,
 }: Props) {
   const [capture, setCapture] = useState<Action | null>(null);
@@ -128,11 +130,11 @@ export function CockpitControls({
   return (
     <div className="cockpit-controls">
       <div className="cockpit-drive-row" role="group" aria-label={copy.pedals}>
-        {(['left', 'right', 'brake', 'throttle', ...(!automatic ? ['clutch' as const] : [])] as Action[]).map(
-          (action) => (
+        {!mobile &&
+          (['left', 'right', 'brake', 'throttle'] as const).map((action) => (
             <HoldButton key={action} action={action} start={start} stop={stop} />
-          ),
-        )}
+          ))}
+        {!automatic && <HoldButton action="clutch" start={start} stop={stop} />}
         {(['key', 'handbrake', 'gearDown', 'gearUp'] as const).map((action) => (
           <CommandButton key={action} activate={() => invoke(action)}>
             {copy.actions[action]}
