@@ -124,3 +124,34 @@ it('selects every manual and automatic position, highlights the current one and 
   for (const gear of ['P', 'R', 'N', 'D']) fireEvent.click(screen.getByRole('button', { name: `Elegir ${gear}` }));
   expect(screen.getByRole('button', { name: 'Elegir D' })).toHaveAttribute('aria-pressed', 'true');
 });
+
+it('toggles sustained pedals through semantic activation without simultaneously pressing both', () => {
+  const send = vi.fn();
+  render(<PedalStrip send={send} />);
+  const throttle = screen.getByRole('button', { name: MOBILE_COPY.throttle });
+  const brake = screen.getByRole('button', { name: MOBILE_COPY.brake });
+  expect(throttle).toHaveAccessibleDescription(MOBILE_COPY.pedalActivationHelp);
+  expect(brake).toHaveAccessibleDescription(MOBILE_COPY.pedalActivationHelp);
+  fireEvent.click(throttle, { detail: 0 });
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 1, brake: 0 }));
+  expect(throttle).toHaveAttribute('aria-pressed', 'true');
+  fireEvent.click(brake, { detail: 0 });
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 1 }));
+  expect(throttle).toHaveAttribute('aria-pressed', 'false');
+  expect(brake).toHaveAttribute('aria-pressed', 'true');
+  fireEvent.click(brake, { detail: 0 });
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 0 }));
+  fireEvent.click(throttle, { detail: 0 });
+  fireEvent.click(throttle, { detail: 0 });
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 0 }));
+  send.mockClear();
+  fireEvent.click(throttle, { detail: 1 });
+  fireEvent.click(brake, { detail: 1 });
+  expect(send).not.toHaveBeenCalled();
+  for (const button of [throttle, brake]) {
+    expect(fireEvent.keyDown(button, { code: 'Enter', repeat: true })).toBe(false);
+    expect(fireEvent.keyDown(button, { code: 'Space', repeat: true })).toBe(false);
+    expect(fireEvent.keyDown(button, { code: 'Enter' })).toBe(true);
+    expect(fireEvent.keyDown(button, { code: 'Tab', repeat: true })).toBe(true);
+  }
+});

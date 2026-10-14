@@ -1312,11 +1312,17 @@ a {
   .mobile-pedals:active {
     background: #14272f;
   }
-  .mobile-pedals > span:first-child,
-  .mobile-pedals > span:last-child {
+  .cockpit-shell .mobile-pedals > button {
     z-index: 1;
     background: #14272f;
     border-radius: 4px;
+    border: 0;
+    padding: 0;
+    width: 100%;
+    font: inherit;
+  }
+  .cockpit-shell .mobile-pedals > button[aria-pressed='true'] {
+    background: #345c53;
   }
   .mobile-pedal-level {
     position: absolute;

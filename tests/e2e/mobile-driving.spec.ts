@@ -287,3 +287,39 @@ test('mobile: returns focus to driving when fullscreen is unavailable', async ({
   await page.keyboard.press('KeyK');
   await expect(canvas).toHaveAttribute('data-key', 'on');
 });
+
+test('mobile: operates the pedal labels with keyboard focus and semantic clicks', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'Mobile pedal accessibility');
+  await page.setViewportSize({ width: 915, height: 412 });
+  const canvas = await begin(page, true);
+  await key(page, canvas);
+  const throttle = page.getByRole('button', { name: 'Acelerar ↑', exact: true });
+  const brake = page.getByRole('button', { name: 'Frenar ↓', exact: true });
+  await throttle.focus();
+  await page.keyboard.press('Tab');
+  await expect(brake).toBeFocused();
+  await page.keyboard.press('Space');
+  await expect(brake).toHaveAttribute('aria-pressed', 'true');
+  await expect(canvas).toHaveAttribute('data-brake', '1.0000');
+  const first = page.getByRole('button', { name: 'Elegir 1', exact: true });
+  await first.focus();
+  await page.keyboard.press('Enter');
+  await expect(canvas).toHaveAttribute('data-gear', '1');
+  await expect(canvas).toHaveAttribute('data-brake', '1.0000');
+  await page.getByRole('button', { name: 'Accionar freno de mano', exact: true }).click();
+  await throttle.focus();
+  await page.keyboard.press('Enter');
+  await expect(brake).toHaveAttribute('aria-pressed', 'false');
+  await expect(canvas).toHaveAttribute('data-throttle', '1.0000');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh'))).toBeGreaterThan(3);
+  // Assistive technology can activate a button without a pointer coordinate or a physical key sequence.
+  await brake.dispatchEvent('click', { detail: 0 });
+  await expect(throttle).toHaveAttribute('aria-pressed', 'false');
+  await expect(canvas).toHaveAttribute('data-throttle', '0.0000');
+  await expect(canvas).toHaveAttribute('data-brake', '1.0000');
+  await expect.poll(async () => Number(await canvas.getAttribute('data-speed-kmh'))).toBe(0);
+  await brake.focus();
+  await page.keyboard.press('Space');
+  await expect(brake).toHaveAttribute('aria-pressed', 'false');
+  await expect(canvas).toHaveAttribute('data-brake', '0.0000');
+});
