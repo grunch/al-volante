@@ -1,12 +1,19 @@
 import { expect, it } from 'vitest';
-import { cityExam, cruise, throughTheBox } from '../test/circuitDriver.ts';
+import { CITY, cruise, throughTheBox } from '../test/circuitDriver.ts';
 import { driveFrame, startDriving } from './drivingLoop.ts';
 import { SIM_STEP_S } from '../sim/fixedStep.ts';
 import { trafficOf } from '../sim/world.ts';
 import type { CarControls } from '../sim/car.ts';
+import { createTraffic, trafficSourceOf } from '../traffic/traffic.ts';
+import { buildCircuit } from '../exam/circuit.ts';
+import { Driver } from '../test/examDriver.ts';
 
-it('drives a seeded circuit with continuous pedals and assisted shifts without stalling', () => {
-  const exam = cityExam('manual', 1, { emergency: false });
+it('drives the entire circuit with continuous pedals and assisted shifts without stalling', () => {
+  // Isolate the mobile powertrain from the test driver's actor-yielding heuristics. Keep signals and road geometry.
+  const traffic = { ...createTraffic(CITY, 1), vehicles: [], walks: {}, emergency: null };
+  const circuit = buildCircuit(CITY, traffic);
+  const world = { ...CITY.world, traffic: trafficSourceOf(traffic) };
+  const exam = { traffic, circuit, driver: new Driver('manual', 1, world, CITY.start.pose, circuit) };
   const driver = throughTheBox(exam.driver);
   let frame = startDriving(driver.car.world.vehicle, 'manual', [], undefined, trafficOf(driver.world));
   frame = {
