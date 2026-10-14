@@ -1210,3 +1210,200 @@ a {
     min-height: var(--touch-target);
   }
 }
+
+/* Mobile driving: opaque outlines/text over translucent fill, with two independent thumb zones. */
+.mobile-intro {
+  max-width: min(30rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  padding: 1.5rem;
+  border: 2px solid #a4e9d6;
+  border-radius: 16px;
+  background: #14272f;
+  color: #f2f9f6;
+}
+.mobile-intro::backdrop {
+  background: #07131bb3;
+}
+.mobile-intro button {
+  margin: 0.4rem;
+}
+.mobile-overlay {
+  display: contents;
+}
+.mobile-pedals,
+.mobile-right-controls {
+  display: none;
+}
+.cockpit-shell .mobile-recenter {
+  position: absolute;
+  z-index: 2;
+  top: max(0.75rem, env(safe-area-inset-top));
+  left: max(0.75rem, env(safe-area-inset-left));
+  background: #14272f;
+  font-size: 0.8rem;
+}
+.mobile-notices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  grid-column: 1 / -1;
+}
+.mobile-settings {
+  padding: 0.6rem;
+}
+.mobile-settings label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+.mobile-settings input[type='range'] {
+  width: 100%;
+}
+.mobile-settings input[type='checkbox'] {
+  width: 24px;
+  height: 24px;
+  margin: 10px;
+}
+@media (orientation: landscape) {
+  .mobile-portrait-notice {
+    display: none;
+  }
+  .mobile-overlay {
+    display: contents;
+  }
+  .mobile-pedals,
+  .mobile-right-controls {
+    position: absolute;
+    z-index: 2;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+  .mobile-pedals {
+    left: max(0.75rem, env(safe-area-inset-left));
+    width: 72px;
+    height: 66%;
+    max-height: calc(100% - 6rem);
+    min-height: 140px;
+    border: 2px solid #f2f9f6;
+    outline: 2px solid #081820;
+    border-radius: 14px;
+    background: #0a1a2366;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    touch-action: none;
+    user-select: none;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-shadow:
+      -1px -1px #081820,
+      1px 1px #081820,
+      -1px 1px #081820,
+      1px -1px #081820,
+      0 0 3px #081820;
+  }
+  .mobile-pedals:active {
+    background: #14272f;
+  }
+  .mobile-pedals > span:first-child,
+  .mobile-pedals > span:last-child {
+    z-index: 1;
+    background: #14272f;
+    border-radius: 4px;
+  }
+  .mobile-pedal-level {
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    background: #a4e9d6b3;
+    pointer-events: none;
+  }
+  .mobile-pedal-neutral {
+    position: absolute;
+    top: 42.5%;
+    height: 15%;
+    left: 0;
+    right: 0;
+    border-block: 2px solid #f2f9f6;
+    background: #14272f99;
+    pointer-events: none;
+  }
+  .mobile-right-controls {
+    display: block;
+    right: max(0.75rem, env(safe-area-inset-right));
+  }
+  .mobile-gears {
+    display: grid;
+    gap: 4px;
+  }
+  .mobile-gears-auto {
+    grid-template-columns: 52px;
+    justify-content: end;
+  }
+  .mobile-gears-manual {
+    grid-template-columns: repeat(3, 48px);
+  }
+  .mobile-gears-manual .mobile-neutral {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+  .mobile-steering {
+    display: flex;
+    gap: 8px;
+    justify-content: end;
+    margin-top: 10px;
+  }
+  .cockpit-shell .mobile-gears button,
+  .cockpit-shell .mobile-steering button {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 2px solid #f2f9f6;
+    outline: 2px solid #081820;
+    background: #0a1a2366;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-shadow:
+      -1px -1px #081820,
+      1px 1px #081820,
+      -1px 1px #081820,
+      1px -1px #081820,
+      0 0 3px #081820;
+    touch-action: none;
+  }
+  .cockpit-shell .mobile-gears button[aria-pressed='true'],
+  .cockpit-shell .mobile-gears button:active,
+  .cockpit-shell .mobile-steering button:active {
+    background: #14272f;
+    border-color: #a4e9d6;
+  }
+  .cockpit-mobile .cockpit-digital {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    gap: 0.5rem;
+  }
+  .cockpit-mobile .cockpit-indicator {
+    display: none;
+  }
+}
+@media (orientation: landscape) and (max-height: 32rem) {
+  .cockpit-mobile {
+    grid-template-columns: minmax(0, 1fr) min(25%, 12rem);
+  }
+  .cockpit-mobile .mobile-notices {
+    grid-area: notice;
+  }
+  .cockpit-mobile .cockpit-status {
+    grid-area: auto;
+    grid-column: 1 / -1;
+  }
+}

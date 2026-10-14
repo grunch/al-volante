@@ -897,3 +897,38 @@ export const PWA_COPY = {
   later: 'Más tarde',
   needsConnection: '(necesita conexión)',
 } as const;
+
+export const MOBILE_COPY = {
+  title: 'Manejá con el teléfono',
+  intro:
+    'Sostenelo horizontal, con las dos manos, como un volante. Giralo para doblar. Con el pulgar izquierdo acelerás y frenás; con el derecho cambiás de marcha.',
+  start: 'Empezar',
+  buttons: 'Manejar con botones',
+  recenter: 'Centrar volante',
+  settings: 'Controles del celular',
+  tiltEnabled: 'Volante por inclinación',
+  sensitivity: 'Sensibilidad',
+  sensitivityHint: 'Menos grados para llegar al tope = dirección más sensible.',
+  vibration: 'Vibración',
+  vibrationUnavailable: 'Vibración no disponible en este navegador',
+  storageError: 'No se pudieron guardar los ajustes. Se conservan mientras sigas acá.',
+  wakeError: 'No se pudo mantener la pantalla encendida.',
+  portrait: 'Girá el teléfono a horizontal para manejar inclinándolo',
+  flat: 'Levantá un poco el teléfono',
+  calibrating: 'Sostené el teléfono quieto, como un volante',
+  unavailable: 'No se pudo leer la inclinación; usá los botones',
+  waiting: 'Esperando la inclinación…',
+  pedals: 'Acelerador y freno',
+  throttle: 'Acelerar ↑',
+  brake: 'Frenar ↓',
+  neutral: 'Soltá para dejar de accionar',
+  gears: 'Palanca de cambios',
+  gear: (value: string) => `Elegir ${value}`,
+  steering: 'Volante con botones',
+  approximation:
+    'La dirección es más directa que la de un auto real: el ángulo elegido lleva las ruedas al tope. La ubicación de R en la grilla manual es una aproximación.',
+  clutchHelp:
+    'En manual, el juego acciona el embrague para salir y cambiar. Para reconocerlo, usá el botón Embrague. Para practicar su regulación, usá el teclado en escritorio.',
+  clutchApproximation:
+    'En el celular, la caja manual usa embrague asistido: el calado prácticamente no ocurre y la regulación fina del embrague, incluidos los 30 cm, la hace el juego. No se pone a prueba ese dominio. Protocolo, PDF 11.',
+} as const;

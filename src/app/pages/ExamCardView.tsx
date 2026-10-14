@@ -4,7 +4,7 @@ import { fichaRowOf } from '../../exam/card.ts';
 import type { CardFault, ExamCard, StageCard, Verdict } from '../../exam/card.ts';
 import type { Fault } from '../../exam/scoring.ts';
 import type { Session } from '../../exam/session.ts';
-import { EXAM_COPY as copy } from '../../i18n/es-AR.ts';
+import { EXAM_COPY as copy, MOBILE_COPY } from '../../i18n/es-AR.ts';
 
 /** Where to read the rule in the protocol: one link per cited page. */
 export function RuleLinks({ rule }: { rule: Rule }) {
@@ -115,7 +115,15 @@ function StageSection({ stage }: { stage: StageCard }) {
 }
 
 /** The card per stage shown when the session ends (F04-T05): stages, faults, subtotals, total and verdict. */
-export function ExamCardView({ card, takeover }: { card: ExamCard; takeover: boolean }) {
+export function ExamCardView({
+  card,
+  takeover,
+  assistedClutch = false,
+}: {
+  card: ExamCard;
+  takeover: boolean;
+  assistedClutch?: boolean;
+}) {
   return (
     <section className="exam-card" data-testid="exam-card" aria-labelledby="exam-card-heading">
       <h2 id="exam-card-heading">{copy.card}</h2>
@@ -131,6 +139,13 @@ export function ExamCardView({ card, takeover }: { card: ExamCard; takeover: boo
         <strong>{copy.total(card.points)}</strong>
       </p>
       <h3>{copy.approximationsHeading}</h3>
+      {assistedClutch && (
+        <p>
+          <small>
+            {MOBILE_COPY.clutchApproximation} <Link to="/biblioteca/protocolo/11">{copy.protocolPage(11)}</Link>
+          </small>
+        </p>
+      )}
       <p>
         <small>{copy.approximations}</small>
       </p>

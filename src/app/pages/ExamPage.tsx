@@ -1,3 +1,4 @@
+import { isMobileDriving } from '../../practice/mobileDriving.ts';
 import { Suspense, lazy, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { buildCity } from '../../city/model.ts';
@@ -314,7 +315,13 @@ function Exam({ content }: { content: Content }) {
       </Suspense>
       <ExamHud session={session} aids={aids} legs={city.legs} transmission={transmission} />
       {mode === 'exam' && !finished && <p data-testid="exam-no-aids">{copy.examNoAids}</p>}
-      {card && <ExamCardView card={card} takeover={street.takeover} />}
+      {card && (
+        <ExamCardView
+          card={card}
+          takeover={street.takeover}
+          assistedClutch={transmission === 'manual' && isMobileDriving()}
+        />
+      )}
       {finished && (
         <p role="status" data-testid="exam-saved" data-save={saveState}>
           {isPersisted(mode)

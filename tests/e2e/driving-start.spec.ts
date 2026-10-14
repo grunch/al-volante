@@ -15,7 +15,11 @@ async function advance(canvas: Locator, seconds: number) {
 }
 
 test.describe('practical driving controls', () => {
-  test('manual: combines a held keyboard clutch with a gear button and restarts after a stall', async ({ page }) => {
+  test('manual: combines a held keyboard clutch with a gear button and restarts after a stall', async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(isMobile, 'The mobile clutch is assisted; covered by mobile-driving.spec.ts');
     await page.goto('./#/examen');
     const canvas = page.getByTestId('driving-canvas');
     await expect(canvas).toHaveAttribute('data-state', 'ready', { timeout: 30_000 });
@@ -120,9 +124,8 @@ test('touchscreen: engages first gear with a two-finger clutch and gear gesture'
     await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     touching = false;
     await expect(canvas).toHaveAttribute('data-gear', '1');
-    await expect(canvas).toHaveAttribute('data-clutch', '0.0000', { timeout: 60_000 });
-    await expect(canvas).toHaveAttribute('data-engine', 'off');
-    await expect(page.getByTestId('driving-feedback')).toContainText('Se caló el motor');
+    await expect(canvas).toHaveAttribute('data-clutch', '1.0000', { timeout: 60_000 });
+    await expect(canvas).toHaveAttribute('data-engine', 'running');
     // Starting a page scroll on a command must remain possible and must not engage another gear.
     const scroll = await page.evaluate(() => window.scrollY);
     await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [second] });
@@ -136,7 +139,7 @@ test('touchscreen: engages first gear with a two-finger clutch and gear gesture'
     touching = false;
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(scroll + 20);
     await expect(canvas).toHaveAttribute('data-gear', '1');
-    await expect(page.getByTestId('driving-feedback')).toContainText('Se caló el motor');
+    await expect(canvas).toHaveAttribute('data-engine', 'running');
   } finally {
     if (touching) await touch.send('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] });
     await touch.detach();

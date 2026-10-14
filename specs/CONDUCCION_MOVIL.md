@@ -2,7 +2,7 @@
 
 Pedido puntual del 2026-10-14: especificar cómo se maneja desde un teléfono aprovechando sus sensores, en particular girar el volante inclinando el teléfono. En escritorio el juego sigue igual. No inicia las fases 6 ni 7; adelanta la parte de la compatibilidad móvil del práctico que F07-T02 audita después.
 
-**Estado: implementación autorizada por el usuario el 2026-10-14.** MOV01-T01 incorpora el núcleo de entradas y asistencia; MOV01-T02 conecta la interfaz móvil. La entrega sigue los dos PRs de §15; la prueba física de §14 sigue pendiente hasta contar con un aparato.
+**Estado: implementación en revisión, autorizada por el usuario el 2026-10-14.** MOV01-T01 incorpora el núcleo de entradas y asistencia; MOV01-T02 conecta la interfaz móvil en pista, recorrido y examen. La entrega sigue los dos PRs de §15; la prueba física de §14 sigue pendiente hasta contar con un aparato. Ramas, revisiones y resultados vigentes en [ESTADO_IMPLEMENTACION.md](ESTADO_IMPLEMENTACION.md#pedido-puntual-mov01--conducción-en-el-celular).
 
 ## 1. Alcance
 
@@ -314,3 +314,11 @@ Dos PRs apilados desde `main`, con el flujo de revisión habitual (Codex y CodeR
 - La medición de rendimiento de `ARQUITECTURA.md` (emulación de Pixel 7) no valida hardware real. La inclinación no agrega costo gráfico, pero la experiencia depende de los cuadros por segundo del teléfono.
 - Sostener el teléfono con dos manos y usar los pulgares es una postura distinta de la de un auto; el juego no evalúa la postura.
 - El embrague asistido simplifica la caja manual en el celular: para practicar el embrague hay que usar el teclado en escritorio.
+
+## 17. Registro de implementación
+
+- Núcleo en `tilt.ts`, `motionSensor.ts`, `continuousInput.ts`, `mobileDriving.ts` y `assistedClutch.ts`. Se conserva el paso fijo, la física y el evaluador. La revisión corrigió el eje Z de `rotationRate` (`gamma`) y el acople prematuro al acelerar; los cambios pedidos se validan también en el instante de la solicitud para no aceptar una reversa rechazada mientras se frenaba.
+- Cabina en `MobileControls.tsx` y `useMobileDriving.ts`, con servicios separados en `mobileSession.ts`, `mobileScreen.ts` y `haptics.ts`. El modo táctil ofrece explícitamente «Manejar con botones». Los fallos de permiso, lectura, almacenamiento o wake lock tienen respaldo visible. La ficha manual informa el embrague asistido y su efecto sobre el dominio fino.
+- La vuelta guionada de prueba del asistente usa el recorrido completo, semáforos y PARE, semilla 1, sin actores generados. Con actores, el conductor guionado de prueba se quedaba esperando en Cuba→Quesada y dejaba ventanas de salida menores que la rampa de los pedales. Esa prueba aislada no acredita una vuelta móvil con tránsito ni una prueba física.
+- En E2E, un sensor sintético entrega muestras de 60 Hz con sus instantes antes del cuadro. Así la carga de WebGL por software no convierte el temporizador JavaScript del fixture en interrupciones falsas del sensor. Las pérdidas de lectura se prueban deshabilitando expresamente la fuente. No hay API de prueba en el producto.
+- Pendiente: completar el registro de §14 en un teléfono físico, confirmar sentido y comodidad en ambas orientaciones, decidir si la inclinación hacia adelante requiere compensación y medir FPS, vibración y pantalla encendida reales. La emulación no cierra esos criterios de aceptación.

@@ -7,7 +7,7 @@ const readout = (page: Page, label: string) =>
 async function openYard(page: Page): Promise<Locator> {
   await page.goto('./#/pista');
   const canvas = page.getByRole('application', { name: /Vista 3D de la pista de prueba/ });
-  await expect(canvas).toHaveAttribute('data-state', 'ready');
+  await expect(canvas).toHaveAttribute('data-state', 'ready', { timeout: 30_000 });
   return canvas;
 }
 
