@@ -6,7 +6,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 ## Fase activa
 
-- **MOV01 — conducción en el celular (pedido puntual, 2026-10-14):** especificación en [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md): volante por inclinación, mandos para los pulgares, vibración y pantalla encendida, solo en teléfonos y tabletas; escritorio sin cambios. Rama `mov01-mobile-driving-spec`, desde `main` (`c2684ad`). Solo documentación: la implementación (MOV01-T01 y T02) espera un pedido explícito. No inicia las fases 6 ni 7. Detalle en la sección «Pedido puntual MOV01».
+- **MOV01 — conducción en el celular (pedido puntual, 2026-10-14):** especificación en [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md): volante por inclinación, mandos para los pulgares, vibración y pantalla encendida, solo en teléfonos y tabletas; escritorio sin cambios. Rama `mov01-mobile-driving-spec`, desde `main` (`c2684ad`), [PR #48](https://github.com/grunch/al-volante/pull/48). Solo documentación: la implementación (MOV01-T01 y T02) espera un pedido explícito. No inicia las fases 6 ni 7. Detalle en la sección «Pedido puntual MOV01».
 - **PAGES01 — publicación de `main` en GitHub Pages (pedido puntual, 2026-10-13):** rama `pages01-deploy`, base `main` (`d18fa00`, con #46), [PR #47](https://github.com/grunch/al-volante/pull/47), fusionado por el usuario en `c2684ad` (2026-10-13 18:07 UTC). Agrega `.github/workflows/deploy.yml`; no cambia código del juego ni inicia otra fase. Detalle en la sección «Pedido puntual PAGES01».
 - **F04-T05-FIX02 — arranque y prueba jugable del práctico:** pedido puntual del usuario tras fusionar #45. Rama `f04-t05-fix02-driving-playtest`, base `main` (`b2a57ad`), worktree independiente. Implementación inicial `bc30b3b`; [PR #46](https://github.com/grunch/al-volante/pull/46), con correcciones de fuentes y CI posteriores a `54c89bf` (sección del correctivo), fusionado por el usuario en `d18fa00` (2026-10-13 16:27 UTC). No inicia fase 6. [Alcance y reproducción](PRUEBA_MANEJO.md).
 
@@ -687,6 +687,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 
 - Pedido: especificar la conducción desde teléfonos y tabletas usando sus sensores, con el volante controlado al inclinar el aparato; en escritorio todo sigue igual. Rama `mov01-mobile-driving-spec`, desde `main` (`c2684ad`).
 - Resultado: [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md), con activación por capacidades (puntero táctil principal, sensor con lecturas reales y pantalla apaisada), lectura por `GravitySensor` con respaldo `devicemotion`, ángulo, zona muerta, tope y curva, integración en `stepControls`/`driveFrame`, mandos para los pulgares, vibración solo por eventos físicos, pantalla encendida, orientación, ajustes, margen frente a `steerHeldRad`, accesibilidad, verificación y entrega en dos PRs (MOV01-T01 y T02). README, PROPUESTA, ARQUITECTURA y EXPERIENCIA_CONDUCCION remiten a esa spec.
+- [PR #48](https://github.com/grunch/al-volante/pull/48), commit `6dec8df`. Revisiones: Codex solicitada con `@codex review`; CodeRabbit automática al abrir.
 - Estado: especificado, sin implementar ni PR de código. Verificación documental: enlaces y rutas de código citados comprobados contra el árbol y `git diff --check` sin errores (Prettier no revisa los `.md`: están en `.prettierignore`).
 
 ## Pila y orden de fusión
@@ -715,7 +716,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-MOV01: especificación lista en [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md); implementar MOV01-T01 y MOV01-T02 solo cuando el usuario lo pida. F04-T05-FIX02 (#46) y PAGES01 (#47) ya están fusionados en `main`.
+MOV01 ([PR #48](https://github.com/grunch/al-volante/pull/48)): registrar las revisiones de Codex y CodeRabbit y resolver sus findings; especificación en [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md). Implementar MOV01-T01 y MOV01-T02 solo cuando el usuario lo pida. F04-T05-FIX02 (#46) y PAGES01 (#47) ya están fusionados en `main`.
 
 PWA01 fusionada (pedido puntual del usuario; no inicia las fases 6 ni 7): PWA01-T01 en `ecda93a` (#43) y PWA01-T02 en `e71390f` (#44). REV01 fusionada completa (#39 y #42, con #40 y #41); el E2E de `main` corre en tres shards desde `72a1e87`. Decisiones pendientes del usuario de REV01 en su sección. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 

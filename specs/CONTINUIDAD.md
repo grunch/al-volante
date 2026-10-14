@@ -4,7 +4,7 @@ Actualizado: 2026-10-14. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el
 
 ## Trabajo puntual activo — MOV01 (conducción en el celular)
 
-Pedido del 2026-10-14: especificar la conducción desde teléfonos y tabletas con el volante controlado al inclinar el aparato, sin cambiar nada en escritorio. Rama `mov01-mobile-driving-spec`, desde `main` (`c2684ad`). Por ahora solo hay especificación: [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md). Implementarla (MOV01-T01 y T02) requiere un pedido explícito.
+Pedido del 2026-10-14: especificar la conducción desde teléfonos y tabletas con el volante controlado al inclinar el aparato, sin cambiar nada en escritorio. Rama `mov01-mobile-driving-spec`, desde `main` (`c2684ad`), [PR #48](https://github.com/grunch/al-volante/pull/48). Por ahora solo hay especificación: [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md). Implementarla (MOV01-T01 y T02) requiere un pedido explícito.
 
 Decisiones a respetar:
 - El modo móvil se activa por capacidades, no por modelo de aparato. En escritorio no se piden permisos ni se escuchan sensores.
