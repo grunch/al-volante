@@ -141,6 +141,7 @@ describe('manual clutch assistant with unchanged physics', () => {
     let frame = startDriving({ ...restingVehicle(), speedMps: 0.51 }, 'manual', PREPARED);
     const observations: CarEvent[] = [];
     frame = driveFrame(WORLD, frame, EMPTY, [], DT, undefined, (_, events) => observations.push(...events), {
+      frameEndMs: DT * 1000,
       assistClutch: true,
       commands: [{ type: 'shift', to: 'R' }],
       continuous: () => ({ brake: 1 }),
@@ -150,6 +151,7 @@ describe('manual clutch assistant with unchanged physics', () => {
     expect(frame.pendingShift).toBeNull();
     for (let step = 0; step < 60; step++)
       frame = driveFrame(WORLD, frame, EMPTY, [], DT, undefined, undefined, {
+        frameEndMs: (step + 2) * DT * 1000,
         assistClutch: true,
         continuous: () => ({ brake: 1 }),
       });

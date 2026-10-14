@@ -722,6 +722,8 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - [PR #49](https://github.com/grunch/al-volante/pull/49), implementación `1ca418f`. Codex solicitado mediante comentario; CodeRabbit automático solicitado al abrir. MOV01-T02 se apila a continuación. Prueba en teléfono físico pendiente.
 - Verificación posterior: la vuelta con tránsito generado no terminó en 900 s simulados. Revisión independiente local localizó una espera del conductor de prueba en Cuba→Quesada: solo dejaba ventanas de 8 y 67 ms para salir, insuficientes para los pedales graduales; el motor seguía encendido a 850 rpm. Se aísla la regresión del embrague de esa heurística: circuito completo con semáforos y PARE, sin actores generados, semilla 1. Pasaron sus 15 pruebas de vuelta y embrague en 8 s. No acredita una vuelta móvil con tránsito. La suite global anterior aprobó otras 1.851 pruebas; se repite cobertura en árbol limpio tras corregir el escenario.
 
+- Revisión remota: Codex revisó `1ca418f` y señaló la reversa solicitada durante el frenado. Corregido en `603026e`: se validan las restricciones ajenas al embrague al pedir el cambio, y otra vez al aplicarlo. Regresión a 0,51 m/s con frenado, 21 pruebas focalizadas aprobadas; tipos aprobados después de completar los instantes de la prueba. CodeRabbit revisó hasta `341dce4` y señaló «Siguiente acción» desactualizada; corregida en este registro. La revisión de las correcciones sigue pendiente.
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) y F05-T01 ([#28](https://github.com/grunch/al-volante/pull/28)) también están fusionados (`367b484`, `78b5cee`).
@@ -748,7 +750,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-MOV01: completar MOV01-T01 y crear su PR; continuar inmediatamente con MOV01-T02 apilado, solicitar Codex y CodeRabbit en ambos. Conservar como pendiente la prueba en teléfono físico (§14 de CONDUCCION_MOVIL).
+MOV01: completar la validación del [PR #49](https://github.com/grunch/al-volante/pull/49) (MOV01-T01) y publicar MOV01-T02 apilado, con Codex y CodeRabbit solicitados en ambos. Conservar como pendiente la prueba en teléfono físico (§14 de CONDUCCION_MOVIL).
 
 PWA01 fusionada (pedido puntual del usuario; no inicia las fases 6 ni 7): PWA01-T01 en `ecda93a` (#43) y PWA01-T02 en `e71390f` (#44). REV01 fusionada completa (#39 y #42, con #40 y #41); el E2E de `main` corre en tres shards desde `72a1e87`. Decisiones pendientes del usuario de REV01 en su sección. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 
