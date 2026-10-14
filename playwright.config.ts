@@ -19,7 +19,12 @@ export default defineConfig({
   },
   projects: [
     { name: 'chromium-desktop', use: { ...devices['Desktop Chrome'] } },
-    { name: 'chromium-mobile', use: { ...devices['Pixel 7'] } },
+    {
+      name: 'chromium-mobile',
+      // The introduction handler includes fullscreen transitions; software WebGL can spend >5 s rendering them.
+      expect: { timeout: 30_000 },
+      use: { ...devices['Pixel 7'] },
+    },
   ],
   webServer: {
     command: `npm run build && npx vite preview --port ${PORT} --strictPort --host 127.0.0.1`,

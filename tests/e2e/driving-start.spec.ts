@@ -105,7 +105,7 @@ test('touchscreen: engages first gear with a two-finger clutch and gear gesture'
   await page.getByRole('button', { name: 'Accionar llave', exact: true }).tap();
   await expect(canvas).toHaveAttribute('data-engine', 'running');
   const clutch = page.getByRole('button', { name: 'Embrague', exact: true });
-  await clutch.scrollIntoViewIfNeeded();
+  await page.getByRole('group', { name: 'Pedalera y caja' }).scrollIntoViewIfNeeded();
   const pedal = await clutch.boundingBox();
   const gear = await page.getByRole('button', { name: 'Subir marcha', exact: true }).boundingBox();
   expect(pedal).not.toBeNull();

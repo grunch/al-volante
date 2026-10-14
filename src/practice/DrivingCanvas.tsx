@@ -74,6 +74,8 @@ interface DrivingCanvasProps {
   halted?: boolean | (() => boolean);
   /** Told the keys in use when the view loads them and after every change, so a guide can name them. */
   onBindingsChange?: (bindings: Bindings) => void;
+  /** Records assistance for this drive even if the primary pointer later changes. */
+  onClutchAssistUsed?: () => void;
 }
 
 const defaultRendererFactory: RendererFactory = () => new THREE.WebGLRenderer({ antialias: true });
@@ -107,6 +109,7 @@ export function DrivingCanvas({
   onObservation,
   halted = false,
   onBindingsChange,
+  onClutchAssistUsed,
 }: DrivingCanvasProps) {
   const {
     session: audioRef,
@@ -127,6 +130,13 @@ export function DrivingCanvas({
   }, [reducedMotion]);
   const containerRef = useRef<HTMLDivElement>(null);
   const heldRef = useRef(new HeldInput());
+  useEffect(() => {
+    // The modal must be unmounted before focus can return, including when fullscreen is unavailable.
+    if (mobile?.started) containerRef.current?.focus();
+  }, [mobile?.started]);
+  useEffect(() => {
+    if (mobile?.started && transmission === 'manual') onClutchAssistUsed?.();
+  }, [mobile?.started, transmission, resetCount, onClutchAssistUsed]);
   useEffect(() => {
     const onFullscreen = () => {
       setFullscreen(document.fullscreenElement === shellRef.current);
@@ -293,6 +303,7 @@ export function DrivingCanvas({
       directCommandsRef.current.length = 0;
       mobileRef.current?.release();
       driving.pendingShift = null;
+      driving.pendingAutomaticShift = null;
       dragRef.current = null;
       cockpitRef.current = commandCockpit(cockpitRef.current, { type: 'horn', value: false });
       setCockpit(cockpitRef.current);

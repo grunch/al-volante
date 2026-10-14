@@ -97,6 +97,7 @@ test.describe('practice yard', () => {
 
   test('keeps the page keyboard when the view does not have focus', async ({ page }) => {
     const canvas = await openYard(page);
+    await page.getByRole('radio', { name: 'Manual', exact: true }).focus();
 
     await page.keyboard.press('k');
 

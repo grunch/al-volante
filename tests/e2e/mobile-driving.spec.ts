@@ -179,12 +179,12 @@ test('mobile automatic: denied permission keeps buttons and brake plus D work wi
   test.skip(!isMobile, 'Requires multitouch');
   await page.setViewportSize({ width: 915, height: 412 });
   await sensor(page, true);
-  let canvas = await begin(page);
+  await begin(page);
   await page.evaluate(async () => {
     if (document.fullscreenElement) await document.exitFullscreen();
   });
   await page.getByRole('radio', { name: 'Automática', exact: true }).check();
-  canvas = page.getByTestId('driving-canvas');
+  const canvas = page.getByTestId('driving-canvas');
   await expect(canvas).toHaveAttribute('data-state', 'ready');
   // Changing gearbox remounts the cabin and starts a fresh mobile session.
   const intro = page.getByRole('button', { name: 'Empezar', exact: true });
@@ -196,10 +196,11 @@ test('mobile automatic: denied permission keeps buttons and brake plus D work wi
   const brake = { ...(await point(page.getByTestId('mobile-pedals'), 0.98)), id: 1 };
   const gear = { ...(await point(page.getByRole('button', { name: 'Elegir D', exact: true }))), id: 2 };
   const touch = await context.newCDPSession(page);
-  await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [brake] });
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [brake, gear] });
   try {
-    await expect.poll(async () => Number(await canvas.getAttribute('data-brake'))).toBeGreaterThan(0.8);
-    await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [brake, gear] });
+    // CDP ends the listed pointers; release only the gear finger and keep braking.
+    await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [gear] });
+    await expect(canvas).toHaveAttribute('data-gear', 'D1');
   } finally {
     await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     await touch.detach();
@@ -234,6 +235,9 @@ test('mobile: thumb controls fit landscape sizes and portrait retains the orient
   test.skip(!isMobile, 'Mobile layout');
   await page.setViewportSize({ width: 667, height: 375 });
   await begin(page);
+  await page.evaluate(async () => {
+    if (document.fullscreenElement) await document.exitFullscreen();
+  });
   for (const size of [
     { width: 667, height: 375 },
     { width: 915, height: 412 },
@@ -262,4 +266,16 @@ test('mobile: thumb controls fit landscape sizes and portrait retains the orient
   await expect(page.getByText('Girá el teléfono a horizontal para manejar inclinándolo')).toBeVisible();
   await expect(page.getByTestId('mobile-pedals')).not.toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test('mobile: returns focus to driving when fullscreen is unavailable', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'Mobile introduction');
+  await page.addInitScript(() => {
+    HTMLElement.prototype.requestFullscreen = () => Promise.reject(new Error('Fullscreen denied'));
+  });
+  const canvas = await begin(page, true);
+  await expect(page.getByText('Este navegador no pudo abrir la pantalla completa.', { exact: false })).toBeVisible();
+  await expect(canvas).toBeFocused();
+  await page.keyboard.press('KeyK');
+  await expect(canvas).toHaveAttribute('data-key', 'on');
 });

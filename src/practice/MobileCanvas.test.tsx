@@ -81,14 +81,17 @@ const props = {
 };
 
 it('connects the sensor independently of pedal focus, calibrates and releases on reset, visibility and window focus', async () => {
-  const view = render(<DrivingCanvas {...props} />);
+  const assisted = vi.fn();
+  const view = render(<DrivingCanvas {...props} onClutchAssistUsed={assisted} />);
   await act(async () => {});
   frames(0.05);
   const canvas = screen.getByTestId('driving-canvas');
   fireEvent.keyDown(canvas, { code: 'KeyK' });
   frames(0.05);
   expect(canvas).toHaveAttribute('data-key', 'removed');
+  expect(assisted).not.toHaveBeenCalled();
   await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Empezar' })));
+  expect(assisted).toHaveBeenCalledOnce();
   expect(canvas).toHaveFocus();
   frames(0.5);
   expect(canvas).toHaveAttribute('data-steering-source', 'tilt');
@@ -156,12 +159,14 @@ it('connects the sensor independently of pedal focus, calibrates and releases on
 });
 
 it('starts with buttons and drops the mobile session when the primary pointer changes', async () => {
-  const view = render(<DrivingCanvas {...props} transmission="automatic" />);
+  const assisted = vi.fn();
+  const view = render(<DrivingCanvas {...props} transmission="automatic" onClutchAssistUsed={assisted} />);
   await act(async () => {});
   frames(0.05);
   await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Manejar con botones' })));
   frames(0.1);
   expect(motion.start).not.toHaveBeenCalled();
+  expect(assisted).not.toHaveBeenCalled();
   expect(screen.getByTestId('driving-canvas')).toHaveAttribute('data-steering-source', 'buttons');
   coarse = false;
   act(() => mediaChange?.());

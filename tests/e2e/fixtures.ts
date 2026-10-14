@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test';
+import { expect, test as base } from '@playwright/test';
 import type { BrowserContext } from '@playwright/test';
 
 export { expect } from '@playwright/test';
@@ -21,6 +21,11 @@ export const test = base.extend<{ autoStartMobile: boolean }>({
     if (isMobile && autoStartMobile) {
       await page.addLocatorHandler(page.getByRole('dialog', { name: 'Manejá con el teléfono' }), async () => {
         await page.getByRole('button', { name: 'Manejar con botones', exact: true }).click();
+        await expect(
+          page
+            .getByRole('button', { name: 'Salir de pantalla completa', exact: true })
+            .or(page.getByText('Este navegador no pudo abrir la pantalla completa.', { exact: false })),
+        ).toBeVisible();
         await page.evaluate(async () => {
           if (document.fullscreenElement) await document.exitFullscreen();
         });

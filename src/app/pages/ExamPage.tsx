@@ -1,4 +1,3 @@
-import { isMobileDriving } from '../../practice/mobileDriving.ts';
 import { Suspense, lazy, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { buildCity } from '../../city/model.ts';
@@ -69,6 +68,8 @@ function Exam({ content }: { content: Content }) {
   const [seedText, setSeedText] = useState(String(DEFAULT_SEED));
   const [resetCount, setResetCount] = useState(0);
   const [saveState, setSaveState] = useState<SaveState>('idle');
+  const [clutchAssistUsed, setClutchAssistUsed] = useState(false);
+  const onClutchAssistUsed = useCallback(() => setClutchAssistUsed(true), []);
   // The keys the driver bound in the cabin, so the guide names the ones that work.
   const [bindings, setBindings] = useState<Bindings>(DEFAULT_BINDINGS);
   const keys = useMemo(() => keyNames(bindings), [bindings]);
@@ -106,6 +107,7 @@ function Exam({ content }: { content: Content }) {
       sessionIdRef.current += 1;
       startedAtRef.current = now().toISOString();
       setSaveState('idle');
+      setClutchAssistUsed(false);
       setSession(sessionRef.current);
       setTransmission(kind);
       setSeed(nextSeed);
@@ -310,18 +312,13 @@ function Exam({ content }: { content: Content }) {
           onTelemetry={onTelemetry}
           halted={isHalted}
           onBindingsChange={setBindings}
+          onClutchAssistUsed={onClutchAssistUsed}
           {...(createRenderer ? { createRenderer } : {})}
         />
       </Suspense>
       <ExamHud session={session} aids={aids} legs={city.legs} transmission={transmission} />
       {mode === 'exam' && !finished && <p data-testid="exam-no-aids">{copy.examNoAids}</p>}
-      {card && (
-        <ExamCardView
-          card={card}
-          takeover={street.takeover}
-          assistedClutch={transmission === 'manual' && isMobileDriving()}
-        />
-      )}
+      {card && <ExamCardView card={card} takeover={street.takeover} assistedClutch={clutchAssistUsed} />}
       {finished && (
         <p role="status" data-testid="exam-saved" data-save={saveState}>
           {isPersisted(mode)
