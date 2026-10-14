@@ -739,7 +739,7 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Pedido del usuario: quitar del panel lateral «Volante a la izquierda», «Volante a la derecha», «Frenar» y «Acelerar» solo en móvil. Rama `mov01-t02-fix01-mobile-panel`, base `main` (`463e9fa`), sin dependencias pendientes.
 - La cabina comparte su detección del puntero táctil con el panel. Se conservan los pedales y flechas superpuestos, la llave, el freno de mano, las marchas y el embrague manual. Los cuatro botones siguen en escritorio, incluso con una ventana pequeña.
 - Validaciones: 59 pruebas en los cuatro archivos afectados aprobadas; lint, formato, tipos (incluidos en build) y build aprobados. Chromium sobre producción con GPU nativa: seis E2E aplicables aprobados y seis excluidos por perfil; cubren manual/automática, pedales y giro simultáneos, sensores, foco, tamaños móviles y escritorio pequeño. Capturas de manual/automática revisadas. No se repite la suite global ni se acredita prueba física del teléfono con este cambio visual.
-- Autorrevisión del diff completo antes de commit/push. Publicación y revisiones Codex/CodeRabbit pendientes; próximo paso: abrir el PR y solicitarlas.
+- [PR #51](https://github.com/grunch/al-volante/pull/51), implementación `2f802e4`. Autorrevisión del diff completo antes de commit/push. Codex solicitado por comentario `@codex review`; CodeRabbit solicitado mediante la aplicación automática. Resultados y CI pendientes; próximo paso: revisar findings y checks del PR.
 
 ## Pila y orden de fusión
 
@@ -767,7 +767,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-MOV01-T02-FIX01: publicar el PR desde `main` (`463e9fa`) y solicitar Codex/CodeRabbit; validación local del correctivo aprobada. #49 y #50 ya están fusionados por el usuario. La prueba en teléfono físico (§14 de CONDUCCION_MOVIL) sigue pendiente para cerrar la aceptación general de MOV01.
+MOV01-T02-FIX01: revisar los findings de Codex/CodeRabbit y la CI de [#51](https://github.com/grunch/al-volante/pull/51); validación local del correctivo aprobada. #49 y #50 ya están fusionados por el usuario. La prueba en teléfono físico (§14 de CONDUCCION_MOVIL) sigue pendiente para cerrar la aceptación general de MOV01.
 
 PWA01 fusionada (pedido puntual del usuario; no inicia las fases 6 ni 7): PWA01-T01 en `ecda93a` (#43) y PWA01-T02 en `e71390f` (#44). REV01 fusionada completa (#39 y #42, con #40 y #41); el E2E de `main` corre en tres shards desde `72a1e87`. Decisiones pendientes del usuario de REV01 en su sección. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 
