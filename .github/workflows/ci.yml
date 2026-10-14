@@ -37,16 +37,16 @@ jobs:
       - run: npm run build
 
   e2e:
-    name: End-to-end (Playwright, Chromium, shard ${{ matrix.shard }}/4)
+    name: End-to-end (Playwright, Chromium, shard ${{ matrix.shard }}/8)
     runs-on: ubuntu-24.04
     # A single job grew past 30 min on software WebGL after the Blender detail (#35, #38) and was cancelled on main.
-    # The mobile cockpit specs (MOV01) brought a shard of three close to that limit again; four shards restore the
-    # margin while browsers stay sequential within a job.
+    # Shards split the ordered test list by count, so the slow mobile cockpit specs (MOV01) land together: a shard of
+    # three, then of four, reached the limit again. Eight shards keep them to ~15 tests per job, sequential within it.
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -60,7 +60,7 @@ jobs:
       # The audio check needs no browser sharding: run it once.
       - if: matrix.shard == 1
         run: npm run test:audio
-      - run: npm run test:e2e -- --shard=${{ matrix.shard }}/4
+      - run: npm run test:e2e -- --shard=${{ matrix.shard }}/8
       - if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
