@@ -97,6 +97,15 @@ export function driveFrame(
   const apply = (next: PowertrainCommand) => {
     if (input?.blocked?.()) return;
     if (assist && next.type === 'shift') {
+      // Validate non-clutch restrictions at request time, before braking can make an unsafe reverse request valid.
+      const validation = command({ ...stepper.state, controls: { ...stepper.state.controls, clutch: 1 } }, next, specs);
+      const refused = validation.events.filter((event) => event.type === 'shift-refused');
+      if (refused.length > 0) {
+        pendingShift = null;
+        events.push(...refused);
+        observe?.(stepper.state, refused, 0, scenario);
+        return;
+      }
       pendingShift = next;
       return;
     }

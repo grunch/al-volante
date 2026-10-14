@@ -137,6 +137,26 @@ describe('continuous driving timeline', () => {
 });
 
 describe('manual clutch assistant with unchanged physics', () => {
+  it('rejects reverse at request time even when braking would stop the car before the clutch opens', () => {
+    let frame = startDriving({ ...restingVehicle(), speedMps: 0.51 }, 'manual', PREPARED);
+    const observations: CarEvent[] = [];
+    frame = driveFrame(WORLD, frame, EMPTY, [], DT, undefined, (_, events) => observations.push(...events), {
+      assistClutch: true,
+      commands: [{ type: 'shift', to: 'R' }],
+      continuous: () => ({ brake: 1 }),
+    });
+    expect(frame.events).toContainEqual({ type: 'shift-refused', to: 'R', reason: 'moving' });
+    expect(observations).toContainEqual({ type: 'shift-refused', to: 'R', reason: 'moving' });
+    expect(frame.pendingShift).toBeNull();
+    for (let step = 0; step < 60; step++)
+      frame = driveFrame(WORLD, frame, EMPTY, [], DT, undefined, undefined, {
+        assistClutch: true,
+        continuous: () => ({ brake: 1 }),
+      });
+    expect(frame.stepper.state.world.vehicle.speedMps).toBe(0);
+    expect(frame.stepper.state.powertrain.manualGear).toBe('N');
+  });
+
   it('keeps accelerating through clutch synchronization at full throttle', () => {
     const d = driver();
     d.tick(1, 0, [
