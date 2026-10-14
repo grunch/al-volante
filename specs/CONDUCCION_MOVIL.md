@@ -2,7 +2,7 @@
 
 Pedido puntual del 2026-10-14: especificar cómo se maneja desde un teléfono aprovechando sus sensores, en particular girar el volante inclinando el teléfono. En escritorio el juego sigue igual. No inicia las fases 6 ni 7; adelanta la parte de la compatibilidad móvil del práctico que F07-T02 audita después.
 
-**Estado: especificado, sin implementar.** La implementación empieza cuando el usuario la pida; la entrega propuesta está en §15.
+**Estado: implementación autorizada por el usuario el 2026-10-14.** MOV01-T01 incorpora el núcleo de entradas y asistencia; MOV01-T02 conecta la interfaz móvil. La entrega sigue los dos PRs de §15; la prueba física de §14 sigue pendiente hasta contar con un aparato.
 
 ## 1. Alcance
 
