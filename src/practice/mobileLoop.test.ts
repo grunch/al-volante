@@ -136,6 +136,93 @@ describe('continuous driving timeline', () => {
   });
 });
 
+describe('automatic direct selection with continuous pedals', () => {
+  it('accepts a brake tap and D delivered together after the brake physically crosses the interlock', () => {
+    const input = new ContinuousInput();
+    input.pushPedals({ atMs: 90, throttle: 0, brake: 1 });
+    const events: CarEvent[] = [];
+    let frame = driveFrame(
+      WORLD,
+      startDriving(restingVehicle(), 'automatic', PREPARED),
+      EMPTY,
+      [],
+      0.1,
+      undefined,
+      (_, next) => events.push(...next),
+      {
+        frameEndMs: 100,
+        continuous: (atMs) => input.sample(atMs),
+        commands: [{ type: 'shift', to: 'D' }],
+      },
+    );
+    expect(frame.stepper.state.powertrain.lever).toBe('P');
+    expect(frame.pendingAutomaticShift).not.toBeNull();
+    frame = driveFrame(WORLD, frame, EMPTY, [], 0.1, undefined, (_, next) => events.push(...next), {
+      frameEndMs: 200,
+      continuous: (atMs) => input.sample(atMs),
+    });
+    expect(frame.stepper.state.powertrain.lever).toBe('D');
+    expect(frame.pendingAutomaticShift).toBeNull();
+    expect(events).toContainEqual({ type: 'gear-engaged', gear: 'D' });
+    expect(events.some((event) => event.type === 'shift-refused')).toBe(false);
+  });
+  it.each([0, 0.1])('rejects D with insufficient requested brake %s without leaving a latent selection', (brake) => {
+    const frame = driveFrame(
+      WORLD,
+      startDriving(restingVehicle(), 'automatic', PREPARED),
+      EMPTY,
+      [],
+      0.1,
+      undefined,
+      undefined,
+      {
+        frameEndMs: 100,
+        continuous: () => ({ brake }),
+        commands: [{ type: 'shift', to: 'D' }],
+      },
+    );
+    expect(frame.events).toContainEqual({ type: 'shift-refused', to: 'D', reason: 'brake' });
+    expect(frame.stepper.state.powertrain.lever).toBe('P');
+    expect(frame.pendingAutomaticShift).toBeNull();
+  });
+  it('supports a held brake button, cancels on takeover and rejects reverse immediately while moving', () => {
+    const initial = startDriving(restingVehicle(), 'automatic', PREPARED);
+    const queued = driveFrame(WORLD, initial, EMPTY, [], 0, undefined, undefined, {
+      frameEndMs: 0,
+      commands: [{ type: 'shift', to: 'D' }],
+    });
+    let braked = queued;
+    for (let frame = 1; frame <= 3; frame++)
+      braked = driveFrame(WORLD, braked, new Set(['ArrowDown']), [], 0.1, undefined, undefined, {
+        frameEndMs: frame * 100,
+      });
+    expect(braked.stepper.state.powertrain.lever).toBe('D');
+    const blocked = driveFrame(WORLD, queued, EMPTY, [], 0.1, undefined, undefined, {
+      frameEndMs: 100,
+      blocked: () => true,
+    });
+    expect(blocked.pendingAutomaticShift).toBeNull();
+    expect(blocked.stepper.state.powertrain.lever).toBe('P');
+    const replaced = driveFrame(WORLD, queued, EMPTY, ['KeyE'], 0, undefined, undefined, { frameEndMs: 0 });
+    expect(replaced.pendingAutomaticShift).toBeNull();
+    const moving = driveFrame(
+      WORLD,
+      startDriving({ ...restingVehicle(), speedMps: 0.51 }, 'automatic', PREPARED),
+      EMPTY,
+      [],
+      0,
+      undefined,
+      undefined,
+      {
+        frameEndMs: 0,
+        commands: [{ type: 'shift', to: 'R' }],
+      },
+    );
+    expect(moving.events).toContainEqual({ type: 'shift-refused', to: 'R', reason: 'moving' });
+    expect(moving.pendingAutomaticShift).toBeNull();
+  });
+});
+
 describe('manual clutch assistant with unchanged physics', () => {
   it('rejects reverse at request time even when braking would stop the car before the clutch opens', () => {
     let frame = startDriving({ ...restingVehicle(), speedMps: 0.51 }, 'manual', PREPARED);
