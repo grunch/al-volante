@@ -2,12 +2,13 @@
 
 Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada PR y al cerrar cada fase.
 
-Última actualización: 2026-10-13 (F04-T05-FIX02: revisión de fuentes y corrección de los checks de CI de #46).
+Última actualización: 2026-10-14 (MOV01: especificación de la conducción en el celular; registro de la fusión de #46 y #47).
 
 ## Fase activa
 
-- **PAGES01 — publicación de `main` en GitHub Pages (pedido puntual, 2026-10-13):** rama `pages01-deploy`, base `main` (`d18fa00`, con #46), [PR #47](https://github.com/grunch/al-volante/pull/47). Agrega `.github/workflows/deploy.yml`; no cambia código del juego ni inicia otra fase. Detalle en la sección «Pedido puntual PAGES01».
-- **F04-T05-FIX02 — arranque y prueba jugable del práctico:** pedido puntual del usuario tras fusionar #45. Rama `f04-t05-fix02-driving-playtest`, base `main` (`b2a57ad`), worktree independiente. Implementación inicial `bc30b3b`; [PR #46](https://github.com/grunch/al-volante/pull/46) abierto con correcciones de fuentes y CI posteriores a `54c89bf` (sección del correctivo). No inicia fase 6. [Alcance y reproducción](PRUEBA_MANEJO.md).
+- **MOV01 — conducción en el celular (pedido puntual, 2026-10-14):** especificación en [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md): volante por inclinación, mandos para los pulgares, vibración y pantalla encendida, solo en teléfonos y tabletas; escritorio sin cambios. Rama `mov01-mobile-driving-spec`, desde `main` (`c2684ad`). Solo documentación: la implementación (MOV01-T01 y T02) espera un pedido explícito. No inicia las fases 6 ni 7. Detalle en la sección «Pedido puntual MOV01».
+- **PAGES01 — publicación de `main` en GitHub Pages (pedido puntual, 2026-10-13):** rama `pages01-deploy`, base `main` (`d18fa00`, con #46), [PR #47](https://github.com/grunch/al-volante/pull/47), fusionado por el usuario en `c2684ad` (2026-10-13 18:07 UTC). Agrega `.github/workflows/deploy.yml`; no cambia código del juego ni inicia otra fase. Detalle en la sección «Pedido puntual PAGES01».
+- **F04-T05-FIX02 — arranque y prueba jugable del práctico:** pedido puntual del usuario tras fusionar #45. Rama `f04-t05-fix02-driving-playtest`, base `main` (`b2a57ad`), worktree independiente. Implementación inicial `bc30b3b`; [PR #46](https://github.com/grunch/al-volante/pull/46), con correcciones de fuentes y CI posteriores a `54c89bf` (sección del correctivo), fusionado por el usuario en `d18fa00` (2026-10-13 16:27 UTC). No inicia fase 6. [Alcance y reproducción](PRUEBA_MANEJO.md).
 
 - **KAIT02 — Kait de Blender en el inicio (pedido puntual, 2026-10-13):** rama `kait02-home-preview`, desde `main` (`ecda93a`, #43 fusionado), en worktree independiente. Sustituye el auto de presentación con una exportación ligera del estudio solicitado previamente. No inicia otra fase. Detalle y reproducción en [MODELO_KAIT.md](MODELO_KAIT.md); [PR #45](https://github.com/grunch/al-volante/pull/45) fusionado por el usuario en `b2a57ad` (2026-10-13).
 - **Fase 2 — Base web, datos y aprendizaje inicial: tareas fusionadas en `main`.** El usuario fusionó #7–#10 (21:18–21:21 UTC), #11 (T05) dentro de `f02-t02-fix01` (`5dfdd10`), #12 (`493e5f7`), #13 (`1a842bf`, 22:24) y #14 (`07af269`, 22:46) el 2026-10-11. El correctivo F02-T02-FIX03 (#15) también está fusionado (`d7db55c`).
@@ -682,6 +683,12 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 - Verificación local: build de producción (585 archivos, 31 MB con mapas de código; precache de 537 entradas, 18.644 KiB) servido bajo `/al-volante/` con un servidor estático y Chromium de Playwright: inicio y `#/recorrido` cargan, el service worker queda con alcance `/al-volante/`, el aviso de uso sin conexión aparece y no hubo errores de consola ni respuestas 4xx/5xx. YAML validado y Prettier aprobado. El despliegue real se comprueba después de fusionar.
 - A pedido del usuario, las specs dejan de citar textualmente sus pedidos: se reemplazaron 23 citas en `ESTADO_IMPLEMENTACION.md`, `CONTINUIDAD.md`, `CIUDAD.md`, `CONTENIDO.md`, `PLAN_IMPLEMENTACION.md` y `historial/FASE-1.md` por una descripción del pedido. Las versiones anteriores siguen en el historial de Git de `main`, que no se reescribe.
 
+## Pedido puntual MOV01 — conducción en el celular
+
+- Pedido: especificar la conducción desde teléfonos y tabletas usando sus sensores, con el volante controlado al inclinar el aparato; en escritorio todo sigue igual. Rama `mov01-mobile-driving-spec`, desde `main` (`c2684ad`).
+- Resultado: [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md), con activación por capacidades (puntero táctil principal, sensor con lecturas reales y pantalla apaisada), lectura por `GravitySensor` con respaldo `devicemotion`, ángulo, zona muerta, tope y curva, integración en `stepControls`/`driveFrame`, mandos para los pulgares, vibración solo por eventos físicos, pantalla encendida, orientación, ajustes, margen frente a `steerHeldRad`, accesibilidad, verificación y entrega en dos PRs (MOV01-T01 y T02). README, PROPUESTA, ARQUITECTURA y EXPERIENCIA_CONDUCCION remiten a esa spec.
+- Estado: especificado, sin implementar ni PR de código. Verificación documental: enlaces y rutas de código citados comprobados contra el árbol y `git diff --check` sin errores (Prettier no revisa los `.md`: están en `.prettierignore`).
+
 ## Pila y orden de fusión
 
 La pila de la etapa A (`main ← F02-T01 ← … ← F02-T05`) quedó toda en `main`: T01–T04 (#7–#10), F02-T01-FIX01 (#12), F02-T02-FIX01 con T05 (#13, que incluye #11) y F02-T02-FIX02 (#14). F02-T02-FIX03 (#15) también está fusionado en `main` (`d7db55c`). F03-T01–T05 (#16–#20) y el correctivo #21 están fusionados. F04-T01 (#22), F04-T02 ([#23](https://github.com/grunch/al-volante/pull/23)) y F04-T03 ([#24](https://github.com/grunch/al-volante/pull/24)) están fusionados en `main` (`3c7aca2`, `a3c5e15` y `d919f98`). F04-T04 ([#25](https://github.com/grunch/al-volante/pull/25)) y F04-T05 ([#26](https://github.com/grunch/al-volante/pull/26)) también (`cefe7b2` y `b36fe55`). El correctivo F04-T04-FIX01 ([#27](https://github.com/grunch/al-volante/pull/27)) y F05-T01 ([#28](https://github.com/grunch/al-volante/pull/28)) también están fusionados (`367b484`, `78b5cee`).
@@ -708,7 +715,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-F04-T05-FIX02 ([PR #46](https://github.com/grunch/al-volante/pull/46)): comprobar los resultados de CI y las revisiones de la cabeza actual, y resolver cualquier finding nuevo. Las correcciones solicitadas de fuentes, tiempos E2E y precache están en este PR. No fusionar como parte de este pedido.
+MOV01: especificación lista en [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md); implementar MOV01-T01 y MOV01-T02 solo cuando el usuario lo pida. F04-T05-FIX02 (#46) y PAGES01 (#47) ya están fusionados en `main`.
 
 PWA01 fusionada (pedido puntual del usuario; no inicia las fases 6 ni 7): PWA01-T01 en `ecda93a` (#43) y PWA01-T02 en `e71390f` (#44). REV01 fusionada completa (#39 y #42, con #40 y #41); el E2E de `main` corre en tres shards desde `72a1e87`. Decisiones pendientes del usuario de REV01 en su sección. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 
