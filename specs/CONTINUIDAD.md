@@ -12,6 +12,7 @@ Decisiones a respetar:
 - La inclinación no usa la asistencia por velocidad de `stepControls`, y un botón de giro sostenido manda sobre ella.
 - La zona muerta y la curva dejan margen frente a `steerHeldRad`.
 - La vibración responde solo a eventos físicos, nunca a faltas.
+- Los mandos superpuestos asignan el pulgar derecho a freno y acelerador y el izquierdo al embrague (manual) o a la palanca P/R/N/D (automática). Así, embrague con freno y freno con palanca usan pulgares distintos.
 - Los botones de giro siguen como alternativa obligatoria (WCAG 2.5.4).
 
 ## Trabajo puntual fusionado — PAGES01 (publicación en GitHub Pages)

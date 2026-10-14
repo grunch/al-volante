@@ -48,7 +48,7 @@ Cada fusión en `main` publica el build de producción en GitHub Pages (`.github
 - [Plan de implementación](specs/PLAN_IMPLEMENTACION.md): fases, tareas y flujo de PRs.
 - [Estado de implementación](specs/ESTADO_IMPLEMENTACION.md): avance y siguiente acción.
 - [Inmersión del recorrido](specs/INMERSION_RECORRIDO.md): referencias, Blender, sonido y comprobaciones.
-- [Conducción en el celular](specs/CONDUCCION_MOVIL.md): volante por inclinación, mandos para los pulgares, vibración y pantalla encendida en teléfonos y tabletas (especificado, sin implementar).
+- [Conducción en el celular](specs/CONDUCCION_MOVIL.md): volante por inclinación, pedales y cambios superpuestos semitransparentes, vibración y pantalla encendida en teléfonos y tabletas (especificado, sin implementar).
 - [Arquitectura](specs/ARQUITECTURA.md): pila, estructura, convenciones y comandos.
 - [Continuidad](specs/CONTINUIDAD.md): contexto y hallazgos para retomar el trabajo.
 - [Estrategia de modelos](specs/ESTRATEGIA_MODELOS.md).

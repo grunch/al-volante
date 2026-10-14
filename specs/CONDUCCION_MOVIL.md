@@ -9,7 +9,7 @@ Pedido puntual del 2026-10-14: especificar cómo se maneja desde un teléfono ap
 Incluye, solo en teléfonos y tabletas:
 
 - volante por inclinación, con calibración del centro, zona muerta y sensibilidad ajustable;
-- pedales y cambios al alcance de los pulgares con el teléfono apaisado;
+- pedales, embrague y cambios superpuestos a la vista como botones semitransparentes, al alcance de los pulgares, en caja manual y automática;
 - vibración ante eventos físicos del auto;
 - pantalla siempre encendida mientras se maneja y orientación horizontal.
 
@@ -108,16 +108,44 @@ Reglas:
 - **Liberación:** la inclinación pasa a inactiva y el volante vuelve al centro cuando la pestaña se oculta, la ventana pierde el foco, se reinicia el manejo o se desmonta la cabina (los mismos casos que `releaseKeys` en `DrivingCanvas.tsx`). Al volver se conserva el centro calibrado.
 - **Pruebas:** un atributo `data-*` de solo lectura indica la fuente activa del volante (`tilt` o `buttons`), como la telemetría que ya existe.
 
-## 8. Mandos para los pulgares
+## 8. Mandos superpuestos para los pulgares
 
-Con el modo inclinación activo y el teléfono apaisado:
+Con el modo inclinación activo y el teléfono apaisado, los pedales y los cambios se superponen a la vista 3D como **botones semitransparentes**, en las dos cajas. El reparto copia el de un auto: el pulgar derecho, como el pie derecho, frena y acelera; el izquierdo queda para el embrague o la palanca. Así, todo lo que hay que sostener a la vez cae en pulgares distintos.
 
-- **Pulgares:** freno bajo el pulgar izquierdo y acelerador bajo el derecho, en las esquinas inferiores de la vista 3D, semitransparentes. Miden al menos 64 × 64 px, por encima del mínimo de 44 px del proyecto.
-- **Caja manual:** embrague arriba del freno (pulgar izquierdo) y cambios ↑/↓ arriba del acelerador (pulgar derecho).
-- **Mismos componentes:** se reutilizan los actuales (`HoldButton` y `CommandButton` de `CockpitControls.tsx`), con su captura de puntero y la posibilidad de sostener varios a la vez; solo cambia la ubicación.
-- **Resto de los mandos:** llave, freno de mano, luces, giros, mirada y espejos siguen en la columna de mandos de la disposición apaisada actual (`ARQUITECTURA.md`, «Diseño adaptable»).
-- **Giro con botones:** los botones de giro ← y → siguen disponibles (§12).
-- **Zonas seguras:** se respetan (`env(safe-area-inset-*)`).
+| Zona | Caja manual | Caja automática |
+|---|---|---|
+| Pulgar derecho, abajo | freno y acelerador, uno al lado del otro (freno a la izquierda, como los pedales) | igual |
+| Pulgar derecho, arriba | marcha ↑ y ↓, con la marcha actual entre ambos (R, N, 1–5) | — |
+| Pulgar izquierdo | embrague | palanca: P, R, N y D en columna, de arriba abajo como una palanca real |
+
+**Combinaciones con un pulgar distinto para cada mando:**
+- caja manual: embrague con cambio de marcha, embrague con freno (detenerse sin calar) y embrague con acelerador (punto de acople);
+- caja automática: freno con palanca (salir de P exige freno).
+
+**Cambios en la caja manual:**
+- ↑ y ↓ recorren R, N, 1, …, 5 igual que las teclas de subir y bajar marcha (E y Q por defecto; `gearUp`/`gearDown` en `commandsForKey`).
+- El tren motriz ya exige el embrague a fondo y rechaza la reversa mientras el auto avanza. Sin embrague, el cambio se rechaza con el mensaje actual («Con el embrague pisado a fondo.») y una vibración de 25 ms (§13).
+
+**Cambios en la caja automática:**
+- Cada botón elige la posición directamente: envía `{ type: 'shift', to }` con P, R, N o D, como el selector de botones de muchos autos actuales.
+- El tren motriz ya acepta una posición directa y valida que el freno esté pisado para salir de P, rechaza P con el auto en movimiento y R mientras avanza. El rechazo usa los mensajes existentes y la misma vibración.
+- El teclado conserva su recorrido secuencial.
+
+**Indicación de la marcha:** la marcha o posición actual se ve en el grupo. En la palanca, la posición actual se resalta y lleva `aria-pressed`.
+
+**Apariencia:**
+- **Relleno:** semitransparente (opacidad inicial del 40 %, a ajustar en el aparato), para no tapar la calle. Se vuelve opaco mientras se presiona o cuando marca la posición actual.
+- **Borde y rótulo:** opacos y con halo oscuro, para que se lean sobre cualquier parte de la escena. El borde tiene un contraste de al menos 3:1 (WCAG 1.4.11) y el texto, de al menos 4,5:1 (1.4.3).
+- **Tamaño:** freno, acelerador y embrague miden al menos 64 × 64 px; marchas y palanca, al menos 48 × 48 px. Todos superan el mínimo de 44 px del proyecto.
+- **Ubicación:** los botones van en los bordes laterales e inferiores de la vista y no tapan los espejos ni el centro de la calle. Se respetan las zonas seguras (`env(safe-area-inset-*)`).
+
+**Componentes:** se reutilizan los actuales: `HoldButton` para freno, acelerador y embrague, y `CommandButton` para las marchas (`CockpitControls.tsx`), con su captura de puntero y la posibilidad de sostener varios a la vez. La palanca suma un comando de selección directa.
+
+**Resto de los mandos:** llave, freno de mano, luces, giros, mirada y espejos siguen en la columna de mandos de la disposición apaisada actual (`ARQUITECTURA.md`, «Diseño adaptable»). Los botones de giro ← y → siguen disponibles (§12).
+
+**Límite de dos pulgares:** en la caja manual, cambiar de marcha mientras se sostienen embrague y freno pediría tres dedos.
+- Con el auto detenido se suelta el freno, con el embrague todavía pisado, para tocar la marcha: el mundo del juego no tiene pendientes y el auto no se mueve. También se puede usar el freno de mano.
+- Para reducir una marcha mientras se frena, se suelta el freno un instante.
 
 ## 9. Pantalla y orientación
 
@@ -173,7 +201,8 @@ Usa `navigator.vibrate`. Si el navegador no lo ofrece (Safari en iOS), el ajuste
 - lecturas no finitas;
 - validación de ajustes y datos corruptos;
 - detección: un escritorio sin lecturas no activa el modo;
-- vibración: correspondencia con los eventos, límite de frecuencia y ausencia de vibración por faltas.
+- vibración: correspondencia con los eventos, límite de frecuencia y ausencia de vibración por faltas;
+- selección directa de la palanca: P→D con y sin freno, P rechazada en movimiento y R rechazada al avanzar.
 
 **Integración:**
 - `driveFrame` con lecturas de inclinación da el mismo resultado a 30 y a 120 cuadros por segundo;
@@ -182,7 +211,7 @@ Usa `navigator.vibrate`. Si el navegador no lo ofrece (Safari en iOS), el ajuste
 - ruido de ±2° alrededor del centro durante los 30 cm no genera «volante movido».
 
 **E2E (Playwright, Chromium):**
-- **Proyecto móvil** con `hasTouch` e `isMobile`. Las lecturas se inyectan con sensores virtuales del protocolo de depuración de Chrome (`Emulation.setSensorOverrideEnabled`, si la versión de Chromium de Playwright lo permite) o con eventos `devicemotion` sintéticos. Se cubren la superposición inicial, la calibración, el giro del volante y del auto, los avisos de vertical y de teléfono plano, la desactivación y los mandos para los pulgares.
+- **Proyecto móvil** con `hasTouch` e `isMobile`. Las lecturas se inyectan con sensores virtuales del protocolo de depuración de Chrome (`Emulation.setSensorOverrideEnabled`, si la versión de Chromium de Playwright lo permite) o con eventos `devicemotion` sintéticos. Se cubren la superposición inicial, la calibración, el giro del volante y del auto, los avisos de vertical y de teléfono plano y la desactivación. También los mandos superpuestos, con dos toques simultáneos: embrague con ↑ para poner primera y embrague con freno en caja manual; freno con D para salir de P en caja automática; y un cambio sin embrague o sin freno, que debe rechazarse.
 - **Escritorio:** sin superposición, sin escuchas de sensores y sin pedir pantalla encendida. La suite actual de escritorio no cambia.
 
 **Prueba manual en el aparato** (referencia: Google Pixel 11 con Chrome; registrar modelo, navegador y versión):
@@ -190,7 +219,7 @@ Usa `navigator.vibrate`. Si el navegador no lo ofrece (Safari en iOS), el ajuste
 - teléfono quieto en el centro sin mover el volante;
 - tope;
 - avisos de teléfono plano y vertical;
-- pulgares con caja manual y automática;
+- mandos superpuestos con caja manual y automática: legibilidad sobre la escena, alcance de los pulgares y cambios con dos toques simultáneos;
 - vibración;
 - pantalla encendida más allá del tiempo de bloqueo;
 - salir de la app y volver;
@@ -208,7 +237,7 @@ Dos PRs apilados desde `main`, con el flujo de revisión habitual (Codex y CodeR
 | Tarea / PR | Trabajo | Aceptación |
 |---|---|---|
 | MOV01-T01 | Lectura de sensores, ángulo, mapeo, ajustes, detección del modo móvil e integración en `stepControls`/`driveFrame`, con pruebas unitarias y de integración. | Escritorio sin cambios; determinismo a 30/120 cuadros por segundo; margen frente a `steerHeldRad` comprobado. |
-| MOV01-T02 | Superposición inicial y calibración, «Centrar volante», ajustes, mandos para los pulgares, vibración, pantalla encendida, orientación, textos, E2E móvil y documentación. | Flujo completo en emulación; prueba manual en el aparato registrada con sus resultados. |
+| MOV01-T02 | Superposición inicial y calibración, «Centrar volante», ajustes, mandos superpuestos semitransparentes (pedales, embrague, marchas y palanca), vibración, pantalla encendida, orientación, textos, E2E móvil y documentación. | Flujo completo en emulación; prueba manual en el aparato registrada con sus resultados. |
 
 ## 16. Compatibilidad prevista y límites
 
