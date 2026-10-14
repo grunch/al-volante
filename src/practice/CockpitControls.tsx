@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import type { ButtonHTMLAttributes } from 'react';
+import type { ReactNode, ButtonHTMLAttributes } from 'react';
 import type { Action, Bindings } from './bindings.ts';
 import { ACTIONS } from './bindings.ts';
 import type { Adjustment, CockpitCommand, CockpitState, Toggle } from './cockpit.ts';
@@ -17,11 +17,13 @@ interface Props {
   restore: () => void;
   storageError: boolean;
   automatic: boolean;
+  mobileSettings?: ReactNode;
 }
 
 /** Secondary fingers do not synthesize clicks; activate each captured pointer once on release inside. */
-function CommandButton({
+export function CommandButton({
   activate,
+  className = '',
   ...props
 }: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> & { activate: () => void }) {
   const pointers = useRef(new Set<number>());
@@ -29,7 +31,7 @@ function CommandButton({
     <button
       {...props}
       type="button"
-      className="cockpit-command"
+      className={`cockpit-command ${className}`}
       onPointerDown={(event) => {
         if (event.button !== 0) return;
         pointers.current.add(event.pointerId);
@@ -57,11 +59,17 @@ function CommandButton({
 }
 
 /** Pointer capture keeps pedals reliable while a finger slides outside the button. */
-function HoldButton({ action, start, stop }: Pick<Props, 'start' | 'stop'> & { action: Action }) {
+export function HoldButton({
+  action,
+  start,
+  stop,
+  children,
+}: Pick<Props, 'start' | 'stop'> & { action: Action; children?: ReactNode }) {
   return (
     <button
       type="button"
       className="cockpit-hold"
+      aria-label={copy.actions[action]}
       onClick={(event) => {
         // Semantic activations have no pointer sequence. Pointer clicks already use the hold handlers.
         if (event.detail !== 0) return;
@@ -92,7 +100,7 @@ function HoldButton({ action, start, stop }: Pick<Props, 'start' | 'stop'> & { a
       }}
       onBlur={() => stop(`button-${action}`)}
     >
-      {copy.actions[action]}
+      {children ?? copy.actions[action]}
     </button>
   );
 }
@@ -107,6 +115,7 @@ export function CockpitControls({
   restore,
   storageError,
   automatic,
+  mobileSettings,
 }: Props) {
   const [capture, setCapture] = useState<Action | null>(null);
   const [conflict, setConflict] = useState(false);
@@ -141,6 +150,7 @@ export function CockpitControls({
         ))}
       </div>
       <div className="cockpit-panels">
+        {mobileSettings}
         <details open>
           <summary>{copy.instruments}</summary>
           <div className="cockpit-switches">

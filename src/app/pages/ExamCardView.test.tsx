@@ -7,7 +7,7 @@ import type { FaultReport, Stage } from '../../exam/scoring.ts';
 import { createPracticeSession, createSession } from '../../exam/session.ts';
 import type { Session, Transition } from '../../exam/session.ts';
 import { REAL_BANDS, REAL_RULES } from '../../test/realRules.ts';
-import { EXAM_COPY as copy } from '../../i18n/es-AR.ts';
+import { EXAM_COPY as copy, MOBILE_COPY } from '../../i18n/es-AR.ts';
 import { ExamCardView, FaultList } from './ExamCardView.tsx';
 
 const conductOf = (ruleId: string, row = 0) =>
@@ -241,4 +241,14 @@ describe('FaultList', () => {
 
     expect(screen.getByRole('listitem')).toHaveTextContent('rule.minor.c-seat-adjustment');
   });
+});
+
+it('discloses assisted clutch limitations on the mobile exam card with its source', () => {
+  render(
+    <MemoryRouter>
+      <ExamCardView card={buildCard(exam([]))} takeover={false} assistedClutch />
+    </MemoryRouter>,
+  );
+  expect(screen.getByText(MOBILE_COPY.clutchApproximation, { exact: false })).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: copy.protocolPage(11) })).toHaveAttribute('href', '/biblioteca/protocolo/11');
 });

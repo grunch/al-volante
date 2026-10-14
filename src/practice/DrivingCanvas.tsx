@@ -1,3 +1,5 @@
+import { useMobileDriving } from './useMobileDriving.ts';
+import { MobileIntro, MobileOverlay, MobileSettingsPanel, MobileNotice } from './MobileControls.tsx';
 import { useDrivingAudio } from '../audio/useDrivingAudio.ts';
 import { AUDIO_COPY } from '../i18n/es-AR.ts';
 import { startTransition, useEffect, useRef, useState } from 'react';
@@ -72,6 +74,8 @@ interface DrivingCanvasProps {
   halted?: boolean | (() => boolean);
   /** Told the keys in use when the view loads them and after every change, so a guide can name them. */
   onBindingsChange?: (bindings: Bindings) => void;
+  /** Records assistance for this drive even if the primary pointer later changes. */
+  onClutchAssistUsed?: () => void;
 }
 
 const defaultRendererFactory: RendererFactory = () => new THREE.WebGLRenderer({ antialias: true });
@@ -105,6 +109,7 @@ export function DrivingCanvas({
   onObservation,
   halted = false,
   onBindingsChange,
+  onClutchAssistUsed,
 }: DrivingCanvasProps) {
   const {
     session: audioRef,
@@ -113,6 +118,8 @@ export function DrivingCanvas({
     storageError: audioStorageError,
     change: changeAudio,
   } = useDrivingAudio();
+  const { session: mobileRef, snapshot: mobile } = useMobileDriving();
+  const directCommandsRef = useRef<PowertrainCommand[]>([]);
   const shellRef = useRef<HTMLElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
   const [displayError, setDisplayError] = useState(false);
@@ -124,13 +131,21 @@ export function DrivingCanvas({
   const containerRef = useRef<HTMLDivElement>(null);
   const heldRef = useRef(new HeldInput());
   useEffect(() => {
+    // The modal must be unmounted before focus can return, including when fullscreen is unavailable.
+    if (mobile?.started) containerRef.current?.focus();
+  }, [mobile?.started]);
+  useEffect(() => {
+    if (mobile?.started && transmission === 'manual') onClutchAssistUsed?.();
+  }, [mobile?.started, transmission, resetCount, onClutchAssistUsed]);
+  useEffect(() => {
     const onFullscreen = () => {
       setFullscreen(document.fullscreenElement === shellRef.current);
+      mobileRef.current?.fullscreen(document.fullscreenElement === shellRef.current);
       containerRef.current?.focus();
     };
     document.addEventListener('fullscreenchange', onFullscreen);
     return () => document.removeEventListener('fullscreenchange', onFullscreen);
-  }, []);
+  }, [mobileRef]);
   const toggleFullscreen = async () => {
     try {
       if (document.fullscreenElement === shellRef.current) await document.exitFullscreen();
@@ -171,6 +186,8 @@ export function DrivingCanvas({
   const release = () => {
     heldRef.current.clear();
     pendingRef.current.length = 0;
+    directCommandsRef.current.length = 0;
+    mobileRef.current?.release();
     dragRef.current = null;
     command({ type: 'horn', value: false });
   };
@@ -256,6 +273,7 @@ export function DrivingCanvas({
   useEffect(() => {
     const container = containerRef.current;
     const audioSession = audioRef.current;
+    const mobileSession = mobileRef.current;
     if (!container) return;
     let renderer: SceneRenderer;
     try {
@@ -282,6 +300,10 @@ export function DrivingCanvas({
     const releaseKeys = () => {
       heldRef.current.clear();
       pendingRef.current.length = 0;
+      directCommandsRef.current.length = 0;
+      mobileRef.current?.release();
+      driving.pendingShift = null;
+      driving.pendingAutomaticShift = null;
       dragRef.current = null;
       cockpitRef.current = commandCockpit(cockpitRef.current, { type: 'horn', value: false });
       setCockpit(cockpitRef.current);
@@ -345,7 +367,19 @@ export function DrivingCanvas({
         frameS,
         EXAM_SPECS,
         observeStep,
+        {
+          frameEndMs: now,
+          ...(mobileRef.current
+            ? {
+                continuous: (atMs: number) => mobileRef.current?.sample(atMs) ?? {},
+                assistClutch: mobileRef.current.snapshot.started,
+              }
+            : {}),
+          commands: directCommandsRef.current.splice(0),
+          blocked: isHalted,
+        },
       );
+      startTransition(() => mobileRef.current?.update(now, driving.events));
       // Keep a short horn press visible for the frame that consumes it.
       const horn = hornSampled || heldRef.current.peek().has('horn');
       if (horn !== cockpitRef.current.horn) {
@@ -373,6 +407,10 @@ export function DrivingCanvas({
       container.dataset.engine = car.powertrain.engineRunning ? 'running' : 'off';
       container.dataset.headingRad = car.world.vehicle.headingRad.toFixed(6);
       container.dataset.steer = driving.controls.steer.toFixed(4);
+      const tiltStatus = mobileRef.current?.snapshot.status;
+      const steeringHeld = heldRef.current.peek().has('left') || heldRef.current.peek().has('right');
+      container.dataset.steeringSource =
+        !steeringHeld && (tiltStatus === 'active' || tiltStatus === 'calibrating') ? 'tilt' : 'buttons';
       container.dataset.clutch = driving.controls.clutch.toFixed(4);
       container.dataset.brake = driving.controls.brake.toFixed(4);
       container.dataset.throttle = driving.controls.throttle.toFixed(4);
@@ -430,12 +468,13 @@ export function DrivingCanvas({
       window.removeEventListener('resize', resize);
       window.removeEventListener('blur', releaseKeys);
       document.removeEventListener('visibilitychange', releaseKeys);
+      mobileSession?.release();
       audioSession?.reset();
       track.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [createRenderer, createScene, world, start, transmission, prepared, preparedCabin, audioRef]);
+  }, [createRenderer, createScene, world, start, transmission, prepared, preparedCabin, audioRef, mobileRef]);
 
   const isEditable = (target: EventTarget) =>
     target instanceof HTMLElement && Boolean(target.closest('input, select, textarea, [contenteditable="true"]'));
@@ -447,6 +486,7 @@ export function DrivingCanvas({
       (event.code === 'Space' || event.code === 'Enter')
     );
   const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (mobile && !mobile.started) return;
     if (event.defaultPrevented || event.ctrlKey || event.altKey || event.metaKey || !ownsShortcut(event)) return;
     const action = actionForCode(bindings, event.code);
     if (!action) return;
@@ -457,7 +497,7 @@ export function DrivingCanvas({
   return (
     <section
       ref={shellRef}
-      className="cockpit-shell"
+      className={`cockpit-shell${mobile ? ' cockpit-mobile' : ''}`}
       aria-label={copy.title}
       onKeyDown={onKeyDown}
       onKeyUp={(event) => {
@@ -474,6 +514,16 @@ export function DrivingCanvas({
       onPointerDownCapture={() => void audioRef.current?.unlock()}
       onKeyDownCapture={() => void audioRef.current?.unlock()}
     >
+      {mobile && !mobile.started && state === 'ready' && (
+        <MobileIntro
+          start={(buttons) => {
+            if (buttons) mobileRef.current?.change({ ...mobile.settings, tiltEnabled: false });
+            mobileRef.current?.start();
+            void toggleFullscreen();
+            containerRef.current?.focus();
+          }}
+        />
+      )}
       <div className="cockpit-heading">
         <span>{subtitle}</span>
         <strong>{cockpit.belt ? copy.beltOn : copy.beltOff}</strong>
@@ -487,6 +537,7 @@ export function DrivingCanvas({
           {fullscreen ? copy.exitFullscreen : copy.fullscreen}
         </button>
       </div>
+      {mobile?.started && <MobileNotice snapshot={mobile} />}
       <div className="cockpit-audio" role="group" aria-label={AUDIO_COPY.title}>
         <button
           type="button"
@@ -515,6 +566,19 @@ export function DrivingCanvas({
         </p>
       )}
       <div className="cockpit-viewport">
+        {state === 'ready' && mobile?.started && (
+          <MobileOverlay
+            key={`${transmission}:${resetCount}`}
+            automatic={transmission === 'automatic'}
+            gear={transmission === 'automatic' ? readout.powertrain.lever : readout.gear}
+            tiltActive={mobile.status === 'active' || mobile.status === 'calibrating'}
+            recenter={mobile.settings.tiltEnabled ? () => mobileRef.current?.recenter() : undefined}
+            send={(reading) => mobileRef.current?.pedals(reading)}
+            shift={(command) => directCommandsRef.current.push(command)}
+            start={startAction}
+            stop={stopAction}
+          />
+        )}
         <div
           className="scene-canvas driving-canvas"
           ref={containerRef}
@@ -607,6 +671,11 @@ export function DrivingCanvas({
           }}
           restore={() => saveBindings(DEFAULT_BINDINGS)}
           storageError={storageError}
+          mobileSettings={
+            mobile ? (
+              <MobileSettingsPanel snapshot={mobile} change={(settings) => mobileRef.current?.change(settings)} />
+            ) : null
+          }
           automatic={transmission === 'automatic'}
         />
       )}

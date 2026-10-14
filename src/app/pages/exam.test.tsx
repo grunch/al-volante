@@ -13,7 +13,7 @@ import { App } from '../App.tsx';
 import { routes } from '../routes.tsx';
 import { readyContent, renderApp, testContent } from '../../test/renderApp.tsx';
 import { REAL_RULES } from '../../test/realRules.ts';
-import { CITY_COPY, COCKPIT_COPY, EXAM_COPY, LOGBOOK_COPY, TRACK_COPY } from '../../i18n/es-AR.ts';
+import { CITY_COPY, COCKPIT_COPY, EXAM_COPY, LOGBOOK_COPY, MOBILE_COPY, TRACK_COPY } from '../../i18n/es-AR.ts';
 import { DRIVING_GUIDE_COPY } from '../../i18n/drivingGuide.ts';
 import { BINDINGS_STORAGE_KEY, DEFAULT_BINDINGS } from '../../practice/bindings.ts';
 import { keyNames } from '../../practice/keyLabels.ts';
@@ -76,6 +76,31 @@ describe('exam page', { timeout: 30000 }, () => {
     expect(says).toHaveAttribute('data-phase', 'recognition');
     expect(Object.values(EXAM_COPY.prompts)).toContain(says.textContent);
     expect(screen.getByTestId('exam-points')).toHaveTextContent('0');
+  });
+
+  it('retains the assisted clutch disclosure after leaving tablet mode and clears it for a new desktop drive', async () => {
+    let coarse = true;
+    let changed = () => {};
+    vi.stubGlobal('matchMedia', (query: string) => ({
+      get matches() {
+        return query.includes('pointer: coarse') && coarse;
+      },
+      addEventListener: (_: string, callback: () => void) => {
+        if (query.includes('pointer: coarse')) changed = callback;
+      },
+      removeEventListener: vi.fn(),
+    }));
+    await openExam();
+    fireEvent.click(screen.getByText(MOBILE_COPY.buttons));
+    runFrames(3);
+    coarse = false;
+    act(() => changed());
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
+    expect(screen.getByTestId('exam-card')).toHaveTextContent(MOBILE_COPY.clutchApproximation);
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.restart }));
+    runFrames(3);
+    await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
+    expect(screen.getByTestId('exam-card')).not.toHaveTextContent(MOBILE_COPY.clutchApproximation);
   });
 
   it('scores a wrong answer during the recognition and lists the fault with its points', async () => {

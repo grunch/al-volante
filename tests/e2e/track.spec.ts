@@ -7,7 +7,7 @@ const readout = (page: Page, label: string) =>
 async function openYard(page: Page): Promise<Locator> {
   await page.goto('./#/pista');
   const canvas = page.getByRole('application', { name: /Vista 3D de la pista de prueba/ });
-  await expect(canvas).toHaveAttribute('data-state', 'ready');
+  await expect(canvas).toHaveAttribute('data-state', 'ready', { timeout: 30_000 });
   return canvas;
 }
 
@@ -97,6 +97,7 @@ test.describe('practice yard', () => {
 
   test('keeps the page keyboard when the view does not have focus', async ({ page }) => {
     const canvas = await openYard(page);
+    await page.getByRole('radio', { name: 'Manual', exact: true }).focus();
 
     await page.keyboard.press('k');
 

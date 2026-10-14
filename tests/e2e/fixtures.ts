@@ -15,7 +15,22 @@ export async function withoutServiceWorkers(context: BrowserContext): Promise<vo
 }
 
 /** The `test` of every spec but pwa.spec.ts, which installs the app for real. */
-export const test = base.extend({
+export const test = base.extend<{ autoStartMobile: boolean }>({
+  autoStartMobile: [true, { option: true }],
+  page: async ({ page, isMobile, autoStartMobile }, provide) => {
+    if (isMobile && autoStartMobile) {
+      // The handler runs inside the timeout of the check that meets the introduction, and software WebGL renders the
+      // mobile cockpit at about a second per frame. Entering and leaving fullscreen, plus the actionability checks of a
+      // real click, used up that timeout; mobile-driving.spec.ts covers the introduction and fullscreen instead.
+      await page.addInitScript(() => {
+        HTMLElement.prototype.requestFullscreen = () => Promise.resolve();
+      });
+      await page.addLocatorHandler(page.getByRole('dialog', { name: 'Manejá con el teléfono' }), async (dialog) => {
+        await dialog.getByRole('button', { name: 'Manejar con botones', exact: true }).dispatchEvent('click');
+      });
+    }
+    await provide(page);
+  },
   // Named `provide`, not `use`, so the React hooks lint rule does not take Playwright's callback for a hook.
   context: async ({ context }, provide) => {
     await withoutServiceWorkers(context);

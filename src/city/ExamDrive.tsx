@@ -26,6 +26,7 @@ export function ExamDrive({
   onTelemetry,
   halted,
   onBindingsChange,
+  onClutchAssistUsed,
   createRenderer = createCityRenderer,
 }: {
   city: City;
@@ -43,6 +44,7 @@ export function ExamDrive({
   halted: boolean | (() => boolean);
   /** The keys the driver bound, for the page's driving guide (F04-T05-FIX01). */
   onBindingsChange?: (bindings: Bindings) => void;
+  onClutchAssistUsed?: () => void;
   createRenderer?: RendererFactory;
 }) {
   const createScene = useMemo(() => cityCockpitFactory(city), [city]);
@@ -62,6 +64,7 @@ export function ExamDrive({
       onTelemetry={onTelemetry}
       halted={halted}
       {...(onBindingsChange ? { onBindingsChange } : {})}
+      {...(onClutchAssistUsed ? { onClutchAssistUsed } : {})}
       createScene={createScene}
       createRenderer={createRenderer}
     />
