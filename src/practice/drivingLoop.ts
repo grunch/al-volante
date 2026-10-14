@@ -1,7 +1,7 @@
 import { assistedClutch } from './assistedClutch.ts';
 import type { ContinuousControls } from './controls.ts';
 import { CLUTCH_PRESSED } from '../sim/powertrain/powertrain.ts';
-import { NEUTRAL_CONTROLS, commandsForKey, stepControls } from './controls.ts';
+import { KEY_BINDINGS, NEUTRAL_CONTROLS, commandsForKey, stepControls } from './controls.ts';
 import { EXAM_SPECS, command, initialCarState, stepCar } from '../sim/car.ts';
 import type { CarControls, CarEvent, CarSpecs, CarState } from '../sim/car.ts';
 import { advance, createStepper, SIM_STEP_S } from '../sim/fixedStep.ts';
@@ -18,6 +18,7 @@ export interface DrivingFrame {
   keyboardClutch: number;
   assistedPedal: number;
   pendingShift: Extract<PowertrainCommand, { type: 'shift' }> | null;
+  pendingAutomaticShift: { command: Extract<PowertrainCommand, { type: 'shift' }>; atMs: number } | null;
   /** Everything that happened during the frame: command results and simulation events. */
   events: CarEvent[];
   /** Fraction of the next step elapsed, to interpolate the view. */
@@ -57,6 +58,7 @@ export function startDriving(
     keyboardClutch: 0,
     assistedPedal: 0,
     pendingShift: null,
+    pendingAutomaticShift: null,
     events,
     alpha: 0,
     traffic: traffic ?? null,
@@ -93,22 +95,34 @@ export function driveFrame(
   let stepper = frame.stepper;
   let scenario = frame.scenario;
   let pendingShift = frame.pendingShift;
+  let pendingAutomaticShift = frame.pendingAutomaticShift;
   const assist = Boolean(input?.assistClutch && stepper.state.powertrain.kind === 'manual');
-  const apply = (next: PowertrainCommand) => {
+  const apply = (next: PowertrainCommand, direct = false) => {
     if (input?.blocked?.()) return;
-    if (assist && next.type === 'shift') {
-      // Validate non-clutch restrictions at request time, before braking can make an unsafe reverse request valid.
-      const validation = command({ ...stepper.state, controls: { ...stepper.state.controls, clutch: 1 } }, next, specs);
+    const automatic = direct && stepper.state.powertrain.kind === 'automatic';
+    if ((assist || automatic) && next.type === 'shift') {
+      // Validate motion restrictions now, before braking can make an unsafe reverse request valid.
+      const validation = command(
+        {
+          ...stepper.state,
+          controls: { ...stepper.state.controls, ...(assist ? { clutch: 1 } : { brake: 1 }) },
+        },
+        next,
+        specs,
+      );
       const refused = validation.events.filter((event) => event.type === 'shift-refused');
       if (refused.length > 0) {
         pendingShift = null;
+        pendingAutomaticShift = null;
         events.push(...refused);
         observe?.(stepper.state, refused, 0, scenario);
         return;
       }
-      pendingShift = next;
+      if (assist) pendingShift = next;
+      else pendingAutomaticShift = { command: next, atMs: input?.frameEndMs ?? 0 };
       return;
     }
+    if (next.type === 'shift') pendingAutomaticShift = null;
     // A recognition shift can press the assistant with the engine off. Only the player's clutch may enable starting in gear.
     const state =
       assist && next.type === 'turn-key' && next.to === 'start' && !stepper.state.powertrain.engineRunning
@@ -122,7 +136,7 @@ export function driveFrame(
   for (const code of pressed) {
     for (const next of commandsForKey(code, stepper.state.powertrain)) apply(next);
   }
-  for (const next of input?.commands ?? []) apply(next);
+  for (const next of input?.commands ?? []) apply(next, true);
   let controls = frame.controls;
   let keyboardClutch = frame.keyboardClutch;
   let assistedPedal = frame.assistedPedal;
@@ -133,15 +147,17 @@ export function driveFrame(
     const atMs = stepStartMs + ++steps * SIM_STEP_S * 1000;
     const blocked = input?.blocked?.() ?? false;
     const continuous = blocked ? undefined : input?.continuous?.(atMs);
+    const stepKeys = typeof keys === 'function' ? keys() : keys;
     controls = stepControls(
       { ...controls, clutch: keyboardClutch },
-      typeof keys === 'function' ? keys() : keys,
+      stepKeys,
       SIM_STEP_S,
       current.world.vehicle.speedMps,
       continuous,
     );
     keyboardClutch = controls.clutch;
     if (blocked || !assist) pendingShift = null;
+    if (blocked) pendingAutomaticShift = null;
     assistedPedal =
       assist && !blocked
         ? assistedClutch(assistedPedal, current, controls, pendingShift !== null, SIM_STEP_S, specs)
@@ -153,6 +169,24 @@ export function driveFrame(
       current = shifted.state;
       events.push(...shifted.events);
       observe?.(current, shifted.events, 0, scenario);
+    }
+    // The frame boundary includes all pedal events delivered with this direct selection. Wait for the physical
+    // brake ramp only while a stronger brake is still requested; no brake request still rejects leaving P.
+    if (pendingAutomaticShift && atMs + 1e-6 >= pendingAutomaticShift.atMs) {
+      const shifted = command({ ...current, controls }, pendingAutomaticShift.command, specs);
+      const requestedBrake = Math.max(
+        continuous?.brake ?? 0,
+        KEY_BINDINGS.brake.some((key) => stepKeys.has(key)) ? 1 : 0,
+      );
+      const awaitingBrake =
+        shifted.events.some((event) => event.type === 'shift-refused' && event.reason === 'brake') &&
+        requestedBrake > controls.brake;
+      if (!awaitingBrake) {
+        pendingAutomaticShift = null;
+        current = shifted.state;
+        events.push(...shifted.events);
+        observe?.(current, shifted.events, 0, scenario);
+      }
     }
     const next = stepCar(world, current, controls, SIM_STEP_S, specs);
     const stepEvents: CarEvent[] = [...next.events];
@@ -171,6 +205,7 @@ export function driveFrame(
     keyboardClutch,
     assistedPedal,
     pendingShift,
+    pendingAutomaticShift,
     events,
     alpha: result.alpha,
     traffic: frame.traffic,
