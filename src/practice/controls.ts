@@ -40,7 +40,20 @@ function towards(value: number, target: number, rateUp: number, rateDown: number
  * smaller wheel movements with binary keys, not a variable physical steering ratio or an exam speed limit.
  * Signed speed is intentional: reversing gets the same sensitivity. All ramps run in simulation time.
  */
-export function stepControls(controls: CarControls, keys: ReadonlySet<string>, dt: number, speedMps = 0): CarControls {
+export interface ContinuousControls {
+  steer?: number | null;
+  throttle?: number | null;
+  brake?: number | null;
+  clutch?: number | null;
+}
+
+export function stepControls(
+  controls: CarControls,
+  keys: ReadonlySet<string>,
+  dt: number,
+  speedMps = 0,
+  continuous: ContinuousControls = {},
+): CarControls {
   const left = anyPressed(keys, KEY_BINDINGS.left);
   const right = anyPressed(keys, KEY_BINDINGS.right);
   const speed = Math.abs(speedMps);
@@ -52,16 +65,26 @@ export function stepControls(controls: CarControls, keys: ReadonlySet<string>, d
       : CONTROL_RATES.steerPerS * Math.sqrt(steeringRange);
   const pedal = (codes: readonly string[], value: number, press: number, release: number) =>
     towards(value, anyPressed(keys, codes) ? 1 : 0, press, release, dt);
+  const analog = (value: number | null | undefined, min = 0) =>
+    value != null && Number.isFinite(value) ? Math.min(1, Math.max(min, value)) : null;
+  const throttle = analog(continuous.throttle);
+  const brake = analog(continuous.brake);
+  const clutch = analog(continuous.clutch);
+  const steer = analog(continuous.steer, -1);
   return {
-    throttle: pedal(
-      KEY_BINDINGS.throttle,
-      controls.throttle,
-      CONTROL_RATES.pedalPressPerS,
-      CONTROL_RATES.pedalReleasePerS,
+    throttle:
+      throttle !== null && !anyPressed(keys, KEY_BINDINGS.throttle)
+        ? towards(controls.throttle, throttle, 5, 5, dt)
+        : pedal(KEY_BINDINGS.throttle, controls.throttle, CONTROL_RATES.pedalPressPerS, CONTROL_RATES.pedalReleasePerS),
+    brake:
+      brake !== null && !anyPressed(keys, KEY_BINDINGS.brake)
+        ? towards(controls.brake, brake, 5, 5, dt)
+        : pedal(KEY_BINDINGS.brake, controls.brake, CONTROL_RATES.pedalPressPerS, CONTROL_RATES.pedalReleasePerS),
+    clutch: Math.max(
+      clutch ?? 0,
+      pedal(KEY_BINDINGS.clutch, controls.clutch, CONTROL_RATES.clutchPressPerS, CONTROL_RATES.clutchReleasePerS),
     ),
-    brake: pedal(KEY_BINDINGS.brake, controls.brake, CONTROL_RATES.pedalPressPerS, CONTROL_RATES.pedalReleasePerS),
-    clutch: pedal(KEY_BINDINGS.clutch, controls.clutch, CONTROL_RATES.clutchPressPerS, CONTROL_RATES.clutchReleasePerS),
-    steer: towards(controls.steer, steerTarget, steerRate, steerRate, dt),
+    steer: steer !== null && !left && !right ? steer : towards(controls.steer, steerTarget, steerRate, steerRate, dt),
   };
 }
 
