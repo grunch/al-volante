@@ -1,4 +1,4 @@
-import { expect, test as base } from '@playwright/test';
+import { test as base } from '@playwright/test';
 import type { BrowserContext } from '@playwright/test';
 
 export { expect } from '@playwright/test';
@@ -19,16 +19,14 @@ export const test = base.extend<{ autoStartMobile: boolean }>({
   autoStartMobile: [true, { option: true }],
   page: async ({ page, isMobile, autoStartMobile }, provide) => {
     if (isMobile && autoStartMobile) {
-      await page.addLocatorHandler(page.getByRole('dialog', { name: 'Manejá con el teléfono' }), async () => {
-        await page.getByRole('button', { name: 'Manejar con botones', exact: true }).click();
-        await expect(
-          page
-            .getByRole('button', { name: 'Salir de pantalla completa', exact: true })
-            .or(page.getByText('Este navegador no pudo abrir la pantalla completa.', { exact: false })),
-        ).toBeVisible();
-        await page.evaluate(async () => {
-          if (document.fullscreenElement) await document.exitFullscreen();
-        });
+      // The handler runs inside the timeout of the check that meets the introduction, and software WebGL renders the
+      // mobile cockpit at about a second per frame. Entering and leaving fullscreen, plus the actionability checks of a
+      // real click, used up that timeout; mobile-driving.spec.ts covers the introduction and fullscreen instead.
+      await page.addInitScript(() => {
+        HTMLElement.prototype.requestFullscreen = () => Promise.resolve();
+      });
+      await page.addLocatorHandler(page.getByRole('dialog', { name: 'Manejá con el teléfono' }), async (dialog) => {
+        await dialog.getByRole('button', { name: 'Manejar con botones', exact: true }).dispatchEvent('click');
       });
     }
     await provide(page);

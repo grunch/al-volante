@@ -21,7 +21,7 @@ export default defineConfig({
     { name: 'chromium-desktop', use: { ...devices['Desktop Chrome'] } },
     {
       name: 'chromium-mobile',
-      // The introduction handler includes fullscreen transitions; software WebGL can spend >5 s rendering them.
+      // The introduction handler runs inside the check that meets it; software WebGL takes ~1 s per page round trip.
       expect: { timeout: 30_000 },
       use: { ...devices['Pixel 7'] },
     },
