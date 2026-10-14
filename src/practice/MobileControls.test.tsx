@@ -12,6 +12,7 @@ const snapshot: MobileSnapshot = {
   storageError: false,
   wakeError: false,
   vibrationAvailable: true,
+  pedalResetCount: 0,
 };
 afterEach(() => {
   vi.restoreAllMocks();
@@ -70,7 +71,7 @@ it('changes validated settings, labels sensitivity and exposes unavailable vibra
 it('maps direct taps, dragging outside and simultaneous pointers, releasing every path to neutral', () => {
   vi.stubGlobal('PointerEvent', MouseEvent);
   const send = vi.fn();
-  const { unmount } = render(<PedalStrip send={send} />);
+  const { rerender, unmount } = render(<PedalStrip send={send} />);
   const strip = screen.getByTestId('mobile-pedals');
   strip.setPointerCapture = vi.fn();
   vi.spyOn(strip, 'getBoundingClientRect').mockReturnValue({
@@ -104,8 +105,16 @@ it('maps direct taps, dragging outside and simultaneous pointers, releasing ever
   expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 0 }));
   pointer('lostpointercapture', 1, 300);
   pointer('pointerdown', 3, 100);
-  act(() => window.dispatchEvent(new Event('blur')));
+  rerender(<PedalStrip send={send} resetCount={1} />);
+  expect(screen.getByRole('button', { name: MOBILE_COPY.throttle })).toHaveAttribute('aria-pressed', 'false');
+  send.mockClear();
   pointer('pointermove', 3, 100);
+  pointer('pointerup', 3, 100);
+  expect(send).not.toHaveBeenCalled();
+  pointer('pointerdown', 4, 300);
+  expect(send).toHaveBeenLastCalledWith(expect.objectContaining({ throttle: 0, brake: 1 }));
+  act(() => window.dispatchEvent(new Event('blur')));
+  pointer('pointermove', 4, 100);
   unmount();
 });
 

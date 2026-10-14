@@ -119,7 +119,6 @@ export function DrivingCanvas({
     change: changeAudio,
   } = useDrivingAudio();
   const { session: mobileRef, snapshot: mobile } = useMobileDriving();
-  const [mobilePedalResetCount, setMobilePedalResetCount] = useState(0);
   const directCommandsRef = useRef<PowertrainCommand[]>([]);
   const shellRef = useRef<HTMLElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
@@ -189,7 +188,6 @@ export function DrivingCanvas({
     pendingRef.current.length = 0;
     directCommandsRef.current.length = 0;
     mobileRef.current?.release();
-    setMobilePedalResetCount((count) => count + 1);
     dragRef.current = null;
     command({ type: 'horn', value: false });
   };
@@ -304,7 +302,6 @@ export function DrivingCanvas({
       pendingRef.current.length = 0;
       directCommandsRef.current.length = 0;
       mobileRef.current?.release();
-      setMobilePedalResetCount((count) => count + 1);
       driving.pendingShift = null;
       driving.pendingAutomaticShift = null;
       dragRef.current = null;
@@ -580,7 +577,7 @@ export function DrivingCanvas({
             shift={(command) => directCommandsRef.current.push(command)}
             start={startAction}
             stop={stopAction}
-            pedalResetCount={mobilePedalResetCount}
+            pedalResetCount={mobile.pedalResetCount}
           />
         )}
         <div

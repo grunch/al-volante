@@ -11,13 +11,15 @@ const motion = vi.hoisted(() => ({
   reading: (reading: GravityReading) => {
     void reading;
   },
+  error: () => {},
 }));
 vi.mock('./motionSensor.ts', () => ({
   MotionSensor: class {
     start = motion.start;
     stop = motion.stop;
-    constructor(reading: typeof motion.reading) {
+    constructor(reading: typeof motion.reading, error: typeof motion.error) {
       motion.reading = reading;
+      motion.error = error;
     }
   },
 }));
@@ -214,3 +216,35 @@ it('releases semantic pedals and their pressed state when controls reset or focu
   expect(throttle()).toHaveAttribute('aria-pressed', 'false');
   expect(canvas).toHaveAttribute('data-throttle', '0.0000');
 });
+
+it.each([
+  ['Acelerar ↑', 'throttle'],
+  ['Frenar ↓', 'brake'],
+] as const)(
+  'clears %s after a sensor error and accepts the next semantic activation without losing focus',
+  async (name, pedal) => {
+    render(<DrivingCanvas {...props} />);
+    await act(async () => {});
+    frames(0.05);
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Empezar' })));
+    const canvas = screen.getByTestId('driving-canvas');
+    const button = screen.getByRole('button', { name });
+    act(() => button.focus());
+    const press = () => {
+      const event = new MouseEvent('click', { bubbles: true, detail: 0 });
+      Object.defineProperty(event, 'timeStamp', { value: clock });
+      fireEvent(button, event);
+      frames(0.3);
+    };
+    press();
+    expect(canvas).toHaveAttribute(`data-${pedal}`, '1.0000');
+    act(() => motion.error());
+    frames(0.3);
+    expect(canvas).toHaveAttribute(`data-${pedal}`, '0.0000');
+    expect(button).toHaveAttribute('aria-pressed', 'false');
+    expect(button).toHaveFocus();
+    press();
+    expect(canvas).toHaveAttribute(`data-${pedal}`, '1.0000');
+    expect(button).toHaveAttribute('aria-pressed', 'true');
+  },
+);

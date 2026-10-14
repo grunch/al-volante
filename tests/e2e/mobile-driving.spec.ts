@@ -323,3 +323,45 @@ test('mobile: operates the pedal labels with keyboard focus and semantic clicks'
   await expect(brake).toHaveAttribute('aria-pressed', 'false');
   await expect(canvas).toHaveAttribute('data-brake', '0.0000');
 });
+
+test('mobile: a sensor error resets a focused pedal without swallowing its next activation', async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, 'Mobile sensor recovery');
+  await page.setViewportSize({ width: 915, height: 412 });
+  await page.addInitScript(() => {
+    Object.defineProperty(DeviceMotionEvent, 'requestPermission', {
+      configurable: true,
+      value: async () => 'granted',
+    });
+    class TestGravitySensor extends EventTarget {
+      x = 0;
+      y = 9.80665;
+      z = 0;
+      timestamp = performance.now();
+      start() {
+        Object.assign(window, { mobileTestGravitySensor: this });
+        this.dispatchEvent(new Event('reading'));
+      }
+      stop() {}
+    }
+    Object.defineProperty(window, 'GravitySensor', { configurable: true, value: TestGravitySensor });
+  });
+  const canvas = await begin(page);
+  const throttle = page.getByRole('button', { name: 'Acelerar ↑', exact: true });
+  await throttle.focus();
+  await page.keyboard.press('Space');
+  await expect(canvas).toHaveAttribute('data-throttle', '1.0000');
+  await page.evaluate(() => {
+    (window as unknown as { mobileTestGravitySensor: EventTarget }).mobileTestGravitySensor.dispatchEvent(
+      new Event('error'),
+    );
+  });
+  await expect(canvas).toHaveAttribute('data-throttle', '0.0000');
+  await expect(throttle).toHaveAttribute('aria-pressed', 'false');
+  await expect(throttle).toBeFocused();
+  await page.keyboard.press('Space');
+  await expect(canvas).toHaveAttribute('data-throttle', '1.0000');
+  await expect(throttle).toHaveAttribute('aria-pressed', 'true');
+});

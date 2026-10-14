@@ -16,6 +16,7 @@ export interface MobileSnapshot {
   storageError: boolean;
   wakeError: boolean;
   vibrationAvailable: boolean;
+  pedalResetCount: number;
 }
 
 /** Session orchestration stays outside React and never mutates the car or exam. */
@@ -45,6 +46,7 @@ export class MobileSession {
       storageError: false,
       wakeError: false,
       vibrationAvailable: typeof navigator.vibrate === 'function',
+      pedalResetCount: 0,
     };
     this.haptics = this.snapshot.vibrationAvailable
       ? new DrivingHaptics((pattern) => navigator.vibrate(pattern))
@@ -58,7 +60,7 @@ export class MobileSession {
       },
       () => {
         this.failed = true;
-        this.input.release();
+        this.release();
         this.publish({ status: 'unavailable' });
       },
     );
@@ -95,7 +97,7 @@ export class MobileSession {
     if (!settings.vibration) this.haptics?.stop();
     if (previous.tiltEnabled !== settings.tiltEnabled) {
       this.sensor.stop();
-      this.input.release();
+      this.release();
       void this.screen.keepAwake(false);
       if (settings.tiltEnabled && this.snapshot.started && !this.suspended) this.start();
       this.publish({ status: settings.tiltEnabled ? 'waiting' : 'off' });
@@ -110,6 +112,7 @@ export class MobileSession {
   }
   release() {
     this.input.release();
+    this.publish({ pedalResetCount: this.snapshot.pedalResetCount + 1 });
   }
   sample(atMs: number) {
     return this.input.sample(
@@ -138,7 +141,7 @@ export class MobileSession {
   suspend() {
     this.suspended = true;
     this.sensor.stop();
-    this.input.release();
+    this.release();
     this.haptics?.stop();
     void this.screen.keepAwake(false);
     this.publish({ status: 'waiting' });
