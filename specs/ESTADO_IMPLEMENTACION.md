@@ -686,8 +686,30 @@ Estados por revisor: `pendiente`, `solicitada`, `completada`, `omitida por token
 ## Pedido puntual MOV01 — conducción en el celular
 
 - Pedido: especificar la conducción desde teléfonos y tabletas usando sus sensores, con el volante controlado al inclinar el aparato; en escritorio todo sigue igual. Rama `mov01-mobile-driving-spec`, desde `main` (`c2684ad`).
-- Resultado: [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md), con activación por capacidades (puntero táctil principal, sensor con lecturas reales y pantalla apaisada), lectura por `GravitySensor` con respaldo `devicemotion`, ángulo, zona muerta, tope y curva, integración en `stepControls`/`driveFrame`, franja de pedales para el pulgar izquierdo y palanca para el derecho (P/R/N/D y grilla en H, con selección directa), embrague asistido en caja manual con sus efectos en el examen, vibración solo por eventos físicos, pantalla encendida, orientación, ajustes, margen frente a `steerHeldRad`, accesibilidad, verificación y entrega en dos PRs (MOV01-T01 y T02). README, PROPUESTA, ARQUITECTURA y EXPERIENCIA_CONDUCCION remiten a esa spec.
-- [PR #48](https://github.com/grunch/al-volante/pull/48), commit `6dec8df`. Revisiones: Codex solicitada con `@codex review`; CodeRabbit automática al abrir.
+- Resultado: [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md), con modo móvil por puntero táctil principal y volante por inclinación como subestado confirmado tras el gesto inicial, lectura por `GravitySensor` con respaldo `devicemotion`, lecturas encoladas con su instante y vencidas a los 250 ms, centro tomado solo con el teléfono quieto, ángulo, zona muerta, tope y curva, integración en `stepControls`/`driveFrame`, franja de pedales para el pulgar izquierdo y palanca para el derecho (P/R/N/D y grilla en H, con selección directa), embrague asistido en caja manual con sus efectos en el examen, vibración solo por eventos físicos, pantalla encendida, orientación, ajustes, margen frente a `steerHeldRad`, accesibilidad, verificación y entrega en dos PRs (MOV01-T01 y T02). README, PROPUESTA, ARQUITECTURA y EXPERIENCIA_CONDUCCION remiten a esa spec.
+- [PR #48](https://github.com/grunch/al-volante/pull/48). Commits:
+  - `6dec8df`: spec inicial;
+  - `5d59001`: registro del PR;
+  - `6da27b6`: cambios superpuestos para las dos cajas;
+  - `fb8c136`: pedales con el pulgar izquierdo, palanca con el derecho y embrague asistido, por pedido del usuario;
+  - commit siguiente: correcciones de los findings.
+  La cabeza vigente es la del PR.
+- **Codex:**
+  - completada sobre `5d59001`, `6da27b6` y `fb8c136`; seis findings, todos aplican y están corregidos:
+    - [activación circular](https://github.com/grunch/al-volante/pull/48#discussion_r4271072221): el modo móvil depende solo del puntero, y la inclinación pasa a ser un subestado con botones de respaldo;
+    - [efecto de la inclinación hacia adelante](https://github.com/grunch/al-volante/pull/48#discussion_r4271072236): verificado numéricamente (≈ 63,4° con 45° de giro y 60° alrededor del eje del teléfono; sin cambio alrededor del eje de quien juega). Documentado como aproximación, con prueba en el aparato y compensación a evaluar;
+    - [determinismo](https://github.com/grunch/al-volante/pull/48#discussion_r4271124599): las lecturas continuas se encolan con su instante y cada paso fijo usa la suya;
+    - [registro desactualizado](https://github.com/grunch/al-volante/pull/48#discussion_r4271124608): esta entrada;
+    - [volante y pedales en el mismo pulgar](https://github.com/grunch/al-volante/pull/48#discussion_r4271288699): sin inclinación, ← y → pasan al pulgar derecho, con su E2E;
+    - [regla oficial frente a umbrales del juego](https://github.com/grunch/al-volante/pull/48#discussion_r4271288709): cita `protocolo.pdf` PDF 11, y 0,05 de acelerador, 0,03 rad y 5 cm figuran como aproximaciones.
+  - Se pide una nueva revisión sobre las correcciones.
+- **CodeRabbit:**
+  - completada sobre `6da27b6`, con cuatro findings:
+    - [criterio de estabilidad del centro](https://github.com/grunch/al-volante/pull/48#discussion_r4271189155): corregido (0,3 s con variación ≤ 2°; nunca se toma un movimiento como centro);
+    - [caducidad de lecturas](https://github.com/grunch/al-volante/pull/48#discussion_r4271189164): corregido (250 ms, vuelta a botones y prueba);
+    - [pantalla encendida en Safari](https://github.com/grunch/al-volante/pull/48#discussion_r4271189175): corregido (16.4 en pestaña, 18.4 en la app instalada);
+    - [fuentes en las decisiones de CONTINUIDAD](https://github.com/grunch/al-volante/pull/48#discussion_r4271189189): aplica en parte. Las decisiones que tocan el examen citan `protocolo.pdf` PDF 11; las demás son decisiones técnicas sin fuente en `specs/fuentes/`, y la exigencia de citar PDF de `AGENTS.md` alcanza a reglas y contenido pedagógico.
+  - Para `fb8c136` alcanzó el límite de revisiones del plan; se reintenta cuando se libere.
 - Estado: especificado, sin implementar ni PR de código. Verificación documental: enlaces y rutas de código citados comprobados contra el árbol y `git diff --check` sin errores (Prettier no revisa los `.md`: están en `.prettierignore`).
 
 ## Pila y orden de fusión
@@ -716,7 +738,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-MOV01 ([PR #48](https://github.com/grunch/al-volante/pull/48)): registrar las revisiones de Codex y CodeRabbit y resolver sus findings; especificación en [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md). Implementar MOV01-T01 y MOV01-T02 solo cuando el usuario lo pida. F04-T05-FIX02 (#46) y PAGES01 (#47) ya están fusionados en `main`.
+MOV01 ([PR #48](https://github.com/grunch/al-volante/pull/48)): findings de Codex y CodeRabbit resueltos (sección «Pedido puntual MOV01»); falta la revisión de las correcciones; especificación en [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md). Implementar MOV01-T01 y MOV01-T02 solo cuando el usuario lo pida. F04-T05-FIX02 (#46) y PAGES01 (#47) ya están fusionados en `main`.
 
 PWA01 fusionada (pedido puntual del usuario; no inicia las fases 6 ni 7): PWA01-T01 en `ecda93a` (#43) y PWA01-T02 en `e71390f` (#44). REV01 fusionada completa (#39 y #42, con #40 y #41); el E2E de `main` corre en tres shards desde `72a1e87`. Decisiones pendientes del usuario de REV01 en su sección. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 

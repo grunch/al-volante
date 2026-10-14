@@ -20,15 +20,16 @@ No cambia la conducción en escritorio, la física del auto, las reglas del exam
 
 ## 2. Cuándo se activa
 
-El modo móvil se activa por capacidades del aparato, no por marca ni modelo. Deben cumplirse las tres condiciones:
+Depende de las capacidades del aparato, no de su marca ni modelo, y tiene dos niveles:
 
-1. **Puntero táctil principal:** `matchMedia('(pointer: coarse) and (hover: none)')`.
-2. **Sensor de movimiento con lecturas reales:** `GravitySensor` o el evento `devicemotion`. Los navegadores de escritorio suelen definir `DeviceMotionEvent` sin entregar lecturas, así que el sensor solo cuenta como disponible si llega una lectura válida en el primer segundo después del gesto de inicio (§3).
-3. **Pantalla apaisada.** En vertical, el modo queda en espera y se muestra un aviso (§3).
+1. **Modo móvil:** se activa con puntero táctil principal (`matchMedia('(pointer: coarse) and (hover: none)')`).
+   - Muestra la superposición inicial (§3), los controles superpuestos (§8) y los ajustes (§10), y usa el embrague asistido en caja manual (§8.3).
+   - Los controles superpuestos se usan con el teléfono apaisado; en vertical se muestra el aviso de §3.
+2. **Volante por inclinación:** es un subestado del modo móvil que se confirma después del gesto «Empezar».
+   - Requiere el permiso, donde se pide, y una lectura válida de `GravitySensor` o `devicemotion` en el primer segundo. Se exige una lectura real porque los navegadores de escritorio suelen definir `DeviceMotionEvent` sin entregar lecturas.
+   - Si se rechaza el permiso, no llegan lecturas, las lecturas vencen (§4) o quien juega lo desactiva (§10), el modo móvil sigue. El volante se maneja entonces con los botones ← y → de la superposición (§8.4).
 
-En escritorio no aparece nada nuevo: no se piden permisos, no se registran escuchas de sensores ni se pide mantener la pantalla encendida. Teclado, mouse y botones en pantalla funcionan como hoy. Una tableta, o un equipo 2 en 1 en modo tableta, que cumpla las tres condiciones también usa el modo móvil.
-
-Quien juega puede desactivar el volante por inclinación en los ajustes (§10); entonces se maneja con los botones táctiles actuales.
+En escritorio, con un puntero principal fino, no aparece nada nuevo: no se piden permisos, no se registran escuchas de sensores ni se pide mantener la pantalla encendida. Teclado, mouse y botones en pantalla funcionan como hoy. Una tableta, o un equipo 2 en 1 en modo tableta, con puntero táctil principal también usa el modo móvil.
 
 ## 3. Flujo de uso
 
@@ -36,13 +37,13 @@ Quien juega puede desactivar el volante por inclinación en los ajustes (§10); 
    - en iPhone y iPad, `DeviceMotionEvent.requestPermission()`; si se rechaza, se maneja con botones y se informa;
    - pantalla completa sobre la cabina (el mismo mecanismo del botón actual) y bloqueo en horizontal (§9); si alguno falla, se sigue sin él;
    - pantalla siempre encendida (§9);
-   - arranque del sensor: el ángulo promedio de los primeros 0,3 s estables se toma como **centro**;
+   - arranque del sensor y calibración: el **centro** es el ángulo promedio de una ventana de 0,3 s en la que el ángulo varía 2° o menos (máximo menos mínimo). Mientras no se cumpla, el volante queda en el centro y se muestra «Sostené el teléfono quieto, como un volante». Pasados 3 s sin cumplirse, el aviso sigue visible y se sigue esperando: nunca se toma un movimiento como centro;
    - el audio de manejo, que ya se activa por gesto, queda habilitado con el mismo toque.
-2. En modo inclinación, el botón **«Centrar volante»** está siempre visible en la cabina: toma el ángulo actual como centro.
+2. En modo inclinación, el botón **«Centrar volante»** está siempre visible en la cabina. Recalibra con el mismo criterio de estabilidad y, mientras espera, conserva el centro anterior.
 3. Avisos en una región `aria-live`, sin bloquear el manejo:
    - teléfono vertical: «Girá el teléfono a horizontal para manejar inclinándolo»;
    - teléfono casi plano (§5): «Levantá un poco el teléfono»;
-   - sensor sin lecturas o con error: «No se pudo leer la inclinación; usá los botones».
+   - sensor sin lecturas, con lecturas vencidas o con error: «No se pudo leer la inclinación; usá los botones».
 
 Los textos de interfaz van en español rioplatense en `src/i18n/es-AR.ts`; los de esta spec son orientativos.
 
@@ -51,6 +52,9 @@ Los textos de interfaz van en español rioplatense en `src/i18n/es-AR.ts`; los d
 - **Fuente preferida: `GravitySensor`** (Generic Sensor API; Chrome en Android) a 60 Hz. Android calcula esa gravedad combinando acelerómetro y giroscopio, con poco ruido y poca demora.
 - **Respaldo: evento `devicemotion`.** Se usa `accelerationIncludingGravity` junto con `rotationRate` en un filtro complementario: el giroscopio sigue los cambios rápidos y la gravedad corrige la deriva. Constante de tiempo inicial de 0,25 s, a ajustar en el aparato. Las muestras con aceleración total fuera de 0,5–1,5 g, por ejemplo por un sacudón de la mano, no corrigen la deriva.
 - **Lecturas inválidas:** las no finitas se descartan. Un error del sensor (`NotAllowedError`, `NotReadableError`) desactiva la inclinación y se muestra el aviso de §3.
+- **Lecturas vencidas:** si la lectura más reciente tiene más de 250 ms respecto del instante del paso fijo (unas quince lecturas perdidas a 60 Hz), se descarta.
+  - La inclinación pasa a inactiva, el volante vuelve al centro, aparecen los botones de giro (§8.4) y se muestra el aviso de §3.
+  - Cuando vuelven a llegar lecturas, la inclinación se reactiva sola y conserva el centro.
 - **Sin ninguna fuente:** modo botones.
 
 El adaptador del sensor queda separado de la lógica pura para poder probarla sin navegador (§14).
@@ -67,7 +71,10 @@ const screenRollDeg = normalizeDegrees(deviceRollDeg - screen.orientation.angle)
 
 - **Sentido exigido:** girar el teléfono en sentido antihorario, como un volante hacia la izquierda, produce giro a la izquierda (`steer > 0`, la convención de `CarControls.steer`) en las dos orientaciones apaisadas.
 - **No se usa `gamma` de `deviceorientation`:** son ángulos de Euler, y con el teléfono parado y apaisado `gamma` queda en el borde de su rango (±90°) y salta.
-- Al ignorar la componente z, el ángulo no depende de cuánto se incline el teléfono hacia quien juega.
+- **Inclinación hacia adelante o hacia atrás:** el ángulo no siempre se mantiene; depende de alrededor de qué eje se incline el teléfono.
+  - Alrededor del eje horizontal de quien juega, las dos componentes se multiplican por el mismo coseno y el ángulo no cambia.
+  - Alrededor del eje horizontal propio del teléfono, ya girado, el ángulo sí cambia: con 45° de giro y 60° de inclinación se lee ≈ 63,4°; con 10° de giro y 30° de inclinación, ≈ 11,5°.
+  - Es una aproximación: la calibración toma la postura habitual, y la prueba en el aparato cubre distintas inclinaciones (§14). Si en el aparato resulta molesta, antes de cerrar MOV01-T01 se evalúa compensarla con la orientación completa del sensor (`RelativeOrientationSensor`).
 - **Teléfono casi plano:** si la gravedad proyectada sobre la pantalla (`hypot(x, y)`) cae por debajo de `sin(20°)·g`, el ángulo deja de ser confiable. La entrada pasa a inactiva, el volante vuelve al centro y aparece el aviso. Vuelve a ser confiable por encima de `sin(25°)·g`; la diferencia evita parpadeos.
 
 ## 6. Del ángulo al volante
@@ -105,7 +112,11 @@ Reglas:
   - Si hay valor y no se sostiene un botón de giro, `steer` toma ese valor.
   - Si se sostiene ← o →, manda el botón, con su asistencia actual.
   - Sin valor, el comportamiento es el de hoy: vuelta al centro con las rampas existentes.
-- **Paso fijo:** `driveFrame` (`src/practice/drivingLoop.ts`) lee la última lectura una vez por paso fijo, igual que las teclas. Con la misma secuencia de lecturas, el auto termina igual a 30 y a 120 cuadros por segundo.
+- **Paso fijo y lecturas con su instante:**
+  - Las lecturas continuas (inclinación y franja de pedales) se encolan con su instante: el `timestamp` del sensor o el `timeStamp` del evento.
+  - `driveFrame` (`src/practice/drivingLoop.ts`) asigna a cada paso fijo un instante real, calculado a partir del inicio del cuadro y del acumulador del paso fijo. En cada paso usa la última lectura con instante menor o igual al del paso, y descarta las ya consumidas.
+  - Así, la misma secuencia de lecturas con sus instantes da el mismo recorrido a 30 y a 120 cuadros por segundo, aunque a 30 cuadros varios pasos se calculen juntos.
+  - Las teclas y los botones conservan su comportamiento actual, que no reconstruye la duración de los eventos entre cuadros (`ARQUITECTURA.md`, «Habitáculo y controles»).
 - **Cambios con el asistente:** con el embrague asistido, un cambio pedido queda pendiente hasta que el embrague supera `CLUTCH_PRESSED`; recién entonces se aplica el comando, dentro de la secuencia de pasos fijos.
 - **Foco:** a diferencia del teclado, la inclinación no depende del foco del lienzo. Tocar un pedal mueve el foco a ese botón y el volante tiene que seguir funcionando.
 - **Liberación:** la inclinación pasa a inactiva y el volante vuelve al centro cuando la pestaña se oculta, la ventana pierde el foco, se reinicia el manejo o se desmonta la cabina (los mismos casos que `releaseKeys` en `DrivingCanvas.tsx`). Al volver se conserva el centro calibrado.
@@ -136,7 +147,7 @@ Las combinaciones necesarias usan pulgares distintos. En automática: frenar y e
   - al soltar, acelerador y freno vuelven a 0.
 - **Paso fijo:** el valor sigue al pulgar con una variación máxima de 5 por segundo (de 0 a 1 en 0,2 s, valor inicial).
 - **Indicación:** una barra muestra el nivel del acelerador hacia arriba o del freno hacia abajo, con los rótulos «Acelerar ↑» y «Frenar ↓».
-- **Examen:** la banda neutra evita acelerar o frenar sin querer, lo que importa en las maniobras de 30 cm, donde más de 0,05 de acelerador es falta.
+- **Examen:** la banda neutra evita acelerar o frenar sin querer, lo que importa en las maniobras de 30 cm. El protocolo pide hacerlas sin acelerador (`specs/fuentes/pdf/protocolo.pdf`, PDF 11), y el simulador considera que se aceleró a partir de 0,05, una aproximación del juego (§11).
 
 ### 8.2 Palanca de cambios (pulgar derecho)
 
@@ -177,7 +188,7 @@ En el modo móvil, la caja manual se maneja sin pisar el embrague: el juego lo a
 - **Ubicación:** los controles van en los bordes laterales e inferiores de la vista, sin tapar los espejos ni el centro de la calle. Se respetan las zonas seguras (`env(safe-area-inset-*)`).
 - **Componentes:** la palanca reutiliza `CommandButton` (`CockpitControls.tsx`) con un comando de selección directa. La franja de pedales es un componente nuevo con captura de puntero, que admite varios toques a la vez como los mandos actuales.
 - **Resto de los mandos:** llave, freno de mano, embrague, luces, giros, mirada y espejos siguen en la columna de mandos de la disposición apaisada actual (`ARQUITECTURA.md`, «Diseño adaptable»).
-- **Volante con botones:** si se desactiva la inclinación (§10), los botones ← y → aparecen en la superposición junto al pulgar izquierdo, sobre la franja de pedales.
+- **Volante con botones:** si la inclinación está desactivada o no disponible (§2, §4), los botones ← y → aparecen en la superposición bajo el pulgar derecho, debajo de la palanca. Así se puede girar mientras el pulgar izquierdo acelera o frena. Con dos pulgares no se puede girar y cambiar de marcha a la vez: el cambio se hace antes o después de la curva.
 
 ## 9. Pantalla y orientación
 
@@ -195,7 +206,7 @@ En el modo móvil, la caja manual se maneja sin pisar el embrague: el juego lo a
 ## 11. Examen y evaluación
 
 - **Reglas sin cambios:** ninguna regla ni umbral del examen cambia.
-- **Margen frente a «volante movido»:** en las maniobras de 30 cm el volante cuenta como movido si las ruedas superan `GAME_PARAMETERS.steerHeldRad` (0,03 rad, `src/exam/session.ts`).
+- **Margen frente a «volante movido»:** el protocolo pide hacer las maniobras de 30 cm sin mover el volante (`protocolo.pdf`, PDF 11). El simulador lo considera movido si las ruedas superan `GAME_PARAMETERS.steerHeldRad` (0,03 rad, `src/exam/session.ts`), una aproximación del juego (`ARQUITECTURA.md`, «Evaluación del examen», aproximaciones del juego).
   - Con el tope de 33°, eso es ≈ 5,2 % del recorrido.
   - Con zona muerta de 3° y curva 1,5, hace falta inclinar el teléfono ≈ 13° desde el centro con el tope en 75°, y ≈ 9° con el tope en 45°.
   - El temblor normal de la mano queda muy por debajo; una prueba lo comprueba con ruido (§14).
@@ -204,7 +215,11 @@ En el modo móvil, la caja manual se maneja sin pisar el embrague: el juego lo a
 - **Embrague asistido (caja manual en el celular):**
   - **Calado y dominio del embrague:** el calado (deficiente baja d) prácticamente no ocurre y el dominio del embrague no se pone a prueba. La ficha lo informa entre las aproximaciones que pudieron influir.
   - **Reconocimiento de la pedalera:** el embrague se señala con el botón «Embrague» de la columna.
-  - **Retroceder y avanzar 30 cm:** se hacen con el avance lento del asistente, sin acelerador, y con el freno solo para detenerse al final. A 0,3 m/s el auto se detiene en unos 2 cm después de empezar a frenar, dentro de los 5 cm que admite `brakeThenMoveM`; una prueba lo comprueba.
+  - **Retroceder y avanzar 30 cm:**
+    - **Protocolo:** en caja manual, retroceder regulando solo con el embrague, sin acelerador y sin tocar el freno, que solo se puede pisar al final para inmovilizar; después, avanzar en primera sin girar el volante y en una sola maniobra (`specs/fuentes/pdf/protocolo.pdf`, PDF 11).
+    - **Con el asistente:** las dos maniobras se hacen con su avance lento, sin acelerador, y el freno solo para detenerse.
+    - **Aproximaciones del juego, no valores del protocolo:** un acelerador por encima de 0,05 cuenta como acelerar (umbral fijo en `onManoeuvreStep`, `src/exam/session.ts`), y moverse más de 5 cm después de pisar el freno (`GAME_PARAMETERS.brakeThenMoveM`, listado en `ARQUITECTURA.md`, «Evaluación del examen») cuenta como regular con él. A 0,3 m/s el auto se detiene en unos 2 cm después de empezar a frenar, por debajo de ese umbral; una prueba lo comprueba.
+    - **Dominio fino:** el protocolo evalúa aquí el dominio fino del vehículo; con el asistente, esa regulación la hace el juego, y la ficha lo informa (punto anterior).
   - **Arranque con una marcha puesta:** con el motor apagado el asistente deja el embrague suelto, así que arrancar en marcha se sigue rechazando como hoy. Si alguien pisa el botón «Embrague» y arranca en marcha, se consigna la leve e como en escritorio.
 - **Dos manos:** la baja f (dos manos en el volante) sigue sin evaluarse, como indica `REGLAS.md` §9.
 
@@ -238,14 +253,17 @@ Usa `navigator.vibrate`. Si el navegador no lo ofrece (Safari en iOS), el ajuste
 - zona muerta, curva, tope e histéresis del teléfono plano;
 - lecturas no finitas;
 - validación de ajustes y datos corruptos;
-- detección: un escritorio sin lecturas no activa el modo;
+- detección: el modo móvil depende solo del puntero; sin permiso o sin lecturas sigue con botones; un escritorio no activa nada;
+- calibración: un centro solo con 0,3 s de variación ≤ 2°; con movimiento continuo no se toma centro y se muestra el aviso; «Centrar volante» conserva el centro anterior mientras espera;
+- lecturas vencidas: con más de 250 ms se descartan, el volante vuelve al centro y aparecen los botones; al volver las lecturas se reactiva con el mismo centro;
 - vibración: correspondencia con los eventos, límite de frecuencia y ausencia de vibración por faltas;
 - franja de pedales: banda neutra, mapeo lineal, tope fuera de la franja y vuelta a 0 al soltar;
 - palanca con selección directa: P→D con y sin freno, P rechazada en movimiento, R rechazada al avanzar y cada marcha de la grilla en H;
 - embrague asistido: cada fila de §8.3, incluidos el cambio pendiente hasta superar `CLUTCH_PRESSED`, el avance lento a 0,3 m/s en primera y en R, la salida sin calar con distintos niveles de acelerador, el freno de mano sin avance y el valor máximo entre el botón y el asistente.
 
 **Integración:**
-- `driveFrame` con lecturas de inclinación da el mismo resultado a 30 y a 120 cuadros por segundo;
+- `driveFrame` con la misma secuencia de lecturas con instante (inclinación y franja de pedales) da exactamente el mismo recorrido a 30 y a 120 cuadros por segundo;
+- una interrupción de lecturas durante el manejo deja el volante en el centro al superar los 250 ms;
 - el botón de giro manda sobre la inclinación;
 - al ocultar la pestaña, el volante vuelve al centro;
 - ruido de ±2° alrededor del centro durante los 30 cm no genera «volante movido»;
@@ -253,11 +271,12 @@ Usa `navigator.vibrate`. Si el navegador no lo ofrece (Safari en iOS), el ajuste
 - arrancar con una marcha puesta se sigue rechazando con el asistente.
 
 **E2E (Playwright, Chromium):**
-- **Proyecto móvil** con `hasTouch` e `isMobile`. Las lecturas se inyectan con sensores virtuales del protocolo de depuración de Chrome (`Emulation.setSensorOverrideEnabled`, si la versión de Chromium de Playwright lo permite) o con eventos `devicemotion` sintéticos. Se cubren la superposición inicial, la calibración, el giro del volante y del auto, los avisos de vertical y de teléfono plano y la desactivación. También los mandos superpuestos: acelerar y frenar con la franja; en caja automática, freno y D a la vez para salir de P, y D sin freno, que debe rechazarse; en caja manual, primera y segunda sin embrague, y R mientras el auto avanza, que debe rechazarse.
+- **Proyecto móvil** con `hasTouch` e `isMobile`. Las lecturas se inyectan con sensores virtuales del protocolo de depuración de Chrome (`Emulation.setSensorOverrideEnabled`, si la versión de Chromium de Playwright lo permite) o con eventos `devicemotion` sintéticos. Se cubren la superposición inicial, la calibración, el giro del volante y del auto, los avisos de vertical y de teléfono plano y la desactivación. También los mandos superpuestos: acelerar y frenar con la franja; en caja automática, freno y D a la vez para salir de P, y D sin freno, que debe rechazarse; en caja manual, primera y segunda sin embrague, y R mientras el auto avanza, que debe rechazarse. Con la inclinación desactivada o sin permiso: acelerar con el pulgar izquierdo y sostener ← con el derecho a la vez, y el auto debe girar mientras acelera.
 - **Escritorio:** sin superposición, sin escuchas de sensores y sin pedir pantalla encendida. La suite actual de escritorio no cambia.
 
 **Prueba manual en el aparato** (referencia: Google Pixel 11 con Chrome; registrar modelo, navegador y versión):
 - ambas orientaciones apaisadas y sentido del giro;
+- giro sostenido mientras se inclina el teléfono hacia adelante y hacia atrás, para medir el efecto descrito en §5;
 - teléfono quieto en el centro sin mover el volante;
 - tope;
 - avisos de teléfono plano y vertical;
@@ -287,7 +306,7 @@ Dos PRs apilados desde `main`, con el flujo de revisión habitual (Codex y CodeR
 | Navegador | Lectura del sensor | Vibración | Pantalla encendida | Bloqueo horizontal |
 |---|---|---|---|---|
 | Chrome en Android | `GravitySensor` | sí | sí | sí, en pantalla completa |
-| Safari en iPhone/iPad | `devicemotion`, con permiso | no | sí (desde 16.4) | no |
+| Safari en iPhone/iPad | `devicemotion`, con permiso | no | sí: en pestaña desde iOS/iPadOS 16.4; en la app instalada en la pantalla de inicio, desde 18.4 | no |
 | Otros | a verificar | a verificar | a verificar | a verificar |
 
 - La tabla resume la documentación de cada navegador; solo la prueba en un aparato acredita compatibilidad.

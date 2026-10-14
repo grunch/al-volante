@@ -7,13 +7,15 @@ Actualizado: 2026-10-14. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el
 Pedido del 2026-10-14: especificar la conducción desde teléfonos y tabletas con el volante controlado al inclinar el aparato, sin cambiar nada en escritorio. Rama `mov01-mobile-driving-spec`, desde `main` (`c2684ad`), [PR #48](https://github.com/grunch/al-volante/pull/48). Por ahora solo hay especificación: [CONDUCCION_MOVIL.md](CONDUCCION_MOVIL.md). Implementarla (MOV01-T01 y T02) requiere un pedido explícito.
 
 Decisiones a respetar:
-- El modo móvil se activa por capacidades, no por modelo de aparato. En escritorio no se piden permisos ni se escuchan sensores.
+- El modo móvil depende solo del puntero táctil principal; el volante por inclinación es un subestado que se confirma después del gesto. Sin permiso, sin lecturas o con lecturas vencidas (más de 250 ms), se maneja con botones. En escritorio no se piden permisos ni se escuchan sensores.
+- Las lecturas continuas se encolan con su instante y cada paso fijo usa la que le corresponde. El centro solo se toma con el teléfono quieto (0,3 s con variación de 2° o menos).
 - El ángulo sale de la gravedad proyectada sobre la pantalla, no de `gamma`.
 - La inclinación no usa la asistencia por velocidad de `stepControls`, y un botón de giro sostenido manda sobre ella.
-- La zona muerta y la curva dejan margen frente a `steerHeldRad`.
+- La zona muerta y la curva dejan margen frente a `steerHeldRad`. El protocolo pide no mover el volante en los 30 cm (`protocolo.pdf`, PDF 11); el umbral es una aproximación del juego (`ARQUITECTURA.md`, «Evaluación del examen»).
 - La vibración responde solo a eventos físicos, nunca a faltas.
 - Pulgar izquierdo: franja de pedales (arriba acelera, abajo frena). Pulgar derecho: palanca con selección directa, P/R/N/D en automática y grilla en H en manual, como la palanca a la derecha de quien conduce.
-- En el celular, la caja manual usa embrague asistido. El asistente solo genera el valor del pedal: no cambia el tren motriz ni las reglas, y la ficha lo informa como aproximación. El botón «Embrague» queda en la columna para el reconocimiento de la pedalera.
+- En el celular, la caja manual usa embrague asistido. El asistente solo genera el valor del pedal: no cambia el tren motriz ni las reglas, y la ficha lo informa como aproximación. El botón «Embrague» queda en la columna para el reconocimiento de la pedalera. El protocolo pide, en manual, retroceder 30 cm regulando solo con el embrague (`protocolo.pdf`, PDF 11); en el celular, el avance lento del asistente cumple ese papel.
+- Sin inclinación, los botones ← y → van bajo el pulgar derecho, para girar mientras el izquierdo acelera o frena.
 - Los botones de giro siguen como alternativa obligatoria (WCAG 2.5.4).
 
 ## Trabajo puntual fusionado — PAGES01 (publicación en GitHub Pages)
