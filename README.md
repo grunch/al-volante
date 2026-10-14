@@ -22,6 +22,8 @@ npm run test:drive -- --headed  # optional browser driving session
 
 Prueba que arranca el auto y conduce por el recorrido: [instrucciones, registros y límites](specs/PRUEBA_MANEJO.md).
 
+Manejo desde el celular: en teléfonos y tabletas el volante se va a girar inclinando el aparato; en escritorio no cambia nada. Está especificado y todavía sin implementar: detalles en [Conducción en el celular](specs/CONDUCCION_MOVIL.md).
+
 Pila, estructura y convenciones: [specs/ARQUITECTURA.md](specs/ARQUITECTURA.md).
 
 Desde el inicio, «Explorar Comuna 13» abre `#/recorrido`: ocho entradas, vista de cuadra o circuito completo y conducción manual/automática. [Fuentes, aproximaciones y rendimiento](specs/CIUDAD.md).
@@ -46,6 +48,7 @@ Cada fusión en `main` publica el build de producción en GitHub Pages (`.github
 - [Plan de implementación](specs/PLAN_IMPLEMENTACION.md): fases, tareas y flujo de PRs.
 - [Estado de implementación](specs/ESTADO_IMPLEMENTACION.md): avance y siguiente acción.
 - [Inmersión del recorrido](specs/INMERSION_RECORRIDO.md): referencias, Blender, sonido y comprobaciones.
+- [Conducción en el celular](specs/CONDUCCION_MOVIL.md): volante por inclinación, pedales y palanca superpuestos semitransparentes, embrague asistido en manual, vibración y pantalla encendida en teléfonos y tabletas (especificado, sin implementar).
 - [Arquitectura](specs/ARQUITECTURA.md): pila, estructura, convenciones y comandos.
 - [Continuidad](specs/CONTINUIDAD.md): contexto y hallazgos para retomar el trabajo.
 - [Estrategia de modelos](specs/ESTRATEGIA_MODELOS.md).

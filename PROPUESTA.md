@@ -80,7 +80,7 @@ Los edificios tendrán una estética realista estilizada: veredas, fachadas, ár
 - Cinturón, asiento, apoyacabezas, luces, giros, balizas, bocina, limpiaparabrisas, desempañadores, climatización, llave, freno de mano y caja de cambios.
 - Transmisión manual y automática, con sus procedimientos diferenciados. La manual permite practicar embrague, punto de acople, arranque, detenciones y calado.
 - Motor, intermitentes, tránsito y voz del examinador con subtítulos.
-- Teclado y mouse como base, mando configurable; volante/pedales sujeto a compatibilidad comprobada. Controles táctiles para teoría y prácticas simplificadas, priorizando escritorio para el circuito completo.
+- Teclado y mouse como base, mando configurable; volante/pedales sujeto a compatibilidad comprobada. Controles táctiles para teoría y prácticas simplificadas, priorizando escritorio para el circuito completo. La conducción en teléfonos y tabletas (volante por inclinación y mandos para los pulgares, sin cambios en escritorio) se detalla en [specs/CONDUCCION_MOVIL.md](specs/CONDUCCION_MOVIL.md).
 
 ### Tres etapas completas
 
