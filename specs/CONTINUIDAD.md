@@ -4,7 +4,7 @@ Actualizado: 2026-10-25. Estado: fases 1–4 fusionadas (#22–#26 en `main`; el
 
 ## Trabajo puntual activo — TEO01-T01 (examen teórico en «Examen»)
 
-Pedido del 2026-10-25: que «Examen» ofrezca también el teórico, con 40 preguntas de todas las secciones de los PDF, 40 minutos como máximo y aprobación con 34 correctas (más de 6 errores desaprueban). Rama `teo01-t01-theory-exam`, desde `main` (`4dd7642`), [PR #52](https://github.com/grunch/al-volante/pull/52) con la implementación `7583e72`; validación local aprobada y revisiones de Codex y CodeRabbit solicitadas. Próximo paso: revisar sus findings y la CI. Estado, alcance y validaciones en `ESTADO_IMPLEMENTACION.md` («Pedido puntual TEO01»).
+Pedido del 2026-10-25: que «Examen» ofrezca también el teórico, con 40 preguntas de todas las secciones de los PDF, 40 minutos como máximo y aprobación con 34 correctas (más de 6 errores desaprueban). Fuentes de las cifras: 40 preguntas y 34 de 40 en la Disposición 860/2023 (DGHC), anexo, p. 96; el tiempo es discrepante: 45 minutos en esa disposición (p. 96) y 40 en el informe final de gestión 2024 (IF-2024-05928354-GCABA-AJG), p. 17. Detalle en `REGLAS.md` §8. Rama `teo01-t01-theory-exam`, desde `main` (`4dd7642`), [PR #52](https://github.com/grunch/al-volante/pull/52) con la implementación `7583e72`; validación local aprobada y revisiones de Codex y CodeRabbit solicitadas. Próximo paso: revisar sus findings y la CI. Estado, alcance y validaciones en `ESTADO_IMPLEMENTACION.md` («Pedido puntual TEO01»).
 
 Decisiones a respetar:
 - `#/examen` es la sección que ofrece los dos exámenes; el práctico vive en `#/examen/practico` y el teórico en `#/examen/teorico`. `#/teorico` y `#/examen?modo=…` (o `etapa`) redirigen con su consulta: no romper esos enlaces viejos.

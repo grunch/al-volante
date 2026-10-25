@@ -91,7 +91,7 @@ describe('singular and plural in the theory mock exam', () => {
 
   it('summarises the paper and the score with the number of each noun', () => {
     expect(THEORY_COPY.introSummary(40, 34, 3, 40)).toBe(
-      '40 preguntas de opción múltiple con 3 opciones y una sola correcta, tomadas de todas las secciones del material oficial (manual, protocolo, recorridos y guía de siniestros) y repartidas por tema. Aprobás con 34 correctas: con más de 6 errores (las preguntas sin responder cuentan como errores) no aprobás. Tenés 40 minutos como máximo.',
+      '40 preguntas de opción múltiple con 3 opciones y una sola correcta, tomadas de las cuatro fuentes del material oficial (manual, protocolo, recorridos y guía de siniestros) y repartidas por tema entre todas sus secciones con preguntas. Aprobás con 34 correctas: con más de 6 errores (las preguntas sin responder cuentan como errores) no aprobás. Tenés 40 minutos como máximo.',
     );
     expect(THEORY_COPY.introSummary(1, 1, 3, 45)).toMatch(
       /^1 pregunta de opción múltiple .* Aprobás con 1 correcta: con un solo error \(/,
@@ -102,7 +102,7 @@ describe('singular and plural in the theory mock exam', () => {
     expect(THEORY_COPY.mistakes(7, 6)).toBe('Errores: 7. Con más de 6 errores, el examen no se aprueba.');
     expect(THEORY_COPY.mistakes(1, 0)).toBe('Errores: 1. Con un solo error, el examen no se aprueba.');
     expect(EXAM_HUB_COPY.theorySummary(40, 34, 40)).toBe(
-      '40 preguntas de opción múltiple de todas las secciones del material oficial, con 40 minutos como máximo. Aprobás con 34 correctas: con más de 6 errores, no aprobás.',
+      '40 preguntas de opción múltiple de las cuatro fuentes del material oficial, repartidas entre todas sus secciones con preguntas, con 40 minutos como máximo. Aprobás con 34 correctas: con más de 6 errores, no aprobás.',
     );
     expect(THEORY_COPY.score(33, 40, 34)).toBe('33 de 40 respuestas correctas (se necesitan 34).');
     expect(THEORY_COPY.score(1, 2, 1)).toBe('1 de 2 respuestas correctas (se necesita 1).');
