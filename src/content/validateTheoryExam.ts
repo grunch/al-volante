@@ -11,6 +11,10 @@ export function validateTheoryExam(
     errors.push(`passCorrect ${config.passCorrect} is more than the ${config.questions} questions`);
   if (config.timeMinutes.alternatives.includes(config.timeMinutes.default))
     errors.push('the default time is repeated among the alternatives');
+  // The default is the most the exam lasts; an alternative can only be stricter.
+  for (const minutes of config.timeMinutes.alternatives)
+    if (minutes > config.timeMinutes.default)
+      errors.push(`the alternative time ${minutes} is longer than the default ${config.timeMinutes.default}`);
   const sections = new Set(pages.map((page) => `${page.source}-${page.section}`));
   for (const section of config.sections) if (!sections.has(section)) errors.push(`unknown section ${section}`);
   for (const parameter of THEORY_PARAMETERS)

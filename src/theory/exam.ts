@@ -36,7 +36,7 @@ interface Candidate {
 /**
  * Choice questions of the configured sections that can offer the configured number of options. An activity counts
  * only when every unit it practises is in those sections: variants carry no source of their own, so an activity that
- * also practises the guide (or any other material) could ask for data outside the licence B exam.
+ * also practises a section left out of the configuration could ask for data outside the exam.
  */
 function candidatesBySection(
   activities: readonly Activity[],
@@ -221,6 +221,8 @@ export interface ExamGrade {
   total: number;
   correct: number;
   unanswered: number;
+  /** Questions answered wrong or not at all: more than `questions - passCorrect` fail the exam. */
+  mistakes: number;
   passed: boolean;
   bySection: Array<{ sectionKey: string; total: number; correct: number }>;
   /** Concepts of the questions answered wrong (or not at all), most missed first: what to review. */
@@ -272,6 +274,7 @@ export function gradeExam(
     total: results.length,
     correct,
     unanswered: results.filter((result) => result.chosenId === null).length,
+    mistakes: results.length - correct,
     passed: results.length >= config.questions && correct >= config.passCorrect,
     bySection: config.sections
       .filter((key) => sections.has(key))

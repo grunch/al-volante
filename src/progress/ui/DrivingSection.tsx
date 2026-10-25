@@ -9,7 +9,7 @@ export function DrivingSection({ rows }: { rows: readonly DrivingRow[] }) {
       <h2 id="driving-heading">{LOGBOOK_COPY.drivingHeading}</h2>
       {rows.length === 0 ? (
         <p>
-          {LOGBOOK_COPY.drivingEmpty} <Link to="/examen">{LOGBOOK_COPY.drivingLink}</Link>
+          {LOGBOOK_COPY.drivingEmpty} <Link to="/examen/practico">{LOGBOOK_COPY.drivingLink}</Link>
         </p>
       ) : (
         <ul className="logbook-list" data-testid="driving-log">

@@ -20,7 +20,7 @@ Al terminar, una repetición muestra tus decisiones: qué viste, qué hiciste, q
 | **La ciudad te pregunta** | Resolvés escenas: ordenar prioridades, elegir luces, detectar peligros, ubicar documentación y decidir dónde estacionar. | Aprender todo el contenido, con explicaciones y referencias. |
 | **Laboratorio vial** | Comparás distancias de reacción y frenado, lluvia, visibilidad, puntos ciegos y cargas. | Entender consecuencias mediante experimentos visuales. |
 | **Ruta 13** | Conducís desde el interior del auto por el recorrido A, con instructor o en simulacro. | Preparar circulación y estacionamiento. |
-| **Sala de examen** | Respondés preguntas equilibradas por tema, sin ayudas y con tiempo configurable. | Ensayar el teórico y medir progreso. |
+| **Sala de examen** | Respondés 40 preguntas de todas las secciones del material, equilibradas por tema, sin ayudas y con 40 minutos como máximo; se aprueba con 34 correctas. | Ensayar el teórico y medir progreso. |
 | **Mi bitácora** | Revisás errores, repeticiones, temas pendientes y una sesión de repaso recomendada. | Evitar lagunas y consolidar lo aprendido. |
 
 Ejemplo de sesión: cinco minutos de prioridades, una escena de giro con ciclista y diez minutos recorriendo calles. Si omitís mirar antes de doblar, la bitácora propone ese ejercicio para la próxima sesión.
@@ -177,7 +177,7 @@ Consulta oficial exploratoria realizada el 11/10/2026:
 - [Procedimiento 2023](https://documentosboletinoficial.buenosaires.gob.ar/publico/PE-DIS-UPFYDT-DGHC-860-23-ANX.pdf): el resultado de búsqueda menciona 40 preguntas, 85% y 45 minutos.
 - [Documento 2024](https://documentosboletinoficial.buenosaires.gob.ar/publico/PE-RES-SECGVC-SECGVC-109-24-ANX.pdf): el resultado de búsqueda menciona 40 minutos.
 
-Estos resultados muestran diferencias de edición. Los documentos completos ya se contrastaron en [specs/REGLAS.md §8](specs/REGLAS.md): 40 preguntas, 34 correctas (85%), y tiempo de 45 minutos según la Disposición 860/2023 y la página oficial vigente, frente a los 40 minutos del informe de gestión 2024. No fijar el temporizador como oficial. Diseñar cantidad de preguntas, duración y umbral como configuración versionada. No mezclar reglas de fuentes diferentes sin documentarlo.
+Estos resultados muestran diferencias de edición. Los documentos completos ya se contrastaron en [specs/REGLAS.md §8](specs/REGLAS.md): 40 preguntas, 34 correctas (85%), y tiempo de 45 minutos según la Disposición 860/2023 y la página oficial vigente, frente a los 40 minutos del informe de gestión 2024. No fijar el temporizador como oficial. Diseñar cantidad de preguntas, duración y umbral como configuración versionada. Desde TEO01 el simulacro usa 40 minutos como máximo, por decisión del usuario (`REGLAS.md` §8). No mezclar reglas de fuentes diferentes sin documentarlo.
 
 Pendientes para implementación: relevamiento cartográfico en terreno (posición del cajón, señalización de fuente única; ver [specs/RECORRIDO.md §7](specs/RECORRIDO.md)); la interpretación de Cuba–Quesada–Cuba quedó resuelta en F01-T04 (desplazamiento de 66 m); inventario de cada señal/figura; transcripción íntegra de la ficha y excepciones; resolución de discrepancias; prueba de controles y rendimiento. Caja manual/automática se ofrecerán como selección, sin bloquear la propuesta por esa preferencia.
 

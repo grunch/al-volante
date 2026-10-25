@@ -16,8 +16,8 @@ const SPACE_ROUTES: Partial<Record<HomeSpaceId, string>> = {
   garage: '/garaje',
   city: '/actividades',
   // Route A from the cabin, with an instructor (learn, practice, run) or as a mock exam (exam): F04-T03 to F04-T05.
-  route: '/examen',
-  exam: '/teorico',
+  route: '/examen/practico',
+  exam: '/examen/teorico',
   logbook: '/bitacora',
 };
 
@@ -60,14 +60,14 @@ export function HomePage() {
           <Link className="button button--secondary" to="/recorrido">
             {CITY_COPY.homeLink}
           </Link>{' '}
-          <Link className="button" to="/examen">
+          <Link className="button" to="/examen/practico">
             {EXAM_COPY.homeLink}
           </Link>
         </p>
         <ul className="home-modes">
           {DRIVING_MODES.map((mode) => (
             <li key={mode}>
-              <Link to={`/examen?modo=${slugOfMode(mode)}`}>{EXAM_COPY.homeModes[mode]}</Link>:{' '}
+              <Link to={`/examen/practico?modo=${slugOfMode(mode)}`}>{EXAM_COPY.homeModes[mode]}</Link>:{' '}
               {EXAM_COPY.modeHelp[mode]}
             </li>
           ))}

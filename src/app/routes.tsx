@@ -1,7 +1,9 @@
+import { Navigate, useLocation } from 'react-router';
 import type { RouteObject } from 'react-router';
 import { Layout } from './Layout.tsx';
 import { ActivitiesPage } from './pages/ActivitiesPage.tsx';
 import { ActivityPage } from './pages/ActivityPage.tsx';
+import { ExamHubPage } from './pages/ExamHubPage.tsx';
 import { ExamPage } from './pages/ExamPage.tsx';
 import { GaragePage } from './pages/GaragePage.tsx';
 import { TheoryExamPage } from './pages/TheoryExamPage.tsx';
@@ -16,6 +18,12 @@ import { SectionPage } from './pages/SectionPage.tsx';
 import { SignsPage } from './pages/SignsPage.tsx';
 import { SourcePage } from './pages/SourcePage.tsx';
 
+/** An address that moved: the old one keeps working, with its query (seed, time, mode), without a history entry. */
+function MovedTo({ pathname }: { pathname: string }) {
+  const { search } = useLocation();
+  return <Navigate to={{ pathname, search }} replace />;
+}
+
 /** Route table shared by the hash router (app) and memory routers (tests). */
 export const routes: RouteObject[] = [
   {
@@ -28,13 +36,16 @@ export const routes: RouteObject[] = [
       { path: '/actividad/:id', element: <ActivityPage /> },
       { path: '/bitacora', element: <LogbookPage /> },
       { path: '/pista', element: <TrackPage /> },
-      { path: '/examen', element: <ExamPage /> },
+      // «Examen» offers both exams; the theoretical one used to live at `/teorico`.
+      { path: '/examen', element: <ExamHubPage /> },
+      { path: '/examen/practico', element: <ExamPage /> },
+      { path: '/examen/teorico', element: <TheoryExamPage /> },
+      { path: '/teorico', element: <MovedTo pathname="/examen/teorico" /> },
       { path: '/recorrido', element: <CityPage /> },
       { path: '/biblioteca', element: <LibraryPage /> },
       { path: '/biblioteca/:source/:page', element: <SourcePage /> },
       { path: '/senales', element: <SignsPage /> },
       { path: '/garaje', element: <GaragePage /> },
-      { path: '/teorico', element: <TheoryExamPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

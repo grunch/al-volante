@@ -24,4 +24,10 @@ describe('validateTheoryExam', () => {
       'no source for time',
     ]);
   });
+
+  it('rejects an alternative time longer than the default, which is the most the exam lasts', () => {
+    const config = theoryExamConfig({ timeMinutes: { default: 40, alternatives: [30, 45] } });
+
+    expect(validateTheoryExam(config, pages)).toEqual(['the alternative time 45 is longer than the default 40']);
+  });
 });

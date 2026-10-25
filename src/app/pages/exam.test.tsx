@@ -51,7 +51,7 @@ describe('exam page', { timeout: 30000 }, () => {
   };
 
   async function openExam() {
-    renderApp('/examen', readyContent(content()));
+    renderApp('/examen/practico', readyContent(content()));
     const canvas = await screen.findByRole('application', { name: EXAM_COPY.canvasLabel }, { timeout: 15000 });
     // Lazy markup can precede the passive effect that schedules the driving loop.
     await waitFor(() => {
@@ -230,7 +230,7 @@ describe('exam page', { timeout: 30000 }, () => {
     // Arrange: the real renderer factory, which jsdom cannot serve.
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    const router = createMemoryRouter(routes, { initialEntries: ['/examen'] });
+    const router = createMemoryRouter(routes, { initialEntries: ['/examen/practico'] });
 
     // Act
     render(<App router={router} loadContent={readyContent(content())} />);
@@ -249,7 +249,7 @@ describe('exam page', { timeout: 30000 }, () => {
   it('is linked from the home page', async () => {
     renderApp('/');
 
-    expect(await screen.findByRole('link', { name: EXAM_COPY.homeLink })).toHaveAttribute('href', '/examen');
+    expect(await screen.findByRole('link', { name: EXAM_COPY.homeLink })).toHaveAttribute('href', '/examen/practico');
   });
 });
 
@@ -289,7 +289,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
   }
 
   it('offers the four modes, runs the three stages by default, and changes mode through the URL', async () => {
-    await openExam('/examen');
+    await openExam('/examen/practico');
     const picker = screen.getByRole('group', { name: EXAM_COPY.mode });
     expect(
       within(picker)
@@ -312,7 +312,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
 
   it('tells what to do now with the keys, and lists the controls and every step with the current one marked', async () => {
     // Arrange
-    await openExam('/examen');
+    await openExam('/examen/practico');
     const keys = keyNames(DEFAULT_BINDINGS);
 
     // Assert: the current step, next to what the examiner says
@@ -337,7 +337,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
   });
 
   it('drops the clutch from the guide with the automatic gearbox', async () => {
-    await openExam('/examen');
+    await openExam('/examen/practico');
 
     await userEvent.click(screen.getByRole('radio', { name: EXAM_COPY.automatic }));
     runFrames(5);
@@ -352,7 +352,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
   it('writes the keys the driver configured into the guide', async () => {
     localStorage.setItem(BINDINGS_STORAGE_KEY, JSON.stringify({ glanceLeft: ['Digit1'] }));
     try {
-      await openExam('/examen');
+      await openExam('/examen/practico');
 
       const lines = DRIVING_GUIDE_COPY.controls({ ...keyNames(DEFAULT_BINDINGS), glanceLeft: '1' }, 'manual');
       await waitFor(() => {
@@ -365,7 +365,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
   });
 
   it('hides every aid in the exam mode and keeps only what the examiner says', async () => {
-    await openExam('/examen?modo=rendir');
+    await openExam('/examen/practico?modo=rendir');
 
     expect(screen.getByRole('radio', { name: EXAM_COPY.modes.exam })).toBeChecked();
     expect(screen.getByTestId('exam-hud')).toHaveAttribute('data-aids', '');
@@ -387,7 +387,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
 
   it('shows the card per stage at the end and stores the attempt in the logbook', async () => {
     const store = createMemoryStore();
-    await openExam('/examen?modo=rendir', store);
+    await openExam('/examen/practico?modo=rendir', store);
 
     await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
     runFrames(5);
@@ -430,7 +430,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
         return memory.record(...args);
       },
     };
-    await openExam('/examen?modo=rendir', store);
+    await openExam('/examen/practico?modo=rendir', store);
     await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
     runFrames(5);
     await waitFor(() => expect(releases).toHaveLength(1));
@@ -456,7 +456,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const memory = createMemoryStore();
     const store: ProgressStore = { ...memory, record: () => Promise.reject(new Error('quota exceeded')) };
-    await openExam('/examen?modo=rendir', store);
+    await openExam('/examen/practico?modo=rendir', store);
 
     // Act
     await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
@@ -469,7 +469,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
 
   it('practises stage I when the URL names no stage, and the practice radio starts there', async () => {
     // Arrange
-    const { router } = renderApp('/examen', readyContent(content()));
+    const { router } = renderApp('/examen/practico', readyContent(content()));
     const picker = await screen.findByRole('group', { name: EXAM_COPY.mode });
 
     // Act
@@ -481,14 +481,14 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
     expect(screen.getByTestId('exam-stage-help')).toHaveTextContent(EXAM_COPY.practiceStart.I);
 
     // A URL without a stage practises stage I too.
-    await act(() => router.navigate('/examen?modo=practicar'));
+    await act(() => router.navigate('/examen/practico?modo=practicar'));
     expect(screen.getByRole('combobox', { name: EXAM_COPY.stage })).toHaveValue('1');
     expect(screen.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'familiarisation');
   });
 
   it('does not store the guided learning, and says so', async () => {
     const store = createMemoryStore();
-    await openExam('/examen?modo=aprender', store);
+    await openExam('/examen/practico?modo=aprender', store);
 
     await userEvent.click(screen.getByRole('button', { name: EXAM_COPY.requestStop }));
     runFrames(5);
@@ -498,7 +498,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
   });
 
   it('practises stage III from leg 8 with the engine running, and stage I by default', async () => {
-    const canvas = await openExam('/examen?modo=practicar&etapa=3');
+    const canvas = await openExam('/examen/practico?modo=practicar&etapa=3');
 
     expect(screen.getByRole('radio', { name: EXAM_COPY.modes.practice })).toBeChecked();
     expect(screen.getByRole('combobox', { name: EXAM_COPY.stage })).toHaveValue('3');
@@ -560,7 +560,7 @@ describe('exam modes, card and logbook (F04-T05)', { timeout: 30000 }, () => {
     for (const mode of DRIVING_MODES)
       expect(within(section).getByRole('link', { name: EXAM_COPY.homeModes[mode] })).toHaveAttribute(
         'href',
-        `/examen?modo=${slugOfMode(mode)}`,
+        `/examen/practico?modo=${slugOfMode(mode)}`,
       );
     expect(within(section).getByRole('link', { name: TRACK_COPY.homeLink })).toHaveAttribute('href', '/pista');
     expect(within(section).getByRole('link', { name: CITY_COPY.homeLink })).toHaveAttribute('href', '/recorrido');

@@ -9,7 +9,7 @@ export function TheorySection({ rows }: { rows: readonly TheoryRow[] }) {
       <h2 id="theory-log-heading">{THEORY_COPY.logbookHeading}</h2>
       {rows.length === 0 ? (
         <p>
-          {THEORY_COPY.logbookEmpty} <Link to="/teorico">{THEORY_COPY.heading}</Link>
+          {THEORY_COPY.logbookEmpty} <Link to="/examen/teorico">{THEORY_COPY.heading}</Link>
         </p>
       ) : (
         <ul className="logbook-list" data-testid="theory-log">

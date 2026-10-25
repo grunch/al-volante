@@ -301,11 +301,11 @@ Políticas de repetición, según el texto del anexo II:
 | Cantidad de preguntas | 40, tomadas al azar de un banco por tipo de examen | Disp. 860/2023, p. 96; informe 2024, p. 17 («pasó de 30 a 40»); página oficial «nueva modalidad» |
 | Formato | opción múltiple con tres opciones y una sola correcta | Disp. 860/2023, p. 96; página oficial de material de estudio |
 | Aprobación | ≥ 85%, es decir 34 de 40 correctas | Disp. 860/2023, p. 96; página «nueva modalidad» («34 de 40») |
-| Tiempo | **45 minutos**. Discrepancia: el informe 2024 dice que «se redujo de 45 a 40 minutos». | 45: Disp. 860/2023, p. 96, y página oficial de material de estudio (consultada el 2026-10-11). 40: informe 2024, p. 17. |
+| Tiempo | 45 minutos en la disposición y la página oficial; el informe 2024 dice que «se redujo de 45 a 40 minutos». El simulacro usa **40 minutos como máximo** desde TEO01. | 45: Disp. 860/2023, p. 96, y página oficial de material de estudio (consultada el 2026-10-11). 40: informe 2024, p. 17. |
 | Intentos | 3 por clase y trámite; 5 días hábiles de espera tras reprobar | Disp. 860/2023, p. 96 |
 | Tipo para B | «Teórico 3: todas las subclases B» | Disp. 860/2023, p. 96 |
 
-**Decisión sobre el tiempo:** el simulacro usa **45 minutos por defecto**, porque coinciden la norma de procedimiento y la página oficial vigente de material de estudio. Además ofrece **40 minutos** como variante «más exigente», que remite al informe 2024. Los tres parámetros (preguntas, umbral y tiempo) son configuración versionada con su fuente (`catalog/theory-exam.json`, desde F05-T05), y la interfaz no los presenta como certificados. El simulacro es propio y no es el banco oficial.
+**Decisión sobre el tiempo:** desde TEO01 (2026-10-25), por decisión del usuario, el simulacro dura **40 minutos como máximo**, sin otra opción: es el tiempo del informe 2024, la fuente más reciente, aunque la Disposición 860/2023 y la página oficial de material de estudio (consultada el 2026-10-11) digan 45. La discrepancia sigue abierta y la interfaz la muestra; no se presenta 40 como dato oficial verificado. Hasta TEO01 el simulacro usaba 45 minutos por defecto y ofrecía 40 como variante «más exigente». La aprobación no cambia: 34 de 40 correctas, es decir, más de 6 errores (incluidas las preguntas sin responder) desaprueban. Los tres parámetros (preguntas, umbral y tiempo) son configuración versionada con su fuente (`catalog/theory-exam.json`, desde F05-T05), y la interfaz no los presenta como certificados. El simulacro es propio y no es el banco oficial.
 
 Fuentes web consultadas el 2026-10-11:
 

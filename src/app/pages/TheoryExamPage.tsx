@@ -39,7 +39,7 @@ function QuestionSign({ content, question }: { content: Content; question: ExamQ
   );
 }
 
-/** "Sala de examen": a timed mock of the theoretical exam, reproducible by its seed (?semilla=, ?minutos=). */
+/** The theoretical exam: a timed mock, reproducible by its seed (?semilla=, ?minutos=), in the exam section. */
 export function TheoryExamPage() {
   return (
     <>
@@ -162,17 +162,20 @@ function ExamRun({ content, paper, minutes, allowedMinutes, onMinutes, onAnother
           {THEORY_COPY.introSummary(paper.questions.length, config.passCorrect, config.optionsPerQuestion, minutes)}
         </p>
         <p>{THEORY_COPY.notOfficial}</p>
-        <fieldset className="question">
-          <legend className="question__prompt">{THEORY_COPY.timeLegend}</legend>
-          {allowedMinutes.map((value) => (
-            <label key={value} className="option">
-              <input type="radio" name="minutes" checked={value === minutes} onChange={() => onMinutes(value)} />
-              <span>
-                {value === config.timeMinutes.default ? THEORY_COPY.timeDefault(value) : THEORY_COPY.timeShort(value)}
-              </span>
-            </label>
-          ))}
-        </fieldset>
+        {/* With a single configured time there is nothing to choose: the summary already states it. */}
+        {allowedMinutes.length > 1 && (
+          <fieldset className="question">
+            <legend className="question__prompt">{THEORY_COPY.timeLegend}</legend>
+            {allowedMinutes.map((value) => (
+              <label key={value} className="option">
+                <input type="radio" name="minutes" checked={value === minutes} onChange={() => onMinutes(value)} />
+                <span>
+                  {value === config.timeMinutes.default ? THEORY_COPY.timeDefault(value) : THEORY_COPY.timeShort(value)}
+                </span>
+              </label>
+            ))}
+          </fieldset>
+        )}
         {paper.questions.length < config.questions && (
           <p className="status-message status-message--error" role="alert">
             {THEORY_COPY.shortBank(paper.questions.length, config.questions)}
@@ -282,6 +285,7 @@ function Results({
     <section aria-labelledby="theory-result">
       <h2 id="theory-result">{grade.passed ? THEORY_COPY.passed : THEORY_COPY.failed}</h2>
       <p className="lead">{THEORY_COPY.score(grade.correct, grade.total, config.passCorrect)}</p>
+      <p>{THEORY_COPY.mistakes(grade.mistakes, config.questions - config.passCorrect)}</p>
       {timedOut && <p role="status">{THEORY_COPY.timedOut}</p>}
       {grade.unanswered > 0 && <p>{THEORY_COPY.unanswered(grade.unanswered)}</p>}
       {saved === 'failed' && (
