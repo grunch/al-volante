@@ -181,7 +181,7 @@ export const THEORY_COPY = {
   heading: 'Examen teórico',
   introHeading: 'Simulacro del examen teórico',
   introSummary: (questions: number, pass: number, options: number, minutes: number) =>
-    `${count(questions, 'pregunta', 'preguntas')} de opción múltiple con ${options} opciones y una sola correcta, tomadas de las cuatro fuentes del material oficial (manual, protocolo, recorridos y guía de siniestros) y repartidas por tema entre todas sus secciones con preguntas. Aprobás con ${count(pass, 'correcta', 'correctas')}: con ${failingMistakes(questions - pass)} (las preguntas sin responder cuentan como errores) no aprobás. Tenés ${minutes} minutos como máximo.`,
+    `${count(questions, 'pregunta', 'preguntas')} de opción múltiple con ${options} opciones y una sola correcta, tomadas de las cuatro fuentes del material oficial (manual, protocolo, recorridos y guía de siniestros) y repartidas por tema entre todas sus secciones con preguntas para autos. No incluye el material de transporte de pasajeros ni de carga. Aprobás con ${count(pass, 'correcta', 'correctas')}: con ${failingMistakes(questions - pass)} (las preguntas sin responder cuentan como errores) no aprobás. Tenés ${minutes} minutos como máximo.`,
   notOfficial:
     'Es un simulacro propio, armado con las actividades revisadas del juego: no es el banco oficial. La cantidad de preguntas, el puntaje y el tiempo siguen las fuentes citadas abajo, que no coinciden en el tiempo: 45 minutos según la disposición de 2023 y 40 según el informe de gestión de 2024. El simulacro usa el más corto.',
   timeLegend: 'Tiempo',
@@ -566,7 +566,7 @@ export const EXAM_HUB_COPY = {
     'Para la licencia B se rinden dos exámenes: el teórico, con preguntas de opción múltiple, y el práctico, al volante. Elegí cuál querés practicar.',
   theoryHeading: 'Examen teórico',
   theorySummary: (questions: number, pass: number, minutes: number) =>
-    `${count(questions, 'pregunta', 'preguntas')} de opción múltiple de las cuatro fuentes del material oficial, repartidas entre todas sus secciones con preguntas, con ${minutes} minutos como máximo. Aprobás con ${count(pass, 'correcta', 'correctas')}: con ${failingMistakes(questions - pass)}, no aprobás.`,
+    `${count(questions, 'pregunta', 'preguntas')} de opción múltiple de las cuatro fuentes del material oficial para autos (sin transporte de pasajeros ni de carga), con ${minutes} minutos como máximo. Aprobás con ${count(pass, 'correcta', 'correctas')}: con ${failingMistakes(questions - pass)}, no aprobás.`,
   theoryLink: 'Ir al examen teórico',
   practicalHeading: 'Examen práctico',
   practicalSummary:

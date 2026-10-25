@@ -14,8 +14,6 @@
     "manual-ch4",
     "manual-ch5",
     "manual-annex1",
-    "manual-annex2",
-    "manual-annex3",
     "manual-annex4",
     "protocolo-general",
     "protocolo-stages",
@@ -56,5 +54,5 @@
       "url": "https://documentosboletinoficial.buenosaires.gob.ar/publico/PE-RES-SECGVC-SECGVC-109-24-ANX.pdf"
     }
   ],
-  "notes": "Parámetros transcriptos y contrastados en REGLAS.md §8 (2026-10-11). Desde 2026-10-25, por decisión del usuario, el tiempo es de 40 minutos como máximo y las preguntas salen de todas las secciones de los cuatro documentos (REGLAS.md §8, CONTENIDO.md). El simulacro es propio: sus preguntas salen de las actividades revisadas del juego, no del banco oficial."
+  "notes": "Parámetros transcriptos y contrastados en REGLAS.md §8 (2026-10-11). Desde 2026-10-25, por decisión del usuario, el tiempo es de 40 minutos como máximo y las preguntas salen de todas las secciones de los cuatro documentos salvo las de las licencias profesionales: el anexo II (transporte de pasajeros, D) y el anexo III (transporte de carga, C-E) del manual, porque el examen es de la licencia B, para autos (REGLAS.md §8, CONTENIDO.md). El simulacro es propio: sus preguntas salen de las actividades revisadas del juego, no del banco oficial."
 }

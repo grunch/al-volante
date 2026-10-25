@@ -35,7 +35,9 @@ test.describe('theory mock exam', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Examen' })).toBeFocused();
     await expect(page.getByRole('region', { name: 'Examen práctico' })).toBeVisible();
     const theory = page.getByRole('region', { name: 'Examen teórico' });
-    await expect(theory).toContainText('40 preguntas de opción múltiple de las cuatro fuentes del material oficial');
+    await expect(theory).toContainText(
+      '40 preguntas de opción múltiple de las cuatro fuentes del material oficial para autos',
+    );
     await theory.getByRole('link', { name: 'Ir al examen teórico' }).click();
 
     await expect(page).toHaveURL(/#\/examen\/teorico\?semilla=\d+$/);

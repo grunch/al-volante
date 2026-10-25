@@ -20,7 +20,7 @@ Al terminar, una repetición muestra tus decisiones: qué viste, qué hiciste, q
 | **La ciudad te pregunta** | Resolvés escenas: ordenar prioridades, elegir luces, detectar peligros, ubicar documentación y decidir dónde estacionar. | Aprender todo el contenido, con explicaciones y referencias. |
 | **Laboratorio vial** | Comparás distancias de reacción y frenado, lluvia, visibilidad, puntos ciegos y cargas. | Entender consecuencias mediante experimentos visuales. |
 | **Ruta 13** | Conducís desde el interior del auto por el recorrido A, con instructor o en simulacro. | Preparar circulación y estacionamiento. |
-| **Sala de examen** | Respondés 40 preguntas de las cuatro fuentes del material, equilibradas por tema entre sus secciones, sin ayudas y con 40 minutos como máximo; se aprueba con 34 correctas. | Ensayar el teórico y medir progreso. |
+| **Sala de examen** | Respondés 40 preguntas de las cuatro fuentes del material para autos (sin transporte de pasajeros ni de carga), equilibradas por tema entre sus secciones, sin ayudas y con 40 minutos como máximo; se aprueba con 34 correctas. | Ensayar el teórico y medir progreso. |
 | **Mi bitácora** | Revisás errores, repeticiones, temas pendientes y una sesión de repaso recomendada. | Evitar lagunas y consolidar lo aprendido. |
 
 Ejemplo de sesión: cinco minutos de prioridades, una escena de giro con ciclista y diez minutos recorriendo calles. Si omitís mirar antes de doblar, la bitácora propone ese ejercicio para la próxima sesión.
