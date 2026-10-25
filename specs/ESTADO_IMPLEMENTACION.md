@@ -6,7 +6,7 @@ Registro operativo exigido por `PLAN_IMPLEMENTACION.md` §6. Actualizar en cada 
 
 ## Fase activa
 
-- **TEO01 — examen teórico en «Examen» (pedido puntual, 2026-10-25):** rama `teo01-t01-theory-exam`, base `main` (`4dd7642`, con #51). «Examen» ofrece el teórico y el práctico; el teórico pasa a 40 minutos como máximo y a preguntas de todas las secciones de las cuatro fuentes. No inicia las fases 6 ni 7; detalle en «Pedido puntual TEO01».
+- **TEO01 — examen teórico en «Examen» (pedido puntual, 2026-10-25):** rama `teo01-t01-theory-exam`, base `main` (`4dd7642`, con #51), [PR #52](https://github.com/grunch/al-volante/pull/52). «Examen» ofrece el teórico y el práctico; el teórico pasa a 40 minutos como máximo y a preguntas de todas las secciones de las cuatro fuentes. No inicia las fases 6 ni 7; detalle en «Pedido puntual TEO01».
 - **MOV01 — conducción en el celular (pedido puntual, 2026-10-14):** [#49](https://github.com/grunch/al-volante/pull/49) y [#50](https://github.com/grunch/al-volante/pull/50) fusionados por el usuario en `fbfec3c` y `463e9fa` (17:55 UTC). Prueba física de aceptación todavía pendiente. Pedido posterior autorizado: quitar solo en móvil los cuatro botones duplicados de giro, freno y acelerador del panel lateral. Correctivo MOV01-T02-FIX01 ([#51](https://github.com/grunch/al-volante/pull/51)) fusionado por el usuario en `4dd7642` (2026-10-14 19:00 UTC). No inicia las fases 6 ni 7; detalle en «Pedido puntual MOV01».
 
 - **PAGES01 — publicación de `main` en GitHub Pages (pedido puntual, 2026-10-13):** rama `pages01-deploy`, base `main` (`d18fa00`, con #46), [PR #47](https://github.com/grunch/al-volante/pull/47), fusionado por el usuario en `c2684ad` (2026-10-13 18:07 UTC). Agrega `.github/workflows/deploy.yml`; no cambia código del juego ni inicia otra fase. Detalle en la sección «Pedido puntual PAGES01».
@@ -752,7 +752,8 @@ Pedido del usuario (2026-10-25): el enlace «Examen» llevaba solo al práctico 
 
 ### TEO01-T01 — examen teórico y sección «Examen»
 
-- Rama `teo01-t01-theory-exam`, base `main` (`4dd7642`), sin dependencias pendientes.
+- Rama `teo01-t01-theory-exam`, base `main` (`4dd7642`), sin dependencias pendientes. [PR #52](https://github.com/grunch/al-volante/pull/52), implementación `7583e72`.
+- Revisiones: Codex **solicitada** con `@codex review` al abrir el PR; CodeRabbit **solicitada** (automática al abrir). Sin findings todavía.
 - **Sección «Examen»** (`#/examen`, `ExamHubPage`): ofrece el teórico (con sus parámetros leídos de la configuración) y el práctico (con un enlace por modo). El práctico pasa a `#/examen/practico` y el teórico a `#/examen/teorico`; «Examen» sigue marcado en la navegación dentro de los dos. Las direcciones anteriores siguen funcionando: `#/teorico` y `#/examen?modo=…`/`&etapa=…` redirigen con su consulta, sin entrada nueva en el historial.
 - **Parámetros** (`catalog/theory-exam.json`, versión `2026-10-25`): 40 preguntas, 34 para aprobar y **40 minutos como máximo, sin alternativas** (antes 45 por defecto y 40 como variante). Decisión del usuario, apoyada en el informe de gestión 2024 (p. 17); la discrepancia con la Disposición 860/2023 sigue documentada en `REGLAS.md` §8. `validateTheoryExam` rechaza ahora una alternativa más larga que el tiempo por defecto. Los simulacros guardados con la versión anterior conservan su propio veredicto (`validateAttempt`).
 - **Banco**: todas las secciones con unidades de las cuatro fuentes (24; 19 tienen preguntas para el simulacro y las otras 5 no tienen actividades propias de opción única o de señales). Con el reparto proporcional y al menos una por sección, una hoja real tiene preguntas de las 19 (por ejemplo, semilla 1: 4 del cap. 3, 4 del anexo II, 4 del glosario, 1 de cada sección del protocolo, los recorridos y la guía). Antes eran 8 secciones de la licencia B. Decisión registrada en `CONTENIDO.md`.
@@ -787,7 +788,7 @@ El correctivo #31 fue fusionado por el usuario en `9bc0257`, F04-T01-FIX02 (#34)
 
 ## Siguiente acción
 
-TEO01-T01: abrir el PR, pedir Codex y CodeRabbit, y revisar sus findings y la CI. MOV01 está fusionado completo (#49, #50 y #51); la prueba en teléfono físico (§14 de CONDUCCION_MOVIL) sigue pendiente para cerrar la aceptación general de MOV01.
+TEO01-T01: revisar los findings de Codex y CodeRabbit y la CI de [#52](https://github.com/grunch/al-volante/pull/52); validación local aprobada. MOV01 está fusionado completo (#49, #50 y #51); la prueba en teléfono físico (§14 de CONDUCCION_MOVIL) sigue pendiente para cerrar la aceptación general de MOV01.
 
 PWA01 fusionada (pedido puntual del usuario; no inicia las fases 6 ni 7): PWA01-T01 en `ecda93a` (#43) y PWA01-T02 en `e71390f` (#44). REV01 fusionada completa (#39 y #42, con #40 y #41); el E2E de `main` corre en tres shards desde `72a1e87`. Decisiones pendientes del usuario de REV01 en su sección. La fase 6 completa requiere inicio explícito del usuario. Esperando inicio manual de la fase siguiente.
 
