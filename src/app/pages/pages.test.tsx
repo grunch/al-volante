@@ -175,7 +175,7 @@ describe('garage', () => {
     expect(screen.queryByRole('link', { name: 'Velocidad en calle' })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: GARAGE_COPY.stageOne })).toHaveAttribute(
       'href',
-      '/examen?modo=practicar&etapa=1',
+      '/examen/practico?modo=practicar&etapa=1',
     );
     expect(screen.getByRole('link', { name: GARAGE_COPY.yard })).toHaveAttribute('href', '/pista');
   });

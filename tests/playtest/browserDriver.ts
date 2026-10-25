@@ -47,7 +47,7 @@ export class BrowserDriver {
   }
 
   async open() {
-    await this.page.goto('./#/examen');
+    await this.page.goto('./#/examen/practico');
     await expect(this.canvas).toHaveAttribute('data-state', 'ready');
     if (this.kind === 'automatic') {
       await this.page.getByRole('radio', { name: 'Automática', exact: true }).check();

@@ -55,7 +55,7 @@ describe('update prompt during exams', { timeout: 30000 }, () => {
   it('waits for the theory paper to be handed in', async () => {
     // Arrange
     const user = userEvent.setup();
-    renderApp('/teorico?semilla=4', readyContent(theoryContent()));
+    renderApp('/examen/teorico?semilla=4', readyContent(theoryContent()));
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
 
     // Act
@@ -73,7 +73,7 @@ describe('update prompt during exams', { timeout: 30000 }, () => {
     // Arrange
     const base = testContent();
     const content = { ...base, rules: { ...base.rules, rules: [...REAL_RULES] }, route: RouteSchema.parse(routeData) };
-    const { router } = renderApp('/examen', readyContent(content));
+    const { router } = renderApp('/examen/practico', readyContent(content));
     await screen.findByTestId('exam-mode', {}, { timeout: 15000 });
 
     // Act
@@ -98,7 +98,7 @@ describe('update prompt during exams', { timeout: 30000 }, () => {
       ...memory,
       record: (...args) => new Promise((resolve) => (finishWrite = () => resolve(memory.record(...args)))),
     };
-    renderApp('/teorico?semilla=4', readyContent(theoryContent()), store);
+    renderApp('/examen/teorico?semilla=4', readyContent(theoryContent()), store);
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
     act(() => worker.needRefresh());
     await user.click(screen.getByRole('button', { name: THEORY_COPY.handIn }));

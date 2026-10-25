@@ -22,7 +22,8 @@ const TEXT_PAGES = [
   '/senales',
   '/biblioteca',
   '/biblioteca/manual/72',
-  '/teorico?semilla=1',
+  '/examen',
+  '/examen/teorico?semilla=1',
   '/bitacora',
   '/no-existe',
 ] as const;
@@ -154,18 +155,18 @@ for (const viewport of VIEWPORTS) {
       }
       // The running mock exam: forty questions of three options each.
       await page.goto('about:blank');
-      await page.goto('./#/teorico?semilla=1');
+      await page.goto('./#/examen/teorico?semilla=1');
       await page.getByRole('button', { name: 'Empezar el simulacro' }).click();
       await expect(page.getByRole('radio')).toHaveCount(120);
-      await expectToFit(page, '/teorico running', viewport.touch);
+      await expectToFit(page, '/examen/teorico running', viewport.touch);
     });
 
     test('3D pages keep their layout inside the screen', async ({ page }) => {
       test.setTimeout(4 * SOFTWARE_WEBGL_TIMEOUT_MS);
       // The exam page around the cabin (examiner, guide, readings) is checked without waiting for the city.
-      await page.goto('./#/examen');
+      await page.goto('./#/examen/practico');
       await expect(page.getByTestId('exam-hud')).toBeVisible();
-      await expectToFit(page, '/examen', viewport.touch);
+      await expectToFit(page, '/examen/practico', viewport.touch);
 
       await page.goto('about:blank');
       await page.goto('./#/recorrido');

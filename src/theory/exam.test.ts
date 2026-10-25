@@ -292,7 +292,7 @@ describe('gradeExam', () => {
 
     const grade = gradeExam(paper, answers, activities, config);
 
-    expect(grade).toMatchObject({ total: 4, correct: 2, unanswered: 1, passed: false });
+    expect(grade).toMatchObject({ total: 4, correct: 2, unanswered: 1, mistakes: 2, passed: false });
     expect(grade.bySection.reduce((sum, row) => sum + row.total, 0)).toBe(4);
     expect(grade.toReview.reduce((sum, row) => sum + row.missed, 0)).toBe(2);
     expect(grade.results[2]).toMatchObject({
@@ -304,6 +304,20 @@ describe('gradeExam', () => {
 
     const all = Object.fromEntries(paper.questions.map((question) => [question.id, shownId(question, 'a')]));
     expect(gradeExam(paper, all, activities, config)).toMatchObject({ correct: 4, passed: true, toReview: [] });
+  });
+
+  it('passes with as many mistakes as the threshold allows and fails with one more', () => {
+    const { activities, units } = bank();
+    const paper = composeExam(activities, units, config, 5);
+    const right = Object.fromEntries(paper.questions.map((question) => [question.id, shownId(question, 'a')]));
+    const [first, second] = paper.questions;
+
+    // 4 questions and 3 to pass: one mistake is allowed, an unanswered question is one too.
+    const oneMistake = { ...right, [first!.id]: undefined };
+    const twoMistakes = { ...oneMistake, [second!.id]: undefined };
+
+    expect(gradeExam(paper, oneMistake, activities, config)).toMatchObject({ mistakes: 1, passed: true });
+    expect(gradeExam(paper, twoMistakes, activities, config)).toMatchObject({ mistakes: 2, passed: false });
   });
 
   it('counts an answer that is not on the paper as unanswered', () => {
@@ -327,10 +341,53 @@ describe('gradeExam', () => {
 });
 
 describe('the shipped bank (integration)', () => {
-  it('composes full papers over every section of licence B, each with one right option among three', async () => {
+  it('follows the exam the player asked for: 40 questions, 34 right to pass and at most 40 minutes', async () => {
+    const result = await loadContent();
+    if (!result.ok) throw new Error(result.errors.join('\n'));
+    const { questions, passCorrect, optionsPerQuestion, timeMinutes } = result.content.theoryExam;
+
+    expect({ questions, passCorrect, optionsPerQuestion }).toEqual({
+      questions: 40,
+      passCorrect: 34,
+      optionsPerQuestion: 3,
+    });
+    // More than 6 mistakes (wrong or unanswered) fail the exam.
+    expect(questions - passCorrect).toBe(6);
+    expect(Math.max(timeMinutes.default, ...timeMinutes.alternatives)).toBe(40);
+  });
+
+  it('draws on every section of the four sources that has knowledge units', async () => {
+    const result = await loadContent();
+    if (!result.ok) throw new Error(result.errors.join('\n'));
+    const { units, theoryExam } = result.content;
+
+    const taught = new Set(units.map((item) => `${item.source}-${item.section}`));
+    expect(new Set(theoryExam.sections)).toEqual(taught);
+    expect(new Set(units.map((item) => item.source))).toEqual(
+      new Set(['manual', 'siniestros', 'protocolo', 'recorridos']),
+    );
+  });
+
+  it('composes full papers over every section with questions, each with one right option among three', async () => {
     const result = await loadContent();
     if (!result.ok) throw new Error(result.errors.join('\n'));
     const { activities, units, theoryExam } = result.content;
+    // The sections that can ask something: a reviewed choice question offering enough wrong options.
+    const sectionOf = new Map(units.map((item) => [item.id, `${item.source}-${item.section}`]));
+    const asking = new Set(
+      activities
+        .filter((activity) => activity.status === 'reviewed')
+        .filter((activity) => activity.type === 'single-choice' || activity.type === 'sign-identification')
+        .filter((activity) =>
+          activity.variants.some(
+            (variant) =>
+              'options' in variant &&
+              variant.options.filter((option) => !option.correct).length >= theoryExam.optionsPerQuestion - 1,
+          ),
+        )
+        .map((activity) => sectionOf.get(activity.unitIds[0] ?? '')),
+    );
+    expect(asking.size).toBeGreaterThan(8);
 
     for (const seed of [0, 1, 2, 3, 4]) {
       const paper = composeExam(activities, units, theoryExam, seed);
@@ -349,20 +406,9 @@ describe('the shipped bank (integration)', () => {
       );
 
       expect(paper.questions).toHaveLength(theoryExam.questions);
+      expect(new Set(paper.questions.map((question) => question.id)).size).toBe(theoryExam.questions);
       expect(paper.questions.every((question) => question.options.length === theoryExam.optionsPerQuestion)).toBe(true);
-      expect(new Set(paper.questions.map((question) => question.sectionKey))).toEqual(new Set(theoryExam.sections));
-      // Every question comes only from licence B material: none of its units is in another section or source.
-      for (const question of paper.questions) {
-        const activity = activities.find((item) => item.id === question.activityId);
-        const keys = (activity?.unitIds ?? []).map((id) => {
-          const owner = units.find((item) => item.id === id);
-          return `${owner?.source}-${owner?.section}`;
-        });
-        expect(
-          keys.every((key) => theoryExam.sections.includes(key)),
-          question.id,
-        ).toBe(true);
-      }
+      expect(new Set(paper.questions.map((question) => question.sectionKey))).toEqual(asking);
       expect(gradeExam(paper, right, activities, theoryExam)).toMatchObject({
         correct: theoryExam.questions,
         passed: true,

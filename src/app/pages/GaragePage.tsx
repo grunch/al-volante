@@ -21,7 +21,7 @@ export function GaragePage() {
         <h2 id="garage-cockpit">{GARAGE_COPY.cockpitHeading}</h2>
         <p>{GARAGE_COPY.cockpitIntro}</p>
         <p>
-          <Link className="button" to={`/examen?modo=${slugOfMode('practice')}&etapa=${slugOfStage('I')}`}>
+          <Link className="button" to={`/examen/practico?modo=${slugOfMode('practice')}&etapa=${slugOfStage('I')}`}>
             {GARAGE_COPY.stageOne}
           </Link>{' '}
           <Link className="button button--secondary" to="/pista">

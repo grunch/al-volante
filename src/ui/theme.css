@@ -225,6 +225,11 @@ a {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
 }
 
+/* The two exams side by side share the whole width instead of leaving empty columns. */
+.card-grid--pair {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+}
+
 /* A long URL in a unit must not widen its column past the screen. */
 .unit-list {
   grid-template-columns: minmax(0, 1fr);

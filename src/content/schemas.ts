@@ -389,8 +389,9 @@ export const TheoryExamConfigSchema = z.strictObject({
   questions: positiveInt,
   passCorrect: positiveInt,
   optionsPerQuestion: z.int().min(2),
+  /** The default is the most the exam lasts; alternatives, if any, are stricter (validateTheoryExam). */
   timeMinutes: z.strictObject({ default: positiveInt, alternatives: z.array(positiveInt) }),
-  /** Source sections (`<source>-<section>`) the questions come from: the material of licence B. */
+  /** Source sections (`<source>-<section>`) the questions come from: every section of the four sources. */
   sections: z.array(z.string().regex(/^[a-z]+-[a-z0-9]+$/)).min(1),
   sources: z
     .array(z.strictObject({ parameter: z.enum(THEORY_PARAMETERS), text: nonEmpty, reference: nonEmpty, url: z.url() }))

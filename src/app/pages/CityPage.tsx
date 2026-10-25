@@ -135,7 +135,7 @@ function CityExplorer({ route }: { route: Route }) {
         </section>
       </div>
       <p className="city-notice">
-        {copy.scope} <Link to="/examen">{copy.examLink}</Link>
+        {copy.scope} <Link to="/examen/practico">{copy.examLink}</Link>
       </p>
       <details className="city-sources">
         <summary>{copy.sources}</summary>

@@ -119,7 +119,7 @@ test.describe('installable app', () => {
     ).toBeVisible();
 
     // The theory exam.
-    await page.goto('./#/teorico?semilla=1');
+    await page.goto('./#/examen/teorico?semilla=1');
     await page.getByRole('button', { name: 'Empezar el simulacro' }).click();
     await expect(page.getByRole('radio')).toHaveCount(120);
 

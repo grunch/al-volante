@@ -20,7 +20,7 @@ test.describe('practical driving controls', () => {
     isMobile,
   }) => {
     test.skip(isMobile, 'The mobile clutch is assisted; covered by mobile-driving.spec.ts');
-    await page.goto('./#/examen');
+    await page.goto('./#/examen/practico');
     const canvas = page.getByTestId('driving-canvas');
     await expect(canvas).toHaveAttribute('data-state', 'ready', { timeout: 30_000 });
     const key = page.getByRole('button', { name: 'Accionar llave', exact: true });
@@ -62,7 +62,7 @@ test.describe('practical driving controls', () => {
   test('automatic: explains the parking interlock and drives using cockpit buttons plus the keyboard', async ({
     page,
   }) => {
-    await page.goto('./#/examen?modo=practicar&etapa=2');
+    await page.goto('./#/examen/practico?modo=practicar&etapa=2');
     await page.getByRole('radio', { name: 'Automática', exact: true }).check();
     const canvas = page.getByTestId('driving-canvas');
     await expect(canvas).toHaveAttribute('data-state', 'ready', { timeout: 30_000 });
@@ -99,7 +99,7 @@ test('touchscreen: engages first gear with a two-finger clutch and gear gesture'
   isMobile,
 }) => {
   test.skip(!isMobile, 'Requires a touch-enabled browser context');
-  await page.goto('./#/examen');
+  await page.goto('./#/examen/practico');
   const canvas = page.getByTestId('driving-canvas');
   await expect(canvas).toHaveAttribute('data-state', 'ready', { timeout: 30_000 });
   await page.getByRole('button', { name: 'Accionar llave', exact: true }).tap();

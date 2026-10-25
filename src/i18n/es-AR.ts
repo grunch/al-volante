@@ -163,6 +163,13 @@ export function sectionLabel(source: string, section: string): string {
 /** "1 intento", "2 intentos": a number with the noun (or phrase) that agrees with it. */
 const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
+/**
+ * The mistakes that fail a theory exam allowing `allowed` of them: "más de 6 errores", or "un solo error" when none is
+ * allowed (also for a paper shorter than the threshold, which cannot be passed at all).
+ */
+const failingMistakes = (allowed: number) =>
+  allowed <= 0 ? 'un solo error' : `más de ${count(allowed, 'error', 'errores')}`;
+
 export const SEVERITY_LABELS: Record<string, string> = {
   minor: 'Leve',
   low: 'Deficiente baja',
@@ -171,15 +178,15 @@ export const SEVERITY_LABELS: Record<string, string> = {
 };
 
 export const THEORY_COPY = {
-  heading: 'Sala de examen',
+  heading: 'Examen teórico',
   introHeading: 'Simulacro del examen teórico',
   introSummary: (questions: number, pass: number, options: number, minutes: number) =>
-    `${count(questions, 'pregunta', 'preguntas')} de opción múltiple con ${options} opciones y una sola correcta, tomadas de todo el material de la licencia B y repartidas por tema. Aprobás con ${count(pass, 'correcta', 'correctas')}. Tenés ${minutes} minutos.`,
+    `${count(questions, 'pregunta', 'preguntas')} de opción múltiple con ${options} opciones y una sola correcta, tomadas de las cuatro fuentes del material oficial (manual, protocolo, recorridos y guía de siniestros) y repartidas por tema entre todas sus secciones con preguntas. Aprobás con ${count(pass, 'correcta', 'correctas')}: con ${failingMistakes(questions - pass)} (las preguntas sin responder cuentan como errores) no aprobás. Tenés ${minutes} minutos como máximo.`,
   notOfficial:
-    'Es un simulacro propio, armado con las actividades revisadas del juego: no es el banco oficial. La cantidad de preguntas, el puntaje y el tiempo siguen las fuentes citadas abajo, que no coinciden en el tiempo: 45 minutos según la disposición de 2023 y 40 según el informe de gestión de 2024.',
+    'Es un simulacro propio, armado con las actividades revisadas del juego: no es el banco oficial. La cantidad de preguntas, el puntaje y el tiempo siguen las fuentes citadas abajo, que no coinciden en el tiempo: 45 minutos según la disposición de 2023 y 40 según el informe de gestión de 2024. El simulacro usa el más corto.',
   timeLegend: 'Tiempo',
-  timeDefault: (minutes: number) => `${minutes} minutos (Disposición 860/2023)`,
-  timeShort: (minutes: number) => `${minutes} minutos (informe de gestión 2024, más exigente)`,
+  timeDefault: (minutes: number) => `${minutes} minutos (el máximo)`,
+  timeShort: (minutes: number) => `${minutes} minutos (más exigente)`,
   shortBank: (available: number, questions: number) =>
     `Por ahora hay ${count(available, 'pregunta disponible', 'preguntas disponibles')} de las ${questions} del examen: este simulacro no puede aprobarse.`,
   start: 'Empezar el simulacro',
@@ -197,6 +204,8 @@ export const THEORY_COPY = {
   timedOut: 'Se terminó el tiempo: el examen se entregó solo.',
   unanswered: (unanswered: number) =>
     `Sin responder: ${unanswered} (${unanswered === 1 ? 'cuenta como incorrecta' : 'cuentan como incorrectas'}).`,
+  mistakes: (mistakes: number, allowed: number) =>
+    `Errores: ${mistakes}. Con ${failingMistakes(allowed)}, el examen no se aprueba.`,
   notSaved: 'No pudimos guardar este simulacro en tu bitácora; el resto de tu progreso está intacto.',
   bySectionHeading: 'Resultado por tema',
   sectionColumn: 'Tema',
@@ -258,7 +267,11 @@ export const HOME_SPACES = [
     description: 'Compará distancias de reacción y frenado, lluvia y puntos ciegos.',
   },
   { id: 'route', title: 'Ruta 13', description: 'Conducí el recorrido A de Núñez desde el interior del auto.' },
-  { id: 'exam', title: 'Sala de examen', description: 'Simulacros del teórico equilibrados por tema.' },
+  {
+    id: 'exam',
+    title: 'Sala de examen',
+    description: 'Simulacros del examen teórico con preguntas de las cuatro fuentes, equilibrados por tema.',
+  },
   {
     id: 'logbook',
     title: 'Mi bitácora',
@@ -544,6 +557,21 @@ export const COCKPIT_COPY = {
   look: 'Observación',
   speed: 'km/h',
   rpm: 'rpm',
+} as const;
+
+/** The exam section behind the «Examen» navigation item: the theoretical and the practical exam. */
+export const EXAM_HUB_COPY = {
+  heading: 'Examen',
+  intro:
+    'Para la licencia B se rinden dos exámenes: el teórico, con preguntas de opción múltiple, y el práctico, al volante. Elegí cuál querés practicar.',
+  theoryHeading: 'Examen teórico',
+  theorySummary: (questions: number, pass: number, minutes: number) =>
+    `${count(questions, 'pregunta', 'preguntas')} de opción múltiple de las cuatro fuentes del material oficial, repartidas entre todas sus secciones con preguntas, con ${minutes} minutos como máximo. Aprobás con ${count(pass, 'correcta', 'correctas')}: con ${failingMistakes(questions - pass)}, no aprobás.`,
+  theoryLink: 'Ir al examen teórico',
+  practicalHeading: 'Examen práctico',
+  practicalSummary:
+    'Las tres etapas del protocolo con un examinador virtual: la preparación en el cajón, la circulación por el recorrido A de la Comuna 13 y el estacionamiento.',
+  practicalLink: 'Ir al examen práctico',
 } as const;
 
 export const EXAM_COPY = {

@@ -15,7 +15,7 @@ import type { Stage } from './scoring.ts';
 export const DRIVING_MODES = ['learn', 'practice', 'run', 'exam'] as const satisfies readonly Attempt['mode'][];
 export type DrivingMode = (typeof DRIVING_MODES)[number];
 
-/** Mode names in the URL (`#/examen?modo=rendir`), in the language of the game. */
+/** Mode names in the URL (`#/examen/practico?modo=rendir`), in the language of the game. */
 const MODE_SLUGS: Record<DrivingMode, string> = {
   learn: 'aprender',
   practice: 'practicar',

@@ -44,8 +44,8 @@ describe('layout and home', () => {
     // exam (PROPUESTA §2): the practical exam page and its modes (F04-T03 to F04-T05).
     expect(within(spaces).getAllByText(esAR.comingSoon)).toHaveLength(1);
     expect(within(spaces).queryByRole('link', { name: 'Laboratorio vial' })).not.toBeInTheDocument();
-    expect(within(spaces).getByRole('link', { name: 'Ruta 13' })).toHaveAttribute('href', '/examen');
-    expect(within(spaces).getByRole('link', { name: 'Sala de examen' })).toHaveAttribute('href', '/teorico');
+    expect(within(spaces).getByRole('link', { name: 'Ruta 13' })).toHaveAttribute('href', '/examen/practico');
+    expect(within(spaces).getByRole('link', { name: 'Sala de examen' })).toHaveAttribute('href', '/examen/teorico');
     expect(within(spaces).getByRole('link', { name: 'Mi garaje' })).toHaveAttribute('href', '/garaje');
     expect(within(spaces).getByRole('link', { name: 'La ciudad te pregunta' })).toHaveAttribute('href', '/actividades');
     expect(within(spaces).getByRole('link', { name: 'Mi bitácora' })).toHaveAttribute('href', '/bitacora');

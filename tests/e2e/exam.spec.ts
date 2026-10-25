@@ -10,7 +10,7 @@ test.describe('practical exam on the circuit', () => {
   }) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto('./#/examen');
+    await page.goto('./#/examen/practico');
     const view = page.getByTestId('driving-canvas');
     await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     await expect(view).toHaveAttribute('data-engine', 'off');
@@ -33,7 +33,7 @@ test.describe('practical exam on the circuit', () => {
   }) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto('./#/examen');
+    await page.goto('./#/examen/practico');
     const view = page.getByTestId('driving-canvas');
     await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     await expect(page.getByTestId('exam-leg')).toHaveText('Tramo 1 · Quesada');
@@ -51,7 +51,7 @@ test.describe('practical exam on the circuit', () => {
   test('shows the stage III readings in the HUD and the door control in the cabin (F04-T04)', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto('./#/examen');
+    await page.goto('./#/examen/practico');
     const view = page.getByTestId('driving-canvas');
     await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     await expect(page.getByTestId('exam-parking')).toHaveText('0 maniobras · 0 intentos');
@@ -68,7 +68,7 @@ test.describe('exam modes (F04-T05)', () => {
   }) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto('./#/examen');
+    await page.goto('./#/examen/practico');
     const view = page.getByTestId('driving-canvas');
     await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     const modes = page.getByRole('group', { name: 'Modo' });
@@ -102,14 +102,14 @@ test.describe('exam modes (F04-T05)', () => {
   test('practises stage III from leg 8 and explains the rules in the learning mode', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto('./#/examen?modo=practicar&etapa=3');
+    await page.goto('./#/examen/practico?modo=practicar&etapa=3');
     const view = page.getByTestId('driving-canvas');
     await expect(view).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
     await expect(view).toHaveAttribute('data-engine', 'running');
     await expect(page.getByTestId('examiner-says')).toHaveAttribute('data-phase', 'circulation');
     await expect(page.getByTestId('exam-leg')).toHaveText('Tramo 8 · Vuelta de Obligado');
 
-    await page.goto('./#/examen?modo=aprender');
+    await page.goto('./#/examen/practico?modo=aprender');
     await expect(page.getByTestId('examiner-says')).toHaveAttribute('data-mode', 'learn');
     await expect(page.getByTestId('exam-hints')).toContainText('Qué se evalúa ahora');
     expect(errors).toEqual([]);
@@ -118,7 +118,7 @@ test.describe('exam modes (F04-T05)', () => {
 
 test('can leave the exam page through the navigation while the drive is running', async ({ page }) => {
   // The readouts update every frame; as urgent updates they used to starve the navigation's transition.
-  await page.goto('./#/examen');
+  await page.goto('./#/examen/practico');
   await expect(page.getByTestId('driving-canvas')).toHaveAttribute('data-state', 'ready', { timeout: 30000 });
   await page.getByRole('link', { name: 'Mi bitácora' }).click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mi bitácora');

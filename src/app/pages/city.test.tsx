@@ -117,7 +117,7 @@ it('says the explorer scores nothing and links the exam that does', async () => 
   const notice = (await screen.findByText(copy.scope, { exact: false })).closest('p') as HTMLElement;
 
   expect(notice).toHaveTextContent(copy.scope);
-  expect(within(notice).getByRole('link', { name: copy.examLink })).toHaveAttribute('href', '/examen');
+  expect(within(notice).getByRole('link', { name: copy.examLink })).toHaveAttribute('href', '/examen/practico');
 });
 
 it(

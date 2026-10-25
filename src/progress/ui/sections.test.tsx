@@ -96,7 +96,7 @@ describe('TheorySection', () => {
     inRouter(<TheorySection rows={[]} />);
 
     expect(screen.getByText(THEORY_COPY.logbookEmpty, { exact: false })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: THEORY_COPY.heading })).toHaveAttribute('href', '/teorico');
+    expect(screen.getByRole('link', { name: THEORY_COPY.heading })).toHaveAttribute('href', '/examen/teorico');
   });
 });
 
@@ -122,7 +122,7 @@ describe('DrivingSection', () => {
   it('points to the practical exam when nothing was driven yet', () => {
     inRouter(<DrivingSection rows={[]} />);
 
-    expect(screen.getByRole('link', { name: LOGBOOK_COPY.drivingLink })).toHaveAttribute('href', '/examen');
+    expect(screen.getByRole('link', { name: LOGBOOK_COPY.drivingLink })).toHaveAttribute('href', '/examen/practico');
   });
 });
 

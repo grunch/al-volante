@@ -24,7 +24,7 @@ test.describe('navigation and library', () => {
     await expect(page).toHaveURL(/#\/garaje$/);
     await expect(page.getByRole('link', { name: 'Practicar la etapa I del examen' })).toHaveAttribute(
       'href',
-      '#/examen?modo=practicar&etapa=1',
+      '#/examen/practico?modo=practicar&etapa=1',
     );
     const inspection = page.getByRole('region', { name: 'Revisión del auto' });
     await expect(inspection.getByRole('listitem').first()).toBeVisible();

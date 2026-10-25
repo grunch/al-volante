@@ -34,7 +34,7 @@ describe('theory mock exam page', () => {
   it('composes a reproducible paper, grades it with a diagnosis and stores it in the logbook', async () => {
     const user = userEvent.setup();
     const store = createMemoryStore();
-    const { router } = renderApp('/teorico?semilla=4', readyContent(examContent()), store);
+    const { router } = renderApp('/examen/teorico?semilla=4', readyContent(examContent()), store);
 
     expect(await screen.findByText(THEORY_COPY.introSummary(2, 1, 2, 45))).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: THEORY_COPY.start }));
@@ -45,6 +45,8 @@ describe('theory mock exam page', () => {
 
     expect(await screen.findByRole('heading', { level: 2, name: THEORY_COPY.passed })).toBeInTheDocument();
     expect(screen.getByText(THEORY_COPY.score(1, 2, 1))).toBeInTheDocument();
+    // 2 questions and 1 to pass: one mistake is the most the exam allows.
+    expect(screen.getByText(THEORY_COPY.mistakes(1, 1))).toBeInTheDocument();
     expect(screen.getByRole('table', { name: THEORY_COPY.bySectionHeading })).toBeInTheDocument();
     const wrong = screen.getByRole('heading', { name: THEORY_COPY.wrongHeading }).nextElementSibling as HTMLElement;
     expect(within(wrong).getByText('Pregunta dos')).toBeInTheDocument();
@@ -62,7 +64,7 @@ describe('theory mock exam page', () => {
   });
 
   it('keeps the chosen time when it repairs a missing seed', async () => {
-    const { router } = renderApp('/teorico?minutos=40', readyContent(examContent()));
+    const { router } = renderApp('/examen/teorico?minutos=40', readyContent(examContent()));
 
     expect(await screen.findByText(THEORY_COPY.introSummary(2, 1, 2, 40))).toBeInTheDocument();
     expect(router.state.location.search).toMatch(/^\?minutos=40&semilla=\d+$/);
@@ -70,7 +72,7 @@ describe('theory mock exam page', () => {
 
   it('numbers the options instead of showing their catalog ids, which could give the answer away', async () => {
     const user = userEvent.setup();
-    renderApp('/teorico?semilla=4', readyContent(examContent()));
+    renderApp('/examen/teorico?semilla=4', readyContent(examContent()));
 
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
 
@@ -80,7 +82,7 @@ describe('theory mock exam page', () => {
 
   it('starts another exam with the focus on the page title', async () => {
     const user = userEvent.setup();
-    renderApp('/teorico?semilla=4', readyContent(examContent()));
+    renderApp('/examen/teorico?semilla=4', readyContent(examContent()));
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
     await user.click(screen.getByRole('button', { name: THEORY_COPY.handIn }));
 
@@ -92,7 +94,7 @@ describe('theory mock exam page', () => {
 
   it('offers the shorter time from the configuration and keeps it in the URL', async () => {
     const user = userEvent.setup();
-    const { router } = renderApp('/teorico?semilla=4', readyContent(examContent()));
+    const { router } = renderApp('/examen/teorico?semilla=4', readyContent(examContent()));
 
     await user.click(await screen.findByRole('radio', { name: THEORY_COPY.timeShort(40) }));
 
@@ -103,7 +105,7 @@ describe('theory mock exam page', () => {
   it('keeps the focus on the time just chosen, so the keyboard can go on from there', async () => {
     // Arrange
     const user = userEvent.setup();
-    renderApp('/teorico?semilla=4', readyContent(examContent()));
+    renderApp('/examen/teorico?semilla=4', readyContent(examContent()));
     const shorter = await screen.findByRole('radio', { name: THEORY_COPY.timeShort(40) });
 
     // Act
@@ -119,12 +121,12 @@ describe('theory mock exam page', () => {
     // Arrange: a 40-minute exam is running.
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    const { router } = renderApp('/teorico?semilla=4&minutos=40', readyContent(examContent()));
+    const { router } = renderApp('/examen/teorico?semilla=4&minutos=40', readyContent(examContent()));
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
     await user.click(screen.getByRole('radio', { name: 'Pregunta uno: correcta' }));
 
     // Act: the back button takes the URL to the default 45 minutes.
-    await act(() => router.navigate('/teorico?semilla=4&minutos=45'));
+    await act(() => router.navigate('/examen/teorico?semilla=4&minutos=45'));
     await act(() => vi.advanceTimersByTimeAsync(40 * 60_000 + 2_000));
 
     // Assert: the paper is handed in at 40 minutes, with the answer given before the URL changed.
@@ -136,7 +138,7 @@ describe('theory mock exam page', () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const store = createMemoryStore();
-    renderApp('/teorico?semilla=4&minutos=40', readyContent(examContent()), store);
+    renderApp('/examen/teorico?semilla=4&minutos=40', readyContent(examContent()), store);
 
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
     // Several ticks past the deadline before React re-renders: the paper is still handed in once.
@@ -148,13 +150,42 @@ describe('theory mock exam page', () => {
     await waitFor(async () => expect((await store.load()).snapshot.attempts).toHaveLength(1));
   });
 
-  it('cites the source of each time instead of calling one of them the one in force', async () => {
-    renderApp('/teorico?semilla=4', readyContent(examContent()));
+  it('offers each configured time without calling one of them the one in force', async () => {
+    renderApp('/examen/teorico?semilla=4', readyContent(examContent()));
 
     const times = await screen.findAllByRole('radio');
     const labels = times.map((radio) => radio.closest('label')?.textContent ?? '');
     expect(labels).toEqual([THEORY_COPY.timeDefault(45), THEORY_COPY.timeShort(40)]);
     expect(labels.join(' ')).not.toMatch(/vigente/);
+  });
+
+  it('states the only time and offers no choice when the configuration has a single one', async () => {
+    // Arrange: the shipped configuration, 40 minutes at most.
+    const content = examContent();
+    content.theoryExam = { ...content.theoryExam, timeMinutes: { default: 40, alternatives: [] } };
+
+    // Act
+    renderApp('/examen/teorico?semilla=4&minutos=45', readyContent(content));
+
+    // Assert: a time outside the configuration in the URL does not lengthen the exam.
+    expect(await screen.findByText(THEORY_COPY.introSummary(2, 1, 2, 40))).toBeInTheDocument();
+    expect(screen.queryByRole('group', { name: THEORY_COPY.timeLegend })).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('radio')).toHaveLength(0);
+  });
+
+  it('tells before starting how many mistakes fail the exam', async () => {
+    renderApp('/examen/teorico?semilla=4', readyContent(examContent()));
+
+    expect(await screen.findByText(THEORY_COPY.introSummary(2, 1, 2, 45))).toHaveTextContent(
+      'con más de 1 error (las preguntas sin responder cuentan como errores) no aprobás',
+    );
+  });
+
+  it('moves the old address of the exam room to the exam section, keeping its seed and time', async () => {
+    const { router } = renderApp('/teorico?semilla=4&minutos=40', readyContent(examContent()));
+
+    expect(await screen.findByText(THEORY_COPY.introSummary(2, 1, 2, 40))).toBeInTheDocument();
+    expect(router.state.location).toMatchObject({ pathname: '/examen/teorico', search: '?semilla=4&minutos=40' });
   });
 
   it('shows the sign of a sign question on the paper and again when reviewing it answered wrong', async () => {
@@ -184,7 +215,7 @@ describe('theory mock exam page', () => {
         ],
       },
     ];
-    renderApp('/teorico?semilla=4', readyContent(content));
+    renderApp('/examen/teorico?semilla=4', readyContent(content));
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
     expect(screen.getByRole('img', { name: `${THEORY_COPY.signLabel}: Círculo rojo` })).toBeInTheDocument();
     await user.click(screen.getByRole('radio', { name: 'Seguir' }));
@@ -202,7 +233,7 @@ describe('theory mock exam page', () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const user = userEvent.setup();
     const store: ProgressStore = { ...createMemoryStore(), record: () => Promise.reject(new Error('quota exceeded')) };
-    renderApp('/teorico?semilla=4', readyContent(examContent()), store);
+    renderApp('/examen/teorico?semilla=4', readyContent(examContent()), store);
 
     // Act
     await user.click(await screen.findByRole('button', { name: THEORY_COPY.start }));
@@ -215,7 +246,7 @@ describe('theory mock exam page', () => {
   });
 
   it('warns that a paper shorter than the exam cannot be passed', async () => {
-    renderApp('/teorico?semilla=4', readyContent(testContent()));
+    renderApp('/examen/teorico?semilla=4', readyContent(testContent()));
 
     expect(await screen.findByRole('alert')).toHaveTextContent(THEORY_COPY.shortBank(1, 2));
   });

@@ -1,10 +1,12 @@
 {
-  "version": "2026-10-12",
+  "version": "2026-10-25",
   "questions": 40,
   "passCorrect": 34,
   "optionsPerQuestion": 3,
-  "timeMinutes": { "default": 45, "alternatives": [40] },
+  "timeMinutes": { "default": 40, "alternatives": [] },
   "sections": [
+    "manual-front",
+    "manual-glossary",
     "manual-intro",
     "manual-ch1",
     "manual-ch2",
@@ -12,7 +14,21 @@
     "manual-ch4",
     "manual-ch5",
     "manual-annex1",
-    "manual-annex4"
+    "manual-annex2",
+    "manual-annex3",
+    "manual-annex4",
+    "protocolo-general",
+    "protocolo-stages",
+    "protocolo-evaluation",
+    "protocolo-annex1",
+    "protocolo-annex2",
+    "protocolo-annex3",
+    "recorridos-intro",
+    "recorridos-circuits",
+    "siniestros-intro",
+    "siniestros-s1",
+    "siniestros-s2",
+    "siniestros-s3"
   ],
   "sources": [
     {
@@ -29,16 +45,16 @@
     },
     {
       "parameter": "pass",
-      "text": "Se aprueba con el 85 % de respuestas correctas: 34 de 40.",
+      "text": "Se aprueba con el 85 % de respuestas correctas: 34 de 40, es decir, con 6 errores como máximo.",
       "reference": "Disposición 860/2023 (DGHC), anexo, p. 96; página oficial «Conocé la nueva modalidad» («34 de 40»).",
       "url": "https://buenosaires.gob.ar/gcaba_historico/licenciasdeconducir/conoce-la-nueva-modalidad-de-otorgamiento-de-licencias-de-conducir"
     },
     {
       "parameter": "time",
-      "text": "45 minutos según la Disposición 860/2023 y la página oficial de material de estudio; el informe de gestión 2024 dice que se redujo a 40, que se ofrece como variante más exigente.",
-      "reference": "Disposición 860/2023 (DGHC), anexo, p. 96; informe final de gestión 2024 (IF-2024-05928354-GCABA-AJG), p. 17.",
+      "text": "40 minutos como máximo: el informe de gestión 2024 dice que el tiempo se redujo de 45 a 40 minutos. La Disposición 860/2023 y la página oficial de material de estudio (consultada el 2026-10-11) dicen 45.",
+      "reference": "Informe final de gestión 2024 (IF-2024-05928354-GCABA-AJG), p. 17; Disposición 860/2023 (DGHC), anexo, p. 96.",
       "url": "https://documentosboletinoficial.buenosaires.gob.ar/publico/PE-RES-SECGVC-SECGVC-109-24-ANX.pdf"
     }
   ],
-  "notes": "Parámetros transcriptos y contrastados en REGLAS.md §8 (2026-10-11). El simulacro es propio: sus preguntas salen de las actividades revisadas del juego, no del banco oficial."
+  "notes": "Parámetros transcriptos y contrastados en REGLAS.md §8 (2026-10-11). Desde 2026-10-25, por decisión del usuario, el tiempo es de 40 minutos como máximo y las preguntas salen de todas las secciones de los cuatro documentos (REGLAS.md §8, CONTENIDO.md). El simulacro es propio: sus preguntas salen de las actividades revisadas del juego, no del banco oficial."
 }

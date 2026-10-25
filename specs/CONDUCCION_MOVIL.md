@@ -14,7 +14,7 @@ Incluye, solo en teléfonos y tabletas:
 - vibración ante eventos físicos del auto;
 - pantalla siempre encendida mientras se maneja y orientación horizontal.
 
-Se aplica a las tres vistas que usan `DrivingCanvas` (`src/practice/DrivingCanvas.tsx`): la pista (`#/pista`), el recorrido libre (`#/recorrido`) y el examen práctico (`#/examen`).
+Se aplica a las tres vistas que usan `DrivingCanvas` (`src/practice/DrivingCanvas.tsx`): la pista (`#/pista`), el recorrido libre (`#/recorrido`) y el examen práctico (`#/examen/practico`).
 
 No cambia la conducción en escritorio, la física del auto, las reglas del examen ni sus umbrales.
 
