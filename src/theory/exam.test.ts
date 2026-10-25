@@ -340,6 +340,9 @@ describe('gradeExam', () => {
   });
 });
 
+/** Categories of the professional licences: passenger (D) and cargo (C-E) transport. */
+const PROFESSIONAL = new Set(['D', 'C-E']);
+
 describe('the shipped bank (integration)', () => {
   it('follows the exam the player asked for: 40 questions, 34 right to pass and at most 40 minutes', async () => {
     const result = await loadContent();
@@ -356,13 +359,18 @@ describe('the shipped bank (integration)', () => {
     expect(Math.max(timeMinutes.default, ...timeMinutes.alternatives)).toBe(40);
   });
 
-  it('draws on every section of the four sources that has knowledge units', async () => {
+  it('draws on every section of the four sources for cars, leaving out the passenger and cargo annexes', async () => {
     const result = await loadContent();
     if (!result.ok) throw new Error(result.errors.join('\n'));
     const { units, theoryExam } = result.content;
 
-    const taught = new Set(units.map((item) => `${item.source}-${item.section}`));
-    expect(new Set(theoryExam.sections)).toEqual(taught);
+    // Licence B is for cars: the professional material (annex II, passengers, D; annex III, cargo, C-E) is not asked.
+    const forCars = new Set(
+      units.filter((item) => !PROFESSIONAL.has(item.category)).map((item) => `${item.source}-${item.section}`),
+    );
+    expect(new Set(theoryExam.sections)).toEqual(forCars);
+    expect(theoryExam.sections).not.toContain('manual-annex2');
+    expect(theoryExam.sections).not.toContain('manual-annex3');
     expect(new Set(units.map((item) => item.source))).toEqual(
       new Set(['manual', 'siniestros', 'protocolo', 'recorridos']),
     );
@@ -385,7 +393,8 @@ describe('the shipped bank (integration)', () => {
               variant.options.filter((option) => !option.correct).length >= theoryExam.optionsPerQuestion - 1,
           ),
         )
-        .map((activity) => sectionOf.get(activity.unitIds[0] ?? '')),
+        .map((activity) => sectionOf.get(activity.unitIds[0] ?? ''))
+        .filter((key) => key !== undefined && theoryExam.sections.includes(key)),
     );
     expect(asking.size).toBeGreaterThan(8);
 
@@ -409,6 +418,14 @@ describe('the shipped bank (integration)', () => {
       expect(new Set(paper.questions.map((question) => question.id)).size).toBe(theoryExam.questions);
       expect(paper.questions.every((question) => question.options.length === theoryExam.optionsPerQuestion)).toBe(true);
       expect(new Set(paper.questions.map((question) => question.sectionKey))).toEqual(asking);
+      for (const question of paper.questions) {
+        const activity = activities.find((item) => item.id === question.activityId);
+        const categories = (activity?.unitIds ?? []).map((id) => units.find((item) => item.id === id)?.category);
+        expect(
+          categories.some((category) => category === undefined || PROFESSIONAL.has(category)),
+          question.id,
+        ).toBe(false);
+      }
       expect(gradeExam(paper, right, activities, theoryExam)).toMatchObject({
         correct: theoryExam.questions,
         passed: true,
